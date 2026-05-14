@@ -1,0 +1,40 @@
+# YükLe
+
+> Türkiye'nin nakliye ilan platformu. Yük sahipleri ve nakliyeciler için ücretsiz eşleştirme hizmeti.
+
+YükLe, Türkiye'de nakliye sektörünü dijitalleştiren bir ilan ve eşleştirme platformudur. Yük sahipleri ilan açar, nakliyeciler teklif verir, sistem iki tarafı buluşturur.
+
+## Ne Yapar?
+
+- Yük sahipleri 81 ilde nakliye ilanı yayınlayabilir
+- Nakliyeciler ve sürücüler ilanları görüp teklif verebilir
+- Teklif kabul edilince mesajlaşma başlar
+- Telefon numaraları yalnızca her iki taraf onaylarsa paylaşılır
+- Tamamlanan taşımalar için değerlendirme sistemi mevcuttur
+- Puan sistemi ile aktif kullanıcılar öne çıkar
+
+## Kullanıcılar
+
+- **Yük Sahibi (Shipper):** Nakliye ihtiyacı olan bireyler ve firmalar
+- **Sürücü (Driver):** TIR, kamyon, kamyonet sahibi nakliyeciler
+
+## Desteklenen Araç Tipleri
+
+TIR, Kamyon, Kamyonet, Dorser, Tanker, Frigorifik
+
+## Yük Tipleri
+
+Genel Kargo, Tehlikeli Madde, Bozulabilir, Aşırı Büyük, Kırılgan
+
+## Temel Özellikler
+
+- Ücretsiz kayıt ve ilan verme
+- 81 il ve ilçe bazlı güzergah seçimi
+- Gerçek zamanlı mesajlaşma
+- Puan ve rozet sistemi
+- Değerlendirme ve rating sistemi
+- Mobil uyumlu arayüz
+
+## İletişim
+
+Web: https://yukle.com.tr
