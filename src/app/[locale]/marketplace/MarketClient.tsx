@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import type { Load, City, DriverRoute } from '@/types/database';
-import CitySelect from '@/components/CitySelect';
+import type { Load, DriverRoute } from '@/types/database';
+import LocationSearch from '@/components/LocationSearch';
 import {
   Package,
   Clock,
@@ -20,44 +20,42 @@ import {
   LayoutDashboard,
 } from 'lucide-react';
 import { useT } from '@/hooks/useT';
+import { useTranslation } from '@/hooks/useTranslation';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmptyState from '@/components/EmptyState';
 import { cn } from '@/lib/utils';
 
 const LOAD_TYPES: Record<string, string> = {
-  general: 'Genel Kargo',
-  hazardous: 'Tehlikeli Madde',
-  perishable: 'Bozulabilir',
-  oversized: 'Aşırı Büyük',
-  fragile: 'Kırılgan',
+  general: 'General Cargo',
+  hazardous: 'Hazardous Material',
+  perishable: 'Perishable',
+  oversized: 'Oversized',
+  fragile: 'Fragile',
 };
 
 const TRUCK_TYPES: Record<string, string> = {
   tir: 'TIR',
-  kamyon: 'Kamyon',
-  kamyonet: 'Kamyonet',
-  dorser: 'Dorser',
+  kamyon: 'Truck',
+  kamyonet: 'Van',
+  dorser: 'Trailer',
   tanker: 'Tanker',
-  frigorifik: 'Frigorifik',
+  frigorifik: 'Reefer',
 };
 
-const QUICK_CITY_IDS = [34, 6, 35, 7, 16, 27, 38, 42, 21, 55];
 const PAGE_SIZE = 50;
 
 interface MarketClientProps {
   initialLoads: Load[];
   initialTotal: number;
-  cities: City[];
 }
 
-export function MarketClient({ initialLoads, initialTotal, cities }: MarketClientProps) {
+export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) {
   const { profile } = useAuth();
-  const t = useT();
+  const tStyle = useT();
+  const { t, locale } = useTranslation();
 
-  const [originCityId, setOriginCityId] = useState<number | null>(null);
-  const [originDistrictId, setOriginDistrictId] = useState<number | null>(null);
-  const [destCityId, setDestCityId] = useState<number | null>(null);
-  const [destDistrictId, setDestDistrictId] = useState<number | null>(null);
+  const [originCity, setOriginCity] = useState('');
+  const [destCity, setDestCity] = useState('');
   const [loadType, setLoadType] = useState<string>('');
   const [truckType, setTruckType] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
@@ -70,16 +68,18 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
 
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(initialTotal);
-  // İlk render sunucudan geldi, filtreler değişene kadar tekrar fetch etme
   const [hydrated, setHydrated] = useState(false);
+
+  const formatPrice = useCallback((price: number | null) => {
+    if (!price) return null;
+    return new Intl.NumberFormat(locale, { style: 'currency', currency: locale === 'tr' ? 'TRY' : 'USD' }).format(price);
+  }, [locale]);
 
   useEffect(() => {
     if (profile?.role === 'driver' && profile.id) {
       supabase
         .from('driver_routes')
-        .select(
-          '*, origin_city:cities!driver_routes_origin_city_id_fkey(*), destination_city:cities!driver_routes_destination_city_id_fkey(*)'
-        )
+        .select('*')
         .eq('driver_id', profile.id)
         .eq('is_active', true)
         .then(({ data, error }) => {
@@ -99,7 +99,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
       let query = supabase
         .from('loads')
         .select(
-          '*, origin_city:cities!loads_origin_city_id_fkey(*), destination_city:cities!loads_destination_city_id_fkey(*), shipper:public_profiles!loads_shipper_id_fkey(id, full_name, company_name, is_verified, rating)',
+          '*, shipper:public_profiles!loads_shipper_id_fkey(id, full_name, company_name, is_verified, rating)',
           { count: 'exact' }
         )
         .eq('status', 'active')
@@ -107,47 +107,17 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
         .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
       if (routeMatchMode && driverRoutes.length > 0) {
-        const originIds = driverRoutes.map((r) => r.origin_city_id);
-        const destIds = driverRoutes.map((r) => r.destination_city_id);
-        query = query.in('origin_city_id', originIds).in('destination_city_id', destIds);
+        const originCities = driverRoutes.map((r) => r.origin_city);
+        const destCities = driverRoutes.map((r) => r.destination_city);
+        query = query.in('origin_city', originCities).in('destination_city', destCities);
       } else {
-        if (originCityId) query = query.eq('origin_city_id', originCityId);
-        if (originDistrictId) query = query.eq('origin_district_id', originDistrictId);
-        if (destCityId) query = query.eq('destination_city_id', destCityId);
-        if (destDistrictId) query = query.eq('destination_district_id', destDistrictId);
+        if (originCity) query = query.ilike('origin_city', `%${originCity}%`);
+        if (destCity) query = query.ilike('destination_city', `%${destCity}%`);
       }
 
       if (searchQuery.trim()) {
-        const searchTerm = searchQuery.trim().toLowerCase();
-        const words = searchTerm.split(/\s+/).filter((w) => w.length > 1);
-
-        const foundCityIds = new Set<number>();
-        words.forEach((word) => {
-          cities
-            .filter((c) => c.name.toLowerCase().includes(word))
-            .forEach((c) => foundCityIds.add(c.id));
-        });
-
-        const cityIds = Array.from(foundCityIds);
-
-        if (cityIds.length > 0) {
-          const orConditions = [`title.ilike.%${searchTerm}%`];
-
-          if (cityIds.length === 2) {
-            const [id1, id2] = cityIds;
-            orConditions.push(`and(origin_city_id.eq.${id1},destination_city_id.eq.${id2})`);
-            orConditions.push(`and(origin_city_id.eq.${id2},destination_city_id.eq.${id1})`);
-          } else {
-            cityIds.forEach((id) => {
-              orConditions.push(`origin_city_id.eq.${id}`);
-              orConditions.push(`destination_city_id.eq.${id}`);
-            });
-          }
-
-          query = query.or(orConditions.join(','));
-        } else {
-          query = query.ilike('title', `%${searchTerm}%`);
-        }
+        const term = `%${searchQuery.trim()}%`;
+        query = query.or(`title.ilike.${term},origin_city.ilike.${term},destination_city.ilike.${term},origin_country.ilike.${term},destination_country.ilike.${term}`);
       }
 
       if (loadType) query = query.eq('load_type', loadType);
@@ -165,21 +135,17 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
       setLoading(false);
     }
   }, [
-    originCityId,
-    originDistrictId,
-    destCityId,
-    destDistrictId,
+    originCity,
+    destCity,
     loadType,
     truckType,
     page,
     routeMatchMode,
     searchQuery,
     driverRoutes,
-    cities,
   ]);
 
   useEffect(() => {
-    // İlk mount'ta server'dan gelen initialLoads kullan, fetch atma
     if (!hydrated) {
       setHydrated(true);
       return;
@@ -187,22 +153,9 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
     fetchLoads();
   }, [fetchLoads, hydrated]);
 
-  function handleQuickCity(cityId: number, isOrigin: boolean) {
-    if (isOrigin) {
-      setOriginCityId(originCityId === cityId ? null : cityId);
-      setOriginDistrictId(null);
-    } else {
-      setDestCityId(destCityId === cityId ? null : cityId);
-      setDestDistrictId(null);
-    }
-    setPage(0);
-  }
-
   function clearFilters() {
-    setOriginCityId(null);
-    setOriginDistrictId(null);
-    setDestCityId(null);
-    setDestDistrictId(null);
+    setOriginCity('');
+    setDestCity('');
     setLoadType('');
     setTruckType('');
     setRouteMatchMode(false);
@@ -211,23 +164,19 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
   }
 
   const hasActiveFilters =
-    originCityId || destCityId || loadType || truckType || routeMatchMode || searchQuery;
+    originCity || destCity || loadType || truckType || routeMatchMode || searchQuery;
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
-  const quickCities = cities
-    .filter((c) => QUICK_CITY_IDS.includes(c.id))
-    .sort((a, b) => QUICK_CITY_IDS.indexOf(a.id) - QUICK_CITY_IDS.indexOf(b.id));
-
   return (
-    <div className={t.pageFull}>
+    <div className={tStyle.pageFull}>
       {/* Header / Search bar */}
       <div
-        className={`sticky top-16 z-30 backdrop-blur-md border-b ${t.divider} bg-background-light/80 dark:bg-background-dark/80`}
+        className={`sticky top-16 z-30 backdrop-blur-md border-b ${tStyle.divider} bg-background-light/80 dark:bg-background-dark/80`}
       >
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <p className="text-sm font-medium text-muted">{total} aktif yük ilanı</p>
+              <p className="text-sm font-medium text-muted">{total} active loads</p>
             </div>
 
             <div className="flex items-center gap-3">
@@ -236,8 +185,8 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                   onClick={() => {
                     setRouteMatchMode(!routeMatchMode);
                     if (!routeMatchMode) {
-                      setOriginCityId(null);
-                      setDestCityId(null);
+                      setOriginCity('');
+                      setDestCity('');
                     }
                     setPage(0);
                   }}
@@ -249,7 +198,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                   )}
                 >
                   <Route size={18} />
-                  Güzergahıma Uyanlar
+                  Match My Routes
                 </button>
               )}
               <button
@@ -262,7 +211,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                 )}
               >
                 <SlidersHorizontal size={18} />
-                Filtrele
+                Filters
               </button>
             </div>
           </div>
@@ -280,7 +229,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                   setSearchQuery(e.target.value);
                   setPage(0);
                 }}
-                placeholder="Yük başlığı veya şehir ara (Örn: Sakarya Adana)..."
+                placeholder="Search load title, city, or country..."
                 className="w-full pl-12 pr-12 py-3.5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark focus:border-accent/40 focus:ring-4 focus:ring-accent/5 outline-none transition-all font-medium text-fg"
               />
               {searchQuery && (
@@ -292,26 +241,6 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                 </button>
               )}
             </div>
-          </div>
-
-          <div className="mt-4 flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
-            <span className="text-[10px] font-black uppercase tracking-wider text-muted shrink-0">
-              Popüler:
-            </span>
-            {quickCities.map((city) => (
-              <button
-                key={city.id}
-                onClick={() => handleQuickCity(city.id, true)}
-                className={cn(
-                  'px-4 py-1.5 rounded-full text-xs font-bold shrink-0 transition-all border',
-                  originCityId === city.id
-                    ? 'bg-accent border-accent text-white shadow-md shadow-accent/10'
-                    : 'bg-surface-light dark:bg-surface-dark border-border-light dark:border-border-dark text-muted hover:border-accent/30 hover:text-fg'
-                )}
-              >
-                {city.name}
-              </button>
-            ))}
           </div>
         </div>
       </div>
@@ -328,37 +257,33 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-muted">
-                    Kalkış
+                    Origin
                   </label>
-                  <CitySelect
-                    value={originCityId}
-                    onChange={(c, d) => {
-                      setOriginCityId(c);
-                      setOriginDistrictId(d);
+                  <LocationSearch
+                    initialValue={originCity}
+                    onSelect={(loc) => {
+                      setOriginCity(loc.city);
                       setPage(0);
                     }}
-                    placeholder="Şehir seçin"
-                    districtValue={originDistrictId}
+                    placeholder="Origin city/country"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-muted">
-                    Varış
+                    Destination
                   </label>
-                  <CitySelect
-                    value={destCityId}
-                    onChange={(c, d) => {
-                      setDestCityId(c);
-                      setDestDistrictId(d);
+                  <LocationSearch
+                    initialValue={destCity}
+                    onSelect={(loc) => {
+                      setDestCity(loc.city);
                       setPage(0);
                     }}
-                    placeholder="Şehir seçin"
-                    districtValue={destDistrictId}
+                    placeholder="Destination city/country"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-muted">
-                    Yük Tipi
+                    {t.marketplace.loadType}
                   </label>
                   <select
                     value={loadType}
@@ -366,9 +291,9 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                       setLoadType(e.target.value);
                       setPage(0);
                     }}
-                    className={t.select}
+                    className={tStyle.select}
                   >
-                    <option value="">Tümü</option>
+                    <option value="">All Categories</option>
                     {Object.entries(LOAD_TYPES).map(([k, v]) => (
                       <option key={k} value={k}>
                         {v}
@@ -378,7 +303,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-muted">
-                    Araç Tipi
+                    {t.marketplace.truckType}
                   </label>
                   <select
                     value={truckType}
@@ -386,9 +311,9 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                       setTruckType(e.target.value);
                       setPage(0);
                     }}
-                    className={t.select}
+                    className={tStyle.select}
                   >
-                    <option value="">Tümü</option>
+                    <option value="">All Trucks</option>
                     {Object.entries(TRUCK_TYPES).map(([k, v]) => (
                       <option key={k} value={k}>
                         {v}
@@ -404,7 +329,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                     onClick={clearFilters}
                     className="flex items-center gap-2 text-sm font-bold text-accent hover:underline"
                   >
-                    <X size={16} /> Filtreleri Temizle
+                    <X size={16} /> Clear Filters
                   </button>
                 </div>
               )}
@@ -417,15 +342,15 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
             <div className="w-12 h-12 border-4 border-accent/20 border-t-accent rounded-full animate-spin" />
-            <p className="text-sm font-bold text-muted animate-pulse">İlanlar yükleniyor...</p>
+            <p className="text-sm font-bold text-muted animate-pulse">Loading loads...</p>
           </div>
         ) : loads.length === 0 ? (
           <EmptyState
             icon={Package}
-            title="Yük Bulunamadı"
-            description="Aradığınız kriterlere uygun aktif ilan bulunmuyor. Filtreleri temizleyerek tekrar deneyebilirsiniz."
+            title={t.marketplace.noLoadsFound}
+            description="No active listings match your criteria. Try clearing filters or refining your search."
             action={{
-              label: 'Tüm İlanları Göster',
+              label: 'Show All Loads',
               onClick: clearFilters,
               icon: LayoutDashboard,
             }}
@@ -440,7 +365,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                 transition={{ delay: idx * 0.03 }}
               >
                 <Link
-                  href={`/pazar/${load.id}`}
+                  href={`/${locale}/marketplace/${load.id}`}
                   className="group block bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-[1.5rem] hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5 transition-all relative overflow-hidden"
                 >
                   <div className="flex items-center justify-between px-6 py-4 border-b border-border-light dark:border-border-dark">
@@ -448,7 +373,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                       <div className="flex items-center gap-1.5 min-w-0">
                         <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
                         <span className="text-sm font-black text-fg truncate">
-                          {load.origin_city?.name}
+                          {load.origin_city}
                         </span>
                       </div>
                       <div className="flex-1 flex items-center gap-1 min-w-0">
@@ -459,19 +384,19 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                       <div className="flex items-center gap-1.5 min-w-0">
                         <div className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
                         <span className="text-sm font-black text-fg truncate">
-                          {load.destination_city?.name}
+                          {load.destination_city}
                         </span>
                       </div>
                     </div>
                     <div className="ml-4 shrink-0 text-right">
                       {load.price ? (
                         <span className="text-lg font-black text-accent">
-                          {load.price.toLocaleString('tr-TR')} ₺
+                          {formatPrice(load.price)}
                         </span>
                       ) : (
                         <span className="flex items-center gap-1 text-sm font-black text-accent">
                           <Zap size={14} />
-                          Teklif Al
+                          {t.marketplace.negotiable}
                         </span>
                       )}
                     </div>
@@ -496,7 +421,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
                           )}
                           <span className="flex items-center gap-1.5 text-xs text-muted/60">
                             <Clock size={12} />
-                            {new Date(load.created_at).toLocaleDateString('tr-TR')}
+                            {new Date(load.created_at).toLocaleDateString(locale)}
                           </span>
                         </div>
                       </div>
@@ -526,7 +451,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
               disabled={page === 0}
               className="px-6 py-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm font-bold disabled:opacity-30 hover:bg-background-light dark:hover:bg-background-dark transition-all"
             >
-              Önceki
+              Previous
             </button>
             <div className="flex items-center gap-2">
               <span className="text-sm font-black text-fg">{page + 1}</span>
@@ -541,7 +466,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
               disabled={page >= totalPages - 1}
               className="px-6 py-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm font-bold disabled:opacity-30 hover:bg-background-light dark:hover:bg-background-dark transition-all"
             >
-              Sonraki
+              Next
             </button>
           </div>
         )}
@@ -549,8 +474,7 @@ export function MarketClient({ initialLoads, initialTotal, cities }: MarketClien
 
       <footer className="mt-20 px-4 py-12 border-t border-border-light dark:border-border-dark bg-surface-light/30 dark:bg-surface-dark/30">
         <p className="text-[10px] font-bold text-muted text-center leading-relaxed max-w-2xl mx-auto uppercase tracking-widest">
-          YükLe Lojistik Portalı · Bu sayfa {total} aktif ilan içeriyor · Güvenli taşımacılık için
-          kurumsal üyeliği tercih edin
+          Loadly Logistics Network · This page contains {total} active ads · Choose verified accounts for safe transport
         </p>
       </footer>
     </div>

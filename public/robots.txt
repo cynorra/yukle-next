@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Disallow private dashboards and action routes for all locales
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+Sitemap: https://loadlyapp.com/sitemap.xml
+Host: https://loadlyapp.com

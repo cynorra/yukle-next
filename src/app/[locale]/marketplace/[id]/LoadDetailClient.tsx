@@ -11,19 +11,27 @@ import {
   Loader2, TrendingUp, X, Check, Zap, Heart, ExternalLink, Share2, PenLine,
 } from 'lucide-react';
 import { useT } from '@/hooks/useT';
+import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/components/Toast';
 import ReviewModal from '@/components/ReviewModal';
 import LoadTagBadge from '@/components/LoadTagBadge';
 import DeliveryDaysBadge from '@/components/DeliveryDaysBadge';
+import {
+  LOAD_DETAIL_TRANSLATIONS,
+  LOAD_TYPES_LOCALIZED,
+  TRUCK_TYPES_LOCALIZED,
+} from '@/utils/loadDetailTranslations';
 
 interface LoadWithRelations {
   id: string;
   title: string;
   shipper_id: string;
-  origin_city_id: number;
-  origin_district_id: number | null;
-  destination_city_id: number;
-  destination_district_id: number | null;
+  origin_city: string;
+  origin_state: string | null;
+  origin_country: string;
+  destination_city: string;
+  destination_state: string | null;
+  destination_country: string;
   price: number | null;
   load_type: string;
   required_truck_type: string | null;
@@ -39,10 +47,6 @@ interface LoadWithRelations {
   shipper_confirmed_at: string | null;
   driver_confirmed_at: string | null;
   created_at: string;
-  origin_city: { id: number; name: string };
-  destination_city: { id: number; name: string };
-  origin_district: { id: number; name: string } | null;
-  destination_district: { id: number; name: string } | null;
   shipper: { id: string; full_name: string; rating: number; is_verified: boolean; company_name: string | null; avatar_url: string | null; };
 }
 
@@ -73,27 +77,35 @@ interface MessageData {
   created_at: string;
 }
 
-const statusConfig: Record<string, { label: string; color: string; bg: string }> = {
-  active: { label: 'Aktif', color: 'text-amber-400', bg: 'bg-amber-400/10 border-amber-400/20' },
-  in_transit: { label: 'Taşınıyor', color: 'text-blue-400', bg: 'bg-blue-400/10 border-blue-400/20' },
-  completed: { label: 'Tamamlandı', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20' },
-  cancelled: { label: 'İptal', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20' },
-};
-
-const LOAD_TYPES: Record<string, string> = { general: 'Genel Kargo', hazardous: 'Tehlikeli Madde', perishable: 'Bozulabilir', oversized: 'Aşırı Büyük', fragile: 'Kırılgan' };
-const TRUCK_TYPES: Record<string, string> = { tir: 'TIR', kamyon: 'Kamyon', kamyonet: 'Kamyonet', dorser: 'Dorser', tanker: 'Tanker', frigorifik: 'Frigorifik' };
-
-function formatPrice(price: number | null) {
-  if (price === null) return 'Belirtilmedi';
-  return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(price);
+function formatPrice(price: number | null, locale: string) {
+  if (price === null) return locale === 'tr' ? 'Belirtilmedi' : 'Not Specified';
+  const currency = locale === 'tr' ? 'TRY' : 'USD';
+  const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
+  try {
+    return new Intl.NumberFormat(formatLocale, { style: 'currency', currency }).format(price);
+  } catch (e) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+  }
 }
-function formatDate(d: string | null) {
-  if (!d) return 'Belirtilmedi';
-  return new Date(d).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+function formatDate(d: string | null, locale: string) {
+  if (!d) return locale === 'tr' ? 'Belirtilmedi' : 'Not Specified';
+  const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
+  try {
+    return new Date(d).toLocaleDateString(formatLocale, { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch (e) {
+    return new Date(d).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
 }
-function formatTime(d: string | null) {
+
+function formatTime(d: string | null, locale: string) {
   if (!d) return '';
-  return new Date(d).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+  const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
+  try {
+    return new Date(d).toLocaleTimeString(formatLocale, { hour: '2-digit', minute: '2-digit' });
+  } catch (e) {
+    return new Date(d).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  }
 }
 
 interface LoadDetailClientProps {
@@ -106,10 +118,22 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
   const { user, profile, loading: authLoading, refreshProfile } = useAuth();
   const toast = useToast();
 
+  const { t: globalT, locale, isRtl } = useTranslation();
+  const t = useT();
+
+  const td = LOAD_DETAIL_TRANSLATIONS[locale] || LOAD_DETAIL_TRANSLATIONS.en;
+  const LOAD_TYPES = LOAD_TYPES_LOCALIZED[locale] || LOAD_TYPES_LOCALIZED.en;
+  const TRUCK_TYPES = TRUCK_TYPES_LOCALIZED[locale] || TRUCK_TYPES_LOCALIZED.en;
+
+  const statusConfig: Record<string, { label: string; color: string; bg: string }> = {
+    active: { label: globalT.marketplace?.active || 'Active', color: 'text-amber-400', bg: 'bg-amber-400/10 border-amber-400/20' },
+    in_transit: { label: globalT.marketplace?.inTransit || 'In Transit', color: 'text-blue-400', bg: 'bg-blue-400/10 border-blue-400/20' },
+    completed: { label: globalT.marketplace?.completed || 'Completed', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20' },
+    cancelled: { label: globalT.marketplace?.cancelled || 'Cancelled', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20' },
+  };
+
   // İlk render server'dan gelen veri; sonra client realtime ile güncellenebilir
   const [load, setLoad] = useState<LoadWithRelations | null>(initialLoad);
-  const t = useT();
-  // SEO meta server'da generateMetadata ile üretiliyor; burada hook çağrısına gerek yok.
   const [loading, setLoading] = useState(false);
   const [offers, setOffers] = useState<Offer[]>([]);
   const [myOffer, setMyOffer] = useState<Offer | null>(null);
@@ -192,10 +216,6 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
   async function fetchLoad() {
     setLoading(true);
     const { data } = await supabase.from('loads').select(`*,
-      origin_city:cities!loads_origin_city_id_fkey(id, name),
-      destination_city:cities!loads_destination_city_id_fkey(id, name),
-      origin_district:districts!loads_origin_district_id_fkey(id, name),
-      destination_district:districts!loads_destination_district_id_fkey(id, name),
       shipper:public_profiles!loads_shipper_id_fkey(id, full_name, rating, is_verified, company_name, avatar_url)`)
       .eq('id', id!).single();
     if (data) setLoad(data as unknown as LoadWithRelations);
@@ -263,11 +283,11 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
     if (!user || !load) return;
     setOfferError(null);
     if (!offerNote.trim() && !offerPrice) {
-      setOfferError('Fiyat veya not girmelisiniz.');
+      setOfferError(td.priceOrNoteRequired);
       return;
     }
     if (!myOffer && (profile?.points ?? 0) < 10) {
-      setOfferError('Yetersiz puan! Teklif vermek için 10 puana ihtiyacınız var.');
+      setOfferError(td.insufficientPoints);
       return;
     }
 
@@ -296,7 +316,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
         // Conversation başlat
         await fetchOrCreateConversation();
       } else if (error) {
-        setOfferError(error.code === '23505' ? 'Bu ilana zaten teklif verdiniz.' : error.message);
+        setOfferError(error.code === '23505' ? (locale === 'tr' ? 'Bu ilana zaten teklif verdiniz.' : 'You have already offered for this load.') : error.message);
       }
     }
     setSubmittingOffer(false);
@@ -309,7 +329,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
       p_offer_id: offerId, p_requester_id: user.id,
     });
     if (error) {
-      toast.error(error.message || 'Teklif kabul edilemedi.');
+      toast.error(error.message || (locale === 'tr' ? 'Teklif kabul edilemedi.' : 'Could not accept offer.'));
     } else {
       await fetchLoad();
       await fetchOffers();
@@ -320,7 +340,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
 
   async function handleRejectOffer(offerId: string) {
     const { error } = await supabase.from('offers').update({ status: 'rejected' }).eq('id', offerId);
-    if (error) toast.error('İşlem sırasında hata oluştu.');
+    if (error) toast.error(locale === 'tr' ? 'İşlem sırasında hata oluştu.' : 'An error occurred.');
     await fetchOffers();
   }
 
@@ -358,10 +378,10 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
     if (willComplete) updates.status = 'completed';
     const { error } = await supabase.from('loads').update(updates).eq('id', load.id);
     if (error) {
-      toast.error('Onay kaydedilemedi. Lütfen tekrar deneyin.');
+      toast.error(locale === 'tr' ? 'Onay kaydedilemedi. Lütfen tekrar deneyin.' : 'Could not save confirmation. Please try again.');
     } else {
       setLoad((prev) => prev ? { ...prev, ...updates } as LoadWithRelations : prev);
-      toast.success('Teslimat onaylandı!');
+      toast.success(locale === 'tr' ? 'Teslimat onaylandı!' : 'Delivery confirmed!');
     }
     setConfirming(false);
   }
@@ -376,8 +396,8 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
     <div className={`${t.pageFull} flex items-center justify-center`}>
       <div className="text-center">
         <Package size={48} className={`${t.mutedDark} mx-auto mb-4`} />
-        <h3 className={`text-xl font-bold ${t.heading} mb-2`}>Yük bulunamadı</h3>
-        <Link href="/pazar" className="inline-flex items-center gap-2 text-[#F5A623] hover:underline text-sm"><ArrowLeft size={16} />Pazara Dön</Link>
+        <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{td.loadNotFound}</h3>
+        <Link href={`/${locale}/marketplace`} className="inline-flex items-center gap-2 text-[#F5A623] hover:underline text-sm"><ArrowLeft size={16} />{td.backToMarket}</Link>
       </div>
     </div>
   );
@@ -387,17 +407,17 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
   const acceptedOffer = offers.find((o) => o.status === 'accepted');
 
   return (
-    <div className={t.pageFull}>
+    <div className={t.pageFull} dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Disclaimer */}
       <div className="bg-[#0a0a0a] border-b border-white/5 px-4 py-2.5">
         <p className={`text-xs ${t.muted} text-center max-w-7xl mx-auto`}>
-          YükLe yalnızca bir ilan platformudur. Taşıma, ödeme ve hasar yükümlülükleri doğrudan ilan sahibi ve nakliyeci arasındadır.
+          {td.disclaimer}
         </p>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <Link href="/pazar" className={`inline-flex items-center gap-2 ${t.sub} hover:text-accent text-sm mb-6 transition-colors font-medium`}>
-          <ArrowLeft size={16} />Pazara Dön
+        <Link href={`/${locale}/marketplace`} className={`inline-flex items-center gap-2 ${t.sub} hover:text-accent text-sm mb-6 transition-colors font-medium`}>
+          <ArrowLeft size={16} className={isRtl ? 'rotate-180' : ''} />{td.backToMarket}
         </Link>
 
         <div className="grid lg:grid-cols-3 gap-6">
@@ -415,23 +435,23 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                   </div>
                   <div className="flex-1 flex flex-col gap-3">
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-wider text-muted/60 mb-0.5">Kalkış</p>
+                      <p className="text-[10px] font-black uppercase tracking-wider text-muted/60 mb-0.5">{td.origin}</p>
                       <p className={`text-base font-black ${t.heading}`}>
-                        {load.origin_city?.name}{load.origin_district ? `, ${load.origin_district.name}` : ''}
+                        {load.origin_city}{load.origin_state ? `, ${load.origin_state}` : ''}, {load.origin_country}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-wider text-muted/60 mb-0.5">Varış</p>
+                      <p className="text-[10px] font-black uppercase tracking-wider text-muted/60 mb-0.5">{td.destination}</p>
                       <p className={`text-base font-black ${t.heading}`}>
-                        {load.destination_city?.name}{load.destination_district ? `, ${load.destination_district.name}` : ''}
+                        {load.destination_city}{load.destination_state ? `, ${load.destination_state}` : ''}, {load.destination_country}
                       </p>
                     </div>
                   </div>
                   {/* Fiyat + aksiyonlar */}
-                  <div className="flex flex-col items-end gap-2 ml-auto shrink-0">
-                    <div className="text-right">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-muted/60 mb-1">Fiyat</p>
-                      <span className="text-2xl font-black text-accent">{formatPrice(load.price)}</span>
+                  <div className={`flex flex-col items-end gap-2 shrink-0 ${isRtl ? 'mr-auto' : 'ml-auto'}`}>
+                    <div className={isRtl ? 'text-left' : 'text-right'}>
+                      <p className="text-[10px] font-black uppercase tracking-wider text-muted/60 mb-1">{td.priceLabel}</p>
+                      <span className="text-2xl font-black text-accent">{formatPrice(load.price, locale)}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <button onClick={async () => {
@@ -441,7 +461,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                       }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors ${t.btnSecondary}`}>
                         <Share2 size={13} />
-                        {copied ? 'Kopyalandı!' : 'Paylaş'}
+                        {copied ? td.copied : td.share}
                       </button>
                       {user && !isOwner && (
                         <button onClick={toggleFavorite} disabled={togglingFav}
@@ -449,7 +469,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                             ? 'bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20'
                             : `${t.btnSecondary} hover:text-red-400 hover:border-red-400/20`}`}>
                           <Heart size={13} className={isFavorite ? 'fill-red-400' : ''} />
-                          {isFavorite ? 'Favoride' : 'Favori'}
+                          {isFavorite ? td.inFavorites : td.favorite}
                         </button>
                       )}
                     </div>
@@ -464,8 +484,8 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                     {status.label}
                   </span>
                   <span className={`text-xs ${t.muted}`}>
-                    <Clock size={12} className="inline mr-1" />
-                    {new Date(load.created_at).toLocaleDateString('tr-TR')}
+                    <Clock size={12} className={`inline ${isRtl ? 'ml-1' : 'mr-1'}`} />
+                    {formatDate(load.created_at, locale)}
                   </span>
                 </div>
                 <h1 className={`text-xl font-black ${t.heading} mb-4 leading-snug`}>{load.title}</h1>
@@ -481,10 +501,10 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                 {/* Stats grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
-                    { icon: Weight, label: 'Ağırlık', value: `${load.weight_ton} Ton` },
-                    { icon: Package, label: 'Yük Tipi', value: LOAD_TYPES[load.load_type] || load.load_type },
-                    { icon: Truck, label: 'Araç Tipi', value: load.required_truck_type ? TRUCK_TYPES[load.required_truck_type] || load.required_truck_type : 'Belirtilmedi' },
-                    { icon: Clock, label: 'Teslimat', value: formatDate(load.delivery_date) },
+                    { icon: Weight, label: locale === 'tr' ? 'Ağırlık' : 'Weight', value: `${load.weight_ton} ${td.tons}` },
+                    { icon: Package, label: locale === 'tr' ? 'Yük Tipi' : 'Load Type', value: LOAD_TYPES[load.load_type] || load.load_type },
+                    { icon: Truck, label: locale === 'tr' ? 'Araç Tipi' : 'Truck Type', value: load.required_truck_type ? TRUCK_TYPES[load.required_truck_type] || load.required_truck_type : td.notSpecified },
+                    { icon: Clock, label: locale === 'tr' ? 'Teslimat' : 'Delivery', value: formatDate(load.delivery_date, locale) },
                   ].map(({ icon: Icon, label, value }) => (
                     <div key={label} className={`p-3 rounded-xl bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark`}>
                       <div className="flex items-center gap-1.5 mb-1.5">
@@ -501,7 +521,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             {/* Açıklama */}
             {load.description && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
-                <h2 className={`text-lg font-bold ${t.heading} mb-3`}>Açıklama</h2>
+                <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{td.description}</h2>
                 <p className={`${t.sub} text-sm leading-relaxed whitespace-pre-wrap`}>{load.description}</p>
               </div>
             )}
@@ -510,12 +530,12 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             {user && isOwner && load.status === 'active' && (
               <div className={`p-4 rounded-2xl ${t.card} flex items-center justify-between`}>
                 <div>
-                  <p className={`text-sm font-medium ${t.heading}`}>İlan Yönetimi</p>
-                  <p className={`text-xs ${t.muted}`}>İlanı düzenleyebilir veya iptal edebilirsiniz.</p>
+                  <p className={`text-sm font-medium ${t.heading}`}>{td.manageLoad}</p>
+                  <p className={`text-xs ${t.muted}`}>{td.manageLoadDesc}</p>
                 </div>
-                <Link href={`/ilan-duzenle/${load.id}`}
+                <Link href={`/${locale}/edit-load/${load.id}`}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${t.btnSecondary}`}>
-                  <PenLine size={16} />Düzenle
+                  <PenLine size={16} />{td.editBtn}
                 </Link>
               </div>
             )}
@@ -525,17 +545,17 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
                   <TrendingUp size={20} className="text-[#F5A623]" />
-                  {myOffer ? 'Teklifiniz' : 'Teklif Ver'}
+                  {myOffer ? td.yourOffer : td.makeOffer}
                 </h2>
 
                 {myOffer && myOffer.status === 'accepted' && (
                   <div className="flex items-center gap-2 p-3 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm mb-4">
-                    <CheckCircle2 size={16} />Teklifiniz kabul edildi! Yük size atandı.
+                    <CheckCircle2 size={16} />{td.offerAccepted}
                   </div>
                 )}
                 {myOffer && myOffer.status === 'rejected' && (
                   <div className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-4">
-                    <X size={16} />Teklifiniz reddedildi.
+                    <X size={16} />{td.offerRejected}
                   </div>
                 )}
 
@@ -543,27 +563,27 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                   <form onSubmit={handleSubmitOffer} className="space-y-3">
                     <div className="grid sm:grid-cols-2 gap-3">
                       <div>
-                        <label className={`block text-xs ${t.muted} mb-1.5`}>Teklif Fiyatı (TL)</label>
+                        <label className={`block text-xs ${t.muted} mb-1.5`}>{td.offerPrice} ({locale === 'tr' ? 'TL' : 'USD'})</label>
                         <input type="number" value={offerPrice} onChange={(e) => setOfferPrice(e.target.value)}
-                          placeholder="Opsiyonel" min="0"
+                          placeholder={td.optional} min="0"
                           className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none ${t.input}`} />
                       </div>
                       <div>
-                        <label className={`block text-xs ${t.muted} mb-1.5`}>Not</label>
+                        <label className={`block text-xs ${t.muted} mb-1.5`}>{td.note}</label>
                         <input type="text" value={offerNote} onChange={(e) => setOfferNote(e.target.value)}
-                          placeholder="Araç bilgisi, müsaitlik vs."
+                          placeholder={td.notePlaceholder}
                           className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none ${t.input}`} />
                       </div>
                     </div>
                     {offerError && <p className="text-red-400 text-xs">{offerError}</p>}
                     <button type="submit" disabled={submittingOffer}
                       className="w-full py-3 rounded-xl bg-[#F5A623] text-black font-bold text-sm hover:bg-[#F5A623]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
-                      {submittingOffer ? <><Loader2 size={16} className="animate-spin" />Gönderiliyor...</> : myOffer ? 'Teklifi Güncelle' : 'Teklif Gönder'}
+                      {submittingOffer ? <><Loader2 size={16} className="animate-spin" />{td.sending}</> : myOffer ? td.updateOffer : td.sendOffer}
                     </button>
                     {!myOffer && (
                       <p className="text-[11px] text-accent/80 text-center flex items-center justify-center gap-1.5 font-medium px-4 py-2 rounded-lg bg-accent/5 border border-accent/10">
                         <Zap size={13} className="fill-accent/20" />
-                        Teklif gönderimi 10 Puan maliyetindedir (Limit: 10/gün)
+                        {td.offerLimitWarning}
                       </p>
                     )}
                   </form>
@@ -576,14 +596,14 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
                   <TrendingUp size={20} className="text-[#F5A623]" />
-                  Teklifler
+                  {td.offersTitle}
                   {pendingOffers.length > 0 && (
                     <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-[#F5A623] text-black font-bold">{pendingOffers.length}</span>
                   )}
                 </h2>
 
                 {offers.length === 0 ? (
-                  <p className={`text-sm ${t.muted} text-center py-6`}>Henüz teklif gelmedi.</p>
+                  <p className={`text-sm ${t.muted} text-center py-6`}>{td.noOffersYet}</p>
                 ) : (
                   <div className="space-y-3">
                     {offers.map((offer) => (
@@ -601,25 +621,27 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                               )}
                             </div>
                             {offer.driver?.company_name && <p className={`text-xs ${t.muted} mb-1`}>{offer.driver.company_name}</p>}
-                            {offer.price && <p className="text-[#F5A623] font-bold text-sm">{formatPrice(offer.price)}</p>}
+                            {offer.price && <p className="text-[#F5A623] font-bold text-sm">{formatPrice(offer.price, locale)}</p>}
                             {offer.note && <p className={`text-xs ${t.sub} mt-1`}>{offer.note}</p>}
-                            <p className={`text-xs ${t.mutedDark} mt-1`}>{new Date(offer.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</p>
+                            <p className={`text-xs ${t.mutedDark} mt-1`}>
+                              {formatDate(offer.created_at, locale)} {formatTime(offer.created_at, locale)}
+                            </p>
                           </div>
                           <div className="shrink-0">
                             {offer.status === 'pending' && (
                               <div className="flex gap-2">
                                 <button onClick={() => handleAcceptOffer(offer.id)} disabled={!!acceptingOffer}
                                   className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-green-500/10 text-green-400 border border-green-500/20 text-xs font-medium hover:bg-green-500/20 transition-colors disabled:opacity-50">
-                                  {acceptingOffer === offer.id ? <Loader2 size={12} className="animate-spin" /> : <Check size={12} />}Kabul
+                                  {acceptingOffer === offer.id ? <Loader2 size={12} className="animate-spin" /> : <Check size={12} />}{td.accept}
                                 </button>
                                 <button onClick={() => handleRejectOffer(offer.id)}
                                   className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-medium hover:bg-red-500/20 transition-colors">
-                                  <X size={12} />Red
+                                  <X size={12} />{td.reject}
                                 </button>
                               </div>
                             )}
-                            {offer.status === 'accepted' && <span className="text-xs text-green-400 font-medium flex items-center gap-1"><CheckCircle2 size={14} />Kabul Edildi</span>}
-                            {offer.status === 'rejected' && <span className={`text-xs ${t.muted}`}>Reddedildi</span>}
+                            {offer.status === 'accepted' && <span className="text-xs text-green-400 font-medium flex items-center gap-1"><CheckCircle2 size={14} />{td.accepted}</span>}
+                            {offer.status === 'rejected' && <span className={`text-xs ${t.muted}`}>{td.rejected}</span>}
                           </div>
                         </div>
                       </div>
@@ -632,39 +654,41 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             {/* Kabul edilmiş teklif bilgisi — owner */}
             {isOwner && acceptedOffer && load.status !== 'active' && (
               <div className="p-4 rounded-2xl bg-green-500/5 border border-green-500/20 text-sm">
-                <p className="text-green-400 font-medium flex items-center gap-2"><CheckCircle2 size={16} />Sürücü: {acceptedOffer.driver?.full_name}</p>
-                {acceptedOffer.price && <p className={`${t.sub} mt-1`}>Teklif Fiyatı: {formatPrice(acceptedOffer.price)}</p>}
+                <p className="text-green-400 font-medium flex items-center gap-2"><CheckCircle2 size={16} />{td.driver}: {acceptedOffer.driver?.full_name}</p>
+                {acceptedOffer.price && <p className={`${t.sub} mt-1`}>{td.offerPrice}: {formatPrice(acceptedOffer.price, locale)}</p>}
               </div>
             )}
 
             {/* Teslimat Onayı */}
             {user && canConfirm && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
-                <h2 className={`text-lg font-bold ${t.heading} mb-4`}>Teslimat Onayı</h2>
+                <h2 className={`text-lg font-bold ${t.heading} mb-4`}>{td.deliveryConfirmation}</h2>
                 <div className="grid sm:grid-cols-2 gap-4 mb-4">
                   {[
-                    { label: 'İlan Sahibi', confirmed: load.shipper_confirmed, at: load.shipper_confirmed_at },
-                    { label: 'Sürücü', confirmed: load.driver_confirmed, at: load.driver_confirmed_at },
+                    { label: td.shipper, confirmed: load.shipper_confirmed, at: load.shipper_confirmed_at },
+                    { label: td.driver, confirmed: load.driver_confirmed, at: load.driver_confirmed_at },
                   ].map(({ label, confirmed, at }) => (
                     <div key={label} className={`p-4 rounded-xl border ${confirmed ? 'bg-green-500/5 border-green-500/20' : `${t.isDark ? 'bg-white/[0.02]' : 'bg-slate-50'} border ${t.divider}`}`}>
                       <div className="flex items-center gap-3">
                         {confirmed ? <CheckCircle2 size={24} className="text-green-400 shrink-0" /> : <CircleDot size={24} className={`${t.muted} shrink-0`} />}
                         <div>
                           <p className={`text-sm font-medium ${t.heading}`}>{label}</p>
-                          <p className={`text-xs ${t.muted}`}>{confirmed ? `Onaylandı${at ? ` - ${formatDate(at)} ${formatTime(at)}` : ''}` : 'Onay Bekleniyor'}</p>
+                          <p className={`text-xs ${t.muted}`}>
+                            {confirmed ? `${td.confirmed}${at ? ` - ${formatDate(at, locale)} ${formatTime(at, locale)}` : ''}` : td.pending}
+                          </p>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
                 {bothConfirmed ? (
-                  <div className="flex items-center gap-2 text-green-400 text-sm font-medium"><CheckCircle2 size={18} />Teslimat tamamlandı!</div>
+                  <div className="flex items-center gap-2 text-green-400 text-sm font-medium"><CheckCircle2 size={18} />{td.deliveryCompleted}</div>
                 ) : ((isOwner && !load.shipper_confirmed) || (isAssignedDriver && !load.driver_confirmed)) ? (
                   <button onClick={handleConfirmDelivery} disabled={confirming}
                     className={`w-full py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 ${t.heading} font-medium text-sm hover:from-green-600 hover:to-emerald-700 transition-all disabled:opacity-50`}>
-                    {confirming ? 'Onaylanıyor...' : 'Teslimatı Onayla'}
+                    {confirming ? td.confirming : td.confirmDelivery}
                   </button>
-                ) : <p className={`text-sm ${t.sub}`}>Onayınız kaydedildi. Karşı tarafın onayı bekleniyor.</p>}
+                ) : <p className={`text-sm ${t.sub}`}>{td.waitingOtherConfirmation}</p>}
               </div>
             )}
 
@@ -674,23 +698,23 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                 <div className="flex items-center gap-3 mb-4">
                   <CheckCircle2 size={32} className="text-green-400" />
                   <div>
-                    <h2 className="text-lg font-bold text-green-400">Teslimat Tamamlandı</h2>
-                    <p className={`text-sm ${t.sub}`}>Bu yük başarıyla teslim edildi.</p>
+                    <h2 className="text-lg font-bold text-green-400">{td.deliveryCompleted}</h2>
+                    <p className={`text-sm ${t.sub}`}>{locale === 'tr' ? 'Bu yük başarıyla teslim edildi.' : 'This load was successfully delivered.'}</p>
                   </div>
                 </div>
                 {/* Değerlendirme butonları */}
                 {user && (isOwner || isAssignedDriver) && (
                   <div className="flex gap-3 flex-wrap">
                     {isOwner && load.assigned_driver_id && (
-                      <button onClick={() => { setReviewTarget({ id: load.assigned_driver_id!, name: 'Sürücüyü değerlendir' }); setShowReview(true); }}
+                      <button onClick={() => { setReviewTarget({ id: load.assigned_driver_id!, name: td.rateDriver }); setShowReview(true); }}
                         className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20 text-sm font-medium hover:bg-[#F5A623]/20 transition-colors">
-                        <Star size={15} />Sürücüyü Değerlendir
+                        <Star size={15} />{td.rateDriver}
                       </button>
                     )}
                     {isAssignedDriver && (
-                      <button onClick={() => { setReviewTarget({ id: load.shipper_id, name: 'Yük sahibini değerlendir' }); setShowReview(true); }}
+                      <button onClick={() => { setReviewTarget({ id: load.shipper_id, name: td.rateShipper }); setShowReview(true); }}
                         className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20 text-sm font-medium hover:bg-[#F5A623]/20 transition-colors">
-                        <Star size={15} />Yük Sahibini Değerlendir
+                        <Star size={15} />{td.rateShipper}
                       </button>
                     )}
                   </div>
@@ -703,24 +727,24 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
                   <MessageSquare size={20} className="text-[#F5A623]" />
-                  Mesajlar — {load.title}
+                  {globalT.nav.messages} — {load.title}
                 </h2>
 
                 {/* Telefon paylaşma */}
                 <div className={`mb-4 p-4 rounded-xl ${t.card}`}>
                   {!conversation.phone_shared_by ? (
                     <div className="flex items-center justify-between gap-3">
-                      <span className={`text-sm ${t.sub} flex items-center gap-2`}><Phone size={16} />Telefon paylaşarak hızlı iletişim kurun</span>
+                      <span className={`text-sm ${t.sub} flex items-center gap-2`}><Phone size={16} />{td.sharePhoneDesc}</span>
                       <button onClick={handleSharePhone} disabled={sharingPhone}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F5A623]/10 text-[#F5A623] text-xs font-medium border border-[#F5A623]/20 hover:bg-[#F5A623]/20 transition-colors disabled:opacity-50">
-                        <Phone size={12} />{sharingPhone ? 'Paylaşılıyor...' : 'Telefonu Paylaş'}
+                        <Phone size={12} />{sharingPhone ? td.sharing : td.sharePhone}
                       </button>
                     </div>
                   ) : (
                     <div>
                       <p className="text-sm text-green-400 flex items-center gap-2 mb-1">
                         <CheckCircle2 size={14} />
-                        {conversation.phone_shared_by === user.id ? 'Telefonunuz paylaşıldı' : 'Karşı taraf telefonunu paylaştı'}
+                        {conversation.phone_shared_by === user.id ? td.phoneShared : td.otherPhoneShared}
                       </p>
                       {otherPhone && conversation.phone_shared_by !== user.id && (
                         <div className={`flex items-center gap-2 mt-2 p-2 rounded-lg ${t.isDark ? "bg-white/[0.03]" : "bg-black/[0.04]"}`}>
@@ -729,7 +753,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                         </div>
                       )}
                       {conversation.phone_shared_by === user.id && !otherPhone && (
-                        <p className={`text-xs ${t.muted}`}>Karşı taraf da paylaşınca numarasını göreceksin.</p>
+                        <p className={`text-xs ${t.muted}`}>{td.phoneVisibleWait}</p>
                       )}
                     </div>
                   )}
@@ -738,12 +762,12 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                 {/* Mesajlar */}
                 <div className="space-y-3 mb-4 max-h-80 overflow-y-auto">
                   {messages.length === 0 ? (
-                    <p className={`text-center ${t.muted} text-sm py-8`}>Henüz mesaj yok. İlk mesajı gönderin!</p>
+                    <p className={`text-center ${t.muted} text-sm py-8`}>{td.noMessagesYet}</p>
                   ) : messages.map((msg) => (
                     <div key={msg.id} className={`flex ${msg.sender_id === user.id ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl ${msg.sender_id === user.id ? 'bg-[#F5A623]/20 rounded-br-md ${t.heading}' : `${t.isDark ? 'bg-white/[0.06]' : 'bg-black/[0.05]'} ${t.body} rounded-bl-md`}`}>
+                      <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl ${msg.sender_id === user.id ? `bg-[#F5A623]/20 rounded-br-md ${t.heading}` : `${t.isDark ? 'bg-white/[0.06]' : 'bg-black/[0.05]'} ${t.body} rounded-bl-md`}`}>
                         <p className="text-sm">{msg.content}</p>
-                        <p className={`text-[10px] mt-1 ${msg.sender_id === user.id ? 'text-[#F5A623]/60' : 'text-gray-500'}`}>{formatTime(msg.created_at)}</p>
+                        <p className={`text-[10px] mt-1 ${msg.sender_id === user.id ? 'text-[#F5A623]/60' : 'text-gray-500'}`}>{formatTime(msg.created_at, locale)}</p>
                       </div>
                     </div>
                   ))}
@@ -752,7 +776,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
 
                 <form onSubmit={handleSendMessage} className="flex items-center gap-2">
                   <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)}
-                    placeholder="Mesajınızı yazın..."
+                    placeholder={td.typeMessage}
                     className={`flex-1 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-[#F5A623]/40 ${t.input}`} />
                   <button type="submit" disabled={!newMessage.trim() || sendingMessage}
                     className="p-3 rounded-xl bg-[#F5A623] text-black hover:bg-[#F5A623]/90 transition-all disabled:opacity-30">
@@ -767,19 +791,19 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-2 flex items-center gap-2`}>
                   <MessageSquare size={20} className="text-[#F5A623]" />
-                  Mesajlar
+                  {globalT.nav.messages}
                 </h2>
-                <p className={`text-sm ${t.sub}`}>Bir sürücünün teklifini kabul edince mesajlaşma başlar.</p>
+                <p className={`text-sm ${t.sub}`}>{td.chatStartOfferAccepted}</p>
               </div>
             )}
 
             {/* Giriş yapmamış */}
             {!user && !authLoading && (
-              <div className="p-6 rounded-2xl ${t.card} text-center">
+              <div className={`p-6 rounded-2xl ${t.card} text-center`}>
                 <MessageSquare size={32} className="text-[#F5A623] mx-auto mb-3" />
-                <h3 className={`text-lg font-bold ${t.heading} mb-2`}>Teklif Vermek İçin Giriş Yapın</h3>
-                <p className={`text-sm ${t.sub} mb-4`}>İlan sahibi ile iletişime geçmek için giriş yapmanız gerekiyor.</p>
-                <Link href="/giris" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#F5A623] text-black font-medium text-sm hover:bg-[#F5A623]/90 transition-all">Giriş Yap</Link>
+                <h3 className={`text-lg font-bold ${t.heading} mb-2`}>{td.loginToOfferTitle}</h3>
+                <p className={`text-sm ${t.sub} mb-4`}>{td.loginToOfferDesc}</p>
+                <Link href={`/${locale}/login`} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#F5A623] text-black font-medium text-sm hover:bg-[#F5A623]/90 transition-all">{td.login}</Link>
               </div>
             )}
           </div>
@@ -788,14 +812,14 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
           <div className="space-y-6">
             {/* İlan Sahibi */}
             <div className={`p-6 rounded-2xl ${t.card}`}>
-              <h3 className={`text-sm font-medium ${t.muted} mb-4`}>İlan Sahibi</h3>
+              <h3 className={`text-sm font-medium ${t.muted} mb-4`}>{td.shipper}</h3>
               <div className="flex items-center gap-3 mb-4">
-                <Link href={`/kullanici/${load.shipper?.id}`} className={`w-12 h-12 rounded-full flex items-center justify-center hover:ring-2 hover:ring-[#F5A623]/40 transition-all ${t.isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`}>
+                <Link href={`/${locale}/user/${load.shipper?.id}`} className={`w-12 h-12 rounded-full flex items-center justify-center hover:ring-2 hover:ring-[#F5A623]/40 transition-all ${t.isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`}>
                   {load.shipper?.avatar_url ? <img src={load.shipper.avatar_url} alt="" className="w-12 h-12 rounded-full object-cover" /> : <User size={20} className={t.muted} />}
                 </Link>
                 <div>
                   <div className="flex items-center gap-2">
-                    <Link href={`/kullanici/${load.shipper?.id}`} className={`${t.heading} font-medium text-sm hover:text-[#F5A623] transition-colors flex items-center gap-1`}>
+                    <Link href={`/${locale}/user/${load.shipper?.id}`} className={`${t.heading} font-medium text-sm hover:text-[#F5A623] transition-colors flex items-center gap-1`}>
                       {load.shipper?.full_name}
                       <ExternalLink size={12} className={t.muted} />
                     </Link>
@@ -808,7 +832,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                 <div className="flex items-center gap-1 mb-3">
                   <Star size={14} className="text-[#F5A623] fill-[#F5A623]" />
                   <span className={`text-sm ${t.heading} font-medium`}>{load.shipper.rating.toFixed(1)}</span>
-                  <span className={`text-xs ${t.muted}`}>değerlendirme</span>
+                  <span className={`text-xs ${t.muted}`}> {td.reviews}</span>
                 </div>
               )}
               {/* Telefon sadece conversation + paylaşım varsa */}
@@ -819,26 +843,26 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                 </div>
               )}
               {isOwner && !conversation?.phone_shared_by && load.status !== 'active' && (
-                <p className={`text-xs ${t.muted}`}>Sürücü telefonunu paylaştığında burada görünür.</p>
+                <p className={`text-xs ${t.muted}`}>{td.driverPhoneVisible}</p>
               )}
             </div>
 
             {/* Hızlı Bilgi */}
             <div className={`p-6 rounded-2xl ${t.card}`}>
-              <h3 className={`text-sm font-medium ${t.muted} mb-4`}>Hızlı Bilgi</h3>
+              <h3 className={`text-sm font-medium ${t.muted} mb-4`}>{td.quickInfo}</h3>
               <div className="space-y-3">
                 {[
-                  { label: 'Yükleme', value: formatDate(load.pickup_date) },
-                  { label: 'Teslimat', value: formatDate(load.delivery_date) },
-                  { label: 'Ağırlık', value: `${load.weight_ton} Ton` },
-                  { label: 'Yük Tipi', value: LOAD_TYPES[load.load_type] || load.load_type },
-                  ...(load.required_truck_type ? [{ label: 'Araç Tipi', value: TRUCK_TYPES[load.required_truck_type] || load.required_truck_type }] : []),
-                  { label: 'Fiyat', value: formatPrice(load.price), highlight: true },
+                  { label: td.pickup, value: formatDate(load.pickup_date, locale) },
+                  { label: locale === 'tr' ? 'Teslimat' : 'Delivery', value: formatDate(load.delivery_date, locale) },
+                  { label: locale === 'tr' ? 'Ağırlık' : 'Weight', value: `${load.weight_ton} ${td.tons}` },
+                  { label: locale === 'tr' ? 'Yük Tipi' : 'Load Type', value: LOAD_TYPES[load.load_type] || load.load_type },
+                  ...(load.required_truck_type ? [{ label: locale === 'tr' ? 'Araç Tipi' : 'Truck Type', value: TRUCK_TYPES[load.required_truck_type] || load.required_truck_type }] : []),
+                  { label: td.priceLabel, value: formatPrice(load.price, locale), highlight: true },
                 ].map(({ label, value, highlight }) => (
                   <div key={label}>
                     <div className="flex items-center justify-between">
                       <span className={`text-sm ${t.sub}`}>{label}</span>
-                      <span className={`text-sm font-medium ${highlight ? 'text-[#F5A623]' : 'text-white'}`}>{value}</span>
+                      <span className={`text-sm font-medium ${highlight ? 'text-[#F5A623]' : 'text-fg'}`}>{value}</span>
                     </div>
                     <div className={`w-full h-px mt-3 ${t.isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`} />
                   </div>

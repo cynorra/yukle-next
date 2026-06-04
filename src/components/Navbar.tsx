@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,7 +8,9 @@ import { useTheme } from '@/contexts/ThemeContext';
 import Logo from '@/components/Logo';
 import PointsBadge from '@/components/PointsBadge';
 import NotificationBell from '@/components/NotificationBell';
-import { Menu, X, Package, Truck, User, LogOut, MessageSquare, Zap, Sun, Moon, BookOpen } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
+import type { Locale } from '@/utils/translations';
+import { Menu, X, Package, Truck, User, LogOut, MessageSquare, Sun, Moon, BookOpen, Globe, ChevronDown, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -17,24 +19,60 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const LANGUAGES = [
+  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'tr', label: 'Türkçe', flag: '🇹🇷' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'pt', label: 'Português', flag: '🇵🇹' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'it', label: 'Italiano', flag: '🇮🇹' },
+  { code: 'pl', label: 'Polski', flag: '🇵🇱' },
+  { code: 'nl', label: 'Nederlands', flag: '🇳🇱' },
+  { code: 'ru', label: 'Русский', flag: '🇷🇺' },
+  { code: 'uk', label: 'Українська', flag: '🇺🇦' },
+  { code: 'zh', label: '中文', flag: '🇨🇳' },
+  { code: 'ja', label: '日本語', flag: '🇯🇵' },
+  { code: 'hi', label: 'हिन्दी', flag: '🇮🇳' },
+  { code: 'ar', label: 'العربية', flag: '🇸🇦' },
+  { code: 'fa', label: 'فارسی', flag: '🇮🇷' },
+] as const;
+
 export default function Navbar() {
   const { user, profile, signOut } = useAuth();
   const { toggleTheme, isDark } = useTheme();
   const [open, setOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const { t, locale, changeLocale } = useTranslation();
+
   const isActive = (path: string) => pathname === path;
 
+  // Close language dropdown on click outside
+  useEffect(() => {
+    const clickOutside = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', clickOutside);
+    return () => document.removeEventListener('mousedown', clickOutside);
+  }, []);
+
   const navLinks = user ? [
-    { to: '/pazar', label: 'Pazar', icon: Package },
-    ...(profile?.role === 'shipper' ? [{ to: '/yuk-olustur', label: 'İlan Ver', icon: Package }] : []),
-    ...(profile?.role === 'driver' ? [{ to: '/guzergahlarim', label: 'Güzergah', icon: Truck }] : []),
-    { to: '/mesajlar', label: 'Mesajlar', icon: MessageSquare },
-    { to: '/blog', label: 'Blog', icon: BookOpen },
-    { to: '/panel', label: 'Panel', icon: User },
+    { to: `/${locale}/marketplace`, label: t.nav.marketplace, icon: Package },
+    ...(profile?.role === 'shipper' ? [{ to: `/${locale}/create-load`, label: t.marketplace.postLoadBtn, icon: Package }] : []),
+    ...(profile?.role === 'driver' ? [{ to: `/${locale}/routes`, label: t.nav.routes, icon: Truck }] : []),
+    { to: `/${locale}/messages`, label: t.nav.messages, icon: MessageSquare },
+    { to: `/${locale}/blog`, label: t.nav.blog, icon: BookOpen },
+    { to: `/${locale}/dashboard`, label: t.nav.dashboard, icon: User },
   ] : [
-    { to: '/pazar', label: 'Pazar', icon: Package },
-    { to: '/blog', label: 'Blog', icon: BookOpen }
+    { to: `/${locale}/marketplace`, label: t.nav.marketplace, icon: Package },
+    { to: `/${locale}/blog`, label: t.nav.blog, icon: BookOpen }
   ];
+
+  const currentLang = LANGUAGES.find((l) => l.code === locale) || LANGUAGES[0];
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md transition-all duration-300">
@@ -63,9 +101,53 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-3">
+            {/* Language Selector Dropdown */}
+            <div className="relative" ref={langRef}>
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-2 px-3 py-2 rounded-full border border-border-light dark:border-border-dark bg-surface-light/50 dark:bg-surface-dark/50 hover:bg-surface-light dark:hover:bg-surface-dark text-muted hover:text-fg transition-all text-sm font-bold"
+              >
+                <Globe size={16} />
+                <span>{currentLang.flag}</span>
+                <ChevronDown size={14} className={cn("transition-transform duration-200", langOpen && "rotate-180")} />
+              </button>
+
+              <AnimatePresence>
+                {langOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute right-0 mt-2 w-48 max-h-80 overflow-y-auto bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl shadow-xl z-50 py-1.5 scrollbar-thin"
+                  >
+                    {LANGUAGES.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          changeLocale(lang.code as Locale);
+                          setLangOpen(false);
+                        }}
+                        className={cn(
+                          "w-full px-4 py-2 text-left text-sm font-semibold flex items-center gap-2 hover:bg-background-light dark:hover:bg-background-dark transition-colors",
+                          locale === lang.code ? "text-accent bg-accent/5" : "text-fg/80"
+                        )}
+                      >
+                        <span className="text-base">{lang.flag}</span>
+                        <span>{lang.label}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {user ? (
               <>
-                {profile && <Link href="/profil"><PointsBadge points={profile.points ?? 0} size="sm" /></Link>}
+                {profile && (
+                  <Link href={`/${locale}/profile`}>
+                    <PointsBadge points={profile.points ?? 0} size="sm" />
+                  </Link>
+                )}
                 <NotificationBell />
                 <button
                   onClick={toggleTheme}
@@ -77,7 +159,7 @@ export default function Navbar() {
                 <div className="h-4 w-[1px] bg-border-light dark:bg-border-dark mx-1" />
                 
                 <Link
-                  href={`/kullanici/${user.id}`}
+                  href={`/${locale}/user/${user.id}`}
                   className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:border-accent/30 transition-all group"
                 >
                   <User size={16} className="text-muted group-hover:text-accent" />
@@ -99,14 +181,14 @@ export default function Navbar() {
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
                 </button>
-                <Link href="/giris" className="text-base font-bold text-muted hover:text-fg transition-colors px-3">
-                  Giriş
+                <Link href={`/${locale}/login`} className="text-base font-bold text-muted hover:text-fg transition-colors px-3">
+                  {t.nav.login}
                 </Link>
                 <Link
-                  href="/kayit"
+                  href={`/${locale}/register`}
                   className="px-6 py-2.5 rounded-full text-base font-black bg-accent text-white shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
-                  Kayıt Ol
+                  {t.nav.register}
                 </Link>
               </>
             )}
@@ -114,6 +196,45 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-2">
+            {/* Mobile Lang Button */}
+            <div className="relative" ref={langRef}>
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-1 p-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light/50 dark:bg-surface-dark/50 text-muted"
+              >
+                <Globe size={18} />
+                <span>{currentLang.flag}</span>
+              </button>
+              
+              <AnimatePresence>
+                {langOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute right-0 mt-2 w-40 max-h-60 overflow-y-auto bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl z-50 py-1"
+                  >
+                    {LANGUAGES.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          changeLocale(lang.code as Locale);
+                          setLangOpen(false);
+                        }}
+                        className={cn(
+                          "w-full px-3 py-2 text-left text-xs font-semibold flex items-center gap-2 hover:bg-background-light dark:hover:bg-background-dark",
+                          locale === lang.code ? "text-accent bg-accent/5" : "text-fg/80"
+                        )}
+                      >
+                        <span>{lang.flag}</span>
+                        <span>{lang.label}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {user && <NotificationBell />}
             <button
               onClick={() => setOpen(!open)}
@@ -156,46 +277,46 @@ export default function Navbar() {
                 {user ? (
                   <div className="space-y-1">
                     <div className="px-4 py-2 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-muted">
-                      Profil
+                      {t.nav.profile}
                     </div>
                     <Link
-                      href="/profil"
+                      href={`/${locale}/profile`}
                       onClick={() => setOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted hover:text-fg"
                     >
                       <Zap size={20} className="text-accent" />
-                      {profile?.points ?? 0} Puan
+                      {profile?.points ?? 0} {t.dashboard.points}
                     </Link>
                     <button
                       onClick={() => { signOut(); setOpen(false); }}
                       className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-red-500 hover:bg-red-500/10 transition-colors"
                     >
                       <LogOut size={20} />
-                      Çıkış Yap
+                      {t.nav.logout}
                     </button>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 gap-3 p-2">
                     <Link
-                      href="/giris"
+                      href={`/${locale}/login`}
                       onClick={() => setOpen(false)}
                       className="flex items-center justify-center px-4 py-3 rounded-xl border border-border-light dark:border-border-dark text-fg font-medium"
                     >
-                      Giriş
+                      {t.nav.login}
                     </Link>
                     <Link
-                      href="/kayit"
+                      href={`/${locale}/register`}
                       onClick={() => setOpen(false)}
                       className="flex items-center justify-center px-4 py-3 rounded-xl bg-accent text-white font-bold"
                     >
-                      Kayıt Ol
+                      {t.nav.register}
                     </Link>
                   </div>
                 )}
               </div>
               
               <div className="flex items-center justify-between px-4 py-3 bg-surface-light dark:bg-surface-dark rounded-xl mt-4">
-                <span className="text-sm font-medium text-muted">Görünüm</span>
+                <span className="text-sm font-medium text-muted">Theme</span>
                 <button
                   onClick={toggleTheme}
                   className="p-2 rounded-lg bg-background-light dark:bg-background-dark text-fg border border-border-light dark:border-border-dark"

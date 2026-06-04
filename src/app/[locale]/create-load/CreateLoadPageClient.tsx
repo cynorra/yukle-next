@@ -1,42 +1,47 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
-import CitySelect from '@/components/CitySelect';
+import LocationSearch from '@/components/LocationSearch';
 import { useT } from '@/hooks/useT';
+import { useTranslation } from '@/hooks/useTranslation';
 import { Package, MapPin, ArrowRight, Calendar, DollarSign, FileText, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const LOAD_TYPES: Record<string, string> = {
-  general: 'Genel Kargo',
-  hazardous: 'Tehlikeli Madde',
-  perishable: 'Bozulabilir',
-  oversized: 'Aşırı Büyük',
-  fragile: 'Kırılgan',
+  general: 'General Cargo',
+  hazardous: 'Hazardous Material',
+  perishable: 'Perishable',
+  oversized: 'Oversized',
+  fragile: 'Fragile',
 };
 
 const TRUCK_TYPES: Record<string, string> = {
   tir: 'TIR',
-  kamyon: 'Kamyon',
-  kamyonet: 'Kamyonet',
-  dorser: 'Dorser',
+  kamyon: 'Truck',
+  kamyonet: 'Van',
+  dorser: 'Trailer',
   tanker: 'Tanker',
-  frigorifik: 'Frigorifik',
+  frigorifik: 'Reefer',
 };
 
 export function CreateLoadPageClient() {
-  const t = useT();
+  const tStyle = useT();
+  const { t, locale } = useTranslation();
   const { user } = useAuth();
   const router = useRouter();
 
   const [title, setTitle] = useState('');
-  const [originCityId, setOriginCityId] = useState<number | null>(null);
-  const [originDistrictId, setOriginDistrictId] = useState<number | null>(null);
-  const [destCityId, setDestCityId] = useState<number | null>(null);
-  const [destDistrictId, setDestDistrictId] = useState<number | null>(null);
+  const [originCity, setOriginCity] = useState('');
+  const [originState, setOriginState] = useState<string | null>(null);
+  const [originCountry, setOriginCountry] = useState('');
+  
+  const [destCity, setDestCity] = useState('');
+  const [destState, setDestState] = useState<string | null>(null);
+  const [destCountry, setDestCountry] = useState('');
+
   const [price, setPrice] = useState('');
   const [weightTon, setWeightTon] = useState('');
   const [loadType, setLoadType] = useState('general');
@@ -53,39 +58,39 @@ export function CreateLoadPageClient() {
 
     // Validation
     if (!title.trim()) {
-      setError('İlan başlığı zorunludur.');
+      setError('Title is required.');
       return;
     }
     if (title.trim().length < 5) {
-      setError('İlan başlığı en az 5 karakter olmalıdır.');
+      setError('Title must be at least 5 characters.');
       return;
     }
-    if (!originCityId) {
-      setError('Kalkış şehri seçilmesi zorunludur.');
+    if (!originCity) {
+      setError('Origin location is required.');
       return;
     }
-    if (!destCityId) {
-      setError('Varış şehri seçilmesi zorunludur.');
+    if (!destCity) {
+      setError('Destination location is required.');
       return;
     }
-    if (originCityId === destCityId) {
-      setError('Kalkış ve varış şehirleri aynı olamaz.');
+    if (originCity === destCity && originCountry === destCountry) {
+      setError('Origin and Destination cannot be the same.');
       return;
     }
     if (!weightTon || Number(weightTon) <= 0) {
-      setError('Geçerli bir ağırlık girilmesi zorunludur.');
+      setError('Valid weight is required.');
       return;
     }
     if (Number(weightTon) > 100) {
-      setError('Ağırlık 100 tondan fazla olamaz.');
+      setError('Weight cannot exceed 100 tons.');
       return;
     }
     if (price && Number(price) < 0) {
-      setError('Fiyat negatif olamaz.');
+      setError('Price cannot be negative.');
       return;
     }
     if (pickupDate && deliveryDate && deliveryDate < pickupDate) {
-      setError('Teslim tarihi, yükleme tarihinden önce olamaz.');
+      setError('Delivery date cannot be before pickup date.');
       return;
     }
 
@@ -95,10 +100,12 @@ export function CreateLoadPageClient() {
     const { error: insertError } = await supabase.from('loads').insert({
       title: title.trim(),
       shipper_id: user.id,
-      origin_city_id: originCityId,
-      origin_district_id: originDistrictId,
-      destination_city_id: destCityId,
-      destination_district_id: destDistrictId,
+      origin_city: originCity,
+      origin_state: originState,
+      origin_country: originCountry,
+      destination_city: destCity,
+      destination_state: destState,
+      destination_country: destCountry,
       price: price ? Number(price) : null,
       weight_ton: Number(weightTon),
       load_type: loadType,
@@ -115,107 +122,111 @@ export function CreateLoadPageClient() {
       return;
     }
 
-    router.push('/panel');
+    router.push(`/${locale}/dashboard`);
   }
 
   return (
-    <div className={t.pageFull}>
+    <div className={tStyle.pageFull}>
       <div className="max-w-2xl mx-auto px-4 py-8">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-10"
         >
-          <h1 className={`text-3xl font-black tracking-tight ${t.heading} flex items-center gap-4`}>
+          <h1 className={`text-3xl font-black tracking-tight ${tStyle.heading} flex items-center gap-4`}>
             <div className="w-12 h-12 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center">
               <Package size={28} className="text-accent" />
             </div>
-            Yük Oluştur
+            {t.marketplace.postLoadBtn}
           </h1>
-          <p className={`text-sm ${t.muted} mt-3 font-medium`}>Yük ilanınızı oluşturun ve binlerce nakliyeciye anında ulaşın.</p>
+          <p className={`text-sm ${tStyle.muted} mt-3 font-medium`}>Create a shipping ad and reach thousands of carriers worldwide instantly.</p>
         </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Title */}
-          <div className={`p-6 rounded-2xl ${t.card}`}>
-            <label className={`block text-sm font-bold ${t.body} mb-3`}>
+          <div className={`p-6 rounded-2xl ${tStyle.card}`}>
+            <label className={`block text-sm font-bold ${tStyle.body} mb-3`}>
               <FileText size={16} className="inline mr-2 text-accent" />
-              İlan Başlığı
+              Load Title
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Örn: İstanbul'dan Ankara'ya tekstil yükü"
+              placeholder="e.g. Textiles from Hamburg to Munich"
               required
-              className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${t.input}`}
+              className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${tStyle.input}`}
             />
           </div>
 
           {/* Route */}
-          <div className={`p-6 rounded-2xl ${t.card}`}>
-            <h3 className={`text-sm font-bold ${t.body} mb-5 flex items-center gap-2`}>
+          <div className={`p-6 rounded-2xl ${tStyle.card}`}>
+            <h3 className={`text-sm font-bold ${tStyle.body} mb-5 flex items-center gap-2`}>
               <MapPin size={16} className="text-accent" />
-              Güzergah
+              Route Details
             </h3>
             <div className="grid sm:grid-cols-[1fr,auto,1fr] items-center gap-4">
               <div className="space-y-1.5">
-                <label className={`block text-[11px] font-black uppercase tracking-wider ${t.mutedDark}`}>Kalkış Şehri <span className="text-red-500">*</span></label>
-                <CitySelect
-                  value={originCityId}
-                  onChange={(c, d) => { setOriginCityId(c); setOriginDistrictId(d); }}
-                  placeholder="Şehir seçin"
-                  districtValue={originDistrictId}
+                <label className={`block text-[11px] font-black uppercase tracking-wider ${tStyle.mutedDark}`}>Origin <span className="text-red-500">*</span></label>
+                <LocationSearch
+                  onSelect={(loc) => {
+                    setOriginCity(loc.city);
+                    setOriginState(loc.state);
+                    setOriginCountry(loc.country);
+                  }}
+                  placeholder="Origin city/country"
                 />
               </div>
               <div className="flex items-center justify-center p-2">
-                <ArrowRight size={20} className={`${t.mutedDark} rotate-90 sm:rotate-0`} />
+                <ArrowRight size={20} className={`${tStyle.mutedDark} rotate-90 sm:rotate-0`} />
               </div>
               <div className="space-y-1.5">
-                <label className={`block text-[11px] font-black uppercase tracking-wider ${t.mutedDark}`}>Varış Şehri <span className="text-red-500">*</span></label>
-                <CitySelect
-                  value={destCityId}
-                  onChange={(c, d) => { setDestCityId(c); setDestDistrictId(d); }}
-                  placeholder="Şehir seçin"
-                  districtValue={destDistrictId}
+                <label className={`block text-[11px] font-black uppercase tracking-wider ${tStyle.mutedDark}`}>Destination <span className="text-red-500">*</span></label>
+                <LocationSearch
+                  onSelect={(loc) => {
+                    setDestCity(loc.city);
+                    setDestState(loc.state);
+                    setDestCountry(loc.country);
+                  }}
+                  placeholder="Destination city/country"
                 />
               </div>
             </div>
           </div>
 
           {/* Price & Weight */}
-          <div className={`p-6 rounded-2xl ${t.card}`}>
-            <h3 className={`text-sm font-bold ${t.body} mb-5 flex items-center gap-2`}>
+          <div className={`p-6 rounded-2xl ${tStyle.card}`}>
+            <h3 className={`text-sm font-bold ${tStyle.body} mb-5 flex items-center gap-2`}>
               <DollarSign size={16} className="text-accent" />
-              Fiyat & Ağırlık
+              Price & Weight
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="space-y-1.5">
-                <label className={`block text-[11px] font-black uppercase tracking-wider ${t.mutedDark}`}>Fiyat (₺)</label>
+                <label className={`block text-[11px] font-black uppercase tracking-wider ${tStyle.mutedDark}`}>{t.marketplace.price}</label>
                 <div className="relative">
                   <input
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    placeholder="Teklif usulü için boş bırakın"
+                    placeholder="Leave empty for negotiation"
                     min="0"
-                    className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${t.input}`}
+                    className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${tStyle.input}`}
                   />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-muted/40">TL</div>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-muted/40">CURR</div>
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className={`block text-[11px] font-black uppercase tracking-wider ${t.mutedDark}`}>Ağırlık (Ton) <span className="text-red-500">*</span></label>
+                <label className={`block text-[11px] font-black uppercase tracking-wider ${tStyle.mutedDark}`}>{t.marketplace.weight} <span className="text-red-500">*</span></label>
                 <div className="relative">
                   <input
                     type="number"
                     value={weightTon}
                     onChange={(e) => setWeightTon(e.target.value)}
-                    placeholder="Örn: 15"
+                    placeholder="e.g. 15"
                     required
                     min="0.1"
                     step="0.1"
-                    className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${t.input}`}
+                    className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${tStyle.input}`}
                   />
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-muted/40">TON</div>
                 </div>
@@ -224,18 +235,18 @@ export function CreateLoadPageClient() {
           </div>
 
           {/* Load Type & Truck Type */}
-          <div className={`p-6 rounded-2xl ${t.card}`}>
-            <h3 className={`text-sm font-bold ${t.body} mb-5 flex items-center gap-2`}>
+          <div className={`p-6 rounded-2xl ${tStyle.card}`}>
+            <h3 className={`text-sm font-bold ${tStyle.body} mb-5 flex items-center gap-2`}>
               <Package size={16} className="text-accent" />
-              Yük & Araç Tipi
+              {t.marketplace.loadType} & {t.marketplace.truckType}
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="space-y-1.5">
-                <label className={`block text-[11px] font-black uppercase tracking-wider ${t.mutedDark}`}>Yük Tipi</label>
+                <label className={`block text-[11px] font-black uppercase tracking-wider ${tStyle.mutedDark}`}>{t.marketplace.loadType}</label>
                 <select
                   value={loadType}
                   onChange={(e) => setLoadType(e.target.value)}
-                  className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${t.select}`}
+                  className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${tStyle.select}`}
                 >
                   {Object.entries(LOAD_TYPES).map(([k, v]) => (
                     <option key={k} value={k}>{v}</option>
@@ -243,13 +254,13 @@ export function CreateLoadPageClient() {
                 </select>
               </div>
               <div className="space-y-1.5">
-                <label className={`block text-[11px] font-black uppercase tracking-wider ${t.mutedDark}`}>Gerekli Araç Tipi</label>
+                <label className={`block text-[11px] font-black uppercase tracking-wider ${tStyle.mutedDark}`}>{t.marketplace.truckType}</label>
                 <select
                   value={requiredTruckType}
                   onChange={(e) => setRequiredTruckType(e.target.value)}
-                  className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${t.select}`}
+                  className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all ${tStyle.select}`}
                 >
-                  <option value="">Farketmez</option>
+                  <option value="">Any Truck</option>
                   {Object.entries(TRUCK_TYPES).map(([k, v]) => (
                     <option key={k} value={k}>{v}</option>
                   ))}
@@ -259,44 +270,44 @@ export function CreateLoadPageClient() {
           </div>
 
           {/* Dates */}
-          <div className={`p-6 rounded-2xl ${t.card}`}>
-            <h3 className={`text-sm font-bold ${t.body} mb-5 flex items-center gap-2`}>
+          <div className={`p-6 rounded-2xl ${tStyle.card}`}>
+            <h3 className={`text-sm font-bold ${tStyle.body} mb-5 flex items-center gap-2`}>
               <Calendar size={16} className="text-accent" />
-              Tarihler
+              Dates
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="space-y-1.5">
-                <label className={`block text-[11px] font-black uppercase tracking-wider ${t.mutedDark}`}>Yükleme Tarihi</label>
+                <label className={`block text-[11px] font-black uppercase tracking-wider ${tStyle.mutedDark}`}>Pickup Date</label>
                 <input
                   type="date"
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className={`w-full px-4 py-3.5 rounded-xl outline-none transition-all [color-scheme:light] dark:[color-scheme:dark] ${t.input}`}
+                  className={`w-full px-4 py-3.5 rounded-xl outline-none transition-all [color-scheme:light] dark:[color-scheme:dark] ${tStyle.input}`}
                 />
               </div>
               <div className="space-y-1.5">
-                <label className={`block text-[11px] font-black uppercase tracking-wider ${t.mutedDark}`}>Teslim Tarihi</label>
+                <label className={`block text-[11px] font-black uppercase tracking-wider ${tStyle.mutedDark}`}>Delivery Date</label>
                 <input
                   type="date"
                   value={deliveryDate}
                   onChange={(e) => setDeliveryDate(e.target.value)}
-                  className={`w-full px-4 py-3.5 rounded-xl outline-none transition-all [color-scheme:light] dark:[color-scheme:dark] ${t.input}`}
+                  className={`w-full px-4 py-3.5 rounded-xl outline-none transition-all [color-scheme:light] dark:[color-scheme:dark] ${tStyle.input}`}
                 />
               </div>
             </div>
           </div>
 
           {/* Description */}
-          <div className={`p-6 rounded-2xl ${t.card}`}>
-            <label className={`block text-sm font-bold ${t.body} mb-3`}>
-              Açıklama
+          <div className={`p-6 rounded-2xl ${tStyle.card}`}>
+            <label className={`block text-sm font-bold ${tStyle.body} mb-3`}>
+              Description
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Yük hakkında ek bilgiler, paketleme detayları vb..."
+              placeholder="Additional cargo information, packaging requirements, etc."
               rows={4}
-              className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all resize-none ${t.input}`}
+              className={`w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all resize-none ${tStyle.input}`}
             />
           </div>
 
@@ -311,17 +322,17 @@ export function CreateLoadPageClient() {
           <button
             type="submit"
             disabled={submitting}
-            className={`w-full py-4 rounded-2xl font-black text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 ${t.btnPrimary}`}
+            className={`w-full py-4 rounded-2xl font-black text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 ${tStyle.btnPrimary}`}
           >
             {submitting ? (
               <>
                 <Loader2 size={20} className="animate-spin" />
-                İlan Oluşturuluyor...
+                Publishing Load...
               </>
             ) : (
               <>
                 <Package size={20} />
-                İlanı Yayınla
+                Publish Load Ad
               </>
             )}
           </button>

@@ -43,10 +43,12 @@ export interface Load {
   id: string;
   title: string;
   shipper_id: string;
-  origin_city_id: number;
-  origin_district_id: number | null;
-  destination_city_id: number;
-  destination_district_id: number | null;
+  origin_city: string;
+  origin_state: string | null;
+  origin_country: string;
+  destination_city: string;
+  destination_state: string | null;
+  destination_country: string;
   price: number | null;
   load_type: string;
   required_truck_type: string | null;
@@ -61,10 +63,6 @@ export interface Load {
   driver_confirmed: boolean;
   shipper_confirmed_at: string | null;
   driver_confirmed_at: string | null;
-  origin_city?: City;
-  destination_city?: City;
-  origin_district?: District;
-  destination_district?: District;
   shipper?: Profile;
   created_at: string;
 }
@@ -72,13 +70,15 @@ export interface Load {
 export interface DriverRoute {
   id: string;
   driver_id: string;
-  origin_city_id: number;
-  destination_city_id: number;
+  origin_city: string;
+  origin_state: string | null;
+  origin_country: string;
+  destination_city: string;
+  destination_state: string | null;
+  destination_country: string;
   departure_date: string | null;
   notes: string | null;
   is_active: boolean;
-  origin_city?: City;
-  destination_city?: City;
   created_at: string;
 }
 

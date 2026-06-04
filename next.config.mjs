@@ -11,6 +11,14 @@ const nextConfig = {
   async redirects() {
     return [];
   },
+  // Workaround for EISDIR: illegal operation on a directory, readlink on Windows exFAT drives
+  webpack: (config) => {
+    config.resolve.symlinks = false;
+    if (config.cache) {
+      config.cache = false;
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
