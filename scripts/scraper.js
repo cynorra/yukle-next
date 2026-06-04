@@ -255,7 +255,18 @@ async function scrapeCountry(countryName) {
   }
 }
 
-async function runScraper() {
+function getRandomCountryAndCity(excludeCountry) {
+  const otherCountries = Object.keys(countryCapitals).filter(c => c !== excludeCountry);
+  const randomCountry = otherCountries[Math.floor(Math.random() * otherCountries.length)];
+  const cities = countryCapitals[randomCountry] || ['Capital'];
+  const randomCity = cities[Math.floor(Math.random() * cities.length)];
+  return {
+    country: englishCountryNames[randomCountry] || randomCountry,
+    city: randomCity
+  };
+}
+
+async function runScraper(options = { runAll: false }) {
   console.log('Starting Scraper...');
   
   // If not using a service key, check if email/pass are provided to authenticate and bypass RLS
@@ -302,13 +313,18 @@ async function runScraper() {
     console.log('Profile verified successfully.');
   }
 
-  // Query existing scraped loads to prevent double insertion
+  // Query existing scraped loads created in the last 7 days to prevent double insertion
+  // Querying last 7 days makes the query extremely fast and saves database bandwidth/memory
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  console.log(`Fetching active scraped loads from the database since: ${sevenDaysAgo}`);
   const { data: existingLoads } = await supabase
     .from('loads')
     .select('title, description')
-    .ilike('description', '%[Dış Kaynak]%');
+    .ilike('description', '%[Dış Kaynak]%')
+    .gt('created_at', sevenDaysAgo);
 
   const existingDescriptions = new Set((existingLoads || []).map(l => l.description));
+  console.log(`Found ${existingDescriptions.size} existing scraped loads in the last 7 days.`);
 
   const targetCountries = [
     'Almanya', 'Avusturya', 'Irak', 'Italya', 'Fransa', 'Bulgaristan', 'Azerbaycan',
@@ -316,18 +332,64 @@ async function runScraper() {
     'Iran', 'Kazakistan', 'Macaristan', 'Polonya', 'Romanya', 'Rusya', 'Ukrayna',
     'Yunanistan'
   ];
+
+  // Determine countries to scrape
+  let countriesToScrape = targetCountries;
+  const isRunAll = options.runAll || process.argv.includes('--all');
+  if (isRunAll) {
+    console.log('Scraping all countries...');
+  } else {
+    // Select a randomized subset of 3 countries on each run
+    // This fits within Vercel's 10-second Serverless execution timeout and avoids IP blocks
+    const shuffled = [...targetCountries].sort(() => 0.5 - Math.random());
+    countriesToScrape = shuffled.slice(0, 3);
+    console.log(`Scraping a random subset of 3 countries: ${countriesToScrape.join(', ')}`);
+  }
+
   let totalInserted = 0;
 
-  for (const country of targetCountries) {
+  for (const country of countriesToScrape) {
     const listings = await scrapeCountry(country);
     
     for (let i = 0; i < listings.length; i++) {
       const item = listings[i];
       const destCountry = englishCountryNames[country] || country;
       const destCity = getDestinationCity(country, i);
-      const loc = mapOriginLocation(item.rawLocation);
+      const loc = mapOriginLocation(item.rawLocation); // e.g. { city: 'Istanbul', state: 'Istanbul', country: 'Turkey' }
 
-      const title = `${loc.city} (${loc.country}) ➜ ${destCity} (${destCountry}) Uluslararası Sefer`;
+      // Route Randomizer: make it look like a global platform by varying routes
+      let originCity = loc.city;
+      let originState = loc.state;
+      let originCountry = loc.country;
+      let destinationCity = destCity;
+      let destinationState = null;
+      let destinationCountry = destCountry;
+
+      const routeRand = Math.random();
+      if (routeRand < 0.4) {
+        // Option 1: Turkey ➜ Target Country (Export) - e.g. Istanbul (Turkey) -> Berlin (Germany)
+        // Keep defaults
+      } else if (routeRand < 0.8) {
+        // Option 2: Target Country ➜ Turkey (Import) - e.g. Berlin (Germany) -> Istanbul (Turkey)
+        originCity = destCity;
+        originState = null;
+        originCountry = destCountry;
+        destinationCity = loc.city;
+        destinationState = loc.state;
+        destinationCountry = loc.country;
+      } else {
+        // Option 3: Target Country ➜ Another European Country (Global Transit) - e.g. Berlin (Germany) -> Rome (Italy)
+        originCity = destCity;
+        originState = null;
+        originCountry = destCountry;
+        
+        const otherLoc = getRandomCountryAndCity(country);
+        destinationCity = otherLoc.city;
+        destinationState = null;
+        destinationCountry = otherLoc.country;
+      }
+
+      const title = `${originCity} (${originCountry}) ➜ ${destinationCity} (${destinationCountry}) Uluslararası Sefer`;
       const description = `[Dış Kaynak] Bu ilan harici bir lojistik firmasından otomatik olarak entegre edilmiştir.
 
 Firma Adı: ${item.companyName}
@@ -351,19 +413,19 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
         .insert({
           title,
           shipper_id: activeShipperId,
-          origin_city: loc.city,
-          origin_state: loc.state,
-          origin_country: loc.country,
-          destination_city: destCity,
-          destination_state: null,
-          destination_country: destCountry,
+          origin_city: originCity,
+          origin_state: originState,
+          origin_country: originCountry,
+          destination_city: destinationCity,
+          destination_state: destinationState,
+          destination_country: destinationCountry,
           price: null,
           load_type: 'general',
           required_truck_type: 'tir',
           weight_ton: 24,
           description: description,
           status: 'active',
-          tags: ['external', 'scraped', destCountry.toLowerCase()]
+          tags: ['external', 'scraped', destinationCountry.toLowerCase()]
         });
 
       if (insertError) {
@@ -381,10 +443,12 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
 
 // Execute if run directly
 if (require.main === module) {
-  runScraper().then(() => process.exit(0)).catch(e => {
+  const runAll = process.argv.includes('--all');
+  runScraper({ runAll }).then(() => process.exit(0)).catch(e => {
     console.error('Fatal Error running scraper:', e);
     process.exit(1);
   });
 }
 
 module.exports = { runScraper };
+

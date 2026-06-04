@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const secret = searchParams.get('secret');
+  const runAll = searchParams.get('all') === 'true';
 
   const authHeader = request.headers.get('Authorization');
   const cronSecret = process.env.CRON_SECRET;
@@ -19,11 +20,11 @@ export async function GET(request: Request) {
   }
 
   try {
-    console.log('Triggering logistics scraper cron job...');
+    console.log(`Triggering logistics scraper cron job... (runAll: ${runAll})`);
     // Use require to dynamically load the Node.js scraping script at runtime
     // @ts-ignore
     const { runScraper } = require('../../../../../scripts/scraper');
-    const totalInserted = await runScraper();
+    const totalInserted = await runScraper({ runAll });
 
     return NextResponse.json({
       success: true,
