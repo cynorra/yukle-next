@@ -91,14 +91,27 @@ const localArticles = [
 
 // Topics for Gemini AI mode
 const logisticsTopics = [
-  'Uluslararası karayolu taşımacılığında navlun fiyatlarını etkileyen faktörler',
-  'Lojistikte soğuk zincir (frigorifik) taşımacılığı kuralları ve kritik dereceler',
-  'Yeşil lojistik nedir? Sürdürülebilir taşımacılık için yapılması gerekenler',
-  'Tehlikeli madde taşımacılığı (ADR) eğitimi ve güvenlik kuralları',
-  'E-ticaret lojistiği ve son kilometre (last-mile) teslimat süreçleri',
-  'Tedarik zinciri yönetiminde 3PL ve 4PL lojistik hizmetlerinin farkları',
-  'Parsiyel yük taşıma (LTL) ile komple yük taşıma (FTL) karşılaştırması ve maliyet analizi',
-  'Lojistik pazaryerlerinde şoför puanlama ve güvenli taşımacılık sistemleri'
+  'Uluslararası karayolu taşımacılığında navlun fiyatlarını etkileyen faktörler / Factors affecting freight rates in international road transport',
+  'Lojistikte soğuk zincir (frigorifik) taşımacılığı kuralları ve kritik dereceler / Cold chain (reefer) logistics rules and critical temperatures',
+  'Yeşil lojistik nedir? Sürdürülebilir taşımacılık için yapılması gerekenler / What is green logistics? Actionable sustainable transport practices',
+  'Tehlikeli madde taşımacılığı (ADR) eğitimi ve güvenlik kuralları / Hazardous materials transport (ADR) training and safety rules',
+  'E-ticaret lojistiği ve son kilometre (last-mile) teslimat süreçleri / E-commerce logistics and last-mile delivery processes',
+  'Tedarik zinciri yönetiminde 3PL ve 4PL lojistik hizmetlerinin farkları / Differences between 3PL and 4PL logistics in supply chain management',
+  'Parsiyel yük taşıma (LTL) ile komple yük taşıma (FTL) karşılaştırması ve maliyet analizi / Comparison and cost analysis of LTL vs FTL shipping',
+  'Lojistik pazaryerlerinde şoför puanlama ve güvenli taşımacılık sistemleri / Driver rating systems and safe shipping in logistics marketplaces',
+  'How to find high-paying truck loads using online freight marketplaces',
+  'Best practices for shippers to negotiate lower shipping and transportation rates',
+  'How to minimize empty return runs (backhauls) in road transport logistics',
+  'The impact of driver shortages on global freight rates and transport networks',
+  'How owner-operators can optimize fuel efficiency and cut trip costs',
+  'Why real-time load tracking and freight updates are critical for modern shippers',
+  'Understanding cabotage rules in European road transport',
+  'How cargo insurance protects shippers and carriers from unexpected losses'
+];
+
+const blogLanguages = [
+  'English', 'Turkish', 'German', 'French', 'Spanish', 'Portuguese', 'Italian', 'Dutch',
+  'Polish', 'Russian', 'Ukrainian', 'Chinese', 'Japanese', 'Hindi', 'Arabic', 'Persian'
 ];
 
 // Dynamic cover image generators using public transport vectors
@@ -109,7 +122,7 @@ const coverImages = [
 ];
 
 // Call Gemini API to write a post
-function generateAIPost(topic) {
+function generateAIPost(topic, language) {
   return new Promise((resolve, reject) => {
     if (!geminiApiKey) {
       reject(new Error('GEMINI_API_KEY is not defined'));
@@ -119,14 +132,14 @@ function generateAIPost(topic) {
     const payload = JSON.stringify({
       contents: [{
         parts: [{
-          text: `Write an SEO-optimized logistics blog post in Turkish about the topic: "${topic}".
+          text: `Write an SEO-optimized logistics blog post in ${language} about the topic: "${topic}".
 The post should have:
-- title: Captivating blog title.
-- slug: URL friendly lowercase slug.
-- excerpt: Short, hooky summary (about 2 sentences).
-- content: Detailed HTML content (using h2, h3, p, ul, li, strong tags only - at least 4 paragraphs, do NOT include Markdown wrappers, HTML/Body page tags or raw backticks).
-- meta_title: SEO meta title (max 60 chars).
-- meta_description: SEO meta description (max 155 chars).
+- title: Captivating blog title in ${language}.
+- slug: URL friendly lowercase slug in English/Latin characters only (alphanumeric and dashes, e.g. "safe-truck-driving-tips").
+- excerpt: Short, hooky summary in ${language} (about 2 sentences).
+- content: Detailed HTML content in ${language} (using h2, h3, p, ul, li, strong tags only - at least 4 paragraphs, do NOT include Markdown wrappers, HTML/Body page tags or raw backticks).
+- meta_title: SEO meta title in ${language} (max 60 chars).
+- meta_description: SEO meta description in ${language} (max 155 chars).
 
 Provide the output strictly in JSON format matching the schema properties.`
         }]
@@ -222,11 +235,12 @@ async function runBlogGenerator() {
   // 1. Determine Mode & Generate Article
   let article;
   if (geminiApiKey) {
-    console.log('AI Writing Mode enabled. Selecting topic...');
+    console.log('AI Writing Mode enabled. Selecting topic and language...');
     const randomTopic = logisticsTopics[Math.floor(Math.random() * logisticsTopics.length)];
+    const randomLang = blogLanguages[Math.floor(Math.random() * blogLanguages.length)];
     try {
-      console.log(`Generating AI article for topic: "${randomTopic}"`);
-      article = await generateAIPost(randomTopic);
+      console.log(`Generating AI article in ${randomLang} for topic: "${randomTopic}"`);
+      article = await generateAIPost(randomTopic, randomLang);
     } catch (e) {
       console.error('Failed to generate AI article. Falling back to local library...', e.message);
       article = localArticles[Math.floor(Math.random() * localArticles.length)];
