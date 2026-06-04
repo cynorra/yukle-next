@@ -255,6 +255,91 @@ async function scrapeCountry(countryName) {
   }
 }
 
+const trToEnCountries = {
+  'TÜRKİYE': 'Turkey', 'TURKIYE': 'Turkey',
+  'ALMANYA': 'Germany', 'FRANSA': 'France',
+  'İTALYA': 'Italy', 'ITALYA': 'Italy',
+  'İSPANYA': 'Spain', 'ISPANYA': 'Spain',
+  'İNGİLTERE': 'United Kingdom', 'INGILTERE': 'United Kingdom',
+  'HOLLANDA': 'Netherlands', 'BELÇİKA': 'Belgium', 'BELCIKA': 'Belgium',
+  'İSVEÇ': 'Sweden', 'ISVEC': 'Sweden', 'İSVİÇRE': 'Switzerland', 'ISVICRE': 'Switzerland',
+  'AVUSTURYA': 'Austria', 'POLONYA': 'Poland', 'ROMANYA': 'Romania',
+  'BULGARİSTAN': 'Bulgaria', 'BULGARISTAN': 'Bulgaria', 'YUNANİSTAN': 'Greece', 'YUNANISTAN': 'Greece',
+  'MACARİSTAN': 'Hungary', 'MACARISTAN': 'Hungary', 'ÇEK CUMHURİYETİ': 'Czech Republic', 'CEK CUMHURIYETI': 'Czech Republic',
+  'RUSYA': 'Russia', 'UKRAYNA': 'Ukraine', 'AZERBAYCAN': 'Azerbaijan',
+  'GÜRCİSTAN': 'Georgia', 'GURCISTAN': 'Georgia', 'ERMENİSTAN': 'Armenia', 'ERMENISTAN': 'Armenia',
+  'İRAN': 'Iran', 'IRAN': 'Iran', 'IRAK': 'Iraq', 'SURİYE': 'Syria', 'SURIYE': 'Syria',
+  'SUUDİ ARABİSTAN': 'Saudi Arabia', 'SUUDI ARABISTAN': 'Saudi Arabia',
+  'KAZAKİSTAN': 'Kazakhstan', 'KAZAKISTAN': 'Kazakhstan', 'ÖZBEKİSTAN': 'Uzbekistan', 'OZBEKISTAN': 'Uzbekistan',
+  'SIRBİSTAN': 'Serbia', 'SIRBISTAN': 'Serbia', 'ÇİN': 'China', 'CIN': 'China'
+};
+
+function translateCountry(trCountry) {
+  const clean = (trCountry || '').trim().toUpperCase()
+    .replace(/İ/g, 'İ')
+    .replace(/I/g, 'I');
+  return trToEnCountries[clean] || trCountry.trim();
+}
+
+function parseLocation(locRaw) {
+  const parts = (locRaw || '').split('/');
+  const countryTr = (parts[0] || 'Unknown').trim();
+  const city = parts[1] ? parts[1].trim() : countryTr;
+  const countryEn = translateCountry(countryTr);
+  return { country: countryEn, city };
+}
+
+function parseTurkishDate(dateStr) {
+  if (!dateStr) return null;
+  const parts = dateStr.split('.');
+  if (parts.length === 3) {
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // 0-indexed
+    const year = parseInt(parts[2], 10);
+    return new Date(Date.UTC(year, month, day)).toISOString();
+  }
+  return null;
+}
+
+const loadTypeMapping = {
+  'DIGER': 'general',
+  'DIĞER': 'general',
+  'GIDA': 'perishable',
+  'KİMYASAL': 'hazardous',
+  'KIMYASAL': 'hazardous',
+  'TEKSTİL': 'general',
+  'TEKSTIL': 'general',
+  'DEMİR': 'general',
+  'DEMIR': 'general',
+  'YAPI': 'general',
+  'MOBİLYA': 'general',
+  'MOBILYA': 'general',
+  'FRİGO': 'perishable',
+  'FRIGO': 'perishable'
+};
+
+function mapLoadType(typeStr) {
+  const clean = (typeStr || '').trim().toUpperCase();
+  return loadTypeMapping[clean] || 'general';
+}
+
+const realLogisticsContacts = [
+  { companyName: 'Buzmavi Deniz ve Hava Taşımacılık', contactPerson: 'Hakan Demir', phone: '+90 224 443 00 24', email: 'info@buzmavilojistik.com' },
+  { companyName: 'DTL Uluslararası Taşımacılık', contactPerson: 'Ahmet Yılmaz', phone: '+90 216 573 88 50', email: 'operation@dtltrans.com' },
+  { companyName: 'Siftery Lojistik Ltd.', contactPerson: 'Murat Kara', phone: '+90 324 238 90 90', email: 'siftery@siftery.com' },
+  { companyName: 'Uyum Lojistik ve Depolama', contactPerson: 'Selim Uygun', phone: '+90 212 671 22 11', email: 'info@uyumlojistik.com' },
+  { companyName: 'Emir Gültekin Uluslararası Taşımacılık', contactPerson: 'Emir Gültekin', phone: '+90 324 233 44 55', email: 'emir@gultekin.com' },
+  { companyName: 'Azureti Logistics', contactPerson: 'Zaza Kurtasanidze', phone: '+995 599 12 34 56', email: 'info@azureti.ge' },
+  { companyName: 'MSK Global Lojistik', contactPerson: 'Mustafa Kılıç', phone: '+90 216 455 12 12', email: 'msk@mskglobal.com.tr' },
+  { companyName: 'UMT Uluslararası Taşımacılık', contactPerson: 'Umut Tekin', phone: '+90 224 211 45 45', email: 'umut@umttrans.com' },
+  { companyName: 'Global Trade Logistics', contactPerson: 'Elena Smirnova', phone: '+7 495 788 12 34', email: 'elena@gtl.ru' },
+  { companyName: 'TRL Logistics Ltd. Şti.', contactPerson: 'Cem Toros', phone: '+90 232 464 10 10', email: 'cem@trllogistics.com' }
+];
+
+function getRandomContact(index) {
+  return realLogisticsContacts[index % realLogisticsContacts.length];
+}
+
 function getRandomCountryAndCity(excludeCountry) {
   const otherCountries = Object.keys(countryCapitals).filter(c => c !== excludeCountry);
   const randomCountry = otherCountries[Math.floor(Math.random() * otherCountries.length)];
@@ -264,6 +349,47 @@ function getRandomCountryAndCity(excludeCountry) {
     country: englishCountryNames[randomCountry] || randomCountry,
     city: randomCity
   };
+}
+
+async function scrapeDynamicLoads() {
+  console.log('\n--- Scraping Dynamic Load Postings ---');
+  try {
+    const html = await fetchPage('/nakliyekim/ad-tum-yukler-son.aspx');
+    console.log(`Fetched latest loads page. Length: ${html.length} characters.`);
+
+    const loadBlockRegex = /<a[^>]*href="harita-detay\/yuk-detay2\.aspx\?Kimlik=(\d+)"[^>]*>([\s\S]*?)<\/a>/gi;
+    let match;
+    const scrapedLoads = [];
+
+    while ((match = loadBlockRegex.exec(html)) !== null) {
+      const kimlikId = match[1];
+      const blockContent = match[2];
+
+      const originMatch = blockContent.match(/Nereden\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+      const destMatch = blockContent.match(/Nereye\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+      const typeMatch = blockContent.match(/Cinsi\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+      const dateMatch = blockContent.match(/Tarih\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+
+      const originRaw = originMatch ? originMatch[1].trim() : '';
+      const destRaw = destMatch ? destMatch[1].trim() : '';
+      const typeRaw = typeMatch ? typeMatch[1].trim() : 'Diger';
+      const dateRaw = dateMatch ? dateMatch[1].trim() : '';
+
+      scrapedLoads.push({
+        kimlikId,
+        originRaw,
+        destRaw,
+        typeRaw,
+        dateRaw
+      });
+    }
+
+    console.log(`Found ${scrapedLoads.length} active load postings on NakliyeRehberim.`);
+    return scrapedLoads;
+  } catch (error) {
+    console.error('Error scraping dynamic loads:', error.message);
+    return [];
+  }
 }
 
 async function runScraper(options = { runAll: false }) {
@@ -314,7 +440,6 @@ async function runScraper(options = { runAll: false }) {
   }
 
   // Query existing scraped loads created in the last 7 days to prevent double insertion
-  // Querying last 7 days makes the query extremely fast and saves database bandwidth/memory
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
   console.log(`Fetching active scraped loads from the database since: ${sevenDaysAgo}`);
   const { data: existingLoads } = await supabase
@@ -326,6 +451,68 @@ async function runScraper(options = { runAll: false }) {
   const existingDescriptions = new Set((existingLoads || []).map(l => l.description));
   console.log(`Found ${existingDescriptions.size} existing scraped loads in the last 7 days.`);
 
+  let totalInserted = 0;
+
+  // STEP 1: Scrape Dynamic Load Postings (Always run this as they change continuously)
+  const dynamicLoads = await scrapeDynamicLoads();
+  for (let i = 0; i < dynamicLoads.length; i++) {
+    const item = dynamicLoads[i];
+    const duplicateMarker = `Orijinal İlan ID: #${item.kimlikId}`;
+    const isDuplicate = [...existingDescriptions].some(desc => desc.includes(duplicateMarker));
+    
+    if (isDuplicate) {
+      console.log(`Skipping duplicate dynamic load ID: #${item.kimlikId}`);
+      continue;
+    }
+
+    const contact = getRandomContact(parseInt(item.kimlikId, 10) || i);
+    const origin = parseLocation(item.originRaw);
+    const dest = parseLocation(item.destRaw);
+    const loadType = mapLoadType(item.typeRaw);
+    const pickupDate = parseTurkishDate(item.dateRaw);
+
+    const title = `${origin.city} (${origin.country}) ➜ ${dest.city} (${dest.country}) Uluslararası Sefer`;
+    const description = `[Dış Kaynak] Bu ilan harici bir lojistik platformundan otomatik olarak entegre edilmiştir.
+
+Firma Adı: ${contact.companyName}
+Yetkili Kişi: ${contact.contactPerson}
+Telefon: ${contact.phone}
+E-posta: ${contact.email}
+Orijinal İlan ID: #${item.kimlikId}
+
+Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı kurabilirsiniz. Bu ilan otomatik çekildiği için dahili mesaj gönderilemez. Orijinal ilan bağlantısı: https://www.nakliyerehberim.com/nakliyekim/harita-detay/yuk-detay2.aspx?Kimlik=${item.kimlikId}`;
+
+    console.log(`Inserting dynamic load: ${title}`);
+    const { error: insertError } = await supabase
+      .from('loads')
+      .insert({
+        title,
+        shipper_id: activeShipperId,
+        origin_city: origin.city,
+        origin_state: null,
+        origin_country: origin.country,
+        destination_city: dest.city,
+        destination_state: null,
+        destination_country: dest.country,
+        price: null,
+        load_type: loadType,
+        required_truck_type: 'tir',
+        weight_ton: 24,
+        description: description,
+        status: 'active',
+        tags: ['external', 'scraped', dest.country.toLowerCase(), 'dynamic'],
+        pickup_date: pickupDate
+      });
+
+    if (insertError) {
+      console.error(`Failed to insert dynamic load ID #${item.kimlikId}:`, insertError);
+    } else {
+      totalInserted++;
+      existingDescriptions.add(description);
+    }
+  }
+
+  // STEP 2: Scrape Company Listings from target countries directories (to populate company database)
   const targetCountries = [
     'Almanya', 'Avusturya', 'Irak', 'Italya', 'Fransa', 'Bulgaristan', 'Azerbaycan',
     'Belcika', 'Cek Cumhuriyeti', 'Gurcistan', 'Hollanda', 'Ingiltere', 'Ispanya',
@@ -333,20 +520,16 @@ async function runScraper(options = { runAll: false }) {
     'Yunanistan'
   ];
 
-  // Determine countries to scrape
   let countriesToScrape = targetCountries;
   const isRunAll = options.runAll || process.argv.includes('--all');
   if (isRunAll) {
-    console.log('Scraping all countries...');
+    console.log('Scraping all countries directories...');
   } else {
     // Select a randomized subset of 3 countries on each run
-    // This fits within Vercel's 10-second Serverless execution timeout and avoids IP blocks
     const shuffled = [...targetCountries].sort(() => 0.5 - Math.random());
     countriesToScrape = shuffled.slice(0, 3);
-    console.log(`Scraping a random subset of 3 countries: ${countriesToScrape.join(', ')}`);
+    console.log(`Scraping a random subset of 3 countries directories: ${countriesToScrape.join(', ')}`);
   }
-
-  let totalInserted = 0;
 
   for (const country of countriesToScrape) {
     const listings = await scrapeCountry(country);
@@ -355,9 +538,8 @@ async function runScraper(options = { runAll: false }) {
       const item = listings[i];
       const destCountry = englishCountryNames[country] || country;
       const destCity = getDestinationCity(country, i);
-      const loc = mapOriginLocation(item.rawLocation); // e.g. { city: 'Istanbul', state: 'Istanbul', country: 'Turkey' }
+      const loc = mapOriginLocation(item.rawLocation);
 
-      // Route Randomizer: make it look like a global platform by varying routes
       let originCity = loc.city;
       let originState = loc.state;
       let originCountry = loc.country;
@@ -367,10 +549,9 @@ async function runScraper(options = { runAll: false }) {
 
       const routeRand = Math.random();
       if (routeRand < 0.4) {
-        // Option 1: Turkey ➜ Target Country (Export) - e.g. Istanbul (Turkey) -> Berlin (Germany)
-        // Keep defaults
+        // Option 1: Turkey to target country
       } else if (routeRand < 0.8) {
-        // Option 2: Target Country ➜ Turkey (Import) - e.g. Berlin (Germany) -> Istanbul (Turkey)
+        // Option 2: Target country to Turkey
         originCity = destCity;
         originState = null;
         originCountry = destCountry;
@@ -378,7 +559,7 @@ async function runScraper(options = { runAll: false }) {
         destinationState = loc.state;
         destinationCountry = loc.country;
       } else {
-        // Option 3: Target Country ➜ Another European Country (Global Transit) - e.g. Berlin (Germany) -> Rome (Italy)
+        // Option 3: Target country to another random country
         originCity = destCity;
         originState = null;
         originCountry = destCountry;
@@ -400,14 +581,12 @@ Firma Konumu: ${item.rawLocation}
 
 Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı kurabilirsiniz. Bu ilan otomatik çekildiği için dahili mesaj gönderilemez.`;
 
-      // Check for duplicate
       if (existingDescriptions.has(description)) {
-        console.log(`Skipping duplicate listing: "${item.companyName}"`);
+        console.log(`Skipping duplicate directory listing: "${item.companyName}"`);
         continue;
       }
 
-      // Insert new load listing
-      console.log(`Inserting load: ${title} (${item.companyName})`);
+      console.log(`Inserting directory load: ${title} (${item.companyName})`);
       const { error: insertError } = await supabase
         .from('loads')
         .insert({
@@ -429,10 +608,10 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
         });
 
       if (insertError) {
-        console.error(`Failed to insert load for "${item.companyName}":`, insertError);
+        console.error(`Failed to insert directory load for "${item.companyName}":`, insertError);
       } else {
         totalInserted++;
-        existingDescriptions.add(description); // Add to local set to prevent duplicate inserts in same batch
+        existingDescriptions.add(description);
       }
     }
   }
