@@ -32,8 +32,8 @@ interface PublicLoad {
   id: string;
   title: string;
   status: string;
-  origin_city: { name: string };
-  destination_city: { name: string };
+  origin_city: string;
+  destination_city: string;
   created_at: string;
 }
 
@@ -63,7 +63,7 @@ export function PublicProfilePageClient() {
         .order('created_at', { ascending: false })
         .limit(20),
       supabase.from('loads')
-        .select('id, title, status, origin_city:cities!loads_origin_city_id_fkey(name), destination_city:cities!loads_destination_city_id_fkey(name), created_at')
+        .select('id, title, status, origin_city, destination_city, created_at')
         .eq('shipper_id', id!)
         .in('status', ['active', 'completed'])
         .order('created_at', { ascending: false })
@@ -235,9 +235,9 @@ export function PublicProfilePageClient() {
                 <div className="flex-1 min-w-0">
                   <h3 className={`${t.heading} text-sm font-medium truncate group-hover:text-[#F5A623] transition-colors mb-1`}>{load.title}</h3>
                   <div className={`flex items-center gap-2 text-xs ${t.muted}`}>
-                    <MapPin size={12} className="text-[#F5A623]" />{load.origin_city.name}
+                    <MapPin size={12} className="text-[#F5A623]" />{load.origin_city}
                     <ArrowRight size={12} />
-                    <MapPin size={12} className="text-green-400" />{load.destination_city.name}
+                    <MapPin size={12} className="text-green-400" />{load.destination_city}
                   </div>
                 </div>
                 <span className={`ml-3 px-2 py-0.5 text-xs rounded-full border shrink-0 ${

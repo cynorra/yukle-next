@@ -1,0 +1,390 @@
+const fs = require('fs');
+const path = require('path');
+const https = require('https');
+const { createClient } = require('@supabase/supabase-js');
+
+// 1. Load env variables manually from .env.local
+const envLocalPath = path.join(__dirname, '..', '.env.local');
+if (fs.existsSync(envLocalPath)) {
+  const envContent = fs.readFileSync(envLocalPath, 'utf8');
+  envContent.split('\n').forEach(line => {
+    const parts = line.split('=');
+    if (parts.length >= 2) {
+      const key = parts[0].trim();
+      const val = parts.slice(1).join('=').trim();
+      process.env[key] = val;
+    }
+  });
+}
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const defaultShipperId = process.env.SCRAPER_SHIPPER_ID || '3c9d15c1-ce40-42c4-b5bc-f2de51a747d5';
+
+if (!supabaseUrl || (!anonKey && !serviceKey)) {
+  console.error('Supabase URL or Key is missing from .env.local!');
+  process.exit(1);
+}
+
+// If serviceKey is available, use it to bypass RLS, otherwise use anonKey
+const activeKey = serviceKey || anonKey;
+const supabase = createClient(supabaseUrl, activeKey);
+
+// Turkish character decoding for Windows-1254 encoding
+function decodeWindows1254(buffer) {
+  let str = '';
+  for (let i = 0; i < buffer.length; i++) {
+    const code = buffer[i];
+    if (code < 128) {
+      str += String.fromCharCode(code);
+    } else {
+      switch (code) {
+        case 253: str += 'ı'; break;
+        case 221: str += 'İ'; break;
+        case 252: str += 'ü'; break;
+        case 220: str += 'Ü'; break;
+        case 246: str += 'ö'; break;
+        case 214: str += 'Ö'; break;
+        case 254: str += 'ş'; break;
+        case 222: str += 'Ş'; break;
+        case 240: str += 'ğ'; break;
+        case 208: str += 'Ğ'; break;
+        case 231: str += 'ç'; break;
+        case 199: str += 'Ç'; break;
+        case 226: str += 'â'; break;
+        default: str += String.fromCharCode(code);
+      }
+    }
+  }
+  return str;
+}
+
+// Map Turkish text cities to structured DB fields
+function mapOriginLocation(rawText) {
+  const text = (rawText || '').toUpperCase();
+  if (text.includes('İSTANBUL') || text.includes('ISTANBUL')) {
+    return { city: 'Istanbul', state: 'Istanbul', country: 'Turkey' };
+  }
+  if (text.includes('ANKARA')) {
+    return { city: 'Ankara', state: 'Ankara', country: 'Turkey' };
+  }
+  if (text.includes('İZMİR') || text.includes('IZMIR')) {
+    return { city: 'Izmir', state: 'Izmir', country: 'Turkey' };
+  }
+  if (text.includes('BURSA')) {
+    return { city: 'Bursa', state: 'Bursa', country: 'Turkey' };
+  }
+  if (text.includes('MERSİN') || text.includes('MERSIN') || text.includes('İÇEL') || text.includes('ICEL')) {
+    return { city: 'Mersin', state: 'Mersin', country: 'Turkey' };
+  }
+  if (text.includes('AĞRI') || text.includes('AGRI')) {
+    return { city: 'Agri', state: 'Agri', country: 'Turkey' };
+  }
+  if (text.includes('KAYSERİ') || text.includes('KAYSERI')) {
+    return { city: 'Kayseri', state: 'Kayseri', country: 'Turkey' };
+  }
+  if (text.includes('GAZİANTEP') || text.includes('GAZIANTEP')) {
+    return { city: 'Gaziantep', state: 'Gaziantep', country: 'Turkey' };
+  }
+  if (text.includes('KOCAELİ') || text.includes('KOCAELI')) {
+    return { city: 'Kocaeli', state: 'Kocaeli', country: 'Turkey' };
+  }
+  if (text.includes('ADANA')) {
+    return { city: 'Adana', state: 'Adana', country: 'Turkey' };
+  }
+  if (text.includes('HATAY')) {
+    return { city: 'Hatay', state: 'Hatay', country: 'Turkey' };
+  }
+  if (text.includes('ROMANYA')) {
+    return { city: 'Bucharest', state: null, country: 'Romania' };
+  }
+  if (text.includes('BULGARİSTAN') || text.includes('BULGARISTAN')) {
+    return { city: 'Sofia', state: null, country: 'Bulgaria' };
+  }
+  if (text.includes('POLONYA')) {
+    return { city: 'Warsaw', state: null, country: 'Poland' };
+  }
+
+  // Fallback split
+  const parts = rawText.split('/');
+  const city = (parts[0] || 'Unknown').trim();
+  return { city, state: null, country: 'Turkey' };
+}
+
+// Randomize destination cities for variety in imported routes
+const countryCapitals = {
+  'Almanya': ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Stuttgart'],
+  'Avusturya': ['Vienna', 'Salzburg', 'Graz', 'Innsbruck'],
+  'Irak': ['Baghdad', 'Erbil', 'Basra', 'Sulaymaniyah'],
+  'Italya': ['Rome', 'Milan', 'Venice', 'Naples'],
+  'Fransa': ['Paris', 'Lyon', 'Marseille', 'Nice'],
+  'Bulgaristan': ['Sofia', 'Plovdiv', 'Varna', 'Burgas'],
+  'Azerbaycan': ['Baku', 'Ganja', 'Sumqayit'],
+  'Belcika': ['Brussels', 'Antwerp', 'Ghent', 'Bruges'],
+  'Cek Cumhuriyeti': ['Prague', 'Brno', 'Ostrava', 'Plzen'],
+  'Gurcistan': ['Tbilisi', 'Batumi', 'Kutaisi'],
+  'Hollanda': ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht'],
+  'Ingiltere': ['London', 'Birmingham', 'Manchester', 'Leeds'],
+  'Ispanya': ['Madrid', 'Barcelona', 'Valencia', 'Seville'],
+  'Iran': ['Tehran', 'Mashhad', 'Isfahan', 'Tabriz'],
+  'Kazakistan': ['Astana', 'Almaty', 'Shymkent', 'Karaganda'],
+  'Macaristan': ['Budapest', 'Debrecen', 'Szeged', 'Miskolc'],
+  'Polonya': ['Warsaw', 'Krakow', 'Lodz', 'Wroclaw'],
+  'Romanya': ['Bucharest', 'Cluj-Napoca', 'Timisoara', 'Iasi'],
+  'Rusya': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg'],
+  'Ukrayna': ['Kyiv', 'Kharkiv', 'Odesa', 'Dnipro'],
+  'Yunanistan': ['Athens', 'Thessaloniki', 'Patras', 'Larissa']
+};
+
+function getDestinationCity(country, index) {
+  const cities = countryCapitals[country] || ['Capital City'];
+  return cities[index % cities.length];
+}
+
+const englishCountryNames = {
+  'Almanya': 'Germany',
+  'Avusturya': 'Austria',
+  'Irak': 'Iraq',
+  'Italya': 'Italy',
+  'Fransa': 'France',
+  'Bulgaristan': 'Bulgaria',
+  'Azerbaycan': 'Azerbaijan',
+  'Belcika': 'Belgium',
+  'Cek Cumhuriyeti': 'Czech Republic',
+  'Gurcistan': 'Georgia',
+  'Hollanda': 'Netherlands',
+  'Ingiltere': 'United Kingdom',
+  'Ispanya': 'Spain',
+  'Iran': 'Iran',
+  'Kazakistan': 'Kazakhstan',
+  'Macaristan': 'Hungary',
+  'Polonya': 'Poland',
+  'Romanya': 'Romania',
+  'Rusya': 'Russia',
+  'Ukrayna': 'Ukraine',
+  'Yunanistan': 'Greece'
+};
+
+function fetchPage(urlPath) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'www.nakliyerehberim.com',
+      port: 443,
+      path: urlPath,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      if (res.statusCode !== 200) {
+        reject(new Error(`Failed to load page: status code ${res.statusCode}`));
+        return;
+      }
+      let chunks = [];
+      res.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
+      res.on('end', () => {
+        const buffer = Buffer.concat(chunks);
+        resolve(decodeWindows1254(buffer));
+      });
+    });
+
+    req.on('error', reject);
+    req.end();
+  });
+}
+
+async function scrapeCountry(countryName) {
+  console.log(`\n--- Scraping listings for: ${countryName} ---`);
+  const encodedCountry = encodeURIComponent(countryName);
+  const urlPath = `/harita-detay/nakliye-firmalari.aspx?ulke=${encodedCountry}`;
+
+  try {
+    const html = await fetchPage(urlPath);
+    console.log(`Fetched page successfully. Length: ${html.length} characters.`);
+
+    // Regex to match company rows (tr tags with media layout)
+    const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+    let match;
+    const scrapedListings = [];
+
+    while ((match = rowRegex.exec(html)) !== null) {
+      const rowHtml = match[1];
+      if (rowHtml.includes('single5.aspx')) {
+        // Extract fields
+        const nameMatch = rowHtml.match(/<h2[^>]*class="[^"]*blue-text"[^>]*>([\s\S]*?)<\/h2>/i);
+        if (!nameMatch) continue;
+        const companyName = nameMatch[1].trim();
+
+        // Extract <p> contents
+        const pRegex = /<p[^>]*>([\s\S]*?)<\/p>/gi;
+        const pTags = [];
+        let pMatch;
+        while ((pMatch = pRegex.exec(rowHtml)) !== null) {
+          pTags.push(pMatch[1].replace(/<[^>]*>/g, '').trim());
+        }
+
+        // Normally: pTags[0]=Contact, pTags[1]=Phone1, pTags[2]=Phone2, pTags[3]=Email, pTags[4]=City
+        const contactPerson = pTags[0] || 'Firma Yetkilisi';
+        const phone1 = pTags[1] || '';
+        const phone2 = pTags[2] || '';
+        const email = pTags[3] || '';
+        const rawLocation = pTags[4] || '';
+
+        scrapedListings.push({
+          companyName,
+          contactPerson,
+          phone: phone1 + (phone2 ? ` / ${phone2}` : ''),
+          email,
+          rawLocation
+        });
+      }
+    }
+
+    console.log(`Found ${scrapedListings.length} companies serving ${countryName}.`);
+    return scrapedListings;
+  } catch (error) {
+    console.error(`Error scraping ${countryName}:`, error.message);
+    return [];
+  }
+}
+
+async function runScraper() {
+  console.log('Starting Scraper...');
+  
+  // If not using a service key, check if email/pass are provided to authenticate and bypass RLS
+  if (!serviceKey && process.env.SCRAPER_USER_EMAIL && process.env.SCRAPER_USER_PASSWORD) {
+    console.log('Logging in to Supabase with credentials...');
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email: process.env.SCRAPER_USER_EMAIL,
+      password: process.env.SCRAPER_USER_PASSWORD
+    });
+    if (authError) {
+      console.error('Supabase auth login failed:', authError.message);
+    } else {
+      console.log('Supabase auth login successful.');
+    }
+  }
+  
+  // Verify shipper profile exists
+  console.log(`Verifying shipper profile ID: ${defaultShipperId}`);
+  const { data: profile, error: pError } = await supabase
+    .from('public_profiles')
+    .select('id')
+    .eq('id', defaultShipperId)
+    .maybeSingle();
+
+  let activeShipperId = defaultShipperId;
+  if (pError || !profile) {
+    console.log('Configured SCRAPER_SHIPPER_ID was not found or invalid.');
+    // Query first available shipper profile as fallback
+    const { data: fallbackProfile } = await supabase
+      .from('public_profiles')
+      .select('id')
+      .eq('role', 'shipper')
+      .limit(1)
+      .maybeSingle();
+
+    if (fallbackProfile) {
+      activeShipperId = fallbackProfile.id;
+      console.log(`Falling back to first available database shipper ID: ${activeShipperId}`);
+    } else {
+      console.error('CRITICAL: No shipper profiles exist in the database! Please register a user first.');
+      process.exit(1);
+    }
+  } else {
+    console.log('Profile verified successfully.');
+  }
+
+  // Query existing scraped loads to prevent double insertion
+  const { data: existingLoads } = await supabase
+    .from('loads')
+    .select('title, description')
+    .ilike('description', '%[Dış Kaynak]%');
+
+  const existingDescriptions = new Set((existingLoads || []).map(l => l.description));
+
+  const targetCountries = [
+    'Almanya', 'Avusturya', 'Irak', 'Italya', 'Fransa', 'Bulgaristan', 'Azerbaycan',
+    'Belcika', 'Cek Cumhuriyeti', 'Gurcistan', 'Hollanda', 'Ingiltere', 'Ispanya',
+    'Iran', 'Kazakistan', 'Macaristan', 'Polonya', 'Romanya', 'Rusya', 'Ukrayna',
+    'Yunanistan'
+  ];
+  let totalInserted = 0;
+
+  for (const country of targetCountries) {
+    const listings = await scrapeCountry(country);
+    
+    for (let i = 0; i < listings.length; i++) {
+      const item = listings[i];
+      const destCountry = englishCountryNames[country] || country;
+      const destCity = getDestinationCity(country, i);
+      const loc = mapOriginLocation(item.rawLocation);
+
+      const title = `${loc.city} (${loc.country}) ➜ ${destCity} (${destCountry}) Uluslararası Sefer`;
+      const description = `[Dış Kaynak] Bu ilan harici bir lojistik firmasından otomatik olarak entegre edilmiştir.
+
+Firma Adı: ${item.companyName}
+Yetkili Kişi: ${item.contactPerson}
+Telefon: ${item.phone}
+E-posta: ${item.email || 'Belirtilmedi'}
+Firma Konumu: ${item.rawLocation}
+
+Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı kurabilirsiniz. Bu ilan otomatik çekildiği için dahili mesaj gönderilemez.`;
+
+      // Check for duplicate
+      if (existingDescriptions.has(description)) {
+        console.log(`Skipping duplicate listing: "${item.companyName}"`);
+        continue;
+      }
+
+      // Insert new load listing
+      console.log(`Inserting load: ${title} (${item.companyName})`);
+      const { error: insertError } = await supabase
+        .from('loads')
+        .insert({
+          title,
+          shipper_id: activeShipperId,
+          origin_city: loc.city,
+          origin_state: loc.state,
+          origin_country: loc.country,
+          destination_city: destCity,
+          destination_state: null,
+          destination_country: destCountry,
+          price: null,
+          load_type: 'general',
+          required_truck_type: 'tir',
+          weight_ton: 24,
+          description: description,
+          status: 'active',
+          tags: ['external', 'scraped', destCountry.toLowerCase()]
+        });
+
+      if (insertError) {
+        console.error(`Failed to insert load for "${item.companyName}":`, insertError);
+      } else {
+        totalInserted++;
+        existingDescriptions.add(description); // Add to local set to prevent duplicate inserts in same batch
+      }
+    }
+  }
+
+  console.log(`\nScraping run completed successfully! Total new loads imported: ${totalInserted}`);
+  return totalInserted;
+}
+
+// Execute if run directly
+if (require.main === module) {
+  runScraper().then(() => process.exit(0)).catch(e => {
+    console.error('Fatal Error running scraper:', e);
+    process.exit(1);
+  });
+}
+
+module.exports = { runScraper };
