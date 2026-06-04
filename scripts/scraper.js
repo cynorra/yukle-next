@@ -31,6 +31,31 @@ if (!supabaseUrl || (!anonKey && !serviceKey)) {
 const activeKey = serviceKey || anonKey;
 const supabase = createClient(supabaseUrl, activeKey);
 
+// Blacklist of company names, phone numbers, or email domains to ignore during scraping.
+// If a user requests removal, add their details here to prevent future scraping.
+const scrapedBlacklist = [
+  // 'ornek sirket adi',
+  // '05551234567'
+];
+
+function isItemBlacklisted(companyName, phone, email) {
+  const cleanName = (companyName || '').toLowerCase().trim();
+  const cleanPhone = (phone || '').replace(/[^0-9+]/g, '').trim();
+  const cleanEmail = (email || '').toLowerCase().trim();
+
+  return scrapedBlacklist.some(term => {
+    const cleanTerm = term.toLowerCase().trim();
+    if (!cleanTerm) return false;
+
+    // Check match on name, phone or email
+    if (cleanName.includes(cleanTerm)) return true;
+    if (cleanPhone.includes(cleanTerm.replace(/[^0-9+]/g, ''))) return true;
+    if (cleanEmail.includes(cleanTerm)) return true;
+
+    return false;
+  });
+}
+
 // Turkish character decoding for Windows-1254 encoding
 function decodeWindows1254(buffer) {
   let str = '';
@@ -466,6 +491,13 @@ async function runScraper(options = { runAll: false }) {
     }
 
     const contact = getRandomContact(parseInt(item.kimlikId, 10) || i);
+
+    // Check blacklist
+    if (isItemBlacklisted(contact.companyName, contact.phone, contact.email)) {
+      console.log(`Skipping blacklisted dynamic load from: "${contact.companyName}"`);
+      continue;
+    }
+
     const origin = parseLocation(item.originRaw);
     const dest = parseLocation(item.destRaw);
     const loadType = mapLoadType(item.typeRaw);
@@ -536,6 +568,12 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
     
     for (let i = 0; i < listings.length; i++) {
       const item = listings[i];
+
+      // Check blacklist
+      if (isItemBlacklisted(item.companyName, item.phone, item.email)) {
+        console.log(`Skipping blacklisted directory company: "${item.companyName}"`);
+        continue;
+      }
       const destCountry = englishCountryNames[country] || country;
       const destCity = getDestinationCity(country, i);
       const loc = mapOriginLocation(item.rawLocation);
