@@ -22,16 +22,17 @@ export async function GET(request: Request) {
     console.log('Triggering automated blog generator cron job...');
     // @ts-ignore
     const { runBlogGenerator } = require('../../../../../scripts/blog-generator');
-    const post = await runBlogGenerator();
+    const posts = await runBlogGenerator();
+    const mainPost = Array.isArray(posts) ? posts[0] : posts;
 
     return NextResponse.json({
       success: true,
-      message: `Blog post published successfully. Title: "${post.title}"`,
-      post: {
-        id: post.id,
-        title: post.title,
-        slug: post.slug
-      }
+      message: `Blog posts published successfully. Total: ${Array.isArray(posts) ? posts.length : 1}`,
+      post: mainPost ? {
+        id: mainPost.id,
+        title: mainPost.title,
+        slug: mainPost.slug
+      } : null
     });
   } catch (error: any) {
     console.error('Error triggered in blog API route:', error);
