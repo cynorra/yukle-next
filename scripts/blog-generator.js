@@ -138,7 +138,12 @@ const logisticsTopics = [
   'The role of cross-docking in modern retail distribution and shipping',
   'How freight forwarders optimize consolidation to lower container costs',
   'Understanding multi-modal shipping: Combining road, rail, and sea transport',
-  'Top packaging guidelines for securing pallets in long-haul truck shipping'
+  'Top packaging guidelines for securing pallets in long-haul truck shipping',
+  'How e-commerce brands optimize supply chains using digital freight exchanges',
+  'A guide to shipping oversized industrial machinery internationally',
+  'Temperature logs and safety standards in reefer container transport',
+  'How manufacturers use load boards to reduce LTL shipping costs',
+  'The role of fast-moving consumer goods (FMCG) in global logistics networks'
 ];
 
 const blogLanguagesMapping = {

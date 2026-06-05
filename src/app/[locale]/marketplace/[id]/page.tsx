@@ -65,10 +65,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     ? (localizedDescription.length > 150 ? localizedDescription.slice(0, 150) + '...' : localizedDescription)
     : `Shipment of ${load.weight_ton} tons of cargo from ${load.origin_city} to ${load.destination_city}.`;
 
+  const SUPPORTED_LOCALES = [
+    'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
+    'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
+    'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
+    'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
+    'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
+    'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
+  ];
+
+  const languagesAlternates: Record<string, string> = {};
+  SUPPORTED_LOCALES.forEach((loc) => {
+    languagesAlternates[loc] = `${SITE_URL}/${loc}/marketplace/${id}`;
+  });
+
   return {
     title,
     description,
-    alternates: { canonical: `/${locale}/marketplace/${id}` },
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/marketplace/${id}`,
+      languages: languagesAlternates,
+    },
     openGraph: {
       type: 'website',
       title,
