@@ -32,8 +32,8 @@ const config: Config = {
         '6xl': ['5.5rem', { lineHeight: '1' }],
       },
       fontFamily: {
-        sans: ['"Lexend"', '"Outfit"', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-        display: ['"Lexend"', '"Outfit"', 'Inter Tight', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        display: ['Outfit', 'Inter Tight', 'sans-serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
     },
