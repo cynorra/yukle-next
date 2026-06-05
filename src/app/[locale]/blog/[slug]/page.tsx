@@ -50,10 +50,26 @@ export async function generateMetadata({
   const title = post.meta_title || post.title;
   const description = post.meta_description || post.excerpt || post.title;
 
+  const SUPPORTED_LOCALES = [
+    'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
+    'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa'
+  ];
+
+  const parts = slug.split('-');
+  const baseSlug = parts.length > 1 ? parts.slice(0, -1).join('-') : slug;
+
+  const languagesAlternates: Record<string, string> = {};
+  SUPPORTED_LOCALES.forEach((loc) => {
+    languagesAlternates[loc] = `${SITE_URL}/${loc}/blog/${baseSlug}-${loc}`;
+  });
+
   return {
     title,
     description,
-    alternates: { canonical: `/${locale}/blog/${slug}` },
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/blog/${slug}`,
+      languages: languagesAlternates,
+    },
     openGraph: {
       type: 'article',
       title,

@@ -18,10 +18,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale = (rawLocale in BLOG_TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = BLOG_TRANSLATIONS[locale];
+
+  const SUPPORTED_LOCALES = [
+    'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
+    'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa'
+  ];
+
+  const languagesAlternates: Record<string, string> = {};
+  SUPPORTED_LOCALES.forEach((loc) => {
+    languagesAlternates[loc] = `${SITE_URL}/${loc}/blog`;
+  });
+
   return {
     title: t.title,
     description: t.description,
-    alternates: { canonical: `/${locale}/blog` },
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/blog`,
+      languages: languagesAlternates,
+    },
     openGraph: {
       title: t.title,
       description: t.description,
