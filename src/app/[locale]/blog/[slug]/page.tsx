@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { createPublicClient } from '@/lib/supabase/public';
 import { BlogDetailClient } from './BlogDetailClient';
 
@@ -81,6 +81,11 @@ export default async function BlogSlugPage({
   const post = await getPost(slug);
 
   if (!post) notFound();
+
+  // Dil uyuşmazlığı varsa doğru locale yönlendir
+  if (post.language && post.language !== locale) {
+    redirect(`/${post.language}/blog/${slug}`);
+  }
 
   const articleJsonLd = {
     '@context': 'https://schema.org',

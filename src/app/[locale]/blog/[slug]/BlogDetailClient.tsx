@@ -508,7 +508,14 @@ export function BlogDetailClient() {
         {/* Content */}
         <article className={`max-w-none mb-16 ${t.heading}`}>
           <div className="leading-relaxed text-lg">
-            {renderedContent}
+            {post.content && (post.content.trim().startsWith('<') || /<[a-z][\s\S]*>/i.test(post.content)) ? (
+              <div 
+                className="space-y-4 [&>h2]:text-2xl [&>h2]:font-black [&>h2]:mt-12 [&>h2]:mb-6 [&>h2]:border-l-4 [&>h2]:border-accent [&>h2]:pl-4 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mt-8 [&>h3]:mb-4 [&>p]:text-lg [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul>li]:text-lg [&>ul>li]:mb-2 [&>strong]:text-accent [&>strong]:font-black"
+                dangerouslySetInnerHTML={{ __html: post.content }} 
+              />
+            ) : (
+              renderedContent
+            )}
           </div>
         </article>
 
