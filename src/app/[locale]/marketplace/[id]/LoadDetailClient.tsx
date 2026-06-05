@@ -415,8 +415,8 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
   return (
     <div className={t.pageFull} dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Disclaimer */}
-      <div className="bg-amber-50 dark:bg-amber-500/10 border-b border-amber-200 dark:border-amber-500/20 px-4 py-2.5">
-        <p className="text-xs text-amber-800 dark:text-amber-400/90 text-center max-w-7xl mx-auto font-medium">
+      <div className="bg-accent/10 border-b border-accent/20 px-4 py-2.5">
+        <p className="text-xs text-accent text-center max-w-7xl mx-auto font-medium">
           {td.disclaimer}
         </p>
       </div>
