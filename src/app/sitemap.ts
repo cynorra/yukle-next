@@ -5,7 +5,11 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
 const LOCALES = [
   'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl',
-  'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa'
+  'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
+  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
+  'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
+  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
+  'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
 ] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

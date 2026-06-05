@@ -3,7 +3,11 @@ import { updateSession } from '@/lib/supabase/middleware';
 
 const SUPPORTED_LOCALES = [
   'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
-  'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa'
+  'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
+  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
+  'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
+  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
+  'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
 ];
 
 export async function middleware(request: NextRequest) {

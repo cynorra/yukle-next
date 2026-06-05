@@ -33,6 +33,22 @@ const supabase = createClient(supabaseUrl, activeKey);
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+async function runWithConcurrency(tasks, concurrency) {
+  const results = [];
+  const executing = new Set();
+  for (const task of tasks) {
+    const p = Promise.resolve().then(() => task());
+    results.push(p);
+    executing.add(p);
+    const clean = () => executing.delete(p);
+    p.then(clean, clean);
+    if (executing.size >= concurrency) {
+      await Promise.race(executing);
+    }
+  }
+  return Promise.all(results);
+}
+
 // Library of built-in high-quality Turkish/English logistics articles (Fallback Mode)
 const localArticles = [
   {
@@ -129,7 +145,15 @@ const blogLanguagesMapping = {
   'English': 'en', 'Turkish': 'tr', 'German': 'de', 'French': 'fr',
   'Spanish': 'es', 'Portuguese': 'pt', 'Italian': 'it', 'Dutch': 'nl',
   'Polish': 'pl', 'Russian': 'ru', 'Ukrainian': 'uk', 'Chinese': 'zh',
-  'Japanese': 'ja', 'Hindi': 'hi', 'Arabic': 'ar', 'Persian': 'fa'
+  'Japanese': 'ja', 'Hindi': 'hi', 'Arabic': 'ar', 'Persian': 'fa',
+  'Korean': 'ko', 'Vietnamese': 'vi', 'Indonesian': 'id', 'Bengali': 'bn',
+  'Urdu': 'ur', 'Thai': 'th', 'Malay': 'ms', 'Tagalog': 'tl',
+  'Romanian': 'ro', 'Swedish': 'sv', 'Czech': 'cs', 'Hungarian': 'hu',
+  'Greek': 'el', 'Azerbaijani': 'az', 'Kazakh': 'kk', 'Hebrew': 'he',
+  'Bulgarian': 'bg', 'Croatian': 'hr', 'Serbian': 'sr', 'Slovak': 'sk',
+  'Danish': 'da', 'Finnish': 'fi', 'Norwegian': 'no', 'Uzbek': 'uz',
+  'Tamil': 'ta', 'Marathi': 'mr', 'Georgian': 'ka', 'Lithuanian': 'lt',
+  'Latvian': 'lv', 'Estonian': 'et', 'Slovenian': 'sl'
 };
 
 // 25 curated high-quality Unsplash image URLs related to logistics
@@ -470,13 +494,14 @@ async function runBlogGenerator() {
     console.log(`Base slug "${checkSlug}" already exists. Generated unique base slug core: "${baseSlug}"`);
   }
 
-  // 2. Translate Article into target languages (15 other languages) using Google Translate GTX
+  // 2. Translate Article into target languages (46 other languages) using Google Translate GTX
   const targetLanguages = Object.entries(blogLanguagesMapping).filter(([name, code]) => code !== baseLanguage);
   
   const translatedPosts = [];
 
-  console.log(`Translating base post from ${baseLanguage} into remaining 15 languages...`);
-  for (const [langName, langCode] of targetLanguages) {
+  console.log(`Translating base post from ${baseLanguage} into remaining ${targetLanguages.length} languages using concurrency...`);
+  
+  const tasks = targetLanguages.map(([langName, langCode]) => async () => {
     try {
       console.log(`Translating to ${langName} (${langCode})...`);
       const translation = await translatePostUsingGoogle(basePost, langCode);
@@ -485,8 +510,6 @@ async function runBlogGenerator() {
         langCode
       });
       console.log(`✓ Translated successfully to ${langName} (${langCode})`);
-      // 100ms small sleep to be gentle to Google's translation endpoint
-      await sleep(100);
     } catch (err) {
       console.error(`❌ Translation failed for ${langName} (${langCode}). Falling back to base content. Error:`, err.message);
       translatedPosts.push({
@@ -498,7 +521,10 @@ async function runBlogGenerator() {
         langCode
       });
     }
-  }
+  });
+
+  // Run with a concurrency of 5 parallel requests
+  await runWithConcurrency(tasks, 5);
 
   // 3. Pick and validate cover image
   const coverImage = await getValidatedCoverImage();
