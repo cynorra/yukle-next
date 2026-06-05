@@ -184,7 +184,7 @@ export default async function LoadDetailPage({ params }: PageProps) {
           / <span className="truncate max-w-[200px] inline-block align-bottom">{localizedTitle}</span>
         </nav>
 
-        <h1 className="text-3xl sm:text-4xl font-black text-fg tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-medium text-fg tracking-tight">
           {localizedTitle}
         </h1>
         <p className="mt-2 text-base text-muted">

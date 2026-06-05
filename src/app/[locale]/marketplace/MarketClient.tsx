@@ -405,7 +405,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
                   <div className="p-5">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-base font-black text-fg group-hover:text-accent transition-colors truncate mb-3">
+                        <h3 className="text-base font-medium text-fg group-hover:text-accent transition-colors truncate mb-3">
                           {load.title_translations?.[locale] || load.title}
                         </h3>
                         <div className="flex items-center flex-wrap gap-3">

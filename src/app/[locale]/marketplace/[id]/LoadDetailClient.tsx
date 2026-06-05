@@ -494,7 +494,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                     {formatDate(load.created_at, locale)}
                   </span>
                 </div>
-                <h1 className={`text-xl font-black ${t.heading} mb-4 leading-snug`}>{localizedTitle}</h1>
+                <h1 className={`text-xl font-medium ${t.heading} mb-4 leading-snug`}>{localizedTitle}</h1>
 
                 {/* Tags */}
                 {((load.tags && load.tags.length > 0) || load.pickup_date || load.delivery_date) && (
