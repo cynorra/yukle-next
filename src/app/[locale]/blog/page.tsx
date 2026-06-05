@@ -3,52 +3,65 @@ import Link from 'next/link';
 import { createPublicClient } from '@/lib/supabase/public';
 import { BookOpen, ArrowRight } from 'lucide-react';
 import { BlogListClient } from './BlogListClient';
+import { BLOG_TRANSLATIONS } from '@/utils/blogTranslations';
+import type { Locale } from '@/utils/translations';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-export const metadata: Metadata = {
-  title: 'Nakliye Pazaryeri & Lojistik Rehberi',
-  description:
-    "Türkiye'nin dijital nakliye pazaryeri. Yük ilanı verme, yük bulma rehberleri ve lojistik maliyet düşürme yöntemleri hakkında kapsamlı bilgiler.",
-  alternates: { canonical: '/blog' },
-  openGraph: {
-    title: 'YükLe Blog: Nakliye & Lojistik Rehberi',
-    description: 'Yük ilanı verme, yük bulma ve lojistikte maliyet düşürme rehberleri.',
-    url: `${SITE_URL}/blog`,
-  },
-};
+export const revalidate = 600; // 10 minutes
 
-export const revalidate = 600; // 10 dakika
+interface Props {
+  params: Promise<{ locale: string }>;
+}
 
-export default async function BlogListPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = (rawLocale in BLOG_TRANSLATIONS) ? (rawLocale as Locale) : 'en';
+  const t = BLOG_TRANSLATIONS[locale];
+  return {
+    title: t.title,
+    description: t.description,
+    alternates: { canonical: `/${locale}/blog` },
+    openGraph: {
+      title: t.title,
+      description: t.description,
+      url: `${SITE_URL}/${locale}/blog`,
+    },
+  };
+}
+
+export default async function BlogListPage({ params }: Props) {
+  const { locale: rawLocale } = await params;
+  const locale = (rawLocale in BLOG_TRANSLATIONS) ? (rawLocale as Locale) : 'en';
+  const t = BLOG_TRANSLATIONS[locale];
+
   const supabase = createPublicClient();
-  const { data: posts } = await supabase
+  
+  // Try to fetch articles in user's current locale
+  let { data: posts } = await supabase
     .from('blog_posts')
     .select('*, author:profiles(full_name)')
     .eq('published', true)
+    .eq('language', locale)
     .order('created_at', { ascending: false });
 
-  const allPosts = posts || [];
+  // Fallback: If no articles found in user's locale, show English articles instead of a blank page
+  if ((!posts || posts.length === 0) && locale !== 'en') {
+    const { data: fallbackPosts } = await supabase
+      .from('blog_posts')
+      .select('*, author:profiles(full_name)')
+      .eq('published', true)
+      .eq('language', 'en')
+      .order('created_at', { ascending: false });
+    if (fallbackPosts) posts = fallbackPosts;
+  }
 
-  const faqs = [
-    {
-      q: 'Nakliye pazaryeri nedir?',
-      a: 'Nakliye pazaryeri, yük sahipleri ile nakliyecilerin dijital bir platformda buluşarak yük ilanı vermelerini ve teklif almalarını sağlayan bir ekosistemdir.',
-    },
-    {
-      q: 'Lojistik pazaryeri nasıl avantaj sağlar?',
-      a: "Zaman tasarrufu, fiyat şeffaflığı ve güvenilir nakliyecilere hızlı erişim sağlayarak lojistik maliyetlerini %30'a kadar düşürebilir.",
-    },
-    {
-      q: 'Yük pazaryerinde güvenlik nasıl sağlanır?',
-      a: 'YükLe gibi platformlarda tüm kullanıcılar belge doğrulamasından geçer ve geçmiş performansları puanlanır.',
-    },
-  ];
+  const allPosts = posts || [];
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map((f) => ({
+    mainEntity: t.faqs.map((f) => ({
       '@type': 'Question',
       name: f.q,
       acceptedAnswer: { '@type': 'Answer', text: f.a },
@@ -67,44 +80,21 @@ export default async function BlogListPage() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent font-bold text-sm mb-6">
               <BookOpen size={18} />
-              Lojistik & Nakliye Pazaryeri Rehberi
+              {t.tagline}
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-fg mb-6 leading-tight">
-              Lojistik Dünyasını <span className="text-accent">Dijitalleştiriyoruz</span>
+              {t.header1} <span className="text-accent">{t.headerAccent}</span> {t.header2}
             </h1>
             <p className="text-lg text-muted max-w-3xl mx-auto leading-relaxed">
-              YükLe{' '}
-              <Link href="/yuk-ilani" className="text-accent hover:underline">
-                <strong>nakliye pazaryeri</strong>
-              </Link>{' '}
-              ile{' '}
-              <Link href="/yuk-ilani" className="text-accent hover:underline">
-                yük ilanı verme
-              </Link>
-              ,{' '}
-              <Link
-                href="/blog/kamyon-tir-soforleri-yuk-bulma-rehberi"
-                className="text-accent hover:underline"
-              >
-                yük bulma
-              </Link>{' '}
-              ve lojistik süreçlerini optimize etme üzerine en güncel rehberlere ulaşın.{' '}
-              <Link href="/yuk-bulma" className="text-accent hover:underline">
-                <strong>Lojistik pazaryeri</strong>
-              </Link>{' '}
-              avantajlarını keşfederek işinizi büyütün.
+              {t.introText}
             </p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {[
-              { label: 'Yük Bulma Rehberi', slug: 'kamyon-tir-soforleri-yuk-bulma-rehberi' },
-              { label: 'Maliyet Düşürme', slug: 'sehirler-arasi-nakliye-maliyet-dusurme' },
-              { label: 'Yasal Mevzuat', slug: 'evden-eve-nakliyat-yasal-mevzuat-belgeler' },
-            ].map((guide, i) => (
+            {t.guides.map((guide, i) => (
               <Link
                 key={i}
-                href={`/blog/${guide.slug}`}
+                href={`/${locale}/blog/${guide.slug}`}
                 className="px-6 py-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-accent/20 text-sm font-bold flex items-center gap-2 hover:bg-accent hover:text-white transition-all"
               >
                 {guide.label} <ArrowRight size={14} />
@@ -117,10 +107,10 @@ export default async function BlogListPage() {
 
           <div className="mt-24 pt-16 border-t border-border-light dark:border-border-dark">
             <h2 className="text-3xl font-black text-fg mb-12 text-center">
-              Nakliye Pazaryeri Hakkında Sık Sorulan Sorular
+              {t.faqTitle}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {faqs.map((faq, i) => (
+              {t.faqs.map((faq, i) => (
                 <div
                   key={i}
                   className="p-8 rounded-3xl bg-surface-light dark:bg-surface-dark border border-accent/20"

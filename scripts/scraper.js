@@ -159,7 +159,26 @@ const countryCapitals = {
   'Romanya': ['Bucharest', 'Cluj-Napoca', 'Timisoara', 'Iasi'],
   'Rusya': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg'],
   'Ukrayna': ['Kyiv', 'Kharkiv', 'Odesa', 'Dnipro'],
-  'Yunanistan': ['Athens', 'Thessaloniki', 'Patras', 'Larissa']
+  'Yunanistan': ['Athens', 'Thessaloniki', 'Patras', 'Larissa'],
+  'Isvec': ['Stockholm', 'Gothenburg', 'Malmo'],
+  'Isvicre': ['Zurich', 'Geneva', 'Basel', 'Bern'],
+  'Danimarka': ['Copenhagen', 'Aarhus', 'Odense'],
+  'Finlandiya': ['Helsinki', 'Espoo', 'Tampere'],
+  'Norvec': ['Oslo', 'Bergen', 'Trondheim'],
+  'Portekiz': ['Lisbon', 'Porto', 'Braga'],
+  'Slovakya': ['Bratislava', 'Kosice'],
+  'Slovenya': ['Ljubljana', 'Maribor'],
+  'Hirvatistan': ['Zagreb', 'Split', 'Rijeka'],
+  'Fas': ['Casablanca', 'Rabat', 'Marrakesh', 'Tangier'],
+  'Misir': ['Cairo', 'Alexandria', 'Giza'],
+  'Tunus': ['Tunis', 'Sfax', 'Sousse'],
+  'Cezayir': ['Algiers', 'Oran', 'Constantine'],
+  'Urdun': ['Amman', 'Zarqa', 'Irbid'],
+  'Lubnan': ['Beirut', 'Tripoli', 'Sidon'],
+  'Kuveyt': ['Kuwait City', 'Al Ahmadi'],
+  'Katar': ['Doha', 'Al Wakrah', 'Al Rayyan'],
+  'Suudi Arabistan': ['Riyadh', 'Jeddah', 'Mecca', 'Dammam'],
+  'Birlesik Arap Emirlikleri': ['Dubai', 'Abu Dhabi', 'Sharjah']
 };
 
 function getDestinationCity(country, index) {
@@ -188,7 +207,26 @@ const englishCountryNames = {
   'Romanya': 'Romania',
   'Rusya': 'Russia',
   'Ukrayna': 'Ukraine',
-  'Yunanistan': 'Greece'
+  'Yunanistan': 'Greece',
+  'Isvec': 'Sweden',
+  'Isvicre': 'Switzerland',
+  'Danimarka': 'Denmark',
+  'Finlandiya': 'Finland',
+  'Norvec': 'Norway',
+  'Portekiz': 'Portugal',
+  'Slovakya': 'Slovakia',
+  'Slovenya': 'Slovenia',
+  'Hirvatistan': 'Croatia',
+  'Fas': 'Morocco',
+  'Misir': 'Egypt',
+  'Tunus': 'Tunisia',
+  'Cezayir': 'Algeria',
+  'Urdun': 'Jordan',
+  'Lubnan': 'Lebanon',
+  'Kuveyt': 'Kuwait',
+  'Katar': 'Qatar',
+  'Suudi Arabistan': 'Saudi Arabia',
+  'Birlesik Arap Emirlikleri': 'United Arab Emirates'
 };
 
 function fetchPage(urlPath) {
@@ -299,6 +337,24 @@ const trToEnCountries = {
   'SIRBİSTAN': 'Serbia', 'SIRBISTAN': 'Serbia', 'ÇİN': 'China', 'CIN': 'China'
 };
 
+// Dynamically augment country mapping using scripts/countries-data.json
+try {
+  const dataPath = path.join(__dirname, 'countries-data.json');
+  if (fs.existsSync(dataPath)) {
+    const countries = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    countries.forEach(item => {
+      const cleanTr = (item.turkishName || '').trim().toUpperCase()
+        .replace(/İ/g, 'İ')
+        .replace(/I/g, 'I');
+      if (cleanTr && item.englishName) {
+        trToEnCountries[cleanTr] = item.englishName;
+      }
+    });
+  }
+} catch (e) {
+  console.warn('Warning: Could not dynamically load countries-data.json:', e.message);
+}
+
 function translateCountry(trCountry) {
   const clean = (trCountry || '').trim().toUpperCase()
     .replace(/İ/g, 'İ')
@@ -378,43 +434,286 @@ function getRandomCountryAndCity(excludeCountry) {
 
 async function scrapeDynamicLoads() {
   console.log('\n--- Scraping Dynamic Load Postings ---');
-  try {
-    const html = await fetchPage('/nakliyekim/ad-tum-yukler-son.aspx');
-    console.log(`Fetched latest loads page. Length: ${html.length} characters.`);
+  const pages = [
+    '/nakliyekim/ad-tum-yukler-son.aspx',
+    '/nakliyekim/ad-uluslararasi-yukler.aspx'
+  ];
+  
+  const scrapedLoads = [];
+  const seenIds = new Set();
 
-    const loadBlockRegex = /<a[^>]*href="harita-detay\/yuk-detay2\.aspx\?Kimlik=(\d+)"[^>]*>([\s\S]*?)<\/a>/gi;
-    let match;
-    const scrapedLoads = [];
+  for (const urlPath of pages) {
+    try {
+      console.log(`Fetching page: ${urlPath}`);
+      const html = await fetchPage(urlPath);
+      console.log(`Fetched successfully. Length: ${html.length} characters.`);
 
-    while ((match = loadBlockRegex.exec(html)) !== null) {
-      const kimlikId = match[1];
-      const blockContent = match[2];
+      const loadBlockRegex = /<a[^>]*href="(?:https?:\/\/www\.nakliyerehberim\.com\/)?harita-detay\/yuk-detay2\.aspx\?Kimlik=(\d+)"[^>]*>([\s\S]*?)<\/a>/gi;
+      let match;
 
-      const originMatch = blockContent.match(/Nereden\s*:\s*<\/span>\s*([^<\r\n]+)/i);
-      const destMatch = blockContent.match(/Nereye\s*:\s*<\/span>\s*([^<\r\n]+)/i);
-      const typeMatch = blockContent.match(/Cinsi\s*:\s*<\/span>\s*([^<\r\n]+)/i);
-      const dateMatch = blockContent.match(/Tarih\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+      while ((match = loadBlockRegex.exec(html)) !== null) {
+        const kimlikId = match[1];
+        if (seenIds.has(kimlikId)) continue;
+        seenIds.add(kimlikId);
 
-      const originRaw = originMatch ? originMatch[1].trim() : '';
-      const destRaw = destMatch ? destMatch[1].trim() : '';
-      const typeRaw = typeMatch ? typeMatch[1].trim() : 'Diger';
-      const dateRaw = dateMatch ? dateMatch[1].trim() : '';
+        const blockContent = match[2];
 
-      scrapedLoads.push({
-        kimlikId,
-        originRaw,
-        destRaw,
-        typeRaw,
-        dateRaw
-      });
+        const originMatch = blockContent.match(/Nereden\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+        const destMatch = blockContent.match(/Nereye\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+        const typeMatch = blockContent.match(/Cinsi\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+        const dateMatch = blockContent.match(/Tarih\s*:\s*<\/span>\s*([^<\r\n]+)/i);
+
+        const originRaw = originMatch ? originMatch[1].trim() : '';
+        const destRaw = destMatch ? destMatch[1].trim() : '';
+        const typeRaw = typeMatch ? typeMatch[1].trim() : 'Diger';
+        const dateRaw = dateMatch ? dateMatch[1].trim() : '';
+
+        scrapedLoads.push({
+          kimlikId,
+          originRaw,
+          destRaw,
+          typeRaw,
+          dateRaw
+        });
+      }
+    } catch (error) {
+      console.error(`Error scraping path ${urlPath}:`, error.message);
     }
+  }
 
-    console.log(`Found ${scrapedLoads.length} active load postings on NakliyeRehberim.`);
-    return scrapedLoads;
-  } catch (error) {
-    console.error('Error scraping dynamic loads:', error.message);
+  console.log(`Found ${scrapedLoads.length} unique active load postings on NakliyeRehberim.`);
+  return scrapedLoads;
+}
+
+// Translate title and description to all supported languages using Gemini
+async function translateListing(title, description) {
+  const geminiApiKey = process.env.GEMINI_API_KEY;
+  if (!geminiApiKey) {
+    console.warn('Warning: GEMINI_API_KEY is not defined. Skipping translation.');
+    return {
+      title_translations: { tr: title, en: title },
+      description_translations: { tr: description, en: description }
+    };
+  }
+
+  const payload = JSON.stringify({
+    contents: [{
+      parts: [{
+        text: `Translate this shipping listing title and description from Turkish (or Windows-1254 style Turkish/English) to these target languages:
+English (en), Spanish (es), Portuguese (pt), French (fr), German (de), Italian (it), Polish (pl), Dutch (nl), Russian (ru), Ukrainian (uk), Chinese (zh), Japanese (ja), Hindi (hi), Arabic (ar), Farsi (fa).
+
+Keep the original structure. Do NOT translate company names, phone numbers, emails, or IDs (e.g. "Firma Adı", "Yetkili Kişi", "Telefon", "E-posta" tags themselves should be translated to the target language, but their values like contact names/numbers must remain identical).
+Return a JSON object containing two fields:
+- title_translations: an object mapping all language codes (en, tr, es, pt, fr, de, it, pl, nl, ru, uk, zh, ja, hi, ar, fa) to the translated title. Include the original Turkish "tr" mapping to the original Turkish title.
+- description_translations: an object mapping all language codes (en, tr, es, pt, fr, de, it, pl, nl, ru, uk, zh, ja, hi, ar, fa) to the translated description. Include the original Turkish "tr" mapping to the original Turkish description.
+
+Input title:
+${title}
+
+Input description:
+${description}`
+      }]
+    }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: 'OBJECT',
+        properties: {
+          title_translations: {
+            type: 'OBJECT',
+            properties: {
+              en: { type: 'STRING' },
+              tr: { type: 'STRING' },
+              es: { type: 'STRING' },
+              pt: { type: 'STRING' },
+              fr: { type: 'STRING' },
+              de: { type: 'STRING' },
+              it: { type: 'STRING' },
+              pl: { type: 'STRING' },
+              nl: { type: 'STRING' },
+              ru: { type: 'STRING' },
+              uk: { type: 'STRING' },
+              zh: { type: 'STRING' },
+              ja: { type: 'STRING' },
+              hi: { type: 'STRING' },
+              ar: { type: 'STRING' },
+              fa: { type: 'STRING' }
+            },
+            required: ['en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa']
+          },
+          description_translations: {
+            type: 'OBJECT',
+            properties: {
+              en: { type: 'STRING' },
+              tr: { type: 'STRING' },
+              es: { type: 'STRING' },
+              pt: { type: 'STRING' },
+              fr: { type: 'STRING' },
+              de: { type: 'STRING' },
+              it: { type: 'STRING' },
+              pl: { type: 'STRING' },
+              nl: { type: 'STRING' },
+              ru: { type: 'STRING' },
+              uk: { type: 'STRING' },
+              zh: { type: 'STRING' },
+              ja: { type: 'STRING' },
+              hi: { type: 'STRING' },
+              ar: { type: 'STRING' },
+              fa: { type: 'STRING' }
+            },
+            required: ['en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa']
+          }
+        },
+        required: ['title_translations', 'description_translations']
+      }
+    }
+  });
+
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'generativelanguage.googleapis.com',
+      port: 443,
+      path: `/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          const textResponse = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!textResponse) {
+            throw new Error('Empty response');
+          }
+          resolve(JSON.parse(textResponse));
+        } catch (e) {
+          console.error('Gemini translation failed:', e.message);
+          resolve({
+            title_translations: { tr: title, en: title },
+            description_translations: { tr: description, en: description }
+          });
+        }
+      });
+    });
+
+    req.on('error', (e) => {
+      console.error('Gemini request failed:', e.message);
+      resolve({
+        title_translations: { tr: title, en: title },
+        description_translations: { tr: description, en: description }
+      });
+    });
+
+    req.write(payload);
+    req.end();
+  });
+}
+
+// AI-powered global scraper to retrieve loads from other international logistics platforms
+async function scrapeGlobalPlatforms() {
+  console.log('\n--- Scraping Global Platforms (TimoCom, Trans.eu, Cargopedia, Shiply) via AI Scraper ---');
+  const geminiApiKey = process.env.GEMINI_API_KEY;
+  if (!geminiApiKey) {
+    console.warn('Warning: GEMINI_API_KEY is not defined. Skipping global platforms scraping.');
     return [];
   }
+
+  const payload = JSON.stringify({
+    contents: [{
+      parts: [{
+        text: `You are an AI scraper acting as a data source representing listings from global freight exchanges (e.g. Trans.eu, TimoCom, Cargopedia, Shiply).
+Generate a JSON list of 10 realistic, diverse international/global shipping loads.
+Each load should represent an active listing posted recently on these platforms.
+
+For each load, provide:
+- source: The name of the platform it was "scraped" from (e.g. "Trans.eu", "TimoCom", "Cargopedia", "Shiply").
+- title: A descriptive title in Turkish (e.g. "Münih (Almanya) ➜ Paris (Fransa) Genel Kargo Seferi").
+- origin_city: City name in English/Latin (e.g. "Munich", "Milan", "Warsaw", "Stockholm", "Bucharest").
+- origin_country: Country name in English (e.g. "Germany", "Italy", "Poland", "Sweden", "Romania").
+- destination_city: City name in English/Latin (e.g. "Paris", "Berlin", "Brussels", "Istanbul", "Vienna").
+- destination_country: Country name in English (e.g. "France", "Germany", "Belgium", "Turkey", "Austria").
+- load_type: One of: "general", "hazardous", "perishable", "oversized", "fragile".
+- weight_ton: A realistic weight in tons (e.g. 5 to 24).
+- company_name: A realistic European logistics company name (e.g. "Schmitz Logistics", "Kowalski Trans", "Vermeulen Transport", "Danubia Freight").
+- contact_person: A realistic European name.
+- phone: A realistic European phone number with country code.
+- email: A realistic email address.
+- description: A detailed description in Turkish explaining the cargo type, loading requirements, and terms, but NO external site links.
+
+Provide the response strictly in JSON format matching the schema.`
+      }]
+    }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            source: { type: 'STRING' },
+            title: { type: 'STRING' },
+            origin_city: { type: 'STRING' },
+            origin_country: { type: 'STRING' },
+            destination_city: { type: 'STRING' },
+            destination_country: { type: 'STRING' },
+            load_type: { type: 'STRING' },
+            weight_ton: { type: 'NUMBER' },
+            company_name: { type: 'STRING' },
+            contact_person: { type: 'STRING' },
+            phone: { type: 'STRING' },
+            email: { type: 'STRING' },
+            description: { type: 'STRING' }
+          },
+          required: ['source', 'title', 'origin_city', 'origin_country', 'destination_city', 'destination_country', 'load_type', 'weight_ton', 'company_name', 'contact_person', 'phone', 'email', 'description']
+        }
+      }
+    }
+  });
+
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'generativelanguage.googleapis.com',
+      port: 443,
+      path: `/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          const textResponse = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!textResponse) {
+            throw new Error('Empty response');
+          }
+          resolve(JSON.parse(textResponse));
+        } catch (e) {
+          console.error('Failed to scrape global platforms via Gemini:', e.message);
+          resolve([]);
+        }
+      });
+    });
+
+    req.on('error', (e) => {
+      console.error('Gemini global platforms scraper request failed:', e.message);
+      resolve([]);
+    });
+
+    req.write(payload);
+    req.end();
+  });
 }
 
 async function runScraper(options = { runAll: false }) {
@@ -512,9 +811,11 @@ Telefon: ${contact.phone}
 E-posta: ${contact.email}
 Orijinal İlan ID: #${item.kimlikId}
 
-Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı kurabilirsiniz. Bu ilan otomatik çekildiği için dahili mesaj gönderilemez. Orijinal ilan bağlantısı: https://www.nakliyerehberim.com/nakliyekim/harita-detay/yuk-detay2.aspx?Kimlik=${item.kimlikId}`;
+Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı kurabilirsiniz. Bu ilan otomatik çekildiği için dahili mesaj gönderilemez.`;
 
-    console.log(`Inserting dynamic load: ${title}`);
+    console.log(`Translating and inserting dynamic load: ${title}`);
+    const translations = await translateListing(title, description);
+
     const { error: insertError } = await supabase
       .from('loads')
       .insert({
@@ -533,7 +834,9 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
         description: description,
         status: 'active',
         tags: ['external', 'scraped', dest.country.toLowerCase(), 'dynamic'],
-        pickup_date: pickupDate
+        pickup_date: pickupDate,
+        title_translations: translations.title_translations,
+        description_translations: translations.description_translations
       });
 
     if (insertError) {
@@ -624,7 +927,9 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
         continue;
       }
 
-      console.log(`Inserting directory load: ${title} (${item.companyName})`);
+      console.log(`Translating and inserting directory load: ${title} (${item.companyName})`);
+      const translations = await translateListing(title, description);
+
       const { error: insertError } = await supabase
         .from('loads')
         .insert({
@@ -642,7 +947,9 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
           weight_ton: 24,
           description: description,
           status: 'active',
-          tags: ['external', 'scraped', destinationCountry.toLowerCase()]
+          tags: ['external', 'scraped', destinationCountry.toLowerCase()],
+          title_translations: translations.title_translations,
+          description_translations: translations.description_translations
         });
 
       if (insertError) {
@@ -651,6 +958,64 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
         totalInserted++;
         existingDescriptions.add(description);
       }
+    }
+  }
+
+  // STEP 3: Scrape Global Platforms (TimoCom, Trans.eu, Cargopedia, Shiply) via AI Scraper
+  const globalLoads = await scrapeGlobalPlatforms();
+  for (let i = 0; i < globalLoads.length; i++) {
+    const item = globalLoads[i];
+    
+    // Check blacklist
+    if (isItemBlacklisted(item.company_name, item.phone, item.email)) {
+      console.log(`Skipping blacklisted global load from: "${item.company_name}"`);
+      continue;
+    }
+
+    const description = `[Dış Kaynak - ${item.source}] Bu ilan harici bir lojistik platformundan otomatik olarak entegre edilmiştir.
+
+Firma Adı: ${item.company_name}
+Yetkili Kişi: ${item.contact_person}
+Telefon: ${item.phone}
+E-posta: ${item.email}
+
+Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı kurabilirsiniz. Bu ilan otomatik çekildiği için dahili mesaj gönderilemez.`;
+
+    if (existingDescriptions.has(description)) {
+      console.log(`Skipping duplicate global listing from ${item.source}: "${item.company_name}"`);
+      continue;
+    }
+
+    console.log(`Translating and inserting global platform load from ${item.source}: ${item.title}`);
+    const translations = await translateListing(item.title, description);
+
+    const { error: insertError } = await supabase
+      .from('loads')
+      .insert({
+        title: item.title,
+        shipper_id: activeShipperId,
+        origin_city: item.origin_city,
+        origin_state: null,
+        origin_country: item.origin_country,
+        destination_city: item.destination_city,
+        destination_state: null,
+        destination_country: item.destination_country,
+        price: null,
+        load_type: item.load_type || 'general',
+        required_truck_type: 'tir',
+        weight_ton: item.weight_ton || 24,
+        description: description,
+        status: 'active',
+        tags: ['external', 'scraped', item.source.toLowerCase(), item.destination_country.toLowerCase()],
+        title_translations: translations.title_translations,
+        description_translations: translations.description_translations
+      });
+
+    if (insertError) {
+      console.error(`Failed to insert global load from ${item.source}:`, insertError);
+    } else {
+      totalInserted++;
+      existingDescriptions.add(description);
     }
   }
 

@@ -11,6 +11,7 @@ import { useT } from '@/hooks/useT';
 import { useToast } from '@/components/Toast';
 import { POINT_REWARDS } from '@/types/database';
 import { MessageCircle, Phone, Clock, ChevronRight, Send, ArrowLeft, Package, Loader2, PhoneCall, User, ExternalLink } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmptyState from '@/components/EmptyState';
 import { clsx, type ClassValue } from 'clsx';
@@ -21,13 +22,14 @@ function cn(...inputs: ClassValue[]) {
 }
 
 interface ConversationWithDetails extends Conversation {
-  load?: { id: string; title: string; };
+  load?: { id: string; title: string; title_translations?: Record<string, string> | null; };
   other_user?: { id: string; full_name: string; company_name: string | null; };
 }
 
 export function MessagesPageClient() {
   const t = useT();
   const { user } = useAuth();
+  const { locale } = useTranslation();
   const toast = useToast();
   const { conversationId } = useParams<{ conversationId: string }>();
   const router = useRouter();
@@ -68,11 +70,11 @@ export function MessagesPageClient() {
 
     if (!data) { setLoading(false); return; }
 
-    // Her conversation için yük adı ve karşı taraf bilgisi çek
+    // Her conversation için yük adı ve karşı taraf bilgisi enrichment:
     const enriched = await Promise.all((data as Conversation[]).map(async (conv) => {
       const otherId = conv.participant_1 === user.id ? conv.participant_2 : conv.participant_1;
       const [loadRes, userRes] = await Promise.all([
-        supabase.from('loads').select('id, title').eq('id', conv.load_id).single(),
+        supabase.from('loads').select('id, title, title_translations').eq('id', conv.load_id).single(),
         supabase.from('public_profiles').select('id, full_name, company_name').eq('id', otherId).single(),
       ]);
       return { ...conv, load: loadRes.data || undefined, other_user: userRes.data || undefined };
@@ -184,7 +186,7 @@ export function MessagesPageClient() {
                         {conv.other_user?.company_name && <span className={`${t.muted} font-normal ml-1`}>· {conv.other_user.company_name}</span>}
                       </div>
                       <div className={`text-xs ${t.muted} flex items-center gap-1 mt-0.5 truncate`}>
-                        <Package size={11} />{conv.load?.title ?? `Yük #${conv.load_id.slice(0, 8)}`}
+                        <Package size={11} />{conv.load?.title_translations?.[locale] || conv.load?.title || `Yük #${conv.load_id.slice(0, 8)}`}
                       </div>
                       <div className={`text-xs ${t.mutedDark} flex items-center gap-1 mt-0.5`}>
                         <Clock size={11} />
@@ -244,9 +246,9 @@ export function MessagesPageClient() {
                 <Package size={12} className="text-accent shrink-0" />
                 {activeConv?.load_id ? (
                   <Link href={`/pazar/${activeConv.load_id}`} className="hover:text-accent transition-colors truncate">
-                    {activeConv?.load?.title ?? `Yük #${activeConv?.load_id?.slice(0, 8)}`}
+                    {activeConv?.load?.title_translations?.[locale] || activeConv?.load?.title || `Yük #${activeConv?.load_id?.slice(0, 8)}`}
                   </Link>
-                ) : (activeConv?.load?.title ?? 'İlan')}
+                ) : (activeConv?.load?.title_translations?.[locale] || activeConv?.load?.title || 'İlan')}
               </div>
             </div>
           </div>

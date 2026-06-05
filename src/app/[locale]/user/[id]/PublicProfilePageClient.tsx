@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
+import { useTranslation } from '@/hooks/useTranslation';
 import { User, Star, Shield, Building2, MapPin, ArrowRight, Package, Zap, MessageCircle, Calendar } from 'lucide-react';
 
 interface PublicProfile {
@@ -34,6 +35,7 @@ interface PublicLoad {
   status: string;
   origin_city: string;
   destination_city: string;
+  title_translations?: Record<string, string> | null;
   created_at: string;
 }
 
@@ -42,6 +44,7 @@ const STAR_COLORS = ['', 'text-red-400', 'text-orange-400', 'text-yellow-400', '
 export function PublicProfilePageClient() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const { locale } = useTranslation();
 
   const [profile, setProfile] = useState<PublicProfile | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -63,7 +66,7 @@ export function PublicProfilePageClient() {
         .order('created_at', { ascending: false })
         .limit(20),
       supabase.from('loads')
-        .select('id, title, status, origin_city, destination_city, created_at')
+        .select('id, title, title_translations, status, origin_city, destination_city, created_at')
         .eq('shipper_id', id!)
         .in('status', ['active', 'completed'])
         .order('created_at', { ascending: false })
@@ -233,7 +236,9 @@ export function PublicProfilePageClient() {
               <Link key={load.id} href={`/pazar/${load.id}`}
                 className="flex items-center justify-between p-4 rounded-2xl ${t.card} hover:border-[#F5A623]/20 transition-all group">
                 <div className="flex-1 min-w-0">
-                  <h3 className={`${t.heading} text-sm font-medium truncate group-hover:text-[#F5A623] transition-colors mb-1`}>{load.title}</h3>
+                  <h3 className={`${t.heading} text-sm font-medium truncate group-hover:text-[#F5A623] transition-colors mb-1`}>
+                    {load.title_translations?.[locale] || load.title}
+                  </h3>
                   <div className={`flex items-center gap-2 text-xs ${t.muted}`}>
                     <MapPin size={12} className="text-[#F5A623]" />{load.origin_city}
                     <ArrowRight size={12} />

@@ -59,7 +59,7 @@ export default async function PazarPage({ params }: Props) {
       '@type': 'ListItem',
       position: idx + 1,
       url: `${SITE_URL}/${locale}/marketplace/${load.id}`,
-      name: load.title || `${load.origin_city} - ${load.destination_city}`,
+      name: load.title_translations?.[locale] || load.title || `${load.origin_city} - ${load.destination_city}`,
     })),
   };
 
@@ -103,7 +103,7 @@ export default async function PazarPage({ params }: Props) {
                   className="block p-4 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl hover:border-accent/30"
                 >
                   <div className="font-bold text-fg">
-                    {load.title || `${load.origin_city} → ${load.destination_city}`}
+                    {load.title_translations?.[locale] || load.title || `${load.origin_city} → ${load.destination_city}`}
                   </div>
                   <div className="text-sm text-muted flex items-center gap-4 mt-1">
                     <span className="flex items-center gap-1 font-bold">

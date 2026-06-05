@@ -6,6 +6,9 @@ import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { BlogPost } from '@/types/database';
 import { useT } from '@/hooks/useT';
+import { useTranslation } from '@/hooks/useTranslation';
+import { BLOG_TRANSLATIONS } from '@/utils/blogTranslations';
+import type { Locale } from '@/utils/translations';
 import { 
   Calendar, 
   User as UserIcon, 
@@ -22,6 +25,9 @@ export function BlogDetailClient() {
   const { slug } = useParams();
   const router = useRouter();
   const t = useT();
+  const { locale } = useTranslation();
+  const activeLocale = (locale in BLOG_TRANSLATIONS) ? (locale as Locale) : 'en';
+  const tr = BLOG_TRANSLATIONS[activeLocale];
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -124,12 +130,13 @@ export function BlogDetailClient() {
   // Formatted Date
   const formattedDate = useMemo(() => {
     if (!post?.created_at) return '';
-    return new Date(post.created_at).toLocaleDateString('tr-TR', {
+    const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
+    return new Date(post.created_at).toLocaleDateString(formatLocale, {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
-  }, [post?.created_at]);
+  }, [post?.created_at, locale]);
 
   // Enhanced Markdown Parser with Link Support
   const renderedContent = useMemo(() => {
@@ -401,7 +408,7 @@ export function BlogDetailClient() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <Loader2 size={48} className="text-accent animate-spin mb-4" />
-        <p className={t.muted}>Yazı yükleniyor...</p>
+        <p className={t.muted}>{tr.loading}</p>
       </div>
     );
   }
@@ -425,7 +432,7 @@ export function BlogDetailClient() {
           className="inline-flex items-center gap-2 text-muted hover:text-accent mb-8 transition-colors group"
         >
           <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-          Blog'a Dön
+          {tr.backToBlog}
         </Link>
 
         {/* Hero Section */}
@@ -437,7 +444,7 @@ export function BlogDetailClient() {
             </div>
             <div className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full ${t.card} border-accent/20 text-accent font-bold`}>
               <Clock size={14} />
-              {readingTime} dk okuma
+              {tr.readingTime ? tr.readingTime + ' ' : ''}{readingTime} {tr.readingTimeSuffix}
             </div>
           </div>
 
@@ -451,8 +458,8 @@ export function BlogDetailClient() {
                 <UserIcon size={24} />
               </div>
               <div className="text-left">
-                <div className={`text-sm font-bold ${t.heading}`}>{post.author?.full_name || 'YükLe Editör'}</div>
-                <div className={`text-xs ${t.muted}`}>Lojistik Uzmanı</div>
+                <div className={`text-sm font-bold ${t.heading}`}>{post.author?.full_name || (locale === 'tr' ? 'YükLe Editör' : 'Loadly Editor')}</div>
+                <div className={`text-xs ${t.muted}`}>{tr.authorRole}</div>
               </div>
             </div>
 
@@ -495,7 +502,7 @@ export function BlogDetailClient() {
 
         {/* AdSense Placeholder - Top */}
         <div className="w-full h-24 bg-surface-light dark:bg-surface-dark border border-dashed border-border-light dark:border-border-dark rounded-2xl flex items-center justify-center mb-12">
-          <div className="text-center text-xs font-bold text-muted/60">Google AdSense - Görüntülü Reklam</div>
+          <div className="text-center text-xs font-bold text-muted/60">{locale === 'tr' ? 'Google AdSense - Görüntülü Reklam' : 'Google AdSense - Display Ad'}</div>
         </div>
 
         {/* Content */}
@@ -507,14 +514,14 @@ export function BlogDetailClient() {
 
         {/* AdSense Placeholder - Bottom */}
         <div className="w-full h-64 bg-surface-light dark:bg-surface-dark border border-dashed border-border-light dark:border-border-dark rounded-3xl flex items-center justify-center mb-16">
-          <div className="text-center text-xs font-bold text-muted/60">Google AdSense - İçerik İçi Reklam</div>
+          <div className="text-center text-xs font-bold text-muted/60">{locale === 'tr' ? 'Google AdSense - İçerik İçi Reklam' : 'Google AdSense - In-Article Ad'}</div>
         </div>
 
         {/* Footer Info */}
         <div className="p-8 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark mb-12">
-          <h3 className={`text-xl font-bold ${t.heading} mb-4`}>Paylaşmayı Unutmayın!</h3>
+          <h3 className={`text-xl font-bold ${t.heading} mb-4`}>{tr.shareTitle}</h3>
           <p className={`text-sm ${t.sub} mb-6`}>
-            Bu içerik sizin için faydalı olduysa, nakliye sektöründeki arkadaşlarınızla paylaşarak onlara da yardımcı olabilirsiniz.
+            {tr.shareDesc}
           </p>
           <div className="flex gap-4">
             <button 

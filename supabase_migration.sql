@@ -142,3 +142,14 @@ SELECT
 FROM favorites f
 JOIN loads l ON f.load_id = l.id;
 
+
+-- 4. Add Translation columns to "loads" table
+ALTER TABLE loads ADD COLUMN IF NOT EXISTS title_translations JSONB DEFAULT '{}'::jsonb;
+ALTER TABLE loads ADD COLUMN IF NOT EXISTS description_translations JSONB DEFAULT '{}'::jsonb;
+
+
+-- 5. Add language column to "blog_posts" table
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS language VARCHAR(10) DEFAULT 'tr';
+
+
+

@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { Search } from 'lucide-react';
 import BlogCard from '@/components/blog/BlogCard';
 import type { BlogPost } from '@/types/database';
+import { useTranslation } from '@/hooks/useTranslation';
+import { BLOG_TRANSLATIONS } from '@/utils/blogTranslations';
+import type { Locale } from '@/utils/translations';
 
 interface Props {
   posts: BlogPost[];
@@ -11,6 +14,9 @@ interface Props {
 
 export function BlogListClient({ posts }: Props) {
   const [search, setSearch] = useState('');
+  const { locale } = useTranslation();
+  const activeLocale = (locale in BLOG_TRANSLATIONS) ? (locale as Locale) : 'en';
+  const t = BLOG_TRANSLATIONS[activeLocale];
 
   const filtered = posts.filter(
     (p) =>
@@ -28,7 +34,7 @@ export function BlogListClient({ posts }: Props) {
           />
           <input
             type="text"
-            placeholder="Yazılarda ara..."
+            placeholder={t.searchPlaceholder}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-12 pr-4 py-4 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-fg placeholder:text-muted/50 focus:border-accent/40 focus:ring-1 focus:ring-accent/10 transition-all text-lg shadow-xl shadow-black/5"
@@ -44,7 +50,7 @@ export function BlogListClient({ posts }: Props) {
         </div>
       ) : (
         <div className="text-center py-24 bg-surface-light dark:bg-surface-dark rounded-3xl border border-border-light dark:border-border-dark">
-          <p className="text-muted">Aramanızla eşleşen yazı bulunamadı.</p>
+          <p className="text-muted">{t.noArticles}</p>
         </div>
       )}
     </>

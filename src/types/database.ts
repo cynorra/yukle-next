@@ -20,6 +20,7 @@ export interface BlogPost {
   cover_image: string | null;
   author_id: string | null;
   published: boolean;
+  language: string;
   meta_title: string | null;
   meta_description: string | null;
   created_at: string;
@@ -63,6 +64,8 @@ export interface Load {
   driver_confirmed: boolean;
   shipper_confirmed_at: string | null;
   driver_confirmed_at: string | null;
+  title_translations?: Record<string, string> | null;
+  description_translations?: Record<string, string> | null;
   shipper?: Profile;
   created_at: string;
 }

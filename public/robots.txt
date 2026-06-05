@@ -1,7 +1,54 @@
-User-agent: *
+# AI Crawler Allowances
+User-agent: GPTBot
+Allow: /
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+User-agent: ChatGPT-User
 Allow: /
 
-# Disallow private dashboards and action routes for all locales
+User-agent: PerplexityBot
+Allow: /
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+# General Search Engine Crawler Rules
+User-agent: *
+Allow: /
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages

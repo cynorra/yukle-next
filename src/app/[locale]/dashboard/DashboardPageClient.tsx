@@ -31,7 +31,7 @@ interface Offer {
   status: 'pending' | 'accepted' | 'rejected';
   created_at: string;
   driver?: { id: string; full_name: string; company_name: string | null; rating: number; is_verified: boolean; points: number; };
-  load?: { id: string; title: string; };
+  load?: { id: string; title: string; title_translations?: Record<string, string> | null; };
 }
 
 interface DriverOffer {
@@ -83,7 +83,7 @@ export function DashboardPageClient() {
     const { data: userLoads } = await supabase.from('loads').select('id').eq('shipper_id', user.id).eq('status', 'active');
     if (!userLoads || userLoads.length === 0) { setLoading(false); return; }
     const { data } = await supabase.from('offers')
-      .select('*, driver:public_profiles!offers_driver_id_fkey(id, full_name, company_name, rating, is_verified, points), load:loads!offers_load_id_fkey(id, title)')
+      .select('*, driver:public_profiles!offers_driver_id_fkey(id, full_name, company_name, rating, is_verified, points), load:loads!offers_load_id_fkey(id, title, title_translations)')
       .in('load_id', userLoads.map((l) => l.id))
       .order('created_at', { ascending: false });
     setOffers((data as unknown as Offer[]) || []);
@@ -101,6 +101,7 @@ export function DashboardPageClient() {
       load: {
         id: string;
         title: string;
+        title_translations?: Record<string, string> | null;
         status: string;
         price: number | null;
         origin_city: string;
@@ -108,7 +109,7 @@ export function DashboardPageClient() {
       } | null;
     }
     const { data } = await supabase.from('offers')
-      .select('*, load:loads!offers_load_id_fkey(id, title, status, price, origin_city, destination_city)')
+      .select('*, load:loads!offers_load_id_fkey(id, title, title_translations, status, price, origin_city, destination_city)')
       .eq('driver_id', user.id)
       .order('created_at', { ascending: false });
     const mapped = ((data as unknown as DriverOfferResponse[]) || [])
@@ -119,7 +120,7 @@ export function DashboardPageClient() {
         note: o.note, 
         status: o.status,
         created_at: o.created_at, 
-        load_title: o.load?.title || '',
+        load_title: o.load?.title_translations?.[locale] || o.load?.title || '',
         load_status: o.load?.status || '', 
         origin_city_name: o.load?.origin_city || '',
         dest_city_name: o.load?.destination_city || '', 
@@ -393,7 +394,7 @@ export function DashboardPageClient() {
                         </span>
                       </div>
                       <h3 className={`font-black mb-2.5 truncate ${tStyle.heading} hover:text-accent transition-colors`}>
-                        {load.title}
+                        {load.title_translations?.[locale] || load.title}
                       </h3>
                       <div className={`flex items-center gap-3 text-sm ${tStyle.sub}`}>
                         <span className="flex items-center gap-1.5 font-bold">
@@ -490,7 +491,7 @@ export function DashboardPageClient() {
                     <Link href={`/${locale}/marketplace/${offer.load_id}`}
                       className={`text-xs ${tStyle.accent} font-bold hover:underline mb-3 flex items-center gap-1.5`}>
                       <Package size={12} />
-                      {offer.load?.title || `Load #${offer.load_id?.slice(0, 8)}`}
+                      {offer.load?.title_translations?.[locale] || offer.load?.title || `Load #${offer.load_id?.slice(0, 8)}`}
                       <ArrowRight size={11} />
                     </Link>
                     <div className="flex items-start justify-between gap-3">

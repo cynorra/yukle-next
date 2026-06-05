@@ -234,6 +234,7 @@ async function runBlogGenerator() {
 
   // 1. Determine Mode & Generate Article
   let article;
+  let langCode = 'tr';
   if (geminiApiKey) {
     console.log('AI Writing Mode enabled. Selecting topic and language...');
     const randomTopic = logisticsTopics[Math.floor(Math.random() * logisticsTopics.length)];
@@ -241,13 +242,23 @@ async function runBlogGenerator() {
     try {
       console.log(`Generating AI article in ${randomLang} for topic: "${randomTopic}"`);
       article = await generateAIPost(randomTopic, randomLang);
+      
+      const blogLanguagesMapping = {
+        'English': 'en', 'Turkish': 'tr', 'German': 'de', 'French': 'fr',
+        'Spanish': 'es', 'Portuguese': 'pt', 'Italian': 'it', 'Dutch': 'nl',
+        'Polish': 'pl', 'Russian': 'ru', 'Ukrainian': 'uk', 'Chinese': 'zh',
+        'Japanese': 'ja', 'Hindi': 'hi', 'Arabic': 'ar', 'Persian': 'fa'
+      };
+      langCode = blogLanguagesMapping[randomLang] || 'tr';
     } catch (e) {
       console.error('Failed to generate AI article. Falling back to local library...', e.message);
       article = localArticles[Math.floor(Math.random() * localArticles.length)];
+      langCode = 'tr';
     }
   } else {
     console.log('Library Mode: Selecting article from local library...');
     article = localArticles[Math.floor(Math.random() * localArticles.length)];
+    langCode = 'tr';
   }
 
   // Double check if slug already exists to prevent duplication
@@ -266,7 +277,7 @@ async function runBlogGenerator() {
   const coverImage = coverImages[Math.floor(Math.random() * coverImages.length)];
 
   // 2. Insert into Supabase
-  console.log(`Publishing article: "${article.title}"`);
+  console.log(`Publishing article: "${article.title}" in language "${langCode}"`);
   const { data: newPost, error: insertError } = await supabase
     .from('blog_posts')
     .insert({
@@ -277,6 +288,7 @@ async function runBlogGenerator() {
       cover_image: coverImage,
       author_id: activeAuthorId,
       published: true,
+      language: langCode,
       meta_title: article.meta_title,
       meta_description: article.meta_description
     })

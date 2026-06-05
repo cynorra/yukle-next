@@ -20,6 +20,7 @@ import {
   LOAD_DETAIL_TRANSLATIONS,
   LOAD_TYPES_LOCALIZED,
   TRUCK_TYPES_LOCALIZED,
+  EXTERNAL_LOAD_TRANSLATIONS,
 } from '@/utils/loadDetailTranslations';
 
 interface LoadWithRelations {
@@ -46,6 +47,8 @@ interface LoadWithRelations {
   driver_confirmed: boolean;
   shipper_confirmed_at: string | null;
   driver_confirmed_at: string | null;
+  title_translations?: Record<string, string> | null;
+  description_translations?: Record<string, string> | null;
   created_at: string;
   shipper: { id: string; full_name: string; rating: number; is_verified: boolean; company_name: string | null; avatar_url: string | null; };
 }
@@ -134,6 +137,9 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
 
   // İlk render server'dan gelen veri; sonra client realtime ile güncellenebilir
   const [load, setLoad] = useState<LoadWithRelations | null>(initialLoad);
+  const extT = EXTERNAL_LOAD_TRANSLATIONS[locale] || EXTERNAL_LOAD_TRANSLATIONS.en;
+  const localizedTitle = load?.title_translations?.[locale] || load?.title || '';
+  const localizedDescription = load?.description_translations?.[locale] || load?.description || '';
   const [loading, setLoading] = useState(false);
   const [offers, setOffers] = useState<Offer[]>([]);
   const [myOffer, setMyOffer] = useState<Offer | null>(null);
@@ -456,7 +462,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                     <div className="flex items-center gap-2">
                       <button onClick={async () => {
                         const url = window.location.href;
-                        if (navigator.share) { await navigator.share({ title: load.title, url }); }
+                        if (navigator.share) { await navigator.share({ title: localizedTitle, url }); }
                         else { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 2000); }
                       }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors ${t.btnSecondary}`}>
@@ -488,7 +494,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                     {formatDate(load.created_at, locale)}
                   </span>
                 </div>
-                <h1 className={`text-xl font-black ${t.heading} mb-4 leading-snug`}>{load.title}</h1>
+                <h1 className={`text-xl font-black ${t.heading} mb-4 leading-snug`}>{localizedTitle}</h1>
 
                 {/* Tags */}
                 {((load.tags && load.tags.length > 0) || load.pickup_date || load.delivery_date) && (
@@ -519,15 +525,30 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             </div>
 
             {/* Açıklama */}
-            {load.description && (
+            {localizedDescription && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{td.description}</h2>
-                <p className={`${t.sub} text-sm leading-relaxed whitespace-pre-wrap`}>{load.description}</p>
+                <p className={`${t.sub} text-sm leading-relaxed whitespace-pre-wrap`}>{localizedDescription}</p>
+              </div>
+            )}
+
+            {/* HARİCİ İLAN UYARISI */}
+            {load.tags?.includes('external') && (
+              <div className={`p-6 rounded-2xl ${t.card} border-l-4 border-amber-500 bg-amber-500/5 space-y-3`}>
+                <div className="flex items-center gap-3">
+                  <Shield className="text-amber-500 w-6 h-6 shrink-0" />
+                  <h3 className={`text-lg font-black text-amber-500`}>
+                    {extT.externalWarningTitle}
+                  </h3>
+                </div>
+                <p className={`text-sm ${t.sub} leading-relaxed`}>
+                  {extT.externalWarningDesc}
+                </p>
               </div>
             )}
 
             {/* OWNER — İlan Düzenle */}
-            {user && isOwner && load.status === 'active' && (
+            {user && isOwner && load.status === 'active' && !load.tags?.includes('external') && (
               <div className={`p-4 rounded-2xl ${t.card} flex items-center justify-between`}>
                 <div>
                   <p className={`text-sm font-medium ${t.heading}`}>{td.manageLoad}</p>
@@ -541,7 +562,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             )}
 
             {/* SÜRÜCÜ — Teklif Ver */}
-            {user && isDriver && load.status === 'active' && (
+            {user && isDriver && load.status === 'active' && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
                   <TrendingUp size={20} className="text-[#F5A623]" />
@@ -592,7 +613,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             )}
 
             {/* YÜK SAHİBİ — Teklifleri Gör */}
-            {user && isOwner && load.status === 'active' && (
+            {user && isOwner && load.status === 'active' && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
                   <TrendingUp size={20} className="text-[#F5A623]" />
@@ -652,7 +673,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             )}
 
             {/* Kabul edilmiş teklif bilgisi — owner */}
-            {isOwner && acceptedOffer && load.status !== 'active' && (
+            {isOwner && acceptedOffer && load.status !== 'active' && !load.tags?.includes('external') && (
               <div className="p-4 rounded-2xl bg-green-500/5 border border-green-500/20 text-sm">
                 <p className="text-green-400 font-medium flex items-center gap-2"><CheckCircle2 size={16} />{td.driver}: {acceptedOffer.driver?.full_name}</p>
                 {acceptedOffer.price && <p className={`${t.sub} mt-1`}>{td.offerPrice}: {formatPrice(acceptedOffer.price, locale)}</p>}
@@ -660,7 +681,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             )}
 
             {/* Teslimat Onayı */}
-            {user && canConfirm && (
+            {user && canConfirm && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4`}>{td.deliveryConfirmation}</h2>
                 <div className="grid sm:grid-cols-2 gap-4 mb-4">
@@ -693,7 +714,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             )}
 
             {/* Tamamlandı banner */}
-            {load.status === 'completed' && (
+            {load.status === 'completed' && !load.tags?.includes('external') && (
               <div className="p-6 rounded-2xl bg-green-500/5 border border-green-500/20">
                 <div className="flex items-center gap-3 mb-4">
                   <CheckCircle2 size={32} className="text-green-400" />
@@ -723,11 +744,11 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             )}
 
             {/* CHAT — Sürücü veya atanmış sürücü + owner (in_transit sonrası) */}
-            {user && conversation && (load.status !== 'active' || !isOwner) && (
+            {user && conversation && (load.status !== 'active' || !isOwner) && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
                   <MessageSquare size={20} className="text-[#F5A623]" />
-                  {globalT.nav.messages} — {load.title}
+                  {globalT.nav.messages} — {localizedTitle}
                 </h2>
 
                 {/* Telefon paylaşma */}
@@ -787,7 +808,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             )}
 
             {/* Owner — aktif yük, teklif bekleniyor */}
-            {isOwner && load.status === 'active' && (
+            {isOwner && load.status === 'active' && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-2 flex items-center gap-2`}>
                   <MessageSquare size={20} className="text-[#F5A623]" />
@@ -798,7 +819,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             )}
 
             {/* Giriş yapmamış */}
-            {!user && !authLoading && (
+            {!user && !authLoading && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card} text-center`}>
                 <MessageSquare size={32} className="text-[#F5A623] mx-auto mb-3" />
                 <h3 className={`text-lg font-bold ${t.heading} mb-2`}>{td.loginToOfferTitle}</h3>
@@ -818,12 +839,17 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                   {load.shipper?.avatar_url ? <img src={load.shipper.avatar_url} alt="" className="w-12 h-12 rounded-full object-cover" /> : <User size={20} className={t.muted} />}
                 </Link>
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <Link href={`/${locale}/user/${load.shipper?.id}`} className={`${t.heading} font-medium text-sm hover:text-[#F5A623] transition-colors flex items-center gap-1`}>
                       {load.shipper?.full_name}
                       <ExternalLink size={12} className={t.muted} />
                     </Link>
                     {load.shipper?.is_verified && <Shield size={14} className="text-blue-400" />}
+                    {load.tags?.includes('external') && (
+                      <span className="px-2 py-0.5 text-[10px] font-black rounded bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                        {extT.externalBadge}
+                      </span>
+                    )}
                   </div>
                   {load.shipper?.company_name && <p className={`text-xs ${t.muted}`}>{load.shipper.company_name}</p>}
                 </div>

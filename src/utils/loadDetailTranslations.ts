@@ -1147,3 +1147,92 @@ export const LOAD_DETAIL_TRANSLATIONS: Record<Locale, LoadDetailTranslationDict>
     tons: 'تن',
   },
 };
+
+export interface ExternalLoadTranslationDict {
+  externalBadge: string;
+  externalWarningTitle: string;
+  externalWarningDesc: string;
+}
+
+export const EXTERNAL_LOAD_TRANSLATIONS: Record<Locale, ExternalLoadTranslationDict> = {
+  en: {
+    externalBadge: "External Source",
+    externalWarningTitle: "External Listing",
+    externalWarningDesc: "This load is imported from an external source. Direct bidding and in-app chat are disabled. Please use the contact information provided in the description to contact the shipper."
+  },
+  tr: {
+    externalBadge: "Harici Kaynak",
+    externalWarningTitle: "Harici İlan",
+    externalWarningDesc: "Bu ilan harici bir platformdan çekilmiştir. Doğrudan teklif verme ve site içi sohbet devre dışıdır. İlan sahibiyle iletişime geçmek için lütfen açıklama kısmındaki iletişim bilgilerini kullanın."
+  },
+  es: {
+    externalBadge: "Fuente Externa",
+    externalWarningTitle: "Anuncio Externo",
+    externalWarningDesc: "Esta carga se importa de una fuente externa. Las ofertas directas y el chat están desactivados. Utilice la información de contacto provista en la descripción para comunicarse con el remitente."
+  },
+  pt: {
+    externalBadge: "Fonte Externa",
+    externalWarningTitle: "Anúncio Externo",
+    externalWarningDesc: "Esta carga foi importada de uma fonte externa. Propostas diretas e chat no aplicativo estão desativados. Use as informações de contato fornecidas na descrição para falar com o anunciante."
+  },
+  fr: {
+    externalBadge: "Source Externe",
+    externalWarningTitle: "Annonce Externe",
+    externalWarningDesc: "Ce chargement provient d'une source externe. Les offres directes et le chat sont désactivés. Veuillez utiliser les coordonnées fournies dans la description pour contacter l'expéditeur."
+  },
+  de: {
+    externalBadge: "Externe Quelle",
+    externalWarningTitle: "Externe Anzeige",
+    externalWarningDesc: "Diese Ladung wurde aus einer externen Quelle importiert. Direkte Gebote und Chat sind deaktiviert. Bitte nutzen Sie die in der Beschreibung angegebenen Kontaktdaten, um den Versender zu kontaktieren."
+  },
+  it: {
+    externalBadge: "Fonte Esterna",
+    externalWarningTitle: "Annuncio Esterno",
+    externalWarningDesc: "Questo carico è importato da una fonte esterna. Le offerte dirette e la chat interna sono disabilitate. Utilizza le informazioni di contatto nella descrizione per contattare il mittente."
+  },
+  pl: {
+    externalBadge: "Zewnętrzne Źródło",
+    externalWarningTitle: "Ogłoszenie Zewnętrzne",
+    externalWarningDesc: "To ogłoszenie pochodzi z zewnętrznego źródła. Składanie ofert i czat są wyłączone. Prosimy o kontakt za pomocą danych kontaktowych podanych w opisie."
+  },
+  nl: {
+    externalBadge: "Externe Bron",
+    externalWarningTitle: "Externe Advertentie",
+    externalWarningDesc: "Deze lading is geïmporteerd uit een externe bron. Direct bieden en chat zijn uitgeschakeld. Gebruik de contactgegevens in de beschrijving om contact op te nemen met de verlader."
+  },
+  ru: {
+    externalBadge: "Внешний источник",
+    externalWarningTitle: "Внешнее объявление",
+    externalWarningDesc: "Этот груз импортирован из внешнего источника. Прямые ставки и чат отключены. Для связи с отправителем используйте контактные данные, указанные в описании."
+  },
+  uk: {
+    externalBadge: "Зовнішнє джерело",
+    externalWarningTitle: "Зовнішнє оголошення",
+    externalWarningDesc: "Цей вантаж імпортовано із зовнішнього джерела. Прямі ставки та чат вимкнено. Для зв'язку з відправником використовуйте контактні дані, вказані в описі."
+  },
+  zh: {
+    externalBadge: "外部来源",
+    externalWarningTitle: "外部货源",
+    externalWarningDesc: "此货源导入自外部平台。直接报价与在线聊天已禁用。请使用描述中提供的联系方式与货主取得联系。"
+  },
+  ja: {
+    externalBadge: "外部ソース",
+    externalWarningTitle: "外部案件",
+    externalWarningDesc: "この案件は外部サイトから取り込まれたものです。直接の入札やチャット機能は無効化されています。荷主への連絡は、詳細欄に記載の連絡先をご利用ください。"
+  },
+  hi: {
+    externalBadge: "बाहरी स्रोत",
+    externalWarningTitle: "बाहरी विज्ञापन",
+    externalWarningDesc: "यह लोड बाहरी स्रोत से आयात किया गया है। सीधे बोली लगाने और चैट करने की सुविधा बंद है। शिپر से संपर्क करने के लिए विवरण में दी गई जानकारी का उपयोग करें।"
+  },
+  ar: {
+    externalBadge: "مصدر خارجي",
+    externalWarningTitle: "إعلان خارجي",
+    externalWarningDesc: "تم استيراد هذا الشحن من مصدر خارجي. تقديم العروض المباشرة والمحادثة معطلة. يرجى استخدام معلومات الاتصال الواردة في الوصف للتواصل مع الشاحن."
+  },
+  fa: {
+    externalBadge: "منبع خارجی",
+    externalWarningTitle: "آگهی خارجی",
+    externalWarningDesc: "این بار از یک منبع خارجی دریافت شده است. ثبت پیشنهاد مستقیم و چت درون‌برنامه غیرفعال است. لطفاً برای ارتباط با صاحب بار از اطلاعات تماس موجود در توضیحات استفاده کنید."
+  }
+};

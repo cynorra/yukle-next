@@ -1,0 +1,418 @@
+[
+  {
+    "country": "Afganistan",
+    "count": 16
+  },
+  {
+    "country": "Almanya",
+    "count": 16
+  },
+  {
+    "country": "Amerika Birlesik Devletleri",
+    "count": 16
+  },
+  {
+    "country": "Angola",
+    "count": 16
+  },
+  {
+    "country": "Arjantin",
+    "count": 16
+  },
+  {
+    "country": "Arnavutluk",
+    "count": 16
+  },
+  {
+    "country": "Avustralya",
+    "count": 16
+  },
+  {
+    "country": "Avusturya",
+    "count": 16
+  },
+  {
+    "country": "Azerbaycan",
+    "count": 16
+  },
+  {
+    "country": "BAE",
+    "count": 16
+  },
+  {
+    "country": "Bahrain",
+    "count": 16
+  },
+  {
+    "country": "Banglades",
+    "count": 16
+  },
+  {
+    "country": "Belarus",
+    "count": 16
+  },
+  {
+    "country": "Belcika",
+    "count": 16
+  },
+  {
+    "country": "Bosna Hersek",
+    "count": 16
+  },
+  {
+    "country": "Brezilya",
+    "count": 16
+  },
+  {
+    "country": "Britanya",
+    "count": 16
+  },
+  {
+    "country": "Bulgaristan",
+    "count": 16
+  },
+  {
+    "country": "Cezayir",
+    "count": 16
+  },
+  {
+    "country": "Cin",
+    "count": 16
+  },
+  {
+    "country": "Ekvator",
+    "count": 16
+  },
+  {
+    "country": "Endonezya",
+    "count": 16
+  },
+  {
+    "country": "Ermenistan",
+    "count": 16
+  },
+  {
+    "country": "Estonya",
+    "count": 10
+  },
+  {
+    "country": "Fas",
+    "count": 16
+  },
+  {
+    "country": "Finlandiya",
+    "count": 16
+  },
+  {
+    "country": "Fransa",
+    "count": 16
+  },
+  {
+    "country": "Gana",
+    "count": 16
+  },
+  {
+    "country": "Guatemala",
+    "count": 16
+  },
+  {
+    "country": "Guney Afrika",
+    "count": 2
+  },
+  {
+    "country": "Gurcistan",
+    "count": 16
+  },
+  {
+    "country": "Hindistan",
+    "count": 16
+  },
+  {
+    "country": "Hollanda",
+    "count": 16
+  },
+  {
+    "country": "Honduras",
+    "count": 16
+  },
+  {
+    "country": "Irak",
+    "count": 16
+  },
+  {
+    "country": "Iran",
+    "count": 16
+  },
+  {
+    "country": "Irlanda",
+    "count": 16
+  },
+  {
+    "country": "Ispanya",
+    "count": 16
+  },
+  {
+    "country": "Israil",
+    "count": 16
+  },
+  {
+    "country": "Isvec",
+    "count": 16
+  },
+  {
+    "country": "Isvicre",
+    "count": 16
+  },
+  {
+    "country": "Italya",
+    "count": 16
+  },
+  {
+    "country": "Izlanda",
+    "count": 5
+  },
+  {
+    "country": "Japonya",
+    "count": 16
+  },
+  {
+    "country": "Kanada",
+    "count": 16
+  },
+  {
+    "country": "Katar",
+    "count": 16
+  },
+  {
+    "country": "Kazakistan",
+    "count": 16
+  },
+  {
+    "country": "Kenya",
+    "count": 16
+  },
+  {
+    "country": "KIBRIS",
+    "count": 16
+  },
+  {
+    "country": "Kirgizistan",
+    "count": 16
+  },
+  {
+    "country": "Kolombiya",
+    "count": 16
+  },
+  {
+    "country": "Kosova",
+    "count": 16
+  },
+  {
+    "country": "Kuveyt",
+    "count": 16
+  },
+  {
+    "country": "Letonya Cumhuriyeti",
+    "count": 16
+  },
+  {
+    "country": "Libya",
+    "count": 16
+  },
+  {
+    "country": "Litvanya",
+    "count": 16
+  },
+  {
+    "country": "Lubnan",
+    "count": 12
+  },
+  {
+    "country": "Luksemburg",
+    "count": 16
+  },
+  {
+    "country": "Macaristan",
+    "count": 16
+  },
+  {
+    "country": "Makedonya",
+    "count": 16
+  },
+  {
+    "country": "Malta",
+    "count": 16
+  },
+  {
+    "country": "Meksika",
+    "count": 16
+  },
+  {
+    "country": "Misir",
+    "count": 16
+  },
+  {
+    "country": "Moldova",
+    "count": 16
+  },
+  {
+    "country": "Monako",
+    "count": 16
+  },
+  {
+    "country": "Mozambik",
+    "count": 16
+  },
+  {
+    "country": "Nepal",
+    "count": 16
+  },
+  {
+    "country": "Nijerya",
+    "count": 16
+  },
+  {
+    "country": "Norvec",
+    "count": 16
+  },
+  {
+    "country": "Ozbekistan",
+    "count": 16
+  },
+  {
+    "country": "Pakistan",
+    "count": 16
+  },
+  {
+    "country": "Panama",
+    "count": 16
+  },
+  {
+    "country": "Paraguay",
+    "count": 16
+  },
+  {
+    "country": "Peru",
+    "count": 16
+  },
+  {
+    "country": "Polonya",
+    "count": 16
+  },
+  {
+    "country": "Portekiz",
+    "count": 16
+  },
+  {
+    "country": "Romanya",
+    "count": 16
+  },
+  {
+    "country": "Rusya",
+    "count": 16
+  },
+  {
+    "country": "Senegal",
+    "count": 16
+  },
+  {
+    "country": "Sili",
+    "count": 16
+  },
+  {
+    "country": "Singapur",
+    "count": 16
+  },
+  {
+    "country": "Sirbistan",
+    "count": 16
+  },
+  {
+    "country": "Slovakya",
+    "count": 16
+  },
+  {
+    "country": "Slovenya",
+    "count": 16
+  },
+  {
+    "country": "Somali",
+    "count": 16
+  },
+  {
+    "country": "Sri Lanka",
+    "count": 16
+  },
+  {
+    "country": "Sudan",
+    "count": 16
+  },
+  {
+    "country": "Suriye",
+    "count": 16
+  },
+  {
+    "country": "Suudi Arabistan",
+    "count": 16
+  },
+  {
+    "country": "Tacikistan",
+    "count": 16
+  },
+  {
+    "country": "Tayland",
+    "count": 16
+  },
+  {
+    "country": "Tayvan",
+    "count": 16
+  },
+  {
+    "country": "Tunus",
+    "count": 16
+  },
+  {
+    "country": "Turkmenistan",
+    "count": 16
+  },
+  {
+    "country": "Uganda",
+    "count": 16
+  },
+  {
+    "country": "Ukrayna",
+    "count": 16
+  },
+  {
+    "country": "Umman",
+    "count": 16
+  },
+  {
+    "country": "Urdun",
+    "count": 16
+  },
+  {
+    "country": "Uruguay",
+    "count": 16
+  },
+  {
+    "country": "Vatikan",
+    "count": 16
+  },
+  {
+    "country": "Vietnam",
+    "count": 3
+  },
+  {
+    "country": "Yemen",
+    "count": 16
+  },
+  {
+    "country": "Yeni Zelanda",
+    "count": 16
+  },
+  {
+    "country": "Yunanistan",
+    "count": 16
+  }
+]

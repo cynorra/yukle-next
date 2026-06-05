@@ -35,14 +35,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await getPost(slug);
 
   if (!post) {
     return {
-      title: 'Yazı Bulunamadı',
+      title: locale === 'tr' ? 'Yazı Bulunamadı | Loadly' : 'Article Not Found | Loadly',
       robots: { index: false, follow: false },
     };
   }
@@ -53,12 +53,12 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: `/${locale}/blog/${slug}` },
     openGraph: {
       type: 'article',
       title,
       description,
-      url: `${SITE_URL}/blog/${slug}`,
+      url: `${SITE_URL}/${locale}/blog/${slug}`,
       images: post.cover_image ? [{ url: post.cover_image }] : undefined,
       publishedTime: post.created_at,
       modifiedTime: post.updated_at,
@@ -75,9 +75,9 @@ export async function generateMetadata({
 export default async function BlogSlugPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await getPost(slug);
 
   if (!post) notFound();

@@ -46,7 +46,6 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id, locale: rawLocale } = await params;
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
-  const t = TRANSLATIONS[locale];
   
   const load = await getLoad(id);
 
@@ -58,15 +57,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const origin = `${load.origin_city}, ${load.origin_country}`;
-  const destination = `${load.destination_city}, ${load.destination_country}`;
-  const truck = load.required_truck_type ? TRUCK_TYPES[load.required_truck_type] : '';
-  const loadTypeText = load.load_type ? LOAD_TYPES[load.load_type] : '';
+  const localizedTitle = load.title_translations?.[locale] || load.title;
+  const localizedDescription = load.description_translations?.[locale] || load.description;
 
-  const title = `${origin} ➜ ${destination} | Loadly`;
-  const description =
-    `Shipment of ${load.weight_ton} tons of ${loadTypeText || 'cargo'} from ${origin} to ${destination}. ` +
-    (load.description ? load.description.slice(0, 120) : 'Check out load details and send your bid.');
+  const title = `${localizedTitle} | Loadly`;
+  const description = localizedDescription
+    ? (localizedDescription.length > 150 ? localizedDescription.slice(0, 150) + '...' : localizedDescription)
+    : `Shipment of ${load.weight_ton} tons of cargo from ${load.origin_city} to ${load.destination_city}.`;
 
   return {
     title,
@@ -101,13 +98,16 @@ export default async function LoadDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const localizedTitle = load.title_translations?.[locale] || load.title;
+  const localizedDescription = load.description_translations?.[locale] || load.description;
+
   // JSON-LD Service schema
   const offerJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: `${load.origin_city} - ${load.destination_city} Shipping`,
+    name: localizedTitle,
     description:
-      load.description ||
+      localizedDescription ||
       `${load.weight_ton} ton shipment from ${load.origin_city} to ${load.destination_city}`,
     provider: {
       '@type': 'Organization',
@@ -137,7 +137,7 @@ export default async function LoadDetailPage({ params }: PageProps) {
       {
         '@type': 'ListItem',
         position: 3,
-        name: `${load.origin_city} ➜ ${load.destination_city}`,
+        name: localizedTitle,
         item: `${SITE_URL}/${locale}/marketplace/${id}`,
       },
     ],
@@ -164,11 +164,11 @@ export default async function LoadDetailPage({ params }: PageProps) {
           <Link href={`/${locale}/marketplace`} className="hover:text-accent">
             {t.nav.marketplace}
           </Link>{' '}
-          / <span>{load.origin_city} → {load.destination_city}</span>
+          / <span className="truncate max-w-[200px] inline-block align-bottom">{localizedTitle}</span>
         </nav>
 
         <h1 className="text-3xl sm:text-4xl font-black text-fg tracking-tight">
-          {load.title}
+          {localizedTitle}
         </h1>
         <p className="mt-2 text-base text-muted">
           {load.origin_city}
