@@ -13,7 +13,7 @@ export function useT() {
     cardHover: 'hover:border-accent/30 hover:shadow-md transition-all duration-200',
     cardInner: 'bg-background-light dark:bg-background-dark',
     banner: 'bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark',
-    heading: 'text-fg',
+    heading: 'font-display text-fg tracking-tight',
     body: 'text-fg/80',
     sub: 'text-muted',
     muted: 'text-muted/60',
