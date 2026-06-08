@@ -26,13 +26,14 @@ export async function GET() {
   // 2. Fetch all published blog posts (removed the tight limit)
   const { data: posts } = await supabase
     .from('blog_posts')
-    .select('slug, created_at, language')
+    .select('slug, created_at, language, cover_image')
     .eq('published', true)
     .order('created_at', { ascending: false });
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
-  xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
+  xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml"\n';
+  xml += '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
 
   // Helper to escape XML characters
   const escapeXml = (unsafe: string) => {
@@ -121,7 +122,10 @@ export async function GET() {
         xml += `    <lastmod>${lastMod}</lastmod>\n`;
         xml += '    <changefreq>weekly</changefreq>\n';
         xml += '    <priority>0.6</priority>\n';
-
+        // Add image tag if cover image exists
+        if (post.cover_image) {
+          xml += `    <image:image><image:loc>${escapeXml(post.cover_image)}</image:loc></image:image>\n`;
+        }
         // Add alternate links pointing only to existing siblings in this group
         groupPosts.forEach((sibling) => {
           const sibLocale = sibling.language || 'en';
