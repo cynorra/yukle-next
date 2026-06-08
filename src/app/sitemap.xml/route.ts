@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createPublicClient } from '@/lib/supabase/public';
+import fs from 'fs';
+import path from 'path';
+import { getCachedSitemap, setCachedSitemap } from '@/lib/sitemapCache';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -13,6 +16,17 @@ const LOCALES = [
 ] as const;
 
 export async function GET() {
+  // Optional cache check – return cached sitemap if fresh
+  const cached = getCachedSitemap();
+  if (cached) {
+    return new Response(cached, {
+      headers: {
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600'
+      }
+    });
+  }
+
   const supabase = createPublicClient();
 
   // 1. Fetch active loads
@@ -21,7 +35,7 @@ export async function GET() {
     .select('id, created_at')
     .eq('status', 'active')
     .order('created_at', { ascending: false })
-    .limit(2000); // increased limit to include more active loads
+    // No explicit limit – fetch all active loads
 
   // 2. Fetch all published blog posts (removed the tight limit)
   const { data: posts } = await supabase
@@ -49,8 +63,8 @@ export async function GET() {
     });
   };
 
-  // 3. Static Pages - for each locale and each page, we list all alternates
-  const staticPaths = ['', '/marketplace', '/blog', '/login', '/register'];
+  // 3. Static Pages - dynamically discover all static routes under src/app/[locale]
+  const staticPaths = getAllStaticPaths();
   for (const path of staticPaths) {
     for (const locale of LOCALES) {
       const url = `${SITE_URL}/${locale}${path}`;
@@ -144,6 +158,8 @@ export async function GET() {
   }
 
   xml += '</urlset>\n';
+  // Store generated sitemap in cache (valid for 1 hour)
+  setCachedSitemap(xml);
 
   return new Response(xml, {
     headers: {
@@ -151,4 +167,36 @@ export async function GET() {
       'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600'
     }
   });
+}
+
+// Helper to collect static route paths (excluding dynamic segments)
+function getAllStaticPaths(): string[] {
+  const localeDir = path.join(process.cwd(), 'src', 'app', '[locale]');
+  const routes: string[] = ['']; // include root
+
+  function walk(dir: string, baseRoute: string) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        // Skip API, files or folders that contain '[' (dynamic) or start with '_' (private)
+        if (entry.name.startsWith('api') || entry.name.includes('[') || entry.name.startsWith('_')) {
+          continue;
+        }
+        const routeSegment = `/${entry.name}`;
+        const fullPath = baseRoute + routeSegment;
+        // If the directory contains a page.tsx (or page.js) treat as a route
+        const hasPage = fs.existsSync(path.join(dir, entry.name, 'page.tsx')) ||
+                       fs.existsSync(path.join(dir, entry.name, 'page.jsx')) ||
+                       fs.existsSync(path.join(dir, entry.name, 'page.js'));
+        if (hasPage) {
+          routes.push(fullPath);
+        }
+        // Recurse into subfolders to capture nested static routes
+        walk(path.join(dir, entry.name), fullPath);
+      }
+    }
+  }
+
+  walk(localeDir, '');
+  return routes;
 }
