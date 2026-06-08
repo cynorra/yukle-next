@@ -197,6 +197,10 @@ function getAllStaticPaths(): string[] {
     }
   }
 
-  walk(localeDir, '');
+  try {
+    walk(localeDir, '');
+  } catch (e) {
+    return [];
+  }
   return routes;
 }
