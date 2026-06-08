@@ -12,6 +12,10 @@ const SUPPORTED_LOCALES = [
 
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  // Bypass middleware for sitemap generation
+  if (pathname === '/sitemap.xml') {
+    return NextResponse.next();
+  }
 
   // 1. Exclude public assets, internal paths, API routes, and OAuth callbacks
   if (
@@ -76,6 +80,6 @@ export const config = {
      * - logo.png (logo file)
      * - file extensions (png, jpg, jpeg, gif, svg, webp)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|logo.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon\.ico|logo\.png|sitemap\.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
