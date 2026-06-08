@@ -50,22 +50,41 @@ export async function generateMetadata({
   const title = post.meta_title || post.title;
   const description = post.meta_description || post.excerpt || post.title;
 
-  const SUPPORTED_LOCALES = [
-    'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
-    'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-    'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-    'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-    'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-    'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
-  ];
-
   const parts = slug.split('-');
   const baseSlug = parts.length > 1 ? parts.slice(0, -1).join('-') : slug;
 
+  const supabase = createPublicClient();
+  const { data: siblings } = await supabase
+    .from('blog_posts')
+    .select('slug, language')
+    .eq('published', true)
+    .ilike('slug', `${baseSlug}-%`);
+
   const languagesAlternates: Record<string, string> = {};
-  SUPPORTED_LOCALES.forEach((loc) => {
-    languagesAlternates[loc] = `${SITE_URL}/${loc}/blog/${baseSlug}-${loc}`;
-  });
+  if (siblings && siblings.length > 0) {
+    siblings.forEach((sib) => {
+      if (sib.language) {
+        languagesAlternates[sib.language] = `${SITE_URL}/${sib.language}/blog/${sib.slug}`;
+      }
+    });
+  } else {
+    // Fallback if query returns empty
+    const SUPPORTED_LOCALES = [
+      'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
+      'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
+      'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
+      'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
+      'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
+      'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
+    ];
+    SUPPORTED_LOCALES.forEach((loc) => {
+      languagesAlternates[loc] = `${SITE_URL}/${loc}/blog/${baseSlug}-${loc}`;
+    });
+  }
+
+  // Set English or default as x-default
+  const englishSlug = siblings?.find(s => s.language === 'en')?.slug || `${baseSlug}-en`;
+  languagesAlternates['x-default'] = `${SITE_URL}/en/blog/${englishSlug}`;
 
   return {
     title,
@@ -107,14 +126,19 @@ export default async function BlogSlugPage({
     redirect(`/${post.language}/blog/${slug}`);
   }
 
+  const wordCount = post.content ? post.content.trim().split(/\s+/).length : 0;
+
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
+    inLanguage: locale,
     description: post.excerpt || post.meta_description,
     image: post.cover_image,
     datePublished: post.created_at,
-    dateModified: post.updated_at,
+    dateModified: post.updated_at || post.created_at,
+    wordCount,
+    articleSection: 'Logistics',
     author: {
       '@type': 'Person',
       name: post.author?.full_name || 'YükLe Ekibi',
@@ -124,7 +148,7 @@ export default async function BlogSlugPage({
       name: 'YükLe',
       logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
     },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${slug}` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/${locale}/blog/${slug}` },
   };
 
   return (
@@ -133,7 +157,7 @@ export default async function BlogSlugPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-      <BlogDetailClient />
+      <BlogDetailClient post={post} locale={locale} slug={slug} />
     </>
   );
 }

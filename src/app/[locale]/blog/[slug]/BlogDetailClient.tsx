@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
 import { BlogPost } from '@/types/database';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -14,22 +12,16 @@ import {
   User as UserIcon, 
   ChevronLeft, 
   Clock,
-  Loader2,
   Facebook,
   Twitter,
   MessageCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export function BlogDetailClient() {
-  const { slug } = useParams();
-  const router = useRouter();
+export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; locale: string; slug: string }) {
   const t = useT();
-  const { locale } = useTranslation();
   const activeLocale = (locale in BLOG_TRANSLATIONS) ? (locale as Locale) : 'en';
   const tr = BLOG_TRANSLATIONS[activeLocale];
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // Scroll Progress Logic
@@ -43,29 +35,6 @@ export function BlogDetailClient() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    async function fetchPost() {
-      try {
-        const { data, error } = await supabase
-          .from('blog_posts')
-          .select('*, author:profiles(full_name)')
-          .eq('slug', slug)
-          .eq('published', true)
-          .single();
-
-        if (error) throw error;
-        setPost(data);
-      } catch (err) {
-        console.error('Error fetching post:', err);
-        router.push('/blog');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (slug) fetchPost();
-  }, [slug, router]);
 
   const faqJsonLd = useMemo(() => {
     if (slug === 'kamyon-tir-soforleri-yuk-bulma-rehberi') {
@@ -403,15 +372,6 @@ export function BlogDetailClient() {
 
     return elements;
   }, [post?.content, slug, t.muted, t.body]);
-
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <Loader2 size={48} className="text-accent animate-spin mb-4" />
-        <p className={t.muted}>{tr.loading}</p>
-      </div>
-    );
-  }
 
   if (!post) return null;
 

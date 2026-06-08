@@ -143,8 +143,77 @@ const logisticsTopics = [
   'A guide to shipping oversized industrial machinery internationally',
   'Temperature logs and safety standards in reefer container transport',
   'How manufacturers use load boards to reduce LTL shipping costs',
-  'The role of fast-moving consumer goods (FMCG) in global logistics networks'
+  'The role of fast-moving consumer goods (FMCG) in global logistics networks',
+  'Port congestion and its ripple effects on global supply chains',
+  'How freight brokers add value in complex shipping lanes',
+  'Understanding demurrage and detention fees in container shipping',
+  'Best practices for packing and loading breakbulk cargo',
+  'How predictive analytics is reshaping demand forecasting in logistics',
+  'Drone delivery: Current state and future potential in last-mile logistics',
+  'How nearshoring is changing freight flows in Europe and North America',
+  'Reverse logistics: Managing returns efficiently in e-commerce',
+  'How climate change is forcing supply chain resilience planning',
+  'The rise of autonomous trucks: What it means for freight carriers',
+  'Understanding bonded warehouses and their role in international trade',
+  'How load planning software reduces shipping costs for carriers',
+  'Rail freight vs road freight: A cost and transit time comparison',
+  'The importance of carrier vetting and compliance in freight marketplaces',
+  'How blockchain is improving transparency in global supply chains'
 ];
+
+// Fetch ALL used topics from blog posts (en language only) to avoid duplicates
+async function getUsedTopics() {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('title, created_at')
+      .eq('language', 'en')
+      .order('created_at', { ascending: false });
+
+    if (error || !data) {
+      console.warn('Could not fetch used topics from DB:', error?.message);
+      return [];
+    }
+    return data.map(p => p.title.toLowerCase());
+  } catch (err) {
+    console.warn('getUsedTopics error:', err.message);
+    return [];
+  }
+}
+
+// Select a topic that has not been used recently
+async function selectUnusedTopic() {
+  const usedTitles = await getUsedTopics();
+
+  // Filter out topics whose keywords appear in existing post titles
+  const unusedTopics = logisticsTopics.filter(topic => {
+    // Use first 4 significant words as fingerprint for fuzzy matching
+    const topicWords = topic.toLowerCase().split(' ').filter(w => w.length > 3).slice(0, 4);
+    return !usedTitles.some(existingTitle =>
+      topicWords.filter(word => existingTitle.includes(word)).length >= 3
+    );
+  });
+
+  if (unusedTopics.length > 0) {
+    const chosen = unusedTopics[Math.floor(Math.random() * unusedTopics.length)];
+    console.log(`[Topic Dedup] ${unusedTopics.length} unused topics available. Selected: "${chosen}"`);
+    return chosen;
+  }
+
+  // All topics have been used — pick the one whose keywords appear least in recent titles
+  console.warn('[Topic Dedup] All topics have been used at least once. Selecting least-recently-used topic...');
+  const topicScores = logisticsTopics.map(topic => {
+    const topicWords = topic.toLowerCase().split(' ').filter(w => w.length > 3).slice(0, 4);
+    const matchCount = usedTitles.filter(existingTitle =>
+      topicWords.filter(word => existingTitle.includes(word)).length >= 3
+    ).length;
+    return { topic, matchCount };
+  });
+  topicScores.sort((a, b) => a.matchCount - b.matchCount);
+  const chosen = topicScores[0].topic;
+  console.log(`[Topic Dedup] Least-used topic selected: "${chosen}"`);
+  return chosen;
+}
 
 const blogLanguagesMapping = {
   'English': 'en', 'Turkish': 'tr', 'German': 'de', 'French': 'fr',
@@ -215,21 +284,55 @@ function checkImageUrl(url) {
   });
 }
 
-// Select a validated cover image, attempting up to 5 times
+// Fetch ALL cover images already used in the database (distinct)
+async function getUsedCoverImages() {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('cover_image')
+      .not('cover_image', 'is', null);
+
+    if (error || !data) {
+      console.warn('Could not fetch used cover images from DB:', error?.message);
+      return new Set();
+    }
+    return new Set(data.map(p => p.cover_image));
+  } catch (err) {
+    console.warn('getUsedCoverImages error:', err.message);
+    return new Set();
+  }
+}
+
+// Select a unique validated cover image not yet used in DB
 async function getValidatedCoverImage() {
-  const shuffled = [...coverImages].sort(() => 0.5 - Math.random());
+  const usedImages = await getUsedCoverImages();
+  console.log(`[Image Dedup] ${usedImages.size} images already used in DB. Pool size: ${coverImages.length}`);
+
+  // Prioritize unused images
+  const unusedImages = coverImages.filter(url => !usedImages.has(url));
+  const candidatePool = unusedImages.length > 0 ? unusedImages : coverImages;
+
+  if (unusedImages.length === 0) {
+    console.warn('[Image Dedup] All cover images have been used at least once. Recycling from full pool.');
+  }
+
+  // Shuffle candidates and try up to 5 to find a valid (HTTP 200) URL
+  const shuffled = [...candidatePool].sort(() => 0.5 - Math.random());
   for (let i = 0; i < Math.min(5, shuffled.length); i++) {
     const imgUrl = shuffled[i];
     console.log(`Checking cover image URL: ${imgUrl}`);
     const isValid = await checkImageUrl(imgUrl);
     if (isValid) {
-      console.log(`Cover image validated successfully: ${imgUrl}`);
+      console.log(`Cover image validated & unique: ${imgUrl}`);
       return imgUrl;
     }
     console.warn(`Cover image validation failed for: ${imgUrl}`);
   }
-  console.log(`Could not validate any random image. Falling back to default: ${coverImages[0]}`);
-  return coverImages[0];
+
+  // Last resort: first unused or first in pool
+  const fallback = candidatePool[0];
+  console.log(`Could not validate any image. Falling back to: ${fallback}`);
+  return fallback;
 }
 
 // Free Google Translate API integration
@@ -447,10 +550,10 @@ async function runBlogGenerator() {
   let baseLanguage = 'en'; // default base language for AI generation is English
 
   if (geminiApiKey) {
-    const randomTopic = logisticsTopics[Math.floor(Math.random() * logisticsTopics.length)];
+    const selectedTopic = await selectUnusedTopic();
     try {
-      console.log(`Generating base English article for topic: "${randomTopic}"`);
-      basePost = await generateBasePost(randomTopic);
+      console.log(`Generating base English article for topic: "${selectedTopic}"`);
+      basePost = await generateBasePost(selectedTopic);
       baseLanguage = 'en';
     } catch (e) {
       console.error('Failed to generate AI base article. Falling back to local library...', e.message);
@@ -498,6 +601,20 @@ async function runBlogGenerator() {
     baseSlug = `${baseSlug}-${uniqueSuffix}`;
     console.log(`Base slug "${checkSlug}" already exists. Generated unique base slug core: "${baseSlug}"`);
   }
+
+  // Ensure title uniqueness (case-insensitive)
+  let baseTitle = basePost.title.trim();
+  const { data: titleExists } = await supabase
+    .from('blog_posts')
+    .select('id')
+    .ilike('title', baseTitle)
+    .maybeSingle();
+  if (titleExists) {
+    const titleSuffix = Math.floor(1000 + Math.random() * 9000);
+    baseTitle = `${baseTitle} ${titleSuffix}`;
+    console.log(`Base title duplicate found. Modified title to "${baseTitle}"`);
+  }
+  basePost.title = baseTitle;
 
   // 2. Translate Article into target languages (46 other languages) using Google Translate GTX
   const targetLanguages = Object.entries(blogLanguagesMapping).filter(([name, code]) => code !== baseLanguage);
