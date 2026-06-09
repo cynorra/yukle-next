@@ -6,6 +6,7 @@ import { BlogDetailClient } from './BlogDetailClient';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
 export const revalidate = 600;
+export const dynamicParams = true;
 
 async function getPost(slug: string) {
   const supabase = createPublicClient();
@@ -19,17 +20,8 @@ async function getPost(slug: string) {
 }
 
 export async function generateStaticParams() {
-  // Build sırasında bilinen tüm slug'ları üret (ISR ile sonradan da yeni gelenleri yakalar)
-  try {
-    const supabase = createPublicClient();
-    const { data } = await supabase
-      .from('blog_posts')
-      .select('slug')
-      .eq('published', true);
-    return (data || []).map((p) => ({ slug: p.slug }));
-  } catch {
-    return [];
-  }
+  // Build sırasında sayfa üretme; sayfalar ilk ziyarette ISR ile oluşturulur
+  return [];
 }
 
 export async function generateMetadata({
