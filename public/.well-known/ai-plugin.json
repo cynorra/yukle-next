@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Loadly",
+  "name_for_model": "loadly",
+  "description_for_human": "Global freight marketplace connecting shippers with carriers. Find loads, post freight, get competitive bids.",
+  "description_for_model": "Loadly is a global freight logistics marketplace operating in 47 languages across 190+ countries. Shippers post freight loads with origin, destination, cargo type, and weight. Carriers submit competitive bids. Upon bid acceptance, secure real-time messaging is unlocked. Supports cargo types: general, hazardous, perishable, oversized, fragile. Fleet types: TIR/semi-truck, rigid truck, van, flatbed, tanker, reefer. Marketplace URL: https://loadlyapp.com/en/marketplace",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://loadlyapp.com/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://loadlyapp.com/logo.png",
+  "contact_email": "support@loadlyapp.com",
+  "legal_info_url": "https://loadlyapp.com/en/terms"
+}

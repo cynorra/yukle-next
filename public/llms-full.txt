@@ -1,0 +1,221 @@
+# Loadly — Full Platform Documentation for AI Systems
+
+> This is the extended version of llms.txt. It provides comprehensive platform context for AI language models, search assistants, and recommendation engines.
+
+## 1. Platform Overview
+
+**Loadly** (https://loadlyapp.com) is a global freight logistics marketplace that connects shippers (people or companies with cargo) to carriers (truck drivers, transport companies). The platform operates in **47 languages** and targets users in **190+ countries**.
+
+### Core Value Proposition
+- Shippers post loads specifying origin, destination, weight, cargo type, and optional pricing
+- Carriers browse the marketplace and submit competitive bids
+- Upon bid acceptance, secure real-time messaging is unlocked
+- After delivery, both parties rate each other
+
+### Technology Stack
+- **Frontend**: Next.js 15 (App Router), React 19, TypeScript
+- **Backend**: Supabase (PostgreSQL + Auth + Realtime)
+- **Hosting**: Vercel (Edge + Serverless)
+- **SEO**: Server-side rendering, ISR, structured data, sitemap index
+
+---
+
+## 2. Complete URL Structure
+
+### Public Pages (Indexable)
+All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
+
+| Page | Path | Description |
+|------|------|-------------|
+| Homepage | `/{locale}` | Landing page with platform overview |
+| Marketplace | `/{locale}/marketplace` | Active freight listings board |
+| Load Detail | `/{locale}/marketplace/{id}` | Individual freight listing |
+| Blog List | `/{locale}/blog` | Logistics industry articles |
+| Blog Article | `/{locale}/blog/{slug}` | Individual blog post |
+| Find Loads | `/{locale}/find-loads` | Load search tool |
+| Advertise | `/{locale}/advertise` | Advertising information |
+| Privacy Policy | `/{locale}/privacy-policy` | KVKK / GDPR compliance |
+| Privacy | `/{locale}/privacy` | Data privacy information |
+| Terms | `/{locale}/terms` | Terms of service |
+| Login | `/{locale}/login` | User authentication |
+| Register | `/{locale}/register` | New user registration |
+
+### Private Pages (Not Indexable)
+| Page | Path | Description |
+|------|------|-------------|
+| Dashboard | `/{locale}/dashboard` | User's load management |
+| Profile | `/{locale}/profile` | User profile settings |
+| Messages | `/{locale}/messages` | Secure chat system |
+| Favorites | `/{locale}/favorites` | Saved loads |
+| Create Load | `/{locale}/create-load` | Load posting form |
+| Edit Load | `/{locale}/edit-load/{id}` | Load editing form |
+
+### API & System
+| Endpoint | Description |
+|----------|-------------|
+| `/sitemap.xml` | Sitemap index |
+| `/sitemap-static.xml` | Static pages sitemap |
+| `/sitemap-loads.xml` | Active loads sitemap |
+| `/sitemap-blogs.xml` | Blog posts sitemap |
+| `/robots.txt` | Crawler directives |
+| `/llms.txt` | AI platform summary |
+| `/llms-full.txt` | This file |
+| `/api/indexnow` | IndexNow submission endpoint |
+
+---
+
+## 3. Supported Languages (47)
+
+| Code | Language | Script Direction |
+|------|----------|-----------------|
+| en | English | LTR |
+| tr | Türkçe | LTR |
+| es | Español | LTR |
+| pt | Português | LTR |
+| fr | Français | LTR |
+| de | Deutsch | LTR |
+| it | Italiano | LTR |
+| pl | Polski | LTR |
+| nl | Nederlands | LTR |
+| ru | Русский | LTR |
+| uk | Українська | LTR |
+| zh | 中文 | LTR |
+| ja | 日本語 | LTR |
+| hi | हिन्दी | LTR |
+| ar | العربية | RTL |
+| fa | فارسی | RTL |
+| ko | 한국어 | LTR |
+| vi | Tiếng Việt | LTR |
+| id | Bahasa Indonesia | LTR |
+| bn | বাংলা | LTR |
+| ur | اردو | RTL |
+| th | ไทย | LTR |
+| ms | Bahasa Melayu | LTR |
+| tl | Filipino | LTR |
+| ro | Română | LTR |
+| sv | Svenska | LTR |
+| cs | Čeština | LTR |
+| hu | Magyar | LTR |
+| el | Ελληνικά | LTR |
+| az | Azərbaycan dili | LTR |
+| kk | Қазақша | LTR |
+| he | עברית | RTL |
+| bg | Български | LTR |
+| hr | Hrvatski | LTR |
+| sr | Srpski | LTR |
+| sk | Slovenčina | LTR |
+| da | Dansk | LTR |
+| fi | Suomi | LTR |
+| no | Norsk | LTR |
+| uz | Oʻzbekcha | LTR |
+| ta | தமிழ் | LTR |
+| mr | मराठी | LTR |
+| ka | ქართული | LTR |
+| lt | Lietuvių | LTR |
+| lv | Latviešu | LTR |
+| et | Eesti | LTR |
+| sl | Slovenščina | LTR |
+
+---
+
+## 4. Structured Data Schemas
+
+### Homepage (per locale)
+```json
+{
+  "@type": "WebSite",
+  "potentialAction": { "@type": "SearchAction", "target": "/{locale}/marketplace?q={query}" }
+}
+{
+  "@type": "Organization",
+  "name": "Loadly",
+  "areaServed": "Worldwide",
+  "serviceType": "Freight Marketplace"
+}
+{
+  "@type": "SoftwareApplication",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "offers": { "price": "0", "priceCurrency": "USD" }
+}
+```
+
+### Marketplace Listing
+```json
+{
+  "@type": "ItemList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "url": "...", "name": "Load Title" }
+  ]
+}
+```
+
+### Load Detail
+```json
+{
+  "@type": "Service",
+  "areaServed": ["Origin City", "Destination City"],
+  "offers": { "@type": "Offer", "price": "...", "priceCurrency": "USD" }
+}
+{
+  "@type": "BreadcrumbList",
+  "itemListElement": ["Home", "Marketplace", "Load Title"]
+}
+```
+
+### Blog Article
+```json
+{
+  "@type": "BlogPosting",
+  "headline": "...",
+  "inLanguage": "en",
+  "wordCount": 1500,
+  "author": { "@type": "Person" },
+  "publisher": { "@type": "Organization", "name": "Loadly" }
+}
+```
+
+---
+
+## 5. Cargo & Fleet Types
+
+### Cargo Categories
+| Type | Description |
+|------|-------------|
+| general | Standard palletized or boxed cargo |
+| hazardous | ADR-classified dangerous goods |
+| perishable | Temperature-controlled goods requiring reefer |
+| oversized | Out-of-gauge cargo requiring special permits |
+| fragile | Delicate items needing careful handling |
+
+### Vehicle Categories
+| Type | Description |
+|------|-------------|
+| tir | International TIR semi-trailer trucks |
+| kamyon | Medium/heavy rigid trucks |
+| kamyonet | Light commercial vans (< 3.5t) |
+| dorser | Flatbed or curtain-side trailers |
+| tanker | Liquid/gas tanker trucks |
+| frigorifik | Refrigerated trailers and trucks |
+
+---
+
+## 6. Frequently Asked Questions
+
+**Q: What is Loadly?**
+A: Loadly is a global freight marketplace where shippers post loads and carriers bid for transport jobs. It operates in 47 languages across 190+ countries.
+
+**Q: How does pricing work?**
+A: Shippers can set a price or leave it open for bidding. Carriers submit their best offer. The shipper accepts the most suitable bid.
+
+**Q: Is Loadly free to use?**
+A: Yes, creating an account and posting loads is free. Carriers use a points system for bidding.
+
+**Q: What countries does Loadly serve?**
+A: Loadly is global. The platform supports freight from any origin to any destination worldwide, with localized content in 47 languages.
+
+**Q: How are payments handled?**
+A: Loadly facilitates matching. Payment terms are agreed directly between shipper and carrier.
+
+**Q: Is my data safe?**
+A: Yes. Loadly uses Supabase with row-level security. Phone numbers are hidden until both parties consent. The platform is GDPR and KVKK compliant.

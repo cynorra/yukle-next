@@ -1,28 +1,39 @@
-# Loadly - Global Logistics Matchmaking Platform
+# Loadly — Global Logistics & Freight Matchmaking Platform
 
-> Loadly is a premium logistics matchmaking platform connecting shippers with carriers globally. Shippers post freight ads, carriers submit competitive bids, and our system facilitates direct communication upon bid acceptance.
+> Loadly (loadlyapp.com) is a premium international logistics matchmaking platform connecting shippers with carriers worldwide. Shippers post freight ads specifying origin, destination, cargo type, and weight. Carriers submit competitive bids. Upon bid acceptance, the platform unlocks secure real-time messaging between both parties.
 
 ## Site Index & Entry Points
 
 - **Primary URL**: https://loadlyapp.com
 - **Sitemap Index**: https://loadlyapp.com/sitemap.xml
-- **Marketplace Posting Directory**: https://loadlyapp.com/en/marketplace
-- **Logistics Blog & Resources**: https://loadlyapp.com/en/blog
-- **Login Portal**: https://loadlyapp.com/en/login
-- **Registration**: https://loadlyapp.com/en/register
+- **Sub-Sitemaps**:
+  - Static Pages: https://loadlyapp.com/sitemap-static.xml
+  - Active Freight Listings: https://loadlyapp.com/sitemap-loads.xml
+  - Blog Articles: https://loadlyapp.com/sitemap-blogs.xml
+- **Marketplace (Load Board)**: https://loadlyapp.com/en/marketplace
+- **Logistics Blog & Industry Resources**: https://loadlyapp.com/en/blog
+- **LLMs Full Context**: https://loadlyapp.com/llms-full.txt
+
+## Language & Locale Coverage
+
+Loadly serves users in **47 languages** with fully localized page titles, descriptions, UI, blog articles, and structured data:
+
+`en` (English), `tr` (Türkçe), `es` (Español), `pt` (Português), `fr` (Français), `de` (Deutsch), `it` (Italiano), `pl` (Polski), `nl` (Nederlands), `ru` (Русский), `uk` (Українська), `zh` (中文), `ja` (日本語), `hi` (हिन्दी), `ar` (العربية), `fa` (فارسی), `ko` (한국어), `vi` (Tiếng Việt), `id` (Bahasa Indonesia), `bn` (বাংলা), `ur` (اردو), `th` (ไทย), `ms` (Bahasa Melayu), `tl` (Filipino), `ro` (Română), `sv` (Svenska), `cs` (Čeština), `hu` (Magyar), `el` (Ελληνικά), `az` (Azərbaycan), `kk` (Қазақша), `he` (עברית), `bg` (Български), `hr` (Hrvatski), `sr` (Srpski), `sk` (Slovenčina), `da` (Dansk), `fi` (Suomi), `no` (Norsk), `uz` (Oʻzbekcha), `ta` (தமிழ்), `mr` (मराठी), `ka` (ქართული), `lt` (Lietuvių), `lv` (Latviešu), `et` (Eesti), `sl` (Slovenščina)
+
+Each page has `hreflang` alternate links and `x-default` pointing to the English version.
 
 ## User Personas & Roles
 
-- **Shippers (Load Owners)**: Individual freight owners, logistics companies, or manufacturers with cargo to move.
-- **Carriers (Drivers/Transporters)**: Owners of cargo vans, semi-trucks, reefers, flatbeds, or tankers seeking active shipping assignments.
+- **Shippers (Load Owners)**: Individuals, logistics companies, manufacturers, or e-commerce businesses with cargo to transport.
+- **Carriers (Drivers/Transporters)**: Owner-operators of cargo vans, semi-trucks, reefer trucks, flatbeds, or tankers looking for shipping assignments.
 
 ## Platform Capabilities
 
-- **Multilingual Support**: Serves users in 16 languages (`en`, `tr`, `es`, `pt`, `fr`, `de`, `it`, `pl`, `nl`, `ru`, `uk`, `zh`, `ja`, `hi`, `ar`, `fa`) with localized descriptions, titles, and layouts.
-- **Freight Bidding & Matching**: Shippers receive real-time driver offers with pricing bids and carrier notes.
-- **Secure Messaging & Verification**: Accepting a bid unlocks real-time chat. Phone numbers are protected and only shared once both parties explicitly consent.
-- **Gamification & Points**: Driver engagement is gated and rewarded through a points system (e.g., bidding costs 10 points; first-message bonuses reward active carriers).
-- **Ratings & Reviews**: Both parties rate each other upon shipment completion to ensure platform safety and quality control.
+- **Freight Bidding & Matching**: Carriers place real-time bids with pricing and notes on active load listings.
+- **Secure Messaging & Verification**: Accepting a bid unlocks real-time chat. Phone numbers are protected until both parties consent.
+- **Gamification & Points System**: Driver engagement is rewarded through points (e.g., bidding costs points; first-message bonuses reward active carriers).
+- **Ratings & Reviews**: Mutual rating system after shipment completion for platform quality control.
+- **Automated AI Blog**: AI-generated logistics industry articles in 47 languages for SEO/AEO/GEO coverage.
 
 ## Supported Cargo Types
 - General Cargo
@@ -31,13 +42,28 @@
 - Oversized / Heavy Haul
 - Fragile Shipments
 
-## Supported Fleet/Truck Types
+## Supported Fleet / Truck Types
 - TIR / Semi-truck
 - Truck / Rigid Truck
-- Van / Light Truck
+- Van / Light Commercial Vehicle
 - Flatbed / Trailer
 - Tanker
 - Reefer / Refrigerated Trailer
 
-## Data Structures & Crawling Guidelines
-All active listings are rendered on the client with structured JSON-LD `Service` and `BreadcrumbList` schemas. The primary index at `/en/marketplace` exposes a structured `ItemList` schema. Sitemaps are dynamically generated to surface thousands of localized pages across all 16 languages for instant search extraction and GEO/AEO/SEO ranking.
+## Structured Data & Schema
+
+All pages include rich JSON-LD structured data:
+- **Homepage**: `WebSite` + `Organization` + `SoftwareApplication` + `SearchAction`
+- **Marketplace List**: `ItemList` schema with individual load entries
+- **Load Detail**: `Service` + `BreadcrumbList` + `Offer` schemas
+- **Blog List**: `FAQPage` schema with industry Q&A
+- **Blog Article**: `BlogPosting` with author, publisher, wordCount, datePublished
+- **All Pages**: `hreflang` alternate links for 47 languages + `x-default`
+
+## Crawling Guidelines
+
+- All public pages are indexable with `robots: index, follow`
+- Private pages (dashboard, profile, messages) are blocked via robots.txt and meta robots
+- Sitemaps are dynamically generated via sitemap index with 3 sub-sitemaps
+- IndexNow protocol is active for instant Bing/Yandex/Naver/Seznam notification
+- `Crawl-delay` is set for aggressive crawlers (Baidu, Sogou, Bytespider)

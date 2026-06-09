@@ -16,10 +16,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = TRANSLATIONS[locale];
+
+  const languages = Object.keys(TRANSLATIONS).reduce((acc, code) => {
+    acc[code] = `/${code}/marketplace`;
+    return acc;
+  }, {} as Record<string, string>);
+
   return {
     title: `${t.marketplace.title} | Loadly`,
     description: t.marketplace.desc,
-    alternates: { canonical: `/${locale}/marketplace` },
+    alternates: {
+      canonical: `/${locale}/marketplace`,
+      languages,
+    },
     openGraph: {
       title: `${t.marketplace.title} | Loadly`,
       description: t.marketplace.desc,

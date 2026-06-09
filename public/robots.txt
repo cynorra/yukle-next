@@ -1,6 +1,287 @@
-# AI Crawler Allowances
+# ═══════════════════════════════════════════════════════════════
+# Loadly – robots.txt
+# Global Freight Marketplace · https://loadlyapp.com
+# 47 languages · 190+ countries
+# ═══════════════════════════════════════════════════════════════
+
+# ─── PRIVATE PATHS (blocked for all bots) ─────────────────────
+# These paths are user-specific, auth-gated, or not indexable.
+
+# ─── GLOBAL SEARCH ENGINE CRAWLERS ────────────────────────────
+
+# Google (Search, Images, Video, News, Shopping)
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+Disallow: /*/login
+Disallow: /*/register
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /*/blog
+Allow: /*/marketplace
+
+User-agent: Google-InspectionTool
+Allow: /
+
+User-agent: Storebot-Google
+Allow: /
+
+# Microsoft Bing & MSN
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+Disallow: /*/login
+Disallow: /*/register
+
+User-agent: msnbot
+Allow: /
+
+User-agent: BingPreview
+Allow: /
+
+# Yandex (Russia, CIS countries)
+User-agent: YandexBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+Disallow: /*/login
+Disallow: /*/register
+Crawl-delay: 1
+
+User-agent: YandexImages
+Allow: /
+
+User-agent: YandexMedia
+Allow: /
+
+User-agent: YandexMobileBot
+Allow: /
+
+# Baidu (China)
+User-agent: Baiduspider
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+Disallow: /*/login
+Disallow: /*/register
+Crawl-delay: 2
+
+User-agent: Baiduspider-image
+Allow: /
+
+# Sogou (China – 2nd largest)
+User-agent: Sogou
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Crawl-delay: 2
+
+# 360 / Qihoo / So.com (China – 3rd largest)
+User-agent: 360Spider
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Crawl-delay: 2
+
+# Naver (South Korea – dominant)
+User-agent: Yeti
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+# Daum / Kakao (South Korea)
+User-agent: Daum
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+# Yahoo
+User-agent: Slurp
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+# Apple (Siri, Spotlight, Safari suggestions)
+User-agent: Applebot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+# Seznam (Czech Republic)
+User-agent: SeznamBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# Mail.ru (Russia)
+User-agent: Mail.RU_Bot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Crawl-delay: 1
+
+# Qwant (France / EU)
+User-agent: Qwantify
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# Ecosia (Germany, eco-search)
+User-agent: Ecosia
+Allow: /
+
+# CocCoc (Vietnam)
+User-agent: CocCocBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Crawl-delay: 2
+
+# Huawei Petal Search
+User-agent: PetalBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# Mojeek (UK – independent)
+User-agent: MojeekBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+
+# Brave Search
+User-agent: BraveBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# Internet Archive / Wayback Machine
+User-agent: ia_archiver
+Allow: /
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+User-agent: archive.org_bot
+Allow: /
+
+# Exalead (France)
+User-agent: Exabot
+Allow: /
+
+# Rambler (Russia)
+User-agent: Rambler
+Allow: /
+Crawl-delay: 2
+
+# ─── AI PLATFORM CRAWLERS ────────────────────────────────────
+
+# OpenAI (ChatGPT, GPT-4, GPT-4o)
 User-agent: GPTBot
 Allow: /
+Disallow: /api/
+Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
@@ -12,31 +293,17 @@ Disallow: /*/reset-password
 
 User-agent: ChatGPT-User
 Allow: /
-
-User-agent: PerplexityBot
-Allow: /
+Disallow: /api/
+Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
 
-User-agent: ClaudeBot
-Allow: /
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
+# Google Gemini / Bard AI
 User-agent: Google-Extended
 Allow: /
+Disallow: /api/
+Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
@@ -46,9 +313,167 @@ Disallow: /*/edit-load
 Disallow: /*/routes
 Disallow: /*/reset-password
 
-# General Search Engine Crawler Rules
+User-agent: GoogleOther
+Allow: /
+
+# Anthropic Claude
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+
+# Meta AI (Facebook, Instagram, WhatsApp AI)
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+User-agent: FacebookBot
+Allow: /
+
+# Amazon Alexa / AI
+User-agent: Amazonbot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# ByteDance (TikTok AI, Doubao)
+User-agent: Bytespider
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Crawl-delay: 2
+
+# You.com AI
+User-agent: YouBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# Common Crawl (AI training data source)
+User-agent: CCBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# Diffbot (AI data extraction)
+User-agent: Diffbot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
+# Timpi (decentralized AI search)
+User-agent: Timpibot
+Allow: /
+
+# Webz.io AI
+User-agent: Webzio-Extended
+Allow: /
+
+# Microsoft Copilot
+User-agent: Copilot
+Allow: /
+
+# ─── SOCIAL MEDIA / LINK PREVIEW BOTS ────────────────────────
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: Pinterest
+Allow: /
+
+User-agent: Snapchat
+Allow: /
+
+User-agent: vkShare
+Allow: /
+
+User-agent: W3C_Validator
+Allow: /
+
+# ─── DEFAULT CATCH-ALL ────────────────────────────────────────
+
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
@@ -57,6 +482,16 @@ Disallow: /*/create-load
 Disallow: /*/edit-load
 Disallow: /*/routes
 Disallow: /*/reset-password
+Disallow: /*/login
+Disallow: /*/register
+
+# ─── SITEMAPS ─────────────────────────────────────────────────
 
 Sitemap: https://loadlyapp.com/sitemap.xml
+Sitemap: https://loadlyapp.com/sitemap-static.xml
+Sitemap: https://loadlyapp.com/sitemap-loads.xml
+Sitemap: https://loadlyapp.com/sitemap-blogs.xml
+
+# ─── HOST ─────────────────────────────────────────────────────
+
 Host: https://loadlyapp.com

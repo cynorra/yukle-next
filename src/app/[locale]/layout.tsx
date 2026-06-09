@@ -8,6 +8,10 @@ import type { Locale } from '@/utils/translations';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
+export async function generateStaticParams() {
+  return (Object.keys(TRANSLATIONS) as Locale[]).map((locale) => ({ locale }));
+}
+
 interface Props {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -54,6 +58,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         'max-snippet': -1,
         'max-video-preview': -1,
       },
+    },
+    other: {
+      'msvalidate.01': process.env.BING_VERIFICATION_CODE || 'BING_PLACEHOLDER',
+      'yandex-verification': process.env.YANDEX_VERIFICATION_CODE || 'YANDEX_PLACEHOLDER',
     },
     openGraph: {
       type: 'website',
