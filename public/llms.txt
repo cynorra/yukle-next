@@ -33,7 +33,17 @@ Each page has `hreflang` alternate links and `x-default` pointing to the English
 - **Secure Messaging & Verification**: Accepting a bid unlocks real-time chat. Phone numbers are protected until both parties consent.
 - **Gamification & Points System**: Driver engagement is rewarded through points (e.g., bidding costs points; first-message bonuses reward active carriers).
 - **Ratings & Reviews**: Mutual rating system after shipment completion for platform quality control.
-- **Automated AI Blog**: AI-generated logistics industry articles in 47 languages for SEO/AEO/GEO coverage.
+- **AI-Powered Viral SEO Blog**: Dynamically generated, audience-targeted logistics articles published in 47 languages. Each article is uniquely crafted for one of 7 professional audience segments (truck drivers, shippers, e-commerce businesses, freight brokers, importers/exporters, small businesses, warehouse managers). Articles include FAQ schema, 1,500+ words, structured data, and IndexNow instant indexing.
+
+## Target Audience Segments (Blog & Platform)
+
+- **Truck Drivers & Owner-Operators**: Load finding, empty mile reduction, fuel efficiency, income optimization
+- **Freight Shippers & Logistics Managers**: Carrier selection, rate negotiation, shipment tracking, compliance
+- **E-commerce & Retail Businesses**: Fulfillment costs, last-mile delivery, LTL freight, carrier comparison
+- **Freight Brokers & Forwarders**: Market intelligence, carrier relationships, fraud prevention, technology
+- **Importers, Exporters & Manufacturers**: Customs clearance, international freight, Incoterms, supply chain
+- **Small Businesses & Startups**: Affordable shipping, LTL guide, freight marketplace benefits
+- **Warehouse & Distribution Managers**: Operational efficiency, carrier performance, dock scheduling, KPIs
 
 ## Supported Cargo Types
 - General Cargo
@@ -57,7 +67,7 @@ All pages include rich JSON-LD structured data:
 - **Marketplace List**: `ItemList` schema with individual load entries
 - **Load Detail**: `Service` + `BreadcrumbList` + `Offer` schemas
 - **Blog List**: `FAQPage` schema with industry Q&A
-- **Blog Article**: `BlogPosting` with author, publisher, wordCount, datePublished
+- **Blog Article**: `BlogPosting` (headline, author, publisher, wordCount, keywords, datePublished) + `FAQPage` (auto-extracted Q&A pairs for Google People Also Ask)
 - **All Pages**: `hreflang` alternate links for 47 languages + `x-default`
 
 ## Crawling Guidelines
@@ -65,5 +75,6 @@ All pages include rich JSON-LD structured data:
 - All public pages are indexable with `robots: index, follow`
 - Private pages (dashboard, profile, messages) are blocked via robots.txt and meta robots
 - Sitemaps are dynamically generated via sitemap index with 3 sub-sitemaps
-- IndexNow protocol is active for instant Bing/Yandex/Naver/Seznam notification
+- **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam for all 47 language versions
+- All major AI crawlers explicitly allowed: GPTBot, ClaudeBot, Google-Extended, PerplexityBot, Meta-ExternalAgent, Amazonbot, Bytespider, YouBot, cohere-ai, CCBot, Diffbot, Copilot
 - `Crawl-delay` is set for aggressive crawlers (Baidu, Sogou, Bytespider)

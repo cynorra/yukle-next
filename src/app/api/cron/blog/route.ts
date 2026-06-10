@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
+import { submitToIndexNow } from '@/lib/indexnow';
 
 export const dynamic = 'force-dynamic';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -23,11 +26,27 @@ export async function GET(request: Request) {
     // @ts-ignore
     const { runBlogGenerator } = require('../../../../../scripts/blog-generator');
     const posts = await runBlogGenerator();
-    const mainPost = Array.isArray(posts) ? posts[0] : posts;
+    const allPosts = Array.isArray(posts) ? posts : [posts];
+    const mainPost = allPosts[0];
+
+    // Submit all published blog URLs to IndexNow for instant indexing
+    // across Bing, Yandex, Naver, and Seznam
+    if (allPosts.length > 0) {
+      const blogUrls = allPosts
+        .filter((p: any) => p?.slug && p?.language)
+        .map((p: any) => `${SITE_URL}/${p.language}/blog/${p.slug}`);
+
+      if (blogUrls.length > 0) {
+        console.log(`Submitting ${blogUrls.length} blog URLs to IndexNow...`);
+        await submitToIndexNow(blogUrls);
+        console.log('IndexNow submission complete.');
+      }
+    }
 
     return NextResponse.json({
       success: true,
-      message: `Blog posts published successfully. Total: ${Array.isArray(posts) ? posts.length : 1}`,
+      message: `Blog posts published successfully. Total: ${allPosts.length}`,
+      indexNowSubmitted: allPosts.length,
       post: mainPost ? {
         id: mainPost.id,
         title: mainPost.title,

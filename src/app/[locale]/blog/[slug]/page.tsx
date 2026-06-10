@@ -5,6 +5,39 @@ import { BlogDetailClient } from './BlogDetailClient';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
+// Extract FAQ Q&A pairs from HTML content for FAQPage schema
+function extractFaqSchema(html: string) {
+  if (!html) return null;
+
+  const faqSectionMatch = html.match(
+    /<h2[^>]*>[^<]*(?:Frequently Asked|FAQ)[^<]*<\/h2>([\s\S]*?)(?=<h2|$)/i
+  );
+  if (!faqSectionMatch) return null;
+
+  const faqSection = faqSectionMatch[1];
+  const pairs: Array<{ question: string; answer: string }> = [];
+
+  const pairRegex = /<h3[^>]*>([\s\S]*?)<\/h3>\s*<p[^>]*>([\s\S]*?)<\/p>/gi;
+  let match;
+  while ((match = pairRegex.exec(faqSection)) !== null) {
+    const question = match[1].replace(/<[^>]+>/g, '').trim();
+    const answer = match[2].replace(/<[^>]+>/g, '').trim();
+    if (question && answer) pairs.push({ question, answer });
+  }
+
+  if (pairs.length === 0) return null;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: pairs.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  };
+}
+
 export const revalidate = 600;
 export const dynamicParams = true;
 
@@ -130,18 +163,25 @@ export default async function BlogSlugPage({
     datePublished: post.created_at,
     dateModified: post.updated_at || post.created_at,
     wordCount,
-    articleSection: 'Logistics',
+    articleSection: 'Logistics & Freight',
+    keywords: post.meta_title
+      ? post.meta_title.replace(/\s*\|\s*Loadly\s*$/i, '').trim()
+      : post.title,
+    url: `${SITE_URL}/${locale}/blog/${slug}`,
     author: {
       '@type': 'Person',
-      name: post.author?.full_name || 'YükLe Ekibi',
+      name: post.author?.full_name || 'Loadly Team',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'YükLe',
+      name: 'Loadly',
+      url: SITE_URL,
       logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/${locale}/blog/${slug}` },
   };
+
+  const faqSchema = extractFaqSchema(post.content || '');
 
   return (
     <>
@@ -149,6 +189,12 @@ export default async function BlogSlugPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <BlogDetailClient post={post} locale={locale} slug={slug} />
     </>
   );
