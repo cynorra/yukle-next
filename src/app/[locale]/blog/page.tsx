@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   SUPPORTED_LOCALES.forEach((loc) => {
     languagesAlternates[loc] = `${SITE_URL}/${loc}/blog`;
   });
+  languagesAlternates['x-default'] = `${SITE_URL}/en/blog`;
 
   return {
     title: t.title,

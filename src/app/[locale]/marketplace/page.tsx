@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const languages = Object.keys(TRANSLATIONS).reduce((acc, code) => {
     acc[code] = `/${code}/marketplace`;
     return acc;
-  }, {} as Record<string, string>);
+  }, { 'x-default': '/en/marketplace' } as Record<string, string>);
 
   return {
     title: `${t.marketplace.title} | Loadly`,

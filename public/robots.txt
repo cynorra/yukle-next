@@ -473,7 +473,6 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /auth/
-Disallow: /_next/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages

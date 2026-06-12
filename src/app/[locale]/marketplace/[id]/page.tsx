@@ -78,6 +78,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   SUPPORTED_LOCALES.forEach((loc) => {
     languagesAlternates[loc] = `${SITE_URL}/${loc}/marketplace/${id}`;
   });
+  languagesAlternates['x-default'] = `${SITE_URL}/en/marketplace/${id}`;
 
   return {
     title,

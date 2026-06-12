@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       languages: Object.keys(TRANSLATIONS).reduce((acc, code) => {
         acc[code] = `/${code}`;
         return acc;
-      }, {} as Record<string, string>),
+      }, { 'x-default': '/en' } as Record<string, string>),
     },
     robots: {
       index: true,
