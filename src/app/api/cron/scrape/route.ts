@@ -77,8 +77,8 @@ export async function GET(request: Request) {
     }
 
     const totalInserted =
-      (typeof results.tr_inserted === 'number' ? results.tr_inserted : 0) +
-      (typeof results.us_inserted === 'number' ? results.us_inserted : 0);
+      (typeof results.tr_inserted === 'number' ? (results.tr_inserted as number) : 0) +
+      (typeof results.us_inserted === 'number' ? (results.us_inserted as number) : 0);
 
     return NextResponse.json({
       success: true,
