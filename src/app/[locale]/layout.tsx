@@ -158,6 +158,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
   return (
     <html lang={locale} dir={isRtl ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4674211063760769" crossOrigin="anonymous"></script>
         {/* Anti-flash scripts */}
         <script
           dangerouslySetInnerHTML={{

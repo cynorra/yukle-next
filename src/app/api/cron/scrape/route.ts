@@ -23,6 +23,9 @@ export async function GET(request: Request) {
     }
   }
 
+  // Auto-blog / scraper disabled
+  return NextResponse.json({ success: true, message: 'Auto blog is disabled.' });
+
   // Shared Supabase client (service role to bypass RLS)
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
