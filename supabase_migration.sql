@@ -151,5 +151,10 @@ ALTER TABLE loads ADD COLUMN IF NOT EXISTS description_translations JSONB DEFAUL
 -- 5. Add language column to "blog_posts" table
 ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS language VARCHAR(10) DEFAULT 'tr';
 
-
-
+-- 6. Push Notifications Subscriptions
+CREATE TABLE IF NOT EXISTS push_subscriptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  subscription JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);

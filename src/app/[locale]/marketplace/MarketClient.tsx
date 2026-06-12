@@ -24,6 +24,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmptyState from '@/components/EmptyState';
 import { cn } from '@/lib/utils';
+import { useInView } from 'react-intersection-observer';
 
 const LOAD_TYPES: Record<string, string> = {
   general: 'General Cargo',
@@ -69,6 +70,8 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(initialTotal);
   const [hydrated, setHydrated] = useState(false);
+  const { ref: observerRef, inView } = useInView();
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const formatPrice = useCallback((price: number | null) => {
     if (!price) return null;
@@ -92,8 +95,10 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
     }
   }, [profile]);
 
-  const fetchLoads = useCallback(async () => {
-    setLoading(true);
+  const fetchLoads = useCallback(async (currentPage: number) => {
+    const isLoadMore = currentPage > 0;
+    if (isLoadMore) setIsLoadingMore(true);
+    else setLoading(true);
 
     try {
       let query = supabase
@@ -104,7 +109,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
         )
         .eq('status', 'active')
         .order('created_at', { ascending: false })
-        .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
+        .range(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE - 1);
 
       if (routeMatchMode && driverRoutes.length > 0) {
         const originCities = driverRoutes.map((r) => r.origin_city);
@@ -127,19 +132,27 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
 
       if (error) throw error;
 
-      setLoads((data as unknown as Load[]) || []);
-      setTotal(count || 0);
+      if (isLoadMore) {
+        setLoads(prev => {
+           const existingIds = new Set(prev.map(l => l.id));
+           const newLoads = (data as unknown as Load[] || []).filter(l => !existingIds.has(l.id));
+           return [...prev, ...newLoads];
+        });
+      } else {
+        setLoads((data as unknown as Load[]) || []);
+      }
+      if (count !== null) setTotal(count);
     } catch (error) {
       console.error('Loads fetch error:', error);
     } finally {
-      setLoading(false);
+      if (isLoadMore) setIsLoadingMore(false);
+      else setLoading(false);
     }
   }, [
     originCity,
     destCity,
     loadType,
     truckType,
-    page,
     routeMatchMode,
     searchQuery,
     driverRoutes,
@@ -150,8 +163,14 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
       setHydrated(true);
       return;
     }
-    fetchLoads();
-  }, [fetchLoads, hydrated]);
+    fetchLoads(page);
+  }, [fetchLoads, hydrated, page]);
+
+  useEffect(() => {
+    if (inView && !loading && !isLoadingMore && loads.length < total) {
+      setPage(p => p + 1);
+    }
+  }, [inView, loading, isLoadingMore, loads.length, total]);
 
   function clearFilters() {
     setOriginCity('');
@@ -441,33 +460,11 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
           </div>
         )}
 
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-4 mt-16 pt-8 border-t border-border-light dark:border-border-dark">
-            <button
-              onClick={() => {
-                setPage(Math.max(0, page - 1));
-                window.scrollTo(0, 0);
-              }}
-              disabled={page === 0}
-              className="px-6 py-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm font-bold disabled:opacity-30 hover:bg-background-light dark:hover:bg-background-dark transition-all"
-            >
-              Previous
-            </button>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-black text-fg">{page + 1}</span>
-              <span className="text-sm font-bold text-muted">/</span>
-              <span className="text-sm font-bold text-muted">{totalPages}</span>
-            </div>
-            <button
-              onClick={() => {
-                setPage(Math.min(totalPages - 1, page + 1));
-                window.scrollTo(0, 0);
-              }}
-              disabled={page >= totalPages - 1}
-              className="px-6 py-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm font-bold disabled:opacity-30 hover:bg-background-light dark:hover:bg-background-dark transition-all"
-            >
-              Next
-            </button>
+        {loads.length < total && (
+          <div ref={observerRef} className="flex items-center justify-center py-12">
+            {isLoadingMore && (
+              <div className="w-8 h-8 border-4 border-accent/20 border-t-accent rounded-full animate-spin" />
+            )}
           </div>
         )}
       </main>

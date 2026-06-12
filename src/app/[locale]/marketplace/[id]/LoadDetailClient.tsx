@@ -22,6 +22,12 @@ import {
   TRUCK_TYPES_LOCALIZED,
   EXTERNAL_LOAD_TRANSLATIONS,
 } from '@/utils/loadDetailTranslations';
+import dynamic from 'next/dynamic';
+
+const RouteMap = dynamic(() => import('@/components/RouteMap'), {
+  ssr: false,
+  loading: () => <div className="w-full h-64 bg-accent/5 animate-pulse rounded-2xl flex items-center justify-center text-accent/50 font-medium">Harita yükleniyor...</div>
+});
 
 interface LoadWithRelations {
   id: string;
@@ -522,6 +528,11 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                   ))}
                 </div>
               </div>
+            </div>
+
+            {/* Harita */}
+            <div className={`p-1 rounded-2xl ${t.card} mb-4`}>
+              <RouteMap origin={load.origin_city} destination={load.destination_city} />
             </div>
 
             {/* Açıklama */}

@@ -10,8 +10,34 @@ const SUPPORTED_LOCALES = [
   'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
 ];
 
+const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
+
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  // Basic Rate Limiting
+  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+  const now = Date.now();
+  
+  if (ip !== 'unknown') {
+    let record = rateLimitMap.get(ip);
+    if (!record) {
+      record = { count: 1, lastReset: now };
+      rateLimitMap.set(ip, record);
+    } else {
+      if (now - record.lastReset > 60000) {
+        record.count = 1;
+        record.lastReset = now;
+      } else {
+        record.count++;
+        if (record.count > 150) { // 150 req / min limit
+          return new NextResponse('Too Many Requests - Rate Limit Exceeded', { status: 429 });
+        }
+      }
+    }
+    // Prevent memory leak in edge isolates
+    if (rateLimitMap.size > 10000) rateLimitMap.clear();
+  }
   // Bypass middleware for sitemap generation
   if (pathname === '/sitemap.xml') {
     return NextResponse.next();

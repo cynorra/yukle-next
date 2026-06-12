@@ -79,6 +79,37 @@ export default function NotificationBell() {
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   }
 
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [swRegistration, setSwRegistration] = useState<ServiceWorkerRegistration | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window) {
+      navigator.serviceWorker.register('/sw.js').then(reg => {
+        setSwRegistration(reg);
+        reg.pushManager.getSubscription().then(sub => {
+          setIsSubscribed(!!sub);
+        });
+      }).catch(err => console.error('SW Error:', err));
+    }
+  }, []);
+
+  async function subscribeToPush() {
+    if (!swRegistration || !user) return;
+    try {
+      const sub = await swRegistration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || 'BIhhzgiPFdz97HTtlKaz8XbSWsofsvPRZ6UJdN6fXlansjKf1ztvA9beQwsLoExJ8uX6m0uKdzgLo_uE3DgleOE'
+      });
+      await supabase.from('push_subscriptions').insert({
+        user_id: user.id,
+        subscription: JSON.parse(JSON.stringify(sub))
+      });
+      setIsSubscribed(true);
+    } catch (e) {
+      console.error('Push Subscription failed:', e);
+    }
+  }
+
   async function markRead(id: string) {
     await supabase.from('notifications').update({ read: true }).eq('id', id);
     setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
@@ -205,16 +236,18 @@ export default function NotificationBell() {
               )}
             </div>
             
-            {notifications.length > 0 && (
-              <div className={cn("px-4 py-3 border-t text-center", t.divider)}>
-                <button 
-                  onClick={() => setOpen(false)}
-                  className={cn("text-[10px] font-black uppercase tracking-widest text-muted/60 hover:text-accent transition-colors")}
-                >
+            <div className={cn("px-4 py-3 border-t text-center flex flex-col gap-2", t.divider)}>
+              {!isSubscribed && typeof window !== 'undefined' && 'Notification' in window && Notification.permission !== 'denied' && (
+                <button onClick={subscribeToPush} className="w-full py-2 rounded-lg bg-accent text-white text-xs font-bold transition-all hover:bg-accent/90">
+                  Bildirimleri Aç
+                </button>
+              )}
+              {notifications.length > 0 && (
+                <button onClick={() => setOpen(false)} className={cn("text-[10px] font-black uppercase tracking-widest text-muted/60 hover:text-accent transition-colors")}>
                   Kapat
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
