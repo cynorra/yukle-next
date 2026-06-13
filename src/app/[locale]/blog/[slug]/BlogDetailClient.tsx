@@ -17,6 +17,7 @@ import {
   MessageCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; locale: string; slug: string }) {
   const t = useT();
@@ -186,15 +187,17 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
       const imageMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)/);
       if (imageMatch) {
         elements.push(
-          <div key={index} className="my-8 rounded-2xl overflow-hidden shadow-lg border border-border-light dark:border-border-dark">
-            <img
+          <div key={index} className="my-8 rounded-2xl overflow-hidden shadow-lg border border-border-light dark:border-border-dark relative w-full aspect-[16/9]">
+            <Image
               src={imageMatch[2]}
-              alt={imageMatch[1]}
-              className="w-full h-auto object-cover"
+              alt={imageMatch[1] || 'Article Image'}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
             {imageMatch[1] && (
-              <p className={`text-sm text-center py-2 px-4 ${t.muted} italic`}>{imageMatch[1]}</p>
+              <p className={`absolute bottom-0 w-full bg-black/60 backdrop-blur-sm text-white text-sm text-center py-2 px-4 italic z-10`}>{imageMatch[1]}</p>
             )}
           </div>
         );
@@ -449,16 +452,24 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
         </header>
 
         {/* Cover Image */}
-        <div className="relative group mb-16">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="relative group mb-16"
+        >
           <div className="absolute -inset-4 bg-accent/5 rounded-[40px] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative rounded-[32px] overflow-hidden shadow-2xl border border-border-light dark:border-border-dark aspect-[21/10]">
-            <img 
+            <Image 
               src={post.cover_image || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'} 
               alt={post.title}
-              className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover transform hover:scale-105 transition-transform duration-700"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* AdSense Placeholder - Top */}
         <div className="w-full h-24 bg-surface-light dark:bg-surface-dark border border-dashed border-border-light dark:border-border-dark rounded-2xl flex items-center justify-center mb-12">

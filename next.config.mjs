@@ -8,7 +8,16 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'i.pravatar.cc' },
       { protocol: 'https', hostname: '**.supabase.co' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/.well-known/llms.txt',
+        destination: '/llms.txt',
+      },
+    ];
   },
   async redirects() {
     return [];

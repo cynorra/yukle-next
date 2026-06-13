@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { createPublicClient } from '@/lib/supabase/public';
 import { BlogDetailClient } from './BlogDetailClient';
+import { unstable_cache } from 'next/cache';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -41,16 +42,20 @@ function extractFaqSchema(html: string) {
 export const revalidate = 600;
 export const dynamicParams = true;
 
-async function getPost(slug: string) {
-  const supabase = createPublicClient();
-  const { data } = await supabase
-    .from('blog_posts')
-    .select('*, author:profiles(full_name)')
-    .eq('slug', slug)
-    .eq('published', true)
-    .maybeSingle();
-  return data;
-}
+const getPost = unstable_cache(
+  async (slug: string) => {
+    const supabase = createPublicClient();
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('*, author:profiles(full_name)')
+      .eq('slug', slug)
+      .eq('published', true)
+      .maybeSingle();
+    return data;
+  },
+  ['blog-post-detail'],
+  { revalidate: 600, tags: ['blog-post'] }
+);
 
 export async function generateStaticParams() {
   // Build sırasında sayfa üretme; sayfalar ilk ziyarette ISR ile oluşturulur

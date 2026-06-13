@@ -158,3 +158,9 @@ CREATE TABLE IF NOT EXISTS push_subscriptions (
   subscription JSONB NOT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- 7. Performance Indexes for SEO and Faster Load Times
+CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts (slug);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_language ON blog_posts (language);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts (published);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_created_at ON blog_posts (created_at DESC);

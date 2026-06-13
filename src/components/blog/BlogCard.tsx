@@ -6,6 +6,8 @@ import { Calendar, User, ArrowRight } from 'lucide-react';
 import { BlogPost } from '../../types/database';
 import { useT } from '../../hooks/useT';
 
+import Image from 'next/image';
+
 interface BlogCardProps {
   post: BlogPost;
 }
@@ -35,15 +37,17 @@ export default function BlogCard({ post }: BlogCardProps) {
 
   return (
     <Link 
-      href={`/blog/${post.slug}`}
+      href={`/${post.language || 'en'}/blog/${post.slug}`}
       className={`group block overflow-hidden rounded-2xl ${t.card} ${t.cardHover}`}
     >
       {/* Image */}
       <div className="aspect-[16/9] overflow-hidden relative">
-        <img 
+        <Image 
           src={post.cover_image || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'} 
           alt={post.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>

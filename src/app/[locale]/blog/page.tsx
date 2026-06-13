@@ -5,6 +5,7 @@ import { BookOpen, ArrowRight } from 'lucide-react';
 import { BlogListClient } from './BlogListClient';
 import { BLOG_TRANSLATIONS } from '@/utils/blogTranslations';
 import type { Locale } from '@/utils/translations';
+import { unstable_cache } from 'next/cache';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -49,33 +50,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const getCachedPosts = unstable_cache(
+  async (locale: string) => {
+    const supabase = createPublicClient();
+    let { data: posts } = await supabase
+      .from('blog_posts')
+      .select('*, author:profiles(full_name)')
+      .eq('published', true)
+      .eq('language', locale)
+      .order('created_at', { ascending: false });
+
+    if ((!posts || posts.length === 0) && locale !== 'en') {
+      const { data: fallbackPosts } = await supabase
+        .from('blog_posts')
+        .select('*, author:profiles(full_name)')
+        .eq('published', true)
+        .eq('language', 'en')
+        .order('created_at', { ascending: false });
+      if (fallbackPosts) posts = fallbackPosts;
+    }
+    return posts || [];
+  },
+  ['blog-posts-list'],
+  { revalidate: 600, tags: ['blog-posts'] }
+);
+
 export default async function BlogListPage({ params }: Props) {
   const { locale: rawLocale } = await params;
   const locale = (rawLocale in BLOG_TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = BLOG_TRANSLATIONS[locale];
 
-  const supabase = createPublicClient();
-  
-  // Try to fetch articles in user's current locale
-  let { data: posts } = await supabase
-    .from('blog_posts')
-    .select('*, author:profiles(full_name)')
-    .eq('published', true)
-    .eq('language', locale)
-    .order('created_at', { ascending: false });
-
-  // Fallback: If no articles found in user's locale, show English articles instead of a blank page
-  if ((!posts || posts.length === 0) && locale !== 'en') {
-    const { data: fallbackPosts } = await supabase
-      .from('blog_posts')
-      .select('*, author:profiles(full_name)')
-      .eq('published', true)
-      .eq('language', 'en')
-      .order('created_at', { ascending: false });
-    if (fallbackPosts) posts = fallbackPosts;
-  }
-
-  const allPosts = posts || [];
+  const allPosts = await getCachedPosts(locale);
 
   const faqJsonLd = {
     '@context': 'https://schema.org',

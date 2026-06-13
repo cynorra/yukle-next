@@ -19,18 +19,6 @@ const config: Config = {
           dark: 'rgba(255, 255, 255, 0.06)',
         },
       },
-      fontSize: {
-        xs: ['1rem', { lineHeight: '1.5rem' }],
-        sm: ['1.15rem', { lineHeight: '1.7rem' }],
-        base: ['1.25rem', { lineHeight: '1.8rem' }],
-        lg: ['1.5rem', { lineHeight: '2rem' }],
-        xl: ['1.75rem', { lineHeight: '2.2rem' }],
-        '2xl': ['2.1rem', { lineHeight: '2.5rem' }],
-        '3xl': ['2.7rem', { lineHeight: '3rem' }],
-        '4xl': ['3.5rem', { lineHeight: '3.8rem' }],
-        '5xl': ['4.5rem', { lineHeight: '1.1' }],
-        '6xl': ['5.5rem', { lineHeight: '1' }],
-      },
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
         display: ['Outfit', 'Inter Tight', 'sans-serif'],
