@@ -23,16 +23,16 @@ export async function GET() {
         ? new Date(load.updated_at || load.created_at).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0];
 
-      for (const locale of ALL_LOCALES) {
-        const url = `${SITE_URL}/${locale}/marketplace/${load.id}`;
-        xml += '  <url>\n';
-        xml += `    <loc>${escapeXml(url)}</loc>\n`;
-        xml += `    <lastmod>${lastMod}</lastmod>\n`;
-        xml += '    <changefreq>daily</changefreq>\n';
-        xml += '    <priority>0.7</priority>\n';
-        xml += generateAlternates((loc) => `${SITE_URL}/${loc}/marketplace/${load.id}`);
-        xml += '  </url>\n';
-      }
+      // Sadece ana dili (en) sitemap'e ekliyoruz. 
+      // Diğer 46 dil zaten sayfanın <head> kısmındaki <link rel="alternate"> etiketleriyle Google'a bildiriliyor.
+      // Bu sayede 1 sitemap dosyasına 1.000 yerine tam 50.000 ilan sığdırabiliyoruz!
+      const url = `${SITE_URL}/en/marketplace/${load.id}`;
+      xml += '  <url>\n';
+      xml += `    <loc>${escapeXml(url)}</loc>\n`;
+      xml += `    <lastmod>${lastMod}</lastmod>\n`;
+      xml += '    <changefreq>daily</changefreq>\n';
+      xml += '    <priority>0.7</priority>\n';
+      xml += '  </url>\n';
     }
   }
 
