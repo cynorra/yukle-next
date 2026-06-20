@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import '../globals.css';
 import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
@@ -158,8 +159,12 @@ export default async function LocalizedLayout({ children, params }: Props) {
   return (
     <html lang={locale} dir={isRtl ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <head>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4674211063760769" crossOrigin="anonymous"></script>
-        {/* Anti-flash scripts */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4674211063760769"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
