@@ -166,15 +166,11 @@ function parseRow(cells) {
 
   const title = `${origin.city}, ${origin.state} (${origin.country}) ➜ ${dest.city}, ${dest.state} (${dest.country})`;
 
-  const description = `[FreightFinder] Real freight load from FreightFinder.com.
-
-Company: ${companyName}
-Phone: ${phone || 'See FreightFinder.com'}
+  const description = `Company: ${companyName}
+Phone: ${phone || 'Contact for details'}
 Route: ${origin.city}, ${origin.state} ${origin.country} → ${dest.city}, ${dest.state} ${dest.country}
 Equipment: ${equipRaw || truckType.toUpperCase()}
-Available: ${dateStr || new Date(pickupDate).toLocaleDateString('en-US')}
-
-Source: FreightFinder.com — Search this route to contact the company directly.`;
+Available: ${dateStr || new Date(pickupDate).toLocaleDateString('en-US')}`;
 
   return {
     title, description,
@@ -238,7 +234,7 @@ async function main() {
 
   // Load existing titles (dedup last 7 days)
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString();
-  const { data: existing } = await supabase.from('loads').select('title').ilike('description', '%FreightFinder%').gt('created_at', weekAgo);
+  const { data: existing } = await supabase.from('loads').select('title').contains('tags', ['freightfinder']).gt('created_at', weekAgo);
   const existingTitles = new Set((existing || []).map(l => l.title));
   console.log(`Already in DB  : ${existingTitles.size} FreightFinder listings (last 7d)\n`);
 

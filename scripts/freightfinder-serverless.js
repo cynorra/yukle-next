@@ -146,15 +146,11 @@ function parseListings(html, originCity) {
 
     const { loadType, truckType } = mapEquipment(equipRaw);
     const title = `${origin.city}, ${origin.state} (${origin.country}) ➜ ${dest.city}, ${dest.state} (${dest.country})`;
-    const description = `[FreightFinder] Real freight load from FreightFinder.com.
-
-Company: ${companyName}
-Phone: ${phone || 'See FreightFinder.com'}
+    const description = `Company: ${companyName}
+Phone: ${phone || 'Contact for details'}
 Route: ${origin.city}, ${origin.state} ${origin.country} → ${dest.city}, ${dest.state} ${dest.country}
 Equipment: ${equipRaw || truckType.toUpperCase()}
-Available: ${dateStr || new Date(pickupDate).toLocaleDateString('en-US')}
-
-Source: FreightFinder.com — Search this route to contact the company directly.`;
+Available: ${dateStr || new Date(pickupDate).toLocaleDateString('en-US')}`;
 
     listings.push({
       title, description,
@@ -182,7 +178,7 @@ async function runFreightFinderScraper({ supabase, shipperId, maxPerRun = 75, pa
   const { data: existing } = await supabase
     .from('loads')
     .select('title')
-    .ilike('description', '%FreightFinder%')
+    .contains('tags', ['freightfinder'])
     .gt('created_at', weekAgo);
   const existingTitles = new Set((existing || []).map(l => l.title));
   log(`[FreightFinder] Existing in DB (7d): ${existingTitles.size}`);

@@ -663,17 +663,17 @@ async function runScraper(options = { runAll: false }) {
     console.log('Profile verified successfully.');
   }
 
-  // Query existing scraped loads created in the last 7 days to prevent double insertion
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-  console.log(`Fetching active scraped loads from the database since: ${sevenDaysAgo}`);
+  // Query existing scraped loads created in the last 30 days to prevent double insertion
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  console.log(`Fetching active scraped loads from the database since: ${thirtyDaysAgo}`);
   const { data: existingLoads } = await supabase
     .from('loads')
     .select('title, description')
     .ilike('description', '%[Dış Kaynak]%')
-    .gt('created_at', sevenDaysAgo);
+    .gt('created_at', thirtyDaysAgo);
 
   const existingDescriptions = new Set((existingLoads || []).map(l => l.description));
-  console.log(`Found ${existingDescriptions.size} existing scraped loads in the last 7 days.`);
+  console.log(`Found ${existingDescriptions.size} existing scraped loads in the last 30 days.`);
 
   let totalInserted = 0;
 
@@ -682,7 +682,17 @@ async function runScraper(options = { runAll: false }) {
   for (let i = 0; i < dynamicLoads.length; i++) {
     const item = dynamicLoads[i];
     const duplicateMarker = `Orijinal İlan ID: #${item.kimlikId}`;
-    const isDuplicate = [...existingDescriptions].some(desc => desc.includes(duplicateMarker));
+    let isDuplicate = [...existingDescriptions].some(desc => desc.includes(duplicateMarker));
+    
+    // Bulletproof database check if not found in memory cache
+    if (!isDuplicate) {
+      const { data: dbCheck } = await supabase
+        .from('loads')
+        .select('id')
+        .ilike('description', `%${duplicateMarker}%`)
+        .maybeSingle();
+      if (dbCheck) isDuplicate = true;
+    }
     
     if (isDuplicate) {
       console.log(`Skipping duplicate dynamic load ID: #${item.kimlikId}`);
