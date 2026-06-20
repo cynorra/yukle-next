@@ -818,18 +818,17 @@ async function runBlogGenerator() {
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '');
 
-  // Verify slug uniqueness in database
-  const checkSlug = `${baseSlug}-${baseLanguage}`;
-  const { data: existingPost } = await supabase
+  // Verify slug uniqueness in database across ALL language variants
+  const { data: existingPosts } = await supabase
     .from('blog_posts')
     .select('id')
-    .eq('slug', checkSlug)
-    .maybeSingle();
+    .ilike('slug', `${baseSlug}-%`)
+    .limit(1);
 
-  if (existingPost) {
+  if (existingPosts && existingPosts.length > 0) {
     const uniqueSuffix = Math.floor(1000 + Math.random() * 9000);
     baseSlug = `${baseSlug}-${uniqueSuffix}`;
-    console.log(`Slug "${checkSlug}" already exists. New base slug: "${baseSlug}"`);
+    console.log(`Slug base "${baseSlug.split('-').slice(0, -1).join('-')}" already exists in some languages. New base slug: "${baseSlug}"`);
   }
 
   // Ensure title uniqueness (case-insensitive)

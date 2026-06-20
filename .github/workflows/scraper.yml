@@ -2,9 +2,13 @@ name: Scraper & Blog Generator Cron Job
 
 on:
   schedule:
-    # Run every 10 minutes
-    - cron: '*/10 * * * *'
+    # Maksimum hiz: Her 5 dakikada bir (Gunde 288 calisma)
+    - cron: '*/5 * * * *'
   workflow_dispatch: # Allows manual triggering
+
+concurrency:
+  group: scraper-and-blog-generator
+  cancel-in-progress: false
 
 jobs:
   run-scripts:
