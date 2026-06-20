@@ -366,20 +366,49 @@ async function getUsedCoverImages() {
 
 async function getValidatedCoverImage() {
   const usedImages = await getUsedCoverImages();
-  console.log(`[Image Dedup] ${usedImages.size} images already used. Pool size: ${coverImages.length}`);
+
+  try {
+    const keywords = ['truck', 'freight', 'logistics', 'cargo', 'shipping', 'warehouse', 'transportation'];
+    
+    // Güvenlik amaçlı sonsuz döngüyü engellemek için maksimum 10 deneme
+    for (let attempts = 0; attempts < 10; attempts++) {
+      const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
+      const lockId = Math.floor(Math.random() * 1000000);
+      const loremUrl = `https://loremflickr.com/1200/630/${randomKeyword}?lock=${lockId}`;
+      
+      const resolvedUrl = await new Promise((resolve) => {
+        const req = https.get(loremUrl, (res) => {
+          if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+            resolve(res.headers.location);
+          } else {
+            resolve(loremUrl);
+          }
+        });
+        req.on('error', () => resolve(null));
+      });
+
+      if (resolvedUrl && !usedImages.has(resolvedUrl)) {
+        console.log(`[Image Dedup] 100% Unique cover image validated: ${resolvedUrl}`);
+        return resolvedUrl;
+      } else {
+        console.log(`[Image Dedup] Image already used or invalid, retrying... (${attempts + 1}/10)`);
+      }
+    }
+  } catch (err) {
+    console.warn('[Image Dedup] Failed dynamic image loop, falling back to static pool:', err.message);
+  }
+
+  // Fallback to static pool
   const unusedImages = coverImages.filter(url => !usedImages.has(url));
   const candidatePool = unusedImages.length > 0 ? unusedImages : coverImages;
   if (unusedImages.length === 0) {
-    console.warn('[Image Dedup] All images used at least once. Recycling from full pool.');
+    console.warn('[Image Dedup] All static images used at least once. Recycling from full pool.');
   }
   const shuffled = [...candidatePool].sort(() => 0.5 - Math.random());
   for (let i = 0; i < Math.min(5, shuffled.length); i++) {
     const imgUrl = shuffled[i];
     const isValid = await checkImageUrl(imgUrl);
-    if (isValid) {
-      console.log(`Cover image validated: ${imgUrl}`);
-      return imgUrl;
-    }
+    if (isValid) return imgUrl;
   }
   return candidatePool[0];
 }
