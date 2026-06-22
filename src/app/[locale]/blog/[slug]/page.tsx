@@ -39,7 +39,7 @@ function extractFaqSchema(html: string) {
   };
 }
 
-export const revalidate = 600;
+export const revalidate = 86400;
 export const dynamicParams = true;
 
 const getPost = unstable_cache(
@@ -54,7 +54,7 @@ const getPost = unstable_cache(
     return data;
   },
   ['blog-post-detail'],
-  { revalidate: 600, tags: ['blog-post'] }
+  { revalidate: 86400, tags: ['blog-post'] }
 );
 
 export async function generateStaticParams() {

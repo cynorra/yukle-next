@@ -1,6 +1,6 @@
 import { SITE_URL, SITEMAP_INDEX_HEADER, SITEMAP_HEADERS } from '@/lib/sitemap-utils';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 /**
  * Sitemap Index — points crawlers to sub-sitemaps for efficient crawling.

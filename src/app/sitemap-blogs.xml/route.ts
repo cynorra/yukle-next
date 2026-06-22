@@ -4,7 +4,7 @@ import {
   URLSET_HEADER, SITEMAP_HEADERS,
 } from '@/lib/sitemap-utils';
 
-export const revalidate = 3600; // ISR: regenerate every hour
+export const revalidate = 86400; // ISR: regenerate every 24 hours
 
 export async function GET() {
   const supabase = createPublicClient();

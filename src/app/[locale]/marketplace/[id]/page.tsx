@@ -25,7 +25,7 @@ const TRUCK_TYPES: Record<string, string> = {
   frigorifik: 'Reefer',
 };
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 async function getLoad(id: string) {
   const supabase = createPublicClient();

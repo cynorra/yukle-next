@@ -4,7 +4,7 @@ import { PublicProfilePageClient } from './PublicProfilePageClient';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-export const revalidate = 600;
+export const revalidate = 86400;
 
 export async function generateMetadata({
   params,

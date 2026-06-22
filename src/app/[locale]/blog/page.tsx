@@ -9,7 +9,7 @@ import { unstable_cache } from 'next/cache';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-export const revalidate = 600; // 10 minutes
+export const revalidate = 86400; // 24 hours
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -72,7 +72,7 @@ const getCachedPosts = unstable_cache(
     return posts || [];
   },
   ['blog-posts-list'],
-  { revalidate: 600, tags: ['blog-posts'] }
+  { revalidate: 86400, tags: ['blog-posts'] }
 );
 
 export default async function BlogListPage({ params }: Props) {

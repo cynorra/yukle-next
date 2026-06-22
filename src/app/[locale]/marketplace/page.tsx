@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export const revalidate = 60;
+export const revalidate = 86400;
 
 export default async function PazarPage({ params }: Props) {
   const { locale: rawLocale } = await params;
