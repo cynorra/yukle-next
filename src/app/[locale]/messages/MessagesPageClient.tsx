@@ -95,7 +95,7 @@ export function MessagesPageClient() {
   }
 
   function subscribeMessages(convId: string) {
-    const channel = supabase.channel(`messages:${convId}:${Date.now()}`)
+    const channel = supabase.channel(`messages:${convId}:${Math.random()}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `conversation_id=eq.${convId}` },
         (p) => setMessages((prev) => [...prev, p.new as Message]))
       .subscribe();

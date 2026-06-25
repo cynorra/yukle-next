@@ -187,7 +187,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
   useEffect(() => {
     if (!conversation) return;
     fetchMessages(conversation.id);
-    const channel = supabase.channel(`conv-${conversation.id}-${Date.now()}`)
+    const channel = supabase.channel(`conv-${conversation.id}-${Math.random()}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `conversation_id=eq.${conversation.id}` },
         (p) => setMessages((prev) => prev.some((m) => m.id === p.new.id) ? prev : [...prev, p.new as MessageData]))
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'conversations', filter: `id=eq.${conversation.id}` },
