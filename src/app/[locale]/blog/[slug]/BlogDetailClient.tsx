@@ -194,6 +194,7 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover"
+              unoptimized={true}
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
             {imageMatch[1] && (
@@ -466,6 +467,7 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
               fill
               sizes="100vw"
               priority
+              unoptimized={true}
               className="object-cover transform hover:scale-105 transition-transform duration-700"
             />
           </div>
