@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { BlogPost } from '../../types/database';
@@ -15,13 +15,20 @@ interface BlogCardProps {
 export default function BlogCard({ post }: BlogCardProps) {
   const t = useT();
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const formattedDate = useMemo(() => {
+    if (!mounted) return '';
     return new Date(post.created_at).toLocaleDateString('tr-TR', {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
-  }, [post.created_at]);
+  }, [post.created_at, mounted]);
 
   const cleanExcerpt = useMemo(() => {
     if (post.excerpt) return post.excerpt;
