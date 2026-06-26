@@ -8,7 +8,7 @@ import type { Locale } from '@/utils/translations';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-export const revalidate = 86400; // 24 hours
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ locale: string }>;

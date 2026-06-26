@@ -20,7 +20,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const LANGUAGES = [
-  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'en', label: 'English', flag: '🇺🇸' },
   { code: 'tr', label: 'Türkçe', flag: '🇹🇷' },
   { code: 'es', label: 'Español', flag: '🇪🇸' },
   { code: 'pt', label: 'Português', flag: '🇵🇹' },
