@@ -49,7 +49,7 @@ async function runWithConcurrency(tasks, concurrency) {
   return Promise.all(results);
 }
 
-// 7 target audience profiles — each post targets one specific group
+// 12 target audience profiles — each post targets one specific group
 const audienceProfiles = [
   {
     name: 'Truck Drivers & Owner-Operators',
@@ -92,7 +92,114 @@ const audienceProfiles = [
     searchIntent: 'operational efficiency, carrier performance management, dock scheduling, inventory accuracy, labor optimization',
     painPoints: 'warehouse bottlenecks, carrier no-shows disrupting operations, dock congestion, inventory discrepancies, rising labor costs',
     keywords: ['warehouse efficiency tips', 'distribution center optimization', 'carrier performance management', 'dock scheduling best practices', 'warehouse logistics KPIs']
+  },
+  {
+    name: 'Fleet Managers & Transportation Directors',
+    searchIntent: 'fleet cost reduction, driver management, compliance tracking, asset utilization, maintenance scheduling',
+    painPoints: 'driver turnover, rising insurance premiums, compliance violations, fuel cost unpredictability, aging fleet maintenance costs',
+    keywords: ['fleet management tips', 'reduce fleet operating costs', 'driver retention strategies', 'fleet compliance management', 'transportation KPIs', 'fleet fuel management 2025']
+  },
+  {
+    name: 'Cold Chain & Refrigerated Cargo Specialists',
+    searchIntent: 'temperature compliance, reefer carrier qualification, cold chain documentation, pharma logistics, food safety',
+    painPoints: 'temperature excursions causing cargo loss, finding qualified reefer carriers, ATP certification requirements, fuel costs for refrigeration units',
+    keywords: ['cold chain logistics guide', 'reefer transport best practices', 'temperature controlled shipping', 'cold chain compliance', 'refrigerated freight carriers', 'pharma cold chain requirements']
+  },
+  {
+    name: 'Hazmat & Special Cargo Handlers',
+    searchIntent: 'hazmat compliance, dangerous goods documentation, ADR regulations, special transport permits, certified carrier finding',
+    painPoints: 'regulatory complexity across borders, finding ADR-certified carriers, documentation errors causing delays, liability exposure for violations',
+    keywords: ['hazmat shipping regulations', 'dangerous goods transport guide', 'ADR compliance checklist', 'hazmat carrier qualification', 'special cargo transport permits', 'IATA dangerous goods']
+  },
+  {
+    name: 'Agricultural & Bulk Commodity Shippers',
+    searchIntent: 'harvest season logistics, grain transport, commodity freight rates, seasonal capacity planning, perishable cargo',
+    painPoints: 'harvest season capacity shortage, weather-dependent scheduling, commodity price volatility, perishable cargo timing pressure',
+    keywords: ['agricultural freight solutions', 'grain transport logistics', 'bulk commodity shipping rates', 'harvest logistics planning', 'agricultural supply chain', 'commodity freight broker']
+  },
+  {
+    name: 'Construction & Infrastructure Project Logistics',
+    searchIntent: 'heavy equipment transport, project site delivery, oversize load permits, just-in-time construction delivery',
+    painPoints: 'permit complexity for oversized loads, project site access restrictions, tight delivery windows, equipment damage risk during transport',
+    keywords: ['construction logistics management', 'heavy equipment transport guide', 'oversize load permits process', 'project freight solutions', 'construction material delivery', 'site logistics planning']
   }
+];
+
+// 60 highly specific topic clusters with detection keywords for smart rotation
+const topicClusters = [
+  { name: 'Diesel Fuel Cost & IFTA Tax Management', keywords: ['diesel', 'fuel cost', 'ifta', 'fuel surcharge', 'fuel card', 'mpg', 'fuel efficiency'] },
+  { name: 'EV Trucks & Alternative Fuel Adoption', keywords: ['electric truck', 'ev truck', 'hydrogen', 'cng', 'alternative fuel', 'zero emission', 'charging'] },
+  { name: 'Load Board Tactics & Spot Market Strategy', keywords: ['load board', 'spot market', 'spot rate', 'load finding', 'freight board', 'dat', 'truckstop'] },
+  { name: 'Direct Shipper Relationships & Dedicated Lanes', keywords: ['direct shipper', 'dedicated lane', 'shipper relationship', 'contract freight', 'dedicated carrier'] },
+  { name: 'Freight Rate Negotiation & Contract Pricing', keywords: ['rate negotiation', 'contract rate', 'rate per mile', 'pricing strategy', 'rate increase', 'carrier rate'] },
+  { name: 'LTL Freight Optimization & Freight Class', keywords: ['ltl', 'less than truckload', 'freight class', 'nmfc', 'pallet', 'ltl rate', 'ltl carrier'] },
+  { name: 'FTL Brokerage & Truckload Market', keywords: ['ftl', 'full truckload', 'truckload', 'dry van', 'flatbed broker', 'truckload rate', 'spot truckload'] },
+  { name: 'Intermodal Freight & Rail-Truck Strategy', keywords: ['intermodal', 'rail freight', 'container', 'drayage', 'intermodal container', 'rail transport', 'double stack'] },
+  { name: 'Drayage, Port & Terminal Operations', keywords: ['drayage', 'port logistics', 'port congestion', 'terminal', 'chassis', 'port fee', 'demurrage', 'detention'] },
+  { name: 'Last-Mile Delivery & Urban Logistics', keywords: ['last mile', 'urban delivery', 'final mile', 'city logistics', 'delivery density', 'last-mile cost'] },
+  { name: 'Reverse Logistics & Returns Management', keywords: ['reverse logistics', 'returns', 'return freight', 'product return', 'reverse supply chain', 'recall'] },
+  { name: 'Cold Chain & Refrigerated Transport', keywords: ['cold chain', 'reefer', 'refrigerated', 'temperature controlled', 'frozen freight', 'atp certificate'] },
+  { name: 'Hazmat & Dangerous Goods Compliance', keywords: ['hazmat', 'dangerous goods', 'adr', 'iata dgr', 'un number', 'hazardous material', 'placarding'] },
+  { name: 'Oversized, Heavy Haul & Out-of-Gauge Cargo', keywords: ['oversized', 'heavy haul', 'oversize', 'wide load', 'out of gauge', 'superload', 'escort vehicle', 'overweight permit'] },
+  { name: 'Automotive Logistics & Vehicle Transport', keywords: ['car hauler', 'auto transport', 'vehicle shipping', 'automotive logistics', 'car carrier', 'roll-on roll-off'] },
+  { name: 'Pharmaceutical & Life Sciences Logistics', keywords: ['pharma logistics', 'gdp compliance', 'serialization', 'temperature-sensitive medicine', 'clinical trial', 'cold chain pharma'] },
+  { name: 'Food & Beverage Supply Chain', keywords: ['food logistics', 'food safety', 'fsma', 'food grade trailer', 'perishable', 'fda food', 'grocery logistics'] },
+  { name: 'Retail & FMCG Distribution', keywords: ['retail logistics', 'fmcg', 'consumer goods', 'retail distribution', 'store replenishment', 'cpg logistics'] },
+  { name: 'E-commerce Fulfillment & Shipping Strategy', keywords: ['ecommerce shipping', 'fulfillment', 'dim weight', 'parcel', 'warehouse fulfillment', 'shopify shipping', 'amazon fba'] },
+  { name: 'Agricultural, Grain & Bulk Commodity Transport', keywords: ['agricultural freight', 'grain transport', 'bulk commodity', 'harvest logistics', 'hopper', 'ag logistics'] },
+  { name: 'Construction, Project Cargo & Site Logistics', keywords: ['construction logistics', 'project cargo', 'building materials', 'site delivery', 'crane', 'modular transport'] },
+  { name: 'Oil, Gas & Energy Sector Logistics', keywords: ['oilfield logistics', 'energy freight', 'upstream logistics', 'pipeline', 'frac sand', 'crude oil transport'] },
+  { name: 'Cross-Border US-Mexico Trucking', keywords: ['us mexico', 'cross border', 'laredo', 'el paso', 'mexican customs', 'nearshore mexico', 'maquiladora'] },
+  { name: 'EU Road Freight, CMR & TIR Operations', keywords: ['cmr', 'tir', 'eu freight', 'european trucking', 'cabotage', 'euro 6', 'european road'] },
+  { name: 'Turkey, Balkans & Central Asia Trade Routes', keywords: ['turkey logistics', 'silk road', 'central asia', 'trans caspian', 'middle corridor', 'baku', 'dozvola'] },
+  { name: 'Import/Export Customs Brokerage & Documentation', keywords: ['customs broker', 'customs clearance', 'bill of lading', 'commercial invoice', 'bol', 'entry filing', 'importer of record'] },
+  { name: 'Incoterms, Trade Finance & Letter of Credit', keywords: ['incoterms', 'letter of credit', 'trade finance', 'ex works', 'dap', 'fob', 'cif', 'incoterms 2020'] },
+  { name: 'Port Congestion, Demurrage & Detention Costs', keywords: ['port congestion', 'demurrage', 'detention', 'free time', 'container dwell', 'chassis shortage'] },
+  { name: 'HOS Rules, ELD Mandate & Driver Compliance', keywords: ['hos', 'eld', 'hours of service', 'log book', 'drive time', 'sleeper berth', '11 hour rule'] },
+  { name: 'FMCSA Safety Ratings, CSA Scores & DOT Audits', keywords: ['fmcsa', 'csa score', 'dot audit', 'safety rating', 'sms score', 'satisfactory rating', 'carrier safety'] },
+  { name: 'CDL Requirements, Endorsements & Driver Licensing', keywords: ['cdl', 'commercial driver license', 'hazmat endorsement', 'tanker endorsement', 'cdl test', 'cdl school'] },
+  { name: 'Cargo Insurance, Claims & Freight Liability', keywords: ['cargo insurance', 'freight claim', 'cargo claim', 'released value', 'cargo coverage', 'insurance certificate'] },
+  { name: 'Freight Contract Law, BOL Terms & Liability Limits', keywords: ['freight contract', 'liability limit', 'cargo loss', 'bill of lading terms', 'carrier liability', 'carmack amendment'] },
+  { name: 'Owner-Operator Business Finance & Tax Strategy', keywords: ['owner operator tax', 'per diem', 'tax deduction trucking', 'quarterly tax', 'self employed trucker', 'schedule c trucking'] },
+  { name: 'Truck Financing, Leasing & Purchase Strategy', keywords: ['truck financing', 'truck lease', 'equipment financing', 'semi truck loan', 'lease purchase', 'truck payment'] },
+  { name: 'Truck Maintenance, Breakdowns & Preventive Schedules', keywords: ['truck maintenance', 'breakdown', 'pm schedule', 'oil change', 'dot inspection', 'repair cost', 'dot violation'] },
+  { name: 'Tire Management, Tread Depth & Cost Optimization', keywords: ['tire', 'tread depth', 'retreads', 'tire blow out', 'tire cost', 'alignment', 'tire program'] },
+  { name: 'Telematics, ELD & GPS Fleet Tracking Technology', keywords: ['telematics', 'gps tracking', 'fleet tracking', 'dash cam', 'eld device', 'asset tracking', 'geofencing'] },
+  { name: 'TMS, Freight Software & Digital Operations', keywords: ['tms', 'transportation management system', 'freight software', 'dispatch software', 'carrier tms', 'shipper tms'] },
+  { name: 'AI, Machine Learning & Predictive Freight Matching', keywords: ['ai freight', 'machine learning logistics', 'predictive analytics', 'dynamic pricing freight', 'ai dispatch', 'freight algorithm'] },
+  { name: 'Blockchain, Visibility & Supply Chain Transparency', keywords: ['blockchain logistics', 'supply chain visibility', 'track and trace', 'freight visibility', 'digital twin', 'smart contract freight'] },
+  { name: 'Warehouse Automation, Robotics & WMS', keywords: ['warehouse automation', 'robotics', 'wms', 'warehouse management', 'pick and pack', 'conveyor', 'automated warehouse'] },
+  { name: 'Dock Scheduling, Appointment Systems & Yard Management', keywords: ['dock scheduling', 'appointment system', 'yard management', 'dock door', 'lumper', 'live unload', 'drop and hook'] },
+  { name: 'Driver Health, Wellness & Mental Health on the Road', keywords: ['driver health', 'driver wellness', 'truck driver diet', 'sleep apnea', 'driver fatigue', 'driver mental health'] },
+  { name: 'Driver Recruitment, Retention & Compensation Structures', keywords: ['driver recruitment', 'driver retention', 'driver pay', 'driver shortage', 'sign on bonus', 'driver turnover'] },
+  { name: 'Dispatch Operations, Load Planning & Efficiency', keywords: ['dispatcher', 'dispatch', 'load planning', 'freight dispatch', 'trip planning', 'relay trucking'] },
+  { name: 'Freight Brokerage Startup, MC Authority & Licensing', keywords: ['freight broker license', 'mc number', 'broker authority', 'surety bond', 'broker startup', 'broker registration'] },
+  { name: 'Carrier Sales, Business Development & Shipper Prospecting', keywords: ['carrier sales', 'shipper prospecting', 'freight sales', 'logistics sales', 'bid rfp', 'freight tender'] },
+  { name: 'Freight Factoring, Cash Flow & Invoice Financing', keywords: ['freight factoring', 'factoring company', 'invoice factoring', 'cash flow trucking', 'quick pay', 'factoring rate'] },
+  { name: 'Cargo Security, Seals & Anti-Theft Technology', keywords: ['cargo theft', 'cargo security', 'seal', 'trailer theft', 'gps anti-theft', 'secure parking', 'cargo theft hotspot'] },
+  { name: 'Freight Fraud, Identity Theft & Double-Brokering', keywords: ['freight fraud', 'double brokering', 'carrier identity theft', 'fictitious pickup', 'fraud prevention freight', 'vetting fraud'] },
+  { name: 'Peak Season Planning, Holiday Surge & Capacity Management', keywords: ['peak season', 'holiday freight', 'q4 logistics', 'capacity crunch', 'black friday logistics', 'surge capacity'] },
+  { name: 'Nearshoring, Reshoring & Supply Chain Localization', keywords: ['nearshoring', 'reshoring', 'supply chain localization', 'friend shoring', 'china plus one', 'supply chain diversification'] },
+  { name: 'Carbon Emissions, ESG Reporting & Green Freight', keywords: ['carbon emissions', 'esg logistics', 'green freight', 'scope 3 emissions', 'carbon neutral shipping', 'sustainability report'] },
+  { name: 'Autonomous Trucks, Platooning & Future of Trucking', keywords: ['autonomous truck', 'self driving truck', 'platooning', 'level 4 trucking', 'waymo trucks', 'automated driving'] },
+  { name: 'Drone Delivery, Micro-Fulfillment & Urban Innovation', keywords: ['drone delivery', 'micro fulfillment', 'urban consolidation', 'delivery robot', 'instant delivery', 'dark store'] },
+  { name: 'Small Business Freight Strategy & Cost Reduction', keywords: ['small business shipping', 'small business freight', 'startup logistics', 'solo shipper', 'low volume freight'] },
+  { name: 'Freight Market Intelligence, Rate Forecasting & Cycles', keywords: ['freight market', 'rate forecast', 'freight cycle', 'market intelligence', 'capacity forecast', 'rate index', 'freight recession'] },
+  { name: 'Lumper Services, Driver Assist & Unloading Costs', keywords: ['lumper', 'driver assist', 'unloading fee', 'loading labor', 'lumper service', 'detention pay', 'unload time'] },
+  { name: 'Permit Management, Overweight Loads & State Regulations', keywords: ['overweight permit', 'trip permit', 'state permit', 'superload permit', 'permit routing', 'axle weight', 'bridge law'] },
+  { name: 'Owner-Operator vs Company Driver: Financial Comparison', keywords: ['owner operator vs company driver', 'independent contractor trucking', 'lease operator', 'w2 vs 1099 driver', 'company driver income'] },
+  { name: 'Freight Marketplace Technology & Platform Comparison', keywords: ['freight marketplace', 'digital freight', 'uber freight', 'convoy', 'freight platform', 'digital broker', 'loadly'] }
+];
+
+// 7 content formats rotate to prevent structural repetition
+const contentFormats = [
+  { type: 'Ultimate Guide', minWords: 2500, description: 'Comprehensive A-to-Z reference covering all critical aspects of the topic with expert depth' },
+  { type: 'Step-by-Step Tutorial', minWords: 1800, description: 'Numbered actionable steps the reader can immediately implement to solve a specific problem' },
+  { type: 'Comparison & Decision Guide', minWords: 2000, description: 'Side-by-side comparison of options, tools, or strategies with clear, opinionated recommendations' },
+  { type: 'Data-Driven Industry Analysis', minWords: 2000, description: 'Statistics-heavy trend analysis with sourced data, benchmarks, and expert interpretation' },
+  { type: 'Actionable Checklist & Audit', minWords: 1600, description: 'Checklist format where each item has a clear explanation and consequence for not following it' },
+  { type: 'Cost & ROI Breakdown', minWords: 1800, description: 'Financial analysis with real cost figures, ROI calculations, and a decision framework' },
+  { type: 'Problem Diagnosis & Fix Playbook', minWords: 1800, description: 'Diagnoses root causes of a common costly problem then provides specific, step-by-step solutions' }
 ];
 
 // High-quality fallback articles (only used when Gemini API is completely unavailable)
@@ -525,8 +632,131 @@ async function callGeminiWithRetry(payload, maxRetries = 3) {
   }
 }
 
+// ─── TOPIC BANK SYSTEM ───────────────────────────────────────────────────────
+// Pre-generates 30 unique topics in one Gemini call and stores them locally.
+// Each run pops one from the bank — guaranteeing no repeats forever.
+// Auto-refills when supply drops below BANK_REFILL_THRESHOLD.
+
+const TOPIC_BANK_PATH = path.join(__dirname, 'topic-bank.json');
+const BANK_BATCH_SIZE = 30;
+const BANK_REFILL_THRESHOLD = 8;
+
+function loadTopicBank() {
+  try {
+    if (fs.existsSync(TOPIC_BANK_PATH)) {
+      const raw = fs.readFileSync(TOPIC_BANK_PATH, 'utf8');
+      const bank = JSON.parse(raw);
+      if (Array.isArray(bank.available)) return bank;
+    }
+  } catch (e) {
+    console.warn('[Bank] Load failed, starting fresh:', e.message);
+  }
+  return { available: [] };
+}
+
+function saveTopicBank(bank) {
+  try {
+    fs.writeFileSync(TOPIC_BANK_PATH, JSON.stringify(bank, null, 2), 'utf8');
+  } catch (e) {
+    console.warn('[Bank] Save failed:', e.message);
+  }
+}
+
+async function refillTopicBank(recentTitles, bank) {
+  console.log(`[Bank] Refilling — generating ${BANK_BATCH_SIZE} unique topics in one batch...`);
+
+  const bankTopics = bank.available.map(t => t.topic);
+  const allExisting = [...recentTitles, ...bankTopics];
+  const existingList = allExisting.slice(0, 130).map(t => `- ${t}`).join('\n') || '- (none yet)';
+
+  const clusterNames = topicClusters.map(c => c.name).join('\n');
+  const audienceNames = audienceProfiles.map(a => a.name).join(', ');
+  const formatNames = contentFormats.map(f => f.type).join(', ');
+
+  const payload = JSON.stringify({
+    contents: [{
+      parts: [{
+        text: `You are the chief content strategist at Loadly, a global digital freight marketplace.
+
+Generate exactly ${BANK_BATCH_SIZE} completely unique, diverse, high-traffic blog topic ideas for our content calendar.
+
+CRITICAL UNIQUENESS RULES:
+- Every topic must be 100% different from each other (no two topics in the same narrow sub-niche)
+- Zero overlap, rephrasing, or adjacent coverage of ANY topic in the existing list below
+- Spread across as many DIFFERENT clusters as possible — aim for ${BANK_BATCH_SIZE} different clusters
+- Each must target a DIFFERENT primary keyword
+
+EXISTING TOPICS TO AVOID (do not duplicate or rephrase ANY of these):
+${existingList}
+
+AVAILABLE TOPIC CLUSTERS (distribute across as many as possible):
+${clusterNames}
+
+TARGET AUDIENCES (vary across topics):
+${audienceNames}
+
+CONTENT FORMATS (vary across topics):
+${formatNames}
+
+TRAFFIC QUALITY REQUIREMENTS for each topic:
+1. Must address a real, painful problem the audience actively searches for
+2. Primary keyword must be something people type verbatim into Google or AI assistants
+3. Must have a specific, compelling angle — not generic ("NOT 'shipping tips' YES 'Why Your LTL Claims Keep Getting Denied (And the 3-Page Fix)'")
+4. Must be relevant to 2025 freight industry realities
+5. Must have viral potential: data insight, counterintuitive finding, urgent problem, or insider knowledge
+
+For each topic return:
+- topic: Compelling title (keyword-rich, max 80 chars, uses proven formula like "N Ways...", "Why X Is Wrong", "The Complete Guide to X", "How to X Without Y")
+- primaryKeyword: Main 2-5 word SEO keyword
+- cluster: Exact cluster name from the list above
+- audience: Exact audience name from the list above
+- audiencePainPoints: 1-2 specific pain points this topic addresses
+- searchIntent: informational | commercial | transactional
+- viralAngle: What makes this genuinely share-worthy (specific insight, not "it's useful")
+- contentFormat: Exact format name from the list above
+
+Return ONLY a valid JSON array of exactly ${BANK_BATCH_SIZE} objects. No markdown, no extra text.`
+      }]
+    }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            topic: { type: 'STRING' },
+            primaryKeyword: { type: 'STRING' },
+            cluster: { type: 'STRING' },
+            audience: { type: 'STRING' },
+            audiencePainPoints: { type: 'STRING' },
+            searchIntent: { type: 'STRING' },
+            viralAngle: { type: 'STRING' },
+            contentFormat: { type: 'STRING' }
+          },
+          required: ['topic', 'primaryKeyword', 'cluster', 'audience', 'searchIntent', 'viralAngle', 'contentFormat']
+        }
+      }
+    }
+  });
+
+  const topics = await callGeminiWithRetry(payload);
+
+  const enriched = topics.map(t => ({
+    ...t,
+    audienceProfile: audienceProfiles.find(a => a.name === t.audience) || audienceProfiles[0],
+    formatSpec: contentFormats.find(f => f.type === t.contentFormat) || contentFormats[0],
+    generatedAt: new Date().toISOString()
+  }));
+
+  bank.available.push(...enriched);
+  saveTopicBank(bank);
+  console.log(`[Bank] Added ${enriched.length} topics. Total available: ${bank.available.length}`);
+  return bank;
+}
+
 // Fetch recent post titles from DB to provide uniqueness context to Gemini
-async function getRecentTopics(limit = 50) {
+async function getRecentTopics(limit = 150) {
   try {
     const { data, error } = await supabase
       .from('blog_posts')
@@ -542,182 +772,182 @@ async function getRecentTopics(limit = 50) {
   }
 }
 
-// Use Gemini to dynamically generate a fresh, unique, high-search-volume topic
+// Pop the next unique topic from the bank (refills automatically when low)
 async function generateFreshTopic(recentTopics) {
   if (!geminiApiKey) throw new Error('GEMINI_API_KEY not set');
 
-  const audience = audienceProfiles[Math.floor(Math.random() * audienceProfiles.length)];
-  const recentList = recentTopics.slice(0, 40).map(t => `- ${t}`).join('\n') || '- (none yet)';
+  let bank = loadTopicBank();
 
-  const payload = JSON.stringify({
-    contents: [{
-      parts: [{
-        text: `You are a viral content strategist for Loadly, a digital freight marketplace platform connecting shippers with truck drivers and carriers globally.
+  if (bank.available.length < BANK_REFILL_THRESHOLD) {
+    console.log(`[Bank] ${bank.available.length} topics remaining (threshold: ${BANK_REFILL_THRESHOLD}) — triggering refill`);
+    bank = await refillTopicBank(recentTopics, bank);
+  }
 
-Your task: Generate ONE completely fresh, unique, high-search-volume blog topic targeting a specific audience.
+  const topicData = bank.available.shift();
+  saveTopicBank(bank);
 
-TARGET AUDIENCE: ${audience.name}
-AUDIENCE PAIN POINTS: ${audience.painPoints}
-SEARCH INTENT: ${audience.searchIntent}
-HIGH-VALUE KEYWORDS: ${audience.keywords.join(', ')}
+  console.log(`[Bank] Using topic: "${topicData.topic}"`);
+  console.log(`[Bank] Cluster: "${topicData.cluster}" | Format: "${topicData.contentFormat}"`);
+  console.log(`[Bank] Audience: "${topicData.audience}" | Keyword: "${topicData.primaryKeyword}"`);
+  console.log(`[Bank] Viral angle: ${topicData.viralAngle}`);
+  console.log(`[Bank] ${bank.available.length} topics remaining in bank`);
 
-RECENTLY PUBLISHED TOPICS (DO NOT create similar topics to these):
-${recentList}
-
-REQUIREMENTS FOR THE NEW TOPIC:
-1. Must capture a real, high-volume search query people actively type into Google
-2. Must be completely different from every topic listed above (no overlapping themes)
-3. Must have viral potential: surprising insight, controversial angle, urgently practical value, or data-backed claim
-4. Must be specific enough to rank — avoid generic topics like "logistics tips"
-5. Focus exclusively on: logistics, freight, trucking, supply chain, shipping, or transportation
-6. Use proven search-intent patterns:
-   - "How to [achieve benefit] without [common pain point]"
-   - "[Number] [Power Word] Ways to [solve problem]"
-   - "Why [common belief] is [wrong/costing you money]"
-   - "The Complete/Ultimate Guide to [specific topic]"
-   - "What [industry event/change] Means for [audience]"
-   - "[Specific problem]: Causes, Costs, and Solutions"
-7. Topic must be relevant to 2024-2025 freight industry trends
-
-Return ONLY valid JSON with no additional text.`
-      }]
-    }],
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: 'OBJECT',
-        properties: {
-          topic: { type: 'STRING' },
-          audience: { type: 'STRING' },
-          primaryKeyword: { type: 'STRING' },
-          searchIntent: { type: 'STRING' },
-          viralAngle: { type: 'STRING' }
-        },
-        required: ['topic', 'audience', 'primaryKeyword', 'searchIntent', 'viralAngle']
-      }
-    }
-  });
-
-  const result = await callGeminiWithRetry(payload);
-  console.log(`[Topic AI] Generated: "${result.topic}"`);
-  console.log(`[Topic AI] Audience: ${result.audience} | Keyword: ${result.primaryKeyword}`);
-  console.log(`[Topic AI] Viral Angle: ${result.viralAngle}`);
-  return { ...result, audienceProfile: audience };
+  return {
+    topic: topicData.topic,
+    audience: topicData.audience,
+    primaryKeyword: topicData.primaryKeyword,
+    searchIntent: topicData.searchIntent,
+    viralAngle: topicData.viralAngle,
+    contentFormat: topicData.contentFormat,
+    topicCluster: topicData.cluster,
+    audienceProfile: topicData.audienceProfile || audienceProfiles[0],
+    formatSpec: topicData.formatSpec || contentFormats[0]
+  };
 }
 
-// Generate the full viral SEO blog post using the topic data
+// Generate the full viral SEO/AEO/GEO blog post using the topic data
 function generateBasePost(topicData) {
   if (!geminiApiKey) return Promise.reject(new Error('GEMINI_API_KEY is not defined'));
 
-  const { topic, audience, primaryKeyword, searchIntent, viralAngle, audienceProfile } = topicData;
+  const { topic, audience, primaryKeyword, searchIntent, viralAngle, audienceProfile, formatSpec, topicCluster, contentFormat } = topicData;
+  const minWords = formatSpec?.minWords || 2000;
+  const formatDesc = formatSpec?.description || 'comprehensive expert guide';
 
   const payload = JSON.stringify({
     contents: [{
       parts: [{
-        text: `You are a world-class SEO content strategist and logistics industry expert with 15+ years of experience writing viral, page-1-ranking blog content. Your articles are read by hundreds of thousands of freight industry professionals and consistently generate thousands of social shares.
+        text: `You are a veteran freight industry expert and editorial director at Loadly — a global digital freight marketplace. You have spent 15+ years in the field: as a dispatcher, a freight broker, an owner-operator, and a logistics manager. You write from real experience, not theory. Your readers are working professionals who can instantly detect generic AI content and click away. They stay only when they learn something specific, surprising, or immediately actionable that they couldn't find anywhere else.
 
-Write a comprehensive, deeply SEO-optimized, viral blog post with these EXACT specifications:
+THE READER COMES FIRST. Before writing any sentence, ask: "Does this help the reader solve a real problem right now?" If the answer is no, don't write it.
+
+Write the article below with these specifications:
 
 TOPIC: "${topic}"
 PRIMARY KEYWORD: "${primaryKeyword}"
 TARGET AUDIENCE: ${audience}
-AUDIENCE PAIN POINTS: ${audienceProfile?.painPoints || 'logistics cost, efficiency, compliance, reliability'}
+THEIR REAL PAIN POINTS: ${audienceProfile?.painPoints || 'logistics cost, efficiency, compliance, reliability'}
 SEARCH INTENT: ${searchIntent}
 VIRAL ANGLE: ${viralAngle}
-PLATFORM: Loadly (a digital freight marketplace connecting shippers with carriers and truck drivers worldwide)
+CONTENT FORMAT: ${contentFormat || formatSpec?.type} — ${formatDesc}
+TOPIC CLUSTER: ${topicCluster}
+PLATFORM: Loadly (digital freight marketplace connecting shippers, carriers and truck drivers worldwide)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-TITLE REQUIREMENTS
+AUDIENCE-FIRST WRITING RULES (non-negotiable)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Use a proven viral formula. Choose the best fit for this topic:
-• "[Number] [Power Word] [Topic] That [Audience] Need to Know in [Year]"
-• "The Ultimate/Complete Guide to [Topic]: [Specific Benefit]"
-• "How to [Achieve Specific Benefit] Without [Common Pain Point]"
-• "Why [Common Belief About Topic] Is [Costing You / Wrong / Outdated]"
-• "[Specific Problem]: The [Audience]'s Complete [Year] Playbook"
-• "The [Year] [Topic] Crisis: What [Audience] Must Do Now"
-
-Power words to use: Ultimate, Proven, Complete, Essential, Critical, Expert, Insider, Definitive, Actionable, Comprehensive, Surprising, Little-Known
-
-Rules:
-- Include the primary keyword naturally
-- Maximum 70 characters
-- Must create urgent curiosity or promise clear value to the target audience
+1. WRITE FOR ONE PERSON: Picture a specific reader — e.g., a 42-year-old owner-operator sitting in a truck stop at 10pm, worried about cash flow after a slow week. Write to solve HIS exact problem.
+2. NO GENERIC ADVICE: "Plan ahead," "communicate clearly," "track your metrics" are filler. Replace every vague tip with a specific, implementable action: what exactly to do, what tool to use, what number to aim for.
+3. INCLUDE INSIDER KNOWLEDGE: Every section must contain at least one insight that a reader would only know if they'd actually worked in this industry — something that makes them think "I never thought of it that way."
+4. USE REAL NUMBERS: Not "significant savings" — say "$1,840 per truck per year." Not "faster delivery" — say "2.3 days faster on average." Specific numbers are what get cited by AI and shared by professionals.
+5. CONTROVERSIAL WHEN WARRANTED: If the conventional wisdom is wrong or incomplete, say so directly. Readers share content that challenges what they thought they knew.
+6. NARRATIVE PULL: Open with a scenario, problem, or statistic so specific that the reader immediately thinks "this is about me." End each section making them want to read the next one.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CONTENT REQUIREMENTS
+TITLE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-MINIMUM 1,800 words of substantive, expert-level content.
+Choose the formula that best fits the topic and content format:
+• "[Number] [Power Word] [Topic] Every [Audience] Needs in 2025"
+• "The [Format]: How to [Achieve Benefit] Without [Pain Point]"
+• "Why [Common Belief] Is [Wrong/Outdated/Costing You] in 2025"
+• "[Specific Problem]: Causes, Real Costs & the Expert Fix"
+• "What [Trend/Change] Means for [Audience] Right Now"
+• "The [Year] [Topic] Playbook: [Specific Outcome Promised]"
 
-ALLOWED HTML ELEMENTS ONLY (no markdown, no code fences, no HTML/body wrapper tags):
-• <h2> — main section headings (5-7 total, include keywords naturally)
-• <h3> — subsection headings
-• <p> — body paragraphs (2-4 sentences each, not too short)
-• <ul> and <li> — bullet lists
-• <ol> and <li> — numbered lists
-• <strong> — key terms, statistics, critical information
-• <blockquote> — compelling statistics, industry data, expert insights
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-MANDATORY CONTENT SECTIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. HOOK OPENING (first <p> tag):
-Start with ONE of these proven hooks:
-- A shocking, specific industry statistic that makes the reader feel the urgency
-- A provocative question that challenges a common belief
-- A concrete scenario describing the exact pain the target audience feels
-The reader must think "this is exactly my problem" within the first 2 sentences.
-
-2. PROBLEM DEEP-DIVE (1-2 sections):
-Describe the problem in authoritative detail. Name the root causes, quantify the cost, explain why most people get this wrong. Build credibility and urgency.
-
-3. SOLUTION SECTIONS (3-5 sections with <h2> headings):
-Provide deep, actionable, expert-level advice — not generic tips. Each section must:
-- Have a keyword-rich heading
-- Open with a clear claim or insight
-- Include specific, implementable steps or strategies
-- Back claims with at least one specific data point or concrete example
-
-4. DATA & STATISTICS:
-Include at least 5 specific data points throughout the article. Use realistic, plausible figures (e.g., "carriers using digital platforms report 31% fewer empty miles" or "LTL rates dropped 14% in Q1 2024 due to overcapacity"). Format key stats with <strong> or inside <blockquote>.
-
-5. KEY TAKEAWAYS SECTION (<h2>Key Takeaways</h2>):
-A <ul> list of 5-7 crisp, actionable insights that summarize the most valuable points. Each takeaway must be worth the reader's time alone.
-
-6. FAQ SECTION (<h2>Frequently Asked Questions</h2>):
-Minimum 4 Q&A pairs using:
-- <h3> for each question — write it exactly as a real Google search query (e.g., "How do I find backhaul loads near me?")
-- <p> for each answer — 2-3 sentences, practical, direct, and complete
-
-7. CTA CONCLUSION (<h2> heading):
-Final section that naturally positions Loadly as the solution. Not salesy — helpful. Explain specifically how Loadly solves the problem discussed in the article. End with a clear call to action.
+Rules: primary keyword included naturally, max 70 chars, creates urgency or promises specific value.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SEO REQUIREMENTS
+HTML STRUCTURE (strict)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- Primary keyword: Use in title, first <p>, at least 2 <h2> headings, and conclusion
-- LSI/semantic keywords: Naturally weave in related terms and synonyms throughout
-- Each <h2> should target a related long-tail question or keyword variant
-- Write for featured snippets: Some sections should have clear, concise answers to questions
-- Avoid keyword stuffing — aim for natural, expert-level language
+Use ONLY these HTML tags. No markdown, no code fences, no html/head/body wrappers:
+<h2> main sections (6-8 total) | <h3> subsections | <p> paragraphs (3-5 sentences)
+<ul><li> bullet lists | <ol><li> numbered steps | <strong> key data/terms
+<blockquote> cited statistics and expert quotes | <table><tr><th><td> for comparisons
+
+MINIMUM ${minWords} words of substantive expert content. No filler. Every sentence earns its place.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-VIRAL QUALITY STANDARDS
+MANDATORY SECTIONS (in this order)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- Specific numbers beat vague claims — always
-- Include at least one counterintuitive or surprising insight the reader won't find in generic content
-- Write with authority and conviction — no hedging, no "perhaps" or "might consider"
-- The reader should finish the article thinking "I learned something valuable I need to share"
-- Avoid filler content — every sentence must earn its place
+
+**1. QUICK ANSWER BOX** (AEO — for AI assistants and featured snippets)
+Open with a <p> starting with: "<strong>Quick Answer:</strong>" followed by a 40-60 word direct answer to the primary question this article addresses. This is what Google's AI Overview and ChatGPT will pull. Make it complete enough to stand alone.
+
+**2. HOOK PARAGRAPH**
+Immediately after Quick Answer, one <p> with a shocking specific statistic OR a concrete scenario that makes the reader feel "this is my exact problem." Must create urgency in the first 2 sentences.
+
+**3. PROBLEM DEEP-DIVE** (1-2 <h2> sections)
+Authoritative analysis: root causes, quantified costs, why most people fail here. Show expertise. Use specific numbers. Cite realistic sources in <blockquote> format: "According to [Organization/Report], [specific finding] — [Year]"
+
+**4. SOLUTION SECTIONS** (3-5 <h2> sections matching the content format)
+Deep, implementable advice — not generic tips. Each section must:
+- Open with a clear, expert claim
+- Include specific numbered steps or criteria where relevant
+- Contain at least one data point or case example
+- Target a related long-tail keyword in the heading
+
+**5. COMPARISON TABLE** (if format is Comparison/Checklist/Decision Guide)
+Use <table> to compare options, tools, or approaches across 3-5 criteria.
+
+**6. KEY TAKEAWAYS** (<h2>Key Takeaways</h2>)
+<ul> with 6-8 crisp, actionable bullets. Each one should be valuable enough to share on its own.
+
+**7. FAQ SECTION** (<h2>Frequently Asked Questions</h2>) — AEO CRITICAL
+Minimum 5 Q&A pairs structured for voice search and People Also Ask:
+- <h3> questions: Write as exact natural-language queries (e.g., "How much does LTL freight cost per mile in 2025?")
+- <p> answers: Start with a direct 1-sentence answer, then 2-3 sentences of supporting detail. Must be self-contained — AI assistants extract these verbatim.
+- Cover: what is X, how to X, how much does X cost, when should I X, what is the difference between X and Y
+
+**8. CTA CONCLUSION** (<h2> with keyword in heading)
+Don't pitch Loadly — show how Loadly solves the specific problem the reader just read about. Write it like a trusted colleague saying "by the way, this tool helped me with exactly that." One clear call to action at the end.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-METADATA REQUIREMENTS
+QUALITY ANTI-PATTERNS (these will get the article rejected)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- slug: URL-friendly, primary-keyword-first, lowercase with dashes only (e.g., "owner-operator-fuel-efficiency-tips-2025")
-- meta_title: Primary keyword first, max 60 characters, end with "| Loadly"
-- meta_description: Primary keyword + specific benefit promised + soft CTA, max 155 characters
-- excerpt: 2 compelling sentences that make the reader click — include the primary keyword and the core value proposition
+NEVER write these generic phrases — replace every instance with specifics:
+✗ "It's important to..." → ✓ "This costs carriers an average of $X per year because..."
+✗ "Many companies struggle with..." → ✓ "73% of carriers report that..."
+✗ "Consider your options carefully" → ✓ "Compare [Option A] vs [Option B]: use A when X, use B when Y"
+✗ "Effective communication is key" → ✓ "Send a check-call every 2 hours on live loads — shippers who require this pay 8% higher rates"
+✗ "There are several factors to consider" → ✓ List exactly what those factors are with weights/criteria
+✗ Vague statistics like "many," "most," "significantly" → Always use precise numbers
+✗ Sections that could appear in ANY logistics article → Every section must be specific to THIS topic
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SEO OPTIMIZATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Primary keyword: in title, Quick Answer, first <h2>, at least 2 other headings, conclusion
+- LSI keywords: weave semantic variants naturally (e.g., for "LTL freight": less-than-truckload, pallet shipping, freight class, LTL rates)
+- Each <h2> targets a distinct long-tail query variant from Google's People Also Ask
+- Featured snippet optimization: some sections open with a 1-sentence direct answer before elaborating
+- Schema-ready FAQ: questions phrased exactly as people type/speak them
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEO OPTIMIZATION (Generative Engine Optimization)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AI assistants cite content that looks authoritative and structured. To get cited:
+- Open with first-person authority signals: "In our analysis of...", "Based on data from thousands of Loadly shipments...", "Freight professionals consistently tell us..."
+- Include at least 6 statistics in <blockquote> with attribution: "According to [Organization], [specific finding] — [Year]"
+- Define key terms at first use — AI extracts definitions ("LTL freight, or Less-than-Truckload shipping, refers to...")
+- Use precise figures, not ranges: $1,847 not "around $2,000"; 14.3% not "about 15%"
+- Entity density: specific company names, regulation codes, industry body abbreviations, named trade routes
+- Conclude sections with a summary sentence AI can extract as a standalone fact
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+E-E-A-T SIGNALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Name specific regulations: 49 CFR Part 395, ELD mandate, Carmack Amendment, FMCSA SMS, ADR 2025
+- Reference industry bodies: ATA, TIA, FMCSA, OOIDA, IRU, IATA, NRF, CSCMP
+- Include "what most professionals miss" moments — insider knowledge that signals real experience
+- Contradict a common mistake the target audience makes — this builds trust faster than agreeing with them
+- No hedging: write "you must," "carriers that do X earn 23% more," not "you might want to consider possibly"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+METADATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- slug: primary-keyword-first, lowercase, hyphens only (e.g., "ltl-freight-cost-guide-2025")
+- meta_title: primary keyword first, max 60 chars, end with "| Loadly"
+- meta_description: primary keyword + specific measurable benefit + soft CTA, max 155 chars
+- excerpt: 2 punchy sentences — first names the problem with a specific number, second states exactly what the reader will learn. Include primary keyword.
 
 Return ONLY valid JSON with no additional text or markdown wrappers.`
       }]
@@ -776,7 +1006,7 @@ async function runBlogGenerator() {
   if (geminiApiKey) {
     try {
       // Fetch recent topics for uniqueness context
-      const recentTopics = await getRecentTopics(50);
+      const recentTopics = await getRecentTopics(150);
       console.log(`[Dedup] Loaded ${recentTopics.length} recent topics for uniqueness check`);
 
       // Dynamically generate a fresh, unique topic using AI
