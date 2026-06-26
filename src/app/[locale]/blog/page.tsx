@@ -59,17 +59,6 @@ async function fetchBlogPosts(locale: string) {
     .order('created_at', { ascending: false });
 
   if (error) console.error(`[blog] Supabase error (${locale}):`, error);
-
-  if ((!posts || posts.length === 0) && locale !== 'en') {
-    const { data: fallbackPosts, error: fbErr } = await supabase
-      .from('blog_posts')
-      .select('*, author:profiles(full_name)')
-      .eq('published', true)
-      .eq('language', 'en')
-      .order('created_at', { ascending: false });
-    if (fbErr) console.error('[blog] Supabase error (en fallback):', fbErr);
-    return fallbackPosts || [];
-  }
   return posts || [];
 }
 
