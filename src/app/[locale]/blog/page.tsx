@@ -76,7 +76,7 @@ async function getCachedPosts(locale: string) {
       return posts || [];
     },
     ['blog-posts', locale],
-    { revalidate: 3600, tags: ['blog-posts'] }
+    { revalidate: 86400, tags: ['blog-posts'] }
   )();
 }
 

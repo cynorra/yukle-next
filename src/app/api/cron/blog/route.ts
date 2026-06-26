@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidateTag } from 'next/cache';
 import { submitToIndexNow } from '@/lib/indexnow';
 
 export const dynamic = 'force-dynamic';
@@ -32,6 +33,9 @@ export async function GET(request: Request) {
     // Submit all published blog URLs to IndexNow for instant indexing
     // across Bing, Yandex, Naver, and Seznam
     if (allPosts.length > 0) {
+      revalidateTag('blog-posts');
+      revalidateTag('blog-post');
+
       const blogUrls = allPosts
         .filter((p: any) => p?.slug && p?.language)
         .map((p: any) => `${SITE_URL}/${p.language}/blog/${p.slug}`);
