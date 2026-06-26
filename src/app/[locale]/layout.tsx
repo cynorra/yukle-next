@@ -159,12 +159,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
   return (
     <html lang={locale} dir={isRtl ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4674211063760769"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -194,6 +189,12 @@ export default async function LocalizedLayout({ children, params }: Props) {
         />
       </head>
       <body className="bg-background-light dark:bg-background-dark transition-colors duration-500">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4674211063760769"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <Providers>
           <Navbar />
           <main>{children}</main>
