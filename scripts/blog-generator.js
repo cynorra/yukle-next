@@ -858,15 +858,7 @@ async function runBlogGenerator() {
       translatedPosts.push({ ...translation, langCode });
       console.log(`✓ ${langName} (${langCode})`);
     } catch (err) {
-      console.error(`❌ Translation failed for ${langName} (${langCode}). Using base content. Error:`, err.message);
-      translatedPosts.push({
-        title: basePost.title,
-        excerpt: basePost.excerpt,
-        content: basePost.content,
-        meta_title: basePost.meta_title,
-        meta_description: basePost.meta_description,
-        langCode
-      });
+      console.error(`❌ Translation failed for ${langName} (${langCode}). Skipping — do NOT insert English content with wrong language code.`, err.message);
     }
   });
 

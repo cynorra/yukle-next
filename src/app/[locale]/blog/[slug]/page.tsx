@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { createPublicClient } from '@/lib/supabase/public';
 import { BlogDetailClient } from './BlogDetailClient';
-import { unstable_cache } from 'next/cache';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -39,23 +38,24 @@ function extractFaqSchema(html: string) {
   };
 }
 
-export const revalidate = 86400;
-export const dynamicParams = true;
+export const dynamic = 'force-dynamic';
 
-const getPost = unstable_cache(
-  async (slug: string) => {
-    const supabase = createPublicClient();
-    const { data } = await supabase
-      .from('blog_posts')
-      .select('*, author:profiles(full_name)')
-      .eq('slug', slug)
-      .eq('published', true)
-      .maybeSingle();
-    return data;
-  },
-  ['blog-post-detail'],
-  { revalidate: 86400, tags: ['blog-post'] }
-);
+const LOCALE_CODES = new Set([
+  'en','tr','es','pt','fr','de','it','pl','nl','ru','uk','zh','ja','hi','ar','fa',
+  'ko','vi','id','bn','ur','th','ms','tl','ro','sv','cs','hu','el','az','kk','he',
+  'bg','hr','sr','sk','da','fi','no','uz','ta','mr','ka','lt','lv','et','sl'
+]);
+
+async function getPost(slug: string) {
+  const supabase = createPublicClient();
+  const { data } = await supabase
+    .from('blog_posts')
+    .select('*, author:profiles(full_name)')
+    .eq('slug', slug)
+    .eq('published', true)
+    .maybeSingle();
+  return data;
+}
 
 export async function generateStaticParams() {
   // Build sırasında sayfa üretme; sayfalar ilk ziyarette ISR ile oluşturulur
@@ -81,7 +81,10 @@ export async function generateMetadata({
   const description = post.meta_description || post.excerpt || post.title;
 
   const parts = slug.split('-');
-  const baseSlug = parts.length > 1 ? parts.slice(0, -1).join('-') : slug;
+  const lastPart = parts[parts.length - 1];
+  const baseSlug = (parts.length > 1 && LOCALE_CODES.has(lastPart))
+    ? parts.slice(0, -1).join('-')
+    : slug;
 
   const supabase = createPublicClient();
   const { data: siblings } = await supabase
