@@ -101,17 +101,20 @@ export default async function BlogListPage({ params }: Props) {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {t.guides.map((guide, i) => (
-              <Link
-                key={i}
-                href={`/${locale}/blog/${guide.slug}`}
-                className="px-6 py-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-accent/20 text-sm font-bold flex items-center gap-2 hover:bg-accent hover:text-white transition-all"
-              >
-                {guide.label} <ArrowRight size={14} />
-              </Link>
-            ))}
-          </div>
+          {allPosts.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-4 mb-12">
+              {allPosts.slice(0, 3).map((post: any) => (
+                <Link
+                  key={post.slug}
+                  href={`/${locale}/blog/${post.slug}`}
+                  className="px-6 py-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-accent/20 text-sm font-bold flex items-center gap-2 hover:bg-accent hover:text-white transition-all"
+                >
+                  <span className="max-w-[200px] truncate">{post.title}</span>
+                  <ArrowRight size={14} className="shrink-0" />
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* Search + grid client */}
           <BlogListClient posts={allPosts as any} />
