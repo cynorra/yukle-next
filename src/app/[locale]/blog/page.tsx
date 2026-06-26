@@ -53,21 +53,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const getCachedPosts = unstable_cache(
   async (locale: string) => {
     const supabase = createPublicClient();
-    let { data: posts } = await supabase
+    const { data: posts, error } = await supabase
       .from('blog_posts')
       .select('*, author:profiles(full_name)')
       .eq('published', true)
       .eq('language', locale)
       .order('created_at', { ascending: false });
 
+    if (error) {
+      console.error('[blog] Supabase error (locale query):', error);
+    }
+    console.log(`[blog] locale=${locale} posts=${posts?.length ?? 0}`);
+
     if ((!posts || posts.length === 0) && locale !== 'en') {
-      const { data: fallbackPosts } = await supabase
+      const { data: fallbackPosts, error: fallbackError } = await supabase
         .from('blog_posts')
         .select('*, author:profiles(full_name)')
         .eq('published', true)
         .eq('language', 'en')
         .order('created_at', { ascending: false });
-      if (fallbackPosts) posts = fallbackPosts;
+      if (fallbackError) {
+        console.error('[blog] Supabase error (en fallback):', fallbackError);
+      }
+      console.log(`[blog] en fallback posts=${fallbackPosts?.length ?? 0}`);
+      if (fallbackPosts) return fallbackPosts;
     }
     return posts || [];
   },
