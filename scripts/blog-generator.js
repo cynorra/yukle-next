@@ -436,6 +436,74 @@ const coverImages = [
   'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800'
 ];
 
+// Maps each topic cluster to relevant Flickr/loremflickr search keywords
+const CLUSTER_IMAGE_KEYWORDS = {
+  'Diesel Fuel Cost & IFTA Tax Management':                    ['diesel,fuel,pump', 'truck,gas,station', 'fuel,tanker'],
+  'EV Trucks & Alternative Fuel Adoption':                     ['electric,truck', 'charging,station,vehicle', 'green,transport'],
+  'Load Board Tactics & Spot Market Strategy':                 ['truck,dispatch', 'freight,logistics,office', 'trucking,business'],
+  'Direct Shipper Relationships & Dedicated Lanes':            ['handshake,business', 'shipping,contract', 'freight,partner'],
+  'Freight Rate Negotiation & Contract Pricing':               ['business,negotiation', 'contract,signing', 'freight,pricing'],
+  'LTL Freight Optimization & Freight Class':                  ['pallet,warehouse', 'freight,forklift', 'loading,dock'],
+  'FTL Brokerage & Truckload Market':                          ['semi,truck,highway', 'trucking,road', 'truck,driver,highway'],
+  'Intermodal Freight & Rail-Truck Strategy':                  ['freight,train,container', 'intermodal,rail', 'container,rail,yard'],
+  'Drayage, Port & Terminal Operations':                       ['container,port,ship', 'cargo,terminal', 'port,crane,container'],
+  'Last-Mile Delivery & Urban Logistics':                      ['delivery,van,city', 'package,delivery,urban', 'courier,bicycle,city'],
+  'Reverse Logistics & Returns Management':                    ['warehouse,returns', 'package,return', 'reverse,logistics'],
+  'Cold Chain & Refrigerated Transport':                       ['refrigerated,truck', 'cold,storage,warehouse', 'temperature,control,food'],
+  'Hazmat & Dangerous Goods Compliance':                       ['chemical,plant,industrial', 'hazmat,warning', 'industrial,safety'],
+  'Oversized, Heavy Haul & Out-of-Gauge Cargo':               ['heavy,machinery,transport', 'oversized,load,truck', 'crane,lifting,industry'],
+  'Automotive Logistics & Vehicle Transport':                  ['car,carrier,truck', 'auto,transport,vehicles', 'vehicle,shipping'],
+  'Pharmaceutical & Life Sciences Logistics':                  ['pharmaceutical,laboratory', 'medicine,cold,storage', 'pharma,supply,chain'],
+  'Food & Beverage Supply Chain':                              ['food,production,factory', 'food,supply,chain', 'beverage,warehouse'],
+  'Retail & FMCG Distribution':                               ['retail,warehouse,shelves', 'distribution,center', 'consumer,goods,logistics'],
+  'E-commerce Fulfillment & Shipping Strategy':               ['fulfillment,center,packages', 'ecommerce,warehouse', 'online,shopping,delivery'],
+  'Agricultural, Grain & Bulk Commodity Transport':           ['grain,harvest,truck', 'agricultural,transport', 'bulk,commodity,silo'],
+  'Construction, Project Cargo & Site Logistics':             ['construction,site,crane', 'building,materials,truck', 'project,cargo,lifting'],
+  'Oil, Gas & Energy Sector Logistics':                       ['oil,refinery,pipeline', 'energy,industrial,plant', 'oilfield,truck'],
+  'Cross-Border US-Mexico Trucking':                          ['border,crossing,truck', 'international,freight,border', 'highway,border'],
+  'EU Road Freight, CMR & TIR Operations':                    ['european,highway,truck', 'europe,logistics,road', 'truck,motorway,europe'],
+  'Turkey, Balkans & Central Asia Trade Routes':              ['silk,road,transport', 'asia,freight,road', 'cross,country,truck'],
+  'Import/Export Customs Brokerage & Documentation':          ['customs,port,documentation', 'import,export,paperwork', 'shipping,documents'],
+  'Incoterms, Trade Finance & Letter of Credit':              ['trade,finance,business', 'international,trade,document', 'shipping,contract,finance'],
+  'Port Congestion, Demurrage & Detention Costs':             ['container,ship,port,congestion', 'cargo,ship,waiting', 'busy,container,terminal'],
+  'HOS Rules, ELD Mandate & Driver Compliance':               ['truck,driver,cab', 'driver,logbook,eld', 'trucker,rest,stop'],
+  'FMCSA Safety Ratings, CSA Scores & DOT Audits':           ['truck,safety,inspection', 'dot,compliance,truck', 'fleet,safety'],
+  'CDL Requirements, Endorsements & Driver Licensing':        ['truck,driver,license', 'cdl,training', 'commercial,driver,training'],
+  'Cargo Insurance, Claims & Freight Liability':              ['cargo,insurance,protection', 'freight,damage,claim', 'insurance,logistics'],
+  'Freight Contract Law, BOL Terms & Liability Limits':       ['freight,contract,legal', 'bill,lading,document', 'legal,shipping'],
+  'Owner-Operator Business Finance & Tax Strategy':           ['small,business,finance', 'truck,owner,operator', 'self,employed,finance'],
+  'Truck Financing, Leasing & Purchase Strategy':             ['truck,dealership', 'commercial,vehicle,financing', 'new,truck,semi'],
+  'Truck Maintenance, Breakdowns & Preventive Schedules':     ['truck,mechanic,repair', 'semi,truck,maintenance', 'diesel,engine,repair'],
+  'Tire Management, Tread Depth & Cost Optimization':         ['truck,tire,wheel', 'tire,inspection', 'commercial,vehicle,tire'],
+  'Telematics, ELD & GPS Fleet Tracking Technology':          ['gps,fleet,tracking', 'vehicle,telematics,dashboard', 'fleet,management,technology'],
+  'TMS, Freight Software & Digital Operations':               ['logistics,software,screen', 'freight,technology,office', 'supply,chain,software'],
+  'AI, Machine Learning & Predictive Freight Matching':       ['artificial,intelligence,data', 'machine,learning,technology', 'digital,logistics,ai'],
+  'Blockchain, Visibility & Supply Chain Transparency':       ['blockchain,technology,supply', 'digital,transparency,data', 'supply,chain,visibility'],
+  'Warehouse Automation, Robotics & WMS':                     ['warehouse,robot,automation', 'automated,warehouse,conveyor', 'logistics,robot'],
+  'Dock Scheduling, Appointment Systems & Yard Management':   ['loading,dock,truck', 'warehouse,dock,forklift', 'yard,management,truck'],
+  'Driver Health, Wellness & Mental Health on the Road':      ['truck,driver,rest', 'healthy,driver,road', 'trucker,lifestyle'],
+  'Driver Recruitment, Retention & Compensation Structures':  ['truck,driver,hiring', 'fleet,drivers,team', 'driver,recruitment'],
+  'Dispatch Operations, Load Planning & Efficiency':          ['logistics,dispatch,office', 'freight,planning,map', 'dispatcher,computer'],
+  'Freight Brokerage Startup, MC Authority & Licensing':      ['freight,broker,office', 'business,startup,logistics', 'brokerage,license'],
+  'Carrier Sales, Business Development & Shipper Prospecting':['sales,meeting,logistics', 'business,development,freight', 'shipper,carrier,deal'],
+  'Freight Factoring, Cash Flow & Invoice Financing':         ['invoice,finance,business', 'cash,flow,trucking', 'factoring,payment'],
+  'Cargo Security, Seals & Anti-Theft Technology':            ['cargo,security,lock', 'trailer,security,seal', 'freight,protection'],
+  'Freight Fraud, Identity Theft & Double-Brokering':         ['fraud,prevention,security', 'cyber,security,logistics', 'identity,protection'],
+  'Peak Season Planning, Holiday Surge & Capacity Management':['busy,warehouse,holiday', 'peak,season,shipping', 'holiday,logistics'],
+  'Nearshoring, Reshoring & Supply Chain Localization':       ['manufacturing,factory,local', 'nearshore,supply,chain', 'reshoring,production'],
+  'Carbon Emissions, ESG Reporting & Green Freight':          ['green,logistics,sustainable', 'eco,freight,electric', 'carbon,neutral,transport'],
+  'Autonomous Trucks, Platooning & Future of Trucking':       ['autonomous,truck,highway', 'self,driving,vehicle,future', 'truck,platooning'],
+  'Drone Delivery, Micro-Fulfillment & Urban Innovation':     ['drone,delivery,technology', 'delivery,robot,urban', 'micro,fulfillment,warehouse'],
+  'Small Business Freight Strategy & Cost Reduction':         ['small,business,shipping', 'entrepreneur,logistics', 'startup,freight'],
+  'Freight Market Intelligence, Rate Forecasting & Cycles':   ['freight,market,analysis', 'logistics,data,chart', 'market,intelligence,business'],
+  'Lumper Services, Driver Assist & Unloading Costs':         ['warehouse,unloading,worker', 'freight,labor,loading', 'dock,worker,forklift'],
+  'Permit Management, Overweight Loads & State Regulations':  ['oversize,load,highway', 'wide,load,escort', 'heavy,haul,permit'],
+  'Owner-Operator vs Company Driver: Financial Comparison':   ['truck,driver,income,decision', 'owner,operator,truck', 'company,truck,driver'],
+  'Freight Marketplace Technology & Platform Comparison':     ['freight,platform,digital', 'logistics,marketplace,tech', 'digital,freight,app']
+};
+
+const FALLBACK_IMAGE_KEYWORDS = ['truck,highway', 'freight,logistics', 'cargo,shipping', 'warehouse,forklift', 'supply,chain'];
+
 function checkImageUrl(url) {
   return new Promise((resolve) => {
     try {
@@ -471,38 +539,45 @@ async function getUsedCoverImages() {
   }
 }
 
-async function getValidatedCoverImage() {
+async function getValidatedCoverImage(topicCluster = '') {
   const usedImages = await getUsedCoverImages();
 
+  // Pick cluster-specific keywords, fall back to generic
+  const clusterKeywords = CLUSTER_IMAGE_KEYWORDS[topicCluster] || FALLBACK_IMAGE_KEYWORDS;
+
   try {
-    const keywords = ['truck', 'freight', 'logistics', 'cargo', 'shipping', 'warehouse', 'transportation'];
-    
-    // Güvenlik amaçlı sonsuz döngüyü engellemek için maksimum 10 deneme
-    for (let attempts = 0; attempts < 10; attempts++) {
-      const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
+    for (let attempts = 0; attempts < 12; attempts++) {
+      // Cycle through cluster keywords first, then fall back to generic
+      const keywordPool = attempts < clusterKeywords.length * 2
+        ? clusterKeywords
+        : FALLBACK_IMAGE_KEYWORDS;
+      const keyword = keywordPool[attempts % keywordPool.length];
       const lockId = Math.floor(Math.random() * 1000000);
-      const loremUrl = `https://loremflickr.com/1200/630/${randomKeyword}?lock=${lockId}`;
-      
+      const loremUrl = `https://loremflickr.com/1200/630/${keyword}?lock=${lockId}`;
+
       const resolvedUrl = await new Promise((resolve) => {
         const req = https.get(loremUrl, (res) => {
           if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
             resolve(res.headers.location);
-          } else {
+          } else if (res.statusCode === 200) {
             resolve(loremUrl);
+          } else {
+            resolve(null);
           }
         });
         req.on('error', () => resolve(null));
+        req.setTimeout(8000, () => { req.destroy(); resolve(null); });
       });
 
       if (resolvedUrl && !usedImages.has(resolvedUrl)) {
-        console.log(`[Image Dedup] 100% Unique cover image validated: ${resolvedUrl}`);
+        console.log(`[Image] Cluster "${topicCluster || 'generic'}" → keyword "${keyword}" → ${resolvedUrl}`);
         return resolvedUrl;
       } else {
-        console.log(`[Image Dedup] Image already used or invalid, retrying... (${attempts + 1}/10)`);
+        console.log(`[Image] Already used or invalid (attempt ${attempts + 1}/12), retrying...`);
       }
     }
   } catch (err) {
-    console.warn('[Image Dedup] Failed dynamic image loop, falling back to static pool:', err.message);
+    console.warn('[Image] Dynamic loop failed, falling back to static pool:', err.message);
   }
 
   // Fallback to static pool
@@ -1016,6 +1091,7 @@ async function runBlogGenerator() {
   // 1. Generate/Select Base Article
   let basePost;
   let baseLanguage = 'en';
+  let activeTopicCluster = '';
 
   if (geminiApiKey) {
     try {
@@ -1025,6 +1101,7 @@ async function runBlogGenerator() {
 
       // Dynamically generate a fresh, unique topic using AI
       const topicData = await generateFreshTopic(recentTopics);
+      activeTopicCluster = topicData.topicCluster || '';
 
       console.log(`Generating viral SEO article for topic: "${topicData.topic}"`);
       basePost = await generateBasePost(topicData);
@@ -1109,7 +1186,7 @@ async function runBlogGenerator() {
   await runWithConcurrency(tasks, 5);
 
   // 3. Pick and validate unique cover image
-  const coverImage = await getValidatedCoverImage();
+  const coverImage = await getValidatedCoverImage(activeTopicCluster);
 
   // 4. Build bulk insert list
   const postsToInsert = [];
