@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { BlogPost } from '../../types/database';
@@ -15,23 +15,18 @@ interface BlogCardProps {
 export default function BlogCard({ post }: BlogCardProps) {
   const t = useT();
 
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const formattedDate = useMemo(() => {
-    if (!mounted) return '';
+    if (!post?.created_at) return '';
     return new Date(post.created_at).toLocaleDateString('tr-TR', {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
-  }, [post.created_at, mounted]);
+  }, [post?.created_at]);
 
   const cleanExcerpt = useMemo(() => {
     if (post.excerpt) return post.excerpt;
+    if (!post.content) return '';
     
     // Markdown karakterlerini temizle: linkler, kalın metinler, başlıklar vb.
     return post.content
@@ -63,7 +58,7 @@ export default function BlogCard({ post }: BlogCardProps) {
       {/* Content */}
       <div className="p-5">
         <div className="flex items-center gap-4 mb-3 text-xs text-muted/60">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5" suppressHydrationWarning>
             <Calendar size={14} className="text-accent" />
             {formattedDate}
           </div>

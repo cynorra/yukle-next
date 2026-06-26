@@ -24,11 +24,6 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
   const activeLocale = (locale in BLOG_TRANSLATIONS) ? (locale as Locale) : 'en';
   const tr = BLOG_TRANSLATIONS[activeLocale];
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Scroll Progress Logic
   useEffect(() => {
@@ -104,14 +99,14 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
 
   // Formatted Date
   const formattedDate = useMemo(() => {
-    if (!mounted || !post?.created_at) return '';
+    if (!post?.created_at) return '';
     const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
     return new Date(post.created_at).toLocaleDateString(formatLocale, {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
-  }, [post?.created_at, locale, mounted]);
+  }, [post?.created_at, locale]);
 
   // Enhanced Markdown Parser with Link Support
   const renderedContent = useMemo(() => {
@@ -407,7 +402,7 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
         {/* Hero Section */}
         <header className="mb-12 text-center">
           <div className="flex items-center justify-center gap-4 mb-6 text-sm">
-            <div className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full ${t.card} border-accent/20 text-accent font-bold`}>
+            <div className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full ${t.card} border-accent/20 text-accent font-bold`} suppressHydrationWarning>
               <Calendar size={14} />
               {formattedDate}
             </div>
