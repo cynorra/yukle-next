@@ -50,39 +50,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const getCachedPosts = unstable_cache(
-  async (locale: string) => {
-    const supabase = createPublicClient();
-    const { data: posts, error } = await supabase
-      .from('blog_posts')
-      .select('*, author:profiles(full_name)')
-      .eq('published', true)
-      .eq('language', locale)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('[blog] Supabase error (locale query):', error);
-    }
-    console.log(`[blog] locale=${locale} posts=${posts?.length ?? 0}`);
-
-    if ((!posts || posts.length === 0) && locale !== 'en') {
-      const { data: fallbackPosts, error: fallbackError } = await supabase
+async function getCachedPosts(locale: string) {
+  return unstable_cache(
+    async () => {
+      const supabase = createPublicClient();
+      const { data: posts, error } = await supabase
         .from('blog_posts')
         .select('*, author:profiles(full_name)')
         .eq('published', true)
-        .eq('language', 'en')
+        .eq('language', locale)
         .order('created_at', { ascending: false });
-      if (fallbackError) {
-        console.error('[blog] Supabase error (en fallback):', fallbackError);
+
+      if (error) console.error(`[blog] Supabase error (${locale}):`, error);
+
+      if ((!posts || posts.length === 0) && locale !== 'en') {
+        const { data: fallbackPosts, error: fbErr } = await supabase
+          .from('blog_posts')
+          .select('*, author:profiles(full_name)')
+          .eq('published', true)
+          .eq('language', 'en')
+          .order('created_at', { ascending: false });
+        if (fbErr) console.error('[blog] Supabase error (en fallback):', fbErr);
+        if (fallbackPosts && fallbackPosts.length > 0) return fallbackPosts;
       }
-      console.log(`[blog] en fallback posts=${fallbackPosts?.length ?? 0}`);
-      if (fallbackPosts) return fallbackPosts;
-    }
-    return posts || [];
-  },
-  ['blog-posts-list'],
-  { revalidate: 86400, tags: ['blog-posts'] }
-);
+      return posts || [];
+    },
+    ['blog-posts', locale],
+    { revalidate: 3600, tags: ['blog-posts'] }
+  )();
+}
 
 export default async function BlogListPage({ params }: Props) {
   const { locale: rawLocale } = await params;

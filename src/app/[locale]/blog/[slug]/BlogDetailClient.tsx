@@ -391,8 +391,8 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
 
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Back Button */}
-        <Link 
-          href="/blog"
+        <Link
+          href={`/${locale}/blog`}
           className="inline-flex items-center gap-2 text-muted hover:text-accent mb-8 transition-colors group"
         >
           <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
