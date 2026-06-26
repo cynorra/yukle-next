@@ -5,7 +5,6 @@ import { BookOpen, ArrowRight } from 'lucide-react';
 import { BlogListClient } from './BlogListClient';
 import { BLOG_TRANSLATIONS } from '@/utils/blogTranslations';
 import type { Locale } from '@/utils/translations';
-import { unstable_cache } from 'next/cache';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -50,34 +49,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-async function getCachedPosts(locale: string) {
-  return unstable_cache(
-    async () => {
-      const supabase = createPublicClient();
-      const { data: posts, error } = await supabase
-        .from('blog_posts')
-        .select('*, author:profiles(full_name)')
-        .eq('published', true)
-        .eq('language', locale)
-        .order('created_at', { ascending: false });
+async function fetchBlogPosts(locale: string) {
+  const supabase = createPublicClient();
+  const { data: posts, error } = await supabase
+    .from('blog_posts')
+    .select('*, author:profiles(full_name)')
+    .eq('published', true)
+    .eq('language', locale)
+    .order('created_at', { ascending: false });
 
-      if (error) console.error(`[blog] Supabase error (${locale}):`, error);
+  if (error) console.error(`[blog] Supabase error (${locale}):`, error);
 
-      if ((!posts || posts.length === 0) && locale !== 'en') {
-        const { data: fallbackPosts, error: fbErr } = await supabase
-          .from('blog_posts')
-          .select('*, author:profiles(full_name)')
-          .eq('published', true)
-          .eq('language', 'en')
-          .order('created_at', { ascending: false });
-        if (fbErr) console.error('[blog] Supabase error (en fallback):', fbErr);
-        if (fallbackPosts && fallbackPosts.length > 0) return fallbackPosts;
-      }
-      return posts || [];
-    },
-    ['blog-posts', locale],
-    { revalidate: 86400, tags: ['blog-posts'] }
-  )();
+  if ((!posts || posts.length === 0) && locale !== 'en') {
+    const { data: fallbackPosts, error: fbErr } = await supabase
+      .from('blog_posts')
+      .select('*, author:profiles(full_name)')
+      .eq('published', true)
+      .eq('language', 'en')
+      .order('created_at', { ascending: false });
+    if (fbErr) console.error('[blog] Supabase error (en fallback):', fbErr);
+    return fallbackPosts || [];
+  }
+  return posts || [];
 }
 
 export default async function BlogListPage({ params }: Props) {
@@ -85,7 +78,7 @@ export default async function BlogListPage({ params }: Props) {
   const locale = (rawLocale in BLOG_TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = BLOG_TRANSLATIONS[locale];
 
-  const allPosts = await getCachedPosts(locale);
+  const allPosts = await fetchBlogPosts(locale);
 
   const faqJsonLd = {
     '@context': 'https://schema.org',

@@ -1,12 +1,22 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { BlogPost } from '../../types/database';
 import { useT } from '../../hooks/useT';
-
+import { useTranslation } from '../../hooks/useTranslation';
 import Image from 'next/image';
+
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop';
+
+const READ_MORE: Record<string, string> = {
+  tr: 'Devamını Oku', en: 'Read More', de: 'Weiterlesen', fr: 'Lire la suite',
+  es: 'Leer más', pt: 'Ler mais', it: 'Leggi di più', pl: 'Czytaj więcej',
+  nl: 'Lees meer', ru: 'Читать далее', uk: 'Читати далі', zh: '阅读更多',
+  ja: '続きを読む', hi: 'और पढ़ें', ar: 'اقرأ المزيد', fa: 'بیشتر بخوانید',
+  ko: '더 읽기', vi: 'Đọc thêm', id: 'Baca selengkapnya', bn: 'আরো পড়ুন',
+};
 
 interface BlogCardProps {
   post: BlogPost;
@@ -14,6 +24,8 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
   const t = useT();
+  const { locale } = useTranslation();
+  const [imgSrc, setImgSrc] = useState(post.cover_image || FALLBACK_IMAGE);
 
   const formattedDate = useMemo(() => {
     if (!post?.created_at) return '';
@@ -44,13 +56,14 @@ export default function BlogCard({ post }: BlogCardProps) {
     >
       {/* Image */}
       <div className="aspect-[16/9] overflow-hidden relative">
-        <Image 
-          src={post.cover_image || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'} 
+        <Image
+          src={imgSrc}
           alt={post.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           unoptimized={true}
+          onError={() => setImgSrc(FALLBACK_IMAGE)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
@@ -79,7 +92,7 @@ export default function BlogCard({ post }: BlogCardProps) {
         </p>
 
         <div className="flex items-center gap-2 text-accent text-sm font-bold">
-          Devamını Oku
+          {READ_MORE[locale] ?? 'Read More'}
           <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
         </div>
       </div>
