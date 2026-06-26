@@ -1,0 +1,850 @@
+{
+  "available": [
+    {
+      "topic": "Why Your Fleet's EV Transition is Failing: The Charging Infrastructure Secret",
+      "primaryKeyword": "EV truck charging infrastructure",
+      "cluster": "EV Trucks & Alternative Fuel Adoption",
+      "audience": "Fleet Managers & Transportation Directors",
+      "searchIntent": "informational",
+      "viralAngle": "Exposes a critical overlooked aspect of EV adoption that leads to costly failures for early adopters.",
+      "contentFormat": "Problem Diagnosis & Fix Playbook",
+      "audiencePainPoints": "High upfront EV costs, range anxiety, inadequate charging solutions.",
+      "audienceProfile": {
+        "name": "Fleet Managers & Transportation Directors",
+        "searchIntent": "fleet cost reduction, driver management, compliance tracking, asset utilization, maintenance scheduling",
+        "painPoints": "driver turnover, rising insurance premiums, compliance violations, fuel cost unpredictability, aging fleet maintenance costs",
+        "keywords": [
+          "fleet management tips",
+          "reduce fleet operating costs",
+          "driver retention strategies",
+          "fleet compliance management",
+          "transportation KPIs",
+          "fleet fuel management 2025"
+        ]
+      },
+      "formatSpec": {
+        "type": "Problem Diagnosis & Fix Playbook",
+        "minWords": 1800,
+        "description": "Diagnoses root causes of a common costly problem then provides specific, step-by-step solutions"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Stop Overpaying for LTL: The Freight Class Audit Checklist for Shippers",
+      "primaryKeyword": "LTL freight class audit",
+      "cluster": "LTL Freight Optimization & Freight Class",
+      "audience": "Freight Shippers & Logistics Managers",
+      "searchIntent": "informational",
+      "viralAngle": "Provides an actionable, step-by-step method to uncover hidden LTL overcharges.",
+      "contentFormat": "Actionable Checklist & Audit",
+      "audiencePainPoints": "Incorrect freight classification leading to higher costs, surprise charges.",
+      "audienceProfile": {
+        "name": "Freight Shippers & Logistics Managers",
+        "searchIntent": "cost reduction, carrier vetting, shipment tracking, freight compliance, rate negotiation",
+        "painPoints": "unpredictable shipping costs, unreliable carriers, freight damage claims, customs delays, supply chain visibility",
+        "keywords": [
+          "reduce shipping costs",
+          "find reliable freight carriers",
+          "freight rate negotiation",
+          "logistics cost optimization",
+          "shipper best practices",
+          "freight carrier selection"
+        ]
+      },
+      "formatSpec": {
+        "type": "Actionable Checklist & Audit",
+        "minWords": 1600,
+        "description": "Checklist format where each item has a clear explanation and consequence for not following it"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Navigating the 2025 FTL Spot Market: When to Ditch Your Contract Rates",
+      "primaryKeyword": "FTL spot market strategy",
+      "cluster": "FTL Brokerage & Truckload Market",
+      "audience": "Freight Shippers & Logistics Managers",
+      "searchIntent": "commercial",
+      "viralAngle": "Offers a counter-intuitive strategy for when shippers should actively abandon fixed contracts for the spot market.",
+      "contentFormat": "Data-Driven Industry Analysis",
+      "audiencePainPoints": "Volatile spot market rates, uncertainty about contract vs. spot decisions.",
+      "audienceProfile": {
+        "name": "Freight Shippers & Logistics Managers",
+        "searchIntent": "cost reduction, carrier vetting, shipment tracking, freight compliance, rate negotiation",
+        "painPoints": "unpredictable shipping costs, unreliable carriers, freight damage claims, customs delays, supply chain visibility",
+        "keywords": [
+          "reduce shipping costs",
+          "find reliable freight carriers",
+          "freight rate negotiation",
+          "logistics cost optimization",
+          "shipper best practices",
+          "freight carrier selection"
+        ]
+      },
+      "formatSpec": {
+        "type": "Data-Driven Industry Analysis",
+        "minWords": 2000,
+        "description": "Statistics-heavy trend analysis with sourced data, benchmarks, and expert interpretation"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "The Intermodal Secret: Cut Long-Haul Costs by 30% Without Sacrificing Speed",
+      "primaryKeyword": "intermodal cost reduction",
+      "cluster": "Intermodal Freight & Rail-Truck Strategy",
+      "audience": "Freight Shippers & Logistics Managers",
+      "searchIntent": "commercial",
+      "viralAngle": "Challenges the common belief that intermodal is always slower, revealing optimized routes.",
+      "contentFormat": "Cost & ROI Breakdown",
+      "audiencePainPoints": "High long-haul trucking costs, perception that intermodal is slow or unreliable.",
+      "audienceProfile": {
+        "name": "Freight Shippers & Logistics Managers",
+        "searchIntent": "cost reduction, carrier vetting, shipment tracking, freight compliance, rate negotiation",
+        "painPoints": "unpredictable shipping costs, unreliable carriers, freight damage claims, customs delays, supply chain visibility",
+        "keywords": [
+          "reduce shipping costs",
+          "find reliable freight carriers",
+          "freight rate negotiation",
+          "logistics cost optimization",
+          "shipper best practices",
+          "freight carrier selection"
+        ]
+      },
+      "formatSpec": {
+        "type": "Cost & ROI Breakdown",
+        "minWords": 1800,
+        "description": "Financial analysis with real cost figures, ROI calculations, and a decision framework"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Drayage Fees Explained: The Hidden Costs You're Paying at Every Port",
+      "primaryKeyword": "drayage fees explanation",
+      "cluster": "Drayage, Port & Terminal Operations",
+      "audience": "Importers, Exporters & Manufacturers",
+      "searchIntent": "informational",
+      "viralAngle": "Demystifies a complex and often opaque area of freight, empowering shippers with knowledge.",
+      "contentFormat": "Step-by-Step Tutorial",
+      "audiencePainPoints": "Unexpected drayage charges, lack of transparency in port logistics costs.",
+      "audienceProfile": {
+        "name": "Importers, Exporters & Manufacturers",
+        "searchIntent": "customs navigation, international shipping optimization, trade compliance, supply chain resilience",
+        "painPoints": "customs delays costing thousands, incorrect documentation fines, port congestion, supply chain disruptions, Incoterms confusion",
+        "keywords": [
+          "international freight shipping guide",
+          "customs clearance tips",
+          "import export logistics",
+          "supply chain optimization manufacturing",
+          "Incoterms 2020 explained",
+          "cross-border freight"
+        ]
+      },
+      "formatSpec": {
+        "type": "Step-by-Step Tutorial",
+        "minWords": 1800,
+        "description": "Numbered actionable steps the reader can immediately implement to solve a specific problem"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "The Cold Chain Compliance Playbook: Avoid 7-Figure Fines for Perishable Goods",
+      "primaryKeyword": "cold chain compliance",
+      "cluster": "Cold Chain & Refrigerated Transport",
+      "audience": "Cold Chain & Refrigerated Cargo Specialists",
+      "searchIntent": "informational",
+      "viralAngle": "Highlights the severe financial consequences of non-compliance and offers a preventative guide.",
+      "contentFormat": "Problem Diagnosis & Fix Playbook",
+      "audiencePainPoints": "Strict regulatory requirements, risk of product spoilage, heavy fines for non-compliance.",
+      "audienceProfile": {
+        "name": "Cold Chain & Refrigerated Cargo Specialists",
+        "searchIntent": "temperature compliance, reefer carrier qualification, cold chain documentation, pharma logistics, food safety",
+        "painPoints": "temperature excursions causing cargo loss, finding qualified reefer carriers, ATP certification requirements, fuel costs for refrigeration units",
+        "keywords": [
+          "cold chain logistics guide",
+          "reefer transport best practices",
+          "temperature controlled shipping",
+          "cold chain compliance",
+          "refrigerated freight carriers",
+          "pharma cold chain requirements"
+        ]
+      },
+      "formatSpec": {
+        "type": "Problem Diagnosis & Fix Playbook",
+        "minWords": 1800,
+        "description": "Diagnoses root causes of a common costly problem then provides specific, step-by-step solutions"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Hazmat Shipping 2025: Your DG Compliance Checklist to Prevent DOT Violations",
+      "primaryKeyword": "hazmat shipping compliance",
+      "cluster": "Hazmat & Dangerous Goods Compliance",
+      "audience": "Hazmat & Special Cargo Handlers",
+      "searchIntent": "informational",
+      "viralAngle": "Provides a definitive, easy-to-follow guide to avoid specific, costly regulatory pitfalls.",
+      "contentFormat": "Actionable Checklist & Audit",
+      "audiencePainPoints": "Complex regulations for dangerous goods, high risk of errors and penalties.",
+      "audienceProfile": {
+        "name": "Hazmat & Special Cargo Handlers",
+        "searchIntent": "hazmat compliance, dangerous goods documentation, ADR regulations, special transport permits, certified carrier finding",
+        "painPoints": "regulatory complexity across borders, finding ADR-certified carriers, documentation errors causing delays, liability exposure for violations",
+        "keywords": [
+          "hazmat shipping regulations",
+          "dangerous goods transport guide",
+          "ADR compliance checklist",
+          "hazmat carrier qualification",
+          "special cargo transport permits",
+          "IATA dangerous goods"
+        ]
+      },
+      "formatSpec": {
+        "type": "Actionable Checklist & Audit",
+        "minWords": 1600,
+        "description": "Checklist format where each item has a clear explanation and consequence for not following it"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Heavy Haul Permit Management: Avoid Months of Delays & Million-Dollar Fines",
+      "primaryKeyword": "heavy haul permits",
+      "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+      "audience": "Construction & Infrastructure Project Logistics",
+      "searchIntent": "informational",
+      "viralAngle": "Reveals the critical path to streamlining permit acquisition, saving significant time and money.",
+      "contentFormat": "Ultimate Guide",
+      "audiencePainPoints": "Complex and time-consuming permitting for oversized loads, severe penalties for mistakes.",
+      "audienceProfile": {
+        "name": "Construction & Infrastructure Project Logistics",
+        "searchIntent": "heavy equipment transport, project site delivery, oversize load permits, just-in-time construction delivery",
+        "painPoints": "permit complexity for oversized loads, project site access restrictions, tight delivery windows, equipment damage risk during transport",
+        "keywords": [
+          "construction logistics management",
+          "heavy equipment transport guide",
+          "oversize load permits process",
+          "project freight solutions",
+          "construction material delivery",
+          "site logistics planning"
+        ]
+      },
+      "formatSpec": {
+        "type": "Ultimate Guide",
+        "minWords": 2500,
+        "description": "Comprehensive A-to-Z reference covering all critical aspects of the topic with expert depth"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Autonomous Vehicle Logistics: Why Auto Shippers Must Adapt by 2027",
+      "primaryKeyword": "autonomous vehicle logistics",
+      "cluster": "Automotive Logistics & Vehicle Transport",
+      "audience": "Importers, Exporters & Manufacturers",
+      "searchIntent": "informational",
+      "viralAngle": "Predicts an imminent industry shift and provides a strategic imperative for adaptation.",
+      "contentFormat": "Data-Driven Industry Analysis",
+      "audiencePainPoints": "Disruption in traditional vehicle transport, need to integrate new technologies.",
+      "audienceProfile": {
+        "name": "Importers, Exporters & Manufacturers",
+        "searchIntent": "customs navigation, international shipping optimization, trade compliance, supply chain resilience",
+        "painPoints": "customs delays costing thousands, incorrect documentation fines, port congestion, supply chain disruptions, Incoterms confusion",
+        "keywords": [
+          "international freight shipping guide",
+          "customs clearance tips",
+          "import export logistics",
+          "supply chain optimization manufacturing",
+          "Incoterms 2020 explained",
+          "cross-border freight"
+        ]
+      },
+      "formatSpec": {
+        "type": "Data-Driven Industry Analysis",
+        "minWords": 2000,
+        "description": "Statistics-heavy trend analysis with sourced data, benchmarks, and expert interpretation"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Pharma Supply Chain Security: Guard Against Counterfeits & Diversion in 2025",
+      "primaryKeyword": "pharma supply chain security",
+      "cluster": "Pharmaceutical & Life Sciences Logistics",
+      "audience": "Importers, Exporters & Manufacturers",
+      "searchIntent": "informational",
+      "viralAngle": "Addresses a critical, high-stakes issue with direct implications for public safety and brand reputation.",
+      "contentFormat": "Problem Diagnosis & Fix Playbook",
+      "audiencePainPoints": "High-value, sensitive cargo prone to theft, counterfeiting, and regulatory scrutiny.",
+      "audienceProfile": {
+        "name": "Importers, Exporters & Manufacturers",
+        "searchIntent": "customs navigation, international shipping optimization, trade compliance, supply chain resilience",
+        "painPoints": "customs delays costing thousands, incorrect documentation fines, port congestion, supply chain disruptions, Incoterms confusion",
+        "keywords": [
+          "international freight shipping guide",
+          "customs clearance tips",
+          "import export logistics",
+          "supply chain optimization manufacturing",
+          "Incoterms 2020 explained",
+          "cross-border freight"
+        ]
+      },
+      "formatSpec": {
+        "type": "Problem Diagnosis & Fix Playbook",
+        "minWords": 1800,
+        "description": "Diagnoses root causes of a common costly problem then provides specific, step-by-step solutions"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Food Waste in Logistics: The Cold Chain Innovation That Saves Millions",
+      "primaryKeyword": "food waste logistics",
+      "cluster": "Food & Beverage Supply Chain",
+      "audience": "Food & Beverage Supply Chain",
+      "searchIntent": "commercial",
+      "viralAngle": "Presents a revolutionary solution to a widespread and costly problem in a key industry.",
+      "contentFormat": "Cost & ROI Breakdown",
+      "audiencePainPoints": "Significant financial losses due to spoilage and waste, strict food safety regulations.",
+      "audienceProfile": {
+        "name": "Truck Drivers & Owner-Operators",
+        "searchIntent": "practical income tips, route optimization, load finding, legal compliance, fuel savings",
+        "painPoints": "empty return miles, rising fuel costs, finding quality loads, HOS regulations, unexpected maintenance costs",
+        "keywords": [
+          "truck driver income",
+          "owner operator tips",
+          "find loads online",
+          "fuel efficiency trucking",
+          "load board tips",
+          "owner operator profit",
+          "trucking business tips"
+        ]
+      },
+      "formatSpec": {
+        "type": "Cost & ROI Breakdown",
+        "minWords": 1800,
+        "description": "Financial analysis with real cost figures, ROI calculations, and a decision framework"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Retail Distribution Network Optimization: Slash Delivery Times by 20%",
+      "primaryKeyword": "retail distribution optimization",
+      "cluster": "Retail & FMCG Distribution",
+      "audience": "Retail & FMCG Distribution",
+      "searchIntent": "commercial",
+      "viralAngle": "Offers a concrete, measurable improvement in a highly competitive sector.",
+      "contentFormat": "Step-by-Step Tutorial",
+      "audiencePainPoints": "High inventory carrying costs, slow delivery to stores/customers, inefficient routes.",
+      "audienceProfile": {
+        "name": "Truck Drivers & Owner-Operators",
+        "searchIntent": "practical income tips, route optimization, load finding, legal compliance, fuel savings",
+        "painPoints": "empty return miles, rising fuel costs, finding quality loads, HOS regulations, unexpected maintenance costs",
+        "keywords": [
+          "truck driver income",
+          "owner operator tips",
+          "find loads online",
+          "fuel efficiency trucking",
+          "load board tips",
+          "owner operator profit",
+          "trucking business tips"
+        ]
+      },
+      "formatSpec": {
+        "type": "Step-by-Step Tutorial",
+        "minWords": 1800,
+        "description": "Numbered actionable steps the reader can immediately implement to solve a specific problem"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Bulk Commodity Shipping: The Digital Platform Saving Farmers 10% on Freight",
+      "primaryKeyword": "bulk commodity shipping",
+      "cluster": "Agricultural, Grain & Bulk Commodity Transport",
+      "audience": "Agricultural & Bulk Commodity Shippers",
+      "searchIntent": "commercial",
+      "viralAngle": "Highlights how technology is democratizing access to better rates for a traditional industry.",
+      "contentFormat": "Comparison & Decision Guide",
+      "audiencePainPoints": "Opaque pricing, limited carrier options, seasonal demand spikes.",
+      "audienceProfile": {
+        "name": "Agricultural & Bulk Commodity Shippers",
+        "searchIntent": "harvest season logistics, grain transport, commodity freight rates, seasonal capacity planning, perishable cargo",
+        "painPoints": "harvest season capacity shortage, weather-dependent scheduling, commodity price volatility, perishable cargo timing pressure",
+        "keywords": [
+          "agricultural freight solutions",
+          "grain transport logistics",
+          "bulk commodity shipping rates",
+          "harvest logistics planning",
+          "agricultural supply chain",
+          "commodity freight broker"
+        ]
+      },
+      "formatSpec": {
+        "type": "Comparison & Decision Guide",
+        "minWords": 2000,
+        "description": "Side-by-side comparison of options, tools, or strategies with clear, opinionated recommendations"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Energy Logistics Challenges 2025: Geopolitical Risks & Supply Chain Resilience",
+      "primaryKeyword": "energy logistics challenges",
+      "cluster": "Oil, Gas & Energy Sector Logistics",
+      "audience": "Importers, Exporters & Manufacturers",
+      "searchIntent": "informational",
+      "viralAngle": "Addresses urgent, high-level geopolitical and economic factors impacting a critical industry.",
+      "contentFormat": "Data-Driven Industry Analysis",
+      "audiencePainPoints": "Volatile global markets, security concerns, complex regulatory environment.",
+      "audienceProfile": {
+        "name": "Importers, Exporters & Manufacturers",
+        "searchIntent": "customs navigation, international shipping optimization, trade compliance, supply chain resilience",
+        "painPoints": "customs delays costing thousands, incorrect documentation fines, port congestion, supply chain disruptions, Incoterms confusion",
+        "keywords": [
+          "international freight shipping guide",
+          "customs clearance tips",
+          "import export logistics",
+          "supply chain optimization manufacturing",
+          "Incoterms 2020 explained",
+          "cross-border freight"
+        ]
+      },
+      "formatSpec": {
+        "type": "Data-Driven Industry Analysis",
+        "minWords": 2000,
+        "description": "Statistics-heavy trend analysis with sourced data, benchmarks, and expert interpretation"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "US-Mexico Cross-Border Freight: Avoid 4 Common Customs Delays",
+      "primaryKeyword": "US Mexico customs delays",
+      "cluster": "Cross-Border US-Mexico Trucking",
+      "audience": "Importers, Exporters & Manufacturers",
+      "searchIntent": "informational",
+      "viralAngle": "Provides specific, actionable advice to prevent common, costly bottlenecks in a high-volume trade lane.",
+      "contentFormat": "Problem Diagnosis & Fix Playbook",
+      "audiencePainPoints": "Frequent delays at the border, complex customs procedures, lack of visibility.",
+      "audienceProfile": {
+        "name": "Importers, Exporters & Manufacturers",
+        "searchIntent": "customs navigation, international shipping optimization, trade compliance, supply chain resilience",
+        "painPoints": "customs delays costing thousands, incorrect documentation fines, port congestion, supply chain disruptions, Incoterms confusion",
+        "keywords": [
+          "international freight shipping guide",
+          "customs clearance tips",
+          "import export logistics",
+          "supply chain optimization manufacturing",
+          "Incoterms 2020 explained",
+          "cross-border freight"
+        ]
+      },
+      "formatSpec": {
+        "type": "Problem Diagnosis & Fix Playbook",
+        "minWords": 1800,
+        "description": "Diagnoses root causes of a common costly problem then provides specific, step-by-step solutions"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "How to Fight Demurrage & Detention Fees: The Shipper's Legal Playbook",
+      "primaryKeyword": "demurrage detention fees",
+      "cluster": "Port Congestion, Demurrage & Detention Costs",
+      "audience": "Freight Shippers & Logistics Managers",
+      "searchIntent": "commercial",
+      "viralAngle": "Empowers shippers with legal and strategic knowledge to challenge and mitigate unavoidable costs.",
+      "contentFormat": "Ultimate Guide",
+      "audiencePainPoints": "Unfair or unexpected fees, lack of recourse against carriers/ports.",
+      "audienceProfile": {
+        "name": "Freight Shippers & Logistics Managers",
+        "searchIntent": "cost reduction, carrier vetting, shipment tracking, freight compliance, rate negotiation",
+        "painPoints": "unpredictable shipping costs, unreliable carriers, freight damage claims, customs delays, supply chain visibility",
+        "keywords": [
+          "reduce shipping costs",
+          "find reliable freight carriers",
+          "freight rate negotiation",
+          "logistics cost optimization",
+          "shipper best practices",
+          "freight carrier selection"
+        ]
+      },
+      "formatSpec": {
+        "type": "Ultimate Guide",
+        "minWords": 2500,
+        "description": "Comprehensive A-to-Z reference covering all critical aspects of the topic with expert depth"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "HOS Compliance for Owner-Operators: Maximize Drive Time Legally in 2025",
+      "primaryKeyword": "HOS compliance owner-operator",
+      "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+      "audience": "Truck Drivers & Owner-Operators",
+      "searchIntent": "informational",
+      "viralAngle": "Offers strategies to legally optimize a critical constraint, directly impacting income for drivers.",
+      "contentFormat": "Actionable Checklist & Audit",
+      "audiencePainPoints": "Strict HOS rules limiting earning potential, fear of violations, optimizing route planning.",
+      "audienceProfile": {
+        "name": "Truck Drivers & Owner-Operators",
+        "searchIntent": "practical income tips, route optimization, load finding, legal compliance, fuel savings",
+        "painPoints": "empty return miles, rising fuel costs, finding quality loads, HOS regulations, unexpected maintenance costs",
+        "keywords": [
+          "truck driver income",
+          "owner operator tips",
+          "find loads online",
+          "fuel efficiency trucking",
+          "load board tips",
+          "owner operator profit",
+          "trucking business tips"
+        ]
+      },
+      "formatSpec": {
+        "type": "Actionable Checklist & Audit",
+        "minWords": 1600,
+        "description": "Checklist format where each item has a clear explanation and consequence for not following it"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "DOT Audit Survival Guide: Maintain a Perfect FMCSA Safety Rating",
+      "primaryKeyword": "DOT audit survival",
+      "cluster": "FMCSA Safety Ratings, CSA Scores & DOT Audits",
+      "audience": "Fleet Managers & Transportation Directors",
+      "searchIntent": "informational",
+      "viralAngle": "Provides insider knowledge and a proactive strategy to navigate high-stakes audits.",
+      "contentFormat": "Ultimate Guide",
+      "audiencePainPoints": "Fear of DOT audits, potential loss of operating authority, impact of low safety scores.",
+      "audienceProfile": {
+        "name": "Fleet Managers & Transportation Directors",
+        "searchIntent": "fleet cost reduction, driver management, compliance tracking, asset utilization, maintenance scheduling",
+        "painPoints": "driver turnover, rising insurance premiums, compliance violations, fuel cost unpredictability, aging fleet maintenance costs",
+        "keywords": [
+          "fleet management tips",
+          "reduce fleet operating costs",
+          "driver retention strategies",
+          "fleet compliance management",
+          "transportation KPIs",
+          "fleet fuel management 2025"
+        ]
+      },
+      "formatSpec": {
+        "type": "Ultimate Guide",
+        "minWords": 2500,
+        "description": "Comprehensive A-to-Z reference covering all critical aspects of the topic with expert depth"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "CDL Endorsements 2025: Unlock 6 High-Paying Cargo Types for Drivers",
+      "primaryKeyword": "CDL endorsements",
+      "cluster": "CDL Requirements, Endorsements & Driver Licensing",
+      "audience": "Truck Drivers & Owner-Operators",
+      "searchIntent": "informational",
+      "viralAngle": "Reveals specific paths to increased income by acquiring specialized skills.",
+      "contentFormat": "Comparison & Decision Guide",
+      "audiencePainPoints": "Limited earning potential, desire for specialized, higher-paying work.",
+      "audienceProfile": {
+        "name": "Truck Drivers & Owner-Operators",
+        "searchIntent": "practical income tips, route optimization, load finding, legal compliance, fuel savings",
+        "painPoints": "empty return miles, rising fuel costs, finding quality loads, HOS regulations, unexpected maintenance costs",
+        "keywords": [
+          "truck driver income",
+          "owner operator tips",
+          "find loads online",
+          "fuel efficiency trucking",
+          "load board tips",
+          "owner operator profit",
+          "trucking business tips"
+        ]
+      },
+      "formatSpec": {
+        "type": "Comparison & Decision Guide",
+        "minWords": 2000,
+        "description": "Side-by-side comparison of options, tools, or strategies with clear, opinionated recommendations"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Why Your Freight Claim Was Denied: The 7 Hidden Reasons & How to Win",
+      "primaryKeyword": "freight claim denial",
+      "cluster": "Cargo Insurance, Claims & Freight Liability",
+      "audience": "Freight Shippers & Logistics Managers",
+      "searchIntent": "informational",
+      "viralAngle": "Exposes the common tricks and technicalities that lead to claim denials, empowering shippers.",
+      "contentFormat": "Problem Diagnosis & Fix Playbook",
+      "audiencePainPoints": "Frustration with denied claims, financial losses from damaged goods.",
+      "audienceProfile": {
+        "name": "Freight Shippers & Logistics Managers",
+        "searchIntent": "cost reduction, carrier vetting, shipment tracking, freight compliance, rate negotiation",
+        "painPoints": "unpredictable shipping costs, unreliable carriers, freight damage claims, customs delays, supply chain visibility",
+        "keywords": [
+          "reduce shipping costs",
+          "find reliable freight carriers",
+          "freight rate negotiation",
+          "logistics cost optimization",
+          "shipper best practices",
+          "freight carrier selection"
+        ]
+      },
+      "formatSpec": {
+        "type": "Problem Diagnosis & Fix Playbook",
+        "minWords": 1800,
+        "description": "Diagnoses root causes of a common costly problem then provides specific, step-by-step solutions"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "The Bill of Lading Secret: How to Protect Your Cargo Legally",
+      "primaryKeyword": "bill of lading terms",
+      "cluster": "Freight Contract Law, BOL Terms & Liability Limits",
+      "audience": "Freight Shippers & Logistics Managers",
+      "searchIntent": "informational",
+      "viralAngle": "Reveals critical, often overlooked legal aspects of a common document that can save fortunes.",
+      "contentFormat": "Step-by-Step Tutorial",
+      "audiencePainPoints": "Lack of understanding of legal documents, insufficient protection for goods in transit.",
+      "audienceProfile": {
+        "name": "Freight Shippers & Logistics Managers",
+        "searchIntent": "cost reduction, carrier vetting, shipment tracking, freight compliance, rate negotiation",
+        "painPoints": "unpredictable shipping costs, unreliable carriers, freight damage claims, customs delays, supply chain visibility",
+        "keywords": [
+          "reduce shipping costs",
+          "find reliable freight carriers",
+          "freight rate negotiation",
+          "logistics cost optimization",
+          "shipper best practices",
+          "freight carrier selection"
+        ]
+      },
+      "formatSpec": {
+        "type": "Step-by-Step Tutorial",
+        "minWords": 1800,
+        "description": "Numbered actionable steps the reader can immediately implement to solve a specific problem"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Owner-Operator Tax Deductions 2025: Maximize Your Refund Legally",
+      "primaryKeyword": "owner-operator tax deductions",
+      "cluster": "Owner-Operator Business Finance & Tax Strategy",
+      "audience": "Truck Drivers & Owner-Operators",
+      "searchIntent": "informational",
+      "viralAngle": "Provides specific, updated advice to directly increase take-home pay for owner-operators.",
+      "contentFormat": "Actionable Checklist & Audit",
+      "audiencePainPoints": "Complex tax code, missing out on legitimate deductions, high tax burden.",
+      "audienceProfile": {
+        "name": "Truck Drivers & Owner-Operators",
+        "searchIntent": "practical income tips, route optimization, load finding, legal compliance, fuel savings",
+        "painPoints": "empty return miles, rising fuel costs, finding quality loads, HOS regulations, unexpected maintenance costs",
+        "keywords": [
+          "truck driver income",
+          "owner operator tips",
+          "find loads online",
+          "fuel efficiency trucking",
+          "load board tips",
+          "owner operator profit",
+          "trucking business tips"
+        ]
+      },
+      "formatSpec": {
+        "type": "Actionable Checklist & Audit",
+        "minWords": 1600,
+        "description": "Checklist format where each item has a clear explanation and consequence for not following it"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Used Truck Purchase Guide: Avoid the Million-Dollar Lemon in 2025",
+      "primaryKeyword": "used truck purchase guide",
+      "cluster": "Truck Financing, Leasing & Purchase Strategy",
+      "audience": "Truck Drivers & Owner-Operators",
+      "searchIntent": "commercial",
+      "viralAngle": "Offers crucial preventative advice to avoid a catastrophic financial mistake.",
+      "contentFormat": "Ultimate Guide",
+      "audiencePainPoints": "High cost of new trucks, risk of buying unreliable used equipment, financial loss.",
+      "audienceProfile": {
+        "name": "Truck Drivers & Owner-Operators",
+        "searchIntent": "practical income tips, route optimization, load finding, legal compliance, fuel savings",
+        "painPoints": "empty return miles, rising fuel costs, finding quality loads, HOS regulations, unexpected maintenance costs",
+        "keywords": [
+          "truck driver income",
+          "owner operator tips",
+          "find loads online",
+          "fuel efficiency trucking",
+          "load board tips",
+          "owner operator profit",
+          "trucking business tips"
+        ]
+      },
+      "formatSpec": {
+        "type": "Ultimate Guide",
+        "minWords": 2500,
+        "description": "Comprehensive A-to-Z reference covering all critical aspects of the topic with expert depth"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "The Preventive Maintenance Schedule That Extends Truck Life by 5 Years",
+      "primaryKeyword": "truck preventive maintenance",
+      "cluster": "Truck Maintenance, Breakdowns & Preventive Schedules",
+      "audience": "Fleet Managers & Transportation Directors",
+      "searchIntent": "informational",
+      "viralAngle": "Provides a proven system to drastically improve asset longevity and reduce operational costs.",
+      "contentFormat": "Actionable Checklist & Audit",
+      "audiencePainPoints": "High repair costs, unexpected breakdowns, short vehicle lifespan.",
+      "audienceProfile": {
+        "name": "Fleet Managers & Transportation Directors",
+        "searchIntent": "fleet cost reduction, driver management, compliance tracking, asset utilization, maintenance scheduling",
+        "painPoints": "driver turnover, rising insurance premiums, compliance violations, fuel cost unpredictability, aging fleet maintenance costs",
+        "keywords": [
+          "fleet management tips",
+          "reduce fleet operating costs",
+          "driver retention strategies",
+          "fleet compliance management",
+          "transportation KPIs",
+          "fleet fuel management 2025"
+        ]
+      },
+      "formatSpec": {
+        "type": "Actionable Checklist & Audit",
+        "minWords": 1600,
+        "description": "Checklist format where each item has a clear explanation and consequence for not following it"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Tire Cost Optimization: Slash Your Fleet's Biggest Expense by 25%",
+      "primaryKeyword": "truck tire cost optimization",
+      "cluster": "Tire Management, Tread Depth & Cost Optimization",
+      "audience": "Fleet Managers & Transportation Directors",
+      "searchIntent": "commercial",
+      "viralAngle": "Focuses on a specific, high-cost area with a promise of significant savings.",
+      "contentFormat": "Cost & ROI Breakdown",
+      "audiencePainPoints": "Tires as a major operating expense, frequent replacements, lack of clear strategy.",
+      "audienceProfile": {
+        "name": "Fleet Managers & Transportation Directors",
+        "searchIntent": "fleet cost reduction, driver management, compliance tracking, asset utilization, maintenance scheduling",
+        "painPoints": "driver turnover, rising insurance premiums, compliance violations, fuel cost unpredictability, aging fleet maintenance costs",
+        "keywords": [
+          "fleet management tips",
+          "reduce fleet operating costs",
+          "driver retention strategies",
+          "fleet compliance management",
+          "transportation KPIs",
+          "fleet fuel management 2025"
+        ]
+      },
+      "formatSpec": {
+        "type": "Cost & ROI Breakdown",
+        "minWords": 1800,
+        "description": "Financial analysis with real cost figures, ROI calculations, and a decision framework"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Beyond ELD Compliance: How Telematics Unlocks 20% Fleet Efficiency",
+      "primaryKeyword": "telematics fleet efficiency",
+      "cluster": "Telematics, ELD & GPS Fleet Tracking Technology",
+      "audience": "Fleet Managers & Transportation Directors",
+      "searchIntent": "commercial",
+      "viralAngle": "Reveals the untapped potential of existing technology to drive dramatic efficiency gains.",
+      "contentFormat": "Data-Driven Industry Analysis",
+      "audiencePainPoints": "Seeing ELD as just a compliance tool, not leveraging full potential of technology.",
+      "audienceProfile": {
+        "name": "Fleet Managers & Transportation Directors",
+        "searchIntent": "fleet cost reduction, driver management, compliance tracking, asset utilization, maintenance scheduling",
+        "painPoints": "driver turnover, rising insurance premiums, compliance violations, fuel cost unpredictability, aging fleet maintenance costs",
+        "keywords": [
+          "fleet management tips",
+          "reduce fleet operating costs",
+          "driver retention strategies",
+          "fleet compliance management",
+          "transportation KPIs",
+          "fleet fuel management 2025"
+        ]
+      },
+      "formatSpec": {
+        "type": "Data-Driven Industry Analysis",
+        "minWords": 2000,
+        "description": "Statistics-heavy trend analysis with sourced data, benchmarks, and expert interpretation"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "TMS Implementation Guide: Avoid the 5 Costliest Software Mistakes",
+      "primaryKeyword": "TMS implementation guide",
+      "cluster": "TMS, Freight Software & Digital Operations",
+      "audience": "Freight Shippers & Logistics Managers",
+      "searchIntent": "commercial",
+      "viralAngle": "Provides critical warnings and solutions for a complex, high-investment technology project.",
+      "contentFormat": "Problem Diagnosis & Fix Playbook",
+      "audiencePainPoints": "Failed software implementations, high costs, disruption to operations.",
+      "audienceProfile": {
+        "name": "Freight Shippers & Logistics Managers",
+        "searchIntent": "cost reduction, carrier vetting, shipment tracking, freight compliance, rate negotiation",
+        "painPoints": "unpredictable shipping costs, unreliable carriers, freight damage claims, customs delays, supply chain visibility",
+        "keywords": [
+          "reduce shipping costs",
+          "find reliable freight carriers",
+          "freight rate negotiation",
+          "logistics cost optimization",
+          "shipper best practices",
+          "freight carrier selection"
+        ]
+      },
+      "formatSpec": {
+        "type": "Problem Diagnosis & Fix Playbook",
+        "minWords": 1800,
+        "description": "Diagnoses root causes of a common costly problem then provides specific, step-by-step solutions"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "Blockchain in Logistics: The Truth About Supply Chain Traceability in 2025",
+      "primaryKeyword": "blockchain logistics traceability",
+      "cluster": "Blockchain, Visibility & Supply Chain Transparency",
+      "audience": "Freight Shippers & Logistics Managers",
+      "searchIntent": "informational",
+      "viralAngle": "Cuts through the hype to reveal the realistic, actionable benefits and challenges of a cutting-edge technology.",
+      "contentFormat": "Data-Driven Industry Analysis",
+      "audiencePainPoints": "Lack of end-to-end visibility, trust issues, opaque supply chains.",
+      "audienceProfile": {
+        "name": "Freight Shippers & Logistics Managers",
+        "searchIntent": "cost reduction, carrier vetting, shipment tracking, freight compliance, rate negotiation",
+        "painPoints": "unpredictable shipping costs, unreliable carriers, freight damage claims, customs delays, supply chain visibility",
+        "keywords": [
+          "reduce shipping costs",
+          "find reliable freight carriers",
+          "freight rate negotiation",
+          "logistics cost optimization",
+          "shipper best practices",
+          "freight carrier selection"
+        ]
+      },
+      "formatSpec": {
+        "type": "Data-Driven Industry Analysis",
+        "minWords": 2000,
+        "description": "Statistics-heavy trend analysis with sourced data, benchmarks, and expert interpretation"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    },
+    {
+      "topic": "The WMS Upgrade Secret: Future-Proof Your Warehouse for 2027",
+      "primaryKeyword": "WMS upgrade strategy",
+      "cluster": "Warehouse Automation, Robotics & WMS",
+      "audience": "Warehouse & Distribution Managers",
+      "searchIntent": "commercial",
+      "viralAngle": "Offers a forward-looking strategy to remain competitive and avoid obsolescence in warehouse operations.",
+      "contentFormat": "Ultimate Guide",
+      "audiencePainPoints": "Outdated systems, inefficiency, fear of complex and costly upgrades.",
+      "audienceProfile": {
+        "name": "Warehouse & Distribution Managers",
+        "searchIntent": "operational efficiency, carrier performance management, dock scheduling, inventory accuracy, labor optimization",
+        "painPoints": "warehouse bottlenecks, carrier no-shows disrupting operations, dock congestion, inventory discrepancies, rising labor costs",
+        "keywords": [
+          "warehouse efficiency tips",
+          "distribution center optimization",
+          "carrier performance management",
+          "dock scheduling best practices",
+          "warehouse logistics KPIs"
+        ]
+      },
+      "formatSpec": {
+        "type": "Ultimate Guide",
+        "minWords": 2500,
+        "description": "Comprehensive A-to-Z reference covering all critical aspects of the topic with expert depth"
+      },
+      "generatedAt": "2026-06-26T14:12:17.277Z"
+    }
+  ]
+}

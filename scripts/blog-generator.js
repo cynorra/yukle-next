@@ -632,41 +632,46 @@ async function callGeminiWithRetry(payload, maxRetries = 3) {
   }
 }
 
-// ─── TOPIC BANK SYSTEM ───────────────────────────────────────────────────────
-// Pre-generates 30 unique topics in one Gemini call and stores them locally.
-// Each run pops one from the bank — guaranteeing no repeats forever.
-// Auto-refills when supply drops below BANK_REFILL_THRESHOLD.
+// ─── TOPIC BANK SYSTEM (Supabase) ────────────────────────────────────────────
+// Stores pre-generated topics in Supabase so they survive deploys.
+// Gemini is called once to generate 30 topics in batch.
+// Each run pops one unused topic — guarantees uniqueness forever.
+// Auto-refills when fewer than BANK_REFILL_THRESHOLD topics remain.
 
-const TOPIC_BANK_PATH = path.join(__dirname, 'topic-bank.json');
 const BANK_BATCH_SIZE = 30;
 const BANK_REFILL_THRESHOLD = 8;
 
-function loadTopicBank() {
-  try {
-    if (fs.existsSync(TOPIC_BANK_PATH)) {
-      const raw = fs.readFileSync(TOPIC_BANK_PATH, 'utf8');
-      const bank = JSON.parse(raw);
-      if (Array.isArray(bank.available)) return bank;
-    }
-  } catch (e) {
-    console.warn('[Bank] Load failed, starting fresh:', e.message);
-  }
-  return { available: [] };
+async function getBankCount() {
+  const { count } = await supabase
+    .from('topic_bank')
+    .select('*', { count: 'exact', head: true })
+    .eq('is_used', false);
+  return count || 0;
 }
 
-function saveTopicBank(bank) {
-  try {
-    fs.writeFileSync(TOPIC_BANK_PATH, JSON.stringify(bank, null, 2), 'utf8');
-  } catch (e) {
-    console.warn('[Bank] Save failed:', e.message);
-  }
+async function popTopicFromBank() {
+  const { data, error } = await supabase
+    .from('topic_bank')
+    .select('*')
+    .eq('is_used', false)
+    .order('generated_at', { ascending: true })
+    .limit(1)
+    .maybeSingle();
+  if (error || !data) return null;
+  await supabase.from('topic_bank').update({ is_used: true }).eq('id', data.id);
+  return data;
 }
 
-async function refillTopicBank(recentTitles, bank) {
+async function refillTopicBank(recentTitles) {
   console.log(`[Bank] Refilling — generating ${BANK_BATCH_SIZE} unique topics in one batch...`);
 
-  const bankTopics = bank.available.map(t => t.topic);
-  const allExisting = [...recentTitles, ...bankTopics];
+  const { data: bankTopics } = await supabase
+    .from('topic_bank')
+    .select('topic')
+    .eq('is_used', false);
+
+  const pendingTopics = (bankTopics || []).map(t => t.topic);
+  const allExisting = [...recentTitles, ...pendingTopics];
   const existingList = allExisting.slice(0, 130).map(t => `- ${t}`).join('\n') || '- (none yet)';
 
   const clusterNames = topicClusters.map(c => c.name).join('\n');
@@ -701,18 +706,18 @@ ${formatNames}
 TRAFFIC QUALITY REQUIREMENTS for each topic:
 1. Must address a real, painful problem the audience actively searches for
 2. Primary keyword must be something people type verbatim into Google or AI assistants
-3. Must have a specific, compelling angle — not generic ("NOT 'shipping tips' YES 'Why Your LTL Claims Keep Getting Denied (And the 3-Page Fix)'")
-4. Must be relevant to 2025 freight industry realities
-5. Must have viral potential: data insight, counterintuitive finding, urgent problem, or insider knowledge
+3. Specific compelling angle — NOT "shipping tips", YES "Why 73% of LTL Claims Get Denied (And the Fix)"
+4. Relevant to 2025 freight industry realities
+5. Viral potential: data insight, counterintuitive finding, urgent problem, or insider knowledge
 
 For each topic return:
-- topic: Compelling title (keyword-rich, max 80 chars, uses proven formula like "N Ways...", "Why X Is Wrong", "The Complete Guide to X", "How to X Without Y")
+- topic: Compelling title (keyword-rich, max 80 chars)
 - primaryKeyword: Main 2-5 word SEO keyword
 - cluster: Exact cluster name from the list above
 - audience: Exact audience name from the list above
-- audiencePainPoints: 1-2 specific pain points this topic addresses
+- audiencePainPoints: 1-2 specific pain points this addresses
 - searchIntent: informational | commercial | transactional
-- viralAngle: What makes this genuinely share-worthy (specific insight, not "it's useful")
+- viralAngle: What makes this genuinely share-worthy (be specific)
 - contentFormat: Exact format name from the list above
 
 Return ONLY a valid JSON array of exactly ${BANK_BATCH_SIZE} objects. No markdown, no extra text.`
@@ -742,17 +747,23 @@ Return ONLY a valid JSON array of exactly ${BANK_BATCH_SIZE} objects. No markdow
 
   const topics = await callGeminiWithRetry(payload);
 
-  const enriched = topics.map(t => ({
-    ...t,
-    audienceProfile: audienceProfiles.find(a => a.name === t.audience) || audienceProfiles[0],
-    formatSpec: contentFormats.find(f => f.type === t.contentFormat) || contentFormats[0],
-    generatedAt: new Date().toISOString()
+  const rows = topics.map(t => ({
+    topic: t.topic,
+    primary_keyword: t.primaryKeyword,
+    cluster: t.cluster,
+    audience: t.audience,
+    audience_pain_points: t.audiencePainPoints || '',
+    search_intent: t.searchIntent,
+    viral_angle: t.viralAngle,
+    content_format: t.contentFormat,
+    is_used: false
   }));
 
-  bank.available.push(...enriched);
-  saveTopicBank(bank);
-  console.log(`[Bank] Added ${enriched.length} topics. Total available: ${bank.available.length}`);
-  return bank;
+  const { error } = await supabase.from('topic_bank').insert(rows);
+  if (error) throw new Error(`[Bank] Supabase insert failed: ${error.message}`);
+
+  console.log(`[Bank] Added ${rows.length} topics to Supabase. Waiting 65s for rate limit reset...`);
+  await sleep(65000);
 }
 
 // Fetch recent post titles from DB to provide uniqueness context to Gemini
@@ -776,32 +787,35 @@ async function getRecentTopics(limit = 150) {
 async function generateFreshTopic(recentTopics) {
   if (!geminiApiKey) throw new Error('GEMINI_API_KEY not set');
 
-  let bank = loadTopicBank();
+  const remaining = await getBankCount();
+  console.log(`[Bank] ${remaining} unused topics in Supabase bank`);
 
-  if (bank.available.length < BANK_REFILL_THRESHOLD) {
-    console.log(`[Bank] ${bank.available.length} topics remaining (threshold: ${BANK_REFILL_THRESHOLD}) — triggering refill`);
-    bank = await refillTopicBank(recentTopics, bank);
+  if (remaining < BANK_REFILL_THRESHOLD) {
+    console.log(`[Bank] Below threshold (${BANK_REFILL_THRESHOLD}) — triggering refill`);
+    await refillTopicBank(recentTopics);
   }
 
-  const topicData = bank.available.shift();
-  saveTopicBank(bank);
+  const topicData = await popTopicFromBank();
+  if (!topicData) throw new Error('[Bank] No topics available even after refill');
 
   console.log(`[Bank] Using topic: "${topicData.topic}"`);
-  console.log(`[Bank] Cluster: "${topicData.cluster}" | Format: "${topicData.contentFormat}"`);
-  console.log(`[Bank] Audience: "${topicData.audience}" | Keyword: "${topicData.primaryKeyword}"`);
-  console.log(`[Bank] Viral angle: ${topicData.viralAngle}`);
-  console.log(`[Bank] ${bank.available.length} topics remaining in bank`);
+  console.log(`[Bank] Cluster: "${topicData.cluster}" | Format: "${topicData.content_format}"`);
+  console.log(`[Bank] Audience: "${topicData.audience}" | Keyword: "${topicData.primary_keyword}"`);
+  console.log(`[Bank] Viral angle: ${topicData.viral_angle}`);
+
+  const audienceProfile = audienceProfiles.find(a => a.name === topicData.audience) || audienceProfiles[0];
+  const formatSpec = contentFormats.find(f => f.type === topicData.content_format) || contentFormats[0];
 
   return {
     topic: topicData.topic,
     audience: topicData.audience,
-    primaryKeyword: topicData.primaryKeyword,
-    searchIntent: topicData.searchIntent,
-    viralAngle: topicData.viralAngle,
-    contentFormat: topicData.contentFormat,
+    primaryKeyword: topicData.primary_keyword,
+    searchIntent: topicData.search_intent,
+    viralAngle: topicData.viral_angle,
+    contentFormat: topicData.content_format,
     topicCluster: topicData.cluster,
-    audienceProfile: topicData.audienceProfile || audienceProfiles[0],
-    formatSpec: topicData.formatSpec || contentFormats[0]
+    audienceProfile,
+    formatSpec
   };
 }
 
