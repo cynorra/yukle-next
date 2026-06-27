@@ -195,22 +195,10 @@ export default async function LocalizedLayout({ children, params }: Props) {
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        <Script
-          src="https://pl30093670.effectivecpmnetwork.com/f4/dd/da/f4dddaac2470ebb012700cb95ff9e7e2.js"
-          strategy="afterInteractive"
-        />
-        <Script
-          src="https://pl30093671.effectivecpmnetwork.com/ad/18/b4/ad18b426eea815688df7e1d24d7a08dd.js"
-          strategy="afterInteractive"
-        />
-        <Script
-          src="https://pl30093672.effectivecpmnetwork.com/235cae250d181dbd10600066a81fc53a/invoke.js"
-          strategy="afterInteractive"
-          data-cfasync="false"
-        />
+
         <Providers>
           <Navbar />
-          <div id="container-235cae250d181dbd10600066a81fc53a"></div>
+
           <main>{children}</main>
           <CookieConsent />
         </Providers>
