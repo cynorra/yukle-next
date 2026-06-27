@@ -9,6 +9,7 @@ import type { Locale } from '@/utils/translations';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -59,6 +60,7 @@ async function fetchBlogPosts(locale: string) {
     .order('created_at', { ascending: false });
 
   if (error) console.error(`[blog] Supabase error (${locale}):`, error);
+  console.log(`[blog] Fetched ${posts?.length} posts for locale ${locale}`);
   return posts || [];
 }
 
