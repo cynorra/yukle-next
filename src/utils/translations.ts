@@ -26,6 +26,8 @@ export interface TranslationDict {
     privacy: string;
     terms: string;
     reklam: string;
+    about: string;
+    contact: string;
   };
   home: {
     tagline: string;
@@ -132,6 +134,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Privacy',
       terms: 'Terms',
       reklam: 'Advertise',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Next-Gen Logistics',
@@ -236,6 +240,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Gizlilik',
       terms: 'Şartlar',
       reklam: 'Reklam',
+      about: 'Hakkımızda',
+      contact: 'İletişim',
     },
     home: {
       tagline: 'Yeni Nesil Lojistik',
@@ -340,6 +346,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Privacidad',
       terms: 'Condiciones',
       reklam: 'Publicidad',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Logística de Nueva Generación',
@@ -444,6 +452,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Privacidade',
       terms: 'Termos',
       reklam: 'Anunciar',
+      about: 'Sobre Nosotros',
+      contact: 'Contacto',
     },
     home: {
       tagline: 'Logística de Próxima Geração',
@@ -548,6 +558,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Confidentialité',
       terms: 'Conditions',
       reklam: 'Publicité',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Logistique Nouvelle Génération',
@@ -652,6 +664,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Datenschutz',
       terms: 'Bedingungen',
       reklam: 'Werbung',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Logistik der nächsten Generation',
@@ -756,6 +770,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Privacy',
       terms: 'Termini',
       reklam: 'Pubblicità',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Logistica di Nuova Generazione',
@@ -860,6 +876,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Prywatność',
       terms: 'Regulamin',
       reklam: 'Reklama',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Logistyka Nowej Generacji',
@@ -964,6 +982,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Privacy',
       terms: 'Voorwaarden',
       reklam: 'Adverteren',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Volgende Generatie Logistiek',
@@ -1068,6 +1088,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Конфиденциальность',
       terms: 'Условия',
       reklam: 'Реклама',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Логистика Нового Поколения',
@@ -1172,6 +1194,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'Конфіденційність',
       terms: 'Умови',
       reklam: 'Реклама',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'Логістика Нового Покоління',
@@ -1276,6 +1300,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: '隐私政策',
       terms: '服务条款',
       reklam: '广告合作',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: '新一代智能物流',
@@ -1380,6 +1406,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: '個人情報保護',
       terms: '利用規約',
       reklam: '広告掲載',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: '次世代スマート物流',
@@ -1484,6 +1512,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'गोपनीयता',
       terms: 'शर्तें',
       reklam: 'विज्ञापन',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'अगली पीढ़ी का लॉजिस्टिक्स',
@@ -1588,6 +1618,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'الخصوصية',
       terms: 'الشروط',
       reklam: 'إعلان معنا',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'الجيل القادم من الخدمات اللوجستية',
@@ -1692,6 +1724,8 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       privacy: 'حریم خصوصی',
       terms: 'شرایط استفاده',
       reklam: 'تبلیغات',
+      about: 'About Us',
+      contact: 'Contact Us',
     },
     home: {
       tagline: 'نسل جدید خدمات لجستیک',
@@ -1795,7 +1829,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR 정책",
         "privacy": "은둔",
         "terms": "조건",
-        "reklam": "광고"
+        "reklam": "광고",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "차세대 물류",
@@ -1899,7 +1935,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "Chính sách GDPR",
         "privacy": "Quyền riêng tư",
         "terms": "Điều khoản",
-        "reklam": "Quảng cáo"
+        "reklam": "Quảng cáo",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Hậu cần thế hệ tiếp theo",
@@ -2003,7 +2041,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "Kebijakan GDPR",
         "privacy": "Privasi",
         "terms": "Syarat",
-        "reklam": "Beriklan"
+        "reklam": "Beriklan",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Logistik Generasi Berikutnya",
@@ -2107,7 +2147,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "জিডিপিআর নীতি",
         "privacy": "গোপনীয়তা",
         "terms": "শর্তাবলী",
-        "reklam": "বিজ্ঞাপন দিন"
+        "reklam": "বিজ্ঞাপন দিন",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "নেক্সট-জেন লজিস্টিকস",
@@ -2211,7 +2253,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR پالیسی",
         "privacy": "رازداری",
         "terms": "شرائط",
-        "reklam": "اشتہار دینا"
+        "reklam": "اشتہار دینا",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "نیکسٹ جنر لاجسٹکس",
@@ -2315,7 +2359,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "นโยบาย GDPR",
         "privacy": "ความเป็นส่วนตัว",
         "terms": "เงื่อนไข",
-        "reklam": "โฆษณา"
+        "reklam": "โฆษณา",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Next-Gen Logistics",
@@ -2419,7 +2465,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "Dasar GDPR",
         "privacy": "Privasi",
         "terms": "Syarat",
-        "reklam": "Iklan"
+        "reklam": "Iklan",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Logistik Generasi Seterusnya",
@@ -2523,7 +2571,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR Policy",
         "privacy": "Privacy",
         "terms": "Mga Tuntunin",
-        "reklam": "Advertise"
+        "reklam": "Advertise",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Next-Gen Logistics",
@@ -2627,7 +2677,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "Politica GDPR",
         "privacy": "Confidențialitate",
         "terms": "Termeni",
-        "reklam": "Face publicitate"
+        "reklam": "Face publicitate",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Logistica de nouă generație",
@@ -2731,7 +2783,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR Policy",
         "privacy": "Sekretess",
         "terms": "Villkor",
-        "reklam": "Annonsera"
+        "reklam": "Annonsera",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Next-Gen Logistics",
@@ -2835,7 +2889,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "Zásady GDPR",
         "privacy": "Ochrana osobních údajů",
         "terms": "Podmínky",
-        "reklam": "Inzerujte"
+        "reklam": "Inzerujte",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Next-Gen Logistics",
@@ -2939,7 +2995,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR politika",
         "privacy": "Magánélet",
         "terms": "Feltételek",
-        "reklam": "Hirdet"
+        "reklam": "Hirdet",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Következő generációs logisztika",
@@ -3043,7 +3101,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "Πολιτική GDPR",
         "privacy": "Απόρρητο",
         "terms": "Όροι",
-        "reklam": "Διαφήμιση"
+        "reklam": "Διαφήμιση",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Επόμενης γενιάς Logistics",
@@ -3147,7 +3207,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR Siyasəti",
         "privacy": "Məxfilik",
         "terms": "Şərtlər",
-        "reklam": "Reklam"
+        "reklam": "Reklam",
+        "about": "Hakkımızda",
+        "contact": "İletişim"
     },
     "home": {
         "tagline": "Növbəti Nəsil Logistika",
@@ -3251,7 +3313,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR саясаты",
         "privacy": "Құпиялық",
         "terms": "Шарттар",
-        "reklam": "Жарнамалау"
+        "reklam": "Жарнамалау",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Келесі буын логистикасы",
@@ -3355,7 +3419,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR",
         "privacy": "פרטיות",
         "terms": "תנאים",
-        "reklam": "פרסם"
+        "reklam": "פרסם",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Next-Gen Logistics",
@@ -3459,7 +3525,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR Политика",
         "privacy": "Поверителност",
         "terms": "Условия",
-        "reklam": "Рекламиране"
+        "reklam": "Рекламиране",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Логистика от следващо поколение",
@@ -3563,7 +3631,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR Politika",
         "privacy": "Privatnost",
         "terms": "Uvjeti",
-        "reklam": "Oglašavanje"
+        "reklam": "Oglašavanje",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Logistika sljedeće generacije",
@@ -3667,7 +3737,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "ГДПР политика",
         "privacy": "Приватност",
         "terms": "Услови",
-        "reklam": "Оглашавајте се"
+        "reklam": "Оглашавајте се",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Логистика следеће генерације",
@@ -3771,7 +3843,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "Zásady GDPR",
         "privacy": "Ochrana osobných údajov",
         "terms": "Podmienky",
-        "reklam": "Inzerovať"
+        "reklam": "Inzerovať",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Next-Gen Logistics",
@@ -3875,7 +3949,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR Politik",
         "privacy": "Privatliv",
         "terms": "Betingelser",
-        "reklam": "Annoncer"
+        "reklam": "Annoncer",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Next-Gen Logistics",
@@ -3979,7 +4055,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR-käytäntö",
         "privacy": "Tietosuoja",
         "terms": "Ehdot",
-        "reklam": "Mainosta"
+        "reklam": "Mainosta",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Seuraavan sukupolven logistiikka",
@@ -4083,7 +4161,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR Policy",
         "privacy": "Personvern",
         "terms": "Vilkår",
-        "reklam": "Annonser"
+        "reklam": "Annonser",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Next-Gen Logistics",
@@ -4187,7 +4267,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR siyosati",
         "privacy": "Maxfiylik",
         "terms": "Shartlar",
-        "reklam": "Reklama"
+        "reklam": "Reklama",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Keyingi avlod logistikasi",
@@ -4291,7 +4373,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR கொள்கை",
         "privacy": "தனியுரிமை",
         "terms": "விதிமுறைகள்",
-        "reklam": "விளம்பரம் செய்"
+        "reklam": "விளம்பரம் செய்",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "அடுத்த ஜென் லாஜிஸ்டிக்ஸ்",
@@ -4395,7 +4479,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR धोरण",
         "privacy": "गोपनीयता",
         "terms": "अटी",
-        "reklam": "जाहिरात करा"
+        "reklam": "जाहिरात करा",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "नेक्स्ट-जनरल लॉजिस्टिक",
@@ -4499,7 +4585,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR პოლიტიკა",
         "privacy": "კონფიდენციალურობა",
         "terms": "პირობები",
-        "reklam": "რეკლამა"
+        "reklam": "რეკლამა",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "შემდეგი თაობის Logistics",
@@ -4603,7 +4691,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR politika",
         "privacy": "Privatumas",
         "terms": "Sąlygos",
-        "reklam": "Reklamuoti"
+        "reklam": "Reklamuoti",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Naujos kartos logistika",
@@ -4707,7 +4797,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR politika",
         "privacy": "Privātums",
         "terms": "Noteikumi",
-        "reklam": "Reklamējiet"
+        "reklam": "Reklamējiet",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Nākamās paaudzes loģistika",
@@ -4811,7 +4903,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "GDPR poliitika",
         "privacy": "Privaatsus",
         "terms": "Tingimused",
-        "reklam": "Reklaami"
+        "reklam": "Reklaami",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Järgmise põlvkonna logistika",
@@ -4915,7 +5009,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "kvkk": "Politika GDPR",
         "privacy": "Zasebnost",
         "terms": "Pogoji",
-        "reklam": "Oglaševanje"
+        "reklam": "Oglaševanje",
+        "about": "About Us",
+        "contact": "Contact"
     },
     "home": {
         "tagline": "Logistika naslednje generacije",

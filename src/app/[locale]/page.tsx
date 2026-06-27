@@ -208,6 +208,12 @@ export default async function HomePage({ params }: PageProps) {
             <p className="text-xs text-muted/50 font-medium tracking-wider">loadlyapp.com</p>
           </div>
           <div className="flex flex-wrap justify-center gap-8 text-sm font-bold text-muted uppercase tracking-widest">
+            <Link href={`/${locale}/about`} className="hover:text-accent transition-colors">
+              {t.nav.about}
+            </Link>
+            <Link href={`/${locale}/contact`} className="hover:text-accent transition-colors">
+              {t.nav.contact}
+            </Link>
             <Link href={`/${locale}/privacy-policy`} className="hover:text-accent transition-colors">
               {t.nav.kvkk}
             </Link>
