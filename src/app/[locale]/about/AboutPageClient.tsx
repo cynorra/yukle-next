@@ -3,13 +3,24 @@
 import { useT } from '@/hooks/useT';
 import { Info, Truck, Shield, Globe } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import type { Locale } from '@/utils/translations';
 
 export function AboutPageClient() {
   const t = useT();
   const params = useParams();
-  const locale = (params.locale as Locale) || 'tr';
-  const isTr = locale === 'tr';
+  const locale = (params.locale as Locale) || 'en';
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    import(`@/utils/legal-translations/${locale}.json`)
+      .then(mod => setData(mod.default || mod))
+      .catch(() => import('@/utils/legal-translations/en.json').then(mod => setData(mod.default || mod)));
+  }, [locale]);
+
+  if (!data) return <div className={t.pageFull}><div className="flex justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F5A623]"></div></div></div>;
+  
+  const content = data.about;
 
   return (
     <div className={t.pageFull}>
@@ -18,12 +29,10 @@ export function AboutPageClient() {
         <div className="mb-12 text-center">
           <h1 className={`text-4xl font-bold ${t.heading} flex items-center justify-center gap-4 mb-4`}>
             <Info size={40} className="text-[#F5A623]" />
-            {isTr ? 'Hakkımızda' : 'About Us'}
+            {content.title}
           </h1>
           <p className={`text-lg ${t.muted} max-w-2xl mx-auto leading-relaxed`}>
-            {isTr 
-              ? 'YükLe, dijital dünyanın nakliye pazaryeridir. Türkiye ve dünya genelinde yük arayanlar ile araç sahiplerini güvenli ve hızlı bir şekilde buluşturur.' 
-              : 'Loadly is the digital freight marketplace. We connect shippers and carriers safely and quickly across the globe.'}
+            {content.description}
           </p>
         </div>
 
@@ -33,9 +42,9 @@ export function AboutPageClient() {
             <div className="w-16 h-16 rounded-full bg-[#F5A623]/20 flex items-center justify-center mb-4">
               <Truck size={32} className="text-[#F5A623]" />
             </div>
-            <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{isTr ? 'Hızlı ve Kolay' : 'Fast and Easy'}</h3>
+            <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{content.fastEasyTitle}</h3>
             <p className={`text-sm ${t.muted}`}>
-              {isTr ? 'Zaman kaybetmeden en uygun aracı veya yükü dakikalar içerisinde bulun.' : 'Find the most suitable vehicle or load in minutes without wasting time.'}
+              {content.fastEasyDesc}
             </p>
           </div>
           
@@ -43,9 +52,9 @@ export function AboutPageClient() {
             <div className="w-16 h-16 rounded-full bg-[#F5A623]/20 flex items-center justify-center mb-4">
               <Shield size={32} className="text-[#F5A623]" />
             </div>
-            <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{isTr ? 'Güvenilir Ağ' : 'Reliable Network'}</h3>
+            <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{content.reliableTitle}</h3>
             <p className={`text-sm ${t.muted}`}>
-              {isTr ? 'Puanlama sistemi ve doğrulama süreçleriyle güvenilir nakliye deneyimi.' : 'A reliable shipping experience with our rating system and verification processes.'}
+              {content.reliableDesc}
             </p>
           </div>
           
@@ -53,26 +62,22 @@ export function AboutPageClient() {
             <div className="w-16 h-16 rounded-full bg-[#F5A623]/20 flex items-center justify-center mb-4">
               <Globe size={32} className="text-[#F5A623]" />
             </div>
-            <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{isTr ? 'Geniş Kapsam' : 'Wide Coverage'}</h3>
+            <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{content.wideTitle}</h3>
             <p className={`text-sm ${t.muted}`}>
-              {isTr ? 'Yerel ve uluslararası binlerce aktif kullanıcı ile geniş taşıma ağı.' : 'A wide transportation network with thousands of active local and international users.'}
+              {content.wideDesc}
             </p>
           </div>
         </div>
         
         {/* Story */}
         <div className="p-8 rounded-3xl bg-surface-light/50 dark:bg-surface-dark/50 border border-border-light dark:border-border-dark backdrop-blur-xl mb-12">
-          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>{isTr ? 'Vizyonumuz' : 'Our Vision'}</h2>
+          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>{content.visionTitle}</h2>
           <div className="space-y-4">
             <p className={`text-base ${t.muted} leading-relaxed`}>
-              {isTr 
-                ? 'Geleneksel lojistik süreçlerini modern teknolojilerle dijitalleştirerek, herkes için erişilebilir, şeffaf ve güvenilir bir nakliye ekosistemi yaratmayı hedefliyoruz. İster küçük bir eşya, ister büyük bir ticari sevkiyat olsun, doğru aracın doğru yükle en verimli şekilde eşleşmesi gerektiğine inanıyoruz.' 
-                : 'By digitizing traditional logistics processes with modern technologies, we aim to create an accessible, transparent, and reliable transportation ecosystem for everyone. Whether it is a small item or a large commercial shipment, we believe that the right vehicle should be matched with the right load in the most efficient way.'}
+              {content.visionP1}
             </p>
             <p className={`text-base ${t.muted} leading-relaxed`}>
-              {isTr 
-                ? 'YükLe, boş dönen araçların kapasitelerini değerlendirerek çevresel karbon ayak izini azaltmaya katkıda bulunurken, yük sahiplerinin de maliyetlerini optimize etmesini sağlar. Gelişen algoritmalarımız sayesinde, her geçen gün daha akıllı ve daha hızlı eşleşmeler sunuyoruz.' 
-                : 'Loadly contributes to reducing the environmental carbon footprint by utilizing the capacities of empty returning vehicles, while allowing shippers to optimize their costs. Thanks to our evolving algorithms, we offer smarter and faster matches every day.'}
+              {content.visionP2}
             </p>
           </div>
         </div>

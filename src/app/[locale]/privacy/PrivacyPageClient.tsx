@@ -2,9 +2,25 @@
 
 import { useT } from '@/hooks/useT';
 import { Lock, AlertTriangle } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import type { Locale } from '@/utils/translations';
 
 export function PrivacyPageClient() {
   const t = useT();
+  const params = useParams();
+  const locale = (params.locale as Locale) || 'en';
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    import(`@/utils/legal-translations/${locale}.json`)
+      .then(mod => setData(mod.default || mod))
+      .catch(() => import('@/utils/legal-translations/en.json').then(mod => setData(mod.default || mod)));
+  }, [locale]);
+
+  if (!data) return <div className={t.pageFull}><div className="flex justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F5A623]"></div></div></div>;
+
+  const content = data.privacy;
 
   return (
     <div className={t.pageFull}>
@@ -13,9 +29,11 @@ export function PrivacyPageClient() {
         <div className="mb-8">
           <h1 className={`text-2xl font-bold ${t.heading} flex items-center gap-3`}>
             <Lock size={28} className="text-[#F5A623]" />
-            Gizlilik Politikası
+            {content.title}
           </h1>
-          <p className={`text-sm ${t.muted} mt-1`}>YükLe platformu gizlilik politikası.</p>
+          <p className={`text-sm ${t.muted} mt-1`}>
+            {content.description}
+          </p>
         </div>
 
         {/* Red disclaimer box */}
@@ -23,132 +41,132 @@ export function PrivacyPageClient() {
           <div className="flex items-start gap-3">
             <AlertTriangle size={20} className="text-red-400 shrink-0 mt-0.5" />
             <p className="text-sm text-red-300 leading-relaxed">
-              YükLe yalnızca bir ilan platformudur. Platform, yük sahipleri ve nakliyeciler arasında hiçbir aracılık, sözleşme veya ticari ilişki kurmaz. Taşıma, ödeme ve hasar yükümlülükleri doğrudan ilan sahibi ve nakliyeci arasındadır. Platform, bu yükümlülüklerden doğan hiçbir sorumluluk kabul etmez.
+              {content.disclaimer}
             </p>
           </div>
         </div>
 
         {/* Section 1: Genel Bakış */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>1. Genel Bakış</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.overviewTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            YükLe, kullanıcılarının gizliliğine önem vermektedir. Bu gizlilik politikası, YükLe platformu üzerinden toplanan, kullanılan ve korunan kişisel verilerin nasıl işlendiğini açıklamaktadır. Platformu kullanarak bu politikada belirtilen koşulları kabul etmiş sayılırsınız.
+            {content.overviewDesc}
           </p>
         </div>
 
         {/* Section 2: Toplanan Veriler */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>2. Toplanan Veriler</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.dataTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
-            YükLe platformu aşağıdaki verileri toplamaktadır:
+            {content.dataDesc}
           </p>
           <ul className={`list-disc list-inside space-y-2 text-sm ${t.sub}`}>
-            <li>Hesap bilgileri: Ad soyad, e-posta adresi, telefon numarası, firma adı (opsiyonel), kullanıcı rolü (yük sahibi/sürücü)</li>
-            <li>İlan verileri: Oluşturulan yük ilanları, güzergah bilgileri, tarih ve lokasyon bilgileri</li>
-            <li>İletişim verileri: Platform üzerinden gönderilen mesajlar ve konuşma geçmişi</li>
-            <li>Teknik veriler: IP adresi, tarayıcı türü, cihaz bilgileri, erişim zamanları</li>
-            <li>Kullanım verileri: Platform etkileşim verileri, özellik kullanım istatistikleri</li>
+            <li>{content.dataL1}</li>
+            <li>{content.dataL2}</li>
+            <li>{content.dataL3}</li>
+            <li>{content.dataL4}</li>
+            <li>{content.dataL5}</li>
           </ul>
           <p className={`text-sm ${t.muted} mt-3 italic`}>
-            YükLe, ödeme bilgileri veya sözleşme verilerini işlememektedir. Platform üzerinden herhangi bir ödeme işlemi gerçekleşmemektedir.
+            {content.dataNote}
           </p>
         </div>
 
         {/* Section 3: Verilerin Kullanımı */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>3. Verilerin Kullanımı</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.useTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
-            Toplanan kişisel veriler aşağıdaki amaçlarla kullanılmaktadır:
+            {content.useDesc}
           </p>
           <ul className={`list-disc list-inside space-y-2 text-sm ${t.sub}`}>
-            <li>Hesap oluşturma ve kullanıcı kimlik doğrulaması</li>
-            <li>İlan oluşturma, yayınlama ve yönetimi hizmetlerinin sunulması</li>
-            <li>Kullanıcılar arası mesajlaşma ve iletişim imkânının sağlanması</li>
-            <li>Güzergah eşleştirme ve yük-sürücü eşleştirme özelliklerinin çalıştırılması</li>
-            <li>Platform güvenliğinin sağlanması, dolandırıcılık ve kötüye kullanımın önlenmesi</li>
-            <li>Yasal yükümlülüklerin yerine getirilmesi</li>
-            <li>Platform performansının izlenmesi ve kullanıcı deneyiminin iyileştirilmesi</li>
+            <li>{content.useL1}</li>
+            <li>{content.useL2}</li>
+            <li>{content.useL3}</li>
+            <li>{content.useL4}</li>
+            <li>{content.useL5}</li>
+            <li>{content.useL6}</li>
+            <li>{content.useL7}</li>
           </ul>
           <p className={`text-sm ${t.muted} mt-3 italic`}>
-            YükLe, kişisel verilerinizi ödeme işleme amacıyla kullanmamaktadır. Platform üzerinden herhangi bir ödeme işlemi gerçekleşmemektedir.
+            {content.useNote}
           </p>
         </div>
 
         {/* Section 4: Çerezler */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>4. Çerezler</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.cookiesTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
-            YükLe platformu, kullanıcı deneyimini iyileştirmek ve platformun çalışmasını sağlamak için çerezler kullanmaktadır. Kullanılan çerez türleri:
+            {content.cookiesDesc}
           </p>
           <ul className={`list-disc list-inside space-y-2 text-sm ${t.sub}`}>
-            <li>Oturum çerezleri: Giriş durumunun korunması ve hesap güvenliğinin sağlanması</li>
-            <li>Teknik çerezler: Platformun düzgün çalışması için gerekli olan çerezler</li>
-            <li>Analitik çerezler: Platform kullanımının analiz edilmesi ve iyileştirilmesi</li>
+            <li>{content.cookiesL1}</li>
+            <li>{content.cookiesL2}</li>
+            <li>{content.cookiesL3}</li>
           </ul>
           <p className={`text-sm ${t.sub} leading-relaxed mt-3`}>
-            Tarayıcı ayarlarınızdan çerezleri devre dışı bırakabilirsiniz; ancak bu durumda platformun bazı özellikleri düzgün çalışmayabilir.
+            {content.cookiesNote}
           </p>
         </div>
 
         {/* Section 5: Üçüncü Taraflar */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>5. Üçüncü Taraflar</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.thirdPartiesTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
-            Kişisel verileriniz aşağıdaki durumlarda üçüncü taraflarla paylaşılabilmektedir:
+            {content.thirdPartiesDesc}
           </p>
           <ul className={`list-disc list-inside space-y-2 text-sm ${t.sub}`}>
-            <li>Platformun teknik altyapısını sağlayan hizmet sağlayıcıları (barındırma, veritabanı hizmetleri)</li>
-            <li>Yetkili kamu kurumları: Yasal zorunluluklar ve yasal talepler doğrultusunda</li>
-            <li>Hukuki danışmanlar: Hukuki uyuşmazlıkların çözümü amacıyla</li>
+            <li>{content.thirdPartiesL1}</li>
+            <li>{content.thirdPartiesL2}</li>
+            <li>{content.thirdPartiesL3}</li>
           </ul>
           <p className={`text-sm ${t.muted} mt-3 italic`}>
-            YükLe, kişisel verilerinizi ödeme sağlayıcılarıyla paylaşmamaktadır. Platform üzerinden herhangi bir ödeme işlemi gerçekleşmemektedir.
+            {content.thirdPartiesNote}
           </p>
         </div>
 
         {/* Section 6: Veri Güvenliği */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>6. Veri Güvenliği</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.securityTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            YükLe, kişisel verilerinizin güvenliğini sağlamak için gerekli tüm teknik ve idari tedbirleri almaktadır. Verileriniz, şifreleme yöntemleri ile korunmakta, yetkisiz erişime karşı güvenlik duvarları ve erişim kontrolleri uygulanmaktadır. Platform, güvenlik açıklarını önlemek için düzenli güvenlik testleri ve değerlendirmeleri yapmaktadır. Ancak, internet üzerinden yapılan hiçbir veri iletiminin %100 güvenli olduğu garanti edilemez.
+            {content.securityDesc}
           </p>
         </div>
 
         {/* Section 7: Kullanıcı Hakları */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>7. Kullanıcı Hakları</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.rightsTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
-            KVKK kapsamında aşağıdaki haklara sahipsiniz:
+            {content.rightsDesc}
           </p>
           <ul className={`list-disc list-inside space-y-2 text-sm ${t.sub}`}>
-            <li>Kişisel verilerinize erişme ve bunları görüntüleme</li>
-            <li>Hatalı veya eksik verilerinizin düzeltilmesini isteme</li>
-            <li>Kişisel verilerinizin silinmesini talep etme</li>
-            <li>Verilerinizin işlenmesine itiraz etme</li>
-            <li>Verilerinizin taşınmasını talep etme</li>
-            <li>Verilerinizin üçüncü taraflara aktarılmasını sınırlama</li>
+            <li>{content.rightsL1}</li>
+            <li>{content.rightsL2}</li>
+            <li>{content.rightsL3}</li>
+            <li>{content.rightsL4}</li>
+            <li>{content.rightsL5}</li>
+            <li>{content.rightsL6}</li>
           </ul>
           <p className={`text-sm ${t.sub} leading-relaxed mt-3`}>
-            Bu haklarınızı kullanmak için <a href="mailto:kvkk@loadlyapp.com" className="text-[#F5A623] hover:underline">kvkk@loadlyapp.com</a> adresi üzerinden başvuruda bulunabilirsiniz.
+            {content.rightsNote}
           </p>
         </div>
 
         {/* Section 8: Politika Değişiklikleri */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>8. Politika Değişiklikleri</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.changesTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            YükLe, bu gizlilik politikasını yasal gerekliliklere veya platform özelliklerindeki değişikliklere uygun olarak güncelleme hakkını saklı tutar. Politika değişiklikleri platform üzerinden yayımlanacak ve güncelleme tarihi değiştirilecektir. Değişikliklerden haberdar olmak için bu sayfayı düzenli olarak kontrol etmeniz önerilir. Platformu kullanmaya devam etmeniz, güncellenmiş politikayı kabul ettiğiniz anlamına gelir.
+            {content.changesDesc}
           </p>
         </div>
 
         {/* Section 9: İletişim */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
-          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>9. İletişim</h2>
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+          <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.contactTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            Gizlilik politikası hakkında sorularınız veya endişeleriniz varsa, aşağıdaki kanallardan bizimle iletişime geçebilirsiniz:
+            {content.contactDesc}
           </p>
           <ul className={`list-none space-y-2 text-sm ${t.sub} mt-3`}>
-            <li>E-posta: <a href="mailto:kvkk@loadlyapp.com" className="text-[#F5A623] hover:underline">kvkk@loadlyapp.com</a></li>
+            <li>Email: <a href="mailto:kvkk@loadlyapp.com" className="text-[#F5A623] hover:underline">kvkk@loadlyapp.com</a></li>
           </ul>
         </div>
       </div>
