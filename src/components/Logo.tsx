@@ -22,11 +22,11 @@ export default function Logo({
         className="rounded-xl overflow-hidden shrink-0 bg-accent p-1 shadow-lg shadow-accent/20 group-hover:shadow-accent/40 transition-all"
         style={{ width: s.img, height: s.img }}
       >
-        <img src="/logo.png" alt="YükLe" className="w-full h-full object-contain" />
+        <img src="/logo.png" alt="Loadly" className="w-full h-full object-contain" />
       </div>
       <div className="flex flex-col leading-none">
         <span className={`${s.text} font-black tracking-tighter text-fg`}>
-          Yük<span className="text-accent">Le</span>
+          Load<span className="text-accent">ly</span>
         </span>
         <span className="text-[10px] font-semibold tracking-widest text-muted uppercase opacity-60">
           loadlyapp.com
