@@ -2,24 +2,17 @@
 
 import { useT } from '@/hooks/useT';
 import { FileText, AlertTriangle } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import type { Locale } from '@/utils/translations';
 
-export function TermsPageClient() {
+interface TermsData {
+  terms: Record<string, string>;
+}
+
+interface Props {
+  data: TermsData;
+}
+
+export function TermsPageClient({ data }: Props) {
   const t = useT();
-  const params = useParams();
-  const locale = (params.locale as Locale) || 'en';
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    import(`@/utils/legal-translations/${locale}.json`)
-      .then(mod => setData(mod.default || mod))
-      .catch(() => import('@/utils/legal-translations/en.json').then(mod => setData(mod.default || mod)));
-  }, [locale]);
-
-  if (!data) return <div className={t.pageFull}><div className="flex justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F5A623]"></div></div></div>;
-
   const content = data.terms;
 
   return (

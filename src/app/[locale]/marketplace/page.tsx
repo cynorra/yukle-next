@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SeoContent } from '@/components/SeoContent';
 import { Package, MapPin, Weight, Clock } from 'lucide-react';
 import { createPublicClient } from '@/lib/supabase/public';
 import { MarketClient } from './MarketClient';
@@ -135,6 +136,8 @@ export default async function PazarPage({ params }: Props) {
         initialLoads={loads as any}
         initialTotal={total}
       />
+      
+      <SeoContent page="marketplace" locale={locale} />
     </>
   );
 }

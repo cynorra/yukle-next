@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SeoContent } from '@/components/SeoContent';
 import Logo from '@/components/Logo';
 import {
   ArrowRight,
@@ -10,10 +11,44 @@ import {
   Zap,
   TrendingUp,
   ChevronDown,
+  HelpCircle,
 } from 'lucide-react';
 import { HomeAnimations } from './_home/HomeAnimations';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
+
+const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }[] }> = {
+  tr: {
+    title: 'Sıkça Sorulan Sorular',
+    items: [
+      { q: 'Loadly nedir?', a: 'Loadly, nakliyeciler ve yük sahiplerini dijital ortamda buluşturan küresel bir lojistik pazar yeridir. Yük sahipleri ilan oluşturur, nakliyeciler teklif verir ve taşıma süreci platform üzerinden yönetilir.' },
+      { q: 'Loadly ücretsiz mi?', a: 'Evet, platforma kayıt olmak ve yük ilanı oluşturmak tamamen ücretsizdir. Herhangi bir komisyon veya üyelik ücreti alınmamaktadır.' },
+      { q: 'Nasıl yük ilanı oluştururum?', a: 'Üye olun, yük bilgilerinizi (ağırlık, boyut, alış/teslim noktası, tarih) girin ve ilanınız saniyeler içinde nakliyecilere görünür hale gelir.' },
+      { q: 'Nakliyeci olarak nasıl yük bulurum?', a: 'Pazaryerini günlük güncel ilanlar için takip edin. Güzergah, araç türü ve tonaj filtrelerini kullanarak size uygun yükleri kolayca bulun ve yük sahipleriyle mesajlaşın.' },
+      { q: 'Hangi yük türlerini taşıyabilirim?', a: 'Platform; parsiyel taşıma (LTL), komple tır yükü (FTL), acil / ekspres nakliye, soğuk zincir (frigo), açık kasa ve özel yük ilanlarını destekler.' },
+      { q: 'Nakliyeciler nasıl doğrulanır?', a: 'Nakliyeciler profil tamamlama, kimlik doğrulaması ve kullanıcı derecelendirme sistemiyle değerlendirilir. Yüksek puanlı nakliyeciler öne çıkar.' },
+      { q: 'Yüklerim güvende mi?', a: 'Loadly bir ilan ve eşleştirme platformudur. Sigorta ve sözleşme detayları doğrudan nakliyeci ile yük sahibi arasında belirlenir. Platform, güvenilir nakliyecilerle çalışmanızı kolaylaştırmak için derecelendirme sistemi sunar.' },
+      { q: 'Hangi ülkelerde hizmet veriyorsunuz?', a: '50\'den fazla ülkede aktif kullanıcıya sahibiz. Türkiye başta olmak üzere Avrupa, Orta Doğu ve Asya\'daki lojistik hareketleri için ilanlar yayınlanmaktadır.' },
+      { q: 'Destek için nasıl iletişime geçebilirim?', a: 'info@loadlyapp.com adresine e-posta göndererek bizimle iletişime geçebilirsiniz. En geç 24 saat içinde size geri dönüş yapıyoruz.' },
+      { q: 'Mobil cihazdan kullanabilir miyim?', a: 'Evet! Loadly tamamen mobil uyumlu bir web uygulamasıdır. Telefon, tablet veya bilgisayarınızdan kolaylıkla kullanabilirsiniz.' },
+    ],
+  },
+  en: {
+    title: 'Frequently Asked Questions',
+    items: [
+      { q: 'What is Loadly?', a: 'Loadly is a global logistics marketplace that digitally connects shippers and freight owners. Shippers post loads, carriers submit offers, and the entire shipping process is managed through the platform.' },
+      { q: 'Is Loadly free to use?', a: 'Yes, registering on the platform and posting loads is completely free. There are no commissions or membership fees charged.' },
+      { q: 'How do I post a load?', a: 'Register, enter your cargo details (weight, dimensions, pickup/delivery location, date) and your listing becomes visible to carriers within seconds.' },
+      { q: 'How do I find loads as a carrier?', a: 'Browse the marketplace for daily updated listings. Use route, vehicle type, and tonnage filters to easily find loads that suit you and message shippers directly.' },
+      { q: 'What types of freight can I post?', a: 'The platform supports Less Than Truckload (LTL), Full Truckload (FTL), urgent/express freight, refrigerated (reefer), flatbed, and special cargo listings.' },
+      { q: 'How are carriers verified?', a: 'Carriers are evaluated through profile completion, identity verification, and a user rating system. Higher-rated carriers are featured more prominently.' },
+      { q: 'Is my cargo safe?', a: 'Loadly is a listing and matching platform. Insurance and contract details are arranged directly between the carrier and shipper. The platform offers a rating system to help you work with trusted carriers.' },
+      { q: 'Which countries do you serve?', a: 'We have active users in over 50 countries. Listings are published for logistics movements primarily in Turkey, Europe, the Middle East, and Asia.' },
+      { q: 'How do I contact support?', a: 'You can reach us by sending an email to info@loadlyapp.com. We respond within 24 hours at the latest.' },
+      { q: 'Can I use it on mobile?', a: 'Yes! Loadly is a fully mobile-responsive web application. You can easily use it on your phone, tablet, or computer.' },
+    ],
+  },
+};
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -45,7 +80,24 @@ export default async function HomePage({ params }: PageProps) {
     },
   ];
 
+  const faqData = HOME_FAQS[locale] ?? HOME_FAQS.en;
+
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqData.items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  };
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+    />
     <div className="min-h-screen bg-background-light dark:bg-background-dark selection:bg-accent/30">
       {/* Hero */}
       <section className="relative pt-24 pb-32 px-4 overflow-hidden">
@@ -230,7 +282,31 @@ export default async function HomePage({ params }: PageProps) {
         </div>
       </footer>
 
+      {/* FAQ */}
+      <section className="py-24 px-4 bg-surface-light/50 dark:bg-surface-dark/50 border-t border-border-light dark:border-border-dark">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14 space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-widest">
+              <HelpCircle size={14} /> FAQ
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-fg tracking-tight">
+              {faqData.title}
+            </h2>
+          </div>
+          <div className="space-y-4">
+            {faqData.items.map((item, idx) => (
+              <div key={idx} className="p-6 rounded-2xl bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark">
+                <h3 className="text-base font-bold text-fg mb-2">{item.q}</h3>
+                <p className="text-sm text-muted leading-relaxed">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SeoContent page="home" locale={locale} />
       <HomeAnimations />
     </div>
+    </>
   );
 }

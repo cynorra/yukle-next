@@ -1,12 +1,33 @@
 import type { Metadata } from 'next';
 import { AboutPageClient } from './AboutPageClient';
+import { getLegalTranslation } from '@/utils/getLegalTranslation';
 
-export const metadata: Metadata = {
-  title: 'About Us',
-  description: 'About Loadly, the digital freight marketplace.',
-  alternates: { canonical: '/about' },
-};
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-export default function Page() {
-  return <AboutPageClient />;
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const data = getLegalTranslation(rawLocale);
+
+  return {
+    title: `${data.about.title} | Loadly`,
+    description: data.about.description,
+    alternates: {
+      canonical: `${SITE_URL}/${rawLocale}/about`,
+    },
+    openGraph: {
+      title: `${data.about.title} | Loadly`,
+      description: data.about.description,
+      url: `${SITE_URL}/${rawLocale}/about`,
+    },
+  };
+}
+
+export default async function Page({ params }: Props) {
+  const { locale: rawLocale } = await params;
+  const data = getLegalTranslation(rawLocale);
+  return <AboutPageClient data={data} locale={rawLocale} />;
 }
