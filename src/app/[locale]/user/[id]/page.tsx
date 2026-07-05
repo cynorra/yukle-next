@@ -1,10 +1,47 @@
 import type { Metadata } from 'next';
+import { cache } from 'react';
+import { notFound } from 'next/navigation';
 import { createPublicClient } from '@/lib/supabase/public';
 import { PublicProfilePageClient } from './PublicProfilePageClient';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
 export const revalidate = 86400;
+
+const SUPPORTED_LOCALES = [
+  'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
+  'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
+  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
+  'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
+  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
+  'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
+];
+
+const getProfileData = cache(async (id: string) => {
+  const supabase = createPublicClient();
+  const [profileRes, reviewsRes, loadsRes] = await Promise.all([
+    supabase.from('public_profiles').select('*').eq('id', id).maybeSingle(),
+    supabase
+      .from('reviews')
+      .select('*, reviewer:public_profiles!reviews_reviewer_id_fkey(id, full_name, avatar_url)')
+      .eq('reviewed_id', id)
+      .order('created_at', { ascending: false })
+      .limit(20),
+    supabase
+      .from('loads')
+      .select('id, title, title_translations, status, origin_city, destination_city, created_at')
+      .eq('shipper_id', id)
+      .in('status', ['active', 'completed'])
+      .order('created_at', { ascending: false })
+      .limit(10),
+  ]);
+
+  return {
+    profile: profileRes.data,
+    reviews: reviewsRes.data || [],
+    loads: loadsRes.data || [],
+  };
+});
 
 export async function generateMetadata({
   params,
@@ -13,12 +50,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id, locale } = await params;
   try {
-    const supabase = createPublicClient();
-    const { data } = await supabase
-      .from('public_profiles')
-      .select('full_name, company_name, role, rating')
-      .eq('id', id)
-      .maybeSingle();
+    const { profile: data } = await getProfileData(id);
 
     if (!data) {
       return {
@@ -28,18 +60,9 @@ export async function generateMetadata({
     }
 
     const name = data.company_name || data.full_name || 'User';
-    const roleText = data.role === 'driver' 
-      ? (locale === 'tr' ? 'Nakliyeci' : 'Carrier') 
+    const roleText = data.role === 'driver'
+      ? (locale === 'tr' ? 'Nakliyeci' : 'Carrier')
       : (locale === 'tr' ? 'Yük Sahibi' : 'Shipper');
-
-    const SUPPORTED_LOCALES = [
-      'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
-      'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-      'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-      'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-      'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-      'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
-    ];
 
     const languagesAlternates: Record<string, string> = {};
     SUPPORTED_LOCALES.forEach((loc) => {
@@ -50,7 +73,7 @@ export async function generateMetadata({
     return {
       title: `${name} - ${roleText}`,
       description: `${name} (${roleText}) profile. Rating: ${data.rating || 0}.`,
-      alternates: { 
+      alternates: {
         canonical: `${SITE_URL}/${locale}/user/${id}`,
         languages: languagesAlternates
       },
@@ -67,6 +90,15 @@ export async function generateMetadata({
   }
 }
 
-export default function Page() {
-  return <PublicProfilePageClient />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string; locale: string }>;
+}) {
+  const { id } = await params;
+  const { profile, reviews, loads } = await getProfileData(id);
+
+  if (!profile) notFound();
+
+  return <PublicProfilePageClient profile={profile} reviews={reviews} loads={loads} />;
 }

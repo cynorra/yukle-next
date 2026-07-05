@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
-import { User, Star, Shield, Building2, MapPin, ArrowRight, Package, Zap, MessageCircle, Calendar } from 'lucide-react';
+import { Star, Shield, Building2, MapPin, ArrowRight, Package, Zap, MessageCircle, Calendar } from 'lucide-react';
 
 interface PublicProfile {
   id: string;
@@ -41,64 +40,25 @@ interface PublicLoad {
 
 const STAR_COLORS = ['', 'text-red-400', 'text-orange-400', 'text-yellow-400', 'text-lime-400', 'text-green-400'];
 
-export function PublicProfilePageClient() {
+interface PublicProfilePageClientProps {
+  profile: PublicProfile;
+  reviews: Review[];
+  loads: PublicLoad[];
+}
+
+export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfilePageClientProps) {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const { locale } = useTranslation();
-
-  const [profile, setProfile] = useState<PublicProfile | null>(null);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [loads, setLoads] = useState<PublicLoad[]>([]);
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'reviews' | 'loads'>('reviews');
 
   const t = useT();
-
-  useEffect(() => { if (id) fetchAll(); }, [id]);
-
-  async function fetchAll() {
-    setLoading(true);
-    const [profileRes, reviewsRes, loadsRes] = await Promise.all([
-      supabase.from('public_profiles').select('*').eq('id', id!).single(),
-      supabase.from('reviews')
-        .select('*, reviewer:public_profiles!reviews_reviewer_id_fkey(id, full_name, avatar_url)')
-        .eq('reviewed_id', id!)
-        .order('created_at', { ascending: false })
-        .limit(20),
-      supabase.from('loads')
-        .select('id, title, title_translations, status, origin_city, destination_city, created_at')
-        .eq('shipper_id', id!)
-        .in('status', ['active', 'completed'])
-        .order('created_at', { ascending: false })
-        .limit(10),
-    ]);
-
-    if (profileRes.data) setProfile(profileRes.data as PublicProfile);
-    setReviews((reviewsRes.data as unknown as Review[]) || []);
-    setLoads((loadsRes.data as unknown as PublicLoad[]) || []);
-    setLoading(false);
-  }
 
   function renderStars(rating: number) {
     return Array.from({ length: 5 }, (_, i) => (
       <Star key={i} size={14} className={i < rating ? `fill-current ${STAR_COLORS[rating]}` : 'text-gray-600'} />
     ));
   }
-
-  if (loading) return (
-    <div className={`${t.pageFull} flex items-center justify-center`}>
-      <div className={`w-8 h-8 border-2 ${t.spinner} rounded-full animate-spin`} />
-    </div>
-  );
-
-  if (!profile) return (
-    <div className={`${t.pageFull} flex items-center justify-center`}>
-      <div className="text-center">
-        <User size={48} className={`${t.mutedDark} mx-auto mb-4`} />
-        <h3 className={`text-xl font-bold ${t.heading} mb-2`}>Kullanıcı bulunamadı</h3>
-      </div>
-    </div>
-  );
 
   const completedLoads = loads.filter((l) => l.status === 'completed').length;
   const isOwnProfile = user?.id === id;
@@ -108,7 +68,7 @@ export function PublicProfilePageClient() {
       <div className="max-w-3xl mx-auto px-4 py-8">
 
         {/* Profil kartı */}
-        <div className="p-6 rounded-2xl ${t.card} mb-6">
+        <div className={`p-6 rounded-2xl ${t.card} mb-6`}>
           <div className="flex items-start gap-5">
             <div className="w-20 h-20 rounded-full bg-[#F5A623]/10 flex items-center justify-center shrink-0 text-3xl font-bold text-[#F5A623]">
               {profile.avatar_url
@@ -181,7 +141,7 @@ export function PublicProfilePageClient() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 rounded-xl ${t.card} mb-6">
+        <div className={`flex gap-1 p-1 rounded-xl ${t.card} mb-6`}>
           <button onClick={() => setActiveTab('reviews')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === 'reviews' ? 'bg-[#F5A623] text-black' : 'text-gray-400 hover:text-white'}`}>
             <Star size={16} />Değerlendirmeler ({reviews.length})
@@ -234,7 +194,7 @@ export function PublicProfilePageClient() {
               </div>
             ) : loads.map((load) => (
               <Link key={load.id} href={`/pazar/${load.id}`}
-                className="flex items-center justify-between p-4 rounded-2xl ${t.card} hover:border-[#F5A623]/20 transition-all group">
+                className={`flex items-center justify-between p-4 rounded-2xl ${t.card} hover:border-[#F5A623]/20 transition-all group`}>
                 <div className="flex-1 min-w-0">
                   <h3 className={`${t.heading} text-sm font-medium truncate group-hover:text-[#F5A623] transition-colors mb-1`}>
                     {load.title_translations?.[locale] || load.title}
