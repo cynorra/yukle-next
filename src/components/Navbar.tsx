@@ -12,6 +12,8 @@ import { useTranslation } from '@/hooks/useTranslation';
 import type { Locale } from '@/utils/translations';
 import { Menu, X, Package, Truck, User, LogOut, MessageSquare, Sun, Moon, BookOpen, Globe, ChevronDown, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TextureCard, TextureCardContent } from '@/components/ui/texture-card';
+import { TextureButton } from '@/components/ui/texture-button';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -118,8 +120,10 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute right-0 mt-2 w-48 max-h-80 overflow-y-auto bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl shadow-xl z-50 py-1.5 scrollbar-thin"
+                    className="absolute right-0 mt-2 w-48 max-h-80 z-50 scrollbar-thin shadow-2xl"
                   >
+                    <TextureCard className="w-full h-full overflow-y-auto bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-xl">
+                      <div className="py-2">
                     {LANGUAGES.map((lang) => (
                       <button
                         key={lang.code}
@@ -136,6 +140,8 @@ export default function Navbar() {
                         <span>{lang.label}</span>
                       </button>
                     ))}
+                      </div>
+                    </TextureCard>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -149,12 +155,13 @@ export default function Navbar() {
                   </Link>
                 )}
                 <NotificationBell />
-                <button
+                <TextureButton
+                  variant="icon"
                   onClick={toggleTheme}
-                  className="p-2 rounded-full text-muted hover:text-fg hover:bg-surface-light dark:hover:bg-surface-dark transition-colors"
+                  className="w-9 h-9 flex items-center justify-center p-0"
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                </button>
+                </TextureButton>
                 
                 <div className="h-4 w-[1px] bg-border-light dark:bg-border-dark mx-1" />
                 
@@ -175,21 +182,23 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <button
+                <TextureButton
+                  variant="icon"
                   onClick={toggleTheme}
-                  className="p-2 rounded-full text-muted hover:text-fg hover:bg-surface-light dark:hover:bg-surface-dark transition-colors"
+                  className="w-9 h-9 flex items-center justify-center p-0"
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                </button>
-                <Link href={`/${locale}/login`} className="text-base font-bold text-muted hover:text-fg transition-colors px-3">
-                  {t.nav.login}
-                </Link>
-                <Link
-                  href={`/${locale}/register`}
-                  className="px-6 py-2.5 rounded-full text-base font-black bg-accent text-white shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
-                >
-                  {t.nav.register}
-                </Link>
+                </TextureButton>
+                <TextureButton asChild variant="minimal" className="!rounded-full px-6 py-2 ml-1">
+                  <Link href={`/${locale}/login`}>
+                    {t.nav.login}
+                  </Link>
+                </TextureButton>
+                <TextureButton asChild variant="accent" className="!rounded-full px-6 py-2">
+                  <Link href={`/${locale}/register`}>
+                    {t.nav.register}
+                  </Link>
+                </TextureButton>
               </>
             )}
           </div>
@@ -212,8 +221,10 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute right-0 mt-2 w-40 max-h-60 overflow-y-auto bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl z-50 py-1"
+                    className="absolute right-0 mt-2 w-40 max-h-60 z-50 shadow-2xl"
                   >
+                    <TextureCard className="w-full h-full overflow-y-auto bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-xl">
+                      <div className="py-1">
                     {LANGUAGES.map((lang) => (
                       <button
                         key={lang.code}
@@ -230,6 +241,8 @@ export default function Navbar() {
                         <span>{lang.label}</span>
                       </button>
                     ))}
+                      </div>
+                    </TextureCard>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -297,20 +310,22 @@ export default function Navbar() {
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 gap-3 p-2">
-                    <Link
-                      href={`/${locale}/login`}
-                      onClick={() => setOpen(false)}
-                      className="flex items-center justify-center px-4 py-3 rounded-xl border border-border-light dark:border-border-dark text-fg font-medium"
-                    >
-                      {t.nav.login}
-                    </Link>
-                    <Link
-                      href={`/${locale}/register`}
-                      onClick={() => setOpen(false)}
-                      className="flex items-center justify-center px-4 py-3 rounded-xl bg-accent text-white font-bold"
-                    >
-                      {t.nav.register}
-                    </Link>
+                    <TextureButton asChild variant="secondary" className="w-full !rounded-xl">
+                      <Link
+                        href={`/${locale}/login`}
+                        onClick={() => setOpen(false)}
+                      >
+                        {t.nav.login}
+                      </Link>
+                    </TextureButton>
+                    <TextureButton asChild variant="accent" className="w-full !rounded-xl">
+                      <Link
+                        href={`/${locale}/register`}
+                        onClick={() => setOpen(false)}
+                      >
+                        {t.nav.register}
+                      </Link>
+                    </TextureButton>
                   </div>
                 )}
               </div>

@@ -3,6 +3,8 @@
 import { LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useT } from '@/hooks/useT';
+import { TextureCard } from '@/components/ui/texture-card';
+import { TextureButton } from '@/components/ui/texture-button';
 
 interface EmptyStateProps {
   icon: LucideIcon;
@@ -22,31 +24,34 @@ export default function EmptyState({ icon: Icon, title, description, action }: E
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="flex flex-col items-center justify-center py-16 px-4 text-center"
+      className="w-full"
     >
-      <div className="relative mb-6">
-        <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full" />
-        <div className="relative w-20 h-20 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center shadow-2xl">
-          <Icon size={40} className="text-accent/40" />
+      <TextureCard className="flex flex-col items-center justify-center py-16 px-4 text-center border-dashed">
+        <div className="relative mb-6">
+          <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full" />
+          <div className="relative w-20 h-20 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center shadow-2xl">
+            <Icon size={40} className="text-accent/40" />
+          </div>
         </div>
-      </div>
-      
-      <h3 className={`text-xl font-black tracking-tight ${t.heading} mb-2`}>
-        {title}
-      </h3>
-      <p className={`max-w-xs text-sm ${t.sub} leading-relaxed mb-8`}>
-        {description}
-      </p>
+        
+        <h3 className={`text-xl font-black tracking-tight ${t.heading} mb-2`}>
+          {title}
+        </h3>
+        <p className={`max-w-xs text-sm ${t.sub} leading-relaxed mb-8`}>
+          {description}
+        </p>
 
-      {action && (
-        <button
-          onClick={action.onClick}
-          className={`flex items-center gap-2 px-8 py-3 rounded-2xl font-black text-sm shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-0.5 active:translate-y-0 transition-all ${t.btnPrimary}`}
-        >
-          {action.icon && <action.icon size={18} />}
-          {action.label}
-        </button>
-      )}
+        {action && (
+          <TextureButton
+            onClick={action.onClick}
+            variant="accent"
+            className="px-8 !rounded-xl"
+          >
+            {action.icon && <action.icon size={18} className="mr-2 inline" />}
+            {action.label}
+          </TextureButton>
+        )}
+      </TextureCard>
     </motion.div>
   );
 }

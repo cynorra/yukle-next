@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Star, X, Loader2, Send } from 'lucide-react';
 import { useT } from '@/hooks/useT';
+import { TextureCard, TextureCardTitle, TextureSeparator } from '@/components/ui/texture-card';
+import { TextureButton } from '@/components/ui/texture-button';
 
 interface ReviewModalProps {
   loadId: string;
@@ -40,13 +42,14 @@ export default function ReviewModal({ loadId, reviewedId, reviewedName, onClose,
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm">
-      <div className={`w-full max-w-md rounded-2xl shadow-2xl overflow-hidden ${t.card}`}>
-        <div className={`flex items-center justify-between px-6 py-4 border-b ${t.divider}`}>
-          <h2 className={`text-lg font-bold ${t.heading}`}>Değerlendirme</h2>
-          <button onClick={onClose} className={`p-1.5 rounded-lg transition-colors ${t.btnSecondary}`}>
+      <TextureCard className="w-full max-w-md shadow-2xl overflow-hidden backdrop-blur-2xl bg-white/90 dark:bg-background-dark/90">
+        <div className="flex items-center justify-between px-6 pt-5 pb-4">
+          <TextureCardTitle className={t.heading}>Değerlendirme</TextureCardTitle>
+          <TextureButton variant="icon" size="icon" onClick={onClose}>
             <X size={18} />
-          </button>
+          </TextureButton>
         </div>
+        <TextureSeparator />
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div className="text-center">
             <p className={`${t.sub} text-sm mb-1`}>Taşıma deneyiminizi değerlendirin</p>
@@ -75,12 +78,12 @@ export default function ReviewModal({ loadId, reviewedId, reviewedName, onClose,
               className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none resize-none ${t.input}`} />
           </div>
           {error && <p className="text-red-400 text-xs">{error}</p>}
-          <button type="submit" disabled={submitting || rating === 0}
-            className={`w-full py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2 ${t.btnPrimary}`}>
-            {submitting ? <><Loader2 size={16} className="animate-spin" />Gönderiliyor...</> : <><Send size={16} />Değerlendirmeyi Gönder</>}
-          </button>
+          <TextureButton type="submit" variant="accent" disabled={submitting || rating === 0}
+            className="w-full !rounded-xl">
+            {submitting ? <><Loader2 size={16} className="animate-spin mr-2 inline" />Gönderiliyor...</> : <><Send size={16} className="mr-2 inline" />Değerlendirmeyi Gönder</>}
+          </TextureButton>
         </form>
-      </div>
+      </TextureCard>
     </div>
   );
 }

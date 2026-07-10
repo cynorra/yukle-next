@@ -7,6 +7,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
 import { Bell, MessageCircle, TrendingUp, CheckCircle2, X, Clock, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TextureCard, TextureCardHeader, TextureCardTitle, TextureCardContent, TextureSeparator } from '@/components/ui/texture-card';
+import { TextureButton } from '@/components/ui/texture-button';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -119,20 +121,18 @@ export default function NotificationBell() {
 
   return (
     <div ref={ref} className="relative">
-      <button 
+      <TextureButton 
+        variant="icon"
         onClick={() => setOpen(!open)}
-        className={cn(
-          "relative p-2.5 rounded-xl transition-all duration-300 group",
-          open ? "bg-accent/10 text-accent" : t.iconBtn
-        )}
+        className={cn("relative p-2", open && "bg-accent/10 text-accent")}
       >
         <Bell size={22} className={cn("transition-transform duration-300", open && "scale-110")} />
         {unreadCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 w-4.5 h-4.5 min-w-[18px] min-h-[18px] bg-accent text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-background-light dark:border-background-dark shadow-lg shadow-accent/20">
+          <span className="absolute top-0 right-0 w-4.5 h-4.5 min-w-[18px] min-h-[18px] bg-accent text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-background-light dark:border-background-dark shadow-lg shadow-accent/20">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
-      </button>
+      </TextureButton>
 
       <AnimatePresence>
         {open && (
@@ -141,58 +141,59 @@ export default function NotificationBell() {
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 8, scale: 0.95, filter: 'blur(10px)' }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={cn(
-              "absolute right-0 mt-3 w-85 sm:w-96 rounded-2xl shadow-2xl overflow-hidden z-50 border",
-              t.card,
-              t.isDark ? "bg-background-dark/95 backdrop-blur-xl" : "bg-white/95 backdrop-blur-xl"
-            )}
+            className="absolute right-0 mt-3 w-85 sm:w-96 z-50 shadow-2xl"
           >
-            <div className={cn("flex items-center justify-between px-5 py-4 border-b", t.divider)}>
+            <TextureCard className={cn("w-full overflow-hidden backdrop-blur-2xl", t.isDark ? "bg-background-dark/80" : "bg-white/80")}>
+            <div className="flex items-center justify-between px-5 pt-5 pb-3">
               <div>
-                <h3 className={cn("text-base font-black tracking-tight", t.heading)}>Bildirimler</h3>
-                <p className={cn("text-[10px] font-bold uppercase tracking-wider", t.muted)}>
+                <TextureCardTitle className={cn("text-base font-black tracking-tight", t.heading)}>Bildirimler</TextureCardTitle>
+                <p className={cn("text-[10px] font-bold uppercase tracking-wider pl-2", t.muted)}>
                   {unreadCount > 0 ? `${unreadCount} YENİ BİLDİRİM` : "TÜMÜ OKUNDU"}
                 </p>
               </div>
               {unreadCount > 0 && (
-                <button 
+                <TextureButton 
+                  variant="minimal"
+                  size="sm"
                   onClick={markAllRead} 
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-xs font-bold hover:bg-accent/20 transition-all"
+                  className="!px-3 !py-1.5 !text-xs font-bold"
                 >
-                  <Check size={12} />
+                  <Check size={14} className="mr-1 inline-block" />
                   Hepsini Oku
-                </button>
+                </TextureButton>
               )}
             </div>
+            
+            <TextureSeparator />
 
-            <div className="max-h-[420px] overflow-y-auto scrollbar-none">
+            <div className="max-h-[420px] overflow-y-auto scrollbar-none pb-2">
               {notifications.length === 0 ? (
                 <div className={cn("py-16 text-center", t.muted)}>
-                  <div className="w-16 h-16 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center mx-auto mb-4 shadow-inner">
                     <Bell size={28} className="opacity-20" />
                   </div>
                   <p className="text-sm font-medium">Henüz bildiriminiz yok</p>
                 </div>
               ) : (
-                <div className="divide-y divide-border-light/50 dark:divide-border-dark/50">
+                <div className="flex flex-col gap-1 p-2">
                   {notifications.map((n) => (
                     <div 
                       key={n.id}
                       onClick={() => { markRead(n.id); setOpen(false); }}
                       className={cn(
-                        "group flex items-start gap-4 px-5 py-4 transition-all cursor-pointer relative",
+                        "group flex items-start gap-4 px-4 py-3 rounded-xl transition-all cursor-pointer relative",
                         !n.read 
-                          ? (t.isDark ? "bg-accent/5" : "bg-accent/[0.03]") 
-                          : "hover:bg-surface-light/50 dark:hover:bg-surface-dark/50"
+                          ? (t.isDark ? "bg-accent/10" : "bg-accent/5") 
+                          : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
                       )}
                     >
                       {!n.read && (
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent" />
+                        <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-accent" />
                       )}
                       
                       <div className={cn(
                         "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-110",
-                        t.isDark ? "bg-white/5" : "bg-black/5"
+                        t.isDark ? "bg-white/10" : "bg-black/5"
                       )}>
                         {TYPE_ICONS[n.type] || TYPE_ICONS.info}
                       </div>
@@ -236,18 +237,20 @@ export default function NotificationBell() {
               )}
             </div>
             
-            <div className={cn("px-4 py-3 border-t text-center flex flex-col gap-2", t.divider)}>
+            <TextureSeparator />
+            <div className={cn("px-4 py-3 text-center flex flex-col gap-2")}>
               {!isSubscribed && typeof window !== 'undefined' && 'Notification' in window && Notification.permission !== 'denied' && (
-                <button onClick={subscribeToPush} className="w-full py-2 rounded-lg bg-accent text-white text-xs font-bold transition-all hover:bg-accent/90">
+                <TextureButton onClick={subscribeToPush} variant="accent" className="w-full !rounded-xl">
                   Bildirimleri Aç
-                </button>
+                </TextureButton>
               )}
               {notifications.length > 0 && (
-                <button onClick={() => setOpen(false)} className={cn("text-[10px] font-black uppercase tracking-widest text-muted/60 hover:text-accent transition-colors")}>
+                <TextureButton variant="minimal" onClick={() => setOpen(false)} className="w-full !rounded-xl text-xs">
                   Kapat
-                </button>
+                </TextureButton>
               )}
             </div>
+            </TextureCard>
           </motion.div>
         )}
       </AnimatePresence>

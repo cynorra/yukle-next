@@ -25,7 +25,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import EmptyState from '@/components/EmptyState';
 import { cn } from '@/lib/utils';
 import { useInView } from 'react-intersection-observer';
-
+import { TextureCard, TextureSeparator } from '@/components/ui/texture-card';
+import { TextureButton } from '@/components/ui/texture-button';
 const LOAD_TYPES: Record<string, string> = {
   general: 'General Cargo',
   hazardous: 'Hazardous Material',
@@ -198,9 +199,10 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
               <p className="text-sm font-medium text-muted">{total} active loads</p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center gap-3">
               {profile?.role === 'driver' && driverRoutes.length > 0 && (
-                <button
+                <TextureButton
+                  variant={routeMatchMode ? "primary" : "secondary"}
                   onClick={() => {
                     setRouteMatchMode(!routeMatchMode);
                     if (!routeMatchMode) {
@@ -209,29 +211,20 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
                     }
                     setPage(0);
                   }}
-                  className={cn(
-                    'flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all',
-                    routeMatchMode
-                      ? 'bg-accent text-white shadow-lg shadow-accent/20'
-                      : 'bg-accent/10 text-accent border border-accent/20 hover:bg-accent/20'
-                  )}
+                  className="w-full sm:w-auto !px-4 !py-2.5 !rounded-xl"
                 >
-                  <Route size={18} />
+                  <Route size={18} className="mr-2 inline" />
                   Match My Routes
-                </button>
+                </TextureButton>
               )}
-              <button
+              <TextureButton
+                variant={showFilters ? "primary" : "minimal"}
                 onClick={() => setShowFilters(!showFilters)}
-                className={cn(
-                  'flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border',
-                  showFilters
-                    ? 'bg-fg text-background-light border-fg'
-                    : 'bg-surface-light dark:bg-surface-dark text-fg border-border-light dark:border-border-dark hover:border-accent/40'
-                )}
+                className="w-full sm:w-auto !px-4 !py-2.5 !rounded-xl border border-border-light dark:border-border-dark"
               >
-                <SlidersHorizontal size={18} />
+                <SlidersHorizontal size={18} className="mr-2 inline" />
                 Filters
-              </button>
+              </TextureButton>
             </div>
           </div>
 
@@ -385,9 +378,10 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
               >
                 <Link
                   href={`/${locale}/marketplace/${load.id}`}
-                  className="group block bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-[1.5rem] hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5 transition-all relative overflow-hidden"
+                  className="group block rounded-[24px] hover:scale-[1.01] transition-transform duration-300 relative overflow-hidden"
                 >
-                  <div className="flex items-center justify-between px-6 py-4 border-b border-border-light dark:border-border-dark">
+                  <TextureCard className="h-full border-transparent bg-white/50 dark:bg-black/50">
+                    <div className="flex items-center justify-between px-6 pt-5 pb-3">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 min-w-0">
                         <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
@@ -444,14 +438,15 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
                           </span>
                         </div>
                       </div>
-                      <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center group-hover:bg-accent transition-all shrink-0">
                         <ChevronRight
                           size={16}
                           className="text-accent group-hover:text-white transition-colors"
                         />
                       </div>
                     </div>
-                  </div>
+                    </div>
+                  </TextureCard>
 
                   <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-accent transform -translate-x-full group-hover:translate-x-0 transition-transform rounded-r-full" />
                 </Link>
