@@ -46,7 +46,7 @@ const enTranslationsDict = {
     ctaDesc: 'Thousands of professional carriers and freight owners connect on this platform daily.',
     ctaJoin: 'Join Free',
     ctaReview: 'Explore Marketplace',
-    footerCopyright: '© 2025 Loadly · Global Logistics Platform',
+    footerCopyright: '© 2026 Loadly · Global Logistics Platform',
   },
   marketplace: {
     title: 'Logistics Marketplace',

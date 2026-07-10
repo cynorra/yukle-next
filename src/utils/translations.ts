@@ -163,7 +163,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Thousands of professional carriers and freight owners connect on this platform daily.',
       ctaJoin: 'Join Free',
       ctaReview: 'Explore Marketplace',
-      footerCopyright: '© 2025 Loadly · Global Logistics Platform',
+      footerCopyright: '© 2026 Loadly · Global Logistics Platform',
     },
     marketplace: {
       title: 'Logistics Marketplace',
@@ -269,7 +269,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Binlerce profesyonel nakliyeci ve yük sahibi her gün bu platformda buluşuyor. Hemen ücretsiz katılın.',
       ctaJoin: 'Hemen Katıl',
       ctaReview: 'İlanları İncele',
-      footerCopyright: "© 2025 YükLe · Türkiye'nin Lojistik Platformu",
+      footerCopyright: "© 2026 YükLe · Türkiye'nin Lojistik Platformu",
     },
     marketplace: {
       title: 'Lojistik Pazarı',
@@ -375,7 +375,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Miles de transportistas profesionales y dueños de carga se conectan a diario aquí.',
       ctaJoin: 'Únete Gratis',
       ctaReview: 'Explorar Cargas',
-      footerCopyright: '© 2025 Loadly · Plataforma Global de Logística',
+      footerCopyright: '© 2026 Loadly · Plataforma Global de Logística',
     },
     marketplace: {
       title: 'Mercado de Logística',
@@ -481,7 +481,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Milhares de transportadores profissionais e donos de carga conectam-se diariamente aqui.',
       ctaJoin: 'Cadastre-se Grátis',
       ctaReview: 'Explorar Cargas',
-      footerCopyright: '© 2025 Loadly · Plataforma Global de Logística',
+      footerCopyright: '© 2026 Loadly · Plataforma Global de Logística',
     },
     marketplace: {
       title: 'Mercado de Logística',
@@ -587,7 +587,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Des milliers de transporteurs professionnels et expéditeurs se connectent quotidiennement ici.',
       ctaJoin: 'Rejoindre Gratuitement',
       ctaReview: 'Parcourir les Frets',
-      footerCopyright: '© 2025 Loadly · Plateforme Logistique Mondiale',
+      footerCopyright: '© 2026 Loadly · Plateforme Logistique Mondiale',
     },
     marketplace: {
       title: 'Marché de la Logistique',
@@ -693,7 +693,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Tausende professionelle Frachtführer und Verlader vernetzen sich täglich auf Loadly.',
       ctaJoin: 'Kostenlos Mitglied werden',
       ctaReview: 'Frachten ansehen',
-      footerCopyright: '© 2025 Loadly · Globale Logistikplattform',
+      footerCopyright: '© 2026 Loadly · Globale Logistikplattform',
     },
     marketplace: {
       title: 'Logistikmarktplatz',
@@ -799,7 +799,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Migliaia di autotrasportatori e mittenti professionali si connettono quotidianamente qui.',
       ctaJoin: 'Registrati Gratis',
       ctaReview: 'Esplora Carichi',
-      footerCopyright: '© 2025 Loadly · Piattaforma di Logistica Globale',
+      footerCopyright: '© 2026 Loadly · Piattaforma di Logistica Globale',
     },
     marketplace: {
       title: 'Bacheca Carichi',
@@ -905,7 +905,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Tysiące profesjonalnych przewoźników i nadawców ładunków łączy się tu codziennie.',
       ctaJoin: 'Dołącz za Darmo',
       ctaReview: 'Przeglądaj Frachty',
-      footerCopyright: '© 2025 Loadly · Globalna Platforma Logistyczna',
+      footerCopyright: '© 2026 Loadly · Globalna Platforma Logistyczna',
     },
     marketplace: {
       title: 'Giełda Transportowa',
@@ -1011,7 +1011,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Duizenden professionele vervoerders en vrachteigenaren ontmoeten elkaar dagelijks hier.',
       ctaJoin: 'Gratis Registreren',
       ctaReview: 'Bekijk Vrachten',
-      footerCopyright: '© 2025 Loadly · Wereldwijd Logistiek Platform',
+      footerCopyright: '© 2026 Loadly · Wereldwijd Logistiek Platform',
     },
     marketplace: {
       title: 'Logistieke Marktplaats',
@@ -1117,7 +1117,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Тысячи профессиональных перевозчиков и грузовладельцев находят друг друга здесь каждый день.',
       ctaJoin: 'Присоединиться бесплатно',
       ctaReview: 'Смотреть грузы',
-      footerCopyright: '© 2025 Loadly · Глобальная логистическая платформа',
+      footerCopyright: '© 2026 Loadly · Глобальная логистическая платформа',
     },
     marketplace: {
       title: 'Логистическая Биржа',
@@ -1223,7 +1223,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'Тисячі професійних перевізників та власників вантажів знаходять один одного тут щодня.',
       ctaJoin: 'Приєднатися безкоштовно',
       ctaReview: 'Переглянути вантажі',
-      footerCopyright: '© 2025 Loadly · Глобальна логістична платформа',
+      footerCopyright: '© 2026 Loadly · Глобальна логістична платформа',
     },
     marketplace: {
       title: 'Логістична Біржа',
@@ -1329,7 +1329,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: '成千上万的专业承运人和发货人每天在此平台对接。立即免费加入。',
       ctaJoin: '免费加入',
       ctaReview: '浏览货源',
-      footerCopyright: '© 2025 Loadly · 全球化物流平台',
+      footerCopyright: '© 2026 Loadly · 全球化物流平台',
     },
     marketplace: {
       title: '物流配载市场',
@@ -1435,7 +1435,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: '数多くのプロの運送業者と荷主が毎日このプラットフォームで繋がっています。',
       ctaJoin: '無料会員登録',
       ctaReview: '荷物一覧を見る',
-      footerCopyright: '© 2025 Loadly · グローバル物流プラットフォーム',
+      footerCopyright: '© 2026 Loadly · グローバル物流プラットフォーム',
     },
     marketplace: {
       title: '物流マーケットプレイス',
@@ -1541,7 +1541,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'हजारों पेशेवर वाहक और लोड मालिक हर दिन इस प्लेटफॉर्म पर जुड़ते हैं।',
       ctaJoin: 'मुफ़्त में शामिल हों',
       ctaReview: 'लोड देखें',
-      footerCopyright: '© 2025 Loadly · वैश्विक लॉजिस्टिक्स प्लेटफ़ॉर्म',
+      footerCopyright: '© 2026 Loadly · वैश्विक लॉजिस्टिक्स प्लेटफ़ॉर्म',
     },
     marketplace: {
       title: 'लॉजिस्टिक्स मार्केटप्लेस',
@@ -1647,7 +1647,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'الآلاف من الناقلين المحترفين وأصحاب الشحنات يلتقون على هذه المنصة يومياً.',
       ctaJoin: 'انضم مجاناً',
       ctaReview: 'استعرض الحمولات',
-      footerCopyright: '© 2025 Loadly · منصة الخدمات اللوجستية العالمية',
+      footerCopyright: '© 2026 Loadly · منصة الخدمات اللوجستية العالمية',
     },
     marketplace: {
       title: 'سوق الشحن والخدمات اللوجستية',
@@ -1753,7 +1753,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       ctaDesc: 'هزاران راننده حرفه‌ای و صاحب بار هر روز در این پلتفرم با هم ارتباط برقرار می‌کنند.',
       ctaJoin: 'عضویت رایگان',
       ctaReview: 'مشاهده بارها',
-      footerCopyright: '© 2025 Loadly · پلتفرم جهانی لجستیک و حمل و نقل',
+      footerCopyright: '© 2026 Loadly · پلتفرم جهانی لجستیک و حمل و نقل',
     },
     marketplace: {
       title: 'بازار حمل و نقل لجستیک',
@@ -1859,7 +1859,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "수천 명의 전문 운송업체와 화물 소유자가 매일 이 플랫폼에 연결됩니다.",
         "ctaJoin": "무료 가입",
         "ctaReview": "마켓플레이스 탐색",
-        "footerCopyright": "© 2025 Loadly · 글로벌 물류 플랫폼"
+        "footerCopyright": "© 2026 Loadly · 글로벌 물류 플랫폼"
     },
     "marketplace": {
         "title": "물류 마켓플레이스",
@@ -1965,7 +1965,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Hàng ngàn nhà vận chuyển chuyên nghiệp và chủ hàng hóa kết nối trên nền tảng này hàng ngày.",
         "ctaJoin": "Tham gia miễn phí",
         "ctaReview": "Khám phá Marketplace",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -2071,7 +2071,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Ribuan operator profesional dan pemilik barang terhubung di platform ini setiap hari.",
         "ctaJoin": "Gabung Gratis",
         "ctaReview": "Jelajahi Marketplace",
-        "footerCopyright": "© 2025 Loadly · Platform Logistik Global"
+        "footerCopyright": "© 2026 Loadly · Platform Logistik Global"
     },
     "marketplace": {
         "title": "Pasar Logistik",
@@ -2177,7 +2177,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "হাজার হাজার পেশাদার ক্যারিয়ার এবং মালবাহী মালিকরা প্রতিদিন এই প্ল্যাটফর্মে সংযোগ করে।",
         "ctaJoin": "বিনামূল্যে যোগদান করুন",
         "ctaReview": "মার্কেটপ্লেস অন্বেষণ",
-        "footerCopyright": "© 2025 লোডলি · গ্লোবাল লজিস্টিক প্ল্যাটফর্ম"
+        "footerCopyright": "© 2026 লোডলি · গ্লোবাল লজিস্টিক প্ল্যাটফর্ম"
     },
     "marketplace": {
         "title": "লজিস্টিক মার্কেটপ্লেস",
@@ -2283,7 +2283,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "اس پلیٹ فارم پر روزانہ ہزاروں پیشہ ور کیرئیر اور مال بردار مالکان جڑتے ہیں۔",
         "ctaJoin": "مفت میں شامل ہوں",
         "ctaReview": "مارکیٹ پلیس",
-        "footerCopyright": "کو دریافت کریں © 2025 Loadly · گلوبل لاجسٹک پلیٹ فارم"
+        "footerCopyright": "کو دریافت کریں © 2026 Loadly · گلوبل لاجسٹک پلیٹ فارم"
     },
     "marketplace": {
         "title": "لاجسٹکس مارکیٹ پلیس",
@@ -2389,7 +2389,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "ผู้ให้บริการขนส่งมืออาชีพและเจ้าของสินค้าหลายพันรายเชื่อมต่อกันบนแพลตฟอร์มนี้ทุกวัน",
         "ctaJoin": "เข้าร่วมฟรี",
         "ctaReview": "สำรวจตลาด",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -2495,7 +2495,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Beribu-ribu pembawa profesional dan pemilik pengangkutan menyambung pada platform ini setiap hari.",
         "ctaJoin": "Sertai Percuma",
         "ctaReview": "Terokai Pasaran",
-        "footerCopyright": "© 2025 Loadly · Platform Logistik Global"
+        "footerCopyright": "© 2026 Loadly · Platform Logistik Global"
     },
     "marketplace": {
         "title": "Pasaran Logistik",
@@ -2601,7 +2601,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Libu-libong propesyonal na mga carrier at may-ari ng kargamento ang kumokonekta sa platform na ito araw-araw.",
         "ctaJoin": "Sumali nang Libre",
         "ctaReview": "I-explore ang Marketplace",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -2707,7 +2707,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Mii de transportatori profesioniști și proprietari de marfă se conectează zilnic pe această platformă.",
         "ctaJoin": "Înscrie-te gratuit",
         "ctaReview": "Explorați Marketplace",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Piața de logistică",
@@ -2813,7 +2813,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Tusentals professionella transportörer och fraktägare ansluter till denna plattform dagligen.",
         "ctaJoin": "Gå med gratis",
         "ctaReview": "Utforska Marketplace",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Logistik marknadsplats",
@@ -2919,7 +2919,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Na této platformě se denně připojují tisíce profesionálních dopravců a majitelů nákladní dopravy.",
         "ctaJoin": "Připojte se zdarma",
         "ctaReview": "Prozkoumejte tržiště",
-        "footerCopyright": "© 2025 Loadly · Globální logistická platforma"
+        "footerCopyright": "© 2026 Loadly · Globální logistická platforma"
     },
     "marketplace": {
         "title": "Logistický trh",
@@ -3025,7 +3025,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Professzionális fuvarozók és szállítmányozók ezrei csatlakoznak naponta ezen a platformon.",
         "ctaJoin": "Csatlakozzon ingyenes",
         "ctaReview": "Piactér felfedezéséhez",
-        "footerCopyright": "© 2025 Loadly · Globális logisztikai platform"
+        "footerCopyright": "© 2026 Loadly · Globális logisztikai platform"
     },
     "marketplace": {
         "title": "Logisztikai piactér",
@@ -3131,7 +3131,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Χιλιάδες επαγγελματίες μεταφορείς και ιδιοκτήτες φορτίου συνδέονται σε αυτήν την πλατφόρμα καθημερινά.",
         "ctaJoin": "Εγγραφείτε δωρεάν",
         "ctaReview": "Εξερευνήστε το Marketplace",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -3237,7 +3237,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Hər gün minlərlə peşəkar daşıyıcı və yük sahibi bu platformaya qoşulur.",
         "ctaJoin": "Pulsuz Qoşulun",
         "ctaReview": "Bazar yerini araşdırın",
-        "footerCopyright": "© 2025 Loadly · Qlobal Logistika Platforması"
+        "footerCopyright": "© 2026 Loadly · Qlobal Logistika Platforması"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -3343,7 +3343,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Күн сайын мыңдаған кәсіби тасымалдаушылар мен жүк иелері осы платформаға қосылады.",
         "ctaJoin": "Тегін қосылыңыз",
         "ctaReview": "Marketplace-ті зерттеңіз",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Логистика нарығы",
@@ -3449,7 +3449,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "אלפי מובילים ובעלי מטענים מקצועיים מתחברים בפלטפורמה זו מדי יום.",
         "ctaJoin": "הצטרף בחינם",
         "ctaReview": "חקור את Marketplace",
-        "footerCopyright": "© 2025 Loadly · פלטפורמת לוגיסטיקה גלובלית"
+        "footerCopyright": "© 2026 Loadly · פלטפורמת לוגיסטיקה גלובלית"
     },
     "marketplace": {
         "title": "שוק הלוגיסטיקה",
@@ -3555,7 +3555,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Хиляди професионални превозвачи и собственици на товари се свързват ежедневно с тази платформа.",
         "ctaJoin": "Присъединете се безплатно",
         "ctaReview": "Разгледайте Marketplace",
-        "footerCopyright": "© 2025 Loadly · Глобална логистична платформа"
+        "footerCopyright": "© 2026 Loadly · Глобална логистична платформа"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -3661,7 +3661,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Tisuće profesionalnih prijevoznika i vlasnika tereta svakodnevno se povezuje na ovu platformu.",
         "ctaJoin": "Pridružite se besplatno",
         "ctaReview": "Istražite tržište",
-        "footerCopyright": "© 2025 Loadly · Globalna logistička platforma"
+        "footerCopyright": "© 2026 Loadly · Globalna logistička platforma"
     },
     "marketplace": {
         "title": "Logističko tržište",
@@ -3767,7 +3767,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Хиљаде професионалних превозника и власника терета свакодневно се повезују на овој платформи.",
         "ctaJoin": "Придружите се бесплатно",
         "ctaReview": "Истражите Маркетплаце",
-        "footerCopyright": "© 2025 Лоадли · Глобална логистичка платформа"
+        "footerCopyright": "© 2026 Лоадли · Глобална логистичка платформа"
     },
     "marketplace": {
         "title": "Логистицс Маркетплаце",
@@ -3873,7 +3873,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Na tejto platforme sa denne pripájajú tisíce profesionálnych dopravcov a majiteľov nákladnej dopravy.",
         "ctaJoin": "Pripojte sa zadarmo",
         "ctaReview": "Preskúmajte trh",
-        "footerCopyright": "© 2025 Loadly · Globálna logistická platforma"
+        "footerCopyright": "© 2026 Loadly · Globálna logistická platforma"
     },
     "marketplace": {
         "title": "Logistický trh",
@@ -3979,7 +3979,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Tusindvis af professionelle transportører og fragtejere forbinder dagligt på denne platform.",
         "ctaJoin": "Deltag gratis",
         "ctaReview": "Udforsk Marketplace",
-        "footerCopyright": "© 2025 Loadly · Global logistikplatform"
+        "footerCopyright": "© 2026 Loadly · Global logistikplatform"
     },
     "marketplace": {
         "title": "Logistik markedsplads",
@@ -4085,7 +4085,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Tuhannet ammattimaiset kuljettajat ja rahdinomistajat muodostavat yhteyden tälle alustalle päivittäin.",
         "ctaJoin": "Liity ilmaiseen",
         "ctaReview": "Tutustu kauppapaikkaan",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -4191,7 +4191,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Tusenvis av profesjonelle transportører og frakteiere kobler seg til denne plattformen daglig.",
         "ctaJoin": "Bli med gratis",
         "ctaReview": "Utforsk Marketplace",
-        "footerCopyright": "© 2025 Loadly · Global logistikkplattform"
+        "footerCopyright": "© 2026 Loadly · Global logistikkplattform"
     },
     "marketplace": {
         "title": "Logistikk markedsplass",
@@ -4297,7 +4297,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Minglab professional tashuvchilar va yuk egalari har kuni ushbu platformaga ulanishadi.",
         "ctaJoin": "Bepul qo'shiling",
         "ctaReview": "Marketplace bilan tanishing",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Logistika bozori",
@@ -4403,7 +4403,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "ஆயிரக்கணக்கான தொழில்முறை கேரியர்கள் மற்றும் சரக்கு உரிமையாளர்கள் தினமும் இந்த மேடையில் இணைகிறார்கள்.",
         "ctaJoin": "இலவசமாக சேரவும்",
         "ctaReview": "சந்தையை ஆராயுங்கள்",
-        "footerCopyright": "© 2025 Loadly · குளோபல் லாஜிஸ்டிக்ஸ் பிளாட்ஃபார்ம்"
+        "footerCopyright": "© 2026 Loadly · குளோபல் லாஜிஸ்டிக்ஸ் பிளாட்ஃபார்ம்"
     },
     "marketplace": {
         "title": "லாஜிஸ்டிக்ஸ் சந்தை",
@@ -4509,7 +4509,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "हजारो व्यावसायिक वाहक आणि मालवाहतूक मालक दररोज या प्लॅटफॉर्मवर जोडतात.",
         "ctaJoin": "मोफत सामील व्हा",
         "ctaReview": "मार्केटप्लेस एक्सप्लोर करा",
-        "footerCopyright": "© 2025 लोडली · ग्लोबल लॉजिस्टिक प्लॅटफॉर्म"
+        "footerCopyright": "© 2026 लोडली · ग्लोबल लॉजिस्टिक प्लॅटफॉर्म"
     },
     "marketplace": {
         "title": "लॉजिस्टिक मार्केटप्लेस",
@@ -4615,7 +4615,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "ათასობით პროფესიონალი გადამზიდავი და ტვირთის მფლობელი ყოველდღიურად უერთდება ამ პლატფორმას.",
         "ctaJoin": "შეუერთდით უფასო",
         "ctaReview": "დაათვალიერეთ ბაზარი",
-        "footerCopyright": "© 2025 Loadly · გლობალური ლოგისტიკის პლატფორმა"
+        "footerCopyright": "© 2026 Loadly · გლობალური ლოგისტიკის პლატფორმა"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -4721,7 +4721,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Tūkstančiai profesionalių vežėjų ir krovinių savininkų kasdien prisijungia prie šios platformos.",
         "ctaJoin": "Prisijunkite prie nemokamos",
         "ctaReview": "Naršykite prekyvietę",
-        "footerCopyright": "© 2025 Loadly · Global Logistics Platform"
+        "footerCopyright": "© 2026 Loadly · Global Logistics Platform"
     },
     "marketplace": {
         "title": "Logistics Marketplace",
@@ -4827,7 +4827,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Tūkstošiem profesionālu pārvadātāju un kravu īpašnieku katru dienu savienojas šajā platformā.",
         "ctaJoin": "Pievienojieties bezmaksas",
         "ctaReview": "Izpētiet tirgu",
-        "footerCopyright": "© 2025 Loadly · Globālā loģistikas platforma"
+        "footerCopyright": "© 2026 Loadly · Globālā loģistikas platforma"
     },
     "marketplace": {
         "title": "Loģistikas tirgus",
@@ -4933,7 +4933,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Sellel platvormil ühenduvad iga päev tuhanded professionaalsed vedajad ja kaubaomanikud.",
         "ctaJoin": "Liituge tasuta",
         "ctaReview": "Avastage turuplatsiga",
-        "footerCopyright": "© 2025 Loadly · Globaalne logistikaplatvorm"
+        "footerCopyright": "© 2026 Loadly · Globaalne logistikaplatvorm"
     },
     "marketplace": {
         "title": "Logistikaturg",
@@ -5039,7 +5039,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
         "ctaDesc": "Na to platformo se dnevno poveže na tisoče profesionalnih prevoznikov in lastnikov tovora.",
         "ctaJoin": "Pridružite se brezplačno",
         "ctaReview": "Raziščite tržnico",
-        "footerCopyright": "© 2025 Loadly · Globalna logistična platforma"
+        "footerCopyright": "© 2026 Loadly · Globalna logistična platforma"
     },
     "marketplace": {
         "title": "Logistična tržnica",
