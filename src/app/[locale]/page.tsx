@@ -126,7 +126,7 @@ export default async function HomePage({ params }: PageProps) {
                   text={t.home.heroTitle2}
                   gifUrl="https://media.giphy.com/media/3zvbrvbRe7wxBofOBI/giphy.gif"
                   size="xxl"
-                  className="mt-2 block"
+                  className="mt-2 block dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                 />
               </h1>
 

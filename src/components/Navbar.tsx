@@ -90,7 +90,7 @@ export default function Navbar() {
                   key={link.to}
                   href={link.to}
                   className={cn(
-                    "px-5 py-2.5 rounded-full text-base font-bold transition-all duration-200",
+                    "px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200",
                     isActive(link.to)
                       ? "bg-accent/10 text-accent"
                       : "text-muted hover:text-fg hover:bg-surface-light dark:hover:bg-surface-dark"
@@ -157,6 +157,7 @@ export default function Navbar() {
                 <NotificationBell />
                 <TextureButton
                   variant="icon"
+                  size="icon"
                   onClick={toggleTheme}
                   className="w-9 h-9 flex items-center justify-center p-0"
                 >
@@ -184,6 +185,7 @@ export default function Navbar() {
               <>
                 <TextureButton
                   variant="icon"
+                  size="icon"
                   onClick={toggleTheme}
                   className="w-9 h-9 flex items-center justify-center p-0"
                 >
