@@ -219,13 +219,13 @@ export default async function HomePage({ params }: PageProps) {
                   <div className="absolute -top-10 -left-4 text-8xl font-black text-fg opacity-[0.03] group-hover:opacity-[0.07] transition-opacity select-none z-0">
                     {item.step}
                   </div>
-                  <TextureCard className="relative z-10 p-8 h-full bg-white/40 dark:bg-black/40 group-hover:bg-white/80 dark:group-hover:bg-black/60 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-3 transition-all duration-300 border border-white/20 dark:border-neutral-800/40 backdrop-blur-xl">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center mb-8 shadow-inner border border-accent/10">
+                  <div className="relative z-10 p-8 h-full rounded-[2rem] bg-surface-light/50 dark:bg-surface-dark/50 group-hover:bg-surface-light/90 dark:group-hover:bg-surface-dark/90 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-3 transition-all duration-300 border border-border-light dark:border-border-dark backdrop-blur-xl flex flex-col">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center mb-8 shadow-inner border border-accent/10 shrink-0">
                       <item.icon size={32} className="text-accent group-hover:scale-110 transition-transform duration-300" />
                     </div>
                     <h3 className="text-2xl font-bold text-fg mb-4">{item.title}</h3>
                     <p className="text-muted leading-relaxed">{item.desc}</p>
-                  </TextureCard>
+                  </div>
                 </div>
               </ScrollReveal>
             ))}
@@ -246,16 +246,16 @@ export default async function HomePage({ params }: PageProps) {
                 {t.home.ctaDesc}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <TextureButton asChild variant="accent" className="w-full sm:w-auto !rounded-2xl transition-transform hover:scale-105 active:scale-95">
-                  <Link href={`/${locale}/register`} className="px-10 py-4 text-base sm:text-lg font-bold tracking-wide w-full h-full flex items-center justify-center">
+                <Link href={`/${locale}/register`} className="w-full sm:w-auto">
+                  <TextureButton variant="accent" className="w-full !rounded-2xl transition-transform hover:scale-105 active:scale-95 px-10 py-5 text-base sm:text-lg font-bold tracking-wide">
                     {t.home.ctaJoin}
-                  </Link>
-                </TextureButton>
-                <TextureButton asChild variant="secondary" className="w-full sm:w-auto !rounded-2xl transition-transform hover:scale-105 active:scale-95">
-                  <Link href={`/${locale}/marketplace`} className="px-10 py-4 text-base sm:text-lg font-bold tracking-wide w-full h-full flex items-center justify-center">
+                  </TextureButton>
+                </Link>
+                <Link href={`/${locale}/marketplace`} className="w-full sm:w-auto">
+                  <TextureButton variant="secondary" className="w-full !rounded-2xl transition-transform hover:scale-105 active:scale-95 px-10 py-5 text-base sm:text-lg font-bold tracking-wide">
                     {t.home.ctaReview}
-                  </Link>
-                </TextureButton>
+                  </TextureButton>
+                </Link>
               </div>
             </div>
           </div>
@@ -307,10 +307,10 @@ export default async function HomePage({ params }: PageProps) {
           </div>
           <div className="space-y-4">
             {faqData.items.map((item, idx) => (
-              <TextureCard key={idx} className="p-6">
+              <div key={idx} className="p-6 rounded-[1.5rem] bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow">
                 <h3 className="text-base font-bold text-fg mb-2">{item.q}</h3>
                 <p className="text-sm text-muted leading-relaxed">{item.a}</p>
-              </TextureCard>
+              </div>
             ))}
           </div>
         </div>
