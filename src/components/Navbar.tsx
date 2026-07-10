@@ -80,19 +80,19 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 lg:gap-8">
             <Logo size="small" />
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
+            <div className="hidden lg:flex items-center space-x-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   href={link.to}
                   className={cn(
-                    "px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200",
+                    "px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 shrink-0",
                     isActive(link.to)
-                      ? "bg-accent/10 text-accent"
+                      ? "bg-accent/10 text-accent font-semibold"
                       : "text-muted hover:text-fg hover:bg-surface-light dark:hover:bg-surface-dark"
                   )}
                 >
@@ -102,7 +102,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-2 lg:space-x-4">
             {/* Language Selector Dropdown */}
             <div className="relative" ref={langRef}>
               <button
@@ -155,16 +155,14 @@ export default function Navbar() {
                   </Link>
                 )}
                 <NotificationBell />
-                <TextureButton
-                  variant="icon"
-                  size="icon"
+                <button
                   onClick={toggleTheme}
-                  className="w-9 h-9 flex items-center justify-center p-0"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-light dark:border-border-dark bg-surface-light/50 dark:bg-surface-dark/50 hover:bg-surface-light dark:hover:bg-surface-dark text-muted hover:text-fg transition-all shrink-0"
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                </TextureButton>
+                </button>
                 
-                <div className="h-4 w-[1px] bg-border-light dark:bg-border-dark mx-1" />
+                <div className="h-5 w-[1px] bg-border-light dark:bg-border-dark mx-2 shrink-0" />
                 
                 <Link
                   href={`/${locale}/user/${user.id}`}
@@ -183,15 +181,13 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <TextureButton
-                  variant="icon"
-                  size="icon"
+                <button
                   onClick={toggleTheme}
-                  className="w-9 h-9 flex items-center justify-center p-0"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-light dark:border-border-dark bg-surface-light/50 dark:bg-surface-dark/50 hover:bg-surface-light dark:hover:bg-surface-dark text-muted hover:text-fg transition-all shrink-0"
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                </TextureButton>
-                <TextureButton asChild variant="minimal" className="!rounded-full px-6 py-2 ml-1">
+                </button>
+                <TextureButton asChild variant="minimal" className="!rounded-full px-6 py-2 ml-1 shrink-0">
                   <Link href={`/${locale}/login`}>
                     {t.nav.login}
                   </Link>
@@ -205,8 +201,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             {/* Mobile Lang Button */}
             <div className="relative" ref={langRef}>
               <button
@@ -268,7 +263,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark overflow-hidden"
+            className="lg:hidden border-t border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark overflow-hidden"
           >
             <div className="px-4 pt-2 pb-6 space-y-1">
               {navLinks.map((link) => (

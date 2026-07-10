@@ -26,6 +26,7 @@ import EmptyState from '@/components/EmptyState';
 import { cn } from '@/lib/utils';
 import { useInView } from 'react-intersection-observer';
 import { TextureCard, TextureSeparator } from '@/components/ui/texture-card';
+import { TextureSkeleton } from '@/components/ui/skeleton';
 import { TextureButton } from '@/components/ui/texture-button';
 const LOAD_TYPES: Record<string, string> = {
   general: 'General Cargo',
@@ -229,7 +230,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            <div className="flex-1 relative group">
+            <TextureCard className="flex-1 relative group !rounded-2xl bg-surface-light dark:bg-surface-dark border-transparent">
               <Search
                 size={18}
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-accent transition-colors"
@@ -242,7 +243,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
                   setPage(0);
                 }}
                 placeholder="Search load title, city, or country..."
-                className="w-full pl-12 pr-12 py-3.5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark focus:border-accent/40 focus:ring-4 focus:ring-accent/5 outline-none transition-all font-medium text-fg"
+                className="w-full pl-12 pr-12 py-3.5 rounded-2xl bg-transparent border-none focus:outline-none transition-all font-medium text-fg"
               />
               {searchQuery && (
                 <button
@@ -252,7 +253,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
                   <X size={18} />
                 </button>
               )}
-            </div>
+            </TextureCard>
           </div>
         </div>
       </div>
@@ -352,9 +353,10 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
 
       <main className="max-w-7xl mx-auto px-4 py-8">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-32 space-y-4">
-            <div className="w-12 h-12 border-4 border-accent/20 border-t-accent rounded-full animate-spin" />
-            <p className="text-sm font-bold text-muted animate-pulse">Loading loads...</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <TextureSkeleton key={i} className="h-40 w-full" />
+            ))}
           </div>
         ) : loads.length === 0 ? (
           <EmptyState
@@ -378,7 +380,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
               >
                 <Link
                   href={`/${locale}/marketplace/${load.id}`}
-                  className="group block rounded-[24px] hover:scale-[1.01] transition-transform duration-300 relative overflow-hidden"
+                  className="group block rounded-3xl hover:scale-[1.02] hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/10 transition-all duration-300 relative overflow-hidden"
                 >
                   <TextureCard className="h-full border-transparent bg-white/50 dark:bg-black/50">
                     <div className="flex items-center justify-between px-6 pt-5 pb-3">

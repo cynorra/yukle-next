@@ -238,7 +238,7 @@ export default async function HomePage({ params }: PageProps) {
         <ScrollReveal>
           <div className="max-w-5xl mx-auto relative group">
             <div className="absolute inset-0 bg-accent rounded-[3rem] blur-3xl opacity-10 group-hover:opacity-20 transition-opacity" />
-            <TextureCard className="relative p-12 sm:p-20 rounded-[3rem] text-center space-y-8 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-xl border-t-white/30 dark:border-t-white/5">
+            <div className="relative p-12 sm:p-20 rounded-[3rem] text-center space-y-8 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-xl border border-border-light dark:border-border-dark shadow-2xl">
               <h2 className="text-3xl sm:text-5xl font-black text-fg leading-tight max-w-2xl mx-auto">
                 {t.home.ctaTitle}
               </h2>
@@ -257,7 +257,7 @@ export default async function HomePage({ params }: PageProps) {
                   </Link>
                 </TextureButton>
               </div>
-            </TextureCard>
+            </div>
           </div>
         </ScrollReveal>
       </section>
