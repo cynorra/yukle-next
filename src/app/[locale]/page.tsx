@@ -183,15 +183,15 @@ export default async function HomePage({ params }: PageProps) {
               { value: t.home.stat3Val, label: t.home.stat3Label, icon: Star, color: 'text-yellow-500' },
             ].map((stat, idx) => (
               <ScrollReveal key={idx} delay={idx * 0.1}>
-                <TextureCard className="flex flex-col items-center text-center group p-8 bg-white/40 dark:bg-black/20 hover:-translate-y-2 transition-all duration-300">
-                  <div className="w-16 h-16 rounded-2xl bg-surface-light dark:bg-surface-dark shadow-inner flex items-center justify-center mb-6 border border-border-light dark:border-border-dark group-hover:scale-110 transition-transform">
+                <div className="flex flex-col items-center text-center group p-8 rounded-[2rem] bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-xl border border-border-light dark:border-border-dark shadow-xl hover:-translate-y-2 transition-all duration-300">
+                  <div className="w-16 h-16 rounded-2xl bg-white dark:bg-black shadow-inner flex items-center justify-center mb-6 border border-border-light dark:border-border-dark group-hover:scale-110 transition-transform">
                     <stat.icon size={32} className={stat.color} />
                   </div>
                   <div className="text-4xl font-black text-fg mb-3">{stat.value}</div>
                   <div className="text-sm font-bold text-muted uppercase tracking-widest">
                     {stat.label}
                   </div>
-                </TextureCard>
+                </div>
               </ScrollReveal>
             ))}
           </div>
@@ -246,13 +246,13 @@ export default async function HomePage({ params }: PageProps) {
                 {t.home.ctaDesc}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <TextureButton asChild variant="accent" className="w-full sm:w-auto !rounded-2xl px-12 py-5 transition-transform hover:scale-105 active:scale-95">
-                  <Link href={`/${locale}/register`}>
+                <TextureButton asChild variant="accent" className="w-full sm:w-auto !rounded-2xl transition-transform hover:scale-105 active:scale-95">
+                  <Link href={`/${locale}/register`} className="px-10 py-4 text-base sm:text-lg font-bold tracking-wide w-full h-full flex items-center justify-center">
                     {t.home.ctaJoin}
                   </Link>
                 </TextureButton>
-                <TextureButton asChild variant="secondary" className="w-full sm:w-auto !rounded-2xl px-12 py-5 transition-transform hover:scale-105 active:scale-95">
-                  <Link href={`/${locale}/marketplace`}>
+                <TextureButton asChild variant="secondary" className="w-full sm:w-auto !rounded-2xl transition-transform hover:scale-105 active:scale-95">
+                  <Link href={`/${locale}/marketplace`} className="px-10 py-4 text-base sm:text-lg font-bold tracking-wide w-full h-full flex items-center justify-center">
                     {t.home.ctaReview}
                   </Link>
                 </TextureButton>
