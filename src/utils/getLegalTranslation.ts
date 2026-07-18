@@ -11,3 +11,10 @@ const map: Record<string, typeof en> = { en, tr, es, pt, fr, it, ja };
 export function getLegalTranslation(locale: string): typeof en {
   return map[locale] ?? en;
 }
+
+// Locales without a real translation silently fall back to English above.
+// Search-facing code (canonical URLs) uses this to avoid presenting the
+// English fallback as if it were unique per-locale content.
+export function hasLegalTranslation(locale: string): boolean {
+  return locale in map;
+}
