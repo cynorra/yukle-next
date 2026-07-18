@@ -23,7 +23,14 @@ const nextConfig = {
     ];
   },
   async redirects() {
-    return [];
+    return [
+      {
+        // Legacy pre-rebrand page (Turkish-only, dead CTAs, broken canonical) — retire in favor of marketplace.
+        source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl)/load',
+        destination: '/:locale/marketplace',
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [

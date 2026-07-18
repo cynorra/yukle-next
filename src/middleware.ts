@@ -12,14 +12,21 @@ const SUPPORTED_LOCALES = [
 
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
 
+// Known search/AI crawler user-agents — never rate-limit these, or deep crawls
+// (47 locales × static pages + listings) will trip the limit and get 429'd,
+// which shows up in Search Console as crawl errors and can suppress indexing.
+const CRAWLER_UA_PATTERN = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|duckduck|applebot|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot|discordbot|pinterest|semrush|ahrefs|gptbot|chatgpt-user|claudebot|claude-web|anthropic-ai|perplexitybot|amazonbot|bytespider|ccbot|diffbot|petalbot|mojeekbot|seznambot|coccocbot/i;
+
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   // Basic Rate Limiting
   const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+  const userAgent = request.headers.get('user-agent') || '';
+  const isCrawler = CRAWLER_UA_PATTERN.test(userAgent);
   const now = Date.now();
-  
-  if (ip !== 'unknown') {
+
+  if (ip !== 'unknown' && !isCrawler) {
     let record = rateLimitMap.get(ip);
     if (!record) {
       record = { count: 1, lastReset: now };

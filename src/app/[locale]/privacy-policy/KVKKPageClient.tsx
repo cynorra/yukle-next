@@ -23,24 +23,24 @@ export function KVKKPageClient() {
           <div className="flex items-start gap-3">
             <AlertTriangle size={20} className="text-red-400 shrink-0 mt-0.5" />
             <p className="text-sm text-red-300 leading-relaxed">
-              YükLe yalnızca bir ilan platformudur. Platform, yük sahipleri ve nakliyeciler arasında hiçbir aracılık, sözleşme veya ticari ilişki kurmaz. Taşıma, ödeme ve hasar yükümlülükleri doğrudan ilan sahibi ve nakliyeci arasındadır. Platform, bu yükümlülüklerden doğan hiçbir sorumluluk kabul etmez.
+              Loadly yalnızca bir ilan platformudur. Platform, yük sahipleri ve nakliyeciler arasında hiçbir aracılık, sözleşme veya ticari ilişki kurmaz. Taşıma, ödeme ve hasar yükümlülükleri doğrudan ilan sahibi ve nakliyeci arasındadır. Platform, bu yükümlülüklerden doğan hiçbir sorumluluk kabul etmez.
             </p>
           </div>
         </div>
 
         {/* Section 1: Veri Sorumlusu */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>1. Veri Sorumlusu</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, kişisel verileriniz veri sorumlusu sıfatıyla YükLe tarafından aşağıda açıklanan kapsamda işlenebilecektir. Veri sorumlusu olarak YükLe, kişisel verilerinizin hukuka uygun, güvenli ve şeffaf bir şekilde işlenmesini sağlamak için gerekli tüm teknik ve idari tedbirleri almaktadır.
+            6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, kişisel verileriniz veri sorumlusu sıfatıyla Loadly tarafından aşağıda açıklanan kapsamda işlenebilecektir. Veri sorumlusu olarak Loadly, kişisel verilerinizin hukuka uygun, güvenli ve şeffaf bir şekilde işlenmesini sağlamak için gerekli tüm teknik ve idari tedbirleri almaktadır.
           </p>
         </div>
 
         {/* Section 2: İşlenen Kişisel Veriler */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>2. İşlenen Kişisel Veriler</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
-            YükLe platformunda aşağıdaki kişisel verileriniz işlenmektedir:
+            Loadly platformunda aşağıdaki kişisel verileriniz işlenmektedir:
           </p>
           <ul className={`list-disc list-inside space-y-2 text-sm ${t.sub}`}>
             <li>Kimlik bilgileri: Ad soyad</li>
@@ -50,12 +50,12 @@ export function KVKKPageClient() {
             <li>Teknik veriler: IP adresi, tarayıcı bilgileri, cihaz bilgileri</li>
           </ul>
           <p className={`text-sm ${t.muted} mt-3 italic`}>
-            YükLe, T.C. kimlik numarası veya vergi numarası gibi özel nitelikli kişisel verileri işlememektedir.
+            Loadly, T.C. kimlik numarası veya vergi numarası gibi özel nitelikli kişisel verileri işlememektedir.
           </p>
         </div>
 
         {/* Section 3: İşlenme Amaçları */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>3. İşlenme Amaçları</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
             Kişisel verileriniz aşağıdaki amaçlarla işlenmektedir:
@@ -71,7 +71,7 @@ export function KVKKPageClient() {
         </div>
 
         {/* Section 4: Aktarılması */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>4. Kişisel Verilerin Aktarılması</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
             Kişisel verileriniz, aşağıdaki taraflara ve amaçlarla aktarılabilmektedir:
@@ -81,20 +81,20 @@ export function KVKKPageClient() {
             <li>Hukuki danışmanlara: Hukuki uyuşmazlıkların çözümü ve yasal savunma amacıyla avukatlar ve hukuk bürolarına</li>
           </ul>
           <p className={`text-sm ${t.muted} mt-3 italic`}>
-            YükLe, kişisel verilerinizi üçüncü taraf ticari kuruluşlara pazarlama amaçlı olarak aktarmamaktadır.
+            Loadly, kişisel verilerinizi üçüncü taraf ticari kuruluşlara pazarlama amaçlı olarak aktarmamaktadır.
           </p>
         </div>
 
         {/* Section 5: Toplanma Yöntemi */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>5. Kişisel Verilerin Toplanma Yöntemi</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            Kişisel verileriniz, YükLe platformuna üye kaydı sırasında ve platform kullanımı esnasında sizin tarafınızdan doğrudan elektronik ortamda (web sitesi ve mobil uygulama) paylaşılan bilgiler aracılığıyla toplanmaktadır. Ayrıca, platformun teknik altyapısı üzerinden otomatik olarak oluşturulan veriler (IP adresi, log kayıtları vb.) de işlenmektedir.
+            Kişisel verileriniz, Loadly platformuna üye kaydı sırasında ve platform kullanımı esnasında sizin tarafınızdan doğrudan elektronik ortamda (web sitesi ve mobil uygulama) paylaşılan bilgiler aracılığıyla toplanmaktadır. Ayrıca, platformun teknik altyapısı üzerinden otomatik olarak oluşturulan veriler (IP adresi, log kayıtları vb.) de işlenmektedir.
           </p>
         </div>
 
         {/* Section 6: Haklar */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>6. KVKK Kapsamındaki Haklarınız</h2>
           <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
             KVKK'nın 11. maddesi uyarınca aşağıdaki haklara sahipsiniz:
@@ -113,15 +113,15 @@ export function KVKKPageClient() {
         </div>
 
         {/* Section 7: Başvuru Yöntemi */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>7. Başvuru Yöntemi</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            Yukarıda belirtilen haklarınızı kullanmak için YükLe'ye başvuruda bulunabilirsiniz. Başvurularınızı <a href="mailto:kvkk@loadlyapp.com" className="text-[#F5A623] hover:underline">kvkk@loadlyapp.com</a> e-posta adresi üzerinden veya YükLe resmi iletişim kanalları aracılığıyla iletebilirsiniz. Başvurularınız, KVKK'nın 13. maddesi uyarınca en kısa sürede ve en geç 30 gün içerisinde ücretsiz olarak sonuçlandırılacaktır. İşlemin maliyet gerektirmesi halinde, KVKK'nın 13. maddesinde belirtilen ücret tarifesi uygulanacaktır.
+            Yukarıda belirtilen haklarınızı kullanmak için Loadly'ye başvuruda bulunabilirsiniz. Başvurularınızı <a href="mailto:kvkk@loadlyapp.com" className="text-[#F5A623] hover:underline">kvkk@loadlyapp.com</a> e-posta adresi üzerinden veya Loadly resmi iletişim kanalları aracılığıyla iletebilirsiniz. Başvurularınız, KVKK'nın 13. maddesi uyarınca en kısa sürede ve en geç 30 gün içerisinde ücretsiz olarak sonuçlandırılacaktır. İşlemin maliyet gerektirmesi halinde, KVKK'nın 13. maddesinde belirtilen ücret tarifesi uygulanacaktır.
           </p>
         </div>
 
         {/* Section 8: Dış Kaynaklı İlanlar ve Veri Silme Talepleri */}
-        <div className="p-6 rounded-2xl ${t.card} mb-4">
+        <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>8. Dış Kaynaklı İlanlar ve Veri Silme Talepleri</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
             Sitemizde yer alan dış kaynaklı ilanlar, ilgili platformlarda sahipleri tarafından alenileştirilmiş ticari iletişim bilgilerini içermektedir. İlan sahipleri, verilerinin kaldırılmasını veya güncellenmesini istemeleri halinde <a href="mailto:info@loadlyapp.com" className="text-[#F5A623] hover:underline">info@loadlyapp.com</a> adresi üzerinden bizimle iletişime geçebilirler. Talepler derhal işleme alınmaktadır.
