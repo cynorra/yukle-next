@@ -728,6 +728,38 @@ async function callGeminiWithRetry(payload, maxRetries = 3) {
 const BANK_BATCH_SIZE = 30;
 const BANK_REFILL_THRESHOLD = 8;
 
+// ─── FALLBACK LIBRARY USAGE CAP ──────────────────────────────────────────────
+// The 3 hand-written canned articles exist only as a last resort when Gemini
+// fails. Publishing the same canned article (x46 locales) too many times is
+// exactly the kind of duplicate/low-value content AdSense flags, so cap how
+// many times each one can ever be republished; once all 3 are capped, that
+// generation pass is skipped entirely instead of adding more duplicates.
+const MAX_FALLBACK_USES_PER_ARTICLE = 5;
+
+async function pickFallbackArticle() {
+  const counts = await Promise.all(fallbackArticles.map(async (article) => {
+    const { count } = await supabase
+      .from('blog_posts')
+      .select('*', { count: 'exact', head: true })
+      .eq('language', 'en')
+      .ilike('title', article.title);
+    return count || 0;
+  }));
+
+  let bestIndex = 0;
+  for (let i = 1; i < counts.length; i++) {
+    if (counts[i] < counts[bestIndex]) bestIndex = i;
+  }
+
+  if (counts[bestIndex] >= MAX_FALLBACK_USES_PER_ARTICLE) {
+    console.warn(`[Fallback] All ${fallbackArticles.length} canned articles have reached the ${MAX_FALLBACK_USES_PER_ARTICLE}-use cap. Skipping this pass instead of publishing a duplicate.`);
+    return null;
+  }
+
+  console.log(`[Fallback] Using canned article "${fallbackArticles[bestIndex].title.slice(0, 50)}..." (used ${counts[bestIndex]}/${MAX_FALLBACK_USES_PER_ARTICLE} times so far)`);
+  return fallbackArticles[bestIndex];
+}
+
 async function getBankCount() {
   const { count } = await supabase
     .from('topic_bank')
@@ -1120,7 +1152,11 @@ async function runBlogGenerator() {
       baseLanguage = 'en';
     } catch (e) {
       console.error('Failed to generate AI article. Falling back to curated library...', e.message);
-      const local = fallbackArticles[Math.floor(Math.random() * fallbackArticles.length)];
+      const local = await pickFallbackArticle();
+      if (!local) {
+        console.log('[Skip] No fresh fallback article available and Gemini failed — skipping this generation pass.');
+        return null;
+      }
       basePost = {
         title: local.title,
         slug: local.slug,
@@ -1133,7 +1169,11 @@ async function runBlogGenerator() {
     }
   } else {
     console.log('Library Mode: Selecting article from curated fallback library...');
-    const local = fallbackArticles[Math.floor(Math.random() * fallbackArticles.length)];
+    const local = await pickFallbackArticle();
+    if (!local) {
+      console.log('[Skip] No fresh fallback article available (no Gemini key) — skipping this generation pass.');
+      return null;
+    }
     basePost = {
       title: local.title,
       slug: local.slug,
@@ -1267,19 +1307,23 @@ if (require.main === module) {
     }
 
     console.log(`Running ${ARTICLES_PER_RUN} article generation pass(es) this run.`);
-    let succeeded = 0;
+    let published = 0;
+    let skipped = 0;
+    let failed = 0;
     for (let i = 0; i < ARTICLES_PER_RUN; i++) {
       console.log(`\n=== Article ${i + 1}/${ARTICLES_PER_RUN} ===`);
       try {
-        await runBlogGenerator();
-        succeeded++;
+        const result = await runBlogGenerator();
+        if (result === null) skipped++;
+        else published++;
       } catch (e) {
+        failed++;
         console.error(`Article ${i + 1}/${ARTICLES_PER_RUN} failed, continuing with the rest of this run:`, e.message);
       }
       if (i < ARTICLES_PER_RUN - 1) await sleep(15000);
     }
-    console.log(`\nRun complete: ${succeeded}/${ARTICLES_PER_RUN} article(s) published.`);
-    process.exit(succeeded > 0 ? 0 : 1);
+    console.log(`\nRun complete: ${published} published, ${skipped} skipped (fallback cap), ${failed} failed, out of ${ARTICLES_PER_RUN}.`);
+    process.exit(failed === ARTICLES_PER_RUN ? 1 : 0);
   })().catch(e => {
     console.error('Fatal Blog Generator Error:', e);
     process.exit(1);

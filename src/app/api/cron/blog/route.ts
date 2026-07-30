@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     // @ts-ignore
     const { runBlogGenerator } = require('../../../../../scripts/blog-generator');
     const posts = await runBlogGenerator();
-    const allPosts = Array.isArray(posts) ? posts : [posts];
+    const allPosts = (Array.isArray(posts) ? posts : [posts]).filter(Boolean);
     const mainPost = allPosts[0];
 
     // Submit all published blog URLs to IndexNow for instant indexing
