@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import '../globals.css';
 import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
 import CookieConsent from '@/components/CookieConsent';
+import AdSenseScript from '@/components/AdSenseScript';
 import { TRANSLATIONS, RTL_LOCALES } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
 
@@ -189,12 +189,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
         />
       </head>
       <body className="bg-background-light dark:bg-background-dark transition-colors duration-500">
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4674211063760769"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        <AdSenseScript />
 
         <Providers>
           <Navbar />
