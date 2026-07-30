@@ -595,11 +595,11 @@ async function getValidatedCoverImage(topicCluster = '') {
   return candidatePool[0];
 }
 
-function translateText(text, targetLang) {
+function translateTextOnce(text, targetLang) {
   return new Promise((resolve, reject) => {
     if (!text || text.trim() === '') { resolve(''); return; }
     const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
-    https.get(url, (res) => {
+    const req = https.get(url, (res) => {
       let data = '';
       res.on('data', (chunk) => data += chunk);
       res.on('end', () => {
@@ -613,7 +613,19 @@ function translateText(text, targetLang) {
         } catch (e) { reject(e); }
       });
     }).on('error', reject);
+    req.setTimeout(15000, () => { req.destroy(); reject(new Error('Google Translate request timed out')); });
   });
+}
+
+async function translateText(text, targetLang, retries = 2) {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await translateTextOnce(text, targetLang);
+    } catch (e) {
+      if (attempt >= retries) throw e;
+      await sleep(1500 * (attempt + 1));
+    }
+  }
 }
 
 async function translateHtml(html, targetLang) {
@@ -1237,6 +1249,11 @@ async function runBlogGenerator() {
   return insertedPosts;
 }
 
+// Number of articles to generate per workflow run. Each article already fans
+// out to ~46 translated locales, so keep this modest — raise gradually while
+// watching Actions logs for 429s / translate failures before going higher.
+const ARTICLES_PER_RUN = Math.max(1, parseInt(process.env.ARTICLES_PER_RUN || '1', 10));
+
 // Execute if run directly
 if (require.main === module) {
   (async () => {
@@ -1248,8 +1265,21 @@ if (require.main === module) {
       });
       if (authError) console.error('Login failed:', authError.message);
     }
-    await runBlogGenerator();
-    process.exit(0);
+
+    console.log(`Running ${ARTICLES_PER_RUN} article generation pass(es) this run.`);
+    let succeeded = 0;
+    for (let i = 0; i < ARTICLES_PER_RUN; i++) {
+      console.log(`\n=== Article ${i + 1}/${ARTICLES_PER_RUN} ===`);
+      try {
+        await runBlogGenerator();
+        succeeded++;
+      } catch (e) {
+        console.error(`Article ${i + 1}/${ARTICLES_PER_RUN} failed, continuing with the rest of this run:`, e.message);
+      }
+      if (i < ARTICLES_PER_RUN - 1) await sleep(15000);
+    }
+    console.log(`\nRun complete: ${succeeded}/${ARTICLES_PER_RUN} article(s) published.`);
+    process.exit(succeeded > 0 ? 0 : 1);
   })().catch(e => {
     console.error('Fatal Blog Generator Error:', e);
     process.exit(1);
