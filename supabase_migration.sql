@@ -164,3 +164,12 @@ CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts (slug);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_language ON blog_posts (language);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts (published);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_created_at ON blog_posts (created_at DESC);
+
+-- 8. Tracks which Pexels photo IDs have already been used as a blog cover image.
+-- Replaces the old approach of scanning blog_posts.cover_image for duplicates,
+-- which silently capped at Supabase's default 1000-row select limit once the
+-- table grew past that and made duplicate detection a no-op at scale.
+CREATE TABLE IF NOT EXISTS used_blog_images (
+  photo_id TEXT PRIMARY KEY,
+  used_at TIMESTAMPTZ DEFAULT NOW()
+);

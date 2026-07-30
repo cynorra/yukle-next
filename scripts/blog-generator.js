@@ -504,95 +504,123 @@ const CLUSTER_IMAGE_KEYWORDS = {
 
 const FALLBACK_IMAGE_KEYWORDS = ['truck,highway', 'freight,logistics', 'cargo,shipping', 'warehouse,forklift', 'supply,chain'];
 
-function checkImageUrl(url) {
+const PEXELS_API_KEY = process.env.PEXELS_API_KEY;
+const BLOG_COVERS_BUCKET = 'blog-covers';
+
+function pexelsSearch(query, perPage = 15) {
   return new Promise((resolve) => {
-    try {
-      const parsedUrl = new URL(url);
-      const req = https.request({
-        method: 'HEAD',
-        hostname: parsedUrl.hostname,
-        path: parsedUrl.pathname + parsedUrl.search,
-        timeout: 5000
-      }, (res) => {
-        resolve(res.statusCode >= 200 && res.statusCode < 400);
+    if (!PEXELS_API_KEY) { resolve([]); return; }
+    const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${perPage}&orientation=landscape`;
+    const req = https.get(url, { headers: { Authorization: PEXELS_API_KEY } }, (res) => {
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          resolve(Array.isArray(parsed.photos) ? parsed.photos : []);
+        } catch {
+          resolve([]);
+        }
       });
-      req.on('error', () => resolve(false));
-      req.on('timeout', () => { req.destroy(); resolve(false); });
-      req.end();
-    } catch {
-      resolve(false);
-    }
+    });
+    req.on('error', () => resolve([]));
+    req.setTimeout(10000, () => { req.destroy(); resolve([]); });
   });
 }
 
-async function getUsedCoverImages() {
+function downloadImageBuffer(url, redirectsLeft = 3) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (res) => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && redirectsLeft > 0) {
+        res.resume();
+        downloadImageBuffer(new URL(res.headers.location, url).href, redirectsLeft - 1).then(resolve, reject);
+        return;
+      }
+      if (res.statusCode !== 200) {
+        res.resume();
+        reject(new Error(`Download failed with status ${res.statusCode}`));
+        return;
+      }
+      const chunks = [];
+      res.on('data', (chunk) => chunks.push(chunk));
+      res.on('end', () => resolve(Buffer.concat(chunks)));
+      res.on('error', reject);
+    }).on('error', reject);
+  });
+}
+
+// Batched "already used" lookup against the dedicated tracking table (see
+// supabase_migration.sql #8) instead of scanning blog_posts.cover_image,
+// which silently capped at Supabase's 1000-row default once the table grew
+// past that and made duplicate detection a no-op at scale.
+async function getUsedPhotoIds(photoIds) {
+  if (photoIds.length === 0) return new Set();
   try {
     const { data, error } = await supabase
-      .from('blog_posts')
-      .select('cover_image')
-      .not('cover_image', 'is', null);
+      .from('used_blog_images')
+      .select('photo_id')
+      .in('photo_id', photoIds.map(String));
     if (error || !data) return new Set();
-    return new Set(data.map(p => p.cover_image));
+    return new Set(data.map((r) => r.photo_id));
   } catch (err) {
-    console.warn('getUsedCoverImages error:', err.message);
+    console.warn('[Image] getUsedPhotoIds error:', err.message);
     return new Set();
   }
 }
 
-async function getValidatedCoverImage(topicCluster = '') {
-  const usedImages = await getUsedCoverImages();
-
-  // Pick cluster-specific keywords, fall back to generic
-  const clusterKeywords = CLUSTER_IMAGE_KEYWORDS[topicCluster] || FALLBACK_IMAGE_KEYWORDS;
-
+async function markPhotoIdUsed(photoId) {
   try {
-    for (let attempts = 0; attempts < 12; attempts++) {
-      // Cycle through cluster keywords first, then fall back to generic
-      const keywordPool = attempts < clusterKeywords.length * 2
-        ? clusterKeywords
-        : FALLBACK_IMAGE_KEYWORDS;
-      const keyword = keywordPool[attempts % keywordPool.length];
-      const lockId = Math.floor(Math.random() * 1000000);
-      const loremUrl = `https://loremflickr.com/1200/630/${keyword}?lock=${lockId}`;
-
-      const resolvedUrl = await new Promise((resolve) => {
-        const req = https.get(loremUrl, (res) => {
-          if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-            resolve(res.headers.location);
-          } else if (res.statusCode === 200) {
-            resolve(loremUrl);
-          } else {
-            resolve(null);
-          }
-        });
-        req.on('error', () => resolve(null));
-        req.setTimeout(8000, () => { req.destroy(); resolve(null); });
-      });
-
-      if (resolvedUrl && !usedImages.has(resolvedUrl)) {
-        console.log(`[Image] Cluster "${topicCluster || 'generic'}" → keyword "${keyword}" → ${resolvedUrl}`);
-        return resolvedUrl;
-      } else {
-        console.log(`[Image] Already used or invalid (attempt ${attempts + 1}/12), retrying...`);
-      }
-    }
+    await supabase.from('used_blog_images').insert({ photo_id: String(photoId) });
   } catch (err) {
-    console.warn('[Image] Dynamic loop failed, falling back to static pool:', err.message);
+    console.warn('[Image] markPhotoIdUsed error:', err.message);
+  }
+}
+
+async function uploadCoverImage(photoId, buffer) {
+  const filePath = `pexels-${photoId}.jpg`;
+  const { error } = await supabase.storage
+    .from(BLOG_COVERS_BUCKET)
+    .upload(filePath, buffer, { contentType: 'image/jpeg', upsert: true });
+  if (error) throw error;
+  const { data } = supabase.storage.from(BLOG_COVERS_BUCKET).getPublicUrl(filePath);
+  return data.publicUrl;
+}
+
+// Picks a topic-relevant, previously-unused stock photo via the Pexels API,
+// then downloads and re-hosts it in our own Supabase Storage bucket so it
+// can never rot the way hotlinked loremflickr URLs did (their resize cache
+// evicts within hours/days, silently breaking old posts).
+async function getUniqueCoverImage(topicCluster = '') {
+  const clusterKeywords = CLUSTER_IMAGE_KEYWORDS[topicCluster] || FALLBACK_IMAGE_KEYWORDS;
+  const queries = [...clusterKeywords, ...FALLBACK_IMAGE_KEYWORDS].map((k) => k.replace(/,/g, ' '));
+
+  for (const query of queries) {
+    try {
+      const photos = await pexelsSearch(query, 15);
+      if (photos.length === 0) continue;
+      const usedIds = await getUsedPhotoIds(photos.map((p) => p.id));
+
+      for (const photo of photos) {
+        if (usedIds.has(String(photo.id))) continue;
+        try {
+          const srcUrl = photo.src?.large2x || photo.src?.large || photo.src?.original;
+          const buffer = await downloadImageBuffer(srcUrl);
+          const publicUrl = await uploadCoverImage(photo.id, buffer);
+          await markPhotoIdUsed(photo.id);
+          console.log(`[Image] Cluster "${topicCluster || 'generic'}" → query "${query}" → pexels#${photo.id} → ${publicUrl}`);
+          return publicUrl;
+        } catch (err) {
+          console.warn(`[Image] Failed to download/upload pexels#${photo.id}:`, err.message);
+        }
+      }
+    } catch (err) {
+      console.warn(`[Image] Pexels search failed for "${query}":`, err.message);
+    }
   }
 
-  // Fallback to static pool
-  const unusedImages = coverImages.filter(url => !usedImages.has(url));
-  const candidatePool = unusedImages.length > 0 ? unusedImages : coverImages;
-  if (unusedImages.length === 0) {
-    console.warn('[Image Dedup] All static images used at least once. Recycling from full pool.');
-  }
-  const shuffled = [...candidatePool].sort(() => 0.5 - Math.random());
-  for (let i = 0; i < Math.min(5, shuffled.length); i++) {
-    const imgUrl = shuffled[i];
-    const isValid = await checkImageUrl(imgUrl);
-    if (isValid) return imgUrl;
-  }
-  return candidatePool[0];
+  console.warn('[Image] All Pexels queries exhausted or failed — falling back to static pool.');
+  const shuffled = [...coverImages].sort(() => 0.5 - Math.random());
+  return shuffled[0];
 }
 
 function translateTextOnce(text, targetLang) {
@@ -1240,7 +1268,7 @@ async function runBlogGenerator() {
   await runWithConcurrency(tasks, 5);
 
   // 3. Pick and validate unique cover image
-  const coverImage = await getValidatedCoverImage(activeTopicCluster);
+  const coverImage = await getUniqueCoverImage(activeTopicCluster);
 
   // 4. Build bulk insert list
   const postsToInsert = [];
