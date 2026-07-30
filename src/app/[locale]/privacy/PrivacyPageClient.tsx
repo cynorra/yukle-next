@@ -99,6 +99,30 @@ export function PrivacyPageClient({ data }: Props) {
           <p className={`text-sm ${t.sub} leading-relaxed mt-3`}>
             {content.cookiesNote}
           </p>
+
+          {content.cookiesAdTitle && (
+            <div className="mt-5 pt-5 border-t border-border-light dark:border-border-dark">
+              <h3 className={`text-sm font-bold ${t.heading} mb-2`}>{content.cookiesAdTitle}</h3>
+              <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
+                {content.cookiesAdDesc}
+              </p>
+              <p className={`text-sm ${t.sub} leading-relaxed mb-2`}>
+                {content.cookiesAdNote}
+              </p>
+              <ul className={`list-disc list-inside space-y-1.5 text-sm ${t.sub}`}>
+                <li>
+                  <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" className="text-[#F5A623] hover:underline">
+                    Google Ads Settings
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="text-[#F5A623] hover:underline">
+                    Digital Advertising Alliance (aboutads.info)
+                  </a>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* Section 5: Üçüncü Taraflar */}
