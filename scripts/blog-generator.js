@@ -1152,7 +1152,11 @@ async function runBlogGenerator() {
     console.log(`Slug base "${baseSlug.split('-').slice(0, -1).join('-')}" already exists in some languages. New base slug: "${baseSlug}"`);
   }
 
-  // Ensure title uniqueness (case-insensitive)
+  // Ensure title uniqueness (case-insensitive). Note: the unique slug (above)
+  // already guarantees a unique URL/canonical per post, so on a rare title
+  // collision we log it instead of grafting a random number onto the visible
+  // title (that number used to leak into the H1, JSON-LD headline, OG title,
+  // and social share text).
   let baseTitle = basePost.title.trim();
   const { data: titleExists } = await supabase
     .from('blog_posts')
@@ -1160,9 +1164,7 @@ async function runBlogGenerator() {
     .ilike('title', baseTitle)
     .maybeSingle();
   if (titleExists) {
-    const titleSuffix = Math.floor(1000 + Math.random() * 9000);
-    baseTitle = `${baseTitle} ${titleSuffix}`;
-    console.log(`Title duplicate found. Modified to: "${baseTitle}"`);
+    console.warn(`[Dedup] Title already exists, keeping as-is (unique slug will differentiate the URL): "${baseTitle}"`);
   }
   basePost.title = baseTitle;
 

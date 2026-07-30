@@ -272,4 +272,41 @@ async function runFreightFinderScraper({ supabase, shipperId, maxPerRun = 75, pa
   return totalInserted;
 }
 
+// ---------------------------------------------------------------------------
+// Execute if run directly (e.g. from GitHub Actions, alongside scraper.js)
+// ---------------------------------------------------------------------------
+if (require.main === module) {
+  const fs = require('fs');
+  const path = require('path');
+  const { createClient } = require('@supabase/supabase-js');
+
+  const envLocalPath = path.join(__dirname, '..', '.env.local');
+  if (fs.existsSync(envLocalPath)) {
+    fs.readFileSync(envLocalPath, 'utf8').split('\n').forEach(line => {
+      const parts = line.split('=');
+      if (parts.length >= 2) {
+        process.env[parts[0].trim()] = parts.slice(1).join('=').trim();
+      }
+    });
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey  = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const shipperId   = process.env.SCRAPER_SHIPPER_ID || '3c9d15c1-ce40-42c4-b5bc-f2de51a747d5';
+
+  if (!supabaseUrl || !serviceKey) {
+    console.error('Supabase URL or Key is missing from env!');
+    process.exit(1);
+  }
+
+  const supabase = createClient(supabaseUrl, serviceKey);
+
+  runFreightFinderScraper({ supabase, shipperId, maxPerRun: 60, pagesPerCity: 2, verbose: true })
+    .then(() => process.exit(0))
+    .catch(e => {
+      console.error('Fatal Error running FreightFinder scraper:', e);
+      process.exit(1);
+    });
+}
+
 module.exports = { runFreightFinderScraper };
