@@ -8,8 +8,7 @@ import type { Locale } from '@/utils/translations';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 300;
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -50,17 +49,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const BLOG_LIST_COLUMNS = 'id, title, slug, excerpt, cover_image, author_id, published, language, created_at, updated_at, author:profiles(full_name)';
+const BLOG_LIST_LIMIT = 60;
+
 async function fetchBlogPosts(locale: string) {
   const supabase = createPublicClient();
   const { data: posts, error } = await supabase
     .from('blog_posts')
-    .select('*, author:profiles(full_name)')
+    .select(BLOG_LIST_COLUMNS)
     .eq('published', true)
     .eq('language', locale)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .limit(BLOG_LIST_LIMIT);
 
   if (error) console.error(`[blog] Supabase error (${locale}):`, error);
-  console.log(`[blog] Fetched ${posts?.length} posts for locale ${locale}`);
   return posts || [];
 }
 
