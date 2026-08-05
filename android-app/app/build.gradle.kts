@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.shimmer)
     implementation(libs.mpandroidchart)
+    implementation(libs.androidx.browser)
     
     // Test
     testImplementation(libs.junit)
