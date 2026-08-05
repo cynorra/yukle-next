@@ -9,18 +9,22 @@ export const revalidate = 86400; // ISR: regenerate every 24 hours
 export async function GET() {
   const supabase = createPublicClient();
 
-  const { data: loads } = await supabase
+  const { data: loads, error } = await supabase
     .from('loads')
-    .select('id, created_at, updated_at')
+    .select('id, created_at')
     .eq('status', 'active')
     .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('[sitemap-loads.xml] Supabase query failed:', error);
+  }
 
   let xml = URLSET_HEADER;
 
   if (loads) {
     for (const load of loads) {
-      const lastMod = (load.updated_at || load.created_at)
-        ? new Date(load.updated_at || load.created_at).toISOString().split('T')[0]
+      const lastMod = load.created_at
+        ? new Date(load.created_at).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0];
 
       // Sadece ana dili (en) sitemap'e ekliyoruz. 
