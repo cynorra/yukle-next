@@ -1028,8 +1028,19 @@ Use ONLY these HTML tags. No markdown, no code fences, no html/head/body wrapper
 <h2> main sections (6-8 total) | <h3> subsections | <p> paragraphs (3-5 sentences)
 <ul><li> bullet lists | <ol><li> numbered steps | <strong> key data/terms
 <blockquote> cited statistics and expert quotes | <table><tr><th><td> for comparisons
+<a href="..."> internal links — see INTERNAL LINKING below for the only two URLs allowed
 
 MINIMUM ${minWords} words of substantive expert content. No filler. Every sentence earns its place.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INTERNAL LINKING (mandatory — do not skip)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This article is currently published with ZERO links back to the product, so it drives SEO traffic that never converts. Fix this in every article:
+- Include exactly 2 <a> links total, using ONLY these two hrefs (relative, no locale prefix, no domain): <a href="/marketplace"> and <a href="/register">
+- Never use any other href — no other route exists for these links to point to, and no third-party/external links
+- Anchor text must be natural and specific to the topic, never "click here" or "this link" (e.g. <a href="/marketplace">browse live LTL loads near you</a>, not <a href="/marketplace">marketplace</a>)
+- Placement: one <a href="/marketplace"> link woven naturally into a SOLUTION SECTION where a marketplace genuinely solves the problem being discussed; one <a href="/register"> link in the CTA CONCLUSION section
+- These count toward the article but must read as genuinely helpful signposting, not ad copy
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 MANDATORY SECTIONS (in this order)
@@ -1064,7 +1075,7 @@ Minimum 5 Q&A pairs structured for voice search and People Also Ask:
 - Cover: what is X, how to X, how much does X cost, when should I X, what is the difference between X and Y
 
 **8. CTA CONCLUSION** (<h2> with keyword in heading)
-Don't pitch Loadly — show how Loadly solves the specific problem the reader just read about. Write it like a trusted colleague saying "by the way, this tool helped me with exactly that." One clear call to action at the end.
+Don't pitch Loadly — show how Loadly solves the specific problem the reader just read about. Write it like a trusted colleague saying "by the way, this tool helped me with exactly that." End with one <a href="/register"> link as the call to action (see INTERNAL LINKING above for exact rules).
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 QUALITY ANTI-PATTERNS (these will get the article rejected)
