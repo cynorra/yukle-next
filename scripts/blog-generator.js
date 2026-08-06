@@ -709,9 +709,14 @@ function makeGeminiRequest(payload) {
             reject({ statusCode: res.statusCode, message: parsed.error?.message || data, raw: data });
             return;
           }
+          const finishReason = parsed.candidates?.[0]?.finishReason;
+          if (finishReason === 'MAX_TOKENS') {
+            reject(new Error('Gemini hit MAX_TOKENS — response was truncated mid-generation'));
+            return;
+          }
           const textResponse = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
           if (!textResponse) {
-            reject(new Error('Empty response from Gemini API'));
+            reject(new Error(`Empty response from Gemini API (finishReason: ${finishReason || 'unknown'})`));
             return;
           }
           resolve(JSON.parse(textResponse));
@@ -967,7 +972,7 @@ async function generateFreshTopic(recentTopics) {
 }
 
 // Generate the full viral SEO/AEO/GEO blog post using the topic data
-function generateBasePost(topicData) {
+async function generateBasePost(topicData) {
   if (!geminiApiKey) return Promise.reject(new Error('GEMINI_API_KEY is not defined'));
 
   const { topic, audience, primaryKeyword, searchIntent, viralAngle, audienceProfile, formatSpec, topicCluster, contentFormat } = topicData;
@@ -1115,6 +1120,10 @@ Return ONLY valid JSON with no additional text or markdown wrappers.`
     }],
     generationConfig: {
       responseMimeType: 'application/json',
+      // Generous headroom above the ~2500-word ceiling (~3500 tokens) so that
+      // Gemini's internal thinking tokens (which share this budget) can't
+      // starve the actual article content and force a mid-sentence truncation.
+      maxOutputTokens: 32768,
       responseSchema: {
         type: 'OBJECT',
         properties: {
@@ -1130,7 +1139,21 @@ Return ONLY valid JSON with no additional text or markdown wrappers.`
     }
   });
 
-  return callGeminiWithRetry(payload);
+  // Belt-and-suspenders against truncated/thin output slipping through even
+  // after the finishReason/maxOutputTokens fixes above: reject articles that
+  // land well under their required minimum and force a fresh generation.
+  const MIN_WORD_RATIO = 0.7;
+  const minAcceptableWords = Math.floor(minWords * MIN_WORD_RATIO);
+  let lastPost;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    lastPost = await callGeminiWithRetry(payload);
+    const wordCount = (lastPost.content || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount >= minAcceptableWords) {
+      return lastPost;
+    }
+    console.warn(`[Thin Content] Generated article "${lastPost.title}" has only ${wordCount} words (need ${minAcceptableWords}+). ${attempt < 2 ? 'Retrying...' : 'Giving up after 2 attempts.'}`);
+  }
+  throw new Error(`Article generation kept producing thin/truncated content (< ${minAcceptableWords} words) after 2 attempts`);
 }
 
 async function runBlogGenerator() {
