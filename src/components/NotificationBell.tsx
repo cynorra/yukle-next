@@ -222,8 +222,8 @@ export default function NotificationBell() {
                           
                           {n.load_id && (
                             <Link 
-                              href={`/pazar/${n.load_id}`} 
-                              onClick={(e) => e.stopPropagation()}
+                              href={`/${locale}/marketplace/${n.load_id}`} 
+                              onClick={(e) => { e.stopPropagation(); setOpen(false); }}
                               className="text-[10px] font-black text-accent uppercase tracking-wider hover:underline"
                             >
                               Detayı Gör

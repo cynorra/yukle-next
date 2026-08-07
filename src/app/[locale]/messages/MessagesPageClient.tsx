@@ -167,14 +167,14 @@ export function MessagesPageClient() {
               description="Teklifler kabul edildikten sonra burada mesajlaşma listesi görünür."
               action={{
                 label: 'İlanlarıma Git',
-                onClick: () => router.push('/panel'),
+                onClick: () => router.push(`/${locale}/dashboard`),
                 icon: Package
               }}
             />
           ) : (
             <div className="space-y-3">
               {conversations.map((conv) => (
-                <button key={conv.id} onClick={() => router.push(`/mesajlar/${conv.id}`)}
+                <button key={conv.id} onClick={() => router.push(`/${locale}/messages/${conv.id}`)}
                   className={`w-full flex items-center justify-between p-5 rounded-2xl ${t.card} ${t.cardHover} transition-all group text-left`}>
                   <div className="flex items-center gap-4 min-w-0">
                     <div className="w-10 h-10 rounded-full bg-[#F5A623]/10 flex items-center justify-center shrink-0 text-[#F5A623] font-bold">
@@ -225,7 +225,7 @@ export function MessagesPageClient() {
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4 min-w-0">
             <button 
-              onClick={() => router.push('/mesajlar')} 
+              onClick={() => router.push(`/${locale}/messages`)} 
               className={cn(
                 "p-2 rounded-xl transition-all hover:bg-surface-light dark:hover:bg-surface-dark group",
                 t.sub
@@ -237,7 +237,7 @@ export function MessagesPageClient() {
               <div className={cn("text-lg font-black tracking-tight flex items-center gap-2", t.heading)}>
                 {activeConv?.other_user?.full_name ?? 'Kullanıcı'}
                 {otherId && (
-                  <Link href={`/kullanici/${otherId}`} className="shrink-0 p-1 hover:bg-accent/10 rounded-lg transition-colors">
+                  <Link href={`/${locale}/user/${otherId}`} className="shrink-0 p-1 hover:bg-accent/10 rounded-lg transition-colors">
                     <ExternalLink size={14} className={cn("text-muted/60 hover:text-accent transition-colors")} />
                   </Link>
                 )}
@@ -245,7 +245,7 @@ export function MessagesPageClient() {
               <div className={cn("text-xs font-bold flex items-center gap-1.5", t.muted)}>
                 <Package size={12} className="text-accent shrink-0" />
                 {activeConv?.load_id ? (
-                  <Link href={`/pazar/${activeConv.load_id}`} className="hover:text-accent transition-colors truncate">
+                  <Link href={`/${locale}/marketplace/${activeConv.load_id}`} className="hover:text-accent transition-colors truncate">
                     {activeConv?.load?.title_translations?.[locale] || activeConv?.load?.title || `Yük #${activeConv?.load_id?.slice(0, 8)}`}
                   </Link>
                 ) : (activeConv?.load?.title_translations?.[locale] || activeConv?.load?.title || 'İlan')}

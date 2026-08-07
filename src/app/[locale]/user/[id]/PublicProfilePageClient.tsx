@@ -124,7 +124,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
           {/* Aksiyon butonları */}
           {!isOwnProfile && user && (
             <div className="mt-5 pt-5 border-t border-white/[0.06] flex gap-3">
-              <Link href={`/mesajlar`}
+              <Link href={`/${locale}/messages`}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20 text-sm font-medium hover:bg-[#F5A623]/20 transition-colors">
                 <MessageCircle size={16} />Mesaj Gönder
               </Link>
@@ -132,7 +132,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
           )}
           {isOwnProfile && (
             <div className="mt-5 pt-5 border-t border-white/[0.06]">
-              <Link href="/profil"
+              <Link href={`/${locale}/profile`}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.05] ${t.body} border border-white/[0.08] text-sm font-medium hover:bg-white/[0.08] transition-colors w-fit`}>
                 Profili Düzenle
               </Link>
@@ -170,7 +170,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <Link href={`/kullanici/${review.reviewer.id}`} className={`text-sm font-medium ${t.heading} hover:text-[#F5A623] transition-colors`}>
+                      <Link href={`/${locale}/user/${review.reviewer.id}`} className={`text-sm font-medium ${t.heading} hover:text-[#F5A623] transition-colors`}>
                         {review.reviewer.full_name}
                       </Link>
                       <span className={`text-xs ${t.muted}`}>{new Date(review.created_at).toLocaleDateString('tr-TR')}</span>
@@ -193,7 +193,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                 <p>Henüz ilan yok.</p>
               </div>
             ) : loads.map((load) => (
-              <Link key={load.id} href={`/pazar/${load.id}`}
+              <Link key={load.id} href={`/${locale}/marketplace/${load.id}`}
                 className={`flex items-center justify-between p-4 rounded-2xl ${t.card} hover:border-[#F5A623]/20 transition-all group`}>
                 <div className="flex-1 min-w-0">
                   <h3 className={`${t.heading} text-sm font-medium truncate group-hover:text-[#F5A623] transition-colors mb-1`}>

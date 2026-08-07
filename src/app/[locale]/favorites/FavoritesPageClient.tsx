@@ -94,7 +94,7 @@ export function FavoritesPageClient() {
             <Heart size={48} className={`${t.mutedDark} mx-auto mb-4`} />
             <h3 className={`text-xl font-bold ${t.heading} mb-2`}>Favori ilan yok</h3>
             <p className={`${t.sub} text-sm mb-6`}>İlan detay sayfasından favorilere ekleyebilirsiniz.</p>
-            <Link href="/pazar" className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${t.btnPrimary}`}>
+            <Link href={`/${locale}/marketplace`} className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${t.btnPrimary}`}>
               <Package size={16} />Pazara Git
             </Link>
           </div>
@@ -102,7 +102,7 @@ export function FavoritesPageClient() {
           <div className="space-y-3">
             {favorites.map((fav) => (
               <div key={fav.favorite_id} className={`flex items-center justify-between p-5 rounded-2xl ${t.card} ${t.cardHover} transition-all`}>
-                <Link href={`/pazar/${fav.load_id}`} className="flex-1 min-w-0 mr-4">
+                <Link href={`/${locale}/marketplace/${fav.load_id}`} className="flex-1 min-w-0 mr-4">
                   <div className="flex items-center gap-2 mb-2">
                     <span className={`px-2.5 py-0.5 text-xs font-medium rounded-full border ${
                       fav.status === 'active' ? t.badgeActive : fav.status === 'completed' ? t.badgeCompleted : t.badgeCancelled
