@@ -487,9 +487,6 @@ Disallow: /*/register
 # ─── SITEMAPS ─────────────────────────────────────────────────
 
 Sitemap: https://loadlyapp.com/sitemap.xml
-Sitemap: https://loadlyapp.com/sitemap-static.xml
-Sitemap: https://loadlyapp.com/sitemap-loads.xml
-Sitemap: https://loadlyapp.com/sitemap-blogs.xml
 
 # ─── HOST ─────────────────────────────────────────────────────
 
