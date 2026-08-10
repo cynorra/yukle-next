@@ -15,6 +15,8 @@ const LABELS: Record<string, {
   noLoads: string;
   postCta: string;
   browseCta: string;
+  faqTitle: string;
+  faq: (c: string, count: number) => { q: string; a: string }[];
 }> = {
   tr: {
     title: (c) => `${c} Çıkışlı Yük İlanları ve Nakliye Fırsatları`,
@@ -24,6 +26,23 @@ const LABELS: Record<string, {
     noLoads: 'Bu ülkeden şu anda aktif ilan bulunmuyor. Yeni ilanlar için tekrar kontrol edin veya tüm ilanları inceleyin.',
     postCta: 'Bu Ülkeden İlan Ver',
     browseCta: 'Tüm İlanları Gör',
+    faqTitle: 'Sık Sorulan Sorular',
+    faq: (c, count) => [
+      {
+        q: `${c} çıkışlı kaç aktif yük ilanı var?`,
+        a: count > 0
+          ? `Şu anda ${c} çıkışlı ${count} aktif yük ilanı bulunuyor. Bu sayı ilanlar tamamlandıkça veya yenileri eklendikçe değişir.`
+          : `${c} çıkışlı şu anda aktif ilan bulunmuyor, ancak yeni ilanlar eklendikçe sayfa otomatik güncellenir.`,
+      },
+      {
+        q: `${c} çıkışlı bir yük için nasıl nakliyeci bulurum?`,
+        a: `Aşağıdaki aktif ilanlardan birine tıklayıp teklif verebilir veya doğrudan ilan sahibiyle iletişime geçebilirsiniz. Teklifiniz kabul edildiğinde güvenli mesajlaşma otomatik olarak açılır.`,
+      },
+      {
+        q: 'Bu sayfa ne sıklıkla güncelleniyor?',
+        a: 'Bu sayfa canlıdır ve platformdaki güncel aktif ilanları yansıtacak şekilde otomatik olarak yenilenir.',
+      },
+    ],
   },
   en: {
     title: (c) => `Freight Loads From ${c} | Shipping & Load Postings`,
@@ -33,6 +52,23 @@ const LABELS: Record<string, {
     noLoads: 'No active loads from this country right now. Check back soon, or browse all current listings.',
     postCta: 'Post a Load From This Country',
     browseCta: 'Browse All Loads',
+    faqTitle: 'Frequently Asked Questions',
+    faq: (c, count) => [
+      {
+        q: `How many active freight loads are there from ${c}?`,
+        a: count > 0
+          ? `There are currently ${count} active freight loads originating from ${c}. This number changes as loads are completed or new ones are posted.`
+          : `There are no active loads from ${c} right now, but the page updates automatically as new ones are posted.`,
+      },
+      {
+        q: `How do I find a carrier for a load from ${c}?`,
+        a: `Browse the active listings below and bid on or contact the poster directly. Once a bid is accepted, secure messaging unlocks automatically between both parties.`,
+      },
+      {
+        q: 'How often is this page updated?',
+        a: 'This page is live and refreshes automatically to reflect the current active loads on the platform.',
+      },
+    ],
   },
 };
 
@@ -133,6 +169,17 @@ export default async function CountryHubPage({ params }: Props) {
     })),
   };
 
+  const faqItems = t.faq(hub.country, hub.loads.length);
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  };
+
   return (
     <>
       <script
@@ -142,6 +189,10 @@ export default async function CountryHubPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
       <header className="border-b border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark">
@@ -204,6 +255,18 @@ export default async function CountryHubPage({ params }: Props) {
           >
             {t.browseCta}
           </Link>
+        </div>
+
+        <div className="mt-14 max-w-3xl">
+          <h2 className="text-xl font-bold text-fg mb-6">{t.faqTitle}</h2>
+          <dl className="flex flex-col gap-5">
+            {faqItems.map(({ q, a }) => (
+              <div key={q}>
+                <dt className="font-bold text-fg text-sm mb-1.5">{q}</dt>
+                <dd className="text-sm text-muted leading-relaxed">{a}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
     </>
