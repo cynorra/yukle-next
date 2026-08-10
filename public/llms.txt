@@ -10,8 +10,10 @@
   - Static Pages: https://loadlyapp.com/sitemap-static.xml
   - Active Freight Listings: https://loadlyapp.com/sitemap-loads.xml
   - Blog Articles: https://loadlyapp.com/sitemap-blogs.xml
+  - Shipping Routes (Lane Hubs): https://loadlyapp.com/sitemap-routes.xml
 - **Marketplace (Load Board)**: https://loadlyapp.com/en/marketplace
 - **Logistics Blog & Industry Resources**: https://loadlyapp.com/en/blog
+- **Shipping Routes**: Durable per-lane pages (e.g. https://loadlyapp.com/en/shipping-routes/phoenix-az-to-tucson-az) listing currently active loads on that origin→destination pair
 - **LLMs Full Context**: https://loadlyapp.com/llms-full.txt
 
 ## Language & Locale Coverage

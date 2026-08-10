@@ -15,7 +15,7 @@
 ### Technology Stack
 - **Frontend**: Next.js 15 (App Router), React 19, TypeScript
 - **Backend**: Supabase (PostgreSQL + Auth + Realtime)
-- **Hosting**: Vercel (Edge + Serverless)
+- **Hosting**: Render
 - **SEO**: Server-side rendering, ISR, structured data, sitemap index
 
 ---
@@ -33,6 +33,7 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 | Blog List | `/{locale}/blog` | Logistics industry articles |
 | Blog Article | `/{locale}/blog/{slug}` | Individual blog post |
 | Find Loads | `/{locale}/find-loads` | Load search tool |
+| Shipping Routes (Lane Hub) | `/{locale}/shipping-routes/{lane}` | Durable page per origin→destination city pair listing currently active loads on that route |
 | Advertise | `/{locale}/advertise` | Advertising information |
 | Privacy Policy | `/{locale}/privacy-policy` | KVKK / GDPR compliance |
 | Privacy | `/{locale}/privacy` | Data privacy information |
@@ -57,6 +58,7 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 | `/sitemap-static.xml` | Static pages sitemap |
 | `/sitemap-loads.xml` | Active loads sitemap |
 | `/sitemap-blogs.xml` | Blog posts sitemap |
+| `/sitemap-routes.xml` | Shipping route (lane hub) sitemap |
 | `/robots.txt` | Crawler directives |
 | `/llms.txt` | AI platform summary |
 | `/llms-full.txt` | This file |
