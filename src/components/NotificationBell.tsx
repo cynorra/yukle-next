@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
@@ -36,6 +37,8 @@ const TYPE_ICONS: Record<string, React.ReactNode> = {
 };
 
 export default function NotificationBell() {
+  const params = useParams();
+  const locale = (params?.locale as string) || 'en';
   const t = useT();
   const { user } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);

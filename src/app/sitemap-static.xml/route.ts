@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import {
   SITE_URL, ALL_LOCALES, escapeXml, generateAlternates,
   URLSET_HEADER, SITEMAP_HEADERS,
@@ -30,45 +28,19 @@ export async function GET() {
   return new Response(xml, { headers: SITEMAP_HEADERS });
 }
 
-/** Walk the [locale] directory to discover all static page routes */
+/** Return a hardcoded list of public static routes for reliable generation in Vercel */
 function getAllStaticPaths(): string[] {
-  const localeDir = path.join(process.cwd(), 'src', 'app', '[locale]');
-  const routes: string[] = ['']; // root homepage
-
-  function walk(dir: string, baseRoute: string) {
-    let entries;
-    try {
-      entries = fs.readdirSync(dir, { withFileTypes: true });
-    } catch {
-      return;
-    }
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        if (
-          entry.name.startsWith('api') ||
-          entry.name.includes('[') ||
-          entry.name.startsWith('_')
-        ) {
-          continue;
-        }
-        const routeSegment = `/${entry.name}`;
-        const fullPath = baseRoute + routeSegment;
-        const hasPage =
-          fs.existsSync(path.join(dir, entry.name, 'page.tsx')) ||
-          fs.existsSync(path.join(dir, entry.name, 'page.jsx')) ||
-          fs.existsSync(path.join(dir, entry.name, 'page.js'));
-        if (hasPage) {
-          routes.push(fullPath);
-        }
-        walk(path.join(dir, entry.name), fullPath);
-      }
-    }
-  }
-
-  try {
-    walk(localeDir, '');
-  } catch {
-    // Fallback
-  }
-  return routes;
+  // src/ directory is not available at runtime on Vercel, so fs.readdirSync fails.
+  // We explicitly list the public static pages here.
+  return [
+    '', // Homepage
+    '/about',
+    '/contact',
+    '/advertise',
+    '/blog',
+    '/marketplace',
+    '/find-loads',
+    '/privacy-policy',
+    '/terms'
+  ];
 }

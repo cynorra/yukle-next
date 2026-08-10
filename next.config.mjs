@@ -58,7 +58,6 @@ const nextConfig = {
       {
         source: '/:sitemap(sitemap.xml|sitemap-static.xml|sitemap-loads.xml|sitemap-blogs.xml)',
         headers: [
-          { key: 'X-Robots-Tag', value: 'noindex' },
           { key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=3600' },
         ],
       },

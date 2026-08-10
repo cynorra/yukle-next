@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { useT } from '@/hooks/useT';
@@ -21,6 +22,8 @@ interface FavoriteLoad {
 }
 
 export function FavoritesPageClient() {
+  const params = useParams();
+  const locale = (params?.locale as string) || 'en';
   const t = useT();
   const { user } = useAuth();
   const [favorites, setFavorites] = useState<FavoriteLoad[]>([]);

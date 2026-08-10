@@ -9,20 +9,36 @@ export const revalidate = 86400; // ISR: regenerate every 24 hours
 export async function GET() {
   const supabase = createPublicClient();
 
-  const { data: loads, error } = await supabase
-    .from('loads')
-    .select('id, created_at')
-    .eq('status', 'active')
-    .order('created_at', { ascending: false });
+  let allLoads: any[] = [];
+  let from = 0;
+  const step = 1000;
 
-  if (error) {
-    console.error('[sitemap-loads.xml] Supabase query failed:', error);
+  while (true) {
+    const { data: loads, error } = await supabase
+      .from('loads')
+      .select('id, created_at')
+      .eq('status', 'active')
+      .order('created_at', { ascending: false })
+      .range(from, from + step - 1);
+
+    if (error) {
+      console.error('[sitemap-loads.xml] Supabase query failed:', error);
+      break;
+    }
+
+    if (loads && loads.length > 0) {
+      allLoads = allLoads.concat(loads);
+      if (loads.length < step || allLoads.length >= 45000) break;
+      from += step;
+    } else {
+      break;
+    }
   }
 
   let xml = URLSET_HEADER;
 
-  if (loads) {
-    for (const load of loads) {
+  if (allLoads.length > 0) {
+    for (const load of allLoads) {
       const lastMod = load.created_at
         ? new Date(load.created_at).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0];

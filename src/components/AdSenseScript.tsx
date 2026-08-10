@@ -4,24 +4,10 @@ import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { COOKIE_CONSENT_EVENT, getStoredCookieConsent } from './CookieConsent';
 
-const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? '';
+const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || 'ca-pub-4674211063760769';
 
 export default function AdSenseScript() {
-  const [allowed, setAllowed] = useState(false);
-
-  useEffect(() => {
-    setAllowed(getStoredCookieConsent() === 'accepted');
-
-    function onConsent(e: Event) {
-      const accepted = (e as CustomEvent<{ accepted: boolean }>).detail?.accepted;
-      setAllowed(!!accepted);
-    }
-
-    window.addEventListener(COOKIE_CONSENT_EVENT, onConsent);
-    return () => window.removeEventListener(COOKIE_CONSENT_EVENT, onConsent);
-  }, []);
-
-  if (!ADSENSE_CLIENT || !allowed) return null;
+  if (!ADSENSE_CLIENT) return null;
 
   return (
     <Script

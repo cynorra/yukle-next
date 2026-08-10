@@ -97,29 +97,42 @@ export function CreateLoadPageClient() {
     setSubmitting(true);
     setError(null);
 
-    const { error: insertError } = await supabase.from('loads').insert({
-      title: title.trim(),
-      shipper_id: user.id,
-      origin_city: originCity,
-      origin_state: originState,
-      origin_country: originCountry,
-      destination_city: destCity,
-      destination_state: destState,
-      destination_country: destCountry,
-      price: price ? Number(price) : null,
-      weight_ton: Number(weightTon),
-      load_type: loadType,
-      required_truck_type: requiredTruckType || null,
-      pickup_date: pickupDate || null,
-      delivery_date: deliveryDate || null,
-      description: description.trim() || null,
-      status: 'active',
-    });
+    const { data: newLoad, error: insertError } = await supabase
+      .from('loads')
+      .insert({
+        title: title.trim(),
+        shipper_id: user.id,
+        origin_city: originCity,
+        origin_state: originState,
+        origin_country: originCountry,
+        destination_city: destCity,
+        destination_state: destState,
+        destination_country: destCountry,
+        price: price ? Number(price) : null,
+        weight_ton: Number(weightTon),
+        load_type: loadType,
+        required_truck_type: requiredTruckType || null,
+        pickup_date: pickupDate || null,
+        delivery_date: deliveryDate || null,
+        description: description.trim() || null,
+        status: 'active',
+      })
+      .select('id')
+      .single();
 
     if (insertError) {
       setError(insertError.message);
       setSubmitting(false);
       return;
+    }
+
+    // Instantly notify Bing, Yandex, Naver, Seznam about the new load URL
+    if (newLoad?.id) {
+      fetch('/api/indexnow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: `/marketplace/${newLoad.id}` }),
+      }).catch(() => {});
     }
 
     router.push(`/${locale}/dashboard`);

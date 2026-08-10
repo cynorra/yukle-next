@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
     if (rateLimitMap.size > 10000) rateLimitMap.clear();
   }
   // Bypass middleware for sitemap generation
-  if (pathname === '/sitemap.xml') {
+  if (pathname.startsWith('/sitemap') && pathname.endsWith('.xml')) {
     return NextResponse.next();
   }
 
@@ -113,6 +113,6 @@ export const config = {
      * - logo.png (logo file)
      * - file extensions (png, jpg, jpeg, gif, svg, webp)
      */
-    '/((?!api|_next/static|_next/image|favicon\.ico|logo\.png|sitemap\.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon\\.ico|logo\\.png|robots\\.txt|sitemap.*\\.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };

@@ -9,18 +9,38 @@ export const revalidate = 86400; // ISR: regenerate every 24 hours
 export async function GET() {
   const supabase = createPublicClient();
 
-  const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('slug, created_at, updated_at, language, cover_image')
-    .eq('published', true)
-    .order('created_at', { ascending: false });
+  let allPosts: any[] = [];
+  let from = 0;
+  const step = 1000;
+
+  while (true) {
+    const { data: posts, error } = await supabase
+      .from('blog_posts')
+      .select('slug, created_at, updated_at, language, cover_image')
+      .eq('published', true)
+      .order('created_at', { ascending: false })
+      .range(from, from + step - 1);
+
+    if (error) {
+      console.error('[sitemap-blogs.xml] Supabase query failed:', error);
+      break;
+    }
+
+    if (posts && posts.length > 0) {
+      allPosts = allPosts.concat(posts);
+      if (posts.length < step || allPosts.length >= 45000) break;
+      from += step;
+    } else {
+      break;
+    }
+  }
 
   let xml = URLSET_HEADER;
 
-  if (posts && posts.length > 0) {
+  if (allPosts.length > 0) {
     // Group posts by base slug to find language siblings
-    const groups: Record<string, typeof posts> = {};
-    posts.forEach((post) => {
+    const groups: Record<string, typeof allPosts> = {};
+    allPosts.forEach((post) => {
       const parts = post.slug.split('-');
       const baseSlug = parts.length > 1 ? parts.slice(0, -1).join('-') : post.slug;
       if (!groups[baseSlug]) {

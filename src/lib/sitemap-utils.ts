@@ -55,5 +55,4 @@ export const SITEMAP_INDEX_HEADER = `<?xml version="1.0" encoding="UTF-8"?>
 export const SITEMAP_HEADERS = {
   'Content-Type': 'application/xml; charset=utf-8',
   'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  'X-Robots-Tag': 'noindex',
 } as const;
