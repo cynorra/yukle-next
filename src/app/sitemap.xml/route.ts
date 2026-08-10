@@ -2,7 +2,7 @@ import { createPublicClient } from '@/lib/supabase/public';
 import { SITE_URL, SITEMAP_INDEX_HEADER, SITEMAP_HEADERS } from '@/lib/sitemap-utils';
 import { getActiveLanes } from '@/lib/laneRoutes';
 
-export const revalidate = 86400;
+export const revalidate = 3600;
 
 /**
  * Sitemap Index — points crawlers to sub-sitemaps for efficient crawling.
