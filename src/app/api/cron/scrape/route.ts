@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { submitToIndexNow } from '@/lib/indexnow';
+import { buildLaneSlug } from '@/lib/laneRoutes';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 const ALL_LOCALES = [
@@ -98,15 +99,27 @@ export async function GET(request: Request) {
       try {
         const { data: newLoads } = await supabase
           .from('loads')
-          .select('id')
+          .select('id, origin_city, origin_country, destination_city, destination_country')
           .eq('status', 'active')
           .gte('created_at', runStartedAt);
 
         if (newLoads && newLoads.length > 0) {
+          const laneSlugs = new Set<string>();
+          for (const load of newLoads) {
+            if (load.origin_city && load.origin_country && load.destination_city && load.destination_country) {
+              laneSlugs.add(buildLaneSlug(load.origin_city, load.origin_country, load.destination_city, load.destination_country));
+            }
+          }
+
           const urls = newLoads.flatMap((load) =>
             ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/marketplace/${load.id}`)
           );
-          await submitToIndexNow(urls);
+          // Lane hub pages may already exist — resubmitting is harmless, and this
+          // is the only place a brand-new lane's URL ever gets pushed for fast indexing.
+          const laneUrls = Array.from(laneSlugs).flatMap((slug) =>
+            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/${slug}`)
+          );
+          await submitToIndexNow([...urls, ...laneUrls]);
           indexNowSubmitted = newLoads.length;
         }
       } catch (err: any) {
