@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase';
 import LocationSearch from '@/components/LocationSearch';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
-import { buildLaneSlug } from '@/lib/laneRoutes';
+import { buildLaneSlug, buildCitySlug, buildCountrySlug } from '@/lib/laneRoutes';
 import { Package, MapPin, ArrowRight, Calendar, DollarSign, FileText, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -128,19 +128,25 @@ export function CreateLoadPageClient() {
     }
 
     // Instantly notify Bing, Yandex, Naver, Seznam about the new load URL,
-    // and its lane hub page (may already exist — resubmitting is harmless).
+    // and its lane/city/country hub pages (may already exist — resubmitting
+    // is harmless).
     if (newLoad?.id) {
       const laneSlug = buildLaneSlug(originCity, originCountry, destCity, destCountry);
-      fetch('/api/indexnow', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: `/marketplace/${newLoad.id}` }),
-      }).catch(() => {});
-      fetch('/api/indexnow', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: `/shipping-routes/${laneSlug}` }),
-      }).catch(() => {});
+      const citySlug = buildCitySlug(originCity, originCountry);
+      const countrySlug = buildCountrySlug(originCountry);
+      const paths = [
+        `/marketplace/${newLoad.id}`,
+        `/shipping-routes/${laneSlug}`,
+        `/shipping-routes/from/${citySlug}`,
+        `/shipping-routes/country/${countrySlug}`,
+      ];
+      for (const path of paths) {
+        fetch('/api/indexnow', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path }),
+        }).catch(() => {});
+      }
     }
 
     router.push(`/${locale}/dashboard`);

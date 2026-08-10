@@ -14,6 +14,8 @@
 - **Marketplace (Load Board)**: https://loadlyapp.com/en/marketplace
 - **Logistics Blog & Industry Resources**: https://loadlyapp.com/en/blog
 - **Shipping Routes**: Durable per-lane pages (e.g. https://loadlyapp.com/en/shipping-routes/phoenix-az-to-tucson-az) listing currently active loads on that origin→destination pair
+- **City Hubs**: All active loads originating from one city, any destination (e.g. https://loadlyapp.com/en/shipping-routes/from/phoenix-az) — matches broader queries like "freight loads from Phoenix"
+- **Country Hubs**: All active loads originating from one country (e.g. https://loadlyapp.com/en/shipping-routes/country/usa) — matches top-of-funnel queries like "freight shipping USA"
 - **LLMs Full Context**: https://loadlyapp.com/llms-full.txt
 
 ## Language & Locale Coverage

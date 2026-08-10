@@ -34,6 +34,8 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 | Blog Article | `/{locale}/blog/{slug}` | Individual blog post |
 | Find Loads | `/{locale}/find-loads` | Load search tool |
 | Shipping Routes (Lane Hub) | `/{locale}/shipping-routes/{lane}` | Durable page per origin→destination city pair listing currently active loads on that route |
+| Shipping Routes (City Hub) | `/{locale}/shipping-routes/from/{citySlug}` | All active loads originating from one city, any destination |
+| Shipping Routes (Country Hub) | `/{locale}/shipping-routes/country/{countrySlug}` | All active loads originating from one country, any destination |
 | Advertise | `/{locale}/advertise` | Advertising information |
 | Privacy Policy | `/{locale}/privacy-policy` | KVKK / GDPR compliance |
 | Privacy | `/{locale}/privacy` | Data privacy information |
@@ -58,7 +60,7 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 | `/sitemap-static.xml` | Static pages sitemap |
 | `/sitemap-loads.xml` | Active loads sitemap |
 | `/sitemap-blogs.xml` | Blog posts sitemap |
-| `/sitemap-routes.xml` | Shipping route (lane hub) sitemap |
+| `/sitemap-routes.xml` | Shipping route sitemap (lane, city, and country hub pages) |
 | `/robots.txt` | Crawler directives |
 | `/llms.txt` | AI platform summary |
 | `/llms-full.txt` | This file |

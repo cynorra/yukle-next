@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { submitToIndexNow } from '@/lib/indexnow';
-import { buildLaneSlug } from '@/lib/laneRoutes';
+import { buildLaneSlug, buildCitySlug, buildCountrySlug } from '@/lib/laneRoutes';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 const ALL_LOCALES = [
@@ -105,21 +105,34 @@ export async function GET(request: Request) {
 
         if (newLoads && newLoads.length > 0) {
           const laneSlugs = new Set<string>();
+          const citySlugs = new Set<string>();
+          const countrySlugs = new Set<string>();
           for (const load of newLoads) {
             if (load.origin_city && load.origin_country && load.destination_city && load.destination_country) {
               laneSlugs.add(buildLaneSlug(load.origin_city, load.origin_country, load.destination_city, load.destination_country));
+            }
+            if (load.origin_city && load.origin_country) {
+              citySlugs.add(buildCitySlug(load.origin_city, load.origin_country));
+              countrySlugs.add(buildCountrySlug(load.origin_country));
             }
           }
 
           const urls = newLoads.flatMap((load) =>
             ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/marketplace/${load.id}`)
           );
-          // Lane hub pages may already exist — resubmitting is harmless, and this
-          // is the only place a brand-new lane's URL ever gets pushed for fast indexing.
+          // Hub pages (lane/city/country) may already exist — resubmitting is
+          // harmless, and this is the only place a brand-new hub's URL ever
+          // gets pushed for fast indexing.
           const laneUrls = Array.from(laneSlugs).flatMap((slug) =>
             ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/${slug}`)
           );
-          await submitToIndexNow([...urls, ...laneUrls]);
+          const cityUrls = Array.from(citySlugs).flatMap((slug) =>
+            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/from/${slug}`)
+          );
+          const countryUrls = Array.from(countrySlugs).flatMap((slug) =>
+            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/country/${slug}`)
+          );
+          await submitToIndexNow([...urls, ...laneUrls, ...cityUrls, ...countryUrls]);
           indexNowSubmitted = newLoads.length;
         }
       } catch (err: any) {

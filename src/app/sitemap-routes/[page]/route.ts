@@ -2,7 +2,7 @@ import {
   SITE_URL, escapeXml,
   URLSET_HEADER, SITEMAP_HEADERS,
 } from '@/lib/sitemap-utils';
-import { getActiveLanes } from '@/lib/laneRoutes';
+import { getAllRouteHubs } from '@/lib/laneRoutes';
 
 export const revalidate = 3600; // lanes shift as loads complete/get posted — refresh hourly
 
@@ -17,15 +17,24 @@ export async function GET(request: Request, { params }: Props) {
   const pageNum = Math.max(1, parseInt(rawPage, 10) || 1);
   const startOffset = (pageNum - 1) * PAGE_SIZE;
 
-  const lanes = Array.from((await getActiveLanes()).values());
-  const pageLanes = lanes.slice(startOffset, startOffset + PAGE_SIZE);
+  const { lanes, cities, countries } = await getAllRouteHubs();
+
+  // Combined so the index's page-count math and this route's slicing agree
+  // on one total — order doesn't matter, just needs to be stable within a
+  // single ISR revalidation window.
+  const allPaths = [
+    ...Array.from(lanes.values()).map((lane) => `/shipping-routes/${lane.slug}`),
+    ...Array.from(cities.values()).map((hub) => `/shipping-routes/from/${hub.slug}`),
+    ...Array.from(countries.values()).map((hub) => `/shipping-routes/country/${hub.slug}`),
+  ];
+  const pagePaths = allPaths.slice(startOffset, startOffset + PAGE_SIZE);
 
   const now = new Date().toISOString().split('T')[0];
 
   let xml = URLSET_HEADER;
 
-  for (const lane of pageLanes) {
-    const url = `${SITE_URL}/en/shipping-routes/${lane.slug}`;
+  for (const path of pagePaths) {
+    const url = `${SITE_URL}/en${path}`;
     xml += '  <url>\n';
     xml += `    <loc>${escapeXml(url)}</loc>\n`;
     xml += `    <lastmod>${now}</lastmod>\n`;

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MapPin, Weight, Package } from 'lucide-react';
-import { getLane, buildCitySlug, buildCountrySlug } from '@/lib/laneRoutes';
+import { getCityHub } from '@/lib/laneRoutes';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
 
@@ -17,91 +17,90 @@ const ALL_LOCALES = [
 ];
 
 const LABELS: Record<string, {
-  title: (o: string, d: string) => string;
-  desc: (o: string, d: string) => string;
-  intro: (o: string, d: string) => string;
+  title: (c: string) => string;
+  desc: (c: string) => string;
+  intro: (c: string) => string;
   activeLoads: string;
   noLoads: string;
   postCta: string;
   browseCta: string;
 }> = {
   tr: {
-    title: (o, d) => `${o} - ${d} Arası Nakliye ve Yük Taşıma`,
-    desc: (o, d) => `${o} ile ${d} arasında aktif yük ilanlarını görüntüleyin. Bu güzergahta taşıma yapan nakliyecilerle doğrudan iletişime geçin.`,
-    intro: (o, d) => `${o} - ${d} güzergahı için platformumuzda o an aktif olan gerçek yük ilanlarını aşağıda bulabilirsiniz. Bu sayfa canlıdır; yeni ilanlar eklendikçe otomatik güncellenir.`,
+    title: (c) => `${c} Çıkışlı Yük İlanları ve Nakliye Fırsatları`,
+    desc: (c) => `${c} çıkışlı aktif yük ilanlarını görüntüleyin. Bu şehirden yük taşıyan nakliyecilerle doğrudan iletişime geçin.`,
+    intro: (c) => `${c} çıkışlı, platformumuzda o an aktif olan gerçek yük ilanlarını aşağıda bulabilirsiniz. Bu sayfa canlıdır; yeni ilanlar eklendikçe otomatik güncellenir.`,
     activeLoads: 'Aktif Yük İlanları',
-    noLoads: 'Bu güzergahta şu anda aktif ilan bulunmuyor. Yeni ilanlar için tekrar kontrol edin veya tüm ilanları inceleyin.',
-    postCta: 'Bu Güzergahta İlan Ver',
+    noLoads: 'Bu şehirden şu anda aktif ilan bulunmuyor. Yeni ilanlar için tekrar kontrol edin veya tüm ilanları inceleyin.',
+    postCta: 'Bu Şehirden İlan Ver',
     browseCta: 'Tüm İlanları Gör',
   },
   en: {
-    title: (o, d) => `${o} to ${d} Freight Shipping & Load Postings`,
-    desc: (o, d) => `Browse active freight loads between ${o} and ${d}. Connect directly with shippers posting on this lane.`,
-    intro: (o, d) => `Below are the freight loads currently active on the ${o} → ${d} lane on our platform. This page updates automatically as new loads are posted.`,
+    title: (c) => `Freight Loads From ${c} | Shipping & Load Postings`,
+    desc: (c) => `Browse active freight loads originating from ${c}. Connect directly with shippers posting from this city.`,
+    intro: (c) => `Below are the freight loads currently active out of ${c} on our platform. This page updates automatically as new loads are posted.`,
     activeLoads: 'Active Load Postings',
-    noLoads: 'No active loads on this lane right now. Check back soon, or browse all current listings.',
-    postCta: 'Post a Load on This Lane',
+    noLoads: 'No active loads from this city right now. Check back soon, or browse all current listings.',
+    postCta: 'Post a Load From This City',
     browseCta: 'Browse All Loads',
   },
 };
 
 interface Props {
-  params: Promise<{ locale: string; lane: string }>;
+  params: Promise<{ locale: string; citySlug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale: rawLocale, lane: laneSlug } = await params;
+  const { locale: rawLocale, citySlug } = await params;
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = LABELS[locale] ?? LABELS.en;
 
-  const lane = await getLane(laneSlug);
+  const hub = await getCityHub(citySlug);
 
-  if (!lane || lane.loads.length === 0) {
+  if (!hub || hub.loads.length === 0) {
     return {
-      title: 'Route Not Found',
+      title: 'City Not Found',
       robots: { index: false, follow: false },
     };
   }
 
-  const origin = `${lane.originCity}, ${lane.originCountry}`;
-  const destination = `${lane.destinationCity}, ${lane.destinationCountry}`;
-  const title = t.title(origin, destination);
-  const description = t.desc(origin, destination);
+  const cityLabel = `${hub.city}, ${hub.country}`;
+  const title = t.title(cityLabel);
+  const description = t.desc(cityLabel);
   const languages = ALL_LOCALES.reduce((acc, code) => {
-    acc[code] = `${SITE_URL}/${code}/shipping-routes/${laneSlug}`;
+    acc[code] = `${SITE_URL}/${code}/shipping-routes/from/${citySlug}`;
     return acc;
   }, {} as Record<string, string>);
-  languages['x-default'] = `${SITE_URL}/en/shipping-routes/${laneSlug}`;
+  languages['x-default'] = `${SITE_URL}/en/shipping-routes/from/${citySlug}`;
 
   return {
     title,
     description,
     alternates: {
-      canonical: `${SITE_URL}/${locale}/shipping-routes/${laneSlug}`,
+      canonical: `${SITE_URL}/${locale}/shipping-routes/from/${citySlug}`,
       languages,
     },
     openGraph: {
       title: `${title} | Loadly`,
       description,
-      url: `${SITE_URL}/${locale}/shipping-routes/${laneSlug}`,
+      url: `${SITE_URL}/${locale}/shipping-routes/from/${citySlug}`,
     },
   };
 }
 
 export const revalidate = 3600; // active loads change often — refresh hourly
 
-export default async function LanePage({ params }: Props) {
-  const { locale: rawLocale, lane: laneSlug } = await params;
+export default async function CityHubPage({ params }: Props) {
+  const { locale: rawLocale, citySlug } = await params;
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = LABELS[locale] ?? LABELS.en;
 
-  const lane = await getLane(laneSlug);
+  const hub = await getCityHub(citySlug);
 
-  if (!lane) {
+  if (!hub) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-24 text-center">
         <h1 className="text-2xl font-bold text-fg mb-4">
-          {locale === 'tr' ? 'Güzergah bulunamadı' : 'Route not found'}
+          {locale === 'tr' ? 'Şehir bulunamadı' : 'City not found'}
         </h1>
         <Link href={`/${locale}/marketplace`} className="text-accent font-bold hover:underline">
           {t.browseCta}
@@ -110,8 +109,7 @@ export default async function LanePage({ params }: Props) {
     );
   }
 
-  const origin = `${lane.originCity}, ${lane.originCountry}`;
-  const destination = `${lane.destinationCity}, ${lane.destinationCountry}`;
+  const cityLabel = `${hub.city}, ${hub.country}`;
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -122,8 +120,8 @@ export default async function LanePage({ params }: Props) {
       {
         '@type': 'ListItem',
         position: 3,
-        name: t.title(origin, destination),
-        item: `${SITE_URL}/${locale}/shipping-routes/${laneSlug}`,
+        name: t.title(cityLabel),
+        item: `${SITE_URL}/${locale}/shipping-routes/from/${citySlug}`,
       },
     ],
   };
@@ -131,9 +129,9 @@ export default async function LanePage({ params }: Props) {
   const itemListJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: t.title(origin, destination),
-    numberOfItems: lane.loads.length,
-    itemListElement: lane.loads.map((load, idx) => ({
+    name: t.title(cityLabel),
+    numberOfItems: hub.loads.length,
+    itemListElement: hub.loads.map((load, idx) => ({
       '@type': 'ListItem',
       position: idx + 1,
       url: `${SITE_URL}/${locale}/marketplace/${load.id}`,
@@ -156,10 +154,10 @@ export default async function LanePage({ params }: Props) {
         <div className="max-w-5xl mx-auto px-4 py-12">
           <h1 className="text-3xl sm:text-4xl font-black text-fg tracking-tight flex items-center gap-3">
             <MapPin className="text-accent shrink-0" size={32} />
-            {t.title(origin, destination)}
+            {t.title(cityLabel)}
           </h1>
           <p className="text-base font-medium text-muted mt-3 max-w-2xl">
-            {t.intro(origin, destination)}
+            {t.intro(cityLabel)}
           </p>
         </div>
       </header>
@@ -167,25 +165,25 @@ export default async function LanePage({ params }: Props) {
       <section className="max-w-5xl mx-auto px-4 py-12">
         <h2 className="text-xl font-bold text-fg mb-6 flex items-center gap-2">
           <Package size={20} className="text-accent" />
-          {t.activeLoads} ({lane.loads.length})
+          {t.activeLoads} ({hub.loads.length})
         </h2>
 
-        {lane.loads.length === 0 ? (
+        {hub.loads.length === 0 ? (
           <p className="text-muted">{t.noLoads}</p>
         ) : (
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {lane.loads.map((load) => (
+            {hub.loads.map((load) => (
               <li key={load.id}>
                 <Link
                   href={`/${locale}/marketplace/${load.id}`}
                   className="block p-5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:border-accent/40 transition-colors"
                 >
                   <div className="font-bold text-fg text-sm mb-2 line-clamp-2">
-                    {load.title_translations?.[locale] || load.title || `${origin} → ${destination}`}
+                    {load.title_translations?.[locale] || load.title || `${hub.city} → ${load.destination_city}`}
                   </div>
                   <div className="text-xs text-muted flex flex-col gap-1.5">
                     <span className="flex items-center gap-1.5 font-semibold">
-                      <MapPin size={13} /> {origin} → {destination}
+                      <MapPin size={13} /> {hub.city} → {load.destination_city}, {load.destination_country}
                     </span>
                     {load.weight_ton && (
                       <span className="flex items-center gap-1.5">
@@ -211,21 +209,6 @@ export default async function LanePage({ params }: Props) {
             className="px-6 py-3 rounded-2xl border border-border-light dark:border-border-dark font-bold text-sm text-center hover:border-accent/40 transition-colors"
           >
             {t.browseCta}
-          </Link>
-        </div>
-
-        <div className="flex flex-wrap gap-3 mt-6 text-sm">
-          <Link
-            href={`/${locale}/shipping-routes/from/${buildCitySlug(lane.originCity, lane.originCountry)}`}
-            className="text-accent font-semibold hover:underline"
-          >
-            {locale === 'tr' ? `Tüm ${lane.originCity} çıkışlı ilanlar` : `All loads from ${lane.originCity}`}
-          </Link>
-          <Link
-            href={`/${locale}/shipping-routes/country/${buildCountrySlug(lane.originCountry)}`}
-            className="text-accent font-semibold hover:underline"
-          >
-            {locale === 'tr' ? `Tüm ${lane.originCountry} çıkışlı ilanlar` : `All loads from ${lane.originCountry}`}
           </Link>
         </div>
       </section>

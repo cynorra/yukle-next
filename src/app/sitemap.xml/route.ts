@@ -1,6 +1,6 @@
 import { createPublicClient } from '@/lib/supabase/public';
 import { SITE_URL, SITEMAP_INDEX_HEADER, SITEMAP_HEADERS } from '@/lib/sitemap-utils';
-import { getActiveLanes } from '@/lib/laneRoutes';
+import { getAllRouteHubs } from '@/lib/laneRoutes';
 
 export const revalidate = 600;
 
@@ -15,15 +15,16 @@ export async function GET() {
   const PAGE_SIZE = 10000;
 
   // Get total counts to calculate needed sitemap chunks
-  const [{ count: loadsCount }, { count: blogsCount }, lanes] = await Promise.all([
+  const [{ count: loadsCount }, { count: blogsCount }, { lanes, cities, countries }] = await Promise.all([
     supabase.from('loads').select('id', { count: 'exact', head: true }).eq('status', 'active'),
     supabase.from('blog_posts').select('id', { count: 'exact', head: true }).eq('published', true),
-    getActiveLanes(),
+    getAllRouteHubs(),
   ]);
 
   const loadPages = Math.max(1, Math.ceil((loadsCount || 0) / PAGE_SIZE));
   const blogPages = Math.max(1, Math.ceil((blogsCount || 0) / PAGE_SIZE));
-  const routePages = lanes.size > 0 ? Math.ceil(lanes.size / PAGE_SIZE) : 0;
+  const totalRoutes = lanes.size + cities.size + countries.size;
+  const routePages = totalRoutes > 0 ? Math.ceil(totalRoutes / PAGE_SIZE) : 0;
 
   let xml = SITEMAP_INDEX_HEADER;
 
