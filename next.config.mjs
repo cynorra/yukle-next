@@ -33,6 +33,11 @@ const nextConfig = {
         source: '/sitemap-blogs-:page(\\d+).xml',
         destination: '/sitemap-blogs/:page',
       },
+      {
+        // Same reasoning as sitemap-loads above, applied to the lane-page chunks.
+        source: '/sitemap-routes-:page(\\d+).xml',
+        destination: '/sitemap-routes/:page',
+      },
     ];
   },
   async redirects() {

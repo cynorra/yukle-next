@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { SeoContent } from '@/components/SeoContent';
 import Logo from '@/components/Logo';
+import { createPublicClient } from '@/lib/supabase/public';
 import {
   ArrowRight,
   Truck,
@@ -12,6 +13,7 @@ import {
   TrendingUp,
   ChevronDown,
   HelpCircle,
+  Weight,
 } from 'lucide-react';
 import { HomeAnimations } from './_home/HomeAnimations';
 import { TRANSLATIONS } from '@/utils/translations';
@@ -55,6 +57,19 @@ const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }
   },
 };
 
+const RECENT_LOADS_LABELS: Record<string, { title: string; desc: string; cta: string }> = {
+  tr: {
+    title: 'Son Yayınlanan Yükler',
+    desc: 'Platformumuzda az önce paylaşılan gerçek yük ilanları.',
+    cta: 'Tüm ilanları gör',
+  },
+  en: {
+    title: 'Recently Posted Loads',
+    desc: 'Real freight listings just published on our platform.',
+    cta: 'View all loads',
+  },
+};
+
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
@@ -86,6 +101,15 @@ export default async function HomePage({ params }: PageProps) {
   ];
 
   const faqData = HOME_FAQS[locale] ?? HOME_FAQS.en;
+  const recentLoadsLabels = RECENT_LOADS_LABELS[locale] ?? RECENT_LOADS_LABELS.en;
+
+  const supabase = createPublicClient();
+  const { data: recentLoads } = await supabase
+    .from('loads')
+    .select('id, title, title_translations, origin_city, destination_city, weight_ton')
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(8);
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -234,6 +258,52 @@ export default async function HomePage({ params }: PageProps) {
       </section>
 
       {/* CTA */}
+      {recentLoads && recentLoads.length > 0 && (
+        <section className="py-24 px-4 bg-surface-light/50 dark:bg-surface-dark/50 border-t border-border-light dark:border-border-dark">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-14 space-y-3">
+              <h2 className="text-3xl sm:text-4xl font-black text-fg tracking-tight">
+                {recentLoadsLabels.title}
+              </h2>
+              <p className="text-muted text-lg max-w-xl mx-auto">
+                {recentLoadsLabels.desc}
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {recentLoads.map((load: any) => (
+                <Link
+                  key={load.id}
+                  href={`/${locale}/marketplace/${load.id}`}
+                  className="block p-5 rounded-2xl bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark hover:border-accent/40 transition-colors"
+                >
+                  <div className="font-bold text-fg text-sm mb-2 line-clamp-2">
+                    {load.title_translations?.[locale] || load.title || `${load.origin_city} → ${load.destination_city}`}
+                  </div>
+                  <div className="text-xs text-muted flex flex-col gap-1.5">
+                    <span className="flex items-center gap-1.5 font-semibold">
+                      <MapPin size={13} /> {load.origin_city} → {load.destination_city}
+                    </span>
+                    {load.weight_ton && (
+                      <span className="flex items-center gap-1.5">
+                        <Weight size={13} /> {load.weight_ton} ton
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="text-center mt-10">
+              <Link href={`/${locale}/marketplace`}>
+                <TextureButton variant="secondary" className="!rounded-2xl px-8 py-4 font-bold">
+                  {recentLoadsLabels.cta}
+                  <ArrowRight size={18} className="ml-2 inline-block" />
+                </TextureButton>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="py-24 px-4">
         <ScrollReveal>
           <div className="max-w-5xl mx-auto relative group">

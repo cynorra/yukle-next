@@ -1,11 +1,23 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { submitToIndexNow } from '@/lib/indexnow';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
+const ALL_LOCALES = [
+  'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl',
+  'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
+  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
+  'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
+  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
+  'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
+];
 
 export const dynamic = 'force-dynamic';
 // Vercel max function duration (Pro = 300s, Hobby = 60s)
 export const maxDuration = 300;
 
 export async function GET(request: Request) {
+  const runStartedAt = new Date().toISOString();
   const { searchParams } = new URL(request.url);
   const secret  = searchParams.get('secret');
   const runAll  = searchParams.get('all') === 'true';
@@ -77,10 +89,36 @@ export async function GET(request: Request) {
       (typeof results.tr_inserted === 'number' ? (results.tr_inserted as number) : 0) +
       (typeof results.us_inserted === 'number' ? (results.us_inserted as number) : 0);
 
+    // Push newly-inserted loads from this run to IndexNow (Bing/Yandex/Naver/Seznam
+    // — Google doesn't support IndexNow, this doesn't help Google directly, but it's
+    // free instant indexing for the engines that do support it, and these loads are
+    // short-lived so instant beats waiting for the next organic crawl).
+    let indexNowSubmitted = 0;
+    if (totalInserted > 0) {
+      try {
+        const { data: newLoads } = await supabase
+          .from('loads')
+          .select('id')
+          .eq('status', 'active')
+          .gte('created_at', runStartedAt);
+
+        if (newLoads && newLoads.length > 0) {
+          const urls = newLoads.flatMap((load) =>
+            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/marketplace/${load.id}`)
+          );
+          await submitToIndexNow(urls);
+          indexNowSubmitted = newLoads.length;
+        }
+      } catch (err: any) {
+        console.error('[Cron] IndexNow submission error:', err.message);
+      }
+    }
+
     return NextResponse.json({
       success: true,
       message: `Scraper cron complete. Total inserted: ${totalInserted}`,
       details: results,
+      indexNowSubmitted,
     });
 
   } catch (error: any) {
