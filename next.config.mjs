@@ -20,6 +20,14 @@ const nextConfig = {
         source: '/.well-known/llms.txt',
         destination: '/llms.txt',
       },
+      {
+        // Next.js App Router dynamic segments can't mix static text with
+        // brackets in one folder name (e.g. sitemap-loads-[page].xml is not
+        // routable — it silently falls through to [locale]). Keep the clean
+        // external URL and rewrite internally to a pure [page] segment.
+        source: '/sitemap-loads-:page(\\d+).xml',
+        destination: '/sitemap-loads/:page',
+      },
     ];
   },
   async redirects() {

@@ -12,7 +12,7 @@ interface Props {
 
 export async function GET(request: Request, { params }: Props) {
   const { page: rawPage } = await params;
-  const pageNum = Math.max(1, parseInt(rawPage.replace(/\.xml$/, ''), 10) || 1);
+  const pageNum = Math.max(1, parseInt(rawPage, 10) || 1);
   const PAGE_SIZE = 40000;
   const startOffset = (pageNum - 1) * PAGE_SIZE;
   const endOffset = startOffset + PAGE_SIZE - 1;
