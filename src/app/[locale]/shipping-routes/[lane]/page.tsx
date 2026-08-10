@@ -7,15 +7,6 @@ import type { Locale } from '@/utils/translations';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-const ALL_LOCALES = [
-  'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl',
-  'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-  'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-  'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
-];
-
 const LABELS: Record<string, {
   title: (o: string, d: string) => string;
   desc: (o: string, d: string) => string;
@@ -67,7 +58,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const destination = `${lane.destinationCity}, ${lane.destinationCountry}`;
   const title = t.title(origin, destination);
   const description = t.desc(origin, destination);
-  const languages = ALL_LOCALES.reduce((acc, code) => {
+
+  // Only tr/en have real copy (see LABELS above) — every other locale would
+  // render identical English text at its own URL. Canonicalize those away to
+  // /en instead of self-referencing, same fix already applied to the legal
+  // pages (about/privacy/etc.) for the same reason. hreflang only lists the
+  // locales that actually have distinct content.
+  const translatedLocales = Object.keys(LABELS);
+  const canonicalLocale = translatedLocales.includes(locale) ? locale : 'en';
+  const languages = translatedLocales.reduce((acc, code) => {
     acc[code] = `${SITE_URL}/${code}/shipping-routes/${laneSlug}`;
     return acc;
   }, {} as Record<string, string>);
@@ -77,13 +76,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: {
-      canonical: `${SITE_URL}/${locale}/shipping-routes/${laneSlug}`,
+      canonical: `${SITE_URL}/${canonicalLocale}/shipping-routes/${laneSlug}`,
       languages,
     },
     openGraph: {
       title: `${title} | Loadly`,
       description,
-      url: `${SITE_URL}/${locale}/shipping-routes/${laneSlug}`,
+      url: `${SITE_URL}/${canonicalLocale}/shipping-routes/${laneSlug}`,
     },
   };
 }

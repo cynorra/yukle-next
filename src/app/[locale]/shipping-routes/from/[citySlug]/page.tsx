@@ -7,15 +7,6 @@ import type { Locale } from '@/utils/translations';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-const ALL_LOCALES = [
-  'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl',
-  'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-  'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-  'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
-];
-
 const LABELS: Record<string, {
   title: (c: string) => string;
   desc: (c: string) => string;
@@ -66,7 +57,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cityLabel = `${hub.city}, ${hub.country}`;
   const title = t.title(cityLabel);
   const description = t.desc(cityLabel);
-  const languages = ALL_LOCALES.reduce((acc, code) => {
+
+  // Only tr/en have real copy — canonicalize the other 45 locales to /en
+  // instead of self-referencing (same fix as the legal pages and the lane
+  // page). hreflang only lists locales with distinct content.
+  const translatedLocales = Object.keys(LABELS);
+  const canonicalLocale = translatedLocales.includes(locale) ? locale : 'en';
+  const languages = translatedLocales.reduce((acc, code) => {
     acc[code] = `${SITE_URL}/${code}/shipping-routes/from/${citySlug}`;
     return acc;
   }, {} as Record<string, string>);
@@ -76,13 +73,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: {
-      canonical: `${SITE_URL}/${locale}/shipping-routes/from/${citySlug}`,
+      canonical: `${SITE_URL}/${canonicalLocale}/shipping-routes/from/${citySlug}`,
       languages,
     },
     openGraph: {
       title: `${title} | Loadly`,
       description,
-      url: `${SITE_URL}/${locale}/shipping-routes/from/${citySlug}`,
+      url: `${SITE_URL}/${canonicalLocale}/shipping-routes/from/${citySlug}`,
     },
   };
 }
