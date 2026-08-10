@@ -16,6 +16,7 @@ import { useToast } from '@/components/Toast';
 import ReviewModal from '@/components/ReviewModal';
 import LoadTagBadge from '@/components/LoadTagBadge';
 import DeliveryDaysBadge from '@/components/DeliveryDaysBadge';
+import AdBanner from '@/components/AdBanner';
 import {
   LOAD_DETAIL_TRANSLATIONS,
   LOAD_TYPES_LOCALIZED,
@@ -542,6 +543,13 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                 <p className={`${t.sub} text-sm leading-relaxed whitespace-pre-wrap`}>{localizedDescription}</p>
               </div>
             )}
+
+            {/* AdSense */}
+            <AdBanner
+              slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LISTING}
+              format="horizontal"
+              className="w-full"
+            />
 
             {/* HARİCİ İLAN UYARISI */}
             {load.tags?.includes('external') && (

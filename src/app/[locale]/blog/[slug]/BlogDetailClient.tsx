@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import AdBanner from '@/components/AdBanner';
 
 export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; locale: string; slug: string }) {
   const t = useT();
@@ -473,10 +474,12 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
           </div>
         </motion.div>
 
-        {/* AdSense Placeholder - Top */}
-        <div className="w-full h-24 bg-surface-light dark:bg-surface-dark border border-dashed border-border-light dark:border-border-dark rounded-2xl flex items-center justify-center mb-12">
-          <div className="text-center text-xs font-bold text-muted/60">{locale === 'tr' ? 'Google AdSense - Görüntülü Reklam' : 'Google AdSense - Display Ad'}</div>
-        </div>
+        {/* AdSense - top of article */}
+        <AdBanner
+          slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_BLOG_TOP}
+          format="horizontal"
+          className="w-full mb-12"
+        />
 
         {/* Content */}
         <article className={`max-w-none mb-16 ${t.heading}`}>
@@ -492,10 +495,12 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
           </div>
         </article>
 
-        {/* AdSense Placeholder - Bottom */}
-        <div className="w-full h-64 bg-surface-light dark:bg-surface-dark border border-dashed border-border-light dark:border-border-dark rounded-3xl flex items-center justify-center mb-16">
-          <div className="text-center text-xs font-bold text-muted/60">{locale === 'tr' ? 'Google AdSense - İçerik İçi Reklam' : 'Google AdSense - In-Article Ad'}</div>
-        </div>
+        {/* AdSense - end of article */}
+        <AdBanner
+          slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_BLOG_BOTTOM}
+          format="rectangle"
+          className="w-full mb-16"
+        />
 
         {/* Footer Info */}
         <div className="p-8 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark mb-12">

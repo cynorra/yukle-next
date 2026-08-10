@@ -4,6 +4,7 @@ import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
 import CookieConsent from '@/components/CookieConsent';
 import AdSenseScript from '@/components/AdSenseScript';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 import { TRANSLATIONS, RTL_LOCALES } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
 
@@ -176,6 +177,25 @@ export default async function LocalizedLayout({ children, params }: Props) {
           }}
         />
         <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ window.dataLayer.push(arguments); }
+                window.gtag = gtag;
+                var granted = false;
+                try { granted = localStorage.getItem('cookie-consent') === 'accepted'; } catch (e) {}
+                gtag('consent', 'default', {
+                  ad_storage: granted ? 'granted' : 'denied',
+                  ad_user_data: granted ? 'granted' : 'denied',
+                  ad_personalization: granted ? 'granted' : 'denied',
+                  analytics_storage: granted ? 'granted' : 'denied'
+                });
+              })();
+            `,
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
@@ -190,6 +210,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
       </head>
       <body className="bg-background-light dark:bg-background-dark transition-colors duration-500">
         <AdSenseScript />
+        <GoogleAnalytics />
 
         <Providers>
           <Navbar />

@@ -28,6 +28,7 @@ import { useInView } from 'react-intersection-observer';
 import { TextureCard, TextureSeparator } from '@/components/ui/texture-card';
 import { TextureSkeleton } from '@/components/ui/skeleton';
 import { TextureButton } from '@/components/ui/texture-button';
+import AdBanner from '@/components/AdBanner';
 const LOAD_TYPES: Record<string, string> = {
   general: 'General Cargo',
   hazardous: 'Hazardous Material',
@@ -370,6 +371,12 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
             }}
           />
         ) : (
+          <>
+          <AdBanner
+            slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MARKETPLACE}
+            format="horizontal"
+            className="w-full mb-6"
+          />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {loads.map((load, idx) => (
               <motion.div
@@ -455,6 +462,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
               </motion.div>
             ))}
           </div>
+          </>
         )}
 
         {loads.length < total && (

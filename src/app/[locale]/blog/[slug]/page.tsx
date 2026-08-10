@@ -72,12 +72,13 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: locale === 'tr' ? 'Yazı Bulunamadı | Loadly' : 'Article Not Found | Loadly',
+      title: locale === 'tr' ? 'Yazı Bulunamadı' : 'Article Not Found',
       robots: { index: false, follow: false },
     };
   }
 
   const title = post.meta_title || post.title;
+  const brandedTitle = `${title} | Loadly`;
   const description = post.meta_description || post.excerpt || post.title;
 
   const parts = slug.split('-');
@@ -128,7 +129,7 @@ export async function generateMetadata({
     },
     openGraph: {
       type: 'article',
-      title,
+      title: brandedTitle,
       description,
       url: `${SITE_URL}/${locale}/blog/${slug}`,
       images: post.cover_image ? [{ url: post.cover_image }] : undefined,
@@ -137,7 +138,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: brandedTitle,
       description,
       images: post.cover_image ? [post.cover_image] : undefined,
     },

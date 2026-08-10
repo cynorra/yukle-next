@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Script from 'next/script';
-import { COOKIE_CONSENT_EVENT, getStoredCookieConsent } from './CookieConsent';
 
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || 'ca-pub-4674211063760769';
 

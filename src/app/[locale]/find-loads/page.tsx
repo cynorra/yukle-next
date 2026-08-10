@@ -9,16 +9,16 @@ interface Props {
 }
 
 const TITLES: Record<string, string> = {
-  tr: 'Yük Bulma: Güvenilir Nakliye Pazaryeri | Loadly',
-  en: 'Find Loads: Reliable Freight Marketplace | Loadly',
-  de: 'Frachten finden: Zuverlässiger Logistikmarktplatz | Loadly',
-  fr: 'Trouver des chargements: Marketplace logistique | Loadly',
-  es: 'Encontrar cargas: Mercado de transporte confiable | Loadly',
-  pt: 'Encontrar cargas: Marketplace de frete confiável | Loadly',
-  it: 'Trova carichi: Marketplace logistico affidabile | Loadly',
-  pl: 'Znajdź ładunki: Niezawodny rynek transportowy | Loadly',
-  ru: 'Найти грузы: Надежная биржа грузоперевозок | Loadly',
-  ar: 'البحث عن شحنات: سوق الشحن الموثوق | Loadly',
+  tr: 'Yük Bulma: Güvenilir Nakliye Pazaryeri',
+  en: 'Find Loads: Reliable Freight Marketplace',
+  de: 'Frachten finden: Zuverlässiger Logistikmarktplatz',
+  fr: 'Trouver des chargements: Marketplace logistique',
+  es: 'Encontrar cargas: Mercado de transporte confiable',
+  pt: 'Encontrar cargas: Marketplace de frete confiável',
+  it: 'Trova carichi: Marketplace logistico affidabile',
+  pl: 'Znajdź ładunki: Niezawodny rynek transportowy',
+  ru: 'Найти грузы: Надежная биржа грузоперевозок',
+  ar: 'البحث عن شحنات: سوق الشحن الموثوق',
 };
 
 const DESCS: Record<string, string> = {
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: languagesAlternates,
     },
     openGraph: {
-      title,
+      title: `${title} | Loadly`,
       description,
       url: `${SITE_URL}/${rawLocale}/find-loads`,
     },

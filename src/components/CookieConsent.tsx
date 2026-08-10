@@ -16,6 +16,13 @@ export function getStoredCookieConsent(): 'accepted' | 'rejected' | null {
 
 function setStoredCookieConsent(value: 'accepted' | 'rejected') {
   localStorage.setItem(STORAGE_KEY, value);
+  const granted = value === 'accepted';
+  const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+  gtag?.('consent', 'update', {
+    ad_storage: granted ? 'granted' : 'denied',
+    ad_user_data: granted ? 'granted' : 'denied',
+    ad_personalization: granted ? 'granted' : 'denied',
+  });
   window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_EVENT, { detail: { accepted: value === 'accepted' } }));
 }
 

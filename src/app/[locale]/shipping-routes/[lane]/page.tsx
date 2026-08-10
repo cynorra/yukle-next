@@ -63,8 +63,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = t.title(lane.originCity, lane.destinationCity);
-  const description = t.desc(lane.originCity, lane.destinationCity);
+  const origin = `${lane.originCity}, ${lane.originCountry}`;
+  const destination = `${lane.destinationCity}, ${lane.destinationCountry}`;
+  const title = t.title(origin, destination);
+  const description = t.desc(origin, destination);
   const languages = ALL_LOCALES.reduce((acc, code) => {
     acc[code] = `${SITE_URL}/${code}/shipping-routes/${laneSlug}`;
     return acc;
@@ -108,6 +110,9 @@ export default async function LanePage({ params }: Props) {
     );
   }
 
+  const origin = `${lane.originCity}, ${lane.originCountry}`;
+  const destination = `${lane.destinationCity}, ${lane.destinationCountry}`;
+
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -117,7 +122,7 @@ export default async function LanePage({ params }: Props) {
       {
         '@type': 'ListItem',
         position: 3,
-        name: t.title(lane.originCity, lane.destinationCity),
+        name: t.title(origin, destination),
         item: `${SITE_URL}/${locale}/shipping-routes/${laneSlug}`,
       },
     ],
@@ -126,7 +131,7 @@ export default async function LanePage({ params }: Props) {
   const itemListJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: t.title(lane.originCity, lane.destinationCity),
+    name: t.title(origin, destination),
     numberOfItems: lane.loads.length,
     itemListElement: lane.loads.map((load, idx) => ({
       '@type': 'ListItem',
@@ -151,10 +156,10 @@ export default async function LanePage({ params }: Props) {
         <div className="max-w-5xl mx-auto px-4 py-12">
           <h1 className="text-3xl sm:text-4xl font-black text-fg tracking-tight flex items-center gap-3">
             <MapPin className="text-accent shrink-0" size={32} />
-            {t.title(lane.originCity, lane.destinationCity)}
+            {t.title(origin, destination)}
           </h1>
           <p className="text-base font-medium text-muted mt-3 max-w-2xl">
-            {t.intro(lane.originCity, lane.destinationCity)}
+            {t.intro(origin, destination)}
           </p>
         </div>
       </header>
@@ -176,11 +181,11 @@ export default async function LanePage({ params }: Props) {
                   className="block p-5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:border-accent/40 transition-colors"
                 >
                   <div className="font-bold text-fg text-sm mb-2 line-clamp-2">
-                    {load.title_translations?.[locale] || load.title || `${lane.originCity} → ${lane.destinationCity}`}
+                    {load.title_translations?.[locale] || load.title || `${origin} → ${destination}`}
                   </div>
                   <div className="text-xs text-muted flex flex-col gap-1.5">
                     <span className="flex items-center gap-1.5 font-semibold">
-                      <MapPin size={13} /> {lane.originCity} → {lane.destinationCity}
+                      <MapPin size={13} /> {origin} → {destination}
                     </span>
                     {load.weight_ton && (
                       <span className="flex items-center gap-1.5">

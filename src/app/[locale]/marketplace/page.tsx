@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }, { 'x-default': '/en/marketplace' } as Record<string, string>);
 
   return {
-    title: `${t.marketplace.title} | Loadly`,
+    title: t.marketplace.title,
     description: t.marketplace.desc,
     alternates: {
       canonical: `/${locale}/marketplace`,

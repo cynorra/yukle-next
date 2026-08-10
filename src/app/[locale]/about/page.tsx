@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalLocale = hasLegalTranslation(rawLocale) ? rawLocale : 'en';
 
   return {
-    title: `${data.about.title} | Loadly`,
+    title: data.about.title,
     description: data.about.description,
     alternates: {
       canonical: `${SITE_URL}/${canonicalLocale}/about`,

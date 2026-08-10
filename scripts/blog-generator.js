@@ -263,7 +263,7 @@ const fallbackArticles = [
 
 <h2>Start Eliminating Empty Miles Today</h2>
 <p>Loadly connects owner-operators directly with verified shippers across thousands of lanes, providing real-time load matching, transparent rates, and the tools you need to keep your truck loaded and your income growing. Join thousands of drivers who have already cut their empty miles using Loadly's intelligent freight matching platform.</p>`,
-    meta_title: 'Eliminate Empty Miles: 7 Owner-Operator Strategies | Loadly',
+    meta_title: 'Eliminate Empty Miles: 7 Owner-Operator Strategies',
     meta_description: 'Empty miles cost owner-operators $15,000+ per year. Discover 7 proven strategies to maximize loaded miles and boost revenue with digital freight platforms.'
   },
   {
@@ -323,7 +323,7 @@ const fallbackArticles = [
 
 <h2>Transform Your E-commerce Shipping Economics</h2>
 <p>Loadly's freight marketplace gives e-commerce businesses instant access to competitive LTL and FTL rates from hundreds of verified carriers. Compare rates in seconds, book with confidence, and track your shipments in real time. Start shipping smarter — and profitably — with Loadly.</p>`,
-    meta_title: 'E-commerce Freight Cost Reduction Playbook 2025 | Loadly',
+    meta_title: 'E-commerce Freight Cost Reduction Playbook 2025',
     meta_description: 'Cut e-commerce shipping costs by up to 35% in 2025. Complete playbook: carrier negotiation, LTL freight, DIM weight optimization, and multi-carrier strategy.'
   },
   {
@@ -388,7 +388,7 @@ const fallbackArticles = [
 
 <h2>Simplify Your International Freight Operations</h2>
 <p>Loadly connects international carriers with verified cross-border freight opportunities and provides documentation checklists for every major trade corridor. Stop losing money to preventable border delays — find your next international load on Loadly and access the compliance resources that keep your trucks moving.</p>`,
-    meta_title: 'International Freight Docs: CMR, TIR & Customs Guide | Loadly',
+    meta_title: 'International Freight Docs: CMR, TIR & Customs Guide',
     meta_description: 'Avoid $3,000+ border delays with expert CMR, TIR Carnet, Dozvola, and customs compliance guidance for international road freight carriers.'
   }
 ];

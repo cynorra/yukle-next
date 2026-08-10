@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: 'KVKK Aydınlatma Metni | Loadly',
+    title: 'KVKK Aydınlatma Metni',
     description: 'Loadly platformu KVKK kişisel verilerin korunması aydınlatma metni. 6698 sayılı Kanun kapsamında haklarınız ve veri işleme politikamız.',
     alternates: {
       canonical: `${SITE_URL}/tr/privacy-policy`,

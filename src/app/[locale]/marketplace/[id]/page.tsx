@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!load) {
     return {
-      title: 'Load Not Found | Loadly',
+      title: 'Load Not Found',
       description: 'The requested shipping load was not found.',
       robots: { index: false, follow: false },
     };
@@ -60,7 +60,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const localizedTitle = load.title_translations?.[locale] || load.title;
   const localizedDescription = load.description_translations?.[locale] || load.description;
 
-  const title = `${localizedTitle} | Loadly`;
+  const title = localizedTitle;
+  const brandedTitle = `${localizedTitle} | Loadly`;
   const description = localizedDescription
     ? (localizedDescription.length > 150 ? localizedDescription.slice(0, 150) + '...' : localizedDescription)
     : `Shipment of ${load.weight_ton} tons of cargo from ${load.origin_city} to ${load.destination_city}.`;
@@ -89,13 +90,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     openGraph: {
       type: 'website',
-      title,
+      title: brandedTitle,
       description,
       url: `${SITE_URL}/${locale}/marketplace/${id}`,
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: brandedTitle,
       description,
     },
     robots:
