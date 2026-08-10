@@ -12,7 +12,7 @@ export const revalidate = 86400;
 export async function GET() {
   const now = new Date().toISOString().split('T')[0];
   const supabase = createPublicClient();
-  const PAGE_SIZE = 40000;
+  const PAGE_SIZE = 10000;
 
   // Get total counts to calculate needed sitemap chunks
   const [{ count: loadsCount }, { count: blogsCount }, lanes] = await Promise.all([

@@ -13,7 +13,7 @@ interface Props {
 export async function GET(request: Request, { params }: Props) {
   const { page: rawPage } = await params;
   const pageNum = Math.max(1, parseInt(rawPage, 10) || 1);
-  const PAGE_SIZE = 40000;
+  const PAGE_SIZE = 10000;
   const startOffset = (pageNum - 1) * PAGE_SIZE;
   const endOffset = startOffset + PAGE_SIZE - 1;
 
@@ -51,7 +51,7 @@ export async function GET(request: Request, { params }: Props) {
   if (allPosts.length > 0) {
     // Group posts by base slug to find language siblings (siblings are
     // grouped within this page's window; a group split across two chunk
-    // boundaries — rare, only near the 40,000-post edge — will list fewer
+    // boundaries — rare, only near the 10,000-post edge — will list fewer
     // alternates for those specific posts, not an error).
     const groups: Record<string, typeof allPosts> = {};
     allPosts.forEach((post) => {

@@ -10,7 +10,7 @@ interface Props {
   params: Promise<{ page: string }>;
 }
 
-const PAGE_SIZE = 40000;
+const PAGE_SIZE = 10000;
 
 export async function GET(request: Request, { params }: Props) {
   const { page: rawPage } = await params;
