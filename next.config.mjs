@@ -28,6 +28,11 @@ const nextConfig = {
         source: '/sitemap-loads-:page(\\d+).xml',
         destination: '/sitemap-loads/:page',
       },
+      {
+        // Same reasoning as sitemap-loads above, applied to the blog chunks.
+        source: '/sitemap-blogs-:page(\\d+).xml',
+        destination: '/sitemap-blogs/:page',
+      },
     ];
   },
   async redirects() {
