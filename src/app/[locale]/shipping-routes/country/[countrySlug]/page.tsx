@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MapPin, Weight, Package } from 'lucide-react';
-import { getCountryHub } from '@/lib/laneRoutes';
+import { getCountryHub, normalizeCountryName } from '@/lib/laneRoutes';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
 
@@ -180,7 +180,7 @@ export default async function CountryHubPage({ params }: Props) {
                   </div>
                   <div className="text-xs text-muted flex flex-col gap-1.5">
                     <span className="flex items-center gap-1.5 font-semibold">
-                      <MapPin size={13} /> {load.origin_city}, {hub.country} → {load.destination_city}, {load.destination_country}
+                      <MapPin size={13} /> {load.origin_city}, {hub.country} → {load.destination_city}, {normalizeCountryName(load.destination_country || '')}
                     </span>
                     {load.weight_ton && (
                       <span className="flex items-center gap-1.5">
