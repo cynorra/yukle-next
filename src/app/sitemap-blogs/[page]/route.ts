@@ -4,7 +4,7 @@ import {
   URLSET_HEADER, SITEMAP_HEADERS,
 } from '@/lib/sitemap-utils';
 
-export const revalidate = 86400; // ISR: regenerate every 24 hours
+export const revalidate = 3600; // ISR: regenerate hourly
 
 interface Props {
   params: Promise<{ page: string }>;
