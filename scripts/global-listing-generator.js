@@ -56,7 +56,7 @@ const supabase = createClient(supabaseUrl, serviceKey || anonKey);
 const ALL_LOCALES = [
   'en', 'tr', 'de', 'fr', 'es', 'pt', 'it', 'pl', 'nl', 'ru',
   'uk', 'zh', 'ja', 'ko', 'hi', 'ar', 'fa', 'ur', 'bn', 'id',
-  'ms', 'vi', 'th', 'tl', 'sw', 'ha', 'am', 'yo', 'ig', 'zu',
+  'ms', 'vi', 'th', 'tl', 'az', 'kk', 'uz', 'ta', 'mr', 'ka',
   'ro', 'hu', 'cs', 'sk', 'bg', 'hr', 'sr', 'sl', 'et', 'lv',
   'lt', 'fi', 'sv', 'da', 'no', 'he', 'el'
 ];

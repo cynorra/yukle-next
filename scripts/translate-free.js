@@ -23,8 +23,8 @@ const LANG_MAP = {
   'ja': 'ja-JP', 'ko': 'ko-KR', 'hi': 'hi-IN', 'ar': 'ar-SA',
   'fa': 'fa-IR', 'ur': 'ur-PK', 'bn': 'bn-BD', 'id': 'id-ID',
   'ms': 'ms-MY', 'vi': 'vi-VN', 'th': 'th-TH', 'tl': 'tl-PH',
-  'sw': 'sw-KE', 'ha': 'ha-NG', 'am': 'am-ET', 'yo': 'yo-NG',
-  'ig': 'ig-NG', 'zu': 'zu-ZA', 'ro': 'ro-RO', 'hu': 'hu-HU',
+  'az': 'az-AZ', 'kk': 'kk-KZ', 'uz': 'uz-UZ', 'ta': 'ta-IN',
+  'mr': 'mr-IN', 'ka': 'ka-GE', 'ro': 'ro-RO', 'hu': 'hu-HU',
   'cs': 'cs-CZ', 'sk': 'sk-SK', 'bg': 'bg-BG', 'hr': 'hr-HR',
   'sr': 'sr-RS', 'sl': 'sl-SI', 'et': 'et-EE', 'lv': 'lv-LV',
   'lt': 'lt-LT', 'fi': 'fi-FI', 'sv': 'sv-SE', 'da': 'da-DK',
@@ -32,7 +32,7 @@ const LANG_MAP = {
 };
 
 // Languages MyMemory may not support well — fallback to English for these
-const UNSUPPORTED = new Set(['ha', 'ig', 'yo', 'zu', 'am']);
+const UNSUPPORTED = new Set([]);
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { submitToIndexNow } from '@/lib/indexnow';
-import { buildLaneSlug, buildCitySlug, buildCountrySlug } from '@/lib/laneRoutes';
+import { buildLaneSlug, buildCitySlug, buildCountrySlug, buildTruckTypeSlug, buildLoadTypeSlug } from '@/lib/laneRoutes';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 const ALL_LOCALES = [
@@ -99,7 +99,7 @@ export async function GET(request: Request) {
       try {
         const { data: newLoads } = await supabase
           .from('loads')
-          .select('id, origin_city, origin_country, destination_city, destination_country')
+          .select('id, origin_city, origin_country, destination_city, destination_country, required_truck_type, load_type')
           .eq('status', 'active')
           .gte('created_at', runStartedAt);
 
@@ -107,6 +107,10 @@ export async function GET(request: Request) {
           const laneSlugs = new Set<string>();
           const citySlugs = new Set<string>();
           const countrySlugs = new Set<string>();
+          const destCitySlugs = new Set<string>();
+          const destCountrySlugs = new Set<string>();
+          const truckTypeSlugs = new Set<string>();
+          const loadTypeSlugs = new Set<string>();
           for (const load of newLoads) {
             if (load.origin_city && load.origin_country && load.destination_city && load.destination_country) {
               laneSlugs.add(buildLaneSlug(load.origin_city, load.origin_country, load.destination_city, load.destination_country));
@@ -115,13 +119,19 @@ export async function GET(request: Request) {
               citySlugs.add(buildCitySlug(load.origin_city, load.origin_country));
               countrySlugs.add(buildCountrySlug(load.origin_country));
             }
+            if (load.destination_city && load.destination_country) {
+              destCitySlugs.add(buildCitySlug(load.destination_city, load.destination_country));
+              destCountrySlugs.add(buildCountrySlug(load.destination_country));
+            }
+            if (load.required_truck_type) truckTypeSlugs.add(buildTruckTypeSlug(load.required_truck_type));
+            if (load.load_type) loadTypeSlugs.add(buildLoadTypeSlug(load.load_type));
           }
 
           const urls = newLoads.flatMap((load) =>
             ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/marketplace/${load.id}`)
           );
-          // Hub pages (lane/city/country) may already exist — resubmitting is
-          // harmless, and this is the only place a brand-new hub's URL ever
+          // Hub pages (lane/city/country/etc.) may already exist — resubmitting
+          // is harmless, and this is the only place a brand-new hub's URL ever
           // gets pushed for fast indexing.
           const laneUrls = Array.from(laneSlugs).flatMap((slug) =>
             ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/${slug}`)
@@ -132,7 +142,22 @@ export async function GET(request: Request) {
           const countryUrls = Array.from(countrySlugs).flatMap((slug) =>
             ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/country/${slug}`)
           );
-          await submitToIndexNow([...urls, ...laneUrls, ...cityUrls, ...countryUrls]);
+          const destCityUrls = Array.from(destCitySlugs).flatMap((slug) =>
+            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/to/${slug}`)
+          );
+          const destCountryUrls = Array.from(destCountrySlugs).flatMap((slug) =>
+            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/to-country/${slug}`)
+          );
+          const truckTypeUrls = Array.from(truckTypeSlugs).flatMap((slug) =>
+            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/truck-type/${slug}`)
+          );
+          const loadTypeUrls = Array.from(loadTypeSlugs).flatMap((slug) =>
+            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/cargo-type/${slug}`)
+          );
+          await submitToIndexNow([
+            ...urls, ...laneUrls, ...cityUrls, ...countryUrls,
+            ...destCityUrls, ...destCountryUrls, ...truckTypeUrls, ...loadTypeUrls,
+          ]);
           indexNowSubmitted = newLoads.length;
         }
       } catch (err: any) {

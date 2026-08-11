@@ -38,6 +38,15 @@ const scrapedBlacklist = [
   // '05551234567'
 ];
 
+// All 47 locales supported by the app (must match src/utils/translations.ts's Locale type).
+const ALL_LOCALES = [
+  'en', 'tr', 'de', 'fr', 'es', 'pt', 'it', 'pl', 'nl', 'ru',
+  'uk', 'zh', 'ja', 'ko', 'hi', 'ar', 'fa', 'ur', 'bn', 'id',
+  'ms', 'vi', 'th', 'tl', 'az', 'kk', 'uz', 'ta', 'mr', 'ka',
+  'ro', 'hu', 'cs', 'sk', 'bg', 'hr', 'sr', 'sl', 'et', 'lv',
+  'lt', 'fi', 'sv', 'da', 'no', 'he', 'el'
+];
+
 function isItemBlacklisted(companyName, phone, email) {
   const cleanName = (companyName || '').toLowerCase().trim();
   const cleanPhone = (phone || '').replace(/[^0-9+]/g, '').trim();
@@ -496,16 +505,19 @@ async function translateListing(title, description) {
     };
   }
 
+  const localeList = ALL_LOCALES.join(', ');
+  const localeSchemaProps = {};
+  ALL_LOCALES.forEach(lc => { localeSchemaProps[lc] = { type: 'STRING' }; });
+
   const payload = JSON.stringify({
     contents: [{
       parts: [{
-        text: `Translate this shipping listing title and description from Turkish (or Windows-1254 style Turkish/English) to these target languages:
-English (en), Spanish (es), Portuguese (pt), French (fr), German (de), Italian (it), Polish (pl), Dutch (nl), Russian (ru), Ukrainian (uk), Chinese (zh), Japanese (ja), Hindi (hi), Arabic (ar), Farsi (fa).
+        text: `Translate this shipping listing title and description from Turkish (or Windows-1254 style Turkish/English) to ALL of these target languages: ${localeList}.
 
 Keep the original structure. Do NOT translate company names, phone numbers, emails, or IDs (e.g. "Firma Adı", "Yetkili Kişi", "Telefon", "E-posta" tags themselves should be translated to the target language, but their values like contact names/numbers must remain identical).
 Return a JSON object containing two fields:
-- title_translations: an object mapping all language codes (en, tr, es, pt, fr, de, it, pl, nl, ru, uk, zh, ja, hi, ar, fa) to the translated title. Include the original Turkish "tr" mapping to the original Turkish title.
-- description_translations: an object mapping all language codes (en, tr, es, pt, fr, de, it, pl, nl, ru, uk, zh, ja, hi, ar, fa) to the translated description. Include the original Turkish "tr" mapping to the original Turkish description.
+- title_translations: an object mapping all language codes (${localeList}) to the translated title. Include the original Turkish "tr" mapping to the original Turkish title.
+- description_translations: an object mapping all language codes (${localeList}) to the translated description. Include the original Turkish "tr" mapping to the original Turkish description.
 
 Input title:
 ${title}
@@ -521,47 +533,13 @@ ${description}`
         properties: {
           title_translations: {
             type: 'OBJECT',
-            properties: {
-              en: { type: 'STRING' },
-              tr: { type: 'STRING' },
-              es: { type: 'STRING' },
-              pt: { type: 'STRING' },
-              fr: { type: 'STRING' },
-              de: { type: 'STRING' },
-              it: { type: 'STRING' },
-              pl: { type: 'STRING' },
-              nl: { type: 'STRING' },
-              ru: { type: 'STRING' },
-              uk: { type: 'STRING' },
-              zh: { type: 'STRING' },
-              ja: { type: 'STRING' },
-              hi: { type: 'STRING' },
-              ar: { type: 'STRING' },
-              fa: { type: 'STRING' }
-            },
-            required: ['en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa']
+            properties: localeSchemaProps,
+            required: ALL_LOCALES
           },
           description_translations: {
             type: 'OBJECT',
-            properties: {
-              en: { type: 'STRING' },
-              tr: { type: 'STRING' },
-              es: { type: 'STRING' },
-              pt: { type: 'STRING' },
-              fr: { type: 'STRING' },
-              de: { type: 'STRING' },
-              it: { type: 'STRING' },
-              pl: { type: 'STRING' },
-              nl: { type: 'STRING' },
-              ru: { type: 'STRING' },
-              uk: { type: 'STRING' },
-              zh: { type: 'STRING' },
-              ja: { type: 'STRING' },
-              hi: { type: 'STRING' },
-              ar: { type: 'STRING' },
-              fa: { type: 'STRING' }
-            },
-            required: ['en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa']
+            properties: localeSchemaProps,
+            required: ALL_LOCALES
           }
         },
         required: ['title_translations', 'description_translations']

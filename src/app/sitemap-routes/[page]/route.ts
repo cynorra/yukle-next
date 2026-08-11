@@ -17,7 +17,7 @@ export async function GET(request: Request, { params }: Props) {
   const pageNum = Math.max(1, parseInt(rawPage, 10) || 1);
   const startOffset = (pageNum - 1) * PAGE_SIZE;
 
-  const { lanes, cities, countries } = await getAllRouteHubs();
+  const { lanes, cities, countries, destinationCities, destinationCountries, truckTypes, loadTypes } = await getAllRouteHubs();
 
   // Combined so the index's page-count math and this route's slicing agree
   // on one total — order doesn't matter, just needs to be stable within a
@@ -26,6 +26,10 @@ export async function GET(request: Request, { params }: Props) {
     ...Array.from(lanes.values()).map((lane) => `/shipping-routes/${lane.slug}`),
     ...Array.from(cities.values()).map((hub) => `/shipping-routes/from/${hub.slug}`),
     ...Array.from(countries.values()).map((hub) => `/shipping-routes/country/${hub.slug}`),
+    ...Array.from(destinationCities.values()).map((hub) => `/shipping-routes/to/${hub.slug}`),
+    ...Array.from(destinationCountries.values()).map((hub) => `/shipping-routes/to-country/${hub.slug}`),
+    ...Array.from(truckTypes.values()).map((hub) => `/shipping-routes/truck-type/${hub.slug}`),
+    ...Array.from(loadTypes.values()).map((hub) => `/shipping-routes/cargo-type/${hub.slug}`),
   ];
   const pagePaths = allPaths.slice(startOffset, startOffset + PAGE_SIZE);
 

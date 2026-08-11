@@ -5,6 +5,7 @@ import { createPublicClient } from '@/lib/supabase/public';
 import { LoadDetailClient } from './LoadDetailClient';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
+import { buildLaneSlug, buildCitySlug, buildCountrySlug, buildTruckTypeSlug, buildLoadTypeSlug, normalizeCountryName } from '@/lib/laneRoutes';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -162,6 +163,55 @@ export default async function LoadDetailPage({ params }: PageProps) {
     ],
   };
 
+  // Internal links to the durable hub pages this load belongs to — the only
+  // on-site path into those hubs besides the sitemap/IndexNow, so crawlers
+  // and users reach them from the page most likely to already be indexed.
+  const relatedRoutes: { href: string; label: string }[] = [];
+  if (load.origin_city && load.origin_country) {
+    relatedRoutes.push({
+      href: `/${locale}/shipping-routes/from/${buildCitySlug(load.origin_city, load.origin_country)}`,
+      label: locale === 'tr' ? `${load.origin_city} Çıkışlı Diğer İlanlar` : `More Loads From ${load.origin_city}`,
+    });
+    relatedRoutes.push({
+      href: `/${locale}/shipping-routes/country/${buildCountrySlug(load.origin_country)}`,
+      label: locale === 'tr'
+        ? `${normalizeCountryName(load.origin_country)} Çıkışlı Diğer İlanlar`
+        : `More Loads From ${normalizeCountryName(load.origin_country)}`,
+    });
+  }
+  if (load.destination_city && load.destination_country) {
+    relatedRoutes.push({
+      href: `/${locale}/shipping-routes/to/${buildCitySlug(load.destination_city, load.destination_country)}`,
+      label: locale === 'tr' ? `${load.destination_city} Varışlı Diğer İlanlar` : `More Loads To ${load.destination_city}`,
+    });
+    relatedRoutes.push({
+      href: `/${locale}/shipping-routes/to-country/${buildCountrySlug(load.destination_country)}`,
+      label: locale === 'tr'
+        ? `${normalizeCountryName(load.destination_country)} Varışlı Diğer İlanlar`
+        : `More Loads To ${normalizeCountryName(load.destination_country)}`,
+    });
+  }
+  if (load.origin_city && load.origin_country && load.destination_city && load.destination_country) {
+    relatedRoutes.push({
+      href: `/${locale}/shipping-routes/${buildLaneSlug(load.origin_city, load.origin_country, load.destination_city, load.destination_country)}`,
+      label: locale === 'tr' ? 'Bu Rotadaki Tüm İlanlar' : 'All Loads On This Route',
+    });
+  }
+  if (load.required_truck_type) {
+    const label = TRUCK_TYPES[load.required_truck_type] || load.required_truck_type;
+    relatedRoutes.push({
+      href: `/${locale}/shipping-routes/truck-type/${buildTruckTypeSlug(load.required_truck_type)}`,
+      label: locale === 'tr' ? `Diğer ${label} İlanları` : `More ${label} Loads`,
+    });
+  }
+  if (load.load_type) {
+    const label = LOAD_TYPES[load.load_type] || load.load_type;
+    relatedRoutes.push({
+      href: `/${locale}/shipping-routes/cargo-type/${buildLoadTypeSlug(load.load_type)}`,
+      label: locale === 'tr' ? `Diğer ${label} İlanları` : `More ${label} Loads`,
+    });
+  }
+
   return (
     <>
       <script
@@ -199,6 +249,20 @@ export default async function LoadDetailPage({ params }: PageProps) {
           {load.load_type ? ` · ${LOAD_TYPES[load.load_type] || load.load_type}` : ''}
         </p>
       </header>
+
+      {relatedRoutes.length > 0 && (
+        <nav aria-label={locale === 'tr' ? 'İlgili rotalar' : 'Related routes'} className="max-w-5xl mx-auto px-4 mt-6 flex flex-wrap gap-2">
+          {relatedRoutes.map((route) => (
+            <Link
+              key={route.href}
+              href={route.href}
+              className="px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-muted hover:text-accent hover:border-accent/40 transition-colors"
+            >
+              {route.label}
+            </Link>
+          ))}
+        </nav>
+      )}
 
       <LoadDetailClient load={load as any} />
     </>

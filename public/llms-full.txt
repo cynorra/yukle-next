@@ -36,6 +36,10 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 | Shipping Routes (Lane Hub) | `/{locale}/shipping-routes/{lane}` | Durable page per origin→destination city pair listing currently active loads on that route |
 | Shipping Routes (City Hub) | `/{locale}/shipping-routes/from/{citySlug}` | All active loads originating from one city, any destination |
 | Shipping Routes (Country Hub) | `/{locale}/shipping-routes/country/{countrySlug}` | All active loads originating from one country, any destination |
+| Shipping Routes (Destination City Hub) | `/{locale}/shipping-routes/to/{citySlug}` | All active loads heading to one city, any origin |
+| Shipping Routes (Destination Country Hub) | `/{locale}/shipping-routes/to-country/{countrySlug}` | All active loads heading to one country, any origin |
+| Shipping Routes (Equipment Hub) | `/{locale}/shipping-routes/truck-type/{truckType}` | All active loads requiring a given truck/trailer type (TIR, flatbed, reefer, container, etc.) |
+| Shipping Routes (Cargo Type Hub) | `/{locale}/shipping-routes/cargo-type/{loadType}` | All active loads of a given cargo category (general, hazardous, perishable, oversized, fragile) |
 | Advertise | `/{locale}/advertise` | Advertising information |
 | Privacy Policy | `/{locale}/privacy-policy` | KVKK / GDPR compliance |
 | Privacy | `/{locale}/privacy` | Data privacy information |

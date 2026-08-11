@@ -60,8 +60,8 @@ if (fs.existsSync(countriesDataPath)) {
   }
 }
 
-const existingTurkishNames = new Set(existingData.map(c => c.turkishName));
-const missingCountries = turkishCountries.filter(c => !existingTurkishNames.has(c));
+const existingTurkishNames = new Set(existingData.map(c => c.turkishName.trim().toLowerCase()));
+const missingCountries = turkishCountries.filter(c => !existingTurkishNames.has(c.trim().toLowerCase()));
 
 console.log('Total countries:', turkishCountries.length);
 console.log('Existing translated countries:', existingData.length);

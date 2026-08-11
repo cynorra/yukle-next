@@ -15,7 +15,7 @@ export async function GET() {
   const PAGE_SIZE = 10000;
 
   // Get total counts to calculate needed sitemap chunks
-  const [{ count: loadsCount }, { count: blogsCount }, { lanes, cities, countries }] = await Promise.all([
+  const [{ count: loadsCount }, { count: blogsCount }, { lanes, cities, countries, destinationCities, destinationCountries, truckTypes, loadTypes }] = await Promise.all([
     supabase.from('loads').select('id', { count: 'exact', head: true }).eq('status', 'active'),
     supabase.from('blog_posts').select('id', { count: 'exact', head: true }).eq('published', true),
     getAllRouteHubs(),
@@ -23,7 +23,7 @@ export async function GET() {
 
   const loadPages = Math.max(1, Math.ceil((loadsCount || 0) / PAGE_SIZE));
   const blogPages = Math.max(1, Math.ceil((blogsCount || 0) / PAGE_SIZE));
-  const totalRoutes = lanes.size + cities.size + countries.size;
+  const totalRoutes = lanes.size + cities.size + countries.size + destinationCities.size + destinationCountries.size + truckTypes.size + loadTypes.size;
   const routePages = totalRoutes > 0 ? Math.ceil(totalRoutes / PAGE_SIZE) : 0;
 
   let xml = SITEMAP_INDEX_HEADER;

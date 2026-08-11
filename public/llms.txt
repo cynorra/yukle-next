@@ -16,6 +16,10 @@
 - **Shipping Routes**: Durable per-lane pages (e.g. https://loadlyapp.com/en/shipping-routes/phoenix-az-to-tucson-az) listing currently active loads on that origin→destination pair
 - **City Hubs**: All active loads originating from one city, any destination (e.g. https://loadlyapp.com/en/shipping-routes/from/phoenix-az) — matches broader queries like "freight loads from Phoenix"
 - **Country Hubs**: All active loads originating from one country (e.g. https://loadlyapp.com/en/shipping-routes/country/usa) — matches top-of-funnel queries like "freight shipping USA"
+- **Destination City Hubs**: All active loads heading to one city, any origin (e.g. https://loadlyapp.com/en/shipping-routes/to/phoenix-az) — matches queries like "freight loads to Phoenix"
+- **Destination Country Hubs**: All active loads heading to one country, any origin (e.g. https://loadlyapp.com/en/shipping-routes/to-country/usa) — matches queries like "freight shipping to USA"
+- **Equipment Hubs**: All active loads requiring a given truck/trailer type (e.g. https://loadlyapp.com/en/shipping-routes/truck-type/frigo) — matches equipment-specific queries like "reefer loads"
+- **Cargo Type Hubs**: All active loads of a given cargo category (e.g. https://loadlyapp.com/en/shipping-routes/cargo-type/hazardous) — matches queries like "hazardous material freight"
 - **LLMs Full Context**: https://loadlyapp.com/llms-full.txt
 
 ## Language & Locale Coverage
@@ -78,7 +82,7 @@ All pages include rich JSON-LD structured data:
 
 - All public pages are indexable with `robots: index, follow`
 - Private pages (dashboard, profile, messages) are blocked via robots.txt and meta robots
-- Sitemaps are dynamically generated via sitemap index with 3 sub-sitemaps
+- Sitemaps are dynamically generated via sitemap index with 4 sub-sitemaps
 - **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam for all 47 language versions
 - All major AI crawlers explicitly allowed: GPTBot, ClaudeBot, Google-Extended, PerplexityBot, Meta-ExternalAgent, Amazonbot, Bytespider, YouBot, cohere-ai, CCBot, Diffbot, Copilot
 - `Crawl-delay` is set for aggressive crawlers (Baidu, Sogou, Bytespider)

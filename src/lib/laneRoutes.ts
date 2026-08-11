@@ -28,6 +28,8 @@ export interface LoadRow {
   destination_country: string | null;
   weight_ton: number | null;
   created_at: string | null;
+  required_truck_type: string | null;
+  load_type: string | null;
 }
 
 export interface Lane {
@@ -49,6 +51,18 @@ export interface CityHub {
 export interface CountryHub {
   slug: string;
   country: string;
+  loads: LoadRow[];
+}
+
+export interface TruckTypeHub {
+  slug: string;
+  truckType: string;
+  loads: LoadRow[];
+}
+
+export interface LoadTypeHub {
+  slug: string;
+  loadType: string;
   loads: LoadRow[];
 }
 
@@ -86,6 +100,7 @@ const COUNTRY_NAME_ALIASES: Record<string, string> = {
   'nijer': 'Niger',
   'iskocya': 'United Kingdom',
   'urdun': 'Jordan',
+  'makedonya': 'North Macedonia',
 };
 
 export function normalizeCountryName(country: string): string {
@@ -107,6 +122,14 @@ export function buildCountrySlug(country: string): string {
   return slugifyCity(normalizeCountryName(country));
 }
 
+export function buildTruckTypeSlug(truckType: string): string {
+  return slugifyCity(truckType);
+}
+
+export function buildLoadTypeSlug(loadType: string): string {
+  return slugifyCity(loadType);
+}
+
 /**
  * Fetch the most recent active loads once. Shared by lane/city/country
  * grouping so callers that need more than one grouping (e.g. the sitemap)
@@ -123,7 +146,7 @@ export async function fetchRecentActiveLoads(): Promise<LoadRow[]> {
     const to = Math.min(from + step - 1, MAX_SCANNED_LOADS - 1);
     const { data: loads, error } = await supabase
       .from('loads')
-      .select('id, title, title_translations, origin_city, origin_country, destination_city, destination_country, weight_ton, created_at')
+      .select('id, title, title_translations, origin_city, origin_country, destination_city, destination_country, weight_ton, created_at, required_truck_type, load_type')
       .eq('status', 'active')
       .order('created_at', { ascending: false })
       .range(from, to);
@@ -191,6 +214,69 @@ export function groupByCountry(loads: LoadRow[]): Map<string, CountryHub> {
   return hubs;
 }
 
+// Destination-side mirrors of groupByCity/groupByCountry — same CityHub/CountryHub
+// shape, just keyed off destination_city/destination_country instead of origin.
+// Serves "loads TO this city/country" queries that the origin-only hubs miss.
+export function groupByDestinationCity(loads: LoadRow[]): Map<string, CityHub> {
+  const hubs = new Map<string, CityHub>();
+  for (const load of loads) {
+    if (!load.destination_city || !load.destination_country) continue;
+    const slug = buildCitySlug(load.destination_city, load.destination_country);
+    const existing = hubs.get(slug);
+    if (existing) {
+      existing.loads.push(load);
+    } else {
+      hubs.set(slug, { slug, city: load.destination_city, country: normalizeCountryName(load.destination_country), loads: [load] });
+    }
+  }
+  return hubs;
+}
+
+export function groupByDestinationCountry(loads: LoadRow[]): Map<string, CountryHub> {
+  const hubs = new Map<string, CountryHub>();
+  for (const load of loads) {
+    if (!load.destination_country) continue;
+    const slug = buildCountrySlug(load.destination_country);
+    const existing = hubs.get(slug);
+    if (existing) {
+      existing.loads.push(load);
+    } else {
+      hubs.set(slug, { slug, country: normalizeCountryName(load.destination_country), loads: [load] });
+    }
+  }
+  return hubs;
+}
+
+export function groupByTruckType(loads: LoadRow[]): Map<string, TruckTypeHub> {
+  const hubs = new Map<string, TruckTypeHub>();
+  for (const load of loads) {
+    if (!load.required_truck_type) continue;
+    const slug = buildTruckTypeSlug(load.required_truck_type);
+    const existing = hubs.get(slug);
+    if (existing) {
+      existing.loads.push(load);
+    } else {
+      hubs.set(slug, { slug, truckType: load.required_truck_type, loads: [load] });
+    }
+  }
+  return hubs;
+}
+
+export function groupByLoadType(loads: LoadRow[]): Map<string, LoadTypeHub> {
+  const hubs = new Map<string, LoadTypeHub>();
+  for (const load of loads) {
+    if (!load.load_type) continue;
+    const slug = buildLoadTypeSlug(load.load_type);
+    const existing = hubs.get(slug);
+    if (existing) {
+      existing.loads.push(load);
+    } else {
+      hubs.set(slug, { slug, loadType: load.load_type, loads: [load] });
+    }
+  }
+  return hubs;
+}
+
 export async function getActiveLanes(): Promise<Map<string, Lane>> {
   return groupByLane(await fetchRecentActiveLoads());
 }
@@ -218,15 +304,63 @@ export async function getCountryHub(slug: string): Promise<CountryHub | null> {
   return hubs.get(slug) ?? null;
 }
 
+export async function getActiveDestinationCityHubs(): Promise<Map<string, CityHub>> {
+  return groupByDestinationCity(await fetchRecentActiveLoads());
+}
+
+export async function getDestinationCityHub(slug: string): Promise<CityHub | null> {
+  const hubs = await getActiveDestinationCityHubs();
+  return hubs.get(slug) ?? null;
+}
+
+export async function getActiveDestinationCountryHubs(): Promise<Map<string, CountryHub>> {
+  return groupByDestinationCountry(await fetchRecentActiveLoads());
+}
+
+export async function getDestinationCountryHub(slug: string): Promise<CountryHub | null> {
+  const hubs = await getActiveDestinationCountryHubs();
+  return hubs.get(slug) ?? null;
+}
+
+export async function getActiveTruckTypeHubs(): Promise<Map<string, TruckTypeHub>> {
+  return groupByTruckType(await fetchRecentActiveLoads());
+}
+
+export async function getTruckTypeHub(slug: string): Promise<TruckTypeHub | null> {
+  const hubs = await getActiveTruckTypeHubs();
+  return hubs.get(slug) ?? null;
+}
+
+export async function getActiveLoadTypeHubs(): Promise<Map<string, LoadTypeHub>> {
+  return groupByLoadType(await fetchRecentActiveLoads());
+}
+
+export async function getLoadTypeHub(slug: string): Promise<LoadTypeHub | null> {
+  const hubs = await getActiveLoadTypeHubs();
+  return hubs.get(slug) ?? null;
+}
+
 /**
- * All three groupings in one pass — for the sitemap, which needs to
- * enumerate every hub type without scanning the loads table three times.
+ * All groupings in one pass — for the sitemap, which needs to enumerate
+ * every hub type without scanning the loads table once per type.
  */
-export async function getAllRouteHubs(): Promise<{ lanes: Map<string, Lane>; cities: Map<string, CityHub>; countries: Map<string, CountryHub> }> {
+export async function getAllRouteHubs(): Promise<{
+  lanes: Map<string, Lane>;
+  cities: Map<string, CityHub>;
+  countries: Map<string, CountryHub>;
+  destinationCities: Map<string, CityHub>;
+  destinationCountries: Map<string, CountryHub>;
+  truckTypes: Map<string, TruckTypeHub>;
+  loadTypes: Map<string, LoadTypeHub>;
+}> {
   const loads = await fetchRecentActiveLoads();
   return {
     lanes: groupByLane(loads),
     cities: groupByCity(loads),
     countries: groupByCountry(loads),
+    destinationCities: groupByDestinationCity(loads),
+    destinationCountries: groupByDestinationCountry(loads),
+    truckTypes: groupByTruckType(loads),
+    loadTypes: groupByLoadType(loads),
   };
 }

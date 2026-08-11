@@ -418,7 +418,7 @@
     ]
   },
   {
-    "turkishName": "cad",
+    "turkishName": "Cad",
     "englishName": "Chad",
     "cities": [
       "N'Djamena",
@@ -517,17 +517,6 @@
     ]
   },
   {
-    "turkishName": "Costa Rica",
-    "englishName": "Costa Rica",
-    "cities": [
-      "San José",
-      "Limón",
-      "Alajuela",
-      "Heredia",
-      "Cartago"
-    ]
-  },
-  {
     "turkishName": "Cote d'Ivoire",
     "englishName": "Côte d'Ivoire",
     "cities": [
@@ -547,17 +536,6 @@
       "Chancanab",
       "Playa del Carmen",
       "Cancun"
-    ]
-  },
-  {
-    "turkishName": "Cuba",
-    "englishName": "Cuba",
-    "cities": [
-      "Havana",
-      "Santiago de Cuba",
-      "Camagüey",
-      "Holguín",
-      "Santa Clara"
     ]
   },
   {
@@ -855,17 +833,6 @@
       "Tamale",
       "Sekondi-Takoradi",
       "Ashaiman"
-    ]
-  },
-  {
-    "turkishName": "Georgia",
-    "englishName": "Georgia",
-    "cities": [
-      "Tbilisi",
-      "Batumi",
-      "Kutaisi",
-      "Rustavi",
-      "Gori"
     ]
   },
   {
@@ -1584,17 +1551,6 @@
     ]
   },
   {
-    "turkishName": "Mauritania",
-    "englishName": "Mauritania",
-    "cities": [
-      "Nouakchott",
-      "Nouadhibou",
-      "Kiffa",
-      "Rosso",
-      "Zoueiratt"
-    ]
-  },
-  {
     "turkishName": "Mauritius",
     "englishName": "Mauritius",
     "cities": [
@@ -1757,6 +1713,776 @@
       "Dumbéa",
       "Païta",
       "Bourail"
+    ]
+  },
+  {
+    "turkishName": "Orta Afrika Cumhuriyeti",
+    "englishName": "Central African Republic",
+    "cities": [
+      "Bangui",
+      "Bimbo",
+      "Berbérati",
+      "Carnot",
+      "Bambari"
+    ]
+  },
+  {
+    "turkishName": "Sili",
+    "englishName": "Chile",
+    "cities": [
+      "Santiago",
+      "Valparaíso",
+      "Concepción",
+      "Antofagasta",
+      "Temuco"
+    ]
+  },
+  {
+    "turkishName": "Esvatini",
+    "englishName": "Eswatini",
+    "cities": [
+      "Mbabane",
+      "Manzini",
+      "Lobamba",
+      "Siteki",
+      "Nhlangano"
+    ]
+  },
+  {
+    "turkishName": "Yunanistan",
+    "englishName": "Greece",
+    "cities": [
+      "Athens",
+      "Thessaloniki",
+      "Patras",
+      "Heraklion",
+      "Larissa"
+    ]
+  },
+  {
+    "turkishName": "Gine",
+    "englishName": "Guinea",
+    "cities": [
+      "Conakry",
+      "Nzérékoré",
+      "Kankan",
+      "Kindia",
+      "Labé"
+    ]
+  },
+  {
+    "turkishName": "Gine-Bissau",
+    "englishName": "Guinea-Bissau",
+    "cities": [
+      "Bissau",
+      "Bafatá",
+      "Gabú",
+      "Bissorã",
+      "Bolama"
+    ]
+  },
+  {
+    "turkishName": "Urdun",
+    "englishName": "Jordan",
+    "cities": [
+      "Amman",
+      "Zarqa",
+      "Irbid",
+      "Russeifa",
+      "Aqaba"
+    ]
+  },
+  {
+    "turkishName": "Karadag",
+    "englishName": "Montenegro",
+    "cities": [
+      "Podgorica",
+      "Nikšić",
+      "Herceg Novi",
+      "Pljevlja",
+      "Bar"
+    ]
+  },
+  {
+    "turkishName": "Namibya",
+    "englishName": "Namibia",
+    "cities": [
+      "Windhoek",
+      "Walvis Bay",
+      "Swakopmund",
+      "Rundu",
+      "Oshakati"
+    ]
+  },
+  {
+    "turkishName": "Yeni Zelanda",
+    "englishName": "New Zealand",
+    "cities": [
+      "Auckland",
+      "Wellington",
+      "Christchurch",
+      "Hamilton",
+      "Dunedin"
+    ]
+  },
+  {
+    "turkishName": "Nikaragua",
+    "englishName": "Nicaragua",
+    "cities": [
+      "Managua",
+      "León",
+      "Masaya",
+      "Chinandega",
+      "Granada"
+    ]
+  },
+  {
+    "turkishName": "Nijer",
+    "englishName": "Niger",
+    "cities": [
+      "Niamey",
+      "Zinder",
+      "Maradi",
+      "Agadez",
+      "Tahoua"
+    ]
+  },
+  {
+    "turkishName": "Nijerya",
+    "englishName": "Nigeria",
+    "cities": [
+      "Lagos",
+      "Abuja",
+      "Kano",
+      "Ibadan",
+      "Port Harcourt"
+    ]
+  },
+  {
+    "turkishName": "Norvec",
+    "englishName": "Norway",
+    "cities": [
+      "Oslo",
+      "Bergen",
+      "Trondheim",
+      "Stavanger",
+      "Drammen"
+    ]
+  },
+  {
+    "turkishName": "Umman",
+    "englishName": "Oman",
+    "cities": [
+      "Muscat",
+      "Salalah",
+      "Sohar",
+      "Nizwa",
+      "Sur"
+    ]
+  },
+  {
+    "turkishName": "Pakistan",
+    "englishName": "Pakistan",
+    "cities": [
+      "Karachi",
+      "Lahore",
+      "Islamabad",
+      "Faisalabad",
+      "Rawalpindi"
+    ]
+  },
+  {
+    "turkishName": "Palau",
+    "englishName": "Palau",
+    "cities": [
+      "Ngerulmud",
+      "Koror",
+      "Airai",
+      "Melekeok",
+      "Kloulklubed"
+    ]
+  },
+  {
+    "turkishName": "Filistin",
+    "englishName": "Palestine",
+    "cities": [
+      "Ramallah",
+      "Gaza",
+      "Hebron",
+      "Nablus",
+      "Bethlehem"
+    ]
+  },
+  {
+    "turkishName": "Panama",
+    "englishName": "Panama",
+    "cities": [
+      "Panama City",
+      "Colón",
+      "David",
+      "Santiago",
+      "La Chorrera"
+    ]
+  },
+  {
+    "turkishName": "Papua Yeni Gine",
+    "englishName": "Papua New Guinea",
+    "cities": [
+      "Port Moresby",
+      "Lae",
+      "Mount Hagen",
+      "Madang",
+      "Wewak"
+    ]
+  },
+  {
+    "turkishName": "Paraguay",
+    "englishName": "Paraguay",
+    "cities": [
+      "Asunción",
+      "Ciudad del Este",
+      "San Lorenzo",
+      "Luque",
+      "Capiatá"
+    ]
+  },
+  {
+    "turkishName": "Peru",
+    "englishName": "Peru",
+    "cities": [
+      "Lima",
+      "Arequipa",
+      "Trujillo",
+      "Chiclayo",
+      "Piura"
+    ]
+  },
+  {
+    "turkishName": "Polonya",
+    "englishName": "Poland",
+    "cities": [
+      "Warsaw",
+      "Kraków",
+      "Łódź",
+      "Wrocław",
+      "Poznań"
+    ]
+  },
+  {
+    "turkishName": "Portekiz",
+    "englishName": "Portugal",
+    "cities": [
+      "Lisbon",
+      "Porto",
+      "Amadora",
+      "Braga",
+      "Setúbal"
+    ]
+  },
+  {
+    "turkishName": "Romanya",
+    "englishName": "Romania",
+    "cities": [
+      "Bucharest",
+      "Cluj-Napoca",
+      "Timișoara",
+      "Iași",
+      "Constanța"
+    ]
+  },
+  {
+    "turkishName": "Rusya",
+    "englishName": "Russia",
+    "cities": [
+      "Moscow",
+      "Saint Petersburg",
+      "Novosibirsk",
+      "Yekaterinburg",
+      "Kazan"
+    ]
+  },
+  {
+    "turkishName": "Ruanda",
+    "englishName": "Rwanda",
+    "cities": [
+      "Kigali",
+      "Butare",
+      "Gitarama",
+      "Ruhengeri",
+      "Gisenyi"
+    ]
+  },
+  {
+    "turkishName": "Saint Kitts ve Nevis",
+    "englishName": "Saint Kitts and Nevis",
+    "cities": [
+      "Basseterre",
+      "Charlestown",
+      "Sandy Point Town",
+      "Cayon",
+      "Dieppe Bay Town"
+    ]
+  },
+  {
+    "turkishName": "Saint Lucia",
+    "englishName": "Saint Lucia",
+    "cities": [
+      "Castries",
+      "Vieux Fort",
+      "Micoud",
+      "Soufrière",
+      "Gros Islet"
+    ]
+  },
+  {
+    "turkishName": "Saint Vincent ve Grenadinler",
+    "englishName": "Saint Vincent and the Grenadines",
+    "cities": [
+      "Kingstown",
+      "Georgetown",
+      "Chateaubelair",
+      "Barrouallie",
+      "Layou"
+    ]
+  },
+  {
+    "turkishName": "Samoa",
+    "englishName": "Samoa",
+    "cities": [
+      "Apia",
+      "Asau",
+      "Mulifanua",
+      "Faleasiu",
+      "Lalomanu"
+    ]
+  },
+  {
+    "turkishName": "San Marino",
+    "englishName": "San Marino",
+    "cities": [
+      "San Marino",
+      "Serravalle",
+      "Borgo Maggiore",
+      "Domagnano",
+      "Fiorentino"
+    ]
+  },
+  {
+    "turkishName": "Sao Tome ve Principe",
+    "englishName": "Sao Tome and Principe",
+    "cities": [
+      "São Tomé",
+      "Santo António",
+      "Neves",
+      "Trindade",
+      "Santana"
+    ]
+  },
+  {
+    "turkishName": "Suudi Arabistan",
+    "englishName": "Saudi Arabia",
+    "cities": [
+      "Riyadh",
+      "Jeddah",
+      "Mecca",
+      "Medina",
+      "Dammam"
+    ]
+  },
+  {
+    "turkishName": "Senegal",
+    "englishName": "Senegal",
+    "cities": [
+      "Dakar",
+      "Touba",
+      "Thiès",
+      "Rufisque",
+      "Kaolack"
+    ]
+  },
+  {
+    "turkishName": "Sirbistan",
+    "englishName": "Serbia",
+    "cities": [
+      "Belgrade",
+      "Novi Sad",
+      "Niš",
+      "Kragujevac",
+      "Subotica"
+    ]
+  },
+  {
+    "turkishName": "Seysel Adalari",
+    "englishName": "Seychelles",
+    "cities": [
+      "Victoria",
+      "Anse Boileau",
+      "Beau Vallon",
+      "Bel Ombre",
+      "Cascade"
+    ]
+  },
+  {
+    "turkishName": "Sierra Leone",
+    "englishName": "Sierra Leone",
+    "cities": [
+      "Freetown",
+      "Bo",
+      "Kenema",
+      "Makeni",
+      "Koidu"
+    ]
+  },
+  {
+    "turkishName": "Singapur",
+    "englishName": "Singapore",
+    "cities": [
+      "Singapore",
+      "Jurong West",
+      "Woodlands",
+      "Tampines",
+      "Sengkang"
+    ]
+  },
+  {
+    "turkishName": "Slovakya",
+    "englishName": "Slovakia",
+    "cities": [
+      "Bratislava",
+      "Košice",
+      "Prešov",
+      "Žilina",
+      "Nitra"
+    ]
+  },
+  {
+    "turkishName": "Slovenya",
+    "englishName": "Slovenia",
+    "cities": [
+      "Ljubljana",
+      "Maribor",
+      "Celje",
+      "Kranj",
+      "Velenje"
+    ]
+  },
+  {
+    "turkishName": "Solomon Adalari",
+    "englishName": "Solomon Islands",
+    "cities": [
+      "Honiara",
+      "Auki",
+      "Gizo",
+      "Buala",
+      "Kirakira"
+    ]
+  },
+  {
+    "turkishName": "Somali",
+    "englishName": "Somalia",
+    "cities": [
+      "Mogadishu",
+      "Hargeisa",
+      "Bosaso",
+      "Kismayo",
+      "Berbera"
+    ]
+  },
+  {
+    "turkishName": "Guney Sudan",
+    "englishName": "South Sudan",
+    "cities": [
+      "Juba",
+      "Wau",
+      "Malakal",
+      "Yei",
+      "Bor"
+    ]
+  },
+  {
+    "turkishName": "Sri Lanka",
+    "englishName": "Sri Lanka",
+    "cities": [
+      "Colombo",
+      "Kandy",
+      "Galle",
+      "Jaffna",
+      "Negombo"
+    ]
+  },
+  {
+    "turkishName": "Sudan",
+    "englishName": "Sudan",
+    "cities": [
+      "Khartoum",
+      "Omdurman",
+      "Port Sudan",
+      "Kassala",
+      "Nyala"
+    ]
+  },
+  {
+    "turkishName": "Surinam",
+    "englishName": "Suriname",
+    "cities": [
+      "Paramaribo",
+      "Lelydorp",
+      "Nieuw Nickerie",
+      "Moengo",
+      "Albina"
+    ]
+  },
+  {
+    "turkishName": "Suriye",
+    "englishName": "Syria",
+    "cities": [
+      "Damascus",
+      "Aleppo",
+      "Homs",
+      "Latakia",
+      "Hama"
+    ]
+  },
+  {
+    "turkishName": "Tayvan",
+    "englishName": "Taiwan",
+    "cities": [
+      "Taipei",
+      "Kaohsiung",
+      "Taichung",
+      "Tainan",
+      "Hsinchu"
+    ]
+  },
+  {
+    "turkishName": "Tacikistan",
+    "englishName": "Tajikistan",
+    "cities": [
+      "Dushanbe",
+      "Khujand",
+      "Kulob",
+      "Qurghonteppa",
+      "Istaravshan"
+    ]
+  },
+  {
+    "turkishName": "Tanzanya",
+    "englishName": "Tanzania",
+    "cities": [
+      "Dar es Salaam",
+      "Dodoma",
+      "Mwanza",
+      "Arusha",
+      "Zanzibar City"
+    ]
+  },
+  {
+    "turkishName": "Tayland",
+    "englishName": "Thailand",
+    "cities": [
+      "Bangkok",
+      "Chiang Mai",
+      "Nonthaburi",
+      "Pattaya",
+      "Phuket"
+    ]
+  },
+  {
+    "turkishName": "Togo",
+    "englishName": "Togo",
+    "cities": [
+      "Lomé",
+      "Sokodé",
+      "Kara",
+      "Kpalimé",
+      "Atakpamé"
+    ]
+  },
+  {
+    "turkishName": "Tonga",
+    "englishName": "Tonga",
+    "cities": [
+      "Nuku alofa",
+      "Neiafu",
+      "Haveluloto",
+      "Vaini",
+      "Pangai"
+    ]
+  },
+  {
+    "turkishName": "Trinidad ve Tobago",
+    "englishName": "Trinidad and Tobago",
+    "cities": [
+      "Port of Spain",
+      "San Fernando",
+      "Chaguanas",
+      "Arima",
+      "Scarborough"
+    ]
+  },
+  {
+    "turkishName": "Tunus",
+    "englishName": "Tunisia",
+    "cities": [
+      "Tunis",
+      "Sfax",
+      "Sousse",
+      "Kairouan",
+      "Bizerte"
+    ]
+  },
+  {
+    "turkishName": "Turkiye",
+    "englishName": "Turkey",
+    "cities": [
+      "Istanbul",
+      "Ankara",
+      "Izmir",
+      "Bursa",
+      "Antalya"
+    ]
+  },
+  {
+    "turkishName": "Turkmenistan",
+    "englishName": "Turkmenistan",
+    "cities": [
+      "Ashgabat",
+      "Türkmenabat",
+      "Daşoguz",
+      "Mary",
+      "Balkanabat"
+    ]
+  },
+  {
+    "turkishName": "Tuvalu",
+    "englishName": "Tuvalu",
+    "cities": [
+      "Funafuti",
+      "Vaiaku",
+      "Tanrake",
+      "Asau",
+      "Kulia"
+    ]
+  },
+  {
+    "turkishName": "Uganda",
+    "englishName": "Uganda",
+    "cities": [
+      "Kampala",
+      "Gulu",
+      "Lira",
+      "Mbarara",
+      "Jinja"
+    ]
+  },
+  {
+    "turkishName": "Ukrayna",
+    "englishName": "Ukraine",
+    "cities": [
+      "Kyiv",
+      "Kharkiv",
+      "Odesa",
+      "Dnipro",
+      "Lviv"
+    ]
+  },
+  {
+    "turkishName": "Uruguay",
+    "englishName": "Uruguay",
+    "cities": [
+      "Montevideo",
+      "Salto",
+      "Paysandú",
+      "Las Piedras",
+      "Rivera"
+    ]
+  },
+  {
+    "turkishName": "Ozbekistan",
+    "englishName": "Uzbekistan",
+    "cities": [
+      "Tashkent",
+      "Samarkand",
+      "Namangan",
+      "Andijan",
+      "Bukhara"
+    ]
+  },
+  {
+    "turkishName": "Vanuatu",
+    "englishName": "Vanuatu",
+    "cities": [
+      "Port Vila",
+      "Luganville",
+      "Norsup",
+      "Isangel",
+      "Sola"
+    ]
+  },
+  {
+    "turkishName": "Vatikan",
+    "englishName": "Vatican City",
+    "cities": [
+      "Vatican City",
+      "Saint Peter Square",
+      "Vatican Gardens",
+      "Apostolic Palace",
+      "Belvedere Courtyard"
+    ]
+  },
+  {
+    "turkishName": "Venezuela",
+    "englishName": "Venezuela",
+    "cities": [
+      "Caracas",
+      "Maracaibo",
+      "Valencia",
+      "Barquisimeto",
+      "Maracay"
+    ]
+  },
+  {
+    "turkishName": "Vietnam",
+    "englishName": "Vietnam",
+    "cities": [
+      "Ho Chi Minh City",
+      "Hanoi",
+      "Da Nang",
+      "Hai Phong",
+      "Can Tho"
+    ]
+  },
+  {
+    "turkishName": "Yemen",
+    "englishName": "Yemen",
+    "cities": [
+      "Sanaa",
+      "Aden",
+      "Taiz",
+      "Al Hudaydah",
+      "Ibb"
+    ]
+  },
+  {
+    "turkishName": "Zambiya",
+    "englishName": "Zambia",
+    "cities": [
+      "Lusaka",
+      "Kitwe",
+      "Ndola",
+      "Kabwe",
+      "Chingola"
+    ]
+  },
+  {
+    "turkishName": "Zimbabve",
+    "englishName": "Zimbabwe",
+    "cities": [
+      "Harare",
+      "Bulawayo",
+      "Chitungwiza",
+      "Mutare",
+      "Gweru"
     ]
   }
 ]

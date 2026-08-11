@@ -74,7 +74,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/:sitemap(sitemap.xml|sitemap-static.xml|sitemap-loads.xml|sitemap-blogs.xml)',
+        source: '/:sitemap(sitemap.xml|sitemap-static.xml|sitemap-loads.xml|sitemap-blogs.xml|sitemap-routes.xml)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=3600' },
         ],

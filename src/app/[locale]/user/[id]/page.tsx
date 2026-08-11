@@ -95,10 +95,49 @@ export default async function Page({
 }: {
   params: Promise<{ id: string; locale: string }>;
 }) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const { profile, reviews, loads } = await getProfileData(id);
 
   if (!profile) notFound();
 
-  return <PublicProfilePageClient profile={profile} reviews={reviews} loads={loads} />;
+  // Loadly is a B2B freight marketplace — every account (driver or shipper)
+  // acts as a business entity, not a private consumer, so Organization is the
+  // correct schema.org type here. Google's review-snippet guidelines don't
+  // support rating markup on plain Person profiles, so `aggregateRating`/
+  // `review` are only emitted when there's a real rating to back them —
+  // an empty/zero AggregateRating is itself a structured-data misuse flag.
+  const orgName = profile.company_name || profile.full_name;
+  const profileJsonLd: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: orgName,
+    url: `${SITE_URL}/${locale}/user/${id}`,
+    ...(profile.avatar_url ? { logo: profile.avatar_url } : {}),
+  };
+  if (profile.rating != null && reviews.length > 0) {
+    profileJsonLd.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: profile.rating,
+      reviewCount: reviews.length,
+      bestRating: 5,
+      worstRating: 1,
+    };
+    profileJsonLd.review = reviews.map((r) => ({
+      '@type': 'Review',
+      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+      author: { '@type': 'Person', name: r.reviewer?.full_name || 'Loadly User' },
+      datePublished: r.created_at,
+      ...(r.comment ? { reviewBody: r.comment } : {}),
+    }));
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd) }}
+      />
+      <PublicProfilePageClient profile={profile} reviews={reviews} loads={loads} />
+    </>
+  );
 }
