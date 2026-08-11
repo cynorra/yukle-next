@@ -655,13 +655,27 @@ async function runScraper(options = { runAll: false }) {
 
   let totalInserted = 0;
 
+  // Precomputed once (not per-item): every existing scraped description embeds
+  // exactly one "Orijinal İlan ID: #N" marker. Previously this was rebuilt by
+  // spreading the whole existingDescriptions Set into a fresh array and doing
+  // a substring scan on EVERY item — O(existing × new) full-string copies and
+  // scans per cron run, which running inside the same long-lived Next.js
+  // process (this file is require()'d straight into /api/cron/scrape) was
+  // generating enough garbage to be a real contributor to production OOM
+  // crashes. A Set of markers turns each check into an O(1) lookup.
+  const existingIdMarkers = new Set();
+  for (const desc of existingDescriptions) {
+    const m = desc.match(/Orijinal İlan ID: #(\S+)/);
+    if (m) existingIdMarkers.add(`Orijinal İlan ID: #${m[1]}`);
+  }
+
   // STEP 1: Scrape Dynamic Load Postings (Always run this as they change continuously)
   const dynamicLoads = await scrapeDynamicLoads();
   for (let i = 0; i < dynamicLoads.length; i++) {
     const item = dynamicLoads[i];
     const duplicateMarker = `Orijinal İlan ID: #${item.kimlikId}`;
-    let isDuplicate = [...existingDescriptions].some(desc => desc.includes(duplicateMarker));
-    
+    let isDuplicate = existingIdMarkers.has(duplicateMarker);
+
     // Bulletproof database check if not found in memory cache
     if (!isDuplicate) {
       const { data: dbCheck } = await supabase
@@ -732,6 +746,7 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
     } else {
       totalInserted++;
       existingDescriptions.add(description);
+      existingIdMarkers.add(duplicateMarker);
     }
   }
 
