@@ -130,36 +130,62 @@ export function buildLoadTypeSlug(loadType: string): string {
   return slugifyCity(loadType);
 }
 
+// `next start` runs as one long-lived process (WEB_CONCURRENCY=1 in prod), so
+// a module-level cache actually persists across requests. Seven hub types
+// now each independently call fetchRecentActiveLoads() on first visit to a
+// given slug — a crawl burst across many freshly-added hub URLs (e.g. right
+// after a sitemap expansion) previously meant that many concurrent full
+// 5000-row scans + Map builds stacking up in memory at once, which is what
+// drove the production OOM crash. Collapsing same-process requests within a
+// short window into one shared fetch caps that peak.
+const LOADS_CACHE_TTL_MS = 60_000;
+let loadsCache: { data: LoadRow[]; fetchedAt: number } | null = null;
+let loadsCacheInFlight: Promise<LoadRow[]> | null = null;
+
 /**
  * Fetch the most recent active loads once. Shared by lane/city/country
  * grouping so callers that need more than one grouping (e.g. the sitemap)
- * don't pay for the scan three times.
+ * don't pay for the scan three times, and cached briefly across requests so
+ * a burst of hits doesn't multiply the DB scan + in-memory grouping cost.
  */
 export async function fetchRecentActiveLoads(): Promise<LoadRow[]> {
-  const supabase = createPublicClient();
-  const allLoads: LoadRow[] = [];
-
-  let from = 0;
-  const step = 1000;
-
-  while (from < MAX_SCANNED_LOADS) {
-    const to = Math.min(from + step - 1, MAX_SCANNED_LOADS - 1);
-    const { data: loads, error } = await supabase
-      .from('loads')
-      .select('id, title, title_translations, origin_city, origin_country, destination_city, destination_country, weight_ton, created_at, required_truck_type, load_type')
-      .eq('status', 'active')
-      .order('created_at', { ascending: false })
-      .range(from, to);
-
-    if (error || !loads || loads.length === 0) break;
-
-    allLoads.push(...(loads as LoadRow[]));
-
-    if (loads.length < step) break;
-    from += step;
+  if (loadsCache && Date.now() - loadsCache.fetchedAt < LOADS_CACHE_TTL_MS) {
+    return loadsCache.data;
+  }
+  if (loadsCacheInFlight) {
+    return loadsCacheInFlight;
   }
 
-  return allLoads;
+  loadsCacheInFlight = (async () => {
+    const supabase = createPublicClient();
+    const allLoads: LoadRow[] = [];
+
+    let from = 0;
+    const step = 1000;
+
+    while (from < MAX_SCANNED_LOADS) {
+      const to = Math.min(from + step - 1, MAX_SCANNED_LOADS - 1);
+      const { data: loads, error } = await supabase
+        .from('loads')
+        .select('id, title, title_translations, origin_city, origin_country, destination_city, destination_country, weight_ton, created_at, required_truck_type, load_type')
+        .eq('status', 'active')
+        .order('created_at', { ascending: false })
+        .range(from, to);
+
+      if (error || !loads || loads.length === 0) break;
+
+      allLoads.push(...(loads as LoadRow[]));
+
+      if (loads.length < step) break;
+      from += step;
+    }
+
+    loadsCache = { data: allLoads, fetchedAt: Date.now() };
+    loadsCacheInFlight = null;
+    return allLoads;
+  })();
+
+  return loadsCacheInFlight;
 }
 
 export function groupByLane(loads: LoadRow[]): Map<string, Lane> {
