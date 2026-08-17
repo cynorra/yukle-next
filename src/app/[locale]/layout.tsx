@@ -62,8 +62,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       },
     },
     other: {
-      'msvalidate.01': process.env.BING_VERIFICATION_CODE || 'BING_PLACEHOLDER',
-      'yandex-verification': process.env.YANDEX_VERIFICATION_CODE || 'YANDEX_PLACEHOLDER',
+      ...(process.env.BING_VERIFICATION_CODE ? { 'msvalidate.01': process.env.BING_VERIFICATION_CODE } : {}),
+      ...(process.env.YANDEX_VERIFICATION_CODE ? { 'yandex-verification': process.env.YANDEX_VERIFICATION_CODE } : {}),
     },
     openGraph: {
       type: 'website',
