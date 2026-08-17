@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { ProfilePageClient } from './ProfilePageClient';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Profilim',
   description: 'YükLe profil ayarları.',

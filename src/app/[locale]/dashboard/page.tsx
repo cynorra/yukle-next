@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { DashboardPageClient } from './DashboardPageClient';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Panelim',
   description: 'YükLe panelim.',
