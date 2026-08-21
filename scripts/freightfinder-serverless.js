@@ -13,6 +13,27 @@ const https    = require('https');
 const cheerio  = require('cheerio');
 const { translateListingsBatch } = require('./translate-free');
 
+// Varied, natural-language descriptions instead of one rigid "Company: X
+// Phone: Y Route: A→B" template repeated identically across every listing —
+// that pattern (same structure, only values differ) reads as low-effort
+// boilerplate at scale (~thousands of these pages) and hurts text-uniqueness
+// signals. Randomly picks one of several phrasings per listing.
+function buildListingDescription({ companyName, phone, origin, dest, equipRaw, truckType, dateStr, pickupDate }) {
+  const equipment = equipRaw || truckType.toUpperCase();
+  const available = dateStr || new Date(pickupDate).toLocaleDateString('en-US');
+  const phoneLine = phone || 'contact for details';
+  const route = `${origin.city}, ${origin.state} (${origin.country}) to ${dest.city}, ${dest.state} (${dest.country})`;
+
+  const variants = [
+    `${companyName} is looking for a carrier to move freight from ${route}. Equipment required: ${equipment}. Pickup available ${available}. Contact ${phoneLine} for rate and details.`,
+    `Freight opportunity: ${route}. Posted by ${companyName}, seeking ${equipment} coverage with availability on ${available}. Call ${phoneLine} to book this load.`,
+    `${equipment} load needed for the ${route} lane. Shipper: ${companyName}. Ready for pickup ${available} — reach out at ${phoneLine} to discuss rate and schedule.`,
+    `Shipment available from ${origin.city}, ${origin.state} to ${dest.city}, ${dest.state}. ${companyName} needs a ${equipment} carrier, pickup date ${available}. Phone: ${phoneLine}.`,
+    `${companyName} has a load ready to move: ${route}, ${equipment} required. Available ${available}. Interested carriers can contact ${phoneLine}.`,
+  ];
+  return variants[Math.floor(Math.random() * variants.length)];
+}
+
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
@@ -146,11 +167,7 @@ function parseListings(html, originCity) {
 
     const { loadType, truckType } = mapEquipment(equipRaw);
     const title = `${origin.city}, ${origin.state} (${origin.country}) ➜ ${dest.city}, ${dest.state} (${dest.country})`;
-    const description = `Company: ${companyName}
-Phone: ${phone || 'Contact for details'}
-Route: ${origin.city}, ${origin.state} ${origin.country} → ${dest.city}, ${dest.state} ${dest.country}
-Equipment: ${equipRaw || truckType.toUpperCase()}
-Available: ${dateStr || new Date(pickupDate).toLocaleDateString('en-US')}`;
+    const description = buildListingDescription({ companyName, phone, origin, dest, equipRaw, truckType, dateStr, pickupDate });
 
     listings.push({
       title, description,
