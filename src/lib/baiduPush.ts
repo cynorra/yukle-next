@@ -35,3 +35,39 @@ export async function submitToBaidu(urls: string[]): Promise<void> {
     // Silently fail – indexing is best-effort
   }
 }
+
+/**
+ * Baidu's legacy blog-ping protocol (XML-RPC, `weblogUpdates.extendedPing`) —
+ * no account, no token, no phone verification needed at all, unlike the
+ * token-based push above. It's an old (2000s-era) blogosphere ping protocol
+ * so reliability is unconfirmed and it's blog-post-shaped (title/home/post/
+ * feed URLs), not a general bulk URL push — treat as a free best-effort
+ * extra signal for blog posts specifically, not a replacement for the
+ * token-based API above.
+ */
+export async function pingBaiduBlogPost(postTitle: string, postUrl: string): Promise<void> {
+  const xml = `<?xml version="1.0"?>
+<methodCall>
+  <methodName>weblogUpdates.extendedPing</methodName>
+  <params>
+    <param><value><string>${escapeXml(postTitle)}</string></value></param>
+    <param><value><string>${SITE_URL}/en/blog</string></value></param>
+    <param><value><string>${escapeXml(postUrl)}</string></value></param>
+    <param><value><string>${SITE_URL}/sitemap.xml</string></value></param>
+  </params>
+</methodCall>`;
+
+  try {
+    await fetch('http://ping.baidu.com/ping/RPC2', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/xml' },
+      body: xml,
+    });
+  } catch {
+    // Silently fail – indexing is best-effort
+  }
+}
+
+function escapeXml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}

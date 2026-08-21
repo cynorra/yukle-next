@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { revalidateTag } from 'next/cache';
 import { submitToIndexNow } from '@/lib/indexnow';
-import { submitToBaidu } from '@/lib/baiduPush';
+import { submitToBaidu, pingBaiduBlogPost } from '@/lib/baiduPush';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,9 +37,8 @@ export async function GET(request: Request) {
       revalidateTag('blog-posts');
       revalidateTag('blog-post');
 
-      const blogUrls = allPosts
-        .filter((p: any) => p?.slug && p?.language)
-        .map((p: any) => `${SITE_URL}/${p.language}/blog/${p.slug}`);
+      const postsWithUrls = allPosts.filter((p: any) => p?.slug && p?.language);
+      const blogUrls = postsWithUrls.map((p: any) => `${SITE_URL}/${p.language}/blog/${p.slug}`);
 
       if (blogUrls.length > 0) {
         console.log(`Submitting ${blogUrls.length} blog URLs to IndexNow...`);
@@ -47,6 +46,12 @@ export async function GET(request: Request) {
         console.log('IndexNow submission complete.');
         // No-ops until BAIDU_PUSH_TOKEN is set (needs manual ziyuan.baidu.com setup)
         await submitToBaidu(blogUrls);
+        // Free, no-account-needed best-effort ping (see pingBaiduBlogPost docs)
+        await Promise.allSettled(
+          postsWithUrls.map((p: any) =>
+            pingBaiduBlogPost(p.title || p.slug, `${SITE_URL}/${p.language}/blog/${p.slug}`)
+          )
+        );
       }
     }
 
