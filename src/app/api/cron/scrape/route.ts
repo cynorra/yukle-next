@@ -127,9 +127,11 @@ export async function GET(request: Request) {
             if (load.load_type) loadTypeSlugs.add(buildLoadTypeSlug(load.load_type));
           }
 
-          const urls = newLoads.flatMap((load) =>
-            ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/marketplace/${load.id}`)
-          );
+          // Load pages canonicalize to /en unless a load has real translated
+          // copy (see marketplace/[id]/page.tsx) — submitting all 47 locale
+          // variants here fights that canonicalization by pointing engines at
+          // non-canonical URLs. Submit the canonical URL only.
+          const urls = newLoads.map((load) => `${SITE_URL}/en/marketplace/${load.id}`);
           // Hub pages (lane/city/country/etc.) may already exist — resubmitting
           // is harmless, and this is the only place a brand-new hub's URL ever
           // gets pushed for fast indexing.
