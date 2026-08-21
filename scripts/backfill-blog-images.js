@@ -45,8 +45,11 @@ const limitArgIdx = process.argv.indexOf('--limit');
 const GROUP_LIMIT = limitArgIdx !== -1 ? parseInt(process.argv[limitArgIdx + 1], 10) : (DRY_RUN ? 3 : Infinity);
 
 // Pexels free tier: 200 req/hour, 20000/month. One group = one search call
-// (occasionally two if every top result is already used). Stay well under that.
-const DELAY_BETWEEN_GROUPS_MS = 4000;
+// (occasionally two if every top result is already used). 4s was too fast —
+// it burns the hourly quota in ~13 minutes and then silently fails (no 429
+// handling) for the rest of that hour. 20s keeps steady-state under 180
+// req/hour with headroom, and a large backlog just needs multiple runs.
+const DELAY_BETWEEN_GROUPS_MS = 20000;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -172,7 +175,12 @@ async function fetchAllBrokenRows() {
     const { data, error } = await supabase
       .from('blog_posts')
       .select('id, slug, title, cover_image')
-      .like('cover_image', '/cache/resized/%')
+      // Two broken patterns: the old loremflickr relative paths, and the
+      // ~25-image static Unsplash fallback pool that getUniqueCoverImage()
+      // silently fell back to on every run because PEXELS_API_KEY wasn't
+      // wired into the blog-generator cron workflow (fixed separately) —
+      // that pool has been reused across thousands of posts.
+      .or('cover_image.like./cache/resized/%,cover_image.like.%images.unsplash.com%')
       .order('slug', { ascending: true })
       .range(from, from + pageSize - 1);
     if (error) {

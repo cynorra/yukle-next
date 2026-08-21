@@ -10,7 +10,10 @@ concurrency:
 jobs:
   run-backfill:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    # 350 min (GitHub's hard cap for hosted runners is 360) — at the safe
+    # 20s/group Pexels pace that's ~1050 groups per run; a large backlog of
+    # image groups needs this workflow re-triggered more than once.
+    timeout-minutes: 350
 
     steps:
       - name: Checkout repository
