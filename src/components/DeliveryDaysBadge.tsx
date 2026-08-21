@@ -8,9 +8,11 @@ interface DeliveryDaysBadgeProps {
   pickupDate: string | null;
   deliveryDate: string | null;
   showPickupCountdown?: boolean;
+  locale?: string;
 }
 
-export default function DeliveryDaysBadge({ pickupDate, deliveryDate, showPickupCountdown = false }: DeliveryDaysBadgeProps) {
+export default function DeliveryDaysBadge({ pickupDate, deliveryDate, showPickupCountdown = false, locale = 'en' }: DeliveryDaysBadgeProps) {
+  const isTr = locale === 'tr';
   const { isDark } = useTheme();
   const deliveryDays = calcDeliveryDays(pickupDate, deliveryDate);
   const daysUntilPickup = calcDaysUntilPickup(pickupDate);
@@ -29,7 +31,9 @@ export default function DeliveryDaysBadge({ pickupDate, deliveryDate, showPickup
             : isDark ? 'text-blue-400 bg-blue-400/10 border-blue-400/30' : 'text-blue-600 bg-blue-50 border-blue-200'
         }`}>
           <Clock size={11} />
-          {deliveryDays === 1 ? '1 günde teslim' : `${deliveryDays} günde teslim`}
+          {isTr
+            ? (deliveryDays === 1 ? '1 günde teslim' : `${deliveryDays} günde teslim`)
+            : (deliveryDays === 1 ? 'Delivery in 1 day' : `Delivery in ${deliveryDays} days`)}
         </span>
       )}
 
@@ -41,7 +45,9 @@ export default function DeliveryDaysBadge({ pickupDate, deliveryDate, showPickup
             : isDark ? 'text-amber-400 bg-amber-400/10 border-amber-400/30' : 'text-amber-600 bg-amber-50 border-amber-200'
         }`}>
           <AlertTriangle size={11} />
-          {daysUntilPickup === 0 ? 'Bugün yükleme' : `${daysUntilPickup} gün sonra yükleme`}
+          {isTr
+            ? (daysUntilPickup === 0 ? 'Bugün yükleme' : `${daysUntilPickup} gün sonra yükleme`)
+            : (daysUntilPickup === 0 ? 'Pickup today' : `Pickup in ${daysUntilPickup} days`)}
         </span>
       )}
 
@@ -51,7 +57,7 @@ export default function DeliveryDaysBadge({ pickupDate, deliveryDate, showPickup
           isDark ? 'text-gray-500 bg-gray-500/10 border-gray-500/20' : 'text-slate-400 bg-slate-100 border-slate-200'
         }`}>
           <Calendar size={11} />
-          Tarih geçti
+          {isTr ? 'Tarih geçti' : 'Date passed'}
         </span>
       )}
     </div>

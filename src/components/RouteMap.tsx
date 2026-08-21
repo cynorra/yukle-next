@@ -16,9 +16,10 @@ L.Icon.Default.mergeOptions({
 interface RouteMapProps {
   origin: string;
   destination: string;
+  locale?: string;
 }
 
-export default function RouteMap({ origin, destination }: RouteMapProps) {
+export default function RouteMap({ origin, destination, locale = 'en' }: RouteMapProps) {
   const [coords, setCoords] = useState<[number, number][]>([]);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function RouteMap({ origin, destination }: RouteMapProps) {
   if (coords.length < 2) {
     return (
       <div className="w-full h-64 bg-accent/5 animate-pulse rounded-2xl flex items-center justify-center text-accent/50 font-medium">
-        Harita yükleniyor...
+        {locale === 'tr' ? 'Harita yükleniyor...' : 'Loading map...'}
       </div>
     );
   }

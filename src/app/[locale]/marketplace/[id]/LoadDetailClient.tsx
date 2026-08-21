@@ -25,9 +25,15 @@ import {
 } from '@/utils/loadDetailTranslations';
 import dynamic from 'next/dynamic';
 
+// next/dynamic's `loading` fallback has no access to the parent's `locale`
+// (it's defined at module scope), and it's what actually reaches SSR output
+// for every visitor/crawler until the map chunk hydrates client-side — it
+// was hardcoded Turkish, so all 46 non-Turkish locale pages briefly showed
+// Turkish text in their initial HTML. English is the universal default here
+// (matches x-default hreflang) rather than leaving it Turkish-only correct.
 const RouteMap = dynamic(() => import('@/components/RouteMap'), {
   ssr: false,
-  loading: () => <div className="w-full h-64 bg-accent/5 animate-pulse rounded-2xl flex items-center justify-center text-accent/50 font-medium">Harita yükleniyor...</div>
+  loading: () => <div className="w-full h-64 bg-accent/5 animate-pulse rounded-2xl flex items-center justify-center text-accent/50 font-medium">Loading map...</div>
 });
 
 interface LoadWithRelations {
@@ -506,7 +512,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
                 {/* Tags */}
                 {((load.tags && load.tags.length > 0) || load.pickup_date || load.delivery_date) && (
                   <div className="flex items-center gap-2 flex-wrap mb-5">
-                    <DeliveryDaysBadge pickupDate={load.pickup_date} deliveryDate={load.delivery_date} showPickupCountdown />
+                    <DeliveryDaysBadge pickupDate={load.pickup_date} deliveryDate={load.delivery_date} showPickupCountdown locale={locale} />
                     {load.tags?.map((tag) => <LoadTagBadge key={tag} tag={tag} size="md" />)}
                   </div>
                 )}
@@ -533,7 +539,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
 
             {/* Harita */}
             <div className={`p-1 rounded-2xl ${t.card} mb-4`}>
-              <RouteMap origin={load.origin_city} destination={load.destination_city} />
+              <RouteMap origin={load.origin_city} destination={load.destination_city} locale={locale} />
             </div>
 
             {/* Açıklama */}

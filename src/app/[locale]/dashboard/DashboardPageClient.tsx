@@ -408,7 +408,7 @@ export function DashboardPageClient() {
                       </div>
                       {((load.tags && load.tags.length > 0) || load.pickup_date || load.delivery_date) && (
                         <div className="flex items-center gap-1.5 flex-wrap mt-2.5">
-                          <DeliveryDaysBadge pickupDate={load.pickup_date} deliveryDate={load.delivery_date} showPickupCountdown />
+                          <DeliveryDaysBadge pickupDate={load.pickup_date} deliveryDate={load.delivery_date} showPickupCountdown locale={locale} />
                           {load.tags?.map((tag: string) => <LoadTagBadge key={tag} tag={tag} />)}
                         </div>
                       )}
