@@ -418,15 +418,20 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
           </h1>
 
           <div className="flex items-center justify-center gap-6 py-8 border-y border-border-light dark:border-border-dark mb-12">
-            <div className="flex items-center gap-3">
+            <a
+              href="https://www.linkedin.com/in/ernsmsr/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 group"
+            >
               <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent border border-accent/20">
                 <UserIcon size={24} />
               </div>
               <div className="text-left">
-                <div className={`text-sm font-bold ${t.heading}`}>{post.author?.full_name || (locale === 'tr' ? 'YükLe Editör' : 'Loadly Editor')}</div>
+                <div className={`text-sm font-bold ${t.heading} group-hover:text-accent transition-colors`}>{post.author?.full_name || 'Eren Şimşir'}</div>
                 <div className={`text-xs ${t.muted}`}>{tr.authorRole}</div>
               </div>
-            </div>
+            </a>
 
             <div className="h-10 w-[1px] bg-border-light dark:bg-border-dark hidden md:block" />
 

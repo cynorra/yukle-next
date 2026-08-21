@@ -32,6 +32,11 @@ const EXTRA: Record<string, {
   stats: { value: string; label: string }[];
   missionTitle: string;
   missionText: string;
+  teamTitle: string;
+  teamName: string;
+  teamRole: string;
+  teamBio: string;
+  teamLinkedInLabel: string;
   whyTitle: string;
   whyItems: string[];
   commitTitle: string;
@@ -40,16 +45,21 @@ const EXTRA: Record<string, {
   howSteps: { title: string; desc: string }[];
 }> = {
   tr: {
-    statsTitle: 'Loadly İstatistikleri',
+    statsTitle: 'Loadly Neler Sunuyor',
     stats: [
-      { value: '5.000+', label: 'Kayıtlı Kullanıcı' },
-      { value: '50+', label: 'Ülke' },
-      { value: '10.000+', label: 'Yayınlanan İlan' },
-      { value: '4.8/5', label: 'Kullanıcı Puanı' },
+      { value: '47', label: 'Desteklenen Dil' },
+      { value: '7/24', label: 'Aktif Pazaryeri' },
+      { value: 'Ücretsiz', label: 'İlan Yayınlama' },
+      { value: 'Kurucu Liderliğinde', label: 'Şeffaf Ekip' },
     ],
     missionTitle: 'Misyonumuz',
     missionText:
       'Lojistik sektörünü dijital dönüşümle kolaylaştırmak ve nakliyecilerle yük sahiplerini en etkin şekilde buluşturmaktır. Platformumuz, geleneksel nakliye brokerlığının getirdiği yüksek komisyon ve zaman kaybını ortadan kaldırmayı hedeflemektedir. Teknoloji ve verinin gücünü kullanarak her yük, en uygun taşıyıcıyla hızla eşleştirilmektedir. Küçük işletmelerden büyük şirketlere kadar her ölçekteki nakliye ihtiyacını karşılamak için 7/24 aktif olan dijital bir pazar yeri sunuyoruz.',
+    teamTitle: 'Kimler Yapıyor',
+    teamName: 'Eren Şimşir',
+    teamRole: 'Baş Teknik Editör',
+    teamBio: 'Bilgisayar Mühendisliği ve Endüstri Mühendisliği (Çift Anadal) mezunu, Yapay Zeka alanında doktora adayı. Loadly\'nin teknik geliştirmesinden ve içerik kalitesinden sorumlu.',
+    teamLinkedInLabel: "LinkedIn'de görüntüle",
     whyTitle: "Neden Loadly'yi Seçmelisiniz?",
     whyItems: [
       'Ücretsiz ilan yayınlama – ekstra maliyet yok',
@@ -71,16 +81,21 @@ const EXTRA: Record<string, {
     ],
   },
   en: {
-    statsTitle: 'Loadly by the Numbers',
+    statsTitle: 'What Loadly Offers',
     stats: [
-      { value: '5,000+', label: 'Registered Users' },
-      { value: '50+', label: 'Countries Covered' },
-      { value: '10,000+', label: 'Loads Posted' },
-      { value: '4.8/5', label: 'User Rating' },
+      { value: '47', label: 'Languages Supported' },
+      { value: '24/7', label: 'Always-On Marketplace' },
+      { value: 'Free', label: 'To Post a Load' },
+      { value: 'Founder-Led', label: 'Transparent Team' },
     ],
     missionTitle: 'Our Mission',
     missionText:
       'To simplify the logistics industry through digital transformation and connect carriers and shippers in the most efficient way possible. Our platform aims to eliminate the high commissions and time delays that come with traditional freight brokerage. By harnessing the power of technology and data, every load is rapidly matched with the most suitable carrier. We provide a digital marketplace that operates 24/7 to meet the shipping needs of businesses of all sizes — from small enterprises to large corporations.',
+    teamTitle: 'Who Builds Loadly',
+    teamName: 'Eren Şimşir',
+    teamRole: 'Chief Technical Editor',
+    teamBio: 'Computer Engineer & Industrial Engineer (Double Major), PhD Candidate in AI. Responsible for Loadly\'s technical development and content quality.',
+    teamLinkedInLabel: 'View on LinkedIn',
     whyTitle: 'Why Choose Loadly?',
     whyItems: [
       'Free load posting — no extra costs or hidden fees',
@@ -160,6 +175,27 @@ export function AboutPageClient({ data, locale }: Props) {
         <div className="p-8 rounded-3xl bg-surface-light/50 dark:bg-surface-dark/50 border border-border-light dark:border-border-dark mb-12">
           <h2 className={`text-2xl font-bold ${t.heading} mb-4`}>{extra.missionTitle}</h2>
           <p className={`text-base ${t.muted} leading-relaxed`}>{extra.missionText}</p>
+        </div>
+
+        {/* Team */}
+        <div className="mb-12">
+          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>{extra.teamTitle}</h2>
+          <a
+            href="https://www.linkedin.com/in/ernsmsr/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:border-accent/40 transition-colors group"
+          >
+            <div className="w-16 h-16 shrink-0 rounded-full bg-accent/10 flex items-center justify-center text-accent border border-accent/20">
+              <Users size={28} />
+            </div>
+            <div>
+              <div className={`text-lg font-bold ${t.heading} group-hover:text-accent transition-colors`}>{extra.teamName}</div>
+              <div className="text-sm text-accent font-semibold mb-2">{extra.teamRole}</div>
+              <p className={`text-sm ${t.muted} leading-relaxed`}>{extra.teamBio}</p>
+              <span className="inline-block mt-2 text-xs font-bold text-accent">{extra.teamLinkedInLabel} →</span>
+            </div>
+          </a>
         </div>
 
         {/* How It Works */}

@@ -179,7 +179,9 @@ export default async function BlogSlugPage({
     url: `${SITE_URL}/${locale}/blog/${slug}`,
     author: {
       '@type': 'Person',
-      name: post.author?.full_name || 'Loadly Team',
+      name: post.author?.full_name || 'Eren Şimşir',
+      jobTitle: 'Chief Technical Editor',
+      sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
     },
     publisher: {
       '@type': 'Organization',

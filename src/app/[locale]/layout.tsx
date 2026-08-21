@@ -142,6 +142,12 @@ export default async function LocalizedLayout({ children, params }: Props) {
     description: t.home.heroDesc,
     areaServed: { '@type': 'Country', name: 'Worldwide' },
     serviceType: 'Freight Marketplace',
+    founder: {
+      '@type': 'Person',
+      name: 'Eren Şimşir',
+      jobTitle: 'Chief Technical Editor',
+      sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
+    },
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',
