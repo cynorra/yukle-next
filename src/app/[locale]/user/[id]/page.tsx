@@ -8,15 +8,6 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
 export const revalidate = 86400;
 
-const SUPPORTED_LOCALES = [
-  'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
-  'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-  'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-  'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
-];
-
 const getProfileData = cache(async (id: string) => {
   const supabase = createPublicClient();
   const [profileRes, reviewsRes, loadsRes] = await Promise.all([
@@ -64,8 +55,14 @@ export async function generateMetadata({
       ? (locale === 'tr' ? 'Nakliyeci' : 'Carrier')
       : (locale === 'tr' ? 'Yük Sahibi' : 'Shipper');
 
+    // roleText only actually differs between en/tr (see above) — every other
+    // locale renders the English copy verbatim, so self-canonicalizing all 47
+    // just creates near-duplicate profile URLs. Same fix as the shipping-routes
+    // hub pages and marketplace/[id]: canonicalize untranslated locales to /en.
+    const translatedLocales = ['en', 'tr'];
+    const canonicalLocale = translatedLocales.includes(locale) ? locale : 'en';
     const languagesAlternates: Record<string, string> = {};
-    SUPPORTED_LOCALES.forEach((loc) => {
+    translatedLocales.forEach((loc) => {
       languagesAlternates[loc] = `${SITE_URL}/${loc}/user/${id}`;
     });
     languagesAlternates['x-default'] = `${SITE_URL}/en/user/${id}`;
@@ -74,12 +71,12 @@ export async function generateMetadata({
       title: `${name} - ${roleText}`,
       description: `${name} (${roleText}) profile. Rating: ${data.rating || 0}.`,
       alternates: {
-        canonical: `${SITE_URL}/${locale}/user/${id}`,
+        canonical: `${SITE_URL}/${canonicalLocale}/user/${id}`,
         languages: languagesAlternates
       },
       openGraph: {
         title: `${name} - Loadly ${roleText}`,
-        url: `${SITE_URL}/${locale}/user/${id}`,
+        url: `${SITE_URL}/${canonicalLocale}/user/${id}`,
       },
     };
   } catch {

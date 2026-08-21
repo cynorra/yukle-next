@@ -90,7 +90,10 @@ export async function middleware(request: NextRequest) {
     }
 
     // Redirect to the URL prefixed with the detected locale
-    const redirectUrl = new URL(`/${locale}${pathname}${search}`, request.url);
+    // (avoid appending a trailing slash for the root path so we don't trigger
+    // a second trailing-slash-normalization redirect on the hosting platform)
+    const suffix = pathname === '/' ? '' : pathname;
+    const redirectUrl = new URL(`/${locale}${suffix}${search}`, request.url);
     const response = NextResponse.redirect(redirectUrl);
     
     // Set cookie for future visits
