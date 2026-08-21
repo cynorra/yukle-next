@@ -68,12 +68,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     : `Shipment of ${load.weight_ton} tons of cargo from ${load.origin_city} to ${load.destination_city}.`;
 
   // Load data (route, company, price) is the same record regardless of
-  // locale, and title/description translations are rarely populated in
-  // practice — self-canonicalizing all 47 locales turns every listing into
-  // up to 47 near-duplicate indexable URLs. Canonicalize to /en (same fix
-  // already applied to the shipping-routes hub pages) unless this specific
-  // load actually has a real translated title for the locale.
-  const hasRealTranslation = Boolean(load.title_translations?.[locale]) && locale !== 'en';
+  // locale. title_translations is often populated with a plain copy of the
+  // English title rather than left empty, so presence alone doesn't mean
+  // it's actually translated — compare against the base title too.
+  // Self-canonicalizing all 47 locales turns every listing into up to 47
+  // near-duplicate indexable URLs. Canonicalize to /en (same fix already
+  // applied to the shipping-routes hub pages) unless this specific load
+  // actually has distinct translated copy for the locale.
+  const translatedTitle = load.title_translations?.[locale];
+  const hasRealTranslation = Boolean(translatedTitle) && translatedTitle !== load.title && locale !== 'en';
   const canonicalLocale = hasRealTranslation ? locale : 'en';
   const languagesAlternates: Record<string, string> = {
     en: `${SITE_URL}/en/marketplace/${id}`,
