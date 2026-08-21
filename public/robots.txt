@@ -277,11 +277,19 @@ Crawl-delay: 2
 
 # ─── AI PLATFORM CRAWLERS ────────────────────────────────────
 
-# OpenAI training crawler — pure training-data harvesting, no referral
-# traffic and no relation to Google/Bing search rankings. Blocked to save
-# crawl/compute budget on a resource-limited (Netlify free tier) host.
+# OpenAI (ChatGPT, GPT-4, GPT-4o)
 User-agent: GPTBot
-Disallow: /
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
 
 User-agent: ChatGPT-User
 Allow: /
@@ -291,10 +299,19 @@ Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
 
-# Google Gemini / Bard AI training — separate from Googlebot's search
-# crawling, so blocking this does not affect Google Search rankings/impressions.
+# Google Gemini / Bard AI
 User-agent: Google-Extended
-Disallow: /
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
 
 User-agent: GoogleOther
 Allow: /
@@ -354,10 +371,15 @@ Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
 
-# ByteDance training crawler — known for very high-volume, aggressive
-# crawling with no referral traffic. Blocked to protect crawl/compute budget.
+# ByteDance (TikTok AI, Doubao)
 User-agent: Bytespider
-Disallow: /
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Crawl-delay: 2
 
 # You.com AI
 User-agent: YouBot
@@ -368,26 +390,40 @@ Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
 
-# Cohere training crawler — pure training data, no referral traffic.
+# Cohere AI
 User-agent: cohere-ai
-Disallow: /
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
 
-# Common Crawl — feeds many third parties' training sets, not a search
-# engine itself, no referral traffic. Historically very high request volume.
+# Common Crawl (AI training data source)
 User-agent: CCBot
-Disallow: /
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
 
-# Diffbot — commercial third-party scraping service, no benefit to us.
+# Diffbot (AI data extraction)
 User-agent: Diffbot
-Disallow: /
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
 
-# Timpi (decentralized AI search) — negligible traffic source, blocked for budget.
+# Timpi (decentralized AI search)
 User-agent: Timpibot
-Disallow: /
+Allow: /
 
-# Webz.io — commercial data reseller, no referral traffic.
+# Webz.io AI
 User-agent: Webzio-Extended
-Disallow: /
+Allow: /
 
 # Microsoft Copilot
 User-agent: Copilot
