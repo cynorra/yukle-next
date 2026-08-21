@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { submitToIndexNow } from '@/lib/indexnow';
+import { submitToBaidu } from '@/lib/baiduPush';
 import { buildLaneSlug, buildCitySlug, buildCountrySlug, buildTruckTypeSlug, buildLoadTypeSlug } from '@/lib/laneRoutes';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
@@ -156,10 +157,13 @@ export async function GET(request: Request) {
           const loadTypeUrls = Array.from(loadTypeSlugs).flatMap((slug) =>
             ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}/shipping-routes/cargo-type/${slug}`)
           );
-          await submitToIndexNow([
+          const allPushUrls = [
             ...urls, ...laneUrls, ...cityUrls, ...countryUrls,
             ...destCityUrls, ...destCountryUrls, ...truckTypeUrls, ...loadTypeUrls,
-          ]);
+          ];
+          await submitToIndexNow(allPushUrls);
+          // No-ops until BAIDU_PUSH_TOKEN is set (needs manual ziyuan.baidu.com setup)
+          await submitToBaidu(allPushUrls);
           indexNowSubmitted = newLoads.length;
         }
       } catch (err: any) {

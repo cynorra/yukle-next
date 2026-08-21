@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { revalidateTag } from 'next/cache';
 import { submitToIndexNow } from '@/lib/indexnow';
+import { submitToBaidu } from '@/lib/baiduPush';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,6 +45,8 @@ export async function GET(request: Request) {
         console.log(`Submitting ${blogUrls.length} blog URLs to IndexNow...`);
         await submitToIndexNow(blogUrls);
         console.log('IndexNow submission complete.');
+        // No-ops until BAIDU_PUSH_TOKEN is set (needs manual ziyuan.baidu.com setup)
+        await submitToBaidu(blogUrls);
       }
     }
 
