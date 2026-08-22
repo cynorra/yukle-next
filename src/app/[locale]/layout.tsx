@@ -49,6 +49,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         acc[code] = `/${code}`;
         return acc;
       }, { 'x-default': '/en' } as Record<string, string>),
+      types: {
+        'application/rss+xml': `${SITE_URL}/${locale}/feed.xml`,
+      },
     },
     robots: {
       index: true,
