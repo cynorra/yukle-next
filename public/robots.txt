@@ -488,6 +488,16 @@ Disallow: /*/register
 
 Sitemap: https://loadlyapp.com/sitemap.xml
 
+# ─── RSS FEEDS ────────────────────────────────────────────────
+# Not a standard robots.txt directive (crawlers only act on "Sitemap:"),
+# listed here for feed-reader/aggregator discovery.
+#
+# Blog (per locale, paginated, e.g. https://loadlyapp.com/tr/feed.xml):
+# https://loadlyapp.com/{locale}/feed.xml
+#
+# Live marketplace load postings (paginated, all active listings):
+# https://loadlyapp.com/loads-feed.xml
+
 # ─── HOST ─────────────────────────────────────────────────────
 
 Host: https://loadlyapp.com

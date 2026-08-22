@@ -43,6 +43,11 @@ const nextConfig = {
         source: '/loads-feed-:page(\\d+).xml',
         destination: '/loads-feed/:page',
       },
+      {
+        // Same reasoning as sitemap-loads above, applied to the per-locale blog RSS feed chunks.
+        source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl)/feed-:page(\\d+).xml',
+        destination: '/:locale/feed/:page',
+      },
     ];
   },
   async redirects() {
