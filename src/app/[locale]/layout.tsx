@@ -50,7 +50,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         return acc;
       }, { 'x-default': '/en' } as Record<string, string>),
       types: {
-        'application/rss+xml': `${SITE_URL}/${locale}/feed.xml`,
+        'application/rss+xml': [
+          { url: `${SITE_URL}/${locale}/feed.xml`, title: 'Loadly Blog RSS' },
+          { url: `${SITE_URL}/loads-feed.xml`, title: 'Loadly Live Loads RSS' },
+        ],
       },
     },
     robots: {

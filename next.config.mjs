@@ -38,6 +38,11 @@ const nextConfig = {
         source: '/sitemap-routes-:page(\\d+).xml',
         destination: '/sitemap-routes/:page',
       },
+      {
+        // Same reasoning as sitemap-loads above, applied to the loads RSS feed chunks.
+        source: '/loads-feed-:page(\\d+).xml',
+        destination: '/loads-feed/:page',
+      },
     ];
   },
   async redirects() {
