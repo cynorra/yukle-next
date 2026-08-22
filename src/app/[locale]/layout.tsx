@@ -73,6 +73,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ...(process.env.YANDEX_VERIFICATION_CODE ? { 'yandex-verification': process.env.YANDEX_VERIFICATION_CODE } : {}),
       ...(process.env.BAIDU_VERIFICATION_CODE ? { 'baidu-site-verification': process.env.BAIDU_VERIFICATION_CODE } : {}),
       ...(process.env.NAVER_VERIFICATION_CODE ? { 'naver-site-verification': process.env.NAVER_VERIFICATION_CODE } : {}),
+      'shenma-site-verification': 'ee683339337a66f36029364d1a4e3c53_1787382219',
     },
     openGraph: {
       type: 'website',
