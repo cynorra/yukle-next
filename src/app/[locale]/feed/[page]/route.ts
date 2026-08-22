@@ -23,6 +23,25 @@ function sanitizeForCdata(value: string): string {
   return stripControlChars(value).replace(/]]>/g, ']]]]><![CDATA[>');
 }
 
+// Blog content stores internal links as root-relative paths ("/marketplace"),
+// which resolve fine on-site but are ambiguous/broken once read out of
+// context in a feed reader (RFC 3987 / feed validators flag these) — rewrite
+// href/src to absolute URLs before embedding in content:encoded.
+function absolutizeInternalLinks(html: string): string {
+  return html.replace(/((?:href|src)=["'])\/(?!\/)/g, `$1${SITE_URL}/`);
+}
+
+function imageMimeType(url: string): string {
+  const ext = url.split('?')[0].split('.').pop()?.toLowerCase();
+  switch (ext) {
+    case 'png': return 'image/png';
+    case 'webp': return 'image/webp';
+    case 'gif': return 'image/gif';
+    case 'svg': return 'image/svg+xml';
+    default: return 'image/jpeg';
+  }
+}
+
 async function fetchFeedPage(locale: string, from: number, to: number) {
   const supabase = createPublicClient();
   const { data, count, error } = await supabase
@@ -54,10 +73,19 @@ export async function GET(_req: Request, { params }: RouteParams) {
     const pubDate = new Date(post.created_at).toUTCString();
     const title = stripControlChars(post.title || '');
     const description = stripControlChars(post.excerpt || '');
-    const content = post.content ? stripControlChars(post.content) : description;
+    const content = post.content
+      ? absolutizeInternalLinks(stripControlChars(post.content))
+      : description;
     const authorName = stripControlChars(post.author?.full_name || 'Eren Şimşir');
+    // length="0": true byte size isn't known without an extra fetch per image per
+    // request; 0 is the widely-tolerated placeholder RSS consumers accept when the
+    // producer doesn't have it on hand, and satisfies the enclosure spec's required attribute.
+    // media:content/media:thumbnail cover the same image for readers (Google, feedly)
+    // that prefer MediaRSS over the plain enclosure tag.
     const enclosure = post.cover_image
-      ? `\n      <enclosure url="${escapeXml(post.cover_image)}" type="image/jpeg"/>`
+      ? `\n      <enclosure url="${escapeXml(post.cover_image)}" length="0" type="${imageMimeType(post.cover_image)}"/>` +
+        `\n      <media:content url="${escapeXml(post.cover_image)}" medium="image" type="${imageMimeType(post.cover_image)}"/>` +
+        `\n      <media:thumbnail url="${escapeXml(post.cover_image)}"/>`
       : '';
 
     return `    <item>
@@ -83,15 +111,23 @@ export async function GET(_req: Request, { params }: RouteParams) {
     ? `\n    <atom:link href="${SITE_URL}/${locale}/feed-${pageNum - 1}.xml" rel="prev" type="application/rss+xml"/>`
     : '';
 
+  const channelTitle = `${escapeXml(t.title)} (Page ${pageNum} of ${totalPages})`;
+  const channelLink = `${SITE_URL}/${locale}/blog`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>${escapeXml(t.title)} (Page ${pageNum} of ${totalPages})</title>
-    <link>${SITE_URL}/${locale}/blog</link>
+    <title>${channelTitle}</title>
+    <link>${channelLink}</link>
     <atom:link href="${selfUrl}" rel="self" type="application/rss+xml"/>${nextLink}${prevLink}
     <description>${escapeXml(t.description)}</description>
     <language>${locale}</language>
     <lastBuildDate>${lastBuildDate}</lastBuildDate>
+    <image>
+      <url>${SITE_URL}/logo.png</url>
+      <title>${channelTitle}</title>
+      <link>${channelLink}</link>
+    </image>
 ${items}
   </channel>
 </rss>`;

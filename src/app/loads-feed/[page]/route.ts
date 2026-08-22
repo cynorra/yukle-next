@@ -102,15 +102,23 @@ export async function GET(_req: Request, { params }: Props) {
     ? `\n    <atom:link href="${SITE_URL}/loads-feed-${pageNum - 1}.xml" rel="prev" type="application/rss+xml"/>`
     : '';
 
+  const channelTitle = `Loadly – Live Freight &amp; Load Postings (Page ${pageNum} of ${totalPages})`;
+  const channelLink = `${SITE_URL}/en/marketplace`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>Loadly – Live Freight &amp; Load Postings (Page ${pageNum} of ${totalPages})</title>
-    <link>${SITE_URL}/en/marketplace</link>
+    <title>${channelTitle}</title>
+    <link>${channelLink}</link>
     <atom:link href="${selfUrl}" rel="self" type="application/rss+xml"/>${nextLink}${prevLink}
     <description>Live freight and cargo shipment postings on the Loadly marketplace.</description>
     <language>en</language>
     <lastBuildDate>${lastBuildDate}</lastBuildDate>
+    <image>
+      <url>${SITE_URL}/logo.png</url>
+      <title>${channelTitle}</title>
+      <link>${channelLink}</link>
+    </image>
 ${items}
   </channel>
 </rss>`;
