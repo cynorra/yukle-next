@@ -27,7 +27,7 @@ export async function GET(request: Request, { params }: Props) {
     const to = Math.min(from + step - 1, endOffset);
     const { data: loads, error } = await supabase
       .from('loads')
-      .select('id, created_at')
+      .select('id, created_at, title, title_translations')
       .eq('status', 'active')
       .order('created_at', { ascending: false })
       .range(from, to);
@@ -59,6 +59,17 @@ export async function GET(request: Request, { params }: Props) {
     xml += `    <lastmod>${lastMod}</lastmod>\n`;
     xml += '    <changefreq>daily</changefreq>\n';
     xml += '    <priority>0.7</priority>\n';
+
+    // Add xhtml:link alternates for all translated languages of this load
+    if (load.title_translations && typeof load.title_translations === 'object') {
+      for (const [loc, trTitle] of Object.entries(load.title_translations)) {
+        if (trTitle && trTitle !== load.title) {
+          const locUrl = `${SITE_URL}/${loc}/marketplace/${load.id}`;
+          xml += `    <xhtml:link rel="alternate" hreflang="${loc}" href="${escapeXml(locUrl)}"/>\n`;
+        }
+      }
+    }
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(url)}"/>\n`;
     xml += '  </url>\n';
   }
 

@@ -1,5 +1,5 @@
 import {
-  SITE_URL, escapeXml,
+  SITE_URL, escapeXml, generateAlternates,
   URLSET_HEADER, SITEMAP_HEADERS,
 } from '@/lib/sitemap-utils';
 import { getAllRouteHubs } from '@/lib/laneRoutes';
@@ -43,7 +43,8 @@ export async function GET(request: Request, { params }: Props) {
     xml += `    <loc>${escapeXml(url)}</loc>\n`;
     xml += `    <lastmod>${now}</lastmod>\n`;
     xml += '    <changefreq>daily</changefreq>\n';
-    xml += '    <priority>0.6</priority>\n';
+    xml += '    <priority>0.8</priority>\n';
+    xml += generateAlternates((loc) => `${SITE_URL}/${loc}${path}`);
     xml += '  </url>\n';
   }
 
