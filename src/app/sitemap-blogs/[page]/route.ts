@@ -1,7 +1,7 @@
 import { createPublicClient } from '@/lib/supabase/public';
 import {
   SITE_URL, escapeXml,
-  URLSET_HEADER, SITEMAP_HEADERS, BLOGS_PAGE_SIZE,
+  URLSET_HEADER, SITEMAP_HEADERS, BLOGS_PAGE_SIZE, checkSitemapSize,
 } from '@/lib/sitemap-utils';
 
 export const revalidate = 3600; // ISR: regenerate hourly
@@ -51,8 +51,9 @@ export async function GET(request: Request, { params }: Props) {
   if (allPosts.length > 0) {
     // Group posts by base slug to find language siblings (siblings are
     // grouped within this page's window; a group split across two chunk
-    // boundaries — rare, only near the 10,000-post edge — will list fewer
-    // alternates for those specific posts, not an error).
+    // boundaries — rare, only near a page's edge (see BLOGS_PAGE_SIZE in
+    // sitemap-utils.ts) — will list fewer alternates for those specific
+    // posts, not an error).
     const groups: Record<string, typeof allPosts> = {};
     allPosts.forEach((post) => {
       const parts = post.slug.split('-');
@@ -111,5 +112,6 @@ export async function GET(request: Request, { params }: Props) {
   }
 
   xml += '</urlset>\n';
+  checkSitemapSize(xml, `sitemap-blogs-${pageNum}.xml`, allPosts.length);
   return new Response(xml, { headers: SITEMAP_HEADERS });
 }

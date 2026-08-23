@@ -1,6 +1,6 @@
 import {
   SITE_URL, ALL_LOCALES, escapeXml, generateAlternates,
-  URLSET_HEADER, SITEMAP_HEADERS,
+  URLSET_HEADER, SITEMAP_HEADERS, checkSitemapSize,
 } from '@/lib/sitemap-utils';
 
 export const revalidate = 86400; // ISR: regenerate every 24 hours
@@ -9,6 +9,7 @@ export async function GET() {
   let xml = URLSET_HEADER;
 
   const staticPaths = getAllStaticPaths();
+  let urlCount = 0;
 
   for (const routePath of staticPaths) {
     for (const locale of ALL_LOCALES) {
@@ -19,10 +20,12 @@ export async function GET() {
       xml += `    <priority>${routePath === '' ? '1.0' : routePath === '/marketplace' ? '0.9' : routePath === '/blog' ? '0.85' : '0.8'}</priority>\n`;
       xml += generateAlternates((loc) => `${SITE_URL}/${loc}${routePath}`);
       xml += '  </url>\n';
+      urlCount++;
     }
   }
 
   xml += '</urlset>\n';
+  checkSitemapSize(xml, 'sitemap-static.xml', urlCount);
 
   return new Response(xml, { headers: SITEMAP_HEADERS });
 }

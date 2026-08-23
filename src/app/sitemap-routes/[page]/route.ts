@@ -1,6 +1,6 @@
 import {
   SITE_URL, escapeXml, generateAlternates,
-  URLSET_HEADER, SITEMAP_HEADERS, ROUTES_PAGE_SIZE,
+  URLSET_HEADER, SITEMAP_HEADERS, ROUTES_PAGE_SIZE, checkSitemapSize,
 } from '@/lib/sitemap-utils';
 import { getAllRouteHubs } from '@/lib/laneRoutes';
 
@@ -58,5 +58,6 @@ export async function GET(request: Request, { params }: Props) {
   }
 
   xml += '</urlset>\n';
+  checkSitemapSize(xml, `sitemap-routes-${pageNum}.xml`, pagePaths.length);
   return new Response(xml, { headers: SITEMAP_HEADERS });
 }

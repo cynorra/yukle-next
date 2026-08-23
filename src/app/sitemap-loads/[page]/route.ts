@@ -1,7 +1,7 @@
 import { createPublicClient } from '@/lib/supabase/public';
 import {
   SITE_URL, escapeXml,
-  URLSET_HEADER, SITEMAP_HEADERS, LOADS_PAGE_SIZE,
+  URLSET_HEADER, SITEMAP_HEADERS, LOADS_PAGE_SIZE, checkSitemapSize,
 } from '@/lib/sitemap-utils';
 
 export const revalidate = 3600; // ISR: regenerate hourly
@@ -83,5 +83,6 @@ export async function GET(request: Request, { params }: Props) {
   }
 
   xml += '</urlset>\n';
+  checkSitemapSize(xml, `sitemap-loads-${pageNum}.xml`, allLoads.length);
   return new Response(xml, { headers: SITEMAP_HEADERS });
 }
