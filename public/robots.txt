@@ -299,6 +299,14 @@ Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
 
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+
 # Google Gemini / Bard AI
 User-agent: Google-Extended
 Allow: /

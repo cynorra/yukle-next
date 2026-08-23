@@ -59,6 +59,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     robots: {
       index: true,
       follow: true,
+      // Also set on the general "robots" meta tag, not just the
+      // googlebot-specific one below — GEO/AEO crawlers (and audit tools)
+      // that don't read the googlebot-only tag still need these directives.
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
       googleBot: {
         index: true,
         follow: true,
@@ -125,6 +131,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
   const websiteJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
     name: 'Loadly',
     alternateName: ['Loadly Logistics', 'Loadly App'],
     url: `${SITE_URL}/${locale}/`,
@@ -143,14 +150,24 @@ export default async function LocalizedLayout({ children, params }: Props) {
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
     name: 'Loadly',
     url: `${SITE_URL}/${locale}/`,
     logo: `${SITE_URL}/logo.png`,
     description: t.home.heroDesc,
     areaServed: { '@type': 'Country', name: 'Worldwide' },
     serviceType: 'Freight Marketplace',
+    knowsAbout: [
+      'Freight Transportation',
+      'Logistics',
+      'Trucking',
+      'Supply Chain Management',
+      'Load Boards',
+      'Cargo Shipping',
+    ],
     founder: {
       '@type': 'Person',
+      '@id': `${SITE_URL}/#founder`,
       name: 'Eren Şimşir',
       jobTitle: 'Chief Technical Editor',
       sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
@@ -160,6 +177,30 @@ export default async function LocalizedLayout({ children, params }: Props) {
       contactType: 'customer service',
       availableLanguage: ['English', 'Spanish', 'French', 'German', 'Turkish', 'Arabic'],
     },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Loadly Freight Marketplace Services',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: 'Load Posting for Shippers' },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: 'Load Matching for Carriers & Drivers' },
+        },
+      ],
+    },
+  };
+
+  const personJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${SITE_URL}/#founder`,
+    name: 'Eren Şimşir',
+    jobTitle: 'Chief Technical Editor',
+    worksFor: { '@id': `${SITE_URL}/#organization` },
+    sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
   };
 
   const softwareJsonLd = {
@@ -221,10 +262,23 @@ export default async function LocalizedLayout({ children, params }: Props) {
         />
         <script
           type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
         />
+        <link rel="alternate" type="text/plain" href={`${SITE_URL}/llms.txt`} />
       </head>
       <body className="bg-background-light dark:bg-background-dark transition-colors duration-500">
+        <noscript>
+          <div style={{ padding: '2rem', textAlign: 'center', fontFamily: 'system-ui, sans-serif' }}>
+            Loadly is a global freight marketplace. Please enable JavaScript to browse live loads,
+            post shipments, and use the full site — or visit{' '}
+            <a href={`${SITE_URL}/${locale}/marketplace`}>{SITE_URL}/{locale}/marketplace</a> for the
+            latest listings.
+          </div>
+        </noscript>
         <AdSenseScript />
         <GoogleAnalytics />
 

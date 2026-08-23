@@ -1,0 +1,4 @@
+Contact: mailto:eren.gp54@gmail.com
+Expires: 2027-08-23T00:00:00.000Z
+Canonical: https://loadlyapp.com/.well-known/security.txt
+Preferred-Languages: en, tr

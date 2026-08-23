@@ -45,7 +45,7 @@ const nextConfig = {
       },
       {
         // Same reasoning as sitemap-loads above, applied to the per-locale blog RSS feed chunks.
-        source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl)/feed-:page(\\d+).xml',
+        source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl|kn|te|pa|gu|ml|sw|ne|si)/feed-:page(\\d+).xml',
         destination: '/:locale/feed/:page',
       },
     ];
@@ -54,7 +54,7 @@ const nextConfig = {
     return [
       {
         // Legacy pre-rebrand page (Turkish-only, dead CTAs, broken canonical) — retire in favor of marketplace.
-        source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl)/load',
+        source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl|kn|te|pa|gu|ml|sw|ne|si)/load',
         destination: '/:locale/marketplace',
         permanent: true,
       },
@@ -69,10 +69,31 @@ const nextConfig = {
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          {
+            // Deliberately permissive on script/connect/frame/img sources —
+            // this is scoped to what AdSense + GA4 + Supabase + the wide-open
+            // remote image patterns above actually need, not a tight lockdown.
+            // Getting this wrong would silently break ads/analytics/images,
+            // which matters more here than a stricter policy. object-src and
+            // frame-ancestors are the two directives worth being strict on.
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googlesyndication.com https://*.googletagmanager.com https://*.google-analytics.com https://*.googleadservices.com https://*.doubleclick.net https://*.google.com https://*.gstatic.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com data:",
+              "img-src 'self' data: blob: https: http:",
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.google-analytics.com https://*.analytics.google.com https://*.googlesyndication.com https://*.doubleclick.net https://*.googleadservices.com https://*.google.com",
+              "frame-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "frame-ancestors 'self'",
+            ].join('; '),
+          },
         ],
       },
       {
-        source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl)/:path*',
+        source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl|kn|te|pa|gu|ml|sw|ne|si)/:path*',
         headers: [
           {
             key: 'Link',

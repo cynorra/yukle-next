@@ -22,7 +22,7 @@ export default function NotFound() {
             Anasayfa
           </Link>
           <Link
-            href="/pazar"
+            href="/en/marketplace"
             className="px-8 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-fg font-bold rounded-xl hover:bg-background-light dark:hover:bg-background-dark transition-all"
           >
             Pazara Git
