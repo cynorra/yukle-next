@@ -10,6 +10,7 @@ import {
   Weight, Package, Clock, User, Star, Truck, Send,
   MessageSquare, Shield, ArrowLeft, Phone, CheckCircle2, CircleDot,
   Loader2, TrendingUp, X, Check, Zap, Heart, ExternalLink, Share2, PenLine,
+  ChevronRight, HelpCircle, ShieldCheck, FileText,
 } from 'lucide-react';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -127,9 +128,25 @@ function formatTime(d: string | null, locale: string) {
 
 interface LoadDetailClientProps {
   load: LoadWithRelations;
+  seoSummary?: string;
+  seoCorridor?: string;
+  seoCustoms?: string;
+  truckLabel?: string;
+  categoryLabel?: string;
+  similarLoads?: any[];
+  relatedRoutes?: { href: string; label: string }[];
 }
 
-export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
+export function LoadDetailClient({
+  load: initialLoad,
+  seoSummary,
+  seoCorridor,
+  seoCustoms,
+  truckLabel = 'Standard Truck',
+  categoryLabel = 'General Freight',
+  similarLoads = [],
+  relatedRoutes = [],
+}: LoadDetailClientProps) {
   const params = useParams<{ id: string }>();
   const id = params?.id ?? initialLoad.id;
   const { user, profile, loading: authLoading, refreshProfile } = useAuth();
@@ -551,6 +568,56 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
               </div>
             )}
 
+            {/* Dynamic SEO Transport Corridor Overview Block */}
+            {seoSummary && (
+              <div className={`p-6 rounded-2xl ${t.card} space-y-3`}>
+                <h2 className="text-sm font-bold uppercase tracking-wider text-accent flex items-center gap-2">
+                  <ShieldCheck size={16} />
+                  {locale === 'tr' ? 'Taşıma ve Rota Rehberi' : 'Freight & Transport Corridor Overview'}
+                </h2>
+                <p className="text-sm text-muted leading-relaxed">{seoSummary}</p>
+                {seoCorridor && <p className="text-sm text-muted leading-relaxed">{seoCorridor}</p>}
+                {seoCustoms && <p className="text-sm text-muted leading-relaxed">{seoCustoms}</p>}
+              </div>
+            )}
+
+            {/* Safe Shipping & Carrier Verification Checklist */}
+            <div className={`p-6 rounded-2xl ${t.card} bg-accent/5 border border-accent/20`}>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-accent mb-3 flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-green-500" />
+                {locale === 'tr' ? 'Güvenli Nakliye Standartları' : 'Safe Shipping & Transport Guarantee'}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-muted">
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 size={15} className="text-accent shrink-0 mt-0.5" />
+                  <span>{locale === 'tr' ? 'Doğrulanmış yük sahibi profili ve navlun teklif imkanı.' : 'Verified shipper profile with rate negotiation.'}</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 size={15} className="text-accent shrink-0 mt-0.5" />
+                  <span>{locale === 'tr' ? 'CMR karayolu taşıma belgesi uyumluluğu.' : 'Compliant with international CMR transport standards.'}</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 size={15} className="text-accent shrink-0 mt-0.5" />
+                  <span>{locale === 'tr' ? 'Sürücüler için anında yük rezervasyonu.' : 'Direct driver-to-shipper load booking.'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Related Routes Chips */}
+            {relatedRoutes.length > 0 && (
+              <div className="flex flex-wrap gap-2 pt-2">
+                {relatedRoutes.map((route) => (
+                  <Link
+                    key={route.href}
+                    href={route.href}
+                    className="px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-muted hover:text-accent hover:border-accent/40 transition-colors"
+                  >
+                    {route.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             {/* AdSense */}
             <AdBanner
               slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LISTING}
@@ -923,6 +990,75 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
             </div>
           </div>
         </div>
+
+        {/* Frequently Asked Questions (FAQ) Accordion for Search Engines & Users */}
+        <div className="mt-10 p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
+          <h3 className="text-base font-bold text-fg mb-4 flex items-center gap-2">
+            <HelpCircle size={18} className="text-accent" />
+            {locale === 'tr' ? 'Sıkça Sorulan Sorular (SSS)' : 'Frequently Asked Questions (FAQ)'}
+          </h3>
+          <div className="space-y-4">
+            <div className="p-4 rounded-xl bg-background-light dark:bg-background-dark border border-border-light/40 dark:border-border-dark/40">
+              <h4 className="text-sm font-bold text-fg mb-1">
+                {locale === 'tr' ? `${load.origin_city} - ${load.destination_city} nakliye teklifi nasıl verilir?` : `How do I place a rate offer for this load from ${load.origin_city} to ${load.destination_city}?`}
+              </h4>
+              <p className="text-xs text-muted leading-relaxed">
+                {locale === 'tr' ? 'Loadly hesabınızla ücretsiz giriş yaparak doğrudan yük sahibine navlun teklifi verebilir ve mesaj gönderebilirsiniz.' : 'You can create a free account on Loadly to submit direct rate offers to the shipper.'}
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-background-light dark:bg-background-dark border border-border-light/40 dark:border-border-dark/40">
+              <h4 className="text-sm font-bold text-fg mb-1">
+                {locale === 'tr' ? 'Bu nakliye için gerekli araç tipi ve belgeler nelerdir?' : 'What vehicle and documents are required for this shipment?'}
+              </h4>
+              <p className="text-xs text-muted leading-relaxed">
+                {locale === 'tr' ? `Bu ilan ${load.weight_ton} ton ağırlığında olup ${truckLabel} tipi araç gerektirmektedir. Sürücülerin CMR karayolu belgesi taşıması zorunludur.` : `This load weighs ${load.weight_ton} tons and requires a ${truckLabel} with valid CMR consignment papers.`}
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-background-light dark:bg-background-dark border border-border-light/40 dark:border-border-dark/40">
+              <h4 className="text-sm font-bold text-fg mb-1">
+                {locale === 'tr' ? 'Yük sahibi güvenilir ve doğrulanmış mıdır?' : 'Is the shipper verified on Loadly?'}
+              </h4>
+              <p className="text-xs text-muted leading-relaxed">
+                {locale === 'tr' ? 'Loadly platformunda yer alan yük sahipleri firma ve kimlik doğrulama adımlarından geçer.' : 'Shippers on Loadly go through identity and business verification for secure trading.'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Server-Side Rendered Similar Loads Section */}
+        {similarLoads && similarLoads.length > 0 && (
+          <div className="mt-10 pt-8 border-t border-border-light dark:border-border-dark">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-bold text-fg">
+                {locale === 'tr' ? 'Benzer Lojistik İlanları' : 'Similar Available Freight Loads'}
+              </h3>
+              <Link href={`/${locale}/marketplace`} className="text-xs font-bold text-accent hover:underline flex items-center gap-1">
+                {locale === 'tr' ? 'Tüm İlanları Gör' : 'View All Loads'} <ChevronRight size={14} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {similarLoads.map((simLoad: any) => (
+                <Link
+                  key={simLoad.id}
+                  href={`/${locale}/marketplace/${simLoad.id}`}
+                  className="p-5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:border-accent/50 transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold text-accent group-hover:underline">
+                      {simLoad.origin_city} ➜ {simLoad.destination_city}
+                    </span>
+                    <span className="text-xs text-muted font-medium">
+                      {formatPrice(simLoad.price, locale)}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted truncate">
+                    {simLoad.title} · {simLoad.weight_ton} Ton
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       {showReview && reviewTarget && (
         <ReviewModal
