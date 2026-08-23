@@ -106,11 +106,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: brandedTitle,
       description,
       url: `${SITE_URL}/${locale}/marketplace/${id}`,
+      images: [
+        {
+          url: `${SITE_URL}/${locale}/marketplace/${id}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: brandedTitle,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: brandedTitle,
       description,
+      images: [`${SITE_URL}/${locale}/marketplace/${id}/opengraph-image`],
     },
     robots:
       load.status === 'completed' || load.status === 'cancelled'
