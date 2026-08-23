@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { submitToIndexNow } from '@/lib/indexnow';
 import { submitToBaidu } from '@/lib/baiduPush';
+import { pingGoogleIndexing } from '@/lib/googleIndexing';
 import { buildLaneSlug, buildCitySlug, buildCountrySlug, buildTruckTypeSlug, buildLoadTypeSlug } from '@/lib/laneRoutes';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
@@ -164,6 +165,10 @@ export async function GET(request: Request) {
           await submitToIndexNow(allPushUrls);
           // No-ops until BAIDU_PUSH_TOKEN is set (needs manual ziyuan.baidu.com setup)
           await submitToBaidu(allPushUrls);
+          // Ping Google Indexing API & Google Sitemap ping for instant indexing
+          for (const url of urls) {
+            await pingGoogleIndexing(url, 'URL_UPDATED');
+          }
           indexNowSubmitted = newLoads.length;
         }
       } catch (err: any) {

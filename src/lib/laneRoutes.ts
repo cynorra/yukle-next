@@ -68,13 +68,24 @@ export interface LoadTypeHub {
 
 const MAX_SCANNED_LOADS = 5000;
 
-export function slugifyCity(city: string): string {
-  return city
+export function slugifyCity(text: string): string {
+  if (!text) return 'location';
+  const trMap: Record<string, string> = {
+    'ı': 'i', 'İ': 'i', 'ğ': 'g', 'Ğ': 'g', 'ü': 'u', 'Ü': 'u',
+    'ş': 's', 'Ş': 's', 'ö': 'o', 'Ö': 'o', 'ç': 'c', 'Ç': 'c'
+  };
+  let str = text;
+  for (const [key, val] of Object.entries(trMap)) {
+    str = str.replaceAll(key, val);
+  }
+  const clean = str
     .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '') // strip diacritics
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+
+  return clean || 'location';
 }
 
 // `origin_country`/`destination_country` come from three different sources
