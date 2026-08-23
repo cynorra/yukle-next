@@ -169,7 +169,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   de: {
-    title: 'Fracht, Transport & Logistik Leitfaden | Loadly',
+    title: 'Fracht-, Transport- & Logistik-Leitfaden | Loadly',
     description: 'Digitale Logistik-Plattform. Informieren Sie sich über Frachtangebote, Ladungssuche und Kostenoptimierung im Straßentransport.',
     tagline: 'Leitfaden für Logistik & Frachtbörsen',
     header1: 'Digitalisierung der',
@@ -227,7 +227,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   pl: {
-    title: 'Przewodnik Frachtu, Transportu i Logistyki | Loadly',
+    title: 'Przewodnik po Frachcie, Transporcie i Logistyce | Loadly',
     description: 'Cyfrowa platforma logistyczna. Artykuły o dodawaniu ładunków, szukaniu frachtów i optymalizacji kosztów transportu.',
     tagline: 'Poradnik Giełdy Logistycznej i Transportowej',
     header1: 'Cyfryzacja',
@@ -865,7 +865,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   ro: {
-    "title": "Ghid Transport Marfă, Rutier și Logistică | Loadly",
+    "title": "Ghid de Transport Marfă și Logistică | Loadly",
     "description": "Platformă logistică digitală. Accesați articole despre postarea anunțurilor de expediere, găsirea încărcăturilor de camioane și metode de reducere a costurilor logistice.",
     "tagline": "Ghidul pieței de logistică și expediere",
     "header1": "Digitizarea",
@@ -1053,7 +1053,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   el: {
-    "title": "Οδηγός Φορτίου, Μεταφορών και Logistics | Loadly",
+    "title": "Οδηγός Φορτίου, Μεταφορών και Εφοδιαστικής | Loadly",
     "description": "Digital logistics πλατφόρμα. Αποκτήστε πρόσβαση σε άρθρα σχετικά με τη δημοσίευση διαφημίσεων αποστολής, την εύρεση φορτίων φορτηγών και τις μεθόδους μείωσης του κόστους εφοδιαστικής.",
     "tagline": "Οδηγός Logistics & Shipping Marketplace",
     "header1": "Ψηφιοποίηση του",
