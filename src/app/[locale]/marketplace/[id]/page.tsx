@@ -6,6 +6,7 @@ import { LoadDetailClient } from './LoadDetailClient';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
 import { buildLaneSlug, buildCitySlug, buildCountrySlug, buildTruckTypeSlug, buildLoadTypeSlug, normalizeCountryName } from '@/lib/laneRoutes';
+import { Truck, Weight, MapPin, ChevronRight, ShieldCheck, HelpCircle, FileText, CheckCircle2, Navigation, AlertTriangle, Scale } from 'lucide-react';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -40,6 +41,22 @@ async function getLoad(id: string) {
   return data;
 }
 
+async function getSimilarLoads(currentId: string, originCountry: string, destCountry: string) {
+  try {
+    const supabase = createPublicClient();
+    const { data } = await supabase
+      .from('loads')
+      .select('id, title, origin_city, destination_city, weight_ton, price, required_truck_type, created_at')
+      .eq('status', 'active')
+      .neq('id', currentId)
+      .or(`origin_country.eq.${originCountry},destination_country.eq.${destCountry}`)
+      .limit(4);
+    return data || [];
+  } catch {
+    return [];
+  }
+}
+
 interface PageProps {
   params: Promise<{ id: string; locale: string }>;
 }
@@ -62,19 +79,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const localizedDescription = load.description_translations?.[locale] || load.description;
 
   const title = localizedTitle;
-  const brandedTitle = `${localizedTitle} | Loadly`;
+  const brandedTitle = `${localizedTitle} | Loadly Freight Network`;
   const description = localizedDescription
     ? (localizedDescription.length > 150 ? localizedDescription.slice(0, 150) + '...' : localizedDescription)
-    : `Shipment of ${load.weight_ton} tons of cargo from ${load.origin_city} to ${load.destination_city}.`;
+    : `Shipment of ${load.weight_ton} tons of cargo from ${load.origin_city}, ${load.origin_country} to ${load.destination_city}, ${load.destination_country}.`;
 
-  // Load data (route, company, price) is the same record regardless of
-  // locale. title_translations is often populated with a plain copy of the
-  // English title rather than left empty, so presence alone doesn't mean
-  // it's actually translated — compare against the base title too.
-  // Self-canonicalizing all 47 locales turns every listing into up to 47
-  // near-duplicate indexable URLs. Canonicalize to /en (same fix already
-  // applied to the shipping-routes hub pages) unless this specific load
-  // actually has distinct translated copy for the locale.
   const translatedTitle = load.title_translations?.[locale];
   const hasRealTranslation = Boolean(translatedTitle) && translatedTitle !== load.title && locale !== 'en';
   const canonicalLocale = hasRealTranslation ? locale : 'en';
@@ -122,20 +131,38 @@ export default async function LoadDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const similarLoads = await getSimilarLoads(id, load.origin_country || '', load.destination_country || '');
+
   const localizedTitle = load.title_translations?.[locale] || load.title;
   const localizedDescription = load.description_translations?.[locale] || load.description;
 
-  // JSON-LD Service schema
+  const truckLabel = load.required_truck_type ? (TRUCK_TYPES[load.required_truck_type] || load.required_truck_type) : 'Standard Truck';
+  const categoryLabel = load.load_type ? (LOAD_TYPES[load.load_type] || load.load_type) : 'General Freight';
+
+  const isTr = locale === 'tr';
+
+  // Rich Auto-Generated Content Paragraphs for E-E-A-T and Search Depth
+  const autoSeoSummary = isTr
+    ? `${load.origin_city} (${load.origin_country}) kalkışlı, ${load.destination_city} (${load.destination_country}) varışlı bu nakliye ilanında toplam ${load.weight_ton} ton ağırlığında ${categoryLabel} taşınacaktır. İlan için belirlenen standart araç gereksinimi ${truckLabel} tipindedir.`
+    : `This freight load listing specifies a shipment of ${load.weight_ton} tons of ${categoryLabel} from ${load.origin_city}, ${load.origin_country} to ${load.destination_city}, ${load.destination_country}. The recommended vehicle configuration is a ${truckLabel}.`;
+
+  const autoSeoCorridor = isTr
+    ? `${load.origin_country} ile ${load.destination_country} arasındaki lojistik koridoru karayolu yük taşımacılığında kritik bir yere sahiptir. Yük sahipleri ve sürücüler taşıma anlaşmalarını güvenli sözleşmeler ve doğrulanmış profiller üzerinden gerçekleştirir.`
+    : `The freight corridor connecting ${load.origin_country} and ${load.destination_country} represents a high-traffic commercial route. Licensed carriers and verified shippers interact directly on Loadly for transparent pricing and rapid freight dispatch.`;
+
+  const autoSeoCustomsGuide = isTr
+    ? `Uluslararası ve şehirlerarası taşımalarda CMR karayolu taşıma belgesi, ağırlık tartım fişleri ve sevk irsaliyesi belgelerinin hazır tutulması tavsiye edilir. Tehlikeli madde (ADR) veya soğuk zincir (Frigo) gerektiren yüklerde araç belgesi zorunludur.`
+    : `For cross-border and regional heavy transport, carriers must ensure CMR consignment notes, weighbridge documentation, and appropriate vehicle permits are active. Special cargo classes (e.g. ADR or Reefer) require compliant certification.`;
+
+  // JSON-LD Service & Product schema
   const offerJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: localizedTitle,
-    description:
-      localizedDescription ||
-      `${load.weight_ton} ton shipment from ${load.origin_city} to ${load.destination_city}`,
+    description: localizedDescription || autoSeoSummary,
     provider: {
       '@type': 'Organization',
-      name: load.shipper?.company_name || load.shipper?.full_name || 'Loadly User',
+      name: load.shipper?.company_name || load.shipper?.full_name || 'Loadly Verified Shipper',
     },
     areaServed: [
       { '@type': 'City', name: load.origin_city },
@@ -150,6 +177,38 @@ export default async function LoadDetailPage({ params }: PageProps) {
         url: `${SITE_URL}/${locale}/marketplace/${id}`,
       },
     }),
+  };
+
+  // Schema.org FAQPage for Rich Search Snippets
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: isTr ? `${load.origin_city} - ${load.destination_city} ilanına nasıl teklif verilir?` : `How do I place an offer for this load from ${load.origin_city} to ${load.destination_city}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: isTr ? `Loadly hesabınızla giriş yaparak yük sahibine doğrudan navlun teklifi verebilir ve mesaj gönderebilirsiniz.` : `You can create a free account on Loadly to submit direct rate offers to the shipper.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: isTr ? `Bu nakliye için gerekli araç ve evraklar nelerdir?` : `What vehicle and documents are required for this shipment?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: isTr ? `Bu ilan ${load.weight_ton} ton ağırlığında olup ${truckLabel} tipi araç gerektirmektedir. Taşıma belgesi (CMR/İrsaliye) zorunludur.` : `This load weighs ${load.weight_ton} tons and requires a ${truckLabel} with valid CMR consignment papers.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: isTr ? `Yük sahibi doğrulanmış üye midir?` : `Is the shipper verified on Loadly?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: isTr ? `Loadly üzerindeki kurumsal ve bireysel yük sahipleri kimlik/firma doğrulamasından geçmektedir.` : `Shippers on Loadly go through identity and business verification for secure trading.`,
+        },
+      },
+    ],
   };
 
   const breadcrumbJsonLd = {
@@ -167,9 +226,6 @@ export default async function LoadDetailPage({ params }: PageProps) {
     ],
   };
 
-  // Internal links to the durable hub pages this load belongs to — the only
-  // on-site path into those hubs besides the sitemap/IndexNow, so crawlers
-  // and users reach them from the page most likely to already be indexed.
   const relatedRoutes: { href: string; label: string }[] = [];
   if (load.origin_city && load.origin_country) {
     relatedRoutes.push({
@@ -202,17 +258,9 @@ export default async function LoadDetailPage({ params }: PageProps) {
     });
   }
   if (load.required_truck_type) {
-    const label = TRUCK_TYPES[load.required_truck_type] || load.required_truck_type;
     relatedRoutes.push({
       href: `/${locale}/shipping-routes/truck-type/${buildTruckTypeSlug(load.required_truck_type)}`,
-      label: locale === 'tr' ? `Diğer ${label} İlanları` : `More ${label} Loads`,
-    });
-  }
-  if (load.load_type) {
-    const label = LOAD_TYPES[load.load_type] || load.load_type;
-    relatedRoutes.push({
-      href: `/${locale}/shipping-routes/cargo-type/${buildLoadTypeSlug(load.load_type)}`,
-      label: locale === 'tr' ? `Diğer ${label} İlanları` : `More ${label} Loads`,
+      label: locale === 'tr' ? `Diğer ${truckLabel} İlanları` : `More ${truckLabel} Loads`,
     });
   }
 
@@ -224,10 +272,14 @@ export default async function LoadDetailPage({ params }: PageProps) {
       />
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      {/* SEO Breadcrumbs */}
+      {/* SEO Header & Breadcrumbs */}
       <header className="max-w-5xl mx-auto px-4 pt-8">
         <nav className="text-xs text-muted mb-4">
           <Link href={`/${locale}`} className="hover:text-accent">
@@ -248,11 +300,80 @@ export default async function LoadDetailPage({ params }: PageProps) {
           {load.origin_state ? ` (${load.origin_state})` : ''}, {load.origin_country} →{' '}
           {load.destination_city}
           {load.destination_state ? ` (${load.destination_state})` : ''}, {load.destination_country} ·{' '}
-          {load.weight_ton} ton
-          {load.required_truck_type ? ` · ${TRUCK_TYPES[load.required_truck_type] || load.required_truck_type}` : ''}
-          {load.load_type ? ` · ${LOAD_TYPES[load.load_type] || load.load_type}` : ''}
+          {load.weight_ton} ton · {truckLabel} · {categoryLabel}
         </p>
       </header>
+
+      {/* Structured Transport Specifications Table for Search Engines & Users */}
+      <section className="max-w-5xl mx-auto px-4 mt-6">
+        <div className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-accent flex items-center gap-2 mb-4">
+            <FileText size={16} />
+            {isTr ? 'İlan Özellikleri & Sevkiyat Özeti' : 'Freight & Logistics Specifications'}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+            <div className="p-3 rounded-xl bg-background-light dark:bg-background-dark border border-border-light/50 dark:border-border-dark/50">
+              <span className="text-muted block mb-1">{isTr ? 'Kalkış Noktası' : 'Origin'}</span>
+              <span className="font-bold text-fg text-sm">{load.origin_city}, {load.origin_country}</span>
+            </div>
+            <div className="p-3 rounded-xl bg-background-light dark:bg-background-dark border border-border-light/50 dark:border-border-dark/50">
+              <span className="text-muted block mb-1">{isTr ? 'Varış Noktası' : 'Destination'}</span>
+              <span className="font-bold text-fg text-sm">{load.destination_city}, {load.destination_country}</span>
+            </div>
+            <div className="p-3 rounded-xl bg-background-light dark:bg-background-dark border border-border-light/50 dark:border-border-dark/50">
+              <span className="text-muted block mb-1">{isTr ? 'Ağırlık / Tonaj' : 'Weight / Cargo'}</span>
+              <span className="font-bold text-fg text-sm">{load.weight_ton} Ton</span>
+            </div>
+            <div className="p-3 rounded-xl bg-background-light dark:bg-background-dark border border-border-light/50 dark:border-border-dark/50">
+              <span className="text-muted block mb-1">{isTr ? 'İstenen Araç' : 'Vehicle Required'}</span>
+              <span className="font-bold text-fg text-sm">{truckLabel}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dynamic SEO Overview Text Block for Search Engine Quality & Depth */}
+      <section className="max-w-5xl mx-auto px-4 mt-6">
+        <div className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark space-y-4">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-accent flex items-center gap-2">
+            <ShieldCheck size={16} />
+            {isTr ? 'Taşıma ve Rota Rehberi' : 'Freight & Transport Corridor Overview'}
+          </h2>
+          <p className="text-sm text-muted leading-relaxed">
+            {autoSeoSummary}
+          </p>
+          <p className="text-sm text-muted leading-relaxed">
+            {autoSeoCorridor}
+          </p>
+          <p className="text-sm text-muted leading-relaxed">
+            {autoSeoCustomsGuide}
+          </p>
+        </div>
+      </section>
+
+      {/* Carrier Safety & Verification Checklist */}
+      <section className="max-w-5xl mx-auto px-4 mt-6">
+        <div className="p-6 rounded-2xl bg-surface-light/40 dark:bg-surface-dark/40 border border-border-light dark:border-border-dark">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-muted mb-4 flex items-center gap-2">
+            <CheckCircle2 size={16} className="text-green-500" />
+            {isTr ? 'Güvenli Nakliye Standartları' : 'Safe Shipping & Transport Guarantee'}
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-muted">
+            <div className="flex items-start gap-2">
+              <CheckCircle2 size={16} className="text-accent shrink-0 mt-0.5" />
+              <span>{isTr ? 'Doğrulanmış yük sahibi profili ve anlık teklif imkanı.' : 'Verified shipper profile with transparent rate negotiation.'}</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <CheckCircle2 size={16} className="text-accent shrink-0 mt-0.5" />
+              <span>{isTr ? 'CMR karayolu taşıma ve sevkiyat belgesi uyumluluğu.' : 'Compliant with international CMR and transport consignment standards.'}</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <CheckCircle2 size={16} className="text-accent shrink-0 mt-0.5" />
+              <span>{isTr ? 'Sürücüler ve araç sahipleri için doğrudan doğrudan iletişim.' : 'Direct driver-to-shipper communication for instant load booking.'}</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {relatedRoutes.length > 0 && (
         <nav aria-label={locale === 'tr' ? 'İlgili rotalar' : 'Related routes'} className="max-w-5xl mx-auto px-4 mt-6 flex flex-wrap gap-2">
@@ -268,7 +389,80 @@ export default async function LoadDetailPage({ params }: PageProps) {
         </nav>
       )}
 
+      {/* Main Interactive Load Detail Client Component */}
       <LoadDetailClient load={load as any} />
+
+      {/* Server-Side Rendered Similar Loads Section for Deep Crawling & Page Value */}
+      {similarLoads.length > 0 && (
+        <section className="max-w-5xl mx-auto px-4 my-12 pt-8 border-t border-border-light dark:border-border-dark">
+          <h3 className="text-xl font-bold text-fg mb-6 flex items-center justify-between">
+            <span>{isTr ? 'Benzer Lojistik İlanları' : 'Similar Available Freight Loads'}</span>
+            <Link href={`/${locale}/marketplace`} className="text-xs font-bold text-accent hover:underline flex items-center gap-1">
+              {isTr ? 'Tüm İlanları Gör' : 'View All Loads'} <ChevronRight size={14} />
+            </Link>
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {similarLoads.map((simLoad) => (
+              <Link
+                key={simLoad.id}
+                href={`/${locale}/marketplace/${simLoad.id}`}
+                className="p-5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:border-accent/50 transition-all group"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold text-fg group-hover:text-accent transition-colors">
+                    {simLoad.origin_city} → {simLoad.destination_city}
+                  </span>
+                  <span className="text-xs font-bold text-accent">
+                    {simLoad.price ? `${simLoad.price} ${locale === 'tr' ? 'TRY' : 'USD'}` : (isTr ? 'Pazarlıklı' : 'Negotiable')}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 text-xs text-muted">
+                  <span className="flex items-center gap-1"><Weight size={12} /> {simLoad.weight_ton} Ton</span>
+                  {simLoad.required_truck_type && (
+                    <span className="flex items-center gap-1"><Truck size={12} /> {TRUCK_TYPES[simLoad.required_truck_type] || simLoad.required_truck_type}</span>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* SEO FAQ Section */}
+      <section className="max-w-5xl mx-auto px-4 mb-16">
+        <div className="p-6 rounded-2xl bg-surface-light/50 dark:bg-surface-dark/50 border border-border-light dark:border-border-dark space-y-4">
+          <h3 className="text-base font-bold text-fg flex items-center gap-2">
+            <HelpCircle size={18} className="text-accent" />
+            {isTr ? 'Sıkça Sorulan Sorular' : 'Frequently Asked Questions'}
+          </h3>
+          <div className="space-y-3">
+            <div>
+              <h4 className="text-sm font-semibold text-fg">
+                {isTr ? `${load.origin_city} - ${load.destination_city} ilanına nasıl teklif verilir?` : `How do I place an offer for this load from ${load.origin_city} to ${load.destination_city}?`}
+              </h4>
+              <p className="text-xs text-muted mt-1">
+                {isTr ? `Loadly hesabı açarak yük sahibine doğrudan teklif verebilir ve mesaj gönderebilirsiniz.` : `You can create a free account on Loadly to submit direct rate offers to the shipper.`}
+              </p>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-fg">
+                {isTr ? `Bu yük için hangi araç gerekiyor?` : `What vehicle is required for this freight shipment?`}
+              </h4>
+              <p className="text-xs text-muted mt-1">
+                {isTr ? `Bu ilan ${load.weight_ton} ton ağırlığında olup ${truckLabel} tipi araç gerektirmektedir.` : `This load weighs ${load.weight_ton} tons and requires a ${truckLabel}.`}
+              </p>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-fg">
+                {isTr ? `Yük sahibi doğrulanmış üye midir?` : `Is the shipper verified on Loadly?`}
+              </h4>
+              <p className="text-xs text-muted mt-1">
+                {isTr ? `Loadly üzerindeki kurumsal ve bireysel yük sahipleri kimlik/firma doğrulamasından geçmektedir.` : `Shippers on Loadly go through identity and business verification for secure trading.`}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

@@ -41,6 +41,8 @@ dependencies {
     implementation(libs.shimmer)
     implementation(libs.mpandroidchart)
     implementation(libs.androidx.browser)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.play.services.ads)
     
     // Test
     testImplementation(libs.junit)
