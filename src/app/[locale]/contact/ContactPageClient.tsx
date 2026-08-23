@@ -1,7 +1,7 @@
 'use client';
 
 import { useT } from '@/hooks/useT';
-import { Mail, MapPin, Phone, MessageSquare, Clock, HelpCircle } from 'lucide-react';
+import { Mail, MapPin, Phone, MessageSquare, HelpCircle } from 'lucide-react';
 
 interface ContactData {
   contact: {
@@ -10,9 +10,6 @@ interface ContactData {
     getInTouch: string;
     emailTitle: string;
     emailDesc: string;
-    phoneTitle: string;
-    phoneDesc: string;
-    phoneNotAvailable: string;
     addressTitle: string;
     addressDesc: string;
     quickSupport: string;
@@ -80,17 +77,6 @@ export function ContactPageClient({ data, locale }: Props) {
                 <a href="mailto:info@loadlyapp.com" className="text-[#F5A623] hover:underline font-medium">
                   info@loadlyapp.com
                 </a>
-              </div>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#F5A623]/20 flex items-center justify-center shrink-0">
-                <Clock size={24} className="text-[#F5A623]" />
-              </div>
-              <div>
-                <h3 className={`text-lg font-bold ${t.heading} mb-1`}>{content.phoneTitle}</h3>
-                <p className={`text-sm ${t.muted} mb-1`}>{content.phoneDesc}</p>
-                <span className="text-muted font-medium text-sm">{content.phoneNotAvailable}</span>
               </div>
             </div>
 
