@@ -405,7 +405,9 @@ const blogLanguagesMapping = {
   'Bulgarian': 'bg', 'Croatian': 'hr', 'Serbian': 'sr', 'Slovak': 'sk',
   'Danish': 'da', 'Finnish': 'fi', 'Norwegian': 'no', 'Uzbek': 'uz',
   'Tamil': 'ta', 'Marathi': 'mr', 'Georgian': 'ka', 'Lithuanian': 'lt',
-  'Latvian': 'lv', 'Estonian': 'et', 'Slovenian': 'sl'
+  'Latvian': 'lv', 'Estonian': 'et', 'Slovenian': 'sl',
+  'Kannada': 'kn', 'Telugu': 'te', 'Punjabi': 'pa', 'Gujarati': 'gu',
+  'Malayalam': 'ml', 'Swahili': 'sw', 'Nepali': 'ne', 'Sinhala': 'si'
 };
 
 const coverImages = [

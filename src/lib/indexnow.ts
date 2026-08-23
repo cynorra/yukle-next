@@ -57,7 +57,7 @@ export async function indexNowAllLocales(path: string): Promise<void> {
     'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
     'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
     'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-    'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl'
+    'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl', 'kn', 'te', 'pa', 'gu', 'ml', 'sw', 'ne', 'si'
   ];
 
   const urls = ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}${path}`);

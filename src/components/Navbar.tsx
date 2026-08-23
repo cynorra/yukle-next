@@ -21,6 +21,10 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Kept in sync with the full `Locale` union in `@/utils/translations` — this
+// used to list only 16 of the 47 supported locales, so most non-English
+// visitors landing on their own locale URL had no way to find it in the
+// switcher (even though hreflang/sitemap/translations already covered all 47).
 const LANGUAGES = [
   { code: 'en', label: 'English', flag: '🇺🇸' },
   { code: 'tr', label: 'Türkçe', flag: '🇹🇷' },
@@ -38,6 +42,45 @@ const LANGUAGES = [
   { code: 'hi', label: 'हिन्दी', flag: '🇮🇳' },
   { code: 'ar', label: 'العربية', flag: '🇸🇦' },
   { code: 'fa', label: 'فارسی', flag: '🇮🇷' },
+  { code: 'ko', label: '한국어', flag: '🇰🇷' },
+  { code: 'vi', label: 'Tiếng Việt', flag: '🇻🇳' },
+  { code: 'id', label: 'Bahasa Indonesia', flag: '🇮🇩' },
+  { code: 'bn', label: 'বাংলা', flag: '🇧🇩' },
+  { code: 'ur', label: 'اردو', flag: '🇵🇰' },
+  { code: 'th', label: 'ไทย', flag: '🇹🇭' },
+  { code: 'ms', label: 'Bahasa Melayu', flag: '🇲🇾' },
+  { code: 'tl', label: 'Filipino', flag: '🇵🇭' },
+  { code: 'ro', label: 'Română', flag: '🇷🇴' },
+  { code: 'sv', label: 'Svenska', flag: '🇸🇪' },
+  { code: 'cs', label: 'Čeština', flag: '🇨🇿' },
+  { code: 'hu', label: 'Magyar', flag: '🇭🇺' },
+  { code: 'el', label: 'Ελληνικά', flag: '🇬🇷' },
+  { code: 'az', label: 'Azərbaycanca', flag: '🇦🇿' },
+  { code: 'kk', label: 'Қазақша', flag: '🇰🇿' },
+  { code: 'he', label: 'עברית', flag: '🇮🇱' },
+  { code: 'bg', label: 'Български', flag: '🇧🇬' },
+  { code: 'hr', label: 'Hrvatski', flag: '🇭🇷' },
+  { code: 'sr', label: 'Српски', flag: '🇷🇸' },
+  { code: 'sk', label: 'Slovenčina', flag: '🇸🇰' },
+  { code: 'da', label: 'Dansk', flag: '🇩🇰' },
+  { code: 'fi', label: 'Suomi', flag: '🇫🇮' },
+  { code: 'no', label: 'Norsk', flag: '🇳🇴' },
+  { code: 'uz', label: "O'zbekcha", flag: '🇺🇿' },
+  { code: 'ta', label: 'தமிழ்', flag: '🇮🇳' },
+  { code: 'mr', label: 'मराठी', flag: '🇮🇳' },
+  { code: 'ka', label: 'ქართული', flag: '🇬🇪' },
+  { code: 'lt', label: 'Lietuvių', flag: '🇱🇹' },
+  { code: 'lv', label: 'Latviešu', flag: '🇱🇻' },
+  { code: 'et', label: 'Eesti', flag: '🇪🇪' },
+  { code: 'sl', label: 'Slovenščina', flag: '🇸🇮' },
+  { code: 'kn', label: 'ಕನ್ನಡ', flag: '🇮🇳' },
+  { code: 'te', label: 'తెలుగు', flag: '🇮🇳' },
+  { code: 'pa', label: 'ਪੰਜਾਬੀ', flag: '🇮🇳' },
+  { code: 'gu', label: 'ગુજરાતી', flag: '🇮🇳' },
+  { code: 'ml', label: 'മലയാളം', flag: '🇮🇳' },
+  { code: 'sw', label: 'Kiswahili', flag: '🇰🇪' },
+  { code: 'ne', label: 'नेपाली', flag: '🇳🇵' },
+  { code: 'si', label: 'සිංහල', flag: '🇱🇰' },
 ] as const;
 
 export default function Navbar() {
