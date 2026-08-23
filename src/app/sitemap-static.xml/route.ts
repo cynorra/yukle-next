@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import {
   SITE_URL, ALL_LOCALES, escapeXml, generateAlternates,
   URLSET_HEADER, SITEMAP_HEADERS,

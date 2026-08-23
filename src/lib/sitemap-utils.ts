@@ -16,6 +16,27 @@ export const ALL_LOCALES = [
 
 export type SitemapLocale = typeof ALL_LOCALES[number];
 
+/**
+ * URLs-per-chunk-file limits — shared between the sitemap index (which
+ * computes how many sitemap-X-N.xml files to list) and each [page]/route.ts
+ * (which slices its query by the same size). These MUST stay in sync or the
+ * index will point crawlers at page numbers whose offset math disagrees with
+ * what the chunk route actually serves.
+ *
+ * Loads and blog entries only emit hreflang alternates for locales that
+ * actually have a translated row, so their per-URL weight tracks real
+ * translation coverage. Route-hub entries always emit alternates for all
+ * ALL_LOCALES.length locales via generateAlternates() regardless of coverage,
+ * making them consistently the heaviest. Measured in production on
+ * 2026-08-23: loads ~1.6KB/URL, blogs ~5.4KB/URL (most posts already have
+ * most of the 55 locales translated), routes ~7.6KB/URL. Sized down
+ * accordingly so a chunk can grow with the business without ever crossing
+ * the 50MB ceiling.
+ */
+export const LOADS_PAGE_SIZE = 10000; // ~16MB/file at current density
+export const BLOGS_PAGE_SIZE = 5000; // ~27MB/file — 10,000 would risk ~54MB
+export const ROUTES_PAGE_SIZE = 4000; // ~30MB/file — 10,000 would risk ~76MB
+
 /** Escape special XML characters */
 export function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => {

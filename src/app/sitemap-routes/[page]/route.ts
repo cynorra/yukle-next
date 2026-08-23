@@ -1,6 +1,6 @@
 import {
   SITE_URL, escapeXml, generateAlternates,
-  URLSET_HEADER, SITEMAP_HEADERS,
+  URLSET_HEADER, SITEMAP_HEADERS, ROUTES_PAGE_SIZE,
 } from '@/lib/sitemap-utils';
 import { getAllRouteHubs } from '@/lib/laneRoutes';
 
@@ -10,7 +10,7 @@ interface Props {
   params: Promise<{ page: string }>;
 }
 
-const PAGE_SIZE = 10000;
+const PAGE_SIZE = ROUTES_PAGE_SIZE;
 
 export async function GET(request: Request, { params }: Props) {
   const { page: rawPage } = await params;
@@ -36,6 +36,15 @@ export async function GET(request: Request, { params }: Props) {
   const now = new Date().toISOString().split('T')[0];
 
   let xml = URLSET_HEADER;
+
+  if (pagePaths.length === 0) {
+    xml += '  <url>\n';
+    xml += `    <loc>${escapeXml(`${SITE_URL}/en/find-loads`)}</loc>\n`;
+    xml += `    <lastmod>${now}</lastmod>\n`;
+    xml += '    <changefreq>daily</changefreq>\n';
+    xml += '    <priority>0.5</priority>\n';
+    xml += '  </url>\n';
+  }
 
   for (const path of pagePaths) {
     const url = `${SITE_URL}/en${path}`;

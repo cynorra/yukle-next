@@ -1,7 +1,7 @@
 import { createPublicClient } from '@/lib/supabase/public';
 import {
   SITE_URL, escapeXml,
-  URLSET_HEADER, SITEMAP_HEADERS,
+  URLSET_HEADER, SITEMAP_HEADERS, BLOGS_PAGE_SIZE,
 } from '@/lib/sitemap-utils';
 
 export const revalidate = 3600; // ISR: regenerate hourly
@@ -13,7 +13,7 @@ interface Props {
 export async function GET(request: Request, { params }: Props) {
   const { page: rawPage } = await params;
   const pageNum = Math.max(1, parseInt(rawPage, 10) || 1);
-  const PAGE_SIZE = 10000;
+  const PAGE_SIZE = BLOGS_PAGE_SIZE;
   const startOffset = (pageNum - 1) * PAGE_SIZE;
   const endOffset = startOffset + PAGE_SIZE - 1;
 
@@ -99,6 +99,15 @@ export async function GET(request: Request, { params }: Props) {
         xml += '  </url>\n';
       }
     }
+  }
+
+  if (allPosts.length === 0) {
+    xml += '  <url>\n';
+    xml += `    <loc>${escapeXml(`${SITE_URL}/en/blog`)}</loc>\n`;
+    xml += `    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>\n`;
+    xml += '    <changefreq>daily</changefreq>\n';
+    xml += '    <priority>0.5</priority>\n';
+    xml += '  </url>\n';
   }
 
   xml += '</urlset>\n';

@@ -1,5 +1,5 @@
 import { createPublicClient } from '@/lib/supabase/public';
-import { SITE_URL, SITEMAP_INDEX_HEADER, SITEMAP_HEADERS } from '@/lib/sitemap-utils';
+import { SITE_URL, SITEMAP_INDEX_HEADER, SITEMAP_HEADERS, LOADS_PAGE_SIZE, BLOGS_PAGE_SIZE, ROUTES_PAGE_SIZE } from '@/lib/sitemap-utils';
 import { getAllRouteHubs } from '@/lib/laneRoutes';
 
 export const revalidate = 600;
@@ -12,7 +12,6 @@ export const revalidate = 600;
 export async function GET() {
   const now = new Date().toISOString().split('T')[0];
   const supabase = createPublicClient();
-  const PAGE_SIZE = 10000;
 
   // Get total counts to calculate needed sitemap chunks
   const [{ count: loadsCount }, { count: blogsCount }, { lanes, cities, countries, destinationCities, destinationCountries, truckTypes, loadTypes }] = await Promise.all([
@@ -21,10 +20,10 @@ export async function GET() {
     getAllRouteHubs(),
   ]);
 
-  const loadPages = Math.max(1, Math.ceil((loadsCount || 0) / PAGE_SIZE));
-  const blogPages = Math.max(1, Math.ceil((blogsCount || 0) / PAGE_SIZE));
+  const loadPages = Math.max(1, Math.ceil((loadsCount || 0) / LOADS_PAGE_SIZE));
+  const blogPages = Math.max(1, Math.ceil((blogsCount || 0) / BLOGS_PAGE_SIZE));
   const totalRoutes = lanes.size + cities.size + countries.size + destinationCities.size + destinationCountries.size + truckTypes.size + loadTypes.size;
-  const routePages = totalRoutes > 0 ? Math.ceil(totalRoutes / PAGE_SIZE) : 0;
+  const routePages = totalRoutes > 0 ? Math.ceil(totalRoutes / ROUTES_PAGE_SIZE) : 0;
 
   let xml = SITEMAP_INDEX_HEADER;
 
