@@ -121,10 +121,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       images: [`${SITE_URL}/${locale}/marketplace/${id}/opengraph-image`],
     },
-    robots:
-      load.status === 'completed' || load.status === 'cancelled'
-        ? { index: false, follow: true }
-        : { index: true, follow: true },
+    // Individual load listings are overwhelmingly scraper-imported (verified
+    // 2026-08-23: 14,022/14,022 active loads belong to one scraper shipper
+    // account, only 1 has a real price) — near-identical templated content
+    // at massive scale, which is exactly what Google's "scaled content
+    // abuse" / thin-content policies target and was the root cause of an
+    // AdSense "low value content" rejection. Rather than indexing all of
+    // them, only index a listing once it has a real price AND is still
+    // active — the one concrete signal that separates a genuine commercial
+    // posting from a bulk-imported placeholder. `follow: true` always, so
+    // link equity still flows to the shipping-routes hub pages via this
+    // page's internal links even when the page itself isn't indexed. This
+    // is a standing rule, not a one-time filter: as real user-posted loads
+    // with real prices start appearing, they start getting indexed
+    // automatically with no further code changes.
+    robots: {
+      index: load.status === 'active' && Boolean(load.price),
+      follow: true,
+    },
   };
 }
 

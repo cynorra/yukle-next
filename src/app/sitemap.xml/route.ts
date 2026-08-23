@@ -13,9 +13,12 @@ export async function GET() {
   const now = new Date().toISOString().split('T')[0];
   const supabase = createPublicClient();
 
-  // Get total counts to calculate needed sitemap chunks
+  // Get total counts to calculate needed sitemap chunks. loads count must
+  // match the indexability condition in marketplace/[id]/page.tsx and
+  // sitemap-loads/[page]/route.ts (active + has a real price) — otherwise
+  // this under/over-counts chunk pages relative to what that route serves.
   const [{ count: loadsCount }, { count: blogsCount }, { lanes, cities, countries, destinationCities, destinationCountries, truckTypes, loadTypes }] = await Promise.all([
-    supabase.from('loads').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+    supabase.from('loads').select('id', { count: 'exact', head: true }).eq('status', 'active').not('price', 'is', null),
     supabase.from('blog_posts').select('id', { count: 'exact', head: true }).eq('published', true),
     getAllRouteHubs(),
   ]);

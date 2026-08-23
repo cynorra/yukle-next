@@ -25,10 +25,15 @@ export async function GET(request: Request, { params }: Props) {
 
   while (from <= endOffset) {
     const to = Math.min(from + step - 1, endOffset);
+    // Only loads that are actually indexable belong in the sitemap — must
+    // match the robots.index condition in marketplace/[id]/page.tsx exactly,
+    // or this submits noindex'd URLs to Google (shows as "Submitted URL
+    // marked 'noindex'" in Search Console, a quality red flag).
     const { data: loads, error } = await supabase
       .from('loads')
       .select('id, created_at, title, title_translations')
       .eq('status', 'active')
+      .not('price', 'is', null)
       .order('created_at', { ascending: false })
       .range(from, to);
 

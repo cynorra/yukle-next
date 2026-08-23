@@ -2,8 +2,13 @@ name: Blog Generator Cron Job
 
 on:
   schedule:
-    # Her 5 dakikada bir, scraper'lardan bagimsiz calisir (Gunde 288 tetikleme)
-    - cron: '*/5 * * * *'
+    # Gunde 1 kez, tek makale x 47 dil. Onceki */5 dakika x 3 makale temposu
+    # (gunde 288 tetikleme, teorik tavanda 864 makale/gun) editoryal degil,
+    # otomatik icerik ureten bir "content mill" gibi goruluyordu -- hem organik
+    # siralama hem AdSense'in "scaled content abuse" / "low value content"
+    # tespitleri icin risk. Bu tempo, kucuk bir editoryal ekibin gercekci
+    # cikti hizini yansitiyor.
+    - cron: '0 9 * * *'
   workflow_dispatch: # Allows manual triggering
 
 concurrency:
@@ -35,5 +40,5 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           SCRAPER_SHIPPER_ID: ${{ secrets.SCRAPER_SHIPPER_ID }}
-          ARTICLES_PER_RUN: '3'
+          ARTICLES_PER_RUN: '1'
         run: node scripts/blog-generator.js
