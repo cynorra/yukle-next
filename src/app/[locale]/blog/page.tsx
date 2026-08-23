@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   languagesAlternates['x-default'] = `${SITE_URL}/en/blog`;
 
   return {
-    title: t.title,
+    title: { absolute: t.title },
     description: t.description,
     alternates: {
       canonical: `${SITE_URL}/${locale}/blog`,

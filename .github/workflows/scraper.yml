@@ -1,9 +1,12 @@
 name: Scraper Cron Job
 
 on:
-  schedule:
-    # Maksimum hiz: Her 5 dakikada bir (Gunde 288 calisma)
-    - cron: '*/5 * * * *'
+  # Paused 2026-08-23: stopping new scraped-listing ingestion while we get
+  # AdSense re-approved and address the marketplace thin/duplicate-content
+  # ratio flagged in prior SEO review. Re-enable the schedule block below
+  # once loads should resume flowing in.
+  # schedule:
+  #   - cron: '*/5 * * * *'
   workflow_dispatch: # Allows manual triggering
 
 concurrency:

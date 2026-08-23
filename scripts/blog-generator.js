@@ -687,6 +687,77 @@ async function translatePostUsingGoogle(basePost, targetLangCode) {
   };
 }
 
+// Machine translation from English carries over whatever vocabulary the
+// English source happened to use — it will never produce "tır" (no English
+// word maps to it; it's the Turkish/European TIR-convention term for a
+// semi-trailer truck) and only inconsistently produces "sevkiyat",
+// "taşımacılık", "nakliye" depending on how Google Translate happened to
+// render that sentence. Client flagged these as critical-must-appear
+// keywords for the TR locale specifically, so after the mechanical
+// translation, run one lightweight Gemini editing pass whose only job is to
+// weave the missing ones in naturally — not a rewrite, not forced into every
+// sentence, and skipped entirely (falls back to the plain machine
+// translation) if Gemini fails or visibly truncates the content.
+const TR_REQUIRED_KEYWORDS = ['nakliye', 'taşımacılık', 'tır', 'tır yükü', 'kamyon yükü', 'sevkiyat', 'lojistik'];
+
+function wordCount(html) {
+  return (html || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+}
+
+async function polishTurkishKeywords(trPost) {
+  if (!geminiApiKey) return trPost;
+
+  const payload = JSON.stringify({
+    contents: [{
+      parts: [{
+        text: `You are a native Turkish SEO editor for Loadly, a freight/logistics marketplace blog. The JSON below is a Turkish blog post that was machine-translated from English. Lightly edit it — do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — so that each of these Turkish keywords appears naturally at least once somewhere across the title/excerpt/content, wherever it topically fits: ${TR_REQUIRED_KEYWORDS.join(', ')}.
+
+Rules:
+- Skip any keyword that genuinely has no natural place in this specific article rather than forcing it in.
+- Never keyword-stuff — one natural mention each is enough.
+- Preserve every HTML tag in "content" exactly as structured (h2/h3/p/ul/li/table/a href/strong/blockquote etc.) — only edit the text inside them. Do not add, remove, or reorder tags or sections.
+- Preserve the <a href="/marketplace"> and <a href="/register"> links exactly as they are, including their anchor text unless a keyword fits naturally into that anchor text.
+- meta_title must stay under 60 characters, meta_description under 155 characters.
+- While you're in there you may fix obviously awkward literal machine-translation phrasing, but keep edits minimal and surgical — this is a polish pass, not a rewrite.
+
+Input JSON:
+${JSON.stringify({ title: trPost.title, excerpt: trPost.excerpt, content: trPost.content, meta_title: trPost.meta_title, meta_description: trPost.meta_description })}
+
+Return ONLY valid JSON with this exact shape: {"title": "...", "excerpt": "...", "content": "...", "meta_title": "...", "meta_description": "..."}`
+      }]
+    }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      maxOutputTokens: 32768,
+      responseSchema: {
+        type: 'OBJECT',
+        properties: {
+          title: { type: 'STRING' },
+          excerpt: { type: 'STRING' },
+          content: { type: 'STRING' },
+          meta_title: { type: 'STRING' },
+          meta_description: { type: 'STRING' }
+        },
+        required: ['title', 'excerpt', 'content', 'meta_title', 'meta_description']
+      }
+    }
+  });
+
+  try {
+    const polished = await callGeminiWithRetry(payload, 2);
+    const originalWords = wordCount(trPost.content);
+    const polishedWords = wordCount(polished.content);
+    if (polishedWords < originalWords * 0.8) {
+      console.warn(`[TR Keyword Polish] Polished content dropped from ${originalWords} to ${polishedWords} words (looks truncated) — keeping plain machine translation instead.`);
+      return trPost;
+    }
+    return { ...trPost, ...polished };
+  } catch (e) {
+    console.warn(`[TR Keyword Polish] Failed, keeping plain machine translation: ${e.message}`);
+    return trPost;
+  }
+}
+
 function makeGeminiRequest(payload) {
   return new Promise((resolve, reject) => {
     const options = {
@@ -1291,7 +1362,10 @@ async function runBlogGenerator() {
   const tasks = targetLanguages.map(([langName, langCode]) => async () => {
     try {
       console.log(`Translating to ${langName} (${langCode})...`);
-      const translation = await translatePostUsingGoogle(basePost, langCode);
+      let translation = await translatePostUsingGoogle(basePost, langCode);
+      if (langCode === 'tr') {
+        translation = await polishTurkishKeywords(translation);
+      }
       translatedPosts.push({ ...translation, langCode });
       console.log(`✓ ${langName} (${langCode})`);
     } catch (err) {

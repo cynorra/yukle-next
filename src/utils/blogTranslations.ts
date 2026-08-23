@@ -24,7 +24,7 @@ export interface BlogTranslationDict {
 
 export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
   en: {
-    title: 'Logistics Marketplace & Transport Guide | Loadly',
+    title: 'Freight, Trucking & Truck Load Guide | Loadly',
     description: 'Digital logistics platform. Access articles about posting shipping ads, finding truck loads, and logistics cost reduction methods.',
     tagline: 'Logistics & Shipping Marketplace Guide',
     header1: 'Digitizing the',
@@ -53,7 +53,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   tr: {
-    title: 'Nakliye Pazaryeri & Lojistik Rehberi | Loadly',
+    title: 'Nakliye, Taşımacılık & Tır Yükü Rehberi | Loadly',
     description: "Türkiye'nin dijital nakliye pazaryeri. Yük ilanı verme, yük bulma rehberleri ve lojistik maliyet düşürme yöntemleri hakkında kapsamlı bilgiler.",
     tagline: 'Lojistik & Nakliye Pazaryeri Rehberi',
     header1: 'Lojistik Dünyasını',
@@ -82,7 +82,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   es: {
-    title: 'Mercado Logístico y Guía de Transporte | Loadly',
+    title: 'Guía de Flete, Transporte y Carga | Loadly',
     description: 'Plataforma de logística digital. Artículos sobre cómo publicar anuncios de envío, encontrar cargas de camiones y reducir costos.',
     tagline: 'Guía del Mercado de Logística y Envíos',
     header1: 'Digitalizando el',
@@ -111,7 +111,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   pt: {
-    title: 'Mercado de Logística e Guia de Transporte | Loadly',
+    title: 'Guia de Frete, Transporte e Carga | Loadly',
     description: 'Plataforma digital de logística. Acesse artigos sobre anúncios de frete, busca de cargas e redução de custos logísticos.',
     tagline: 'Guia do Mercado de Logística e Fretes',
     header1: 'Digitalizando o',
@@ -140,7 +140,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   fr: {
-    title: 'Marché Logistique & Guide de Transport | Loadly',
+    title: 'Guide Fret, Transport et Logistique | Loadly',
     description: 'Plateforme logistique digitale. Retrouvez des articles pour publier des frets, trouver des chargements et réduire vos coûts.',
     tagline: 'Guide de la Logistique et du Transport',
     header1: 'Numérisation du',
@@ -169,7 +169,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   de: {
-    title: 'Logistik-Marktplatz & Frachtführer-Reiseführer | Loadly',
+    title: 'Fracht, Transport & Logistik Leitfaden | Loadly',
     description: 'Digitale Logistik-Plattform. Informieren Sie sich über Frachtangebote, Ladungssuche und Kostenoptimierung im Straßentransport.',
     tagline: 'Leitfaden für Logistik & Frachtbörsen',
     header1: 'Digitalisierung der',
@@ -198,7 +198,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   it: {
-    title: 'Mercato Logistico & Guida al Trasporto | Loadly',
+    title: 'Guida Trasporto Merci, Logistica e Spedizioni | Loadly',
     description: 'Piattaforma logistica digitale. Articoli su inserzioni di spedizioni, ricerca carichi per camion e metodi di riduzione dei costi.',
     tagline: 'Guida al Mercato Logistico e delle Spedizioni',
     header1: 'Digitalizziamo il',
@@ -227,7 +227,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   pl: {
-    title: 'Giełda Logistyczna i Poradnik Transportowy | Loadly',
+    title: 'Przewodnik Frachtu, Transportu i Logistyki | Loadly',
     description: 'Cyfrowa platforma logistyczna. Artykuły o dodawaniu ładunków, szukaniu frachtów i optymalizacji kosztów transportu.',
     tagline: 'Poradnik Giełdy Logistycznej i Transportowej',
     header1: 'Cyfryzacja',
@@ -256,7 +256,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   nl: {
-    title: 'Logistiek Platform & Transportgids | Loadly',
+    title: 'Gids voor Vracht, Transport en Logistiek | Loadly',
     description: 'Digitaal logistiek platform. Lees artikelen over het plaatsen van vrachten, vracht zoeken voor vrachtwagens en kostenbesparingen.',
     tagline: 'Gids voor Logistiek & Transportmarkt',
     header1: 'Digitalisering van de',
@@ -285,7 +285,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   ru: {
-    title: 'Логистический Портал и Гид по Грузоперевозкам | Loadly',
+    title: 'Руководство по Грузам, Перевозкам и Логистике | Loadly',
     description: 'Цифровая логистическая платформа. Статьи о публикации грузов, поиске попутного транспорта и сокращении расходов.',
     tagline: 'Руководство по рынку логистики и грузоперевозок',
     header1: 'Цифровизация',
@@ -314,7 +314,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   uk: {
-    title: 'Логістичний Портал та Гід з Вантажоперевезень | Loadly',
+    title: 'Посібник з Вантажу, Перевезень та Логістики | Loadly',
     description: 'Цифрова логістична платформа. Статті про публікацію вантажів, пошук автотранспорту та оптимізацію витрат.',
     tagline: 'Інструкція з ринку логістики та вантажоперевезень',
     header1: 'Цифровізація',
@@ -343,7 +343,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   zh: {
-    title: '物流货运市场与运输指南 | Loadly',
+    title: '货运、卡车运输与物流指南 | Loadly',
     description: '数字化物流服务平台。获取关于发布货源信息、寻找卡车货源以及降低运输成本方法的全面指导文章。',
     tagline: '物流与货运市场指南',
     header1: '使物流世界',
@@ -372,7 +372,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   ja: {
-    title: '物流マーケットプレイス＆輸送ガイド | Loadly',
+    title: '貨物輸送、トラック輸送、物流の総合ガイド | Loadly',
     description: 'デジタル物流プラットフォーム。貨物情報の登録、トラック積荷の検索、運送コスト削減方法に関する役立つ記事。',
     tagline: '物流＆運送マーケットプレイスガイド',
     header1: '物流の世界を',
@@ -401,7 +401,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   hi: {
-    title: 'रसद बाज़ार और परिवहन गाइड | Loadly',
+    title: 'माल ढुलाई, परिवहन और लॉजिस्टिक्स गाइड | Loadly',
     description: 'डिजिटल रसद मंच। शिपिंग विज्ञापन पोस्ट करने, ट्रक लोड खोजने और रसद लागत कम करने की विधियों के बारे में विस्तृत गाइड।',
     tagline: 'रसद और नौवहन बाज़ार गाइड',
     header1: 'रसद जगत को',
@@ -430,7 +430,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   ar: {
-    title: 'سوق الخدمات اللوجستية ودليل النقل | Loadly',
+    title: 'دليل الشحن والنقل واللوجستيات | Loadly',
     description: 'منصة الخدمات اللوجستية الرقمية. مقالات حول نشر إعلانات الشحن، والعثور على حمولات للشاحنات، وطرق خفض التكاليف اللوجستية.',
     tagline: 'دليل سوق الخدمات اللوجستية والشحن',
     header1: 'رقمنة',
@@ -459,7 +459,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
   },
   fa: {
-    title: 'بازارگاه لجستیک و راهنمای حمل و نقل | Loadly',
+    title: 'راهنمای باربری، حمل و نقل و لجستیک | Loadly',
     description: 'سامانه دیجیتال حمل و نقل. دسترسی به مقالات در زمینه ثبت آگهی باربری، پیدا کردن بارهای تریلی و روش‌های کاهش هزینه‌های لجستیکی.',
     tagline: 'راهنمای بازارگاه لجستیک و بارهای حمل و نقل',
     header1: 'دیجیتالی کردن',
@@ -489,7 +489,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
   },
 
   ko: {
-    "title": "물류시장 및 운송안내 | Loadly",
+    "title": "화물 운송, 트럭 운송 및 물류 가이드 | Loadly",
     "description": "디지털 물류 플랫폼. 배송 광고 게시, 트럭 적재량 찾기, 물류 비용 절감 방법에 대한 기사에 액세스하세요.",
     "tagline": "물류 및 배송 마켓플레이스 가이드",
     "header1": "Digitizing the",
@@ -536,7 +536,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   vi: {
-    "title": "Hướng dẫn về thị trường hậu cần & vận tải | Loadly",
+    "title": "Hướng dẫn Vận chuyển Hàng hóa, Vận tải & Hậu cần | Loadly",
     "description": "Nền tảng hậu cần kỹ thuật số. Truy cập các bài viết về đăng quảng cáo vận chuyển, tìm tải trọng xe tải và các phương pháp giảm chi phí hậu cần.",
     "tagline": "Hướng dẫn về thị trường hậu cần & vận chuyển",
     "header1": "Số hóa",
@@ -583,7 +583,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   id: {
-    "title": "Pasar Logistik & Panduan Transportasi | Loadly",
+    "title": "Panduan Pengiriman Barang, Transportasi & Logistik | Loadly",
     "description": "Platform logistik digital. Akses artikel tentang memasang iklan pengiriman, menemukan muatan truk, dan metode pengurangan biaya logistik.",
     "tagline": "Panduan Pasar Logistik & Pengiriman",
     "header1": "Mendigitalkan",
@@ -630,7 +630,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   bn: {
-    "title": "লজিস্টিক মার্কেটপ্লেস ও ট্রান্সপোর্ট গাইড | বোঝাই",
+    "title": "মালবাহী, পরিবহন ও লজিস্টিকস গাইড | Loadly",
     "description": "ডিজিটাল লজিস্টিক প্ল্যাটফর্ম। শিপিং বিজ্ঞাপন পোস্ট করা, ট্রাক লোড খুঁজে বের করা এবং লজিস্টিক খরচ কমানোর পদ্ধতি সম্পর্কে নিবন্ধগুলি অ্যাক্সেস করুন।",
     "tagline": "লজিস্টিক এবং শিপিং মার্কেটপ্লেস গাইড",
     "header1": "ডিজিটাইজিং",
@@ -677,7 +677,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   ur: {
-    "title": "لاجسٹک مارکیٹ پلیس اور ٹرانسپورٹ گائیڈ | بوجھ سے",
+    "title": "مال برداری، نقل و حمل اور لاجسٹکس گائیڈ | Loadly",
     "description": "ڈیجیٹل لاجسٹکس پلیٹ فارم۔ شپنگ اشتہارات پوسٹ کرنے، ٹرک کے بوجھ کو تلاش کرنے، اور لاجسٹک لاگت میں کمی کے طریقوں کے بارے میں مضامین تک رسائی حاصل کریں۔",
     "tagline": "لاجسٹک اور شپنگ مارکیٹ پلیس گائیڈ",
     "header1": "کو ڈیجیٹائز کرنا",
@@ -724,7 +724,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   th: {
-    "title": "คู่มือตลาดโลจิสติกส์และการขนส่ง | โหลดเลย",
+    "title": "คู่มือการขนส่งสินค้า, การขนส่ง & โลจิสติกส์ | Loadly",
     "description": "แพลตฟอร์มโลจิสติกส์ดิจิทัล เข้าถึงบทความเกี่ยวกับการโพสต์โฆษณาเกี่ยวกับการขนส่ง การค้นหาการบรรทุกของรถบรรทุก และวิธีการลดต้นทุนด้านลอจิสติกส์",
     "tagline": "คู่มือตลาดโลจิสติกส์และการขนส่ง",
     "header1": "การแปลงเป็นดิจิทัล",
@@ -771,7 +771,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   ms: {
-    "title": "Pasaran Logistik & Panduan Pengangkutan | Loadly",
+    "title": "Panduan Pengangkutan Barang, Logistik & Penghantaran | Loadly",
     "description": "Platform logistik digital. Akses artikel tentang menyiarkan iklan penghantaran, mencari muatan trak dan kaedah pengurangan kos logistik.",
     "tagline": "Panduan Pasaran Logistik & Penghantaran",
     "header1": "Mendigitalkan",
@@ -818,7 +818,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   tl: {
-    "title": "Logistics Marketplace at Gabay sa Transportasyon | Loadly",
+    "title": "Gabay sa Kargamento, Transportasyon at Logistik | Loadly",
     "description": "Digital logistics platform. I-access ang mga artikulo tungkol sa pag-post ng mga ad sa pagpapadala, paghahanap ng mga karga ng trak, at mga paraan ng pagbabawas ng gastos sa logistik.",
     "tagline": "Logistics & Shipping Marketplace Guide",
     "header1": "Digitizing the",
@@ -865,7 +865,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   ro: {
-    "title": "Piața logistică și Ghidul de transport | Încărcat",
+    "title": "Ghid Transport Marfă, Rutier și Logistică | Loadly",
     "description": "Platformă logistică digitală. Accesați articole despre postarea anunțurilor de expediere, găsirea încărcăturilor de camioane și metode de reducere a costurilor logistice.",
     "tagline": "Ghidul pieței de logistică și expediere",
     "header1": "Digitizarea",
@@ -912,7 +912,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   sv: {
-    "title": "Logistics Marketplace & Transport Guide | Loadly",
+    "title": "Guide för Frakt, Transport och Logistik | Loadly",
     "description": "Digital logistikplattform. Få tillgång till artiklar om att lägga upp fraktannonser, hitta lastbilslaster och metoder för att minska logistikkostnader.",
     "tagline": "Marknadsguide för logistik och frakt",
     "header1": "Digitalisera",
@@ -959,7 +959,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   cs: {
-    "title": "Logistic Marketplace & Transport Guide | Loadly",
+    "title": "Průvodce Nákladní Dopravou a Logistikou | Loadly",
     "description": "Digitální logistická platforma. Získejte přístup k článkům o zveřejňování reklam na přepravu, hledání nákladu kamionů a metodách snižování nákladů na logistiku.",
     "tagline": "Průvodce tržištěm logistiky a přepravy",
     "header1": "Digitalizace",
@@ -1006,7 +1006,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   hu: {
-    "title": "Logisztikai piactér és szállítási útmutató | Loadly",
+    "title": "Áruszállítás, Fuvarozás és Logisztika Útmutató | Loadly",
     "description": "Digitális logisztikai platform. Hozzáférés a szállítási hirdetések feladásáról, a teherautó rakományok kereséséről és a logisztikai költségcsökkentési módszerekről szóló cikkekhez.",
     "tagline": "Logisztikai és szállítási piactér útmutató",
     "header1": "A",
@@ -1053,7 +1053,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   el: {
-    "title": "Οδηγός Logistics Marketplace & Transport | Loadly",
+    "title": "Οδηγός Φορτίου, Μεταφορών και Logistics | Loadly",
     "description": "Digital logistics πλατφόρμα. Αποκτήστε πρόσβαση σε άρθρα σχετικά με τη δημοσίευση διαφημίσεων αποστολής, την εύρεση φορτίων φορτηγών και τις μεθόδους μείωσης του κόστους εφοδιαστικής.",
     "tagline": "Οδηγός Logistics & Shipping Marketplace",
     "header1": "Ψηφιοποίηση του",
@@ -1100,7 +1100,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   az: {
-    "title": "Logistics Marketplace & Transport Guide | Loadly",
+    "title": "Yük, Daşınma və Logistika Bələdçisi | Loadly",
     "description": "Rəqəmsal logistika platforması. Göndərmə elanlarının yerləşdirilməsi, yük maşını yüklərinin tapılması və logistika xərclərinin azaldılması üsulları haqqında məqalələrə daxil olun.",
     "tagline": "Logistika və Göndərmə Bazar Yeri Bələdçisi",
     "header1": "Digitizing the",
@@ -1147,7 +1147,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   kk: {
-    "title": "Logistics Marketplace & Transport Guide | Жүкті",
+    "title": "Жүк, Тасымалдау және Логистика Нұсқаулығы | Loadly",
     "description": "Сандық логистикалық платформа. Жеткізу хабарландыруларын орналастыру, жүк көліктерін табу және логистикалық шығындарды азайту әдістері туралы мақалаларға қол жеткізіңіз.",
     "tagline": "Логистика және жеткізу нарығының нұсқаулығы",
     "header1": "цифрландыру",
@@ -1194,7 +1194,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   he: {
-    "title": "מדריך שוק לוגיסטיקה ותחבורה | עומס",
+    "title": "מדריך למטען, הובלה ולוגיסטיקה | Loadly",
     "description": "פלטפורמה לוגיסטית דיגיטלית. גש למאמרים על פרסום מודעות משלוח, מציאת מטענים של משאיות ושיטות להפחתת עלויות לוגיסטיות.",
     "tagline": "מדריך שוק לוגיסטיקה ומשלוח",
     "header1": "דיגיטציה של",
@@ -1241,7 +1241,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   bg: {
-    "title": "Логистичен пазар и ръководство за транспорт | Loadly",
+    "title": "Наръчник за Товари, Транспорт и Логистика | Loadly",
     "description": "Цифрова логистична платформа. Достъп до статии за публикуване на реклами за доставка, намиране на товари от камиони и методи за намаляване на логистичните разходи.",
     "tagline": "Ръководство за пазара за логистика и доставка",
     "header1": "Дигитализация на",
@@ -1288,7 +1288,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   hr: {
-    "title": "Tržište logistike i vodič za prijevoz | Loadly",
+    "title": "Vodič za Teret, Prijevoz i Logistiku | Loadly",
     "description": "Digitalna logistička platforma. Pristupite člancima o objavljivanju oglasa za otpremu, pronalaženju tovara kamiona i metodama smanjenja logističkih troškova.",
     "tagline": "Vodič za tržište logistike i dostave",
     "header1": "Digitalizacija",
@@ -1335,7 +1335,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   sr: {
-    "title": "Логистицс Маркетплаце & Транспорт Гуиде | Оптерећено",
+    "title": "Водич за Терет, Превоз и Логистику | Loadly",
     "description": "Дигитална логистичка платформа. Приступите чланцима о постављању огласа за испоруку, проналажењу утовара камиона и методама смањења трошкова логистике.",
     "tagline": "Водич за тржиште логистике и отпреме",
     "header1": "Дигитализација тхе",
@@ -1382,7 +1382,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   sk: {
-    "title": "Sprievodca logistickým trhom a dopravou | Loadly",
+    "title": "Sprievodca Nákladnou Dopravou a Logistikou | Loadly",
     "description": "Digitálna logistická platforma. Získajte prístup k článkom o uverejňovaní reklám na prepravu, hľadaní nákladu kamiónov a metódach znižovania nákladov na logistiku.",
     "tagline": "Sprievodca trhom logistiky a prepravy",
     "header1": "Digitalizácia",
@@ -1429,7 +1429,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   da: {
-    "title": "Logistik Markedsplads & Transportguide | Loadly",
+    "title": "Guide til Fragt, Transport og Logistik | Loadly",
     "description": "Digital logistikplatform. Få adgang til artikler om opslag af forsendelsesannoncer, at finde lastbiler og metoder til reduktion af logistikomkostninger.",
     "tagline": "Logistik & Shipping Marketplace Guide",
     "header1": "Digitalisering af",
@@ -1476,7 +1476,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   fi: {
-    "title": "Logistics Marketplace & Transport Guide | Loadly",
+    "title": "Opas Rahtiin, Kuljetukseen ja Logistiikkaan | Loadly",
     "description": "Digitaalinen logistiikkaalusta. Tutustu artikkeleihin toimitusilmoitusten lähettämisestä, kuorma-autokuormien löytämisestä ja logistiikkakustannusten vähentämismenetelmistä.",
     "tagline": "Logistics & Shipping Marketplace Guide",
     "header1": "Digitalising the",
@@ -1523,7 +1523,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   no: {
-    "title": "Logistikkmarkedsplass og transportveiledning | Loadly",
+    "title": "Guide for Frakt, Transport og Logistikk | Loadly",
     "description": "Digital logistikkplattform. Få tilgang til artikler om å legge ut fraktannonser, finne lastebiler og metoder for kostnadsreduksjon i logistikk.",
     "tagline": "Markedsveiledning for logistikk og frakt",
     "header1": "Digitalisering av",
@@ -1570,7 +1570,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   uz: {
-    "title": "Logistika bozori va transport bo'yicha qo'llanma | Yuklab",
+    "title": "Yuk, Tashish va Logistika Bo'yicha Qo'llanma | Loadly",
     "description": "Raqamli logistika platformasi. Yuk tashish e'lonlarini joylashtirish, yuk mashinalari yuklarini topish va logistika xarajatlarini kamaytirish usullari haqida maqolalarga kiring.",
     "tagline": "Logistika va yuk tashish bozori bo'yicha qo'llanma",
     "header1": "raqamlashtirish",
@@ -1617,7 +1617,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   ta: {
-    "title": "லாஜிஸ்டிக்ஸ் சந்தை மற்றும் போக்குவரத்து வழிகாட்டி | சுமையாக",
+    "title": "சரக்கு, போக்குவரத்து மற்றும் தளவாடங்கள் வழிகாட்டி | Loadly",
     "description": "டிஜிட்டல் தளவாட தளம். ஷிப்பிங் விளம்பரங்களை இடுகையிடுதல், டிரக் சுமைகளைக் கண்டறிதல் மற்றும் தளவாடச் செலவுக் குறைப்பு முறைகள் பற்றிய கட்டுரைகளை அணுகவும்.",
     "tagline": "தளவாடங்கள் & கப்பல் சந்தை வழிகாட்டி",
     "header1": "இலக்கமாக்கும்",
@@ -1664,7 +1664,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   mr: {
-    "title": "लॉजिस्टिक मार्केटप्लेस आणि वाहतूक मार्गदर्शक | भाराने",
+    "title": "मालवाहतूक, वाहतूक आणि लॉजिस्टिक्स मार्गदर्शक | Loadly",
     "description": "डिजिटल लॉजिस्टिक प्लॅटफॉर्म. शिपिंग जाहिराती पोस्ट करणे, ट्रक लोड शोधणे आणि लॉजिस्टिक खर्च कमी करण्याच्या पद्धतींबद्दल लेखांमध्ये प्रवेश करा.",
     "tagline": "लॉजिस्टिक आणि शिपिंग मार्केटप्लेस मार्गदर्शक",
     "header1": "डिजिटायझिंग",
@@ -1711,7 +1711,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   ka: {
-    "title": "Logistics Marketplace & Transport Guide | დატვირთული",
+    "title": "ტვირთის, ტრანსპორტირებისა და ლოგისტიკის გზამკვლევი | Loadly",
     "description": "ციფრული ლოგისტიკური პლატფორმა. იხილეთ სტატიები გადაზიდვის რეკლამის განთავსების, სატვირთო მანქანების პოვნისა და ლოგისტიკური ხარჯების შემცირების მეთოდების შესახებ.",
     "tagline": "Logistics & Shipping Marketplace-ის გზამკვლევი",
     "header1": "Digitizing the",
@@ -1758,7 +1758,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   lt: {
-    "title": "Logistikos rinkos ir transporto vadovas | Apkrauta",
+    "title": "Krovinių, Transporto ir Logistikos Vadovas | Loadly",
     "description": "Skaitmeninė logistikos platforma. Pasiekite straipsnius apie siuntimo skelbimų paskelbimą, sunkvežimių krovinių paiešką ir logistikos išlaidų mažinimo būdus.",
     "tagline": "Logistikos ir pristatymo rinkos vadovas",
     "header1": "Skaitmeninimas",
@@ -1805,7 +1805,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   lv: {
-    "title": "Loģistikas tirgus un transporta rokasgrāmata | Loadly",
+    "title": "Kravu, Transporta un Loģistikas Ceļvedis | Loadly",
     "description": "Digitālā loģistikas platforma. Piekļūstiet rakstiem par piegādes sludinājumu ievietošanu, kravas automašīnu atrašanu un loģistikas izmaksu samazināšanas metodēm.",
     "tagline": "Loģistikas un piegādes tirgus ceļvedis",
     "header1": "Digitalizējot",
@@ -1852,7 +1852,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   et: {
-    "title": "Logistika turuplats ja transpordijuhend | Loadly",
+    "title": "Veose, Transpordi ja Logistika Juhend | Loadly",
     "description": "Digitaalne logistikaplatvorm. Juurdepääs artiklitele saatmiskuulutuste postitamise, veoautokoormate leidmise ja logistikakulude vähendamise meetodite kohta.",
     "tagline": "Logistika ja tarneturu juhend",
     "header1": "Logistikamaailma",
@@ -1899,7 +1899,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     ]
 },
   sl: {
-    "title": "Logistična tržnica in transportni vodnik | Loadly",
+    "title": "Vodnik za Tovor, Prevoz in Logistiko | Loadly",
     "description": "Digitalna logistična platforma. Dostopajte do člankov o objavljanju oglasov za dostavo, iskanju tovora tovornjakov in metodah zniževanja logističnih stroškov.",
     "tagline": "Vodnik po tržnici logistike in pošiljanja",
     "header1": "Digitalizacija",
