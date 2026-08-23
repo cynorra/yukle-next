@@ -1,5 +1,5 @@
 import { createPublicClient } from '@/lib/supabase/public';
-import { SITE_URL, SITEMAP_INDEX_HEADER, SITEMAP_HEADERS, LOADS_PAGE_SIZE, BLOGS_PAGE_SIZE, ROUTES_PAGE_SIZE } from '@/lib/sitemap-utils';
+import { SITE_URL, SITEMAP_INDEX_HEADER, SITEMAP_HEADERS, LOADS_PAGE_SIZE, BLOGS_PAGE_SIZE, ROUTES_PAGE_SIZE, checkSitemapSize } from '@/lib/sitemap-utils';
 import { getAllRouteHubs } from '@/lib/laneRoutes';
 
 export const revalidate = 600;
@@ -59,6 +59,11 @@ export async function GET() {
   }
 
   xml += '</sitemapindex>\n';
+  // The index itself only lists <sitemap> refs (not <url> entries), so it
+  // stays tiny even with hundreds of chunks — this check is here purely for
+  // consistency with the other sitemap routes, not because it's expected to
+  // ever fire.
+  checkSitemapSize(xml, 'sitemap.xml', loadPages + blogPages + routePages + 1);
 
   return new Response(xml, { headers: SITEMAP_HEADERS });
 }
