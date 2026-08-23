@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { SeoContent } from '@/components/SeoContent';
 import Logo from '@/components/Logo';
 import { createPublicClient } from '@/lib/supabase/public';
@@ -180,8 +181,7 @@ export default async function HomePage({ params }: PageProps) {
                         key={i}
                         className="w-8 h-8 rounded-full border-2 border-background-light dark:border-background-dark bg-surface-light dark:bg-surface-dark overflow-hidden"
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={`https://i.pravatar.cc/100?u=${i}`} alt="user" />
+                        <Image src={`https://i.pravatar.cc/100?u=${i}`} alt="" width={32} height={32} className="w-full h-full object-cover" />
                       </div>
                     ))}
                   </div>

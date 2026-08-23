@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
@@ -861,7 +862,7 @@ export function LoadDetailClient({ load: initialLoad }: LoadDetailClientProps) {
               <h3 className={`text-sm font-medium ${t.muted} mb-4`}>{td.shipper}</h3>
               <div className="flex items-center gap-3 mb-4">
                 <Link href={`/${locale}/user/${load.shipper?.id}`} className={`w-12 h-12 rounded-full flex items-center justify-center hover:ring-2 hover:ring-[#F5A623]/40 transition-all ${t.isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`}>
-                  {load.shipper?.avatar_url ? <img src={load.shipper.avatar_url} alt="" className="w-12 h-12 rounded-full object-cover" /> : <User size={20} className={t.muted} />}
+                  {load.shipper?.avatar_url ? <Image src={load.shipper.avatar_url} alt="" width={48} height={48} className="w-12 h-12 rounded-full object-cover" /> : <User size={20} className={t.muted} />}
                 </Link>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">

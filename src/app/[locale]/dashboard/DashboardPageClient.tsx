@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -206,7 +207,7 @@ export function DashboardPageClient() {
                 <div className="absolute -inset-1 bg-gradient-to-r from-accent to-orange-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
                 <div className="relative w-20 h-20 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center shrink-0 overflow-hidden shadow-xl">
                   {profile?.avatar_url
-                    ? <img src={profile.avatar_url} alt="" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                    ? <Image src={profile.avatar_url} alt="" width={80} height={80} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                     : <User size={32} className="text-accent" />
                   }
                 </div>

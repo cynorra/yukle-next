@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Logo({
   size = 'medium',
@@ -22,7 +23,7 @@ export default function Logo({
         className="rounded-xl overflow-hidden shrink-0 bg-accent p-1 shadow-lg shadow-accent/20 group-hover:shadow-accent/40 transition-all"
         style={{ width: s.img, height: s.img }}
       >
-        <img src="/logo.png" alt="Loadly" className="w-full h-full object-contain" />
+        <Image src="/logo.png" alt="Loadly" width={s.img} height={s.img} className="w-full h-full object-contain" priority />
       </div>
       <div className="flex flex-col leading-none">
         <span className={`${s.text} font-black tracking-tighter text-fg`}>

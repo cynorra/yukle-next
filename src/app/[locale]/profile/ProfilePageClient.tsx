@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -146,7 +147,7 @@ export function ProfilePageClient() {
             <div className="relative shrink-0">
               <div className="w-18 h-18 w-[72px] h-[72px] rounded-2xl overflow-hidden bg-accent/10 border border-accent/20 flex items-center justify-center">
                 {profile?.avatar_url
-                  ? <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                  ? <Image src={profile.avatar_url} alt="" width={72} height={72} className="w-full h-full object-cover" />
                   : <User size={32} className="text-accent" />
                 }
               </div>
@@ -337,7 +338,7 @@ export function ProfilePageClient() {
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full bg-[#F5A623]/10 flex items-center justify-center text-2xl font-bold text-[#F5A623] shrink-0 overflow-hidden">
                   {profile?.avatar_url
-                    ? <img src={profile.avatar_url} alt="" className="w-16 h-16 object-cover" />
+                    ? <Image src={profile.avatar_url} alt="" width={64} height={64} className="w-16 h-16 object-cover" />
                     : profile?.full_name?.[0]?.toUpperCase()}
                 </div>
                 <div>

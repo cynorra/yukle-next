@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -72,7 +73,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
           <div className="flex items-start gap-5">
             <div className="w-20 h-20 rounded-full bg-[#F5A623]/10 flex items-center justify-center shrink-0 text-3xl font-bold text-[#F5A623]">
               {profile.avatar_url
-                ? <img src={profile.avatar_url} alt="" className="w-20 h-20 rounded-full object-cover" />
+                ? <Image src={profile.avatar_url} alt="" width={80} height={80} className="w-20 h-20 rounded-full object-cover" />
                 : profile.full_name[0]?.toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
@@ -165,7 +166,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 rounded-full bg-[#F5A623]/10 flex items-center justify-center text-sm font-bold text-[#F5A623] shrink-0">
                     {review.reviewer.avatar_url
-                      ? <img src={review.reviewer.avatar_url} alt="" className="w-9 h-9 rounded-full object-cover" />
+                      ? <Image src={review.reviewer.avatar_url} alt="" width={36} height={36} className="w-9 h-9 rounded-full object-cover" />
                       : review.reviewer.full_name[0]?.toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
