@@ -46,19 +46,25 @@ const ALL_LOCALES = [
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-async function fetchAllLoads() {
-  process.stdout.write('🔍 Veritabanındaki tüm ilanlar taranıyor...');
+async function fetchAllLoads(onlyMissing = true) {
+  const modeText = onlyMissing ? 'Çevirisi EKSİK olan ilanlar' : 'TÜM ilanlar';
+  process.stdout.write(`🔍 Veritabanındaki ${modeText} taranıyor...`);
   let allLoads = [];
   let from = 0;
   const step = 1000;
 
   while (true) {
     const to = from + step - 1;
-    const { data, error } = await supabase
+    let query = supabase
       .from('loads')
       .select('id, title, description, title_translations, description_translations, created_at')
-      .order('created_at', { ascending: false })
-      .range(from, to);
+      .order('created_at', { ascending: false });
+
+    if (onlyMissing) {
+      query = query.or('title_translations.is.null,description_translations.is.null');
+    }
+
+    const { data, error } = await query.range(from, to);
 
     if (error) {
       console.error(`\n❌ Veri çekme hatası (${from}-${to}):`, error.message);
@@ -80,12 +86,17 @@ async function fetchAllLoads() {
 }
 
 async function updateAllOldLoads() {
+  const args = process.argv.slice(2);
+  const forceAll = args.includes('--all');
+  const onlyMissing = !forceAll;
+
   console.clear();
   console.log('================================================================');
   console.log('🌐 LOADLY - TOPLU İLAN VE ÇEVİRİ GÜNCELLEME İŞLEMCİSİ (55+ DİL)');
+  console.log(`📌 Mod: ${onlyMissing ? 'Sadece Çevrilmemiş / Eksik İlanlar' : 'Tüm İlanlar (Yeniden Çeviri)'}`);
   console.log('================================================================\n');
 
-  const loads = await fetchAllLoads();
+  const loads = await fetchAllLoads(onlyMissing);
   const total = loads.length;
 
   console.log(`\n📦 Veritabanında Toplam ${total} Adet İlan Bulundu.\n`);
