@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const { createClient } = require('@supabase/supabase-js');
+const { submitToIndexNow, submitToBaidu, pingBaiduBlogPost } = require('./lib/indexnow');
 
 // Load env variables from .env.local
 const envLocalPath = path.join(__dirname, '..', '.env.local');
@@ -1424,6 +1425,19 @@ async function runBlogGenerator() {
   }
 
   console.log(`Successfully published ${insertedPosts.length} blog post translations! Base slug: "${baseSlug}"`);
+
+  const postsWithUrls = insertedPosts.filter((p) => p?.slug && p?.language);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
+  const blogUrls = postsWithUrls.map((p) => `${siteUrl}/${p.language}/blog/${p.slug}`);
+  if (blogUrls.length > 0) {
+    console.log(`Submitting ${blogUrls.length} blog URLs to IndexNow...`);
+    await submitToIndexNow(blogUrls);
+    await submitToBaidu(blogUrls);
+    await Promise.allSettled(
+      postsWithUrls.map((p) => pingBaiduBlogPost(p.title || p.slug, `${siteUrl}/${p.language}/blog/${p.slug}`))
+    );
+  }
+
   return insertedPosts;
 }
 

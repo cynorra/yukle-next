@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const { createClient } = require('@supabase/supabase-js');
+const { submitToIndexNow, submitToBaidu, pingGoogleIndexing } = require('./lib/indexnow');
 
 // 1. Load env variables manually from .env.local
 const envLocalPath = path.join(__dirname, '..', '.env.local');
@@ -654,6 +655,7 @@ async function runScraper(options = { runAll: false }) {
   console.log(`Found ${existingDescriptions.size} existing scraped loads in the last 30 days.`);
 
   let totalInserted = 0;
+  const insertedLoadIds = [];
 
   // Precomputed once (not per-item): every existing scraped description embeds
   // exactly one "Orijinal İlan ID: #N" marker. Previously this was rebuilt by
@@ -718,7 +720,7 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
     console.log(`Translating and inserting dynamic load: ${title}`);
     const translations = await translateListing(title, description);
 
-    const { error: insertError } = await supabase
+    const { data: insertedRow, error: insertError } = await supabase
       .from('loads')
       .insert({
         title,
@@ -739,7 +741,9 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
         pickup_date: pickupDate,
         title_translations: translations.title_translations,
         description_translations: translations.description_translations
-      });
+      })
+      .select('id')
+      .single();
 
     if (insertError) {
       console.error(`Failed to insert dynamic load ID #${item.kimlikId}:`, insertError);
@@ -747,6 +751,7 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
       totalInserted++;
       existingDescriptions.add(description);
       existingIdMarkers.add(duplicateMarker);
+      if (insertedRow) insertedLoadIds.push(insertedRow.id);
     }
   }
 
@@ -833,7 +838,7 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
       console.log(`Translating and inserting directory load: ${title} (${item.companyName})`);
       const translations = await translateListing(title, description);
 
-      const { error: insertError } = await supabase
+      const { data: insertedRow, error: insertError } = await supabase
         .from('loads')
         .insert({
           title,
@@ -853,18 +858,29 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
           tags: ['external', 'scraped', destinationCountry.toLowerCase()],
           title_translations: translations.title_translations,
           description_translations: translations.description_translations
-        });
+        })
+        .select('id')
+        .single();
 
       if (insertError) {
         console.error(`Failed to insert directory load for "${item.companyName}":`, insertError);
       } else {
         totalInserted++;
         existingDescriptions.add(description);
+        if (insertedRow) insertedLoadIds.push(insertedRow.id);
       }
     }
   }
 
-
+  // Push newly-inserted loads to the search engines that support instant
+  // submission (Google doesn't support IndexNow — sitemap ping is the
+  // best-effort fallback for Google specifically).
+  if (insertedLoadIds.length > 0) {
+    const urls = insertedLoadIds.map((id) => `${process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com'}/en/marketplace/${id}`);
+    await submitToIndexNow(urls);
+    await submitToBaidu(urls);
+    for (const url of urls) await pingGoogleIndexing(url);
+  }
 
   console.log(`\nScraping run completed successfully! Total new loads imported: ${totalInserted}`);
   return totalInserted;

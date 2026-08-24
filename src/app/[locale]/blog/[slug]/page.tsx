@@ -38,7 +38,7 @@ function extractFaqSchema(html: string) {
   };
 }
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 const LOCALE_CODES = new Set([
   'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',

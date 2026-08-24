@@ -12,6 +12,7 @@
 const https    = require('https');
 const cheerio  = require('cheerio');
 const { translateListingsBatch } = require('./translate-free');
+const { submitToIndexNow, submitToBaidu, pingGoogleIndexing } = require('./lib/indexnow');
 
 // Varied, natural-language descriptions instead of one rigid "Company: X
 // Phone: Y Route: A→B" template repeated identically across every listing —
@@ -203,6 +204,7 @@ async function runFreightFinderScraper({ supabase, shipperId, maxPerRun = 75, pa
   let totalInserted = 0;
   let batchQueue    = [];
   const BATCH_SIZE  = 3;
+  const insertedLoadIds = [];
 
   async function flushBatch() {
     if (!batchQueue.length) return;
@@ -217,7 +219,7 @@ async function runFreightFinderScraper({ supabase, shipperId, maxPerRun = 75, pa
       const trans = translated.find(t => t.item_index === i);
       const makeObj = (v) => ALL_LOCALES.reduce((o, l) => { o[l] = v; return o; }, {});
 
-      const { error } = await supabase.from('loads').insert({
+      const { data: insertedRow, error } = await supabase.from('loads').insert({
         title:                  item.title,
         shipper_id:             shipperId,
         origin_city:            item.originCity,
@@ -242,13 +244,16 @@ async function runFreightFinderScraper({ supabase, shipperId, maxPerRun = 75, pa
                                   item.destCountry.toLowerCase().replace(/\s+/g, '-')],
         title_translations:         trans?.title_translations         || makeObj(item.title),
         description_translations:   trans?.description_translations   || makeObj(item.description),
-      });
+      })
+      .select('id')
+      .single();
 
       if (error) {
         console.error(`[FreightFinder] Insert error: ${error.message}`);
       } else {
         totalInserted++;
         existingTitles.add(item.title);
+        if (insertedRow) insertedLoadIds.push(insertedRow.id);
         log(`[FreightFinder] ✓ ${item.title} | ${item.companyName}`);
       }
     }
@@ -285,6 +290,14 @@ async function runFreightFinderScraper({ supabase, shipperId, maxPerRun = 75, pa
   }
 
   if (batchQueue.length > 0) await flushBatch();
+
+  if (insertedLoadIds.length > 0) {
+    const urls = insertedLoadIds.map((id) => `${process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com'}/en/marketplace/${id}`);
+    await submitToIndexNow(urls);
+    await submitToBaidu(urls);
+    for (const url of urls) await pingGoogleIndexing(url);
+  }
+
   log(`[FreightFinder] Done. Inserted: ${totalInserted}`);
   return totalInserted;
 }

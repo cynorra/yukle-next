@@ -25,8 +25,7 @@ const TRUCK_TYPES: Record<string, string> = {
   frigorifik: 'Reefer',
 };
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 300;
 
 async function getLoad(id: string) {
   const supabase = createPublicClient();

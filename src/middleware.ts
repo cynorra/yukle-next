@@ -12,6 +12,17 @@ const SUPPORTED_LOCALES = [
 
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
 
+// Only these route segments actually read/mutate an authenticated session
+// server-side. Every other locale page (marketplace, blog, shipping-routes,
+// the homepage, etc.) is public and doesn't need a per-request Supabase
+// session refresh — running updateSession() on those too meant every crawler
+// hit (47 locales × a huge SEO page surface) was paying for a Supabase call
+// it never used, which was a large chunk of the function-invocation volume
+// that got the site paused for exceeding Netlify's Functions quota.
+const AUTH_REQUIRED_SEGMENTS = new Set([
+  'dashboard', 'profile', 'messages', 'favorites', 'create-load',
+]);
+
 // Known search/AI crawler user-agents — never rate-limit these, or deep crawls
 // (47 locales × static pages + listings) will trip the limit and get 429'd,
 // which shows up in Search Console as crawl errors and can suppress indexing.
@@ -106,8 +117,13 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  // 3. Run Supabase auth session update/refresh
-  return await updateSession(request);
+  // 3. Run Supabase auth session update/refresh — only on routes that
+  // actually need an authenticated session, and never for crawlers.
+  const routeSegment = pathname.split('/')[2] || '';
+  if (!isCrawler && AUTH_REQUIRED_SEGMENTS.has(routeSegment)) {
+    return await updateSession(request);
+  }
+  return NextResponse.next();
 }
 
 export const config = {
