@@ -5,6 +5,10 @@ const nextConfig = {
     cpus: 2, // Limit build worker parallelism to reduce peak memory
   },
   images: {
+    // Cloudflare Pages has no built-in Next.js image optimizer — all images
+    // here are already third-party remote URLs (see remotePatterns below),
+    // so optimization value was already marginal.
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: '**' },
       { protocol: 'http', hostname: '**' },

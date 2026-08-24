@@ -1,7 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { createPublicClient } from '@/lib/supabase/public';
 
-export const runtime = 'edge';
 export const alt = 'Loadly Freight Opportunity';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
@@ -17,7 +16,7 @@ const TRUCK_TYPES: Record<string, string> = {
 
 export default async function Image({ params }: { params: Promise<{ id: string; locale: string }> }) {
   const { id, locale } = await params;
-  
+
   const supabase = createPublicClient();
   const { data: load } = await supabase
     .from('loads')
@@ -104,7 +103,7 @@ export default async function Image({ params }: { params: Promise<{ id: string; 
             }}
           >
             <span style={{ color: '#FFFFFF' }}>{origin}</span>
-            <span style={{ color: '#F5A623', fontSize: '40px' }}>➔</span>
+            <span style={{ color: '#F5A623', fontSize: '40px' }}>{'→'}</span>
             <span style={{ color: '#FFFFFF' }}>{destination}</span>
           </div>
 
@@ -127,7 +126,7 @@ export default async function Image({ params }: { params: Promise<{ id: string; 
                 color: '#E2E8F0',
               }}
             >
-              ⚖️ {weight}
+              {weight}
             </div>
 
             <div
@@ -141,7 +140,7 @@ export default async function Image({ params }: { params: Promise<{ id: string; 
                 color: '#E2E8F0',
               }}
             >
-              🚛 {truck}
+              {truck}
             </div>
           </div>
 

@@ -9,4 +9,7 @@ next-env.d.ts
 
 .vercel
 
+.open-next
+.wrangler
+
 .gemini-prompts
