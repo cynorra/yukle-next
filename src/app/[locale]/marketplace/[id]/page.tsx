@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cache } from 'react';
 import { notFound } from 'next/navigation';
 import { createPublicClient } from '@/lib/supabase/public';
 import { LoadDetailClient } from './LoadDetailClient';
@@ -27,7 +28,9 @@ const TRUCK_TYPES: Record<string, string> = {
 
 export const revalidate = 300;
 
-async function getLoad(id: string) {
+// generateMetadata and the page component both need this same row — cache()
+// dedupes them to a single query per request instead of two round-trips.
+const getLoad = cache(async (id: string) => {
   const supabase = createPublicClient();
   const { data } = await supabase
     .from('loads')
@@ -37,7 +40,7 @@ async function getLoad(id: string) {
     .eq('id', id)
     .maybeSingle();
   return data;
-}
+});
 
 async function getSimilarLoads(currentId: string, originCountry: string, destCountry: string) {
   try {

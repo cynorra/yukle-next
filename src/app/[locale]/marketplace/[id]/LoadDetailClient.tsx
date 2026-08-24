@@ -95,35 +95,72 @@ interface MessageData {
   created_at: string;
 }
 
+// Intl formatters are expensive to construct (locale data lookup) and this
+// page is rendered fresh on every cache-miss for up to ~56 locales x 14k+
+// loads — reusing one instance per locale+currency instead of building a new
+// one on every call (often several times per render: price, date, time,
+// per-message, per-offer) meaningfully cuts CPU time on cold Workers isolates.
+const numberFormatCache = new Map<string, Intl.NumberFormat>();
+const dateFormatCache = new Map<string, Intl.DateTimeFormat>();
+const timeFormatCache = new Map<string, Intl.DateTimeFormat>();
+
+function getNumberFormat(formatLocale: string, currency: string) {
+  const key = `${formatLocale}|${currency}`;
+  let f = numberFormatCache.get(key);
+  if (!f) {
+    try {
+      f = new Intl.NumberFormat(formatLocale, { style: 'currency', currency });
+    } catch (e) {
+      f = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+    }
+    numberFormatCache.set(key, f);
+  }
+  return f;
+}
+
+function getDateFormat(formatLocale: string) {
+  let f = dateFormatCache.get(formatLocale);
+  if (!f) {
+    try {
+      f = new Intl.DateTimeFormat(formatLocale, { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) {
+      f = new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    dateFormatCache.set(formatLocale, f);
+  }
+  return f;
+}
+
+function getTimeFormat(formatLocale: string) {
+  let f = timeFormatCache.get(formatLocale);
+  if (!f) {
+    try {
+      f = new Intl.DateTimeFormat(formatLocale, { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      f = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+    timeFormatCache.set(formatLocale, f);
+  }
+  return f;
+}
+
 function formatPrice(price: number | null, locale: string) {
   if (price === null) return locale === 'tr' ? 'Belirtilmedi' : 'Not Specified';
   const currency = locale === 'tr' ? 'TRY' : 'USD';
   const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
-  try {
-    return new Intl.NumberFormat(formatLocale, { style: 'currency', currency }).format(price);
-  } catch (e) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
-  }
+  return getNumberFormat(formatLocale, currency).format(price);
 }
 
 function formatDate(d: string | null, locale: string) {
   if (!d) return locale === 'tr' ? 'Belirtilmedi' : 'Not Specified';
   const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
-  try {
-    return new Date(d).toLocaleDateString(formatLocale, { day: 'numeric', month: 'long', year: 'numeric' });
-  } catch (e) {
-    return new Date(d).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
-  }
+  return getDateFormat(formatLocale).format(new Date(d));
 }
 
 function formatTime(d: string | null, locale: string) {
   if (!d) return '';
   const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
-  try {
-    return new Date(d).toLocaleTimeString(formatLocale, { hour: '2-digit', minute: '2-digit' });
-  } catch (e) {
-    return new Date(d).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  }
+  return getTimeFormat(formatLocale).format(new Date(d));
 }
 
 interface LoadDetailClientProps {
