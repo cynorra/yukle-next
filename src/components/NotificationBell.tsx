@@ -103,7 +103,7 @@ export default function NotificationBell() {
     try {
       const sub = await swRegistration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || 'BIhhzgiPFdz97HTtlKaz8XbSWsofsvPRZ6UJdN6fXlansjKf1ztvA9beQwsLoExJ8uX6m0uKdzgLo_uE3DgleOE'
+        applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || 'BEClB7YSMJ6jaP3-0pkqnC3M1JA6tSc2ZxjLuvCeWAaBlKI3Hws8EdwR9TU68AunUBXQGeD7lv0UyjBNlsvYSQI'
       });
       await supabase.from('push_subscriptions').insert({
         user_id: user.id,
