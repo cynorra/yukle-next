@@ -28,6 +28,30 @@ const TRUCK_TYPES: Record<string, string> = {
 
 export const revalidate = 300;
 
+// Pre-render at build time the (currently very small — see the noindex
+// rule in generateMetadata below) set of genuinely indexable listings, for
+// every supported locale. This serves those pages as static assets with
+// zero per-request Worker CPU cost, which matters on Cloudflare Workers'
+// Free plan: its 10ms CPU-time-per-request cap (a hard platform floor, not
+// configurable below a paid plan) can be exceeded by this page's full SSR
+// render on a cold cache miss. The much larger set of non-indexable
+// (unpriced, scraper-imported) listings is deliberately left dynamic —
+// `dynamicParams` stays at its default `true`, so nothing here changes for
+// them; they render on demand exactly as before, same behavior as today.
+export async function generateStaticParams() {
+  const supabase = createPublicClient();
+  const { data } = await supabase
+    .from('loads')
+    .select('id')
+    .eq('status', 'active')
+    .not('price', 'is', null);
+
+  const locales = Object.keys(TRANSLATIONS);
+  return (data || []).flatMap((load) =>
+    locales.map((locale) => ({ id: load.id, locale }))
+  );
+}
+
 // generateMetadata and the page component both need this same row — cache()
 // dedupes them to a single query per request instead of two round-trips.
 const getLoad = cache(async (id: string) => {
