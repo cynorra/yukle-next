@@ -2,7 +2,7 @@ import { createPublicClient } from '@/lib/supabase/public';
 import { SITE_URL, SITEMAP_INDEX_HEADER, SITEMAP_HEADERS, LOADS_PAGE_SIZE, BLOGS_PAGE_SIZE, ROUTES_PAGE_SIZE, checkSitemapSize } from '@/lib/sitemap-utils';
 import { getAllRouteHubs } from '@/lib/laneRoutes';
 
-export const revalidate = 600;
+export const revalidate = 3600; // matches sitemap-routes/[page] — this route pays the same getAllRouteHubs() cost, no reason to re-pay it 6x more often
 
 /**
  * Sitemap Index — points crawlers to sub-sitemaps for efficient crawling.

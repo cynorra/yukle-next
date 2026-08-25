@@ -391,7 +391,7 @@ export async function getLoadTypeHub(slug: string): Promise<LoadTypeHub | null> 
  * sitemap-routes intermittently fail/hang. This does the same grouping
  * logic as groupByLane/groupByCity/etc., just in one loop.)
  */
-export async function getAllRouteHubs(): Promise<{
+interface RouteHubs {
   lanes: Map<string, Lane>;
   cities: Map<string, CityHub>;
   countries: Map<string, CountryHub>;
@@ -399,7 +399,38 @@ export async function getAllRouteHubs(): Promise<{
   destinationCountries: Map<string, CountryHub>;
   truckTypes: Map<string, TruckTypeHub>;
   loadTypes: Map<string, LoadTypeHub>;
-}> {
+}
+
+// Same pattern as loadsCache above, one level up: sitemap.xml and
+// sitemap-routes/[page] both need the full 7-way grouping (not just one
+// hub's worth like getLane/getCityHub/etc. do), and were each recomputing
+// it independently on every cold render — genuinely CPU-bound work (slug
+// building + Map inserts over up to 1000 rows), not just DB latency, so it
+// was still hitting the Workers Free plan's CPU cap even after the DB scan
+// itself got cheaper. Caching the computed Maps lets same-isolate callers
+// within the window share one computation instead of each paying it fresh.
+const ROUTE_HUBS_CACHE_TTL_MS = 60_000;
+let routeHubsCache: { data: RouteHubs; fetchedAt: number } | null = null;
+let routeHubsCacheInFlight: Promise<RouteHubs> | null = null;
+
+export async function getAllRouteHubs(): Promise<RouteHubs> {
+  if (routeHubsCache && Date.now() - routeHubsCache.fetchedAt < ROUTE_HUBS_CACHE_TTL_MS) {
+    return routeHubsCache.data;
+  }
+  if (routeHubsCacheInFlight) {
+    return routeHubsCacheInFlight;
+  }
+
+  routeHubsCacheInFlight = computeAllRouteHubs().then((result) => {
+    routeHubsCache = { data: result, fetchedAt: Date.now() };
+    routeHubsCacheInFlight = null;
+    return result;
+  });
+
+  return routeHubsCacheInFlight;
+}
+
+async function computeAllRouteHubs(): Promise<RouteHubs> {
   const loads = await fetchRecentActiveLoads();
 
   const lanes = new Map<string, Lane>();
