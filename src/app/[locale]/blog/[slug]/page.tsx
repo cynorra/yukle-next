@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cache } from 'react';
 import { notFound, redirect } from 'next/navigation';
 import { createPublicClient } from '@/lib/supabase/public';
 import { BlogDetailClient } from './BlogDetailClient';
@@ -46,7 +47,10 @@ const LOCALE_CODES = new Set([
   'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz', 'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl', 'kn', 'te', 'pa', 'gu', 'ml', 'sw', 'ne', 'si'
 ]);
 
-async function getPost(slug: string) {
+// cache() dedupes this within a single request — generateMetadata and the
+// page body both need the post, and without this they'd each pay their own
+// DB round-trip on every render.
+const getPost = cache(async (slug: string) => {
   const supabase = createPublicClient();
   const { data } = await supabase
     .from('blog_posts')
@@ -55,7 +59,7 @@ async function getPost(slug: string) {
     .eq('published', true)
     .maybeSingle();
   return data;
-}
+});
 
 export async function generateStaticParams() {
   // Build sırasında sayfa üretme; sayfalar ilk ziyarette ISR ile oluşturulur

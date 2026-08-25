@@ -113,6 +113,14 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
   const renderedContent = useMemo(() => {
     if (!post?.content) return null;
 
+    // Most stored posts are already raw HTML (rendered directly below via
+    // dangerouslySetInnerHTML) — skip the line-by-line parse entirely for
+    // those instead of computing it and throwing it away, since this useMemo
+    // runs unconditionally regardless of which branch the JSX picks.
+    if (post.content.trim().startsWith('<') || /<[a-z][\s\S]*>/i.test(post.content)) {
+      return null;
+    }
+
     const renderInline = (text: string) => {
       // Handle Links: [text](url)
       const parts = text.split(/(\[.+?\]\(.+?\))/g);
