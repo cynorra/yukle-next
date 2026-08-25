@@ -12,6 +12,18 @@ interface Props {
 
 const PAGE_SIZE = ROUTES_PAGE_SIZE;
 
+// Pre-render every chunk page at build time — see the matching comment in
+// sitemap-blogs/[page]/route.ts for why. getAllRouteHubs() does a full active-
+// loads scan to build the lane/city/country/truck-type maps, which is exactly
+// the kind of cold-render CPU cost that intermittently exceeds the Workers
+// Free plan's 10ms cap. Only a couple of pages exist here in practice.
+export async function generateStaticParams() {
+  const { lanes, cities, countries, destinationCities, destinationCountries, truckTypes, loadTypes } = await getAllRouteHubs();
+  const total = lanes.size + cities.size + countries.size + destinationCities.size + destinationCountries.size + truckTypes.size + loadTypes.size;
+  const pages = total > 0 ? Math.ceil(total / PAGE_SIZE) : 1;
+  return Array.from({ length: pages }, (_, i) => ({ page: String(i + 1) }));
+}
+
 export async function GET(request: Request, { params }: Props) {
   const { page: rawPage } = await params;
   const pageNum = Math.max(1, parseInt(rawPage, 10) || 1);

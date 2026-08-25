@@ -5,6 +5,26 @@ export const alt = 'Loadly Freight Opportunity';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
+// Pre-render the OG image for the indexable listing at build time — Satori's
+// SVG->PNG render is CPU-heavy enough to intermittently exceed the Workers
+// Free plan's 10ms cap on a cold isolate (confirmed via wrangler tail during
+// this migration). Same param source as the page itself; noindexed listings
+// stay dynamic since dynamicParams defaults to true.
+export async function generateStaticParams() {
+  const supabase = createPublicClient();
+  const { data } = await supabase
+    .from('loads')
+    .select('id')
+    .eq('status', 'active')
+    .not('price', 'is', null);
+
+  const { TRANSLATIONS } = await import('@/utils/translations');
+  const locales = Object.keys(TRANSLATIONS);
+  return (data || []).flatMap((load) =>
+    locales.map((locale) => ({ id: load.id, locale }))
+  );
+}
+
 const TRUCK_TYPES: Record<string, string> = {
   tir: 'TIR',
   kamyon: 'Truck',

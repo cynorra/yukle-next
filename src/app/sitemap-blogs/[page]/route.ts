@@ -6,6 +6,24 @@ import {
 
 export const revalidate = 3600; // ISR: regenerate hourly
 
+// Pre-render every chunk page at build time instead of leaving them fully
+// dynamic. The while-loop below does up to 4 sequential Supabase round-trips
+// plus string-building for up to BLOGS_PAGE_SIZE posts — on a cold Workers
+// isolate this intermittently exceeds the Free plan's 10ms CPU-time cap,
+// which was silently truncating the sitemap (confirmed: same URL returned
+// 3500, then 66, then 3500 URLs across 3 back-to-back requests). Static
+// generation removes the risk entirely for these pages since there are only
+// ever a couple of them (blogPages = ceil(publishedCount / BLOGS_PAGE_SIZE)).
+export async function generateStaticParams() {
+  const supabase = createPublicClient();
+  const { count } = await supabase
+    .from('blog_posts')
+    .select('id', { count: 'exact', head: true })
+    .eq('published', true);
+  const pages = Math.max(1, Math.ceil((count || 0) / BLOGS_PAGE_SIZE));
+  return Array.from({ length: pages }, (_, i) => ({ page: String(i + 1) }));
+}
+
 interface Props {
   params: Promise<{ page: string }>;
 }

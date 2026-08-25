@@ -6,6 +6,21 @@ import {
 
 export const revalidate = 3600; // ISR: regenerate hourly
 
+// Pre-render every chunk page at build time — see the matching comment in
+// sitemap-blogs/[page]/route.ts for why (intermittent Workers Free plan
+// CPU-limit truncation on cold renders). Only ever a small number of pages
+// here since the count query already filters to indexable (priced) loads.
+export async function generateStaticParams() {
+  const supabase = createPublicClient();
+  const { count } = await supabase
+    .from('loads')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'active')
+    .not('price', 'is', null);
+  const pages = Math.max(1, Math.ceil((count || 0) / LOADS_PAGE_SIZE));
+  return Array.from({ length: pages }, (_, i) => ({ page: String(i + 1) }));
+}
+
 interface Props {
   params: Promise<{ page: string }>;
 }
