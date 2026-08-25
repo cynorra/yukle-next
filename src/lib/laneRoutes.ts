@@ -66,7 +66,12 @@ export interface LoadTypeHub {
   loads: LoadRow[];
 }
 
-const MAX_SCANNED_LOADS = 5000;
+// Was 5000 (5 sequential 1000-row DB round-trips + grouping over 5000 rows) —
+// cut to 1000 (a single round-trip) because that computation alone regularly
+// exceeded the Workers Free plan's 10ms CPU-time cap on a cold isolate,
+// intermittently failing/hanging sitemap-routes. The most recent 1000 active
+// loads is still plenty to represent current lane/city/country hub coverage.
+const MAX_SCANNED_LOADS = 1000;
 
 export function slugifyCity(text: string): string {
   if (!text) return 'location';
@@ -378,8 +383,13 @@ export async function getLoadTypeHub(slug: string): Promise<LoadTypeHub | null> 
 }
 
 /**
- * All groupings in one pass — for the sitemap, which needs to enumerate
- * every hub type without scanning the loads table once per type.
+ * All groupings in a genuine single pass over `loads` — for the sitemap,
+ * which needs every hub type without scanning the loads table once per type.
+ * (Previously called the 7 groupBy* helpers separately, i.e. 7 full passes
+ * over up to MAX_SCANNED_LOADS rows — on a cold Workers isolate that
+ * regularly blew the Workers Free plan's 10ms CPU-time cap and made
+ * sitemap-routes intermittently fail/hang. This does the same grouping
+ * logic as groupByLane/groupByCity/etc., just in one loop.)
  */
 export async function getAllRouteHubs(): Promise<{
   lanes: Map<string, Lane>;
@@ -391,13 +401,72 @@ export async function getAllRouteHubs(): Promise<{
   loadTypes: Map<string, LoadTypeHub>;
 }> {
   const loads = await fetchRecentActiveLoads();
-  return {
-    lanes: groupByLane(loads),
-    cities: groupByCity(loads),
-    countries: groupByCountry(loads),
-    destinationCities: groupByDestinationCity(loads),
-    destinationCountries: groupByDestinationCountry(loads),
-    truckTypes: groupByTruckType(loads),
-    loadTypes: groupByLoadType(loads),
-  };
+
+  const lanes = new Map<string, Lane>();
+  const cities = new Map<string, CityHub>();
+  const countries = new Map<string, CountryHub>();
+  const destinationCities = new Map<string, CityHub>();
+  const destinationCountries = new Map<string, CountryHub>();
+  const truckTypes = new Map<string, TruckTypeHub>();
+  const loadTypes = new Map<string, LoadTypeHub>();
+
+  for (const load of loads) {
+    if (load.origin_city && load.origin_country && load.destination_city && load.destination_country) {
+      const slug = buildLaneSlug(load.origin_city, load.origin_country, load.destination_city, load.destination_country);
+      const existing = lanes.get(slug);
+      if (existing) existing.loads.push(load);
+      else lanes.set(slug, {
+        slug,
+        originCity: load.origin_city,
+        originCountry: normalizeCountryName(load.origin_country),
+        destinationCity: load.destination_city,
+        destinationCountry: normalizeCountryName(load.destination_country),
+        loads: [load],
+      });
+    }
+
+    if (load.origin_city && load.origin_country) {
+      const slug = buildCitySlug(load.origin_city, load.origin_country);
+      const existing = cities.get(slug);
+      if (existing) existing.loads.push(load);
+      else cities.set(slug, { slug, city: load.origin_city, country: normalizeCountryName(load.origin_country), loads: [load] });
+    }
+
+    if (load.origin_country) {
+      const slug = buildCountrySlug(load.origin_country);
+      const existing = countries.get(slug);
+      if (existing) existing.loads.push(load);
+      else countries.set(slug, { slug, country: normalizeCountryName(load.origin_country), loads: [load] });
+    }
+
+    if (load.destination_city && load.destination_country) {
+      const slug = buildCitySlug(load.destination_city, load.destination_country);
+      const existing = destinationCities.get(slug);
+      if (existing) existing.loads.push(load);
+      else destinationCities.set(slug, { slug, city: load.destination_city, country: normalizeCountryName(load.destination_country), loads: [load] });
+    }
+
+    if (load.destination_country) {
+      const slug = buildCountrySlug(load.destination_country);
+      const existing = destinationCountries.get(slug);
+      if (existing) existing.loads.push(load);
+      else destinationCountries.set(slug, { slug, country: normalizeCountryName(load.destination_country), loads: [load] });
+    }
+
+    if (load.required_truck_type) {
+      const slug = buildTruckTypeSlug(load.required_truck_type);
+      const existing = truckTypes.get(slug);
+      if (existing) existing.loads.push(load);
+      else truckTypes.set(slug, { slug, truckType: load.required_truck_type, loads: [load] });
+    }
+
+    if (load.load_type) {
+      const slug = buildLoadTypeSlug(load.load_type);
+      const existing = loadTypes.get(slug);
+      if (existing) existing.loads.push(load);
+      else loadTypes.set(slug, { slug, loadType: load.load_type, loads: [load] });
+    }
+  }
+
+  return { lanes, cities, countries, destinationCities, destinationCountries, truckTypes, loadTypes };
 }

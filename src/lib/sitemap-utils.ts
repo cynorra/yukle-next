@@ -46,8 +46,17 @@ export type SitemapLocale = typeof ALL_LOCALES[number];
  * logs immediately rather than silently producing a sitemap Google rejects.
  */
 export const LOADS_PAGE_SIZE = 5000; // worst case (36-char UUID, full 55-locale coverage) ≈ 7.6KB/URL → ~38MB/file
-export const BLOGS_PAGE_SIZE = 3500; // worst case (100-char slug, full 55-locale coverage + image tag) ≈ 11.3KB/URL → ~40MB/file
-export const ROUTES_PAGE_SIZE = 4000; // worst case (70-char slug, always-full 55-locale coverage) ≈ 9.9KB/URL → ~40MB/file
+// BLOGS_PAGE_SIZE and ROUTES_PAGE_SIZE were originally sized from the 50MB
+// file-size ceiling alone (3500/4000), but each request also has to fetch
+// and process that many rows synchronously — on a cold Workers isolate that
+// regularly exceeded the Workers Free plan's 10ms CPU-time cap and made
+// these two routes intermittently fail/hang outright. Cut well below the
+// byte ceiling to bound per-request CPU cost instead; the sitemap index
+// computes ceil(total/PAGE_SIZE) fresh every time, so this just produces
+// more, cheaper chunk files rather than fewer expensive ones — no crawler-
+// facing change besides more page numbers.
+export const BLOGS_PAGE_SIZE = 500; // worst case ≈ 11.3KB/URL → ~5.7MB/file
+export const ROUTES_PAGE_SIZE = 500; // worst case ≈ 9.9KB/URL → ~5MB/file
 
 /** Hard ceiling for a single sitemap file — Google rejects anything over 50MB. */
 const SITEMAP_MAX_BYTES = 50 * 1024 * 1024;
