@@ -10,6 +10,16 @@ import Image from 'next/image';
 
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop';
 
+// Reused across all BlogCard instances instead of letting toLocaleDateString
+// construct a fresh Intl.DateTimeFormat per card (up to 60 on the blog list
+// page) — the same per-render Intl-construction cost already fixed in
+// LoadDetailClient.tsx, here contributing to cold-isolate CPU-limit 503s.
+const BLOG_DATE_FORMATTER = new Intl.DateTimeFormat('tr-TR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
 const READ_MORE: Record<string, string> = {
   tr: 'Devamını Oku', en: 'Read More', de: 'Weiterlesen', fr: 'Lire la suite',
   es: 'Leer más', pt: 'Ler mais', it: 'Leggi di più', pl: 'Czytaj więcej',
@@ -29,11 +39,7 @@ export default function BlogCard({ post }: BlogCardProps) {
 
   const formattedDate = useMemo(() => {
     if (!post?.created_at) return '';
-    return new Date(post.created_at).toLocaleDateString('tr-TR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
+    return BLOG_DATE_FORMATTER.format(new Date(post.created_at));
   }, [post?.created_at]);
 
   const cleanExcerpt = useMemo(() => {

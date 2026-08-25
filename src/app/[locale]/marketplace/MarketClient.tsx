@@ -48,6 +48,41 @@ const TRUCK_TYPES: Record<string, string> = {
 
 const PAGE_SIZE = 50;
 
+// Reused across all cards on the page instead of constructing a fresh
+// Intl.NumberFormat/DateTimeFormat per listing (up to PAGE_SIZE = 50 per
+// render) — the same per-render Intl-construction cost already fixed in
+// LoadDetailClient.tsx, here contributing to cold-isolate CPU-limit 503s on
+// the highest-traffic page on the site.
+const numberFormatCache = new Map<string, Intl.NumberFormat>();
+const dateFormatCache = new Map<string, Intl.DateTimeFormat>();
+
+function getNumberFormat(formatLocale: string, currency: string) {
+  const key = `${formatLocale}|${currency}`;
+  let f = numberFormatCache.get(key);
+  if (!f) {
+    try {
+      f = new Intl.NumberFormat(formatLocale, { style: 'currency', currency });
+    } catch {
+      f = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+    }
+    numberFormatCache.set(key, f);
+  }
+  return f;
+}
+
+function getDateFormat(formatLocale: string) {
+  let f = dateFormatCache.get(formatLocale);
+  if (!f) {
+    try {
+      f = new Intl.DateTimeFormat(formatLocale);
+    } catch {
+      f = new Intl.DateTimeFormat('en-US');
+    }
+    dateFormatCache.set(formatLocale, f);
+  }
+  return f;
+}
+
 interface MarketClientProps {
   initialLoads: Load[];
   initialTotal: number;
@@ -78,7 +113,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
 
   const formatPrice = useCallback((price: number | null) => {
     if (!price) return null;
-    return new Intl.NumberFormat(locale, { style: 'currency', currency: locale === 'tr' ? 'TRY' : 'USD' }).format(price);
+    return getNumberFormat(locale, locale === 'tr' ? 'TRY' : 'USD').format(price);
   }, [locale]);
 
   useEffect(() => {
@@ -443,7 +478,7 @@ export function MarketClient({ initialLoads, initialTotal }: MarketClientProps) 
                           )}
                           <span className="flex items-center gap-1.5 text-xs text-muted/60">
                             <Clock size={12} />
-                            {new Date(load.created_at).toLocaleDateString(locale)}
+                            {getDateFormat(locale).format(new Date(load.created_at))}
                           </span>
                         </div>
                       </div>
