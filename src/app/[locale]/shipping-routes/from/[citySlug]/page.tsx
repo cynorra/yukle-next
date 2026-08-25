@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { MapPin, Weight, Package } from 'lucide-react';
 import { getCityHub, normalizeCountryName } from '@/lib/laneRoutes';
@@ -78,6 +79,13 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale, citySlug } = await params;
+
+  if (rawLocale !== 'tr' && rawLocale !== 'en') {
+    return {
+      alternates: { canonical: `${SITE_URL}/en/shipping-routes/from/${citySlug}` },
+    };
+  }
+
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = LABELS[locale] ?? LABELS.en;
 
@@ -124,6 +132,11 @@ export const revalidate = 3600; // active loads change often — refresh hourly
 
 export default async function CityHubPage({ params }: Props) {
   const { locale: rawLocale, citySlug } = await params;
+
+  if (rawLocale !== 'tr' && rawLocale !== 'en') {
+    redirect(`/en/shipping-routes/from/${citySlug}`);
+  }
+
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = LABELS[locale] ?? LABELS.en;
 

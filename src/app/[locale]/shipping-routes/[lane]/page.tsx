@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { MapPin, Weight, Package } from 'lucide-react';
 import { getLane, buildCitySlug, buildCountrySlug } from '@/lib/laneRoutes';
@@ -78,6 +79,17 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale, lane: laneSlug } = await params;
+
+  // tr/en are the only locales with real copy (see LABELS) — every other
+  // locale would otherwise pay the full active-loads DB scan just to render
+  // English text at a throwaway URL. Skip the fetch entirely here; the page
+  // body below redirects these locales to /en before it would call getLane.
+  if (rawLocale !== 'tr' && rawLocale !== 'en') {
+    return {
+      alternates: { canonical: `${SITE_URL}/en/shipping-routes/${laneSlug}` },
+    };
+  }
+
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = LABELS[locale] ?? LABELS.en;
 
@@ -127,6 +139,11 @@ export const revalidate = 3600; // active loads change often — refresh hourly
 
 export default async function LanePage({ params }: Props) {
   const { locale: rawLocale, lane: laneSlug } = await params;
+
+  if (rawLocale !== 'tr' && rawLocale !== 'en') {
+    redirect(`/en/shipping-routes/${laneSlug}`);
+  }
+
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = LABELS[locale] ?? LABELS.en;
 
