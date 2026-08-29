@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { SeoContent } from '@/components/SeoContent';
 import Logo from '@/components/Logo';
 import {
@@ -148,19 +147,7 @@ export default async function HomePage({ params }: PageProps) {
               </div>
 
               <div className="pt-12">
-                <div className="flex items-center gap-4 text-sm font-medium text-muted/60">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className="w-8 h-8 rounded-full border-2 border-background-light dark:border-background-dark bg-surface-light dark:bg-surface-dark overflow-hidden"
-                      >
-                        <Image src={`https://i.pravatar.cc/100?u=${i}`} alt="" width={32} height={32} className="w-full h-full object-cover" />
-                      </div>
-                    ))}
-                  </div>
-                  <span>{t.home.activeUsers}</span>
-                </div>
+                <span className="text-sm font-medium text-muted/60">{t.home.activeUsers}</span>
               </div>
             </div>
           </div>
