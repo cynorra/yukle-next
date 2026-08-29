@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { SeoContent } from '@/components/SeoContent';
-import { Package, MapPin, Weight, Clock } from 'lucide-react';
+import { Package } from 'lucide-react';
 import { createPublicClient } from '@/lib/supabase/public';
 import { MarketClient } from './MarketClient';
 import { TRANSLATIONS } from '@/utils/translations';
@@ -35,6 +34,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: t.marketplace.desc,
       url: `${SITE_URL}/${locale}/marketplace`,
     },
+    // No longer part of the site's public/indexed surface — see the same
+    // note in marketplace/[id]/page.tsx. Unlinked from nav and the
+    // homepage; this page stays reachable directly for existing accounts
+    // but isn't meant to be discovered via search or browsing.
+    robots: { index: false, follow: false },
   };
 }
 
@@ -60,26 +64,8 @@ export default async function PazarPage({ params }: Props) {
   const total = count || 0;
   const loads = initialLoads || [];
 
-  const itemListJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    name: t.marketplace.allLoads,
-    numberOfItems: total,
-    itemListElement: loads.slice(0, 20).map((load: any, idx: number) => ({
-      '@type': 'ListItem',
-      position: idx + 1,
-      url: `${SITE_URL}/${locale}/marketplace/${load.id}`,
-      name: load.title_translations?.[locale] || load.title || `${load.origin_city} - ${load.destination_city}`,
-    })),
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
-      />
-
       <div className="bg-accent/5 border-b border-accent/10 px-4 py-2">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-accent" />
@@ -100,37 +86,6 @@ export default async function PazarPage({ params }: Props) {
           </p>
         </div>
       </header>
-
-      {/* noscript fallback for SEO crawlers */}
-      <noscript>
-        <section className="max-w-7xl mx-auto px-4 py-8">
-          <h2 className="text-2xl font-bold text-fg mb-6">Recent Load Postings</h2>
-          <ul className="space-y-3">
-            {loads.slice(0, 20).map((load: any) => (
-              <li key={load.id}>
-                <Link
-                  href={`/${locale}/marketplace/${load.id}`}
-                  className="block p-4 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl hover:border-accent/30"
-                >
-                  <div className="font-bold text-fg">
-                    {load.title_translations?.[locale] || load.title || `${load.origin_city} → ${load.destination_city}`}
-                  </div>
-                  <div className="text-sm text-muted flex items-center gap-4 mt-1">
-                    <span className="flex items-center gap-1 font-bold">
-                      <MapPin size={14} /> {load.origin_city} → {load.destination_city}
-                    </span>
-                    {load.weight_ton && (
-                      <span className="flex items-center gap-1">
-                        <Weight size={14} /> {load.weight_ton} ton
-                      </span>
-                    )}
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </noscript>
 
       <MarketClient
         initialLoads={loads as any}

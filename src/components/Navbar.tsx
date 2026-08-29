@@ -106,14 +106,12 @@ export default function Navbar() {
   }, []);
 
   const navLinks = user ? [
-    { to: `/${locale}/marketplace`, label: t.nav.marketplace, icon: Package },
     ...(profile?.role === 'shipper' ? [{ to: `/${locale}/create-load`, label: t.marketplace.postLoadBtn, icon: Package }] : []),
     ...(profile?.role === 'driver' ? [{ to: `/${locale}/routes`, label: t.nav.routes, icon: Truck }] : []),
     { to: `/${locale}/messages`, label: t.nav.messages, icon: MessageSquare },
     { to: `/${locale}/blog`, label: t.nav.blog, icon: BookOpen },
     { to: `/${locale}/dashboard`, label: t.nav.dashboard, icon: User },
   ] : [
-    { to: `/${locale}/marketplace`, label: t.nav.marketplace, icon: Package },
     { to: `/${locale}/blog`, label: t.nav.blog, icon: BookOpen }
   ];
 

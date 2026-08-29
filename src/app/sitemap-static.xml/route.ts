@@ -17,7 +17,7 @@ export async function GET() {
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(url)}</loc>\n`;
       xml += '    <changefreq>weekly</changefreq>\n';
-      xml += `    <priority>${routePath === '' ? '1.0' : routePath === '/marketplace' ? '0.9' : routePath === '/blog' ? '0.85' : '0.8'}</priority>\n`;
+      xml += `    <priority>${routePath === '' ? '1.0' : routePath === '/blog' ? '0.9' : '0.8'}</priority>\n`;
       xml += generateAlternates((loc) => `${SITE_URL}/${loc}${routePath}`);
       xml += '  </url>\n';
       urlCount++;
@@ -40,8 +40,6 @@ function getAllStaticPaths(): string[] {
     '/contact',
     '/advertise',
     '/blog',
-    '/marketplace',
-    '/find-loads',
     '/privacy-policy',
     '/terms'
   ];

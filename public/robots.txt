@@ -33,7 +33,6 @@ Allow: /
 
 User-agent: Googlebot-News
 Allow: /*/blog
-Allow: /*/marketplace
 
 User-agent: Google-InspectionTool
 Allow: /
@@ -502,9 +501,6 @@ Sitemap: https://loadlyapp.com/sitemap.xml
 #
 # Blog (per locale, paginated, e.g. https://loadlyapp.com/tr/feed.xml):
 # https://loadlyapp.com/{locale}/feed.xml
-#
-# Live marketplace load postings (paginated, all active listings):
-# https://loadlyapp.com/loads-feed.xml
 
 # ─── HOST ─────────────────────────────────────────────────────
 

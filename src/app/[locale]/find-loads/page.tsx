@@ -52,6 +52,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       url: `${SITE_URL}/${rawLocale}/find-loads`,
     },
+    // No longer part of the site's public/indexed surface — see the same
+    // note in marketplace/page.tsx.
+    robots: { index: false, follow: false },
   };
 }
 

@@ -45,7 +45,6 @@ export type SitemapLocale = typeof ALL_LOCALES[number];
  * if reality ever exceeds this model, so a violation is caught in server
  * logs immediately rather than silently producing a sitemap Google rejects.
  */
-export const LOADS_PAGE_SIZE = 5000; // worst case (36-char UUID, full 55-locale coverage) ≈ 7.6KB/URL → ~38MB/file
 // BLOGS_PAGE_SIZE was originally sized from the 50MB file-size ceiling alone
 // (3500), but each request also has to fetch and process that many rows
 // synchronously — on a cold Workers isolate that regularly exceeded the

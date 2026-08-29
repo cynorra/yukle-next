@@ -146,20 +146,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       images: [`${SITE_URL}/${locale}/marketplace/${id}/opengraph-image`],
     },
-    // Individual load listings are overwhelmingly scraper-imported (verified
-    // 2026-08-23: 14,022/14,022 active loads belong to one scraper shipper
-    // account, only 1 has a real price) — near-identical templated content
-    // at massive scale, which is exactly what Google's "scaled content
-    // abuse" / thin-content policies target and was the root cause of an
-    // AdSense "low value content" rejection. Rather than indexing all of
-    // them, only index a listing once it has a real price AND is still
-    // active — the one concrete signal that separates a genuine commercial
-    // posting from a bulk-imported placeholder. This is a standing rule,
-    // not a one-time filter: as real user-posted loads with real prices
-    // start appearing, they start getting indexed automatically with no
-    // further code changes.
+    // Marketplace is no longer part of the site's public/indexed surface at
+    // all (2026-08-29 decision: the marketplace product itself stays live
+    // for existing accounts, but the site's public identity is now the blog
+    // — no listing, including a genuine future real one, should surface via
+    // search). Individual load listings were already overwhelmingly
+    // scraper-imported (verified 2026-08-23: 14,022/14,022 active loads
+    // belong to one scraper shipper account, only 1 has a real price), which
+    // was the original root cause of the AdSense "low value content"
+    // rejection alongside the shipping-routes hub pages.
     robots: {
-      index: load.status === 'active' && Boolean(load.price),
+      index: false,
       follow: true,
     },
   };
