@@ -690,41 +690,45 @@ async function translatePostUsingGoogle(basePost, targetLangCode) {
   };
 }
 
-// Machine translation from English carries over whatever vocabulary the
-// English source happened to use — it will never produce "tır" (no English
-// word maps to it; it's the Turkish/European TIR-convention term for a
-// semi-trailer truck) and only inconsistently produces "sevkiyat",
-// "taşımacılık", "nakliye" depending on how Google Translate happened to
-// render that sentence. Client flagged these as critical-must-appear
-// keywords for the TR locale specifically, so after the mechanical
-// translation, run one lightweight Gemini editing pass whose only job is to
-// weave the missing ones in naturally — not a rewrite, not forced into every
-// sentence, and skipped entirely (falls back to the plain machine
-// translation) if Gemini fails or visibly truncates the content.
+// Raw Google Translate output, published with zero per-language review, is
+// exactly the "automated translation without human review or curation"
+// pattern Google's spam policy names as scaled content abuse — and with 53
+// target languages at volume, a real (if secondary) contributor to the
+// AdSense "low value content" rejection alongside the bot-listing hub pages.
+// So every translated language, not just Turkish, now gets one lightweight
+// Gemini editing pass for natural, native-quality phrasing — not a rewrite,
+// facts/numbers/structure untouched, and skipped entirely (falls back to the
+// plain machine translation) if Gemini fails or visibly truncates the
+// content. Turkish additionally requires a fixed set of client-flagged
+// keywords that Google Translate reliably fails to produce on its own (see
+// TR_REQUIRED_KEYWORDS below) — every other language gets the fluency pass
+// only, since we don't have a curated must-appear keyword list per locale.
 const TR_REQUIRED_KEYWORDS = ['nakliye', 'taşımacılık', 'tır', 'tır yükü', 'kamyon yükü', 'sevkiyat', 'lojistik'];
 
 function wordCount(html) {
   return (html || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
 }
 
-async function polishTurkishKeywords(trPost) {
-  if (!geminiApiKey) return trPost;
+async function polishTranslatedPost(post, langName, langCode) {
+  if (!geminiApiKey) return post;
+
+  const keywordInstruction = langCode === 'tr'
+    ? ` so that each of these Turkish keywords appears naturally at least once somewhere across the title/excerpt/content, wherever it topically fits: ${TR_REQUIRED_KEYWORDS.join(', ')}. Skip any keyword that genuinely has no natural place in this specific article rather than forcing it in. Never keyword-stuff — one natural mention each is enough.`
+    : '';
 
   const payload = JSON.stringify({
     contents: [{
       parts: [{
-        text: `You are a native Turkish SEO editor for Loadly, a freight/logistics marketplace blog. The JSON below is a Turkish blog post that was machine-translated from English. Lightly edit it — do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — so that each of these Turkish keywords appears naturally at least once somewhere across the title/excerpt/content, wherever it topically fits: ${TR_REQUIRED_KEYWORDS.join(', ')}.
+        text: `You are a native ${langName} editor for Loadly, a freight/logistics marketplace blog. The JSON below is a ${langName} blog post that was machine-translated from English by Google Translate. Lightly edit it for natural, fluent, native-quality phrasing — fix awkward literal machine-translation wording, unnatural word order, and mistranslated idioms.${keywordInstruction} Do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — this is a polish pass, not a rewrite.
 
 Rules:
-- Skip any keyword that genuinely has no natural place in this specific article rather than forcing it in.
-- Never keyword-stuff — one natural mention each is enough.
 - Preserve every HTML tag in "content" exactly as structured (h2/h3/p/ul/li/table/a href/strong/blockquote etc.) — only edit the text inside them. Do not add, remove, or reorder tags or sections.
 - Preserve the <a href="/marketplace"> and <a href="/register"> links exactly as they are, including their anchor text unless a keyword fits naturally into that anchor text.
 - meta_title must stay under 60 characters, meta_description under 155 characters.
-- While you're in there you may fix obviously awkward literal machine-translation phrasing, but keep edits minimal and surgical — this is a polish pass, not a rewrite.
+- Keep edits minimal and surgical.
 
 Input JSON:
-${JSON.stringify({ title: trPost.title, excerpt: trPost.excerpt, content: trPost.content, meta_title: trPost.meta_title, meta_description: trPost.meta_description })}
+${JSON.stringify({ title: post.title, excerpt: post.excerpt, content: post.content, meta_title: post.meta_title, meta_description: post.meta_description })}
 
 Return ONLY valid JSON with this exact shape: {"title": "...", "excerpt": "...", "content": "...", "meta_title": "...", "meta_description": "..."}`
       }]
@@ -748,16 +752,16 @@ Return ONLY valid JSON with this exact shape: {"title": "...", "excerpt": "...",
 
   try {
     const polished = await callGeminiWithRetry(payload, 2);
-    const originalWords = wordCount(trPost.content);
+    const originalWords = wordCount(post.content);
     const polishedWords = wordCount(polished.content);
     if (polishedWords < originalWords * 0.8) {
-      console.warn(`[TR Keyword Polish] Polished content dropped from ${originalWords} to ${polishedWords} words (looks truncated) — keeping plain machine translation instead.`);
-      return trPost;
+      console.warn(`[${langName} Polish] Polished content dropped from ${originalWords} to ${polishedWords} words (looks truncated) — keeping plain machine translation instead.`);
+      return post;
     }
-    return { ...trPost, ...polished };
+    return { ...post, ...polished };
   } catch (e) {
-    console.warn(`[TR Keyword Polish] Failed, keeping plain machine translation: ${e.message}`);
-    return trPost;
+    console.warn(`[${langName} Polish] Failed, keeping plain machine translation: ${e.message}`);
+    return post;
   }
 }
 
@@ -1366,9 +1370,7 @@ async function runBlogGenerator() {
     try {
       console.log(`Translating to ${langName} (${langCode})...`);
       let translation = await translatePostUsingGoogle(basePost, langCode);
-      if (langCode === 'tr') {
-        translation = await polishTurkishKeywords(translation);
-      }
+      translation = await polishTranslatedPost(translation, langName, langCode);
       translatedPosts.push({ ...translation, langCode });
       console.log(`✓ ${langName} (${langCode})`);
     } catch (err) {
@@ -1442,8 +1444,10 @@ async function runBlogGenerator() {
 }
 
 // Number of articles to generate per workflow run. Each article already fans
-// out to ~46 translated locales, so keep this modest — raise gradually while
-// watching Actions logs for 429s / translate failures before going higher.
+// out to ~54 translated locales (each now with its own Gemini polish pass,
+// not just a translate call), so keep this modest — raise gradually while
+// watching Actions logs for 429s / translate / Gemini quota failures before
+// going higher.
 const ARTICLES_PER_RUN = Math.max(1, parseInt(process.env.ARTICLES_PER_RUN || '1', 10));
 
 // Execute if run directly

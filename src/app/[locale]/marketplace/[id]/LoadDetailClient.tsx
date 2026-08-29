@@ -171,7 +171,6 @@ interface LoadDetailClientProps {
   truckLabel?: string;
   categoryLabel?: string;
   similarLoads?: any[];
-  relatedRoutes?: { href: string; label: string }[];
 }
 
 export function LoadDetailClient({
@@ -182,7 +181,6 @@ export function LoadDetailClient({
   truckLabel = 'Standard Truck',
   categoryLabel = 'General Freight',
   similarLoads = [],
-  relatedRoutes = [],
 }: LoadDetailClientProps) {
   const params = useParams<{ id: string }>();
   const id = params?.id ?? initialLoad.id;
@@ -639,21 +637,6 @@ export function LoadDetailClient({
                 </div>
               </div>
             </div>
-
-            {/* Related Routes Chips */}
-            {relatedRoutes.length > 0 && (
-              <div className="flex flex-wrap gap-2 pt-2">
-                {relatedRoutes.map((route) => (
-                  <Link
-                    key={route.href}
-                    href={route.href}
-                    className="px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-muted hover:text-accent hover:border-accent/40 transition-colors"
-                  >
-                    {route.label}
-                  </Link>
-                ))}
-              </div>
-            )}
 
             {/* AdSense */}
             <AdBanner

@@ -5,7 +5,6 @@ import { createPublicClient } from '@/lib/supabase/public';
 import { LoadDetailClient } from './LoadDetailClient';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
-import { buildLaneSlug, buildCitySlug, buildCountrySlug, buildTruckTypeSlug, buildLoadTypeSlug, normalizeCountryName } from '@/lib/laneRoutes';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -155,12 +154,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     // AdSense "low value content" rejection. Rather than indexing all of
     // them, only index a listing once it has a real price AND is still
     // active — the one concrete signal that separates a genuine commercial
-    // posting from a bulk-imported placeholder. `follow: true` always, so
-    // link equity still flows to the shipping-routes hub pages via this
-    // page's internal links even when the page itself isn't indexed. This
-    // is a standing rule, not a one-time filter: as real user-posted loads
-    // with real prices start appearing, they start getting indexed
-    // automatically with no further code changes.
+    // posting from a bulk-imported placeholder. This is a standing rule,
+    // not a one-time filter: as real user-posted loads with real prices
+    // start appearing, they start getting indexed automatically with no
+    // further code changes.
     robots: {
       index: load.status === 'active' && Boolean(load.price),
       follow: true,
@@ -274,44 +271,6 @@ export default async function LoadDetailPage({ params }: PageProps) {
     ],
   };
 
-  const relatedRoutes: { href: string; label: string }[] = [];
-  if (load.origin_city && load.origin_country) {
-    relatedRoutes.push({
-      href: `/${locale}/shipping-routes/from/${buildCitySlug(load.origin_city, load.origin_country)}`,
-      label: locale === 'tr' ? `${load.origin_city} Çıkışlı Diğer İlanlar` : `More Loads From ${load.origin_city}`,
-    });
-    relatedRoutes.push({
-      href: `/${locale}/shipping-routes/country/${buildCountrySlug(load.origin_country)}`,
-      label: locale === 'tr'
-        ? `${normalizeCountryName(load.origin_country)} Çıkışlı Diğer İlanlar`
-        : `More Loads From ${normalizeCountryName(load.origin_country)}`,
-    });
-  }
-  if (load.destination_city && load.destination_country) {
-    relatedRoutes.push({
-      href: `/${locale}/shipping-routes/to/${buildCitySlug(load.destination_city, load.destination_country)}`,
-      label: locale === 'tr' ? `${load.destination_city} Varışlı Diğer İlanlar` : `More Loads To ${load.destination_city}`,
-    });
-    relatedRoutes.push({
-      href: `/${locale}/shipping-routes/to-country/${buildCountrySlug(load.destination_country)}`,
-      label: locale === 'tr'
-        ? `${normalizeCountryName(load.destination_country)} Varışlı Diğer İlanlar`
-        : `More Loads To ${normalizeCountryName(load.destination_country)}`,
-    });
-  }
-  if (load.origin_city && load.origin_country && load.destination_city && load.destination_country) {
-    relatedRoutes.push({
-      href: `/${locale}/shipping-routes/${buildLaneSlug(load.origin_city, load.origin_country, load.destination_city, load.destination_country)}`,
-      label: locale === 'tr' ? 'Bu Rotadaki Tüm İlanlar' : 'All Loads On This Route',
-    });
-  }
-  if (load.required_truck_type) {
-    relatedRoutes.push({
-      href: `/${locale}/shipping-routes/truck-type/${buildTruckTypeSlug(load.required_truck_type)}`,
-      label: locale === 'tr' ? `Diğer ${truckLabel} İlanları` : `More ${truckLabel} Loads`,
-    });
-  }
-
   return (
     <>
       <script
@@ -335,7 +294,6 @@ export default async function LoadDetailPage({ params }: PageProps) {
         truckLabel={truckLabel}
         categoryLabel={categoryLabel}
         similarLoads={similarLoads}
-        relatedRoutes={relatedRoutes}
       />
     </>
   );
