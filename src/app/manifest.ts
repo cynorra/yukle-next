@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Loadly — Global Freight Marketplace',
+    name: 'Loadly — Freight & Logistics Guides',
     short_name: 'Loadly',
-    description: 'International freight marketplace connecting shippers and carriers worldwide. 47 languages, 190+ countries.',
+    description: 'Logistics and freight industry guides, route insights, and practical shipping information, published in 55 languages.',
     start_url: '/en',
     display: 'standalone',
     background_color: '#0a0a0a',

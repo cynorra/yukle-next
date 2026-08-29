@@ -47,14 +47,14 @@ const EXTRA: Record<string, {
   tr: {
     statsTitle: 'Loadly Neler Sunuyor',
     stats: [
-      { value: '47', label: 'Desteklenen Dil' },
-      { value: '7/24', label: 'Aktif Pazaryeri' },
+      { value: '55', label: 'Desteklenen Dil' },
+      { value: 'Günlük', label: 'Güncel İçerik' },
       { value: 'Ücretsiz', label: 'İlan Yayınlama' },
       { value: 'Kurucu Liderliğinde', label: 'Şeffaf Ekip' },
     ],
     missionTitle: 'Misyonumuz',
     missionText:
-      'Lojistik sektörünü dijital dönüşümle kolaylaştırmak ve nakliyecilerle yük sahiplerini en etkin şekilde buluşturmaktır. Platformumuz, geleneksel nakliye brokerlığının getirdiği yüksek komisyon ve zaman kaybını ortadan kaldırmayı hedeflemektedir. Teknoloji ve verinin gücünü kullanarak her yük, en uygun taşıyıcıyla hızla eşleştirilmektedir. Küçük işletmelerden büyük şirketlere kadar her ölçekteki nakliye ihtiyacını karşılamak için 7/24 aktif olan dijital bir pazar yeri sunuyoruz.',
+      'Lojistik sektörüne dair güvenilir, güncel ve pratik bilgiyi 55 dilde herkese ulaştırmaktır. Nakliye maliyetleri, güzergah rehberleri ve mevzuat değişiklikleri üzerine düzenli yayınladığımız içeriklerle sektör profesyonellerine ve işletmelere karar alma süreçlerinde yardımcı oluyoruz. Bunun yanında, nakliyecilerle yük sahiplerini buluşturan ücretsiz bir kayıt ve ilan altyapısı da sunuyoruz.',
     teamTitle: 'Kimler Yapıyor',
     teamName: 'Eren Şimşir',
     teamRole: 'Baş Teknik Editör',
@@ -83,14 +83,14 @@ const EXTRA: Record<string, {
   en: {
     statsTitle: 'What Loadly Offers',
     stats: [
-      { value: '47', label: 'Languages Supported' },
-      { value: '24/7', label: 'Always-On Marketplace' },
+      { value: '55', label: 'Languages Supported' },
+      { value: 'Daily', label: 'Fresh Content' },
       { value: 'Free', label: 'To Post a Load' },
       { value: 'Founder-Led', label: 'Transparent Team' },
     ],
     missionTitle: 'Our Mission',
     missionText:
-      'To simplify the logistics industry through digital transformation and connect carriers and shippers in the most efficient way possible. Our platform aims to eliminate the high commissions and time delays that come with traditional freight brokerage. By harnessing the power of technology and data, every load is rapidly matched with the most suitable carrier. We provide a digital marketplace that operates 24/7 to meet the shipping needs of businesses of all sizes — from small enterprises to large corporations.',
+      'To make reliable, up-to-date, and practical logistics knowledge available to everyone, in 55 languages. Through regularly published content on freight costs, route guides, and regulatory changes, we help industry professionals and businesses make better decisions. Alongside that, we also offer a free registration and listing infrastructure that connects carriers and shippers.',
     teamTitle: 'Who Builds Loadly',
     teamName: 'Eren Şimşir',
     teamRole: 'Chief Technical Editor',

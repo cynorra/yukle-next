@@ -22,10 +22,10 @@ export default function NotFound() {
             Anasayfa
           </Link>
           <Link
-            href="/en/marketplace"
+            href="/en/blog"
             className="px-8 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-fg font-bold rounded-xl hover:bg-background-light dark:hover:bg-background-dark transition-all"
           >
-            Pazara Git
+            Bloga Git
           </Link>
         </div>
       </div>

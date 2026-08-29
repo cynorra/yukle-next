@@ -34,10 +34,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     keywords: [
       'logistics',
       'shipping',
-      'freight marketplace',
-      'find loads',
+      'freight blog',
+      'logistics guides',
       'truck load',
-      'carrier board',
+      'trucking industry news',
       'transport matching',
       'delivery cargo',
       'trucker network',
@@ -137,14 +137,6 @@ export default async function LocalizedLayout({ children, params }: Props) {
     url: `${SITE_URL}/${locale}/`,
     description: t.home.heroDesc,
     inLanguage: locale,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/${locale}/marketplace?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   };
 
   const organizationJsonLd = {
@@ -156,7 +148,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
     logo: `${SITE_URL}/logo.png`,
     description: t.home.heroDesc,
     areaServed: { '@type': 'Country', name: 'Worldwide' },
-    serviceType: 'Freight Marketplace',
+    serviceType: 'Logistics Content Platform',
     knowsAbout: [
       'Freight Transportation',
       'Logistics',
@@ -179,7 +171,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
     },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Loadly Freight Marketplace Services',
+      name: 'Loadly Services',
       itemListElement: [
         {
           '@type': 'Offer',
@@ -273,10 +265,10 @@ export default async function LocalizedLayout({ children, params }: Props) {
       <body className="bg-background-light dark:bg-background-dark transition-colors duration-500">
         <noscript>
           <div style={{ padding: '2rem', textAlign: 'center', fontFamily: 'system-ui, sans-serif' }}>
-            Loadly is a global freight marketplace. Please enable JavaScript to browse live loads,
-            post shipments, and use the full site — or visit{' '}
-            <a href={`${SITE_URL}/${locale}/marketplace`}>{SITE_URL}/{locale}/marketplace</a> for the
-            latest listings.
+            Loadly is a logistics and freight content platform. Please enable JavaScript to use the
+            full site — or visit{' '}
+            <a href={`${SITE_URL}/${locale}/blog`}>{SITE_URL}/{locale}/blog</a> for our latest
+            articles.
           </div>
         </noscript>
         <AdSenseScript />

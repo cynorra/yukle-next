@@ -10,14 +10,14 @@ export function AdPageClient() {
     {
       icon: Target,
       title: 'Banner Reklamı',
-      desc: 'Ana sayfa ve pazaryeri sayfalarında görünür banner alanları. Lojistik sektörüne özel hedef kitleye doğrudan ulaşın.',
+      desc: 'Ana sayfa ve blog sayfalarında görünür banner alanları. Lojistik sektörüne özel hedef kitleye doğrudan ulaşın.',
       features: ['Masaüstü ve mobil uyumlu', 'Yüksek trafikli sayfalarda', 'Haftalık rapor'],
     },
     {
       icon: TrendingUp,
-      title: 'Sponsorlu İlan',
-      desc: 'Yük ilanlarınızın veya firma profilinizin listelerde öne çıkması. Daha fazla görünürlük, daha fazla teklif.',
-      features: ['Öne çıkan ilan etiketi', 'Arama sonuçlarında öncelik', 'Performans takibi'],
+      title: 'Sponsorlu İçerik',
+      desc: 'Firmanızın blog yazılarımızda konuk içerik veya marka mesajıyla öne çıkması. Daha fazla görünürlük, daha fazla erişim.',
+      features: ['Firma tanıtım yazısı', 'Blogda öne çıkan yerleşim', 'Performans takibi'],
     },
     {
       icon: Globe,

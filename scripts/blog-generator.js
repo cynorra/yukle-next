@@ -30,6 +30,13 @@ const geminiApiKey = process.env.GEMINI_API_KEY;
 // generation and the topic bank stay on Gemini (2 calls/day tops, no
 // pressure there).
 const groqApiKey = process.env.GROQ_API_KEY;
+// Cloudflare Workers AI credentials for the base-language translation step
+// (see the comment by translateTextOnce for why this replaced Google
+// Translate). Same Cloudflare account this site's Worker already runs on —
+// API token needs "Workers AI: Read" permission, account ID is visible on
+// any page of the Cloudflare dashboard.
+const cfApiToken = process.env.CF_API_TOKEN;
+const cfAccountId = process.env.CF_ACCOUNT_ID;
 const defaultAuthorId = process.env.SCRAPER_SHIPPER_ID || '3c9d15c1-ce40-42c4-b5bc-f2de51a747d5';
 
 if (!supabaseUrl || (!anonKey && !serviceKey)) {
@@ -634,25 +641,48 @@ async function getUniqueCoverImage(topicCluster = '') {
   return shuffled[0];
 }
 
-function translateTextOnce(text, targetLang) {
+// Google Translate's unofficial endpoint (translate.googleapis.com) is
+// undocumented and IP-reputation-gated — it can 429 without warning
+// (confirmed 2026-08-29 from an unrelated dev environment) with no
+// contractual guarantee it keeps working. Cloudflare Workers AI's
+// @cf/meta/m2m100-1.2b is a real, documented, free-tier translation
+// endpoint (10,000 neurons/day) covering the ~100 languages Loadly needs,
+// and since the site already runs on Cloudflare Workers, it uses
+// infrastructure this project already owns rather than a new dependency.
+function translateTextOnce(text, targetLang, sourceLang = 'en') {
   return new Promise((resolve, reject) => {
     if (!text || text.trim() === '') { resolve(''); return; }
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
-    const req = https.get(url, (res) => {
+    if (!cfApiToken || !cfAccountId) { reject(new Error('CF_API_TOKEN/CF_ACCOUNT_ID not set')); return; }
+
+    const payload = JSON.stringify({ text, source_lang: sourceLang, target_lang: targetLang });
+    const options = {
+      hostname: 'api.cloudflare.com',
+      port: 443,
+      path: `/client/v4/accounts/${cfAccountId}/ai/run/@cf/meta/m2m100-1.2b`,
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${cfApiToken}`,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload),
+      },
+    };
+    const req = https.request(options, (res) => {
       let data = '';
       res.on('data', (chunk) => data += chunk);
       res.on('end', () => {
         try {
           const parsed = JSON.parse(data);
-          if (parsed && parsed[0]) {
-            resolve(parsed[0].map(item => item[0]).join(''));
+          if (res.statusCode === 200 && parsed.success && parsed.result?.translated_text != null) {
+            resolve(parsed.result.translated_text);
           } else {
-            reject(new Error('Invalid response from Google Translate'));
+            reject(new Error(`Cloudflare Workers AI translation failed (status ${res.statusCode}): ${JSON.stringify(parsed.errors || parsed).slice(0, 300)}`));
           }
         } catch (e) { reject(e); }
       });
     }).on('error', reject);
-    req.setTimeout(15000, () => { req.destroy(); reject(new Error('Google Translate request timed out')); });
+    req.setTimeout(15000, () => { req.destroy(); reject(new Error('Cloudflare Workers AI request timed out')); });
+    req.write(payload);
+    req.end();
   });
 }
 
@@ -683,7 +713,7 @@ async function translateHtml(html, targetLang) {
   return restoredHtml;
 }
 
-async function translatePostUsingGoogle(basePost, targetLangCode) {
+async function translatePost(basePost, targetLangCode) {
   const title = await translateText(basePost.title, targetLangCode);
   const excerpt = await translateText(basePost.excerpt, targetLangCode);
   const content = await translateHtml(basePost.content, targetLangCode);
@@ -698,7 +728,7 @@ async function translatePostUsingGoogle(basePost, targetLangCode) {
   };
 }
 
-// Raw Google Translate output, published with zero per-language review, is
+// Raw machine translation output, published with zero per-language review, is
 // exactly the "automated translation without human review or curation"
 // pattern Google's spam policy names as scaled content abuse — and with 53
 // target languages at volume, a real (if secondary) contributor to the
@@ -709,9 +739,10 @@ async function translatePostUsingGoogle(basePost, targetLangCode) {
 // facts/numbers/structure untouched, and skipped entirely (falls back to the
 // plain machine translation) if the call fails or visibly truncates the
 // content. Turkish additionally requires a fixed set of client-flagged
-// keywords that Google Translate reliably fails to produce on its own (see
-// TR_REQUIRED_KEYWORDS below) — every other language gets the fluency pass
-// only, since we don't have a curated must-appear keyword list per locale.
+// keywords that machine translation reliably fails to produce on its own
+// (see TR_REQUIRED_KEYWORDS below) — every other language gets the fluency
+// pass only, since we don't have a curated must-appear keyword list per
+// locale.
 const TR_REQUIRED_KEYWORDS = ['nakliye', 'taşımacılık', 'tır', 'tır yükü', 'kamyon yükü', 'sevkiyat', 'lojistik'];
 
 function wordCount(html) {
@@ -725,7 +756,7 @@ async function polishTranslatedPost(post, langName, langCode) {
     ? ` so that each of these Turkish keywords appears naturally at least once somewhere across the title/excerpt/content, wherever it topically fits: ${TR_REQUIRED_KEYWORDS.join(', ')}. Skip any keyword that genuinely has no natural place in this specific article rather than forcing it in. Never keyword-stuff — one natural mention each is enough.`
     : '';
 
-  const prompt = `You are a native ${langName} editor for Loadly, a freight/logistics marketplace blog. The JSON below is a ${langName} blog post that was machine-translated from English by Google Translate. Lightly edit it for natural, fluent, native-quality phrasing — fix awkward literal machine-translation wording, unnatural word order, and mistranslated idioms.${keywordInstruction} Do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — this is a polish pass, not a rewrite.
+  const prompt = `You are a native ${langName} editor for Loadly, a freight/logistics marketplace blog. The JSON below is a ${langName} blog post that was machine-translated from English. Lightly edit it for natural, fluent, native-quality phrasing — fix awkward literal machine-translation wording, unnatural word order, and mistranslated idioms.${keywordInstruction} Do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — this is a polish pass, not a rewrite.
 
 Rules:
 - Preserve every HTML tag in "content" exactly as structured (h2/h3/p/ul/li/table/a href/strong/blockquote etc.) — only edit the text inside them. Do not add, remove, or reorder tags or sections.
@@ -1424,7 +1455,7 @@ async function runBlogGenerator() {
   }
   basePost.title = baseTitle;
 
-  // 2. Translate into all target languages using Google Translate
+  // 2. Translate into all target languages via Cloudflare Workers AI
   const targetLanguages = Object.entries(blogLanguagesMapping).filter(([, code]) => code !== baseLanguage);
   const translatedPosts = [];
 
@@ -1433,7 +1464,7 @@ async function runBlogGenerator() {
   const tasks = targetLanguages.map(([langName, langCode]) => async () => {
     try {
       console.log(`Translating to ${langName} (${langCode})...`);
-      let translation = await translatePostUsingGoogle(basePost, langCode);
+      let translation = await translatePost(basePost, langCode);
       translation = await polishTranslatedPost(translation, langName, langCode);
       translatedPosts.push({ ...translation, langCode });
       console.log(`✓ ${langName} (${langCode})`);

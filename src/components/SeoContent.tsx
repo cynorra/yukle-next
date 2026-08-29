@@ -9,12 +9,12 @@ interface SeoContentProps {
 const content: Record<string, Record<'home' | 'marketplace', { title: string; paragraphs: string[] }>> = {
   "tr": {
     "home": {
-      "title": "YükLe – Türkiye'nin Dijital Lojistik ve Nakliye Platformu",
+      "title": "Loadly: Küresel Lojistik ve Nakliye Bilgi Platformu",
       "paragraphs": [
-        "YükLe (Loadly), nakliyeciler ve yük sahiplerini bir araya getiren Türkiye'nin yenilikçi lojistik ve taşımacılık platformudur. Amacımız, Türkiye'nin dört bir yanına ve uluslararası rotalara hızlı, güvenilir ve ekonomik yük taşıma hizmeti sunulmasını sağlamaktır. Sistemimizde binlerce doğrulanmış nakliye firması, tır, kamyon ve kamyonet sahibi yer almaktadır.",
-        "Geleneksel nakliye süreçlerinin aksine, Loadly platformunda yükünüzü saniyeler içinde ilan edebilir ve yüzlerce uygun araçtan anında teklif alabilirsiniz. Gelişmiş eşleştirme algoritmamız sayesinde boş dönen araçları engelleyerek karbon ayak izini azaltmayı ve taşıma maliyetlerini minimuma indirmeyi hedefliyoruz.",
-        "İster parsiyel taşıma (LTL), ister tam kapasite (FTL) tır yükü olsun, lojistik ihtiyaçlarınıza en uygun çözümleri platformumuz üzerinden bulabilirsiniz. Nakliye firmaları için ise her gün sürekli güncellenen binlerce yük ilanı sayesinde iş hacmini artırma ve düzenli seferler planlama imkânı sunulmaktadır.",
-        "Loadly üzerinden yurt içi ve uluslararası nakliye ilanları yayınlayabilir, güvenilir nakliyecilerle güvenle çalışabilirsiniz. Platforma ücretsiz üye olarak hemen yük ilanınızı oluşturun ve dijital lojistik devrimine katılın."
+        "Loadly, dünya çapındaki yük sahipleri, nakliyeciler ve lojistik profesyonelleri için 55 dilde pratik rehberler, güzergah analizleri ve sektör içerikleri yayınlayan bir platformdur.",
+        "Editoryal içeriklerimizin yanı sıra Loadly, ücretsiz bir kayıt ve ilan hizmeti de sunar — yük sahipleri saniyeler içinde ilan oluşturabilir, nakliyeciler ise kayıt olup doğrudan teklif alıp verebilir.",
+        "İster parsiyel (LTL) ister komple (FTL) taşımacılık araştırıyor olun, ister nakliye maliyetleri veya mevzuat gereksinimleri hakkında bilgi arıyor olun, düzenli olarak yayınlanan makalelerimiz bilinçli lojistik kararları almanıza yardımcı olmak için yazılıp editörden geçirilir.",
+        "En son makalelerimizi keşfetmek için ücretsiz katılın, ya da bir ilan vermek için kayıt olun — her cihazdan, her zaman erişilebilir."
       ]
     },
     "marketplace": {
@@ -29,12 +29,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "en": {
     "home": {
-      "title": "Loadly: Global Logistics & Freight Marketplace Platform",
+      "title": "Loadly: Global Logistics & Freight Insights Platform",
       "paragraphs": [
-        "Loadly is an innovative logistics and transportation platform connecting shippers with reliable carriers worldwide. Our mission is to facilitate fast, secure, and cost-effective freight transport across domestic and international routes. We host thousands of verified logistics companies, truck owners, and drivers ready to move your cargo.",
-        "Unlike traditional freight forwarding, Loadly allows you to post your loads in seconds and instantly receive competitive quotes from available vehicles. With our advanced load-matching algorithms, we aim to eliminate empty miles, reduce carbon footprints, and minimize overall transportation costs for businesses of all sizes.",
-        "Whether you need Less Than Truckload (LTL) or Full Truckload (FTL) shipping, you can find the perfect logistics solution on our platform. For carriers, we offer the opportunity to increase business volume and plan regular routes through thousands of daily updated load boards.",
-        "Join the digital logistics revolution by registering for free on Loadly. Post loads, receive offers, message carriers, and manage your entire shipping workflow in one place — accessible from any device, anytime."
+        "Loadly is a logistics and freight content platform, publishing practical guides, route insights, and industry analysis in 55 languages for shippers, carriers, and logistics professionals worldwide.",
+        "Beyond our editorial content, Loadly also offers a free registration and load-posting service — shippers can list a load in seconds, and carriers can register to receive and respond to offers directly.",
+        "Whether you're researching Less Than Truckload (LTL) or Full Truckload (FTL) shipping, freight costs, or regulatory requirements, our regularly published articles are written and reviewed to help you make informed logistics decisions.",
+        "Join Loadly for free to explore our latest articles, or register to post a load — accessible from any device, anytime."
       ]
     },
     "marketplace": {
@@ -49,12 +49,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "de": {
     "home": {
-      "title": "Loadly: Globale Logistik- und Frachtplattform",
+      "title": "Loadly: Globale Logistik- und Frachtinformationsplattform",
       "paragraphs": [
-        "Loadly ist eine innovative Logistik- und Transportplattform, die Verlader mit zuverlässigen Spediteuren weltweit verbindet. Unsere Mission ist es, schnelle, sichere und kostengünstige Frachttransporte auf nationalen und internationalen Strecken zu ermöglichen.",
-        "Mit Loadly können Sie Ihre Fracht in Sekunden aufgeben und sofort wettbewerbsfähige Angebote von verfügbaren Fahrzeugen erhalten. Unsere fortschrittlichen Algorithmen minimieren Leerfahrten und senken Transportkosten für Unternehmen jeder Größe.",
-        "Ob Teilladung (LTL) oder Komplettladung (FTL) – auf unserer Plattform finden Sie die passende Logistiklösung. Registrieren Sie sich kostenlos und starten Sie noch heute.",
-        "Verlader und Spediteure nutzen Loadly täglich für transparente, effiziente und günstige Frachtvermittlung — ohne Makler und ohne versteckte Gebühren."
+        "Loadly ist eine Content-Plattform für Logistik und Fracht, die praktische Leitfäden, Streckeninformationen und Branchenanalysen in 55 Sprachen für Verlader, Spediteure und Logistikfachleute weltweit veröffentlicht.",
+        "Neben unseren redaktionellen Inhalten bietet Loadly auch einen kostenlosen Registrierungs- und Frachteinstellungsdienst — Verlader können eine Fracht in Sekunden inserieren, und Spediteure können sich registrieren, um Angebote direkt zu erhalten und zu beantworten.",
+        "Ob Sie sich über Teilladung (LTL) oder Komplettladung (FTL), Frachtkosten oder gesetzliche Anforderungen informieren möchten — unsere regelmäßig veröffentlichten Artikel werden geschrieben und geprüft, um Ihnen fundierte Logistikentscheidungen zu ermöglichen.",
+        "Registrieren Sie sich kostenlos bei Loadly, um unsere neuesten Artikel zu lesen, oder melden Sie sich an, um eine Fracht einzustellen — von jedem Gerät aus, jederzeit erreichbar."
       ]
     },
     "marketplace": {
@@ -69,12 +69,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "fr": {
     "home": {
-      "title": "Loadly : Plateforme Mondiale de Logistique et Fret",
+      "title": "Loadly : Plateforme Mondiale d'Information Logistique et Fret",
       "paragraphs": [
-        "Loadly est une plateforme innovante de logistique et de transport qui met en relation les expéditeurs avec des transporteurs fiables dans le monde entier. Notre mission est de faciliter le transport de fret rapide, sécurisé et économique sur les routes nationales et internationales.",
-        "Avec Loadly, publiez vos chargements en quelques secondes et recevez instantanément des offres compétitives de transporteurs disponibles. Nos algorithmes avancés éliminent les trajets à vide et réduisent les coûts de transport.",
-        "Que vous ayez besoin d'un transport partiel (LTL) ou d'un chargement complet (FTL), trouvez la solution logistique idéale sur notre plateforme. Inscrivez-vous gratuitement dès aujourd'hui.",
-        "Expéditeurs et transporteurs utilisent Loadly quotidiennement pour une mise en relation transparente, efficace et sans intermédiaires — accessible depuis n'importe quel appareil."
+        "Loadly est une plateforme de contenu logistique et de fret, publiant des guides pratiques, des analyses d'itinéraires et des analyses sectorielles en 55 langues pour les chargeurs, transporteurs et professionnels de la logistique du monde entier.",
+        "Au-delà de notre contenu éditorial, Loadly propose également un service gratuit d'inscription et de publication de chargements — les chargeurs peuvent publier un chargement en quelques secondes, et les transporteurs peuvent s'inscrire pour recevoir et répondre directement aux offres.",
+        "Que vous recherchiez des informations sur le transport en groupage (LTL) ou en charge complète (FTL), les coûts de fret ou les exigences réglementaires, nos articles publiés régulièrement sont rédigés et révisés pour vous aider à prendre des décisions logistiques éclairées.",
+        "Rejoignez Loadly gratuitement pour découvrir nos derniers articles, ou inscrivez-vous pour publier un chargement — accessible depuis n'importe quel appareil, à tout moment."
       ]
     },
     "marketplace": {
@@ -89,12 +89,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "es": {
     "home": {
-      "title": "Loadly: Plataforma Global de Logística y Carga",
+      "title": "Loadly: Plataforma Global de Información Logística y de Carga",
       "paragraphs": [
-        "Loadly es una plataforma innovadora de logística y transporte que conecta a expedidores con transportistas confiables en todo el mundo. Nuestra misión es facilitar el transporte de carga rápido, seguro y rentable en rutas nacionales e internacionales.",
-        "Con Loadly, publique sus cargas en segundos y reciba cotizaciones competitivas al instante. Nuestros algoritmos avanzados eliminan los viajes en vacío y reducen los costos de transporte.",
-        "Ya sea transporte parcial (LTL) o carga completa (FTL), encuentre la solución logística perfecta en nuestra plataforma. Regístrese gratis y empiece hoy.",
-        "Expedidores y transportistas usan Loadly diariamente para conectarse de forma transparente y eficiente — sin intermediarios ni tarifas ocultas."
+        "Loadly es una plataforma de contenido sobre logística y transporte de carga que publica guías prácticas, análisis de rutas y estudios del sector en 55 idiomas para cargadores, transportistas y profesionales de la logística de todo el mundo.",
+        "Además de nuestro contenido editorial, Loadly también ofrece un servicio gratuito de registro y publicación de cargas — los cargadores pueden publicar una carga en segundos, y los transportistas pueden registrarse para recibir y responder ofertas directamente.",
+        "Ya sea que esté investigando sobre transporte de carga parcial (LTL) o completa (FTL), costos de flete o requisitos normativos, nuestros artículos publicados regularmente están escritos y revisados para ayudarle a tomar decisiones logísticas informadas.",
+        "Únase a Loadly de forma gratuita para explorar nuestros últimos artículos, o regístrese para publicar una carga — accesible desde cualquier dispositivo, en cualquier momento."
       ]
     },
     "marketplace": {
@@ -109,12 +109,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "pt": {
     "home": {
-      "title": "Loadly: Plataforma Global de Logística e Frete",
+      "title": "Loadly: Plataforma Global de Informações sobre Logística e Frete",
       "paragraphs": [
-        "Loadly é uma plataforma inovadora de logística e transporte que conecta embarcadores com transportadores confiáveis em todo o mundo. Nossa missão é facilitar o transporte de carga rápido, seguro e econômico em rotas nacionais e internacionais.",
-        "Com o Loadly, publique suas cargas em segundos e receba cotações competitivas instantaneamente. Nossos algoritmos avançados eliminam viagens vazias e reduzem os custos de transporte.",
-        "Seja transporte parcial (LTL) ou carga completa (FTL), encontre a solução logística perfeita em nossa plataforma. Cadastre-se gratuitamente e comece hoje.",
-        "Embarcadores e transportadores usam o Loadly diariamente para se conectar de forma transparente e eficiente — sem intermediários nem taxas ocultas."
+        "A Loadly é uma plataforma de conteúdo sobre logística e frete que publica guias práticos, análises de rotas e estudos do setor em 55 idiomas para expedidores, transportadoras e profissionais de logística em todo o mundo.",
+        "Além do nosso conteúdo editorial, a Loadly também oferece um serviço gratuito de cadastro e publicação de cargas — os expedidores podem anunciar uma carga em segundos, e as transportadoras podem se cadastrar para receber e responder a ofertas diretamente.",
+        "Esteja você pesquisando sobre transporte fracionado (LTL) ou carga completa (FTL), custos de frete ou exigências regulatórias, nossos artigos publicados regularmente são escritos e revisados para ajudá-lo a tomar decisões logísticas informadas.",
+        "Junte-se à Loadly gratuitamente para explorar nossos artigos mais recentes, ou cadastre-se para publicar uma carga — acessível de qualquer dispositivo, a qualquer momento."
       ]
     },
     "marketplace": {
@@ -129,12 +129,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "it": {
     "home": {
-      "title": "Carico: piattaforma di mercato globale per la logistica e il trasporto merci",
+      "title": "Loadly: Piattaforma Globale di Informazioni su Logistica e Trasporto Merci",
       "paragraphs": [
-        "Loadly è un'innovativa piattaforma logistica e di trasporto che collega gli spedizionieri con vettori affidabili in tutto il mondo. La nostra missione è facilitare il trasporto merci veloce, sicuro ed economico su rotte nazionali e internazionali. Ospitiamo migliaia di aziende di logistica verificate, proprietari di camion e autisti pronti a spostare il tuo carico.",
-        "A differenza delle spedizioni tradizionali, Loadly ti consente di pubblicare i tuoi carichi in pochi secondi e ricevere istantaneamente preventivi competitivi dai veicoli disponibili. Con i nostri algoritmi avanzati di corrispondenza del carico, miriamo a eliminare le miglia vuote, ridurre l'impronta di carbonio e ridurre al minimo i costi di trasporto complessivi per le aziende di tutte le dimensioni.",
-        "Che tu abbia bisogno di una spedizione Less Than Truckload (LTL) o Full Truckload (FTL), puoi trovare la soluzione logistica perfetta sulla nostra piattaforma. Per i vettori, offriamo l'opportunità di aumentare il volume d'affari e pianificare rotte regolari attraverso migliaia di pannelli di carico aggiornati quotidianamente.",
-        "Unisciti alla rivoluzione della logistica digitale registrandoti gratuitamente su Loadly. Pubblica carichi, ricevi offerte, invia messaggi ai corrieri e gestisci l'intero flusso di lavoro di spedizione in un unico posto, accessibile da qualsiasi dispositivo, in qualsiasi momento."
+        "Loadly è una piattaforma di contenuti su logistica e trasporto merci che pubblica guide pratiche, analisi di percorsi e approfondimenti di settore in 55 lingue per spedizionieri, vettori e professionisti della logistica in tutto il mondo.",
+        "Oltre ai nostri contenuti editoriali, Loadly offre anche un servizio gratuito di registrazione e pubblicazione di carichi — gli spedizionieri possono pubblicare un carico in pochi secondi e i vettori possono registrarsi per ricevere e rispondere direttamente alle offerte.",
+        "Che stiate cercando informazioni sul trasporto parziale (LTL) o completo (FTL), sui costi di trasporto o sui requisiti normativi, i nostri articoli pubblicati regolarmente sono scritti e revisionati per aiutarvi a prendere decisioni logistiche informate.",
+        "Iscrivetevi gratuitamente a Loadly per scoprire i nostri ultimi articoli, oppure registratevi per pubblicare un carico — accessibile da qualsiasi dispositivo, in qualsiasi momento."
       ]
     },
     "marketplace": {
@@ -149,12 +149,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "pl": {
     "home": {
-      "title": "Ładunek: platforma Global Logistics & Freight Marketplace",
+      "title": "Loadly: Globalna Platforma Wiedzy o Logistyce i Transporcie",
       "paragraphs": [
-        "Loadly to innowacyjna platforma logistyczna i transportowa łącząca spedytorów z niezawodnymi przewoźnikami na całym świecie. Naszą misją jest ułatwienie szybkiego, bezpiecznego i opłacalnego transportu towarowego na trasach krajowych i międzynarodowych. Przyjmujemy tysiące zweryfikowanych firm logistycznych, właścicieli ciężarówek i kierowców gotowych do transportu Twojego ładunku.",
-        "W przeciwieństwie do tradycyjnej spedycji, Loadly umożliwia wysyłanie ładunków w ciągu kilku sekund i natychmiastowe otrzymywanie konkurencyjnych ofert od dostępnych pojazdów. Dzięki naszym zaawansowanym algorytmom dopasowywania obciążenia staramy się wyeliminować puste mile, zmniejszyć ślad węglowy i zminimalizować ogólne koszty transportu dla firm każdej wielkości.",
-        "Niezależnie od tego, czy potrzebujesz przesyłki drobnicowej (LTL), czy całopojazdowej (FTL), na naszej platformie znajdziesz idealne rozwiązanie logistyczne. Przewoźnikom oferujemy możliwość zwiększenia wolumenu działalności i planowania regularnych tras poprzez tysiące codziennie aktualizowanych tablic ładunkowych.",
-        "Dołącz do cyfrowej rewolucji logistycznej, rejestrując się bezpłatnie na Loadly. Publikuj ładunki, otrzymuj oferty, nośniki wiadomości i zarządzaj całym przepływem pracy związanym z wysyłką w jednym miejscu — dostępnym z dowolnego urządzenia i w dowolnym momencie."
+        "Loadly to platforma treści z zakresu logistyki i transportu towarów, publikująca praktyczne poradniki, analizy tras i analizy branżowe w 55 językach dla nadawców, przewoźników i specjalistów logistyki na całym świecie.",
+        "Oprócz treści redakcyjnych Loadly oferuje również bezpłatną rejestrację i usługę zamieszczania ładunków — nadawcy mogą dodać ładunek w kilka sekund, a przewoźnicy mogą się zarejestrować, aby otrzymywać i odpowiadać na oferty bezpośrednio.",
+        "Niezależnie od tego, czy szukasz informacji o transporcie drobnicowym (LTL), całopojazdowym (FTL), kosztach transportu czy wymogach regulacyjnych, nasze regularnie publikowane artykuły są pisane i weryfikowane, aby pomóc Ci podejmować świadome decyzje logistyczne.",
+        "Dołącz do Loadly za darmo, aby przeglądać nasze najnowsze artykuły, lub zarejestruj się, aby dodać ładunek — dostępne z każdego urządzenia, o każdej porze."
       ]
     },
     "marketplace": {
@@ -169,12 +169,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "nl": {
     "home": {
-      "title": "Loadly: Wereldwijd platform voor logistiek en vrachtmarktplaats",
+      "title": "Loadly: Wereldwijd Platform voor Logistieke en Vrachtinformatie",
       "paragraphs": [
-        "Loadly is een innovatief logistiek- en transportplatform dat verladers verbindt met betrouwbare vervoerders over de hele wereld. Onze missie is om snel, veilig en kosteneffectief vrachtvervoer over binnenlandse en internationale routes mogelijk te maken. We bieden onderdak aan duizenden geverifieerde logistieke bedrijven, vrachtwagenbezitters en chauffeurs die klaar staan om je lading te vervoeren.",
-        "In tegenstelling tot traditionele expeditie, kunt u met Loadly uw ladingen binnen enkele seconden boeken en direct concurrerende offertes ontvangen van beschikbare voertuigen. Met onze geavanceerde algoritmen voor ladingafstemming streven we ernaar lege kilometers te elimineren, de koolstofvoetafdruk te verkleinen en de totale transportkosten voor bedrijven van elke omvang te minimaliseren.",
-        "Of u nu minder dan vrachtwagenlading (LTL) of volledige vrachtwagenlading (FTL) nodig heeft, u vindt de perfecte logistieke oplossing op ons platform. Voor vervoerders bieden we de mogelijkheid om het bedrijfsvolume te vergroten en regelmatige routes te plannen via duizenden dagelijks bijgewerkte laadborden.",
-        "Doe mee aan de digitale logistieke revolutie door je gratis te registreren op Loadly. Plaats ladingen, ontvang aanbiedingen, berichtvervoerders en beheer je volledige verzendworkflow op één plek — altijd toegankelijk vanaf elk apparaat."
+        "Loadly is een contentplatform voor logistiek en vracht dat praktische gidsen, route-inzichten en brancheanalyses publiceert in 55 talen voor verladers, vervoerders en logistieke professionals wereldwijd.",
+        "Naast onze redactionele content biedt Loadly ook een gratis registratie- en ladingplaatsingsdienst — verladers kunnen binnen enkele seconden een lading plaatsen, en vervoerders kunnen zich registreren om rechtstreeks aanbiedingen te ontvangen en te beantwoorden.",
+        "Of u nu informatie zoekt over deelladingen (LTL) of volle ladingen (FTL), vrachtkosten of wettelijke vereisten, onze regelmatig gepubliceerde artikelen worden geschreven en beoordeeld om u te helpen weloverwogen logistieke beslissingen te nemen.",
+        "Word gratis lid van Loadly om onze nieuwste artikelen te bekijken, of registreer u om een lading te plaatsen — toegankelijk vanaf elk apparaat, altijd."
       ]
     },
     "marketplace": {
@@ -189,12 +189,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ru": {
     "home": {
-      "title": "Loadly: Глобальная платформа для логистики и грузоперевозок",
+      "title": "Loadly: Глобальная Платформа Логистической и Грузовой Информации",
       "paragraphs": [
-        "Loadly - это инновационная логистическая и транспортная платформа, соединяющая грузоотправителей с надежными перевозчиками по всему миру. Наша миссия заключается в содействии быстрым, безопасным и экономически эффективным грузовым перевозкам по внутренним и международным маршрутам. Мы принимаем тысячи проверенных логистических компаний, владельцев грузовиков и водителей, готовых перевезти ваш груз.",
-        "В отличие от традиционного экспедирования грузов, Loadly позволяет публиковать свои грузы за считанные секунды и мгновенно получать конкурентные котировки от доступных транспортных средств. С помощью наших передовых алгоритмов сопоставления нагрузки мы стремимся устранить пустые мили, сократить выбросы углекислого газа и свести к минимуму общие транспортные расходы для предприятий любого размера.",
-        "Независимо от того, нужна ли вам доставка «меньше, чем грузовик» (LTL) или «полный грузовик» (FTL), вы можете найти идеальное логистическое решение на нашей платформе. Для перевозчиков мы предлагаем возможность увеличить объем бизнеса и планировать регулярные маршруты через тысячи ежедневно обновляемых грузовых плат.",
-        "Присоединяйтесь к цифровой логистической революции, зарегистрировавшись бесплатно на Loadly. Публикуйте грузы, получайте предложения, отправляйте сообщения и управляйте всем процессом доставки в одном месте — доступно с любого устройства в любое время."
+        "Loadly — это контент-платформа о логистике и грузоперевозках, публикующая практические руководства, обзоры маршрутов и отраслевую аналитику на 55 языках для грузоотправителей, перевозчиков и специалистов по логистике по всему миру.",
+        "Помимо редакционного контента, Loadly также предлагает бесплатную регистрацию и размещение грузов — грузоотправители могут разместить груз за считанные секунды, а перевозчики могут зарегистрироваться, чтобы получать предложения и отвечать на них напрямую.",
+        "Ищете ли вы информацию о сборных грузах (LTL) или полной загрузке (FTL), стоимости перевозок или нормативных требованиях — наши регулярно публикуемые статьи пишутся и проверяются, чтобы помочь вам принимать взвешенные логистические решения.",
+        "Присоединяйтесь к Loadly бесплатно, чтобы читать наши последние статьи, или зарегистрируйтесь, чтобы разместить груз — доступно с любого устройства, в любое время."
       ]
     },
     "marketplace": {
@@ -209,12 +209,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "uk": {
     "home": {
-      "title": "Loadly: Глобальна платформа ринку логістики та вантажних перевезень",
+      "title": "Loadly: Глобальна Платформа Логістичної та Вантажної Інформації",
       "paragraphs": [
-        "Loadly - це інноваційна логістична та транспортна платформа, що з 'єднує вантажовідправників з надійними перевізниками по всьому світу. Наша місія полягає в тому, щоб полегшити швидкі, безпечні та економічно ефективні вантажні перевезення внутрішніми та міжнародними маршрутами. Ми приймаємо тисячі перевірених логістичних компаній, власників вантажівок і водіїв, готових перевезти ваш вантаж.",
-        "На відміну від традиційного експедирування вантажів, Loadly дозволяє публікувати вантажі за лічені секунди та миттєво отримувати конкурентні пропозиції від доступних транспортних засобів. Завдяки нашим вдосконаленим алгоритмам підбору вантажу ми прагнемо усунути порожні милі, зменшити викиди вуглекислого газу та мінімізувати загальні транспортні витрати для підприємств будь-якого розміру.",
-        "Незалежно від того, чи потрібна вам доставка менше вантажу (LTL) або повна вантажівка (FTL), ви можете знайти ідеальне логістичне рішення на нашій платформі. Для перевізників ми пропонуємо можливість збільшити обсяг бізнесу та планувати регулярні маршрути через тисячі щоденно оновлюваних плат вантажів.",
-        "Приєднуйтесь до цифрової логістичної революції, зареєструвавшись безкоштовно на Loadly. Публікуйте вантажі, отримуйте пропозиції, повідомляйте носіїв і керуйте всім робочим процесом доставки в одному місці — доступному з будь-якого пристрою в будь-який час."
+        "Loadly — це контент-платформа про логістику та вантажні перевезення, яка публікує практичні посібники, огляди маршрутів та галузеву аналітику 55 мовами для вантажовідправників, перевізників та фахівців з логістики по всьому світу.",
+        "Окрім редакційного контенту, Loadly також пропонує безкоштовну реєстрацію та розміщення вантажів — вантажовідправники можуть розмістити вантаж за лічені секунди, а перевізники можуть зареєструватися, щоб отримувати пропозиції та відповідати на них напряму.",
+        "Чи шукаєте ви інформацію про збірні вантажі (LTL), повне завантаження (FTL), вартість перевезень чи нормативні вимоги — наші регулярно публіковані статті пишуться та перевіряються, щоб допомогти вам приймати обґрунтовані логістичні рішення.",
+        "Приєднуйтесь до Loadly безкоштовно, щоб переглядати наші останні статті, або зареєструйтеся, щоб розмістити вантаж — доступно з будь-якого пристрою, у будь-який час."
       ]
     },
     "marketplace": {
@@ -229,12 +229,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "zh": {
     "home": {
-      "title": "Loadly ：全球物流和货运市场平台",
+      "title": "Loadly：全球物流与货运资讯平台",
       "paragraphs": [
-        "LOADLY是一个创新的物流和运输平台，将托运人与全球可靠的承运人联系起来。我们的使命是促进跨越国内和国际航线的快速、安全和具有成本效益的货运。我们接待了数千家经过验证的物流公司、卡车车主和司机，随时准备运送您的货物。",
-        "与传统的货运代理不同， Loadly允许您在几秒钟内发布货物，并立即收到可用车辆的竞争性报价。借助我们先进的负载匹配算法，我们的目标是为各种规模的企业消除空行驶里程，减少碳足迹，并最大限度地降低总体运输成本。",
-        "无论您需要少于卡车载荷（ LTL ）还是全卡车载荷（ FTL ）运输，您都可以在我们的平台上找到完美的物流解决方案。对于承运商，我们提供机会通过数千个每日更新的负载板来增加业务量和规划定期路线。",
-        "在Loadly上免费注册，加入数字物流革命。在一个地方发布货运任务、接收优惠、消息载体并管理您的整个发货工作流程，您可以随时通过任何设备进行访问。"
+        "Loadly 是一个物流与货运内容平台，以55种语言为全球的货主、承运商和物流专业人士发布实用指南、路线洞察和行业分析。",
+        "除编辑内容外，Loadly 还提供免费的注册和货运发布服务——货主可在几秒钟内发布货运信息，承运商可注册以直接接收并回复报价。",
+        "无论您是在研究零担运输（LTL）还是整车运输（FTL）、运费成本还是法规要求，我们定期发布的文章都经过撰写和审核，以帮助您做出明智的物流决策。",
+        "免费加入 Loadly 浏览我们的最新文章，或注册发布货运信息——随时随地，从任何设备访问。"
       ]
     },
     "marketplace": {
@@ -249,12 +249,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ja": {
     "home": {
-      "title": "Loadly ：グローバルロジスティクス＆貨物マーケットプレイスプラットフォーム",
+      "title": "Loadly：グローバル物流・貨物インサイトプラットフォーム",
       "paragraphs": [
-        "Loadlyは、世界中の荷主と信頼できる運送業者を結ぶ革新的な物流および輸送プラットフォームです。当社の使命は、国内外のルートで迅速、安全、かつ費用対効果の高い貨物輸送を促進することです。何千もの検証済みの物流会社、トラック所有者、ドライバーが、お客様の貨物を移動する準備ができています。",
-        "従来の貨物輸送とは異なり、Loadlyを使用すると、荷物を数秒で投稿し、利用可能な車両から競争力のある見積もりを即座に受け取ることができます。高度な負荷マッチングアルゴリズムにより、空のマイルを排除し、二酸化炭素排出量を削減し、あらゆる規模の企業の全体的な輸送コストを最小限に抑えることを目指しています。",
-        "Less Than Truckload （ LTL ）またはFull Truckload （ FTL ）の出荷が必要な場合でも、当社のプラットフォームで完璧なロジスティクスソリューションを見つけることができます。配送業者には、毎日更新される何千ものロードボードを通じて、ビジネス量を増やし、定期的なルートを計画する機会を提供しています。",
-        "Loadlyに無料で登録して、デジタルロジスティクス革命に参加しましょう。荷物の投稿、オファーの受け取り、メッセージキャリア、配送ワークフロー全体の管理を1か所で行うことができ、いつでもどのデバイスからでもアクセスできます。"
+        "Loadlyは、世界中の荷主、運送業者、物流の専門家に向けて、実用的なガイド、ルート分析、業界分析を55言語で発信する物流・貨物コンテンツプラットフォームです。",
+        "編集コンテンツに加え、Loadlyは無料の登録・貨物掲載サービスも提供しています。荷主は数秒で貨物を掲載でき、運送業者は登録することで直接オファーを受け取り、返信できます。",
+        "混載輸送（LTL）や貸切輸送（FTL）、運賃、法規制要件について調べている方に向けて、定期的に公開される記事は執筆・レビューを経て、的確な物流判断をサポートします。",
+        "最新記事をご覧いただくには無料でLoadlyにご参加ください。貨物を掲載するには登録するだけ — いつでもどのデバイスからでもアクセス可能です。"
       ]
     },
     "marketplace": {
@@ -269,12 +269,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "hi": {
     "home": {
-      "title": "लोडली: ग्लोबल लॉजिस्टिक्स एंड फ्रेट मार्केटप्लेस प्लेटफॉर्म",
+      "title": "Loadly: वैश्विक लॉजिस्टिक्स और फ्रेट जानकारी मंच",
       "paragraphs": [
-        "Loadly एक इनोवेटिव लॉजिस्टिक्स और ट्रांसपोर्टेशन प्लैटफ़ॉर्म है, जो शिपर्स को दुनिया भर के भरोसेमंद कैरियर से जोड़ता है। हमारा मिशन घरेलू और अंतरराष्ट्रीय मार्गों पर तेज़, सुरक्षित और किफ़ायती माल ढुलाई की सुविधा प्रदान करना है। हम हज़ारों परखे हुए लॉजिस्टिक्स कंपनियों, ट्रक मालिकों और आपके कार्गो को ले जाने के लिए तैयार ड्राइवर पार्टनर की मेज़बानी करते हैं।",
-        "पारंपरिक फ्रेट फ़ॉरवर्डिंग के विपरीत, लोडली आपको सेकंड में अपने लोड पोस्ट करने और तुरंत उपलब्ध वाहनों से प्रतिस्पर्धी उद्धरण प्राप्त करने की अनुमति देता है। हमारे उन्नत लोड - मैचिंग एल्गोरिदम के साथ, हमारा लक्ष्य खाली मील को खत्म करना, कार्बन फुटप्रिंट को कम करना और सभी आकारों के व्यवसायों के लिए समग्र परिवहन लागत को कम करना है।",
-        "चाहे आपको ट्रक लोड से कम (LTL) या पूर्ण ट्रक लोड (FTL) शिपिंग की आवश्यकता हो, आप हमारे प्लेटफ़ॉर्म पर सही रसद समाधान पा सकते हैं। कैरियर के लिए, हम व्यापार की मात्रा बढ़ाने और हजारों दैनिक अद्यतन लोड बोर्डों के माध्यम से नियमित मार्गों की योजना बनाने का अवसर प्रदान करते हैं।",
-        "Loadly पर मुफ़्त में रजिस्टर करके डिजिटल लॉजिस्टिक्स क्रांति में शामिल हों। लोड पोस्ट करें, ऑफ़र प्राप्त करें, मैसेज कैरियर प्राप्त करें, और अपने पूरे शिपिंग वर्कफ़्लो को एक ही स्थान पर प्रबंधित करें — किसी भी डिवाइस से, किसी भी समय सुलभ।"
+        "Loadly एक लॉजिस्टिक्स और फ्रेट कंटेंट प्लेटफ़ॉर्म है, जो दुनिया भर के शिपर्स, कैरियर्स और लॉजिस्टिक्स पेशेवरों के लिए 55 भाषाओं में व्यावहारिक गाइड, रूट जानकारी और उद्योग विश्लेषण प्रकाशित करता है।",
+        "हमारे संपादकीय कंटेंट के अलावा, Loadly एक मुफ्त पंजीकरण और लोड-पोस्टिंग सेवा भी प्रदान करता है — शिपर्स सेकंडों में लोड सूचीबद्ध कर सकते हैं, और कैरियर्स सीधे ऑफ़र प्राप्त करने और जवाब देने के लिए पंजीकरण कर सकते हैं।",
+        "चाहे आप लेस दैन ट्रकलोड (LTL) या फुल ट्रकलोड (FTL) शिपिंग, माल ढुलाई लागत, या नियामक आवश्यकताओं पर शोध कर रहे हों, हमारे नियमित रूप से प्रकाशित लेख सूचित लॉजिस्टिक्स निर्णय लेने में आपकी मदद के लिए लिखे और समीक्षा किए जाते हैं।",
+        "हमारे नवीनतम लेख देखने के लिए मुफ्त में Loadly से जुड़ें, या लोड पोस्ट करने के लिए पंजीकरण करें — किसी भी डिवाइस से, कभी भी सुलभ।"
       ]
     },
     "marketplace": {
@@ -289,12 +289,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ar": {
     "home": {
-      "title": "Loadly: منصة سوق الخدمات اللوجستية والشحن العالمية",
+      "title": "Loadly: منصة عالمية لمعلومات اللوجستيات والشحن",
       "paragraphs": [
-        "Loadly هي منصة لوجستية ونقل مبتكرة تربط الشاحنين بشركات نقل موثوقة في جميع أنحاء العالم. مهمتنا هي تسهيل نقل البضائع بسرعة وأمان وفعالية من حيث التكلفة عبر الطرق المحلية والدولية. نستضيف الآلاف من شركات الخدمات اللوجستية التي تم التحقق منها ومالكي الشاحنات والسائقين المستعدين لنقل حمولتك.",
-        "على عكس الشحن التقليدي، يسمح لك Loadly بنشر حمولاتك في ثوانٍ وتلقي عروض أسعار تنافسية على الفور من المركبات المتاحة. من خلال خوارزميات مطابقة الأحمال المتقدمة لدينا، نهدف إلى القضاء على الأميال الفارغة، وتقليل آثار الكربون، وتقليل تكاليف النقل الإجمالية للشركات من جميع الأحجام.",
-        "سواء كنت بحاجة إلى شحن أقل من حمولة الشاحنة (LTL) أو حمولة شاحنة كاملة (FTL)، يمكنك العثور على الحل اللوجستي المثالي على منصتنا. بالنسبة لشركات النقل، نقدم الفرصة لزيادة حجم الأعمال وتخطيط المسارات العادية من خلال الآلاف من لوحات التحميل المحدثة يوميًا.",
-        "انضم إلى ثورة الخدمات اللوجستية الرقمية من خلال التسجيل مجانًا على Loadly. انشر الحمولات، واستلم العروض، وناقلات الرسائل، وقم بإدارة سير عمل الشحن بالكامل في مكان واحد — يمكن الوصول إليه من أي جهاز وفي أي وقت."
+        "Loadly هي منصة محتوى متخصصة في اللوجستيات والشحن، تنشر أدلة عملية وتحليلات للطرق ودراسات صناعية بـ 55 لغة لأصحاب البضائع والناقلين ومحترفي اللوجستيات حول العالم.",
+        "بالإضافة إلى محتوانا التحريري، تقدم Loadly أيضًا خدمة تسجيل ونشر شحنات مجانية — يمكن لأصحاب البضائع نشر شحنة في ثوانٍ، ويمكن للناقلين التسجيل لتلقي العروض والرد عليها مباشرة.",
+        "سواء كنت تبحث عن الشحن الجزئي (LTL) أو الشحن الكامل (FTL) أو تكاليف الشحن أو المتطلبات التنظيمية، فإن مقالاتنا التي تُنشر بانتظام مكتوبة ومُراجعة لمساعدتك على اتخاذ قرارات لوجستية مدروسة.",
+        "انضم إلى Loadly مجانًا لاستكشاف أحدث مقالاتنا، أو سجّل لنشر شحنة — يمكن الوصول إليها من أي جهاز وفي أي وقت."
       ]
     },
     "marketplace": {
@@ -309,12 +309,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "fa": {
     "home": {
-      "title": "لودلی: پلتفرم بازار جهانی لجستیک و حمل و نقل",
+      "title": "Loadly: پلتفرم جهانی اطلاعات لجستیک و حمل‌ونقل",
       "paragraphs": [
-        "لودلی یک پلتفرم نوآورانه لجستیک و حمل و نقل است که شرکت‌های حمل و نقل را به شرکت‌های حمل و نقل معتبر در سراسر جهان متصل می‌کند. ماموریت ما تسهیل حمل و نقل سریع، ایمن و مقرون به صرفه بار در مسیرهای داخلی و بین‌المللی است. ما میزبان هزاران شرکت لجستیکی، صاحبان کامیون و رانندگان تأیید شده هستیم که آماده جابجایی محموله شما هستند.",
-        "برخلاف حمل و نقل سنتی، Loadly به شما این امکان را می‌دهد که بارهای خود را در عرض چند ثانیه ارسال کنید و فوراً از وسایل نقلیه موجود، قیمت‌های رقابتی دریافت کنید. با الگوریتم‌های پیشرفته تطبیق بار، هدف ما حذف مسافت‌های خالی، کاهش ردپای کربن و به حداقل رساندن هزینه‌های کلی حمل و نقل برای مشاغل در هر اندازه‌ای است.",
-        "چه به حمل و نقل با ظرفیت کمتر از کامیون (LTL) نیاز داشته باشید و چه با ظرفیت کامل کامیون (FTL)، می‌توانید راه‌حل لجستیکی ایده‌آل خود را در پلتفرم ما بیابید. برای شرکت‌های حمل و نقل، ما این فرصت را فراهم می‌کنیم که حجم تجارت خود را افزایش داده و مسیرهای منظمی را از طریق هزاران تابلوی بار که روزانه به‌روزرسانی می‌شوند، برنامه‌ریزی کنند.",
-        "با ثبت نام رایگان در Loadly به انقلاب لجستیک دیجیتال بپیوندید. بارها را ثبت کنید، پیشنهادها را دریافت کنید، به حامل‌های پیام پیام دهید و کل گردش کار حمل و نقل خود را در یک مکان مدیریت کنید - از هر دستگاهی و در هر زمان قابل دسترسی است."
+        "Loadly یک پلتفرم محتوایی در زمینه لجستیک و حمل‌ونقل بار است که راهنماهای کاربردی، تحلیل مسیرها و تحلیل‌های صنعتی را به ۵۵ زبان برای صاحبان بار، شرکت‌های حمل‌ونقل و متخصصان لجستیک در سراسر جهان منتشر می‌کند.",
+        "علاوه بر محتوای تحریری، Loadly همچنین خدمات ثبت‌نام و ثبت بار به‌صورت رایگان ارائه می‌دهد — صاحبان بار می‌توانند در چند ثانیه باری ثبت کنند و شرکت‌های حمل‌ونقل می‌توانند ثبت‌نام کرده و مستقیماً پیشنهادها را دریافت و پاسخ دهند.",
+        "چه به‌دنبال اطلاعاتی درباره حمل جزئی (LTL) یا حمل کامل (FTL)، هزینه‌های حمل‌ونقل یا الزامات قانونی باشید، مقالات ما که به‌طور منظم منتشر می‌شوند نوشته و بازبینی می‌شوند تا به شما در تصمیم‌گیری آگاهانه لجستیکی کمک کنند.",
+        "برای مشاهده جدیدترین مقالات ما رایگان به Loadly بپیوندید یا برای ثبت بار ثبت‌نام کنید — از هر دستگاهی و در هر زمان قابل دسترسی."
       ]
     },
     "marketplace": {
@@ -329,12 +329,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ko": {
     "home": {
-      "title": "Loadly: 글로벌 물류 및 화물 마켓플레이스 플랫폼",
+      "title": "Loadly: 글로벌 물류 및 화물 정보 플랫폼",
       "paragraphs": [
-        "Loadly는 전 세계 화주와 신뢰할 수 있는 운송업체를 연결하는 혁신적인 물류 및 운송 플랫폼입니다. 당사의 임무는 국내 및 국제 노선을 통해 빠르고 안전하며 비용 효율적인 화물 운송을 촉진하는 것입니다. 수천 개의 검증된 물류 회사, 트럭 소유주, 기사님이 화물을 옮길 준비가 되어 있습니다.",
-        "기존 화물 운송과 달리 Loadly를 사용하면 몇 초 만에 화물을 게시하고 사용 가능한 차량에서 경쟁력 있는 견적을 즉시 받을 수 있습니다. 당사의 첨단 부하 매칭 알고리즘을 통해 모든 규모의 비즈니스에서 빈 마일을 제거하고 탄소 발자국을 줄이며 전체 운송 비용을 최소화하는 것을 목표로 합니다.",
-        "LTL (Less Than Truckload) 또는 FTL (Full Truckload) 운송이 필요한 경우 당사의 플랫폼에서 완벽한 물류 솔루션을 찾을 수 있습니다. 운송업체의 경우, 당사는 매일 업데이트되는 수천 개의 로드 보드를 통해 비즈니스 규모를 늘리고 정기적인 경로를 계획할 수 있는 기회를 제공합니다.",
-        "Loadly에서 무료로 등록하여 디지털 물류 혁명에 동참하세요. 화물을 게시하고, 혜택을 받고, 운송업체에 메시지를 보내고, 전체 배송 워크플로우를 한 곳에서 관리하세요. 언제 어디서나 모든 장치에서 액세스할 수 있습니다."
+        "Loadly는 전 세계 화주, 운송업체, 물류 전문가를 위해 55개 언어로 실용적인 가이드, 경로 분석, 업계 분석을 게시하는 물류 및 화물 콘텐츠 플랫폼입니다.",
+        "편집 콘텐츠 외에도 Loadly는 무료 등록 및 화물 게시 서비스를 제공합니다 — 화주는 몇 초 만에 화물을 등록할 수 있고, 운송업체는 등록하여 제안을 직접 받고 응답할 수 있습니다.",
+        "부분 적재(LTL)든 전체 적재(FTL)든, 운임 비용이든 규제 요건이든, 정기적으로 게시되는 저희 기사는 현명한 물류 결정을 내리는 데 도움이 되도록 작성 및 검토됩니다.",
+        "최신 기사를 살펴보려면 무료로 Loadly에 가입하시거나, 화물을 게시하려면 등록하세요 — 언제 어디서나 모든 기기에서 이용 가능합니다."
       ]
     },
     "marketplace": {
@@ -349,12 +349,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "vi": {
     "home": {
-      "title": "Tải trọng: Nền tảng thị trường vận tải và hậu cần toàn cầu",
+      "title": "Loadly: Nền Tảng Thông Tin Logistics & Vận Tải Toàn Cầu",
       "paragraphs": [
-        "Loadly là một nền tảng vận chuyển và hậu cần sáng tạo kết nối các chủ hàng với các hãng vận chuyển đáng tin cậy trên toàn thế giới. Sứ mệnh của chúng tôi là tạo điều kiện vận chuyển hàng hóa nhanh chóng, an toàn và tiết kiệm chi phí trên các tuyến nội địa và quốc tế. Chúng tôi cung cấp chỗ ở cho hàng ngàn công ty hậu cần, chủ xe tải và tài xế đã được xác minh sẵn sàng vận chuyển hàng hóa của bạn.",
-        "Không giống như giao nhận vận tải truyền thống, Loadly cho phép bạn đăng lô hàng của mình trong vài giây và ngay lập tức nhận được báo giá cạnh tranh từ các phương tiện có sẵn. Với các thuật toán đối sánh tải tiên tiến, chúng tôi mong muốn loại bỏ số dặm trống, giảm lượng khí thải carbon và giảm thiểu chi phí vận chuyển tổng thể cho các doanh nghiệp thuộc mọi quy mô.",
-        "Cho dù bạn cần vận chuyển ít hơn xe tải (LTL) hay đầy tải (FTL), bạn có thể tìm thấy giải pháp hậu cần hoàn hảo trên nền tảng của chúng tôi. Đối với các hãng vận tải, chúng tôi cung cấp cơ hội để tăng khối lượng kinh doanh và lập kế hoạch các tuyến đường thường xuyên thông qua hàng ngàn bảng tải được cập nhật hàng ngày.",
-        "Tham gia cuộc cách mạng hậu cần kỹ thuật số bằng cách đăng ký miễn phí trên Loadly. Đăng tải, nhận ưu đãi, gửi tin nhắn và quản lý toàn bộ quy trình vận chuyển của bạn ở một nơi — có thể truy cập từ bất kỳ thiết bị nào, bất cứ lúc nào."
+        "Loadly là nền tảng nội dung về logistics và vận tải hàng hóa, xuất bản các hướng dẫn thực tế, thông tin tuyến đường và phân tích ngành bằng 55 ngôn ngữ dành cho chủ hàng, đơn vị vận chuyển và chuyên gia logistics trên toàn thế giới.",
+        "Bên cạnh nội dung biên tập, Loadly còn cung cấp dịch vụ đăng ký và đăng tải hàng miễn phí — chủ hàng có thể đăng một lô hàng chỉ trong vài giây, và đơn vị vận chuyển có thể đăng ký để nhận và phản hồi báo giá trực tiếp.",
+        "Dù bạn đang tìm hiểu về vận chuyển hàng lẻ (LTL) hay nguyên xe (FTL), chi phí vận chuyển hay các yêu cầu pháp lý, các bài viết được xuất bản định kỳ của chúng tôi đều được biên soạn và kiểm duyệt để giúp bạn đưa ra quyết định logistics sáng suốt.",
+        "Tham gia Loadly miễn phí để khám phá các bài viết mới nhất, hoặc đăng ký để đăng tải hàng hóa — truy cập từ bất kỳ thiết bị nào, bất cứ lúc nào."
       ]
     },
     "marketplace": {
@@ -369,12 +369,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "id": {
     "home": {
-      "title": "Loadly: Platform Pasar Logistik & Kargo Global",
+      "title": "Loadly: Platform Wawasan Logistik & Kargo Global",
       "paragraphs": [
-        "Loadly adalah platform logistik dan transportasi inovatif yang menghubungkan pengirim dengan operator yang andal di seluruh dunia. Misi kami adalah memfasilitasi transportasi barang yang cepat, aman, dan hemat biaya melintasi rute domestik dan internasional. Kami menerima ribuan perusahaan logistik terverifikasi, pemilik truk, dan mitra pengemudi yang siap memindahkan kargo Anda.",
-        "Tidak seperti pengiriman barang tradisional, Loadly memungkinkan Anda untuk memposting muatan Anda dalam hitungan detik dan langsung menerima penawaran harga yang kompetitif dari kendaraan yang tersedia. Dengan algoritme pencocokan beban tingkat lanjut kami, kami bertujuan untuk menghilangkan jarak tempuh yang kosong, mengurangi jejak karbon, dan meminimalkan biaya transportasi secara keseluruhan untuk bisnis dari semua ukuran.",
-        "Baik Anda membutuhkan pengiriman kurang dari muatan truk (LTL) maupun muatan truk penuh (FTL), Anda dapat menemukan solusi logistik yang sempurna di platform kami. Bagi operator, kami menawarkan kesempatan untuk meningkatkan volume bisnis dan merencanakan rute reguler melalui ribuan papan muatan yang diperbarui setiap hari.",
-        "Bergabunglah dengan revolusi logistik digital dengan mendaftar secara gratis di Loadly. Pasang muatan, terima penawaran, kirim pesan, dan kelola seluruh alur kerja pengiriman Anda di satu tempat — dapat diakses dari perangkat apa pun, kapan saja."
+        "Loadly adalah platform konten logistik dan kargo yang menerbitkan panduan praktis, wawasan rute, dan analisis industri dalam 55 bahasa untuk pengirim, pengangkut, dan profesional logistik di seluruh dunia.",
+        "Selain konten editorial, Loadly juga menawarkan layanan pendaftaran dan pemasangan muatan gratis — pengirim dapat memasang muatan dalam hitungan detik, dan pengangkut dapat mendaftar untuk menerima serta menanggapi penawaran secara langsung.",
+        "Baik Anda mencari informasi tentang pengiriman LTL (Less Than Truckload) atau FTL (Full Truckload), biaya kargo, atau persyaratan regulasi, artikel kami yang diterbitkan secara rutin ditulis dan ditinjau untuk membantu Anda membuat keputusan logistik yang tepat.",
+        "Bergabunglah dengan Loadly secara gratis untuk menjelajahi artikel terbaru kami, atau daftar untuk memasang muatan — dapat diakses dari perangkat apa pun, kapan saja."
       ]
     },
     "marketplace": {
@@ -389,12 +389,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "bn": {
     "home": {
-      "title": "লোডলি: গ্লোবাল লজিস্টিকস অ্যান্ড ফ্রেইট মার্কেটপ্লেস প্ল্যাটফর্ম",
+      "title": "Loadly: বৈশ্বিক লজিস্টিক ও ফ্রেট তথ্য প্ল্যাটফর্ম",
       "paragraphs": [
-        "লোডলি একটি উদ্ভাবনী লজিস্টিক এবং পরিবহন প্ল্যাটফর্ম যা বিশ্বব্যাপী নির্ভরযোগ্য ক্যারিয়ারের সাথে শিপারদের সংযুক্ত করে । আমাদের লক্ষ্য হল দেশীয় এবং আন্তর্জাতিক রুটে দ্রুত, সুরক্ষিত এবং সাশ্রয়ী মূল্যের মালামাল পরিবহন সহজতর করা । আমরা হাজার হাজার যাচাইকৃত লজিস্টিক কোম্পানি, ট্রাক মালিক এবং ড্রাইভারকে আপনার মালামাল সরানোর জন্য প্রস্তুত করি ।",
-        "প্রথাগত ফ্রেইট ফরওয়ার্ডিংয়ের বিপরীতে, লোডলি আপনাকে সেকেন্ডের মধ্যে আপনার লোড পোস্ট করতে এবং তাত্ক্ষণিকভাবে উপলভ্য যানবাহন থেকে প্রতিযোগিতামূলক কোট পেতে দেয় । আমাদের উন্নত লোড-ম্যাচিং অ্যালগরিদমগুলির সাহায্যে, আমাদের লক্ষ্য খালি মাইলগুলি দূর করা, কার্বন পদচিহ্নগুলি হ্রাস করা এবং সমস্ত আকারের ব্যবসায়ের জন্য সামগ্রিক পরিবহন ব্যয় হ্রাস করা ।",
-        "আপনার কম ট্রাক লোড (LTL) বা ফুল ট্রাক লোড (FTL) শিপিংয়ের প্রয়োজন হোক না কেন, আপনি আমাদের প্ল্যাটফর্মে নিখুঁত লজিস্টিক সমাধান খুঁজে পেতে পারেন । ক্যারিয়ারদের জন্য, আমরা প্রতিদিন আপডেট হওয়া হাজার হাজার লোড বোর্ডের মাধ্যমে ব্যবসার পরিমাণ বৃদ্ধি এবং নিয়মিত রুটের পরিকল্পনা করার সুযোগ প্রদান করি ।",
-        "লোডলি-তে বিনামূল্যে নিবন্ধন করে ডিজিটাল লজিস্টিক বিপ্লবে যোগ দিন । লোডগুলি পোস্ট করুন, অফারগুলি পান, বার্তা বাহকগুলি পান এবং আপনার পুরো শিপিং ওয়ার্কফ্লোটি এক জায়গায় পরিচালনা করুন — যে কোনও ডিভাইস থেকে যে কোনও সময় অ্যাক্সেসযোগ্য ।"
+        "Loadly একটি লজিস্টিক ও ফ্রেট কনটেন্ট প্ল্যাটফর্ম, যা বিশ্বজুড়ে শিপার, বাহক এবং লজিস্টিক পেশাদারদের জন্য ৫৫টি ভাষায় ব্যবহারিক গাইড, রুট বিশ্লেষণ এবং শিল্প বিশ্লেষণ প্রকাশ করে।",
+        "সম্পাদকীয় কনটেন্টের পাশাপাশি, Loadly একটি বিনামূল্যের নিবন্ধন ও লোড-পোস্টিং পরিষেবাও প্রদান করে — শিপাররা সেকেন্ডের মধ্যে লোড তালিকাভুক্ত করতে পারেন, এবং বাহকরা সরাসরি অফার পেতে ও সাড়া দিতে নিবন্ধন করতে পারেন।",
+        "আপনি লেস দ্যান ট্রাকলোড (LTL) বা ফুল ট্রাকলোড (FTL) শিপিং, ফ্রেট খরচ, বা নিয়ন্ত্রক প্রয়োজনীয়তা নিয়ে গবেষণা করছেন কিনা, আমাদের নিয়মিত প্রকাশিত নিবন্ধগুলো আপনাকে সঠিক লজিস্টিক সিদ্ধান্ত নিতে সাহায্য করার জন্য লেখা ও পর্যালোচনা করা হয়।",
+        "আমাদের সর্বশেষ নিবন্ধগুলো দেখতে বিনামূল্যে Loadly-তে যোগ দিন, অথবা লোড পোস্ট করতে নিবন্ধন করুন — যেকোনো ডিভাইস থেকে, যেকোনো সময়।"
       ]
     },
     "marketplace": {
@@ -409,12 +409,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ur": {
     "home": {
-      "title": "لوڈلی: گلوبل لاجسٹکس اینڈ فریٹ مارکیٹ پلیس پلیٹ فارم",
+      "title": "Loadly: عالمی لاجسٹکس اور فریٹ معلوماتی پلیٹ فارم",
       "paragraphs": [
-        "Loadly ایک جدید لاجسٹکس اور ٹرانسپورٹیشن پلیٹ فارم ہے جو دنیا بھر میں قابل اعتماد کیریئرز کے ساتھ ترسیل کنندگان کو جوڑتا ہے ۔ ہمارا مشن گھریلو اور بین الاقوامی راستوں پر تیز، محفوظ اور سستے مال کی نقل و حمل کی سہولت فراہم کرنا ہے ۔ ہم ہزاروں توثیق شدہ لاجسٹک کمپنیوں، ٹرک مالکان اور آپ کے کارگو کو منتقل کرنے کے لیے تیار ڈرائیورز کی میزبانی کرتے ہیں ۔",
-        "روایتی فریٹ فارورڈنگ کے برعکس، لوڈلی آپ کو سیکنڈوں میں اپنے بوجھ پوسٹ کرنے اور فوری طور پر دستیاب گاڑیوں سے مسابقتی قیمت درج کرنے کی اجازت دیتا ہے ۔ اپنے ایڈوانسڈ لوڈ میچنگ الگورتھمز کے ساتھ، ہمارا مقصد خالی میلوں کو ختم کرنا، کاربن کے نشانات کو کم کرنا اور ہر سائز کے کاروباروں کے لیے ٹرانسپورٹیشن کے مجموعی اخراجات کو کم کرنا ہے ۔",
-        "چاہے آپ کو ٹرک لوڈ (LTL) یا فل ٹرک لوڈ (FTL) شپنگ سے کم کی ضرورت ہو، آپ ہمارے پلیٹ فارم پر لاجسٹک کا بہترین حل تلاش کر سکتے ہیں ۔ کیریئرز کے لیے، ہم کاروباری حجم بڑھانے اور روزانہ ہزاروں اپ ڈیٹ شدہ لوڈ بورڈز کے ذریعے باقاعدہ راستوں کی منصوبہ بندی کرنے کا موقع پیش کرتے ہیں ۔",
-        "Loadly پر مفت رجسٹر کر کے ڈیجیٹل لاجسٹکس انقلاب میں شامل ہوں ۔ لوڈز پوسٹ کریں، آفرز موصول کریں، کیریئرز کو پیغام بھیجیں، اور ایک ہی جگہ پر اپنے پورے شپنگ ورک فلو کا نظم کریں — کسی بھی ڈیوائس سے، کسی بھی وقت قابل رسائی ۔"
+        "Loadly ایک لاجسٹکس اور فریٹ کنٹینٹ پلیٹ فارم ہے، جو دنیا بھر کے شپرز، کیریئرز اور لاجسٹکس ماہرین کے لیے 55 زبانوں میں عملی گائیڈز، روٹ کی معلومات اور صنعتی تجزیے شائع کرتا ہے۔",
+        "ہمارے ادارتی مواد کے علاوہ، Loadly مفت رجسٹریشن اور لوڈ پوسٹنگ کی سہولت بھی فراہم کرتا ہے — شپرز سیکنڈوں میں لوڈ پوسٹ کر سکتے ہیں، اور کیریئرز براہ راست پیشکشیں وصول کرنے اور جواب دینے کے لیے رجسٹر ہو سکتے ہیں۔",
+        "چاہے آپ لیس دین ٹرک لوڈ (LTL) ہو یا فل ٹرک لوڈ (FTL) شپنگ، فریٹ کے اخراجات، یا ریگولیٹری تقاضوں کے بارے میں تحقیق کر رہے ہوں، ہمارے باقاعدگی سے شائع ہونے والے مضامین آپ کو باخبر لاجسٹکس فیصلے کرنے میں مدد کے لیے لکھے اور جانچے جاتے ہیں۔",
+        "ہمارے تازہ ترین مضامین دیکھنے کے لیے مفت میں Loadly میں شامل ہوں، یا لوڈ پوسٹ کرنے کے لیے رجسٹر کریں — کسی بھی ڈیوائس سے، کسی بھی وقت قابل رسائی۔"
       ]
     },
     "marketplace": {
@@ -429,12 +429,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "th": {
     "home": {
-      "title": "Loadly: แพลตฟอร์มโลจิสติกส์และการขนส่งสินค้าทั่วโลก",
+      "title": "Loadly: แพลตฟอร์มข้อมูลโลจิสติกส์และการขนส่งสินค้าระดับโลก",
       "paragraphs": [
-        "Loadly เป็นนวัตกรรมด้านโลจิสติกส์และแพลตฟอร์มการขนส่งที่เชื่อมต่อผู้ส่งสินค้ากับผู้ให้บริการที่เชื่อถือได้ทั่วโลกภารกิจของเราคือการอำนวยความสะดวกในการขนส่งสินค้าที่รวดเร็วปลอดภัยและคุ้มค่าในเส้นทางภายในประเทศและระหว่างประเทศเราให้บริการบริษัทโลจิสติกเจ้าของรถบรรทุกและคนขับที่ผ่านการตรวจสอบแล้วหลายพันรายพร้อมให้บริการขนย้ายสินค้าของคุณ",
-        "ซึ่งแตกต่างจากการขนส่งสินค้าแบบดั้งเดิม Loadly ช่วยให้คุณสามารถโพสต์โหลดของคุณในไม่กี่วินาทีและรับราคาที่แข่งขันได้ทันทีจากยานพาหนะที่มีอยู่ด้วยอัลกอริทึมการจับคู่โหลดขั้นสูงของเราเรามุ่งมั่นที่จะกำจัดไมล์ที่ว่างเปล่าลดรอยเท้าคาร์บอนและลดต้นทุนการขนส่งโดยรวมสำหรับธุรกิจทุกขนาด",
-        "ไม่ว่าคุณจะต้องการการจัดส่งน้อยกว่า Truckload (LTL) หรือ Full Truckload (FTL) คุณสามารถค้นหาโซลูชันโลจิสติกส์ที่สมบูรณ์แบบได้บนแพลตฟอร์มของเราสำหรับผู้ให้บริการเรามีโอกาสที่จะเพิ่มปริมาณธุรกิจและวางแผนเส้นทางปกติผ่านกระดานโหลดที่อัปเดตหลายพันรายการต่อวัน",
-        "เข้าร่วมการปฏิวัติโลจิสติกส์ดิจิทัลโดยลงทะเบียนฟรีบน Loadly โพสต์โหลดรับข้อเสนอส่งข้อความถึงผู้ให้บริการขนส่งและจัดการเวิร์กโฟลว์การจัดส่งทั้งหมดของคุณได้ในที่เดียว — เข้าถึงได้จากทุกอุปกรณ์ทุกที่ทุกเวลา"
+        "Loadly คือแพลตฟอร์มเนื้อหาด้านโลจิสติกส์และการขนส่งสินค้า ที่เผยแพร่คู่มือปฏิบัติ ข้อมูลเส้นทาง และการวิเคราะห์อุตสาหกรรมใน 55 ภาษา สำหรับผู้ส่งสินค้า ผู้ขนส่ง และผู้เชี่ยวชาญด้านโลจิสติกส์ทั่วโลก",
+        "นอกเหนือจากเนื้อหาด้านบรรณาธิการแล้ว Loadly ยังมีบริการลงทะเบียนและโพสต์สินค้าฟรี — ผู้ส่งสินค้าสามารถลงประกาศสินค้าได้ภายในไม่กี่วินาที และผู้ขนส่งสามารถลงทะเบียนเพื่อรับและตอบข้อเสนอได้โดยตรง",
+        "ไม่ว่าคุณกำลังค้นคว้าเกี่ยวกับการขนส่งแบบ LTL หรือ FTL ค่าขนส่ง หรือข้อกำหนดด้านกฎระเบียบ บทความที่เราเผยแพร่เป็นประจำได้รับการเขียนและตรวจสอบเพื่อช่วยให้คุณตัดสินใจด้านโลจิสติกส์ได้อย่างมีข้อมูล",
+        "เข้าร่วม Loadly ฟรีเพื่อสำรวจบทความล่าสุดของเรา หรือลงทะเบียนเพื่อโพสต์สินค้า — เข้าถึงได้จากอุปกรณ์ใดก็ได้ ทุกเวลา"
       ]
     },
     "marketplace": {
@@ -449,12 +449,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ms": {
     "home": {
-      "title": "Loadly: Platform Pasaran Logistik & Pengangkutan Global",
+      "title": "Loadly: Platform Wawasan Logistik & Kargo Global",
       "paragraphs": [
-        "Loadly adalah platform logistik dan pengangkutan inovatif yang menghubungkan penghantar dengan pembawa yang boleh dipercayai di seluruh dunia. Misi kami adalah untuk memudahkan pengangkutan barang yang cepat, selamat dan kos efektif merentasi laluan domestik dan antarabangsa. Kami menjadi hos kepada beribu-ribu syarikat logistik yang disahkan, pemilik trak, dan pemandu yang bersedia untuk memindahkan kargo anda.",
-        "Tidak seperti penghantaran barang tradisional, Loadly membolehkan anda menyiarkan muatan anda dalam beberapa saat dan menerima sebut harga yang kompetitif dengan serta-merta daripada kenderaan yang tersedia. Dengan algoritma pemadanan beban lanjutan kami, kami berhasrat untuk menghapuskan batu kosong, mengurangkan jejak karbon, dan meminimumkan kos pengangkutan keseluruhan untuk perniagaan dari semua saiz.",
-        "Sama ada anda memerlukan penghantaran Kurang Daripada Muatan Lori (LTL) atau Muatan Lori Penuh (FTL), anda boleh mencari penyelesaian logistik yang sempurna di platform kami. Untuk pembawa, kami menawarkan peluang untuk meningkatkan jumlah perniagaan dan merancang laluan biasa melalui beribu-ribu papan muatan yang dikemas kini setiap hari.",
-        "Sertai revolusi logistik digital dengan mendaftar secara percuma di Loadly. Siarkan muatan, terima tawaran, pembawa mesej, dan uruskan keseluruhan aliran kerja penghantaran anda di satu tempat — boleh diakses dari mana-mana peranti, pada bila-bila masa."
+        "Loadly ialah platform kandungan logistik dan kargo yang menerbitkan panduan praktikal, maklumat laluan, dan analisis industri dalam 55 bahasa untuk penghantar, pengangkut, dan profesional logistik di seluruh dunia.",
+        "Selain kandungan editorial, Loadly turut menawarkan perkhidmatan pendaftaran dan penyiaran muatan percuma — penghantar boleh menyiarkan muatan dalam beberapa saat, dan pengangkut boleh mendaftar untuk menerima serta membalas tawaran secara terus.",
+        "Sama ada anda mengkaji penghantaran LTL (Less Than Truckload) atau FTL (Full Truckload), kos kargo, atau keperluan pengawalseliaan, artikel kami yang diterbitkan secara berkala ditulis dan disemak untuk membantu anda membuat keputusan logistik yang termaklum.",
+        "Sertai Loadly secara percuma untuk meneroka artikel terkini kami, atau daftar untuk menyiarkan muatan — boleh diakses dari mana-mana peranti, pada bila-bila masa."
       ]
     },
     "marketplace": {
@@ -469,12 +469,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "tl": {
     "home": {
-      "title": "Mag - load: Global Logistics at Freight Marketplace Platform",
+      "title": "Loadly: Pandaigdigang Platform ng Logistics at Freight Insights",
       "paragraphs": [
-        "Loadly ay isang makabagong logistik at transportasyon platform pagkonekta shippers na may maaasahang carrier sa buong mundo. Ang aming misyon ay upang mapadali ang mabilis, ligtas, at cost - effective na kargamento transportasyon sa kabuuan ng domestic at internasyonal na mga ruta. Nagho - host kami ng libu - libong beripikadong kompanya ng logistik, may - ari ng trak, at driver na handang ilipat ang iyong kargamento.",
-        "Hindi tulad ng tradisyunal na pagpapasa ng kargamento, pinapayagan ka ng Loadly na i - post ang iyong mga naglo - load sa mga segundo at agad na makatanggap ng mga mapagkumpitensyang quote mula sa mga magagamit na sasakyan. Gamit ang aming mga advanced na algorithm ng pagtutugma ng pag - load, nilalayon naming alisin ang mga walang laman na milya, bawasan ang carbon footprints, at i - minimize ang pangkalahatang gastos sa transportasyon para sa mga negosyo ng lahat ng laki.",
-        "Kung kailangan mo ng pagpapadala ng Less Than Truckload (LTL) o Full Truckload (FTL), maaari mong mahanap ang perpektong solusyon sa logistik sa aming platform. Para sa mga carrier, nag - aalok kami ng pagkakataon upang madagdagan ang dami ng negosyo at magplano ng mga regular na ruta sa pamamagitan ng libu - libong araw - araw na na - update na mga load board.",
-        "Sumali sa digital logistics revolution sa pamamagitan ng pagpaparehistro nang libre sa Loadly. Mag - post ng mga naglo - load, tumanggap ng mga alok, mga carrier ng mensahe, at pamahalaan ang iyong buong daloy ng trabaho sa pagpapadala sa isang lugar — naa — access mula sa anumang aparato, anumang oras."
+        "Ang Loadly ay isang logistics at freight content platform, na naglalathala ng praktikal na mga gabay, kaalaman sa ruta, at pagsusuri ng industriya sa 55 wika para sa mga shipper, carrier, at logistics professional sa buong mundo.",
+        "Bukod sa aming editorial content, nag-aalok din ang Loadly ng libreng rehistrasyon at serbisyo sa pag-post ng load — makakapag-post ang mga shipper ng load sa loob lamang ng ilang segundo, at makakapagrehistro ang mga carrier upang direktang tumanggap at tumugon sa mga alok.",
+        "Kung ikaw man ay nag-aaral tungkol sa Less Than Truckload (LTL) o Full Truckload (FTL) shipping, mga gastos sa freight, o mga kinakailangang regulasyon, ang aming regular na inilalathalang mga artikulo ay isinusulat at sinusuri upang matulungan kang gumawa ng matalinong desisyon sa logistics.",
+        "Sumali sa Loadly nang libre upang tuklasin ang aming pinakabagong mga artikulo, o magparehistro upang mag-post ng load — accessible mula sa anumang device, anumang oras."
       ]
     },
     "marketplace": {
@@ -489,12 +489,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ro": {
     "home": {
-      "title": "Loadly: Platforma globală de logistică și piață de transport de marfă",
+      "title": "Loadly: Platformă Globală de Informații Logistice și de Transport",
       "paragraphs": [
-        "Loadly este o platformă inovatoare de logistică și transport care conectează expeditorii cu transportatori de încredere din întreaga lume. Misiunea noastră este de a facilita transportul de mărfuri rapid, sigur și rentabil pe rutele interne și internaționale. Găzduim mii de companii de logistică verificate, proprietari de camioane și șoferi gata să-ți transporte încărcătura.",
-        "Spre deosebire de expedierea tradițională de mărfuri, Loadly vă permite să postați încărcăturile în câteva secunde și să primiți instantaneu oferte competitive de la vehiculele disponibile. Cu algoritmii noștri avansați de potrivire a încărcăturii, ne propunem să eliminăm milele goale, să reducem amprenta de carbon și să minimizăm costurile generale de transport pentru întreprinderile de toate dimensiunile.",
-        "Indiferent dacă aveți nevoie de expediere cu încărcături mai mici (LTL) sau cu încărcături complete (FTL), puteți găsi soluția logistică perfectă pe platforma noastră. Pentru transportatori, oferim posibilitatea de a crește volumul de afaceri și de a planifica rute regulate prin mii de platforme de încărcare actualizate zilnic.",
-        "Alăturați-vă revoluției logistice digitale înregistrându-vă gratuit pe Loadly. Postează încărcături, primește oferte, trimite mesaje și gestionează întregul flux de lucru de expediere într-un singur loc — accesibil de pe orice dispozitiv, oricând."
+        "Loadly este o platformă de conținut despre logistică și transport de marfă, care publică ghiduri practice, informații despre rute și analize de industrie în 55 de limbi pentru expeditori, transportatori și profesioniști din logistică din întreaga lume.",
+        "Pe lângă conținutul editorial, Loadly oferă și un serviciu gratuit de înregistrare și publicare a transporturilor — expeditorii pot posta un transport în câteva secunde, iar transportatorii se pot înregistra pentru a primi și răspunde direct la oferte.",
+        "Fie că cercetați transportul parțial (LTL) sau complet (FTL), costurile de transport sau cerințele de reglementare, articolele noastre publicate periodic sunt scrise și verificate pentru a vă ajuta să luați decizii logistice informate.",
+        "Alăturați-vă gratuit platformei Loadly pentru a explora cele mai recente articole, sau înregistrați-vă pentru a posta un transport — accesibil de pe orice dispozitiv, oricând."
       ]
     },
     "marketplace": {
@@ -509,12 +509,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "sv": {
     "home": {
-      "title": "Loadly: Global Logistics & Freight Marketplace-plattform",
+      "title": "Loadly: Global Plattform för Logistik- och Fraktinformation",
       "paragraphs": [
-        "Loadly är en innovativ logistik- och transportplattform som förbinder speditörer med pålitliga transportörer över hela världen. Vårt uppdrag är att underlätta snabba, säkra och kostnadseffektiva godstransporter över inrikes och internationella rutter. Vi är värdar för tusentals verifierade logistikföretag, lastbilsägare och förare som är redo att transportera din last.",
-        "Till skillnad från traditionell spedition låter Loadly dig publicera dina laster på några sekunder och omedelbart få konkurrenskraftiga offerter från tillgängliga fordon. Med våra avancerade belastningsmatchande algoritmer strävar vi efter att eliminera tomma mil, minska koldioxidavtrycket och minimera de totala transportkostnaderna för företag av alla storlekar.",
-        "Oavsett om du behöver mindre än lastbilslast (LTL) eller full lastbilslast (FTL) frakt, kan du hitta den perfekta logistiklösningen på vår plattform. För transportörer erbjuder vi möjligheten att öka affärsvolymen och planera reguljära rutter genom tusentals dagligen uppdaterade lasttavlor.",
-        "Gå med i den digitala logistikrevolutionen genom att registrera dig gratis på Loadly. Lägg upp laddningar, ta emot erbjudanden, skicka meddelanden till transportörer och hantera hela ditt fraktarbetsflöde på ett ställe — tillgängligt från vilken enhet som helst, när som helst."
+        "Loadly är en innehållsplattform för logistik och frakt som publicerar praktiska guider, ruttinsikter och branschanalyser på 55 språk för avlastare, transportörer och logistikproffs världen över.",
+        "Utöver vårt redaktionella innehåll erbjuder Loadly även en kostnadsfri registrerings- och lastannonseringstjänst — avlastare kan lägga upp en last på sekunder, och transportörer kan registrera sig för att ta emot och svara på erbjudanden direkt.",
+        "Oavsett om du undersöker delgods (LTL) eller helgods (FTL), fraktkostnader eller regulatoriska krav, är våra regelbundet publicerade artiklar skrivna och granskade för att hjälpa dig fatta välgrundade logistikbeslut.",
+        "Gå med i Loadly gratis för att utforska våra senaste artiklar, eller registrera dig för att lägga upp en last — tillgängligt från alla enheter, när som helst."
       ]
     },
     "marketplace": {
@@ -529,12 +529,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "cs": {
     "home": {
-      "title": "Loadly: Globální platforma pro logistiku a nákladní dopravu",
+      "title": "Loadly: Globální Platforma pro Logistické a Přepravní Informace",
       "paragraphs": [
-        "Loadly je inovativní logistická a dopravní platforma spojující odesílatele se spolehlivými dopravci po celém světě. Naším posláním je usnadnit rychlou, bezpečnou a nákladově efektivní nákladní dopravu na vnitrostátních i mezinárodních trasách. Hostíme tisíce ověřených logistických společností, majitelů nákladních vozidel a řidičů, kteří jsou připraveni přepravit váš náklad.",
-        "Na rozdíl od tradičního spedičního systému vám služba Loadly umožňuje odesílat nakládky během několika sekund a okamžitě dostávat konkurenční nabídky od dostupných vozidel. S našimi pokročilými algoritmy pro porovnávání zatížení se snažíme eliminovat prázdné kilometry, snížit uhlíkovou stopu a minimalizovat celkové náklady na dopravu pro podniky všech velikostí.",
-        "Ať už potřebujete přepravu méně než kamionů (LTL) nebo celovozovou přepravu (FTL), na naší platformě najdete perfektní logistické řešení. Pro dopravce nabízíme možnost zvýšit objem obchodů a naplánovat pravidelné trasy prostřednictvím tisíců denně aktualizovaných nakládacích desek.",
-        "Připojte se k revoluci digitální logistiky tím, že se zaregistrujete zdarma na Loadly. Zveřejňujte nakládky, dostávejte nabídky, posílejte zprávy a spravujte celý pracovní postup přepravy na jednom místě — kdykoli a z jakéhokoli zařízení."
+        "Loadly je obsahová platforma zaměřená na logistiku a nákladní dopravu, která publikuje praktické průvodce, přehledy tras a analýzy odvětví v 55 jazycích pro odesílatele, dopravce a logistické profesionály po celém světě.",
+        "Kromě redakčního obsahu nabízí Loadly také bezplatnou registraci a službu zveřejňování nákladů — odesílatelé mohou náklad zveřejnit během několika sekund a dopravci se mohou zaregistrovat, aby přímo přijímali a odpovídali na nabídky.",
+        "Ať už zkoumáte kusovou přepravu (LTL) nebo celokamionovou přepravu (FTL), náklady na dopravu nebo regulační požadavky, naše pravidelně publikované články jsou psány a kontrolovány, aby vám pomohly činit informovaná logistická rozhodnutí.",
+        "Připojte se k Loadly zdarma a prozkoumejte naše nejnovější články, nebo se zaregistrujte a zveřejněte náklad — dostupné z jakéhokoli zařízení, kdykoli."
       ]
     },
     "marketplace": {
@@ -549,12 +549,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "hu": {
     "home": {
-      "title": "Loadly: Globális Logisztikai és Fuvarpiaci Platform",
+      "title": "Loadly: Globális Logisztikai és Fuvarozási Információs Platform",
       "paragraphs": [
-        "A Loadly egy innovatív logisztikai és szállítási platform, amely megbízható fuvarozókkal köti össze a feladókat világszerte. Küldetésünk, hogy gyors, biztonságos és költséghatékony árufuvarozást tegyünk lehetővé belföldi és nemzetközi útvonalakon egyaránt. Több ezer ellenőrzött logisztikai céget, kamiontulajdonost és sofőrt fogadunk, akik készen állnak az Ön rakományának szállítására.",
-        "A hagyományos fuvarszervezéssel ellentétben a Loadly lehetővé teszi, hogy másodpercek alatt hirdesse meg rakományát, és azonnal versenyképes ajánlatokat kapjon elérhető járművektől. Fejlett rakomány-egyeztető algoritmusaink segítségével célunk az üres kilométerek megszüntetése, a szén-dioxid-kibocsátás csökkentése és a szállítási költségek minimalizálása minden méretű vállalkozás számára.",
-        "Legyen szó részrakományról (LTL) vagy teljes kamionrakományról (FTL), platformunkon megtalálja a tökéletes logisztikai megoldást. Fuvarozóink számára lehetőséget kínálunk üzleti forgalmuk növelésére és rendszeres útvonalak tervezésére a naponta frissülő rakománytáblák ezrein keresztül.",
-        "Csatlakozzon a digitális logisztikai forradalomhoz, regisztráljon ingyenesen a Loadlyn. Hirdessen rakományokat, fogadjon ajánlatokat, üzenjen a fuvarozóknak, és kezelje teljes szállítási folyamatát egy helyen — bármely eszközről, bármikor elérhető módon."
+        "A Loadly egy logisztikai és fuvarozási tartalomplatform, amely 55 nyelven közöl gyakorlati útmutatókat, útvonal-elemzéseket és iparági elemzéseket feladók, fuvarozók és logisztikai szakemberek számára világszerte.",
+        "Szerkesztői tartalmaink mellett a Loadly ingyenes regisztrációs és fuvarfeladási szolgáltatást is kínál — a feladók másodpercek alatt feladhatnak egy fuvart, a fuvarozók pedig regisztrálhatnak, hogy közvetlenül fogadjanak és válaszoljanak ajánlatokra.",
+        "Akár részrakományos (LTL), akár teljes rakományos (FTL) fuvarozást, fuvarköltségeket vagy szabályozási követelményeket kutat, rendszeresen megjelenő cikkeinket úgy írjuk és ellenőrizzük, hogy segítsenek megalapozott logisztikai döntéseket hozni.",
+        "Csatlakozzon ingyenesen a Loadly-hoz, hogy felfedezze legújabb cikkeinket, vagy regisztráljon egy fuvar feladásához — bármely eszközről, bármikor elérhető."
       ]
     },
     "marketplace": {
@@ -569,12 +569,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "el": {
     "home": {
-      "title": "Loadly: Παγκόσμια Πλατφόρμα Logistics & Αγορά Εμπορευμάτων",
+      "title": "Loadly: Παγκόσμια Πλατφόρμα Πληροφοριών Εφοδιαστικής και Μεταφορών",
       "paragraphs": [
-        "Το Loadly είναι μια καινοτόμος πλατφόρμα logistics και μεταφορών που συνδέει αποστολείς με αξιόπιστους μεταφορείς παγκοσμίως. Αποστολή μας είναι να διευκολύνουμε τη γρήγορη, ασφαλή και οικονομική μεταφορά εμπορευμάτων σε εγχώριες και διεθνείς διαδρομές. Διαθέτουμε χιλιάδες πιστοποιημένες εταιρείες logistics, ιδιοκτήτες φορτηγών και οδηγούς έτοιμους να μεταφέρουν το φορτίο σας.",
-        "Σε αντίθεση με τις παραδοσιακές μεταφορές, το Loadly σας επιτρέπει να δημοσιεύετε τα φορτία σας σε δευτερόλεπτα και να λαμβάνετε άμεσα ανταγωνιστικές προσφορές από διαθέσιμα οχήματα. Με τους προηγμένους αλγόριθμους αντιστοίχισης φορτίου, στοχεύουμε να εξαλείψουμε τα άδεια χιλιόμετρα, να μειώσουμε το αποτύπωμα άνθρακα και να ελαχιστοποιήσουμε το συνολικό κόστος μεταφοράς για επιχειρήσεις κάθε μεγέθους.",
-        "Είτε χρειάζεστε αποστολή LTL είτε FTL, μπορείτε να βρείτε την τέλεια λύση logistics στην πλατφόρμα μας. Για τους μεταφορείς, προσφέρουμε την ευκαιρία να αυξήσουν τον όγκο των εργασιών τους και να σχεδιάσουν τακτικές διαδρομές μέσω χιλιάδων καθημερινά ενημερωμένων πινάκων φορτίου.",
-        "Εγγραφείτε δωρεάν στο Loadly και γίνετε μέλος της ψηφιακής επανάστασης των logistics. Δημοσιεύστε φορτία, λάβετε προσφορές, στείλτε μηνύματα σε μεταφορείς και διαχειριστείτε ολόκληρη τη διαδικασία αποστολής σε ένα μέρος — προσβάσιμο από οποιαδήποτε συσκευή, οποτεδήποτε."
+        "Το Loadly είναι μια πλατφόρμα περιεχομένου εφοδιαστικής και μεταφορών, που δημοσιεύει πρακτικούς οδηγούς, πληροφορίες διαδρομών και κλαδικές αναλύσεις σε 55 γλώσσες για αποστολείς, μεταφορείς και επαγγελματίες εφοδιαστικής παγκοσμίως.",
+        "Πέρα από το συντακτικό μας περιεχόμενο, το Loadly προσφέρει επίσης δωρεάν υπηρεσία εγγραφής και καταχώρησης φορτίων — οι αποστολείς μπορούν να καταχωρήσουν φορτίο σε δευτερόλεπτα, ενώ οι μεταφορείς μπορούν να εγγραφούν για να λαμβάνουν και να απαντούν απευθείας σε προσφορές.",
+        "Είτε ερευνάτε μεταφορές LTL είτε FTL, κόστη μεταφοράς ή κανονιστικές απαιτήσεις, τα τακτικά μας άρθρα γράφονται και ελέγχονται ώστε να σας βοηθούν να λαμβάνετε τεκμηριωμένες αποφάσεις εφοδιαστικής.",
+        "Εγγραφείτε δωρεάν στο Loadly για να εξερευνήσετε τα τελευταία μας άρθρα, ή εγγραφείτε για να καταχωρήσετε φορτίο — προσβάσιμο από οποιαδήποτε συσκευή, ανά πάσα στιγμή."
       ]
     },
     "marketplace": {
@@ -589,12 +589,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "az": {
     "home": {
-      "title": "Loadly: Qlobal Logistika və Yük Daşıma Platforması",
+      "title": "Loadly: Qlobal Logistika və Yük Daşıma Məlumat Platforması",
       "paragraphs": [
-        "Loadly yükgöndərənləri və etibarlı daşıyıcıları birləşdirən innovativ logistika və nəqliyyat platformasıdır. Məqsədimiz yerli və beynəlxalq marşrutlar üzrə sürətli, təhlükəsiz və sərfəli yük daşımalarını asanlaşdırmaqdır. Biz yükünüzü daşımağa hazır minlərlə təsdiqlənmiş logistika şirkətini və sürücünü bir araya gətiririk.",
-        "Ənənəvi ekspeditorlardan fərqli olaraq, Loadly yüklərinizi saniyələr ərzində elan etməyə və dərhal rəqabətədavamlı təkliflər almağa imkan verir. Qabaqcıl alqoritmlərimizlə boş gedişləri aradan qaldırmağı, karbon izini azaltmağı və bütün müəssisələr üçün nəqliyyat xərclərini minimuma endirməyi hədəfləyirik.",
-        "İstər LTL, istərsə də FTL daşımalarına ehtiyacınız olsun, platformamızda mükəmməl logistika həllini tapa bilərsiniz. Daşıyıcılar üçün gündəlik yenilənən minlərlə yük elanı vasitəsilə iş həcmini artırmaq və müntəzəm marşrutlar planlaşdırmaq imkanı təklif edirik.",
-        "Loadly-də pulsuz qeydiyyatdan keçərək rəqəmsal logistika inqilabına qoşulun. Yükləri elan edin, təkliflər alın və bütün daşıma prosesini istənilən cihazdan bir yerdə idarə edin."
+        "Loadly dünya üzrə yük sahibləri, daşıyıcılar və logistika mütəxəssisləri üçün 55 dildə praktiki bələdçilər, marşrut analizləri və sənaye təhlilləri dərc edən logistika və yük daşıma kontent platformasıdır.",
+        "Redaksiya kontentimizdən əlavə, Loadly həmçinin pulsuz qeydiyyat və yük yerləşdirmə xidməti təklif edir — yük sahibləri bir neçə saniyə ərzində yük elanı yerləşdirə bilər, daşıyıcılar isə birbaşa təkliflər almaq və cavab vermək üçün qeydiyyatdan keçə bilər.",
+        "İstər LTL (natamam yük), istər FTL (tam yük) daşınması, yük xərcləri və ya tənzimləyici tələblər haqqında araşdırma aparırsınızsa, mütəmadi dərc olunan məqalələrimiz məlumatlı logistika qərarları qəbul etməyinizə kömək etmək üçün yazılır və nəzərdən keçirilir.",
+        "Ən son məqalələrimizi araşdırmaq üçün Loadly-ə pulsuz qoşulun, ya da yük yerləşdirmək üçün qeydiyyatdan keçin — istənilən cihazdan, istənilən vaxt əlçatandır."
       ]
     },
     "marketplace": {
@@ -609,12 +609,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "kk": {
     "home": {
-      "title": "Loadly: Ғаламдық логистика және жүк тасымалдау платформасы",
+      "title": "Loadly: Жаһандық Логистика және Жүк Тасымалы Ақпарат Платформасы",
       "paragraphs": [
-        "Loadly - бұл жүк жөнелтушілерді сенімді тасымалдаушылармен байланыстыратын инновациялық логистикалық және көлік платформасы. Біздің мақсатымыз - ішкі және халықаралық бағыттар бойынша жылдам, қауіпсіз және үнемді жүк тасымалын жеңілдету.",
-        "Дәстүрлі экспедиторлардан айырмашылығы, Loadly жүктеріңізді бірнеше секунд ішінде жариялауға және бірден бәсекеге қабілетті ұсыныстар алуға мүмкіндік береді. Озық алгоритмдеріміздің арқасында біз бос жүрістерді жоюды және тасымалдау шығындарын азайтуды мақсат етеміз.",
-        "Сізге LTL немесе FTL тасымалы қажет болса да, платформамыздан тамаша логистикалық шешім таба аласыз. Тасымалдаушылар үшін күн сайын жаңартылатын мыңдаған жүк хабарландырулары арқылы жұмыс көлемін арттыру мүмкіндігін ұсынамыз.",
-        "Loadly-ге тегін тіркеліп, сандық логистикалық революцияға қосылыңыз. Жүктерді жариялаңыз, ұсыныстар алыңыз және барлық тасымалдау процесін кез келген құрылғыдан басқарыңыз."
+        "Loadly — бүкіл әлем бойынша жүк жөнелтушілер, тасымалдаушылар және логистика мамандары үшін 55 тілде практикалық нұсқаулықтар, бағыттар туралы ақпарат және салалық талдаулар жариялайтын логистика және жүк тасымалы контент платформасы.",
+        "Редакциялық контентімізден бөлек, Loadly сондай-ақ тегін тіркелу және жүк орналастыру қызметін ұсынады — жүк жөнелтушілер бірнеше секундта жүк орналастыра алады, ал тасымалдаушылар ұсыныстарды тікелей алу және оларға жауап беру үшін тіркеле алады.",
+        "LTL (жартылай жүк) немесе FTL (толық жүк) тасымалын, жүк тасымалы шығындарын немесе нормативтік талаптарды зерттеп жатсаңыз да, тұрақты түрде жарияланатын мақалаларымыз сізге негізделген логистикалық шешімдер қабылдауға көмектесу үшін жазылады және тексеріледі.",
+        "Ең соңғы мақалаларымызды қарау үшін Loadly-ге тегін қосылыңыз немесе жүк орналастыру үшін тіркеліңіз — кез келген құрылғыдан, кез келген уақытта қолжетімді."
       ]
     },
     "marketplace": {
@@ -629,12 +629,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "he": {
     "home": {
-      "title": "Loadly: הפלטפורמה העולמית ללוגיסטיקה ושילוח מטענים",
+      "title": "Loadly: פלטפורמה גלובלית למידע לוגיסטי ומשלוחים",
       "paragraphs": [
-        "Loadly היא פלטפורמת לוגיסטיקה ותחבורה חדשנית המחברת בין שולחים למובילים אמינים ברחבי העולם. המשימה שלנו היא לאפשר הובלת מטענים מהירה, מאובטחת וחסכונית במסלולים מקומיים ובינלאומיים.",
-        "בניגוד לשילוח המסורתי, Loadly מאפשרת לך לפרסם את המטענים שלך בשניות ולקבל הצעות מחיר תחרותיות מיידיות. בעזרת האלגוריתמים המתקדמים שלנו, אנו שואפים לחסל נסיעות ריקות ולהפחית משמעותית את עלויות ההובלה.",
-        "בין אם אתה צריך הובלה חלקית (LTL) או מלאה (FTL), תוכל למצוא את הפתרון הלוגיסטי המושלם בפלטפורמה שלנו. למובילים, אנו מציעים הזדמנות להגדיל את נפח העסקים דרך אלפי לוחות מטענים המתעדכנים מדי יום.",
-        "הצטרף למהפכת הלוגיסטיקה הדיגיטלית על ידי הרשמה בחינם ב-Loadly. פרסם מטענים, קבל הצעות, ונהל את כל תהליך השילוח במקום אחד - נגיש מכל מכשיר, בכל עת."
+        "Loadly היא פלטפורמת תוכן העוסקת בלוגיסטיקה ומשלוחים, המפרסמת מדריכים מעשיים, תובנות מסלול וניתוחי תעשייה ב-55 שפות עבור שולחי מטענים, מובילים ואנשי מקצוע בתחום הלוגיסטיקה ברחבי העולם.",
+        "מעבר לתוכן העריכתי שלנו, Loadly מציעה גם שירות הרשמה ופרסום מטענים בחינם — שולחי מטענים יכולים לפרסם מטען תוך שניות, ומובילים יכולים להירשם כדי לקבל ולהגיב להצעות ישירות.",
+        "בין אם אתם חוקרים משלוחים חלקיים (LTL) או משלוחים מלאים (FTL), עלויות הובלה או דרישות רגולטוריות, המאמרים שלנו המתפרסמים באופן קבוע נכתבים ונבדקים כדי לעזור לכם לקבל החלטות לוגיסטיות מושכלות.",
+        "הצטרפו ל-Loadly בחינם כדי לגלות את המאמרים האחרונים שלנו, או הירשמו כדי לפרסם מטען — נגיש מכל מכשיר, בכל עת."
       ]
     },
     "marketplace": {
@@ -649,12 +649,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "bg": {
     "home": {
-      "title": "Loadly: Глобална платформа за логистика и товарни превози",
+      "title": "Loadly: Глобална Платформа за Логистична и Транспортна Информация",
       "paragraphs": [
-        "Loadly е иновативна платформа за логистика и транспорт, която свързва изпращачи с надеждни превозвачи по целия свят. Нашата мисия е да улесним бързия, сигурен и рентабилен превоз на товари по вътрешни и международни маршрути.",
-        "За разлика от традиционната спедиция, Loadly ви позволява да публикувате товарите си за секунди и незабавно да получавате конкурентни оферти. С нашите усъвършенствани алгоритми целим да премахнем празните пробези и да намалим транспортните разходи.",
-        "Независимо дали се нуждаете от LTL или FTL транспорт, можете да намерите перфектното логистично решение при нас. За превозвачите предлагаме възможност да увеличат обема на бизнеса си чрез хиляди ежедневно актуализирани борси за товари.",
-        "Присъединете се към дигиталната логистична революция, като се регистрирате безплатно в Loadly. Публикувайте товари, получавайте оферти и управлявайте целия процес от едно място."
+        "Loadly е платформа за съдържание в областта на логистиката и товарния транспорт, която публикува практически ръководства, анализи на маршрути и индустриални анализи на 55 езика за товародатели, превозвачи и логистични специалисти по целия свят.",
+        "Освен редакционното съдържание, Loadly предлага и безплатна услуга за регистрация и публикуване на товари — товародателите могат да публикуват товар за секунди, а превозвачите могат да се регистрират, за да получават и отговарят на оферти директно.",
+        "Независимо дали проучвате частичен (LTL) или пълен (FTL) превоз, транспортни разходи или регулаторни изисквания, редовно публикуваните ни статии се пишат и преглеждат, за да ви помогнат да вземате информирани логистични решения.",
+        "Присъединете се безплатно към Loadly, за да разгледате най-новите ни статии, или се регистрирайте, за да публикувате товар — достъпно от всяко устройство, по всяко време."
       ]
     },
     "marketplace": {
@@ -669,12 +669,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "hr": {
     "home": {
-      "title": "Loadly: Globalna platforma za logistiku i tržište tereta",
+      "title": "Loadly: Globalna Platforma za Logističke i Prijevozničke Informacije",
       "paragraphs": [
-        "Loadly je inovativna platforma za logistiku i transport koja povezuje pošiljatelje s pouzdanim prijevoznicima diljem svijeta. Naša je misija olakšati brz, siguran i isplativ prijevoz tereta na domaćim i međunarodnim rutama.",
-        "Za razliku od tradicionalnog otpremništva, Loadly vam omogućuje objavljivanje tereta u nekoliko sekundi i trenutačno primanje konkurentnih ponuda. Našim naprednim algoritmima ciljamo na uklanjanje praznih vožnji i smanjenje troškova transporta.",
-        "Bez obzira trebate li LTL ili FTL otpremu, na našoj platformi možete pronaći savršeno logističko rješenje. Za prijevoznike nudimo priliku za povećanje obujma poslovanja putem tisuća svakodnevno ažuriranih oglasnika za teret.",
-        "Pridružite se digitalnoj logističkoj revoluciji besplatnom registracijom na Loadly. Objavljujte terete, primajte ponude i upravljajte cijelim procesom s jednog mjesta."
+        "Loadly je platforma za sadržaj o logistici i prijevozu tereta koja objavljuje praktične vodiče, uvide o rutama i analize industrije na 55 jezika za pošiljatelje, prijevoznike i logističke stručnjake diljem svijeta.",
+        "Osim uredničkog sadržaja, Loadly nudi i besplatnu uslugu registracije i objave tereta — pošiljatelji mogu objaviti teret u nekoliko sekundi, a prijevoznici se mogu registrirati kako bi izravno primali i odgovarali na ponude.",
+        "Bez obzira istražujete li djelomični (LTL) ili puni (FTL) prijevoz, troškove prijevoza ili regulatorne zahtjeve, naši redovito objavljeni članci pišu se i pregledavaju kako bi vam pomogli donijeti informirane logističke odluke.",
+        "Pridružite se Loadly besplatno kako biste istražili naše najnovije članke, ili se registrirajte za objavu tereta — dostupno s bilo kojeg uređaja, u bilo koje vrijeme."
       ]
     },
     "marketplace": {
@@ -689,12 +689,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "sr": {
     "home": {
-      "title": "Loadly: Globalna platforma za logistiku i tržište tereta",
+      "title": "Loadly: Globalna Platforma za Logističke i Transportne Informacije",
       "paragraphs": [
-        "Loadly je inovativna platforma za logistiku i transport koja povezuje pošiljaoce sa pouzdanim prevoznicima širom sveta. Naša misija je da olakšamo brz, siguran i isplativ prevoz tereta na domaćim i međunarodnim rutama.",
-        "Za razliku od tradicionalnog špediterstva, Loadly vam omogućava da objavite svoj teret u sekundi i odmah dobijete konkurentne ponude. Sa našim naprednim algoritmima ciljamo na smanjenje praznih vožnji i optimizaciju troškova.",
-        "Bilo da vam je potreban LTL ili FTL prevoz, na našoj platformi možete pronaći savršeno logističko rešenje. Prevoznicima nudimo priliku za povećanje poslovanja putem hiljada svakodnevno ažuriranih berzi tereta.",
-        "Pridružite se digitalnoj logističkoj revoluciji besplatnom registracijom na Loadly. Objavljujte terete, dobijajte ponude i upravljajte celim procesom sa jednog mesta."
+        "Loadly je platforma za sadržaj o logistici i transportu tereta koja objavljuje praktične vodiče, uvide o rutama i analize industrije na 55 jezika za pošiljaoce, prevoznike i logističke stručnjake širom sveta.",
+        "Pored uredničkog sadržaja, Loadly nudi i besplatnu registraciju i uslugu objavljivanja tereta — pošiljaoci mogu objaviti teret za nekoliko sekundi, a prevoznici se mogu registrovati kako bi direktno primali i odgovarali na ponude.",
+        "Bilo da istražujete delimični (LTL) ili pun (FTL) prevoz, troškove transporta ili regulatorne zahteve, naši redovno objavljeni članci se pišu i pregledaju kako bi vam pomogli da donesete informisane logističke odluke.",
+        "Pridružite se Loadly-u besplatno da biste istražili naše najnovije članke, ili se registrujte da biste objavili teret — dostupno sa bilo kog uređaja, u bilo koje vreme."
       ]
     },
     "marketplace": {
@@ -709,12 +709,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "sk": {
     "home": {
-      "title": "Loadly: Globálna platforma pre logistiku a trh s nákladom",
+      "title": "Loadly: Globálna Platforma pre Logistické a Prepravné Informácie",
       "paragraphs": [
-        "Loadly je inovatívna platforma pre logistiku a dopravu, ktorá spája odosielateľov s dôveryhodnými dopravcami po celom svete. Našou misiou je uľahčiť rýchlu, bezpečnú a nákladovo efektívnu prepravu tovaru na domácich aj medzinárodných trasách.",
-        "Na rozdiel od tradičného špeditéra vám Loadly umožňuje zverejniť váš náklad v priebehu niekoľkých sekúnd a okamžite získať konkurencieschopné ponuky. Naším cieľom je znížiť počet jázd naprázdno a minimalizovať náklady.",
-        "Či už potrebujete prepravu LTL alebo FTL, na našej platforme nájdete dokonalé logistické riešenie. Dopravcom ponúkame možnosť zvýšiť objem podnikania prostredníctvom tisícok denne aktualizovaných búrz nákladov.",
-        "Pripojte sa k digitálnej logistickej revolúcii a zaregistrujte sa bezplatne na Loadly. Spravujte celý proces prepravy z jedného miesta."
+        "Loadly je obsahová platforma zameraná na logistiku a prepravu nákladu, ktorá publikuje praktické návody, prehľady trás a analýzy odvetvia v 55 jazykoch pre odosielateľov, dopravcov a logistických profesionálov po celom svete.",
+        "Okrem redakčného obsahu ponúka Loadly aj bezplatnú registráciu a službu zverejňovania nákladu — odosielatelia môžu zverejniť náklad v priebehu sekúnd a dopravcovia sa môžu zaregistrovať, aby priamo dostávali a odpovedali na ponuky.",
+        "Či už skúmate čiastočnú (LTL) alebo celokamiónovú (FTL) prepravu, náklady na prepravu alebo regulačné požiadavky, naše pravidelne publikované články sú napísané a kontrolované, aby vám pomohli robiť informované logistické rozhodnutia.",
+        "Pripojte sa k Loadly zadarmo a preskúmajte naše najnovšie články, alebo sa zaregistrujte a zverejnite náklad — dostupné z akéhokoľvek zariadenia, kedykoľvek."
       ]
     },
     "marketplace": {
@@ -729,12 +729,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "da": {
     "home": {
-      "title": "Loadly: Global platform for logistik og fragtmarked",
+      "title": "Loadly: Global Platform for Logistik- og Fragtinformation",
       "paragraphs": [
-        "Loadly er en innovativ logistik- og transportplatform, der forbinder afsendere med pålidelige transportører over hele verden. Vores mission er at lette hurtig, sikker og omkostningseffektiv godstransport på tværs af indenlandske og internationale ruter.",
-        "I modsætning til traditionel spedition giver Loadly dig mulighed for at bogføre dine laster på få sekunder og straks modtage konkurrencedygtige tilbud. Vi sigter mod at fjerne tomme kilometer og reducere transportomkostningerne.",
-        "Uanset om du har brug for LTL- eller FTL-forsendelse, kan du finde den perfekte logistikløsning på vores platform. For transportører tilbyder vi muligheden for at øge forretningsvolumen gennem tusindvis af dagligt opdaterede fragttavler.",
-        "Deltag i den digitale logistikrevolution ved at registrere dig gratis på Loadly. Bogfør laster, modtag tilbud og administrer hele din forsendelsesproces på ét sted."
+        "Loadly er en indholdsplatform for logistik og fragt, der udgiver praktiske guides, ruteindsigt og brancheanalyser på 55 sprog for afsendere, transportører og logistikprofessionelle verden over.",
+        "Ud over vores redaktionelle indhold tilbyder Loadly også en gratis registrerings- og lastopslagstjeneste — afsendere kan opslå en last på få sekunder, og transportører kan registrere sig for direkte at modtage og besvare tilbud.",
+        "Uanset om du undersøger delvis (LTL) eller fuld (FTL) fragt, fragtomkostninger eller lovkrav, er vores regelmæssigt udgivne artikler skrevet og gennemgået for at hjælpe dig med at træffe informerede logistikbeslutninger.",
+        "Tilmeld dig Loadly gratis for at udforske vores seneste artikler, eller registrer dig for at opslå en last — tilgængelig fra enhver enhed, når som helst."
       ]
     },
     "marketplace": {
@@ -749,12 +749,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "fi": {
     "home": {
-      "title": "Loadly: Maailmanlaajuinen logistiikka- ja rahtimarkkinapaikka",
+      "title": "Loadly: Maailmanlaajuinen Logistiikka- ja Rahtitiedon Alusta",
       "paragraphs": [
-        "Loadly on innovatiivinen logistiikka- ja kuljetusalusta, joka yhdistää lähettäjät luotettaviin rahdinkuljettajiin maailmanlaajuisesti. Missiomme on helpottaa nopeaa, turvallista ja kustannustehokasta tavaraliikennettä.",
-        "Toisin kuin perinteinen huolinta, Loadly antaa sinun julkaista rahtisi sekunneissa ja saada välittömästi kilpailukykyisiä tarjouksia. Pyrimme poistamaan tyhjät ajokilometrit ja vähentämään kuljetuskustannuksia.",
-        "Tarvitsitpa sitten LTL- tai FTL-kuljetusta, löydät täydellisen logistiikkaratkaisun alustaltamme. Rahdinkuljettajille tarjoamme mahdollisuuden kasvattaa liiketoimintaa tuhansien päivittäin päivitettävien rahtitaulujen avulla.",
-        "Liity digitaaliseen logistiikkavallankumoukseen rekisteröitymällä ilmaiseksi Loadlyyn. Julkaise rahteja, vastaanota tarjouksia ja hallinnoi koko lähetysprosessia yhdessä paikassa."
+        "Loadly on logistiikkaan ja rahtiin keskittyvä sisältöalusta, joka julkaisee käytännön oppaita, reittitietoa ja toimiala-analyysejä 55 kielellä lähettäjille, rahdinkuljettajille ja logistiikka-ammattilaisille ympäri maailman.",
+        "Toimituksellisen sisällön lisäksi Loadly tarjoaa myös ilmaisen rekisteröinti- ja kuormanjulkaisupalvelun — lähettäjät voivat julkaista kuorman sekunneissa, ja rahdinkuljettajat voivat rekisteröityä vastaanottaakseen ja vastatakseen tarjouksiin suoraan.",
+        "Tutkitpa sitten osakuormaa (LTL) tai täyttä kuormaa (FTL), rahtikustannuksia tai säädösvaatimuksia, säännöllisesti julkaistavat artikkelimme kirjoitetaan ja tarkistetaan auttaakseen sinua tekemään perusteltuja logistiikkapäätöksiä.",
+        "Liity Loadlyyn ilmaiseksi tutustuaksesi uusimpiin artikkeleihimme, tai rekisteröidy julkaistaksesi kuorman — käytettävissä miltä tahansa laitteelta, milloin tahansa."
       ]
     },
     "marketplace": {
@@ -769,12 +769,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "no": {
     "home": {
-      "title": "Loadly: Global plattform for logistikk og fraktmarked",
+      "title": "Loadly: Global Plattform for Logistikk- og Fraktinformasjon",
       "paragraphs": [
-        "Loadly er en innovativ logistikk- og transportplattform som forbinder avsendere med pålitelige transportører over hele verden. Vår misjon er å legge til rette for rask, sikker og kostnadseffektiv godstransport.",
-        "I motsetning til tradisjonell spedisjon, lar Loadly deg legge ut lastene dine på sekunder og umiddelbart motta konkurransedyktige tilbud. Vi tar sikte på å eliminere tomme kilometer og redusere transportkostnadene.",
-        "Enten du trenger LTL- eller FTL-frakt, kan du finne den perfekte logistikkløsningen på vår plattform. For transportører tilbyr vi muligheten til å øke forretningsvolumet gjennom tusenvis av daglig oppdaterte frakttavler.",
-        "Bli med i den digitale logistikkrevolusjonen ved å registrere deg gratis på Loadly. Legg ut laster, motta tilbud og administrer hele forsendelsesprosessen på ett sted."
+        "Loadly er en innholdsplattform for logistikk og frakt som publiserer praktiske guider, ruteinnsikt og bransjeanalyser på 55 språk for avsendere, transportører og logistikkfagfolk over hele verden.",
+        "I tillegg til vårt redaksjonelle innhold tilbyr Loadly også en gratis registrerings- og lastannonsetjeneste — avsendere kan legge ut en last på sekunder, og transportører kan registrere seg for å motta og svare på tilbud direkte.",
+        "Enten du undersøker delgods (LTL) eller helgods (FTL), fraktkostnader eller regelverkskrav, er våre jevnlig publiserte artikler skrevet og gjennomgått for å hjelpe deg med å ta informerte logistikkbeslutninger.",
+        "Bli med i Loadly gratis for å utforske våre nyeste artikler, eller registrer deg for å legge ut en last — tilgjengelig fra enhver enhet, når som helst."
       ]
     },
     "marketplace": {
@@ -789,12 +789,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "uz": {
     "home": {
-      "title": "Loadly: Global logistika va yuk tashish platformasi",
+      "title": "Loadly: Global Logistika va Yuk Tashish Ma'lumot Platformasi",
       "paragraphs": [
-        "Loadly - bu yuk jo'natuvchilarni ishonchli tashuvchilar bilan bog'laydigan innovatsion logistika va transport platformasi. Bizning vazifamiz ichki va xalqaro yo'nalishlar bo'ylab tez, xavfsiz va tejamkor yuk tashishni osonlashtirishdir.",
-        "An'anaviy ekspeditorlardan farqli o'laroq, Loadly yuklaringizni bir necha soniya ichida joylashtirish va darhol raqobatbardosh takliflarni olish imkonini beradi. Ilg'or algoritmlarimiz bilan biz bo'sh qatnovlarni yo'q qilishni va transport xarajatlarini kamaytirishni maqsad qilganmiz.",
-        "Sizga LTL yoki FTL yuki kerak bo'ladimi, bizning platformamizdan mukammal logistika yechimini topishingiz mumkin. Tashuvchilar uchun biz har kuni yangilanadigan minglab yuk e'lonlari orqali biznes hajmini oshirish imkoniyatini taklif qilamiz.",
-        "Loadly-da bepul ro'yxatdan o'tib, raqamli logistika inqilobiga qo'shiling. Yuklarni joylashtiring, takliflar oling va butun jo'natish jarayonini bir joydan boshqaring."
+        "Loadly — dunyo bo'ylab yuk jo'natuvchilar, tashuvchilar va logistika mutaxassislari uchun 55 tilda amaliy qo'llanmalar, marshrut tahlillari va soha tahlillarini nashr etuvchi logistika va yuk tashish kontent platformasidir.",
+        "Tahririyat kontentimizdan tashqari, Loadly bepul ro'yxatdan o'tish va yuk joylashtirish xizmatini ham taklif etadi — yuk jo'natuvchilar bir necha soniyada yuk e'lonini joylashtirishi mumkin, tashuvchilar esa takliflarni bevosita qabul qilish va javob berish uchun ro'yxatdan o'tishi mumkin.",
+        "LTL (qisman yuk) yoki FTL (to'liq yuk) tashish, yuk tashish xarajatlari yoki me'yoriy talablar haqida tadqiqot olib borayotgan bo'lsangiz, muntazam nashr etiladigan maqolalarimiz sizga asosli logistika qarorlarini qabul qilishga yordam berish uchun yoziladi va ko'rib chiqiladi.",
+        "Eng so'nggi maqolalarimizni ko'rish uchun Loadly'ga bepul qo'shiling yoki yuk joylashtirish uchun ro'yxatdan o'ting — istalgan qurilmadan, istalgan vaqtda foydalanish mumkin."
       ]
     },
     "marketplace": {
@@ -809,12 +809,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ta": {
     "home": {
-      "title": "Loadly: உலகளாவிய தளவாடங்கள் மற்றும் சரக்கு சந்தை தளம்",
+      "title": "Loadly: உலகளாவிய லாஜிஸ்டிக்ஸ் & சரக்கு தகவல் தளம்",
       "paragraphs": [
-        "Loadly என்பது உலகெங்கிலும் உள்ள நம்பகமான கேரியர்களுடன் சரக்கு ஏற்றுமதி செய்பவர்களை இணைக்கும் ஒரு புதுமையான தளவாட மற்றும் போக்குவரத்து தளமாகும். விரைவான, பாதுகாப்பான மற்றும் செலவு குறைந்த சரக்கு போக்குவரத்தை எளிதாக்குவதே எங்கள் நோக்கம்.",
-        "பாரம்பரிய சரக்கு பகிர்தல் போலல்லாமல், Loadly உங்கள் சுமைகளை நொடிகளில் பதிவு செய்து, உடனடியாக போட்டி விலைகளைப் பெற அனுமதிக்கிறது. மேம்பட்ட அல்காரிதம்கள் மூலம், வெற்று மைல்களை அகற்றுவதையும் போக்குவரத்து செலவுகளைக் குறைப்பதையும் நோக்கமாகக் கொண்டுள்ளோம்.",
-        "உங்களுக்கு LTL அல்லது FTL ஷிப்பிங் தேவைப்பட்டாலும், எங்களது தளத்தில் சரியான தளவாட தீர்வை நீங்கள் கண்டறியலாம். கேரியர்களுக்காக, தினசரி புதுப்பிக்கப்படும் ஆயிரக்கணக்கான சரக்கு பலகைகள் மூலம் வணிக அளவை அதிகரிக்க வாய்ப்பளிக்கிறோம்.",
-        "Loadly இல் இலவசமாக பதிவு செய்வதன் மூலம் டிஜிட்டல் தளவாடப் புரட்சியில் சேரவும். சுமைகளை பதிவு செய்யவும், சலுகைகளைப் பெறவும் மற்றும் உங்கள் முழு ஷிப்பிங் செயல்முறையையும் ஒரே இடத்தில் நிர்வகிக்கவும்."
+        "Loadly என்பது உலகெங்கிலும் உள்ள அனுப்புநர்கள், கேரியர்கள் மற்றும் லாஜிஸ்டிக்ஸ் நிபுணர்களுக்காக 55 மொழிகளில் நடைமுறை வழிகாட்டிகள், பாதை நுண்ணறிவு மற்றும் தொழில்துறை பகுப்பாய்வுகளை வெளியிடும் லாஜிஸ்டிக்ஸ் மற்றும் சரக்கு உள்ளடக்க தளமாகும்.",
+        "எங்கள் தலையங்க உள்ளடக்கத்திற்கு கூடுதலாக, Loadly இலவச பதிவு மற்றும் சரக்கு பதிவேற்ற சேவையையும் வழங்குகிறது — அனுப்புநர்கள் விநாடிகளில் சரக்கை பட்டியலிடலாம், கேரியர்கள் நேரடியாக சலுகைகளைப் பெற மற்றும் பதிலளிக்க பதிவு செய்யலாம்.",
+        "நீங்கள் பகுதி சுமை (LTL) அல்லது முழு சுமை (FTL) போக்குவரத்து, சரக்கு செலவுகள் அல்லது ஒழுங்குமுறை தேவைகள் பற்றி ஆராய்ந்தாலும், தொடர்ந்து வெளியிடப்படும் எங்கள் கட்டுரைகள் தகவலறிந்த லாஜிஸ்டிக்ஸ் முடிவுகளை எடுக்க உதவும் வகையில் எழுதப்பட்டு மதிப்பாய்வு செய்யப்படுகின்றன.",
+        "எங்கள் சமீபத்திய கட்டுரைகளை ஆராய இலவசமாக Loadly இல் சேரவும், அல்லது சரக்கு பதிவேற்ற பதிவு செய்யவும் — எந்த சாதனத்திலிருந்தும், எந்த நேரத்திலும் அணுகலாம்."
       ]
     },
     "marketplace": {
@@ -829,12 +829,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "mr": {
     "home": {
-      "title": "Loadly: जागतिक लॉजिस्टिक आणि फ्रेट मार्केटप्लेस प्लॅटफॉर्म",
+      "title": "Loadly: जागतिक लॉजिस्टिक्स आणि माल वाहतूक माहिती व्यासपीठ",
       "paragraphs": [
-        "Loadly हे एक नाविन्यपूर्ण लॉजिस्टिक आणि परिवहन प्लॅटफॉर्म आहे जे जगभरातील विश्वसनीय वाहकांसह शिपर्सना जोडते. जलद, सुरक्षित आणि किफायतशीर मालवाहतूक सुलभ करणे हे आमचे ध्येय आहे.",
-        "पारंपारिक फ्रेट फॉरवर्डिंगच्या विपरीत, Loadly तुम्हाला तुमचे लोड सेकंदात पोस्ट करू देते आणि त्वरित स्पर्धात्मक कोट्स प्राप्त करू देते. प्रगत अल्गोरिदमसह, आम्ही रिकामे मैल दूर करण्याचे आणि वाहतूक खर्च कमी करण्याचे उद्दिष्ट ठेवतो.",
-        "तुम्हाला LTL किंवा FTL शिपिंगची आवश्यकता असो, तुम्हाला आमच्या प्लॅटफॉर्मवर परिपूर्ण लॉजिस्टिक उपाय सापडेल. वाहकांसाठी, आम्ही दररोज अपडेट होणाऱ्या हजारो लोड बोर्डद्वारे व्यवसायाचे प्रमाण वाढवण्याची संधी देतो.",
-        "Loadly वर विनामूल्य नोंदणी करून डिजिटल लॉजिस्टिक क्रांतीमध्ये सामील व्हा. लोड पोस्ट करा, ऑफर मिळवा आणि तुमची संपूर्ण शिपिंग प्रक्रिया एकाच ठिकाणाहून व्यवस्थापित करा."
+        "Loadly हे जगभरातील प्रेषक, वाहतूकदार आणि लॉजिस्टिक्स व्यावसायिकांसाठी 55 भाषांमध्ये व्यावहारिक मार्गदर्शक, मार्ग अंतर्दृष्टी आणि उद्योग विश्लेषण प्रकाशित करणारे लॉजिस्टिक्स आणि माल वाहतूक सामग्री व्यासपीठ आहे.",
+        "आमच्या संपादकीय सामग्रीव्यतिरिक्त, Loadly विनामूल्य नोंदणी आणि लोड-पोस्टिंग सेवा देखील प्रदान करते — प्रेषक काही सेकंदात लोड सूचीबद्ध करू शकतात आणि वाहतूकदार थेट ऑफर मिळवण्यासाठी आणि प्रतिसाद देण्यासाठी नोंदणी करू शकतात.",
+        "तुम्ही लेस दॅन ट्रकलोड (LTL) किंवा फुल ट्रकलोड (FTL) शिपिंग, माल वाहतूक खर्च किंवा नियामक आवश्यकतांबद्दल संशोधन करत असाल, आमचे नियमितपणे प्रकाशित होणारे लेख तुम्हाला माहितीपूर्ण लॉजिस्टिक्स निर्णय घेण्यास मदत करण्यासाठी लिहिले आणि पुनरावलोकन केले जातात.",
+        "आमचे नवीनतम लेख पाहण्यासाठी विनामूल्य Loadly मध्ये सामील व्हा, किंवा लोड पोस्ट करण्यासाठी नोंदणी करा — कोणत्याही डिव्हाइसवरून, कधीही प्रवेशयोग्य."
       ]
     },
     "marketplace": {
@@ -849,12 +849,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "ka": {
     "home": {
-      "title": "Loadly: გლობალური ლოგისტიკისა და სატვირთო ბაზრის პლატფორმა",
+      "title": "Loadly: გლობალური ლოგისტიკისა და ტვირთის ინფორმაციის პლატფორმა",
       "paragraphs": [
-        "Loadly არის ინოვაციური ლოგისტიკური და სატრანსპორტო პლატფორმა, რომელიც აკავშირებს გამგზავნებს სანდო გადამზიდავებთან მთელ მსოფლიოში. ჩვენი მისიაა ხელი შევუწყოთ ტვირთის სწრაფ, უსაფრთხო და ეკონომიურ ტრანსპორტირებას.",
-        "ტრადიციული ექსპედიტორებისგან განსხვავებით, Loadly გაძლევთ საშუალებას გამოაქვეყნოთ თქვენი ტვირთი წამებში და დაუყოვნებლივ მიიღოთ კონკურენტუნარიანი შეთავაზებები. ჩვენი მიზანია შევამციროთ ცარიელი გარბენი და ტრანსპორტირების ხარჯები.",
-        "გჭირდებათ LTL თუ FTL გადაზიდვა, ჩვენს პლატფორმაზე იპოვით სრულყოფილ ლოგისტიკურ გადაწყვეტას. გადამზიდავებისთვის ჩვენ გთავაზობთ ბიზნესის მოცულობის გაზრდის შესაძლებლობას ათასობით ყოველდღიურად განახლებადი ტვირთის დაფის საშუალებით.",
-        "შემოუერთდით ციფრულ ლოგისტიკურ რევოლუციას Loadly-ზე უფასოდ დარეგისტრირებით. მართეთ მთელი გადაზიდვის პროცესი ერთი ადგილიდან."
+        "Loadly არის ლოგისტიკისა და ტვირთგადაზიდვის კონტენტ-პლატფორმა, რომელიც აქვეყნებს პრაქტიკულ სახელმძღვანელოებს, მარშრუტების ანალიზს და ინდუსტრიის ანალიზს 55 ენაზე მსოფლიოს მასშტაბით გამგზავნების, გადამზიდველებისა და ლოგისტიკის პროფესიონალებისთვის.",
+        "საგანმანათლებლო კონტენტთან ერთად, Loadly ასევე გთავაზობთ უფასო რეგისტრაციისა და ტვირთის განთავსების სერვისს — გამგზავნებს შეუძლიათ ტვირთის განთავსება წამებში, ხოლო გადამზიდველებს შეუძლიათ დარეგისტრირდნენ შეთავაზებების პირდაპირ მისაღებად და საპასუხოდ.",
+        "მიუხედავად იმისა, იკვლევთ თუ არა LTL თუ FTL გადაზიდვას, ტვირთის ღირებულებას თუ მარეგულირებელ მოთხოვნებს, ჩვენი რეგულარულად გამოქვეყნებული სტატიები იწერება და მოწმდება იმისთვის, რომ დაგეხმაროთ ინფორმირებული ლოგისტიკური გადაწყვეტილებების მიღებაში.",
+        "შემოუერთდით Loadly-ს უფასოდ ჩვენი უახლესი სტატიების სანახავად, ან დარეგისტრირდით ტვირთის განსათავსებლად — ხელმისაწვდომია ნებისმიერი მოწყობილობიდან, ნებისმიერ დროს."
       ]
     },
     "marketplace": {
@@ -869,12 +869,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "lt": {
     "home": {
-      "title": "Loadly: Globali logistikos ir krovinių pervežimo rinka",
+      "title": "Loadly: Pasaulinė Logistikos ir Krovinių Informacijos Platforma",
       "paragraphs": [
-        "Loadly yra inovatyvi logistikos ir transporto platforma, jungianti siuntėjus su patikimais vežėjais visame pasaulyje. Mūsų misija yra palengvinti greitą, saugų ir ekonomišką krovinių vežimą.",
-        "Priešingai nei tradiciniai ekspeditoriai, Loadly leidžia jums paskelbti savo krovinius per kelias sekundes ir iškart gauti konkurencingus pasiūlymus. Mes siekiame pašalinti tuščius reisus ir sumažinti transportavimo išlaidas.",
-        "Nesvarbu, ar jums reikia LTL, ar FTL siuntos, mūsų platformoje rasite tobulą logistikos sprendimą. Vežėjams siūlome galimybę padidinti verslo apimtis per tūkstančius kasdien atnaujinamų krovinių lentų.",
-        "Prisijunkite prie skaitmeninės logistikos revoliucijos nemokamai užsiregistruodami Loadly. Skelbkite krovinius, gaukite pasiūlymus ir valdykite visą siuntimo procesą iš vienos vietos."
+        "Loadly yra logistikos ir krovinių turinio platforma, publikuojanti praktinius vadovus, maršrutų įžvalgas ir pramonės analizes 55 kalbomis siuntėjams, vežėjams ir logistikos specialistams visame pasaulyje.",
+        "Be redakcinio turinio, Loadly taip pat siūlo nemokamą registracijos ir krovinio skelbimo paslaugą — siuntėjai gali paskelbti krovinį per kelias sekundes, o vežėjai gali užsiregistruoti, kad tiesiogiai gautų pasiūlymus ir į juos atsakytų.",
+        "Nesvarbu, ar tyrinėjate dalinį (LTL), ar pilną (FTL) krovinių vežimą, transportavimo išlaidas ar reguliavimo reikalavimus, mūsų reguliariai skelbiami straipsniai rašomi ir peržiūrimi, kad padėtų priimti pagrįstus logistikos sprendimus.",
+        "Prisijunkite prie Loadly nemokamai, kad susipažintumėte su naujausiais straipsniais, arba užsiregistruokite, kad paskelbtumėte krovinį — pasiekiama iš bet kurio įrenginio, bet kuriuo metu."
       ]
     },
     "marketplace": {
@@ -889,12 +889,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "lv": {
     "home": {
-      "title": "Loadly: Globālā loģistikas un kravu tirgus platforma",
+      "title": "Loadly: Globāla Loģistikas un Kravu Informācijas Platforma",
       "paragraphs": [
-        "Loadly ir inovatīva loģistikas un transporta platforma, kas savieno nosūtītājus ar uzticamiem pārvadātājiem visā pasaulē. Mūsu misija ir atvieglot ātru, drošu un rentablu kravu pārvadājumus.",
-        "Atšķirībā no tradicionālajiem ekspeditoriem, Loadly ļauj jums sekundēs ievietot savas kravas un nekavējoties saņemt konkurētspējīgus piedāvājumus. Mūsu mērķis ir likvidēt tukšos nobraukumus un samazināt transporta izmaksas.",
-        "Neatkarīgi no tā, vai jums nepieciešams LTL vai FTL sūtījums, mūsu platformā atradīsiet ideālu loģistikas risinājumu. Pārvadātājiem mēs piedāvājam iespēju palielināt biznesa apjomu, izmantojot tūkstošiem ikdienas atjauninātu kravu dēļu.",
-        "Pievienojieties digitālās loģistikas revolūcijai, bez maksas reģistrējoties Loadly. Pārvaldiet visu piegādes procesu no vienas vietas."
+        "Loadly ir loģistikas un kravu satura platforma, kas publicē praktiskus ceļvežus, maršrutu ieskatus un nozares analīzi 55 valodās nosūtītājiem, pārvadātājiem un loģistikas profesionāļiem visā pasaulē.",
+        "Papildus redakcionālajam saturam Loadly piedāvā arī bezmaksas reģistrācijas un kravu izvietošanas pakalpojumu — nosūtītāji var izvietot kravu dažu sekunžu laikā, un pārvadātāji var reģistrēties, lai tieši saņemtu piedāvājumus un uz tiem atbildētu.",
+        "Neatkarīgi no tā, vai pētāt daļēju (LTL) vai pilnu (FTL) kravu pārvadāšanu, transportēšanas izmaksas vai regulējošās prasības, mūsu regulāri publicētie raksti tiek rakstīti un pārskatīti, lai palīdzētu jums pieņemt pamatotus loģistikas lēmumus.",
+        "Pievienojieties Loadly bez maksas, lai iepazītos ar mūsu jaunākajiem rakstiem, vai reģistrējieties, lai izvietotu kravu — pieejams no jebkuras ierīces, jebkurā laikā."
       ]
     },
     "marketplace": {
@@ -909,12 +909,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "et": {
     "home": {
-      "title": "Loadly: Globaalne logistika ja kaubaveo turg",
+      "title": "Loadly: Globaalne Logistika ja Veoinfo Platvorm",
       "paragraphs": [
-        "Loadly on uuenduslik logistika- ja transpordiplatvorm, mis ühendab saatjad usaldusväärsete vedajatega kogu maailmas. Meie missioon on hõlbustada kiiret, turvalist ja kulutõhusat kaubavedu.",
-        "Erinevalt traditsioonilisest ekspedeerimisest võimaldab Loadly teil postitada oma laadungi sekunditega ja saada koheselt konkurentsivõimelisi pakkumisi. Meie eesmärk on kaotada tühjad kilomeetrid ja vähendada transpordikulusid.",
-        "Ükskõik, kas vajate LTL või FTL saadetist, leiate meie platvormilt täiusliku logistikalahenduse. Vedajatele pakume võimalust suurendada ärimahtu tuhandete igapäevaselt uuendatavate kaubatahvlite kaudu.",
-        "Liituge digitaalse logistika revolutsiooniga, registreerudes Loadly's tasuta. Hallake kogu saatmisprotsessi ühest kohast."
+        "Loadly on logistika ja veose sisuplatvorm, mis avaldab praktilisi juhendeid, marsruudiülevaateid ja tööstusanalüüse 55 keeles saatjatele, vedajatele ja logistikaspetsialistidele üle kogu maailma.",
+        "Lisaks toimetatud sisule pakub Loadly ka tasuta registreerimis- ja veosepostitusteenust — saatjad saavad postitada veose sekunditega ning vedajad saavad registreeruda, et otse pakkumisi vastu võtta ja neile vastata.",
+        "Olenemata sellest, kas uurite osalist (LTL) või täislastiga (FTL) vedu, veokulusid või regulatiivseid nõudeid, kirjutatakse ja vaadatakse meie regulaarselt avaldatavad artiklid üle, et aidata teil teha teadlikke logistikaotsuseid.",
+        "Liituge Loadlyga tasuta, et tutvuda meie uusimate artiklitega, või registreeruge, et postitada veos — juurdepääsetav igast seadmest, igal ajal."
       ]
     },
     "marketplace": {
@@ -929,12 +929,12 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
   },
   "sl": {
     "home": {
-      "title": "Loadly: Globalna logistična in tovorna platforma",
+      "title": "Loadly: Globalna Platforma za Logistične in Prevozne Informacije",
       "paragraphs": [
-        "Loadly je inovativna logistična in transportna platforma, ki povezuje pošiljatelje z zanesljivimi prevozniki po vsem svetu. Naše poslanstvo je olajšati hiter, varen in stroškovno učinkovit prevoz tovora.",
-        "V nasprotju s tradicionalnim špediterstvom vam Loadly omogoča, da svoj tovor objavite v nekaj sekundah in takoj prejmete konkurenčne ponudbe. Naš cilj je odpraviti prazne vožnje in zmanjšati stroške prevoza.",
-        "Ne glede na to, ali potrebujete LTL ali FTL pošiljko, boste na naši platformi našli popolno logistično rešitev. Prevoznikom ponujamo priložnost za povečanje obsega poslovanja prek tisočih dnevno posodobljenih tovarnih desk.",
-        "Pridružite se digitalni logistični revoluciji z brezplačno registracijo na Loadly. Upravljajte celoten postopek pošiljanja z enega mesta."
+        "Loadly je platforma za vsebine s področja logistike in tovornega prometa, ki v 55 jezikih objavlja praktične vodnike, vpoglede v poti in panožne analize za pošiljatelje, prevoznike in logistične strokovnjake po vsem svetu.",
+        "Poleg uredniške vsebine Loadly ponuja tudi brezplačno registracijo in storitev objave tovora — pošiljatelji lahko tovor objavijo v nekaj sekundah, prevozniki pa se lahko registrirajo za neposredno prejemanje in odgovarjanje na ponudbe.",
+        "Ne glede na to, ali raziskujete delni (LTL) ali polni (FTL) prevoz, stroške prevoza ali regulativne zahteve, so naši redno objavljeni članki napisani in pregledani, da vam pomagajo sprejemati informirane logistične odločitve.",
+        "Brezplačno se pridružite Loadly, da raziščete naše najnovejše članke, ali se registrirajte za objavo tovora — dostopno iz katere koli naprave, kadar koli."
       ]
     },
     "marketplace": {
