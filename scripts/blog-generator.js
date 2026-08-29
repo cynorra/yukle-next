@@ -34,9 +34,13 @@ const groqApiKey = process.env.GROQ_API_KEY;
 // (see the comment by translateTextOnce for why this replaced Google
 // Translate). Same Cloudflare account this site's Worker already runs on —
 // API token needs "Workers AI: Read" permission, account ID is visible on
-// any page of the Cloudflare dashboard.
-const cfApiToken = process.env.CF_API_TOKEN;
-const cfAccountId = process.env.CF_ACCOUNT_ID;
+// any page of the Cloudflare dashboard. Deliberately NOT named CF_API_TOKEN/
+// CF_ACCOUNT_ID — those are wrangler's own reserved (deprecated) auth env
+// var names, and a local .env.local carrying them makes `wrangler deploy`
+// silently authenticate with this narrowly-scoped AI token instead of the
+// real login, failing with an opaque "Authentication error [code: 10000]".
+const cfApiToken = process.env.CF_WORKERS_AI_TOKEN;
+const cfAccountId = process.env.CF_WORKERS_AI_ACCOUNT_ID;
 const defaultAuthorId = process.env.SCRAPER_SHIPPER_ID || '3c9d15c1-ce40-42c4-b5bc-f2de51a747d5';
 
 if (!supabaseUrl || (!anonKey && !serviceKey)) {
