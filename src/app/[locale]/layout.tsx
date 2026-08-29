@@ -154,7 +154,6 @@ export default async function LocalizedLayout({ children, params }: Props) {
       'Logistics',
       'Trucking',
       'Supply Chain Management',
-      'Load Boards',
       'Cargo Shipping',
     ],
     founder: {
@@ -168,20 +167,6 @@ export default async function LocalizedLayout({ children, params }: Props) {
       '@type': 'ContactPoint',
       contactType: 'customer service',
       availableLanguage: ['English', 'Spanish', 'French', 'German', 'Turkish', 'Arabic'],
-    },
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Loadly Services',
-      itemListElement: [
-        {
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Load Posting for Shippers' },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Load Matching for Carriers & Drivers' },
-        },
-      ],
     },
   };
 

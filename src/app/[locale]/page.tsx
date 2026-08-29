@@ -25,31 +25,31 @@ const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }
   tr: {
     title: 'Sıkça Sorulan Sorular',
     items: [
-      { q: 'Loadly nedir?', a: 'Loadly, lojistik ve nakliye sektörüne dair güncel rehber içerikleri, sektör analizleri ve pratik bilgiler sunan bir içerik platformudur. Yük sahipleri ve nakliyeciler ayrıca ücretsiz kayıt olup ilan oluşturabilir.' },
-      { q: 'Loadly ücretsiz mi?', a: 'Evet, platforma kayıt olmak ve yük ilanı oluşturmak tamamen ücretsizdir. Herhangi bir komisyon veya üyelik ücreti alınmamaktadır.' },
-      { q: 'Nasıl yük ilanı oluştururum?', a: 'Üye olun, yük bilgilerinizi (ağırlık, boyut, alış/teslim noktası, tarih) girin ve ilanınız saniyeler içinde hesabınızda aktif olur.' },
-      { q: 'Loadly blogunda ne tür içerikler var?', a: 'Nakliye maliyetleri, güzergah rehberleri, mevzuat değişiklikleri ve sektör trendleri üzerine düzenli olarak yayınlanan, uzman editör kontrolünden geçen makaleler bulabilirsiniz.' },
-      { q: 'Hangi yük türlerini taşıyabilirim?', a: 'Platform; parsiyel taşıma (LTL), komple tır yükü (FTL), acil / ekspres nakliye, soğuk zincir (frigo), açık kasa ve özel yük ilanlarını destekler.' },
-      { q: 'Nakliyeciler nasıl doğrulanır?', a: 'Nakliyeciler profil tamamlama, kimlik doğrulaması ve kullanıcı derecelendirme sistemiyle değerlendirilir. Yüksek puanlı nakliyeciler öne çıkar.' },
-      { q: 'Yüklerim güvende mi?', a: 'Loadly bir ilan ve eşleştirme platformudur. Sigorta ve sözleşme detayları doğrudan nakliyeci ile yük sahibi arasında belirlenir. Platform, güvenilir nakliyecilerle çalışmanızı kolaylaştırmak için derecelendirme sistemi sunar.' },
-      { q: 'Hangi bölgeleri kapsıyorsunuz?', a: 'İçeriklerimiz başta Türkiye olmak üzere Avrupa, Orta Doğu ve dünya genelindeki lojistik hareketlerini kapsar; kayıt ve ilan özellikleri global olarak kullanılabilir.' },
+      { q: 'Loadly nedir?', a: 'Loadly, lojistik ve nakliye sektörü için pratik rehberler, sektör analizleri ve haberler yayınlayan, 55 dilde erişilebilen bir içerik platformudur.' },
+      { q: 'Loadly ücretsiz mi?', a: "Evet. Loadly'deki tüm makaleler ve rehberler tamamen ücretsizdir, kayıt veya abonelik gerektirmez." },
+      { q: 'Loadly hangi konuları kapsıyor?', a: 'Nakliye maliyetleri, sevkiyat güzergahları, sektör mevzuatı, parsiyel (LTL) ve komple (FTL) lojistik ile daha geniş tedarik zinciri trendlerini kapsıyoruz.' },
+      { q: 'Ne sıklıkla yeni içerik yayınlanıyor?', a: 'Yeni makaleler düzenli olarak yayınlanır ve nakliye ile lojistik sektöründeki en güncel gelişmeleri kapsar.' },
+      { q: 'İçerikleri kim yazıyor?', a: 'Makaleler, yayınlanmadan önce araştırılır ve doğruluk için editörden geçirilir, güvenilir sektör kaynaklarına ve verilere dayanır.' },
+      { q: 'Loadly hangi dillerde mevcut?', a: 'Loadly, 55 dilde içerik yayınlar; böylece rehberleri ve sektör haberlerini kendi dilinizde okuyabilirsiniz.' },
+      { q: 'Hangi bölgeleri kapsıyorsunuz?', a: 'İçeriklerimiz başta Türkiye olmak üzere Avrupa, Orta Doğu ve dünya genelindeki lojistik trendlerini kapsar.' },
+      { q: 'Bir konu önerebilir miyim?', a: 'Evet! Konu önerileriniz veya sorularınız için info@loadlyapp.com adresine e-posta gönderebilirsiniz — her mesajı okuyoruz.' },
       { q: 'Destek için nasıl iletişime geçebilirim?', a: 'info@loadlyapp.com adresine e-posta göndererek bizimle iletişime geçebilirsiniz. En geç 24 saat içinde size geri dönüş yapıyoruz.' },
-      { q: 'Mobil cihazdan kullanabilir miyim?', a: 'Evet! Loadly tamamen mobil uyumlu bir web uygulamasıdır. Telefon, tablet veya bilgisayarınızdan kolaylıkla kullanabilirsiniz.' },
+      { q: "Loadly'yi mobil cihazdan kullanabilir miyim?", a: 'Evet! Loadly tamamen mobil uyumlu bir web sitesidir. Makaleleri telefon, tablet veya bilgisayarınızdan kolayca okuyabilirsiniz.' },
     ],
   },
   en: {
     title: 'Frequently Asked Questions',
     items: [
-      { q: 'What is Loadly?', a: 'Loadly is a content platform offering up-to-date guides, industry analysis, and practical information for the logistics and freight sector. Shippers and carriers can also register for free and post listings.' },
-      { q: 'Is Loadly free to use?', a: 'Yes, registering on the platform and posting loads is completely free. There are no commissions or membership fees charged.' },
-      { q: 'How do I post a load?', a: 'Register, enter your cargo details (weight, dimensions, pickup/delivery location, date) and your listing becomes active on your account within seconds.' },
-      { q: 'What kind of content is on the Loadly blog?', a: 'Regularly published, editorially-reviewed articles covering freight costs, route guides, regulatory changes, and industry trends.' },
-      { q: 'What types of freight can I post?', a: 'The platform supports Less Than Truckload (LTL), Full Truckload (FTL), urgent/express freight, refrigerated (reefer), flatbed, and special cargo listings.' },
-      { q: 'How are carriers verified?', a: 'Carriers are evaluated through profile completion, identity verification, and a user rating system. Higher-rated carriers are featured more prominently.' },
-      { q: 'Is my cargo safe?', a: 'Loadly is a listing and matching platform. Insurance and contract details are arranged directly between the carrier and shipper. The platform offers a rating system to help you work with trusted carriers.' },
-      { q: 'Which regions do you cover?', a: 'Our content covers logistics movements primarily in Turkey, Europe, the Middle East, and worldwide; registration and listing features are available globally.' },
+      { q: 'What is Loadly?', a: 'Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector, available in 55 languages.' },
+      { q: 'Is Loadly free to use?', a: 'Yes. All articles and guides on Loadly are completely free to read, with no registration or subscription required.' },
+      { q: 'What topics does Loadly cover?', a: 'We cover freight costs, shipping routes, industry regulations, LTL and FTL logistics, and broader supply chain trends.' },
+      { q: 'How often is new content published?', a: 'New articles are published regularly, covering the latest developments across the freight and logistics industry.' },
+      { q: 'Who writes the content?', a: 'Articles are researched and edited for accuracy before publishing, drawing on established industry sources and data.' },
+      { q: 'Which languages is Loadly available in?', a: 'Loadly publishes content in 55 languages, so you can read guides and industry news in your own language.' },
+      { q: 'Which regions do you cover?', a: 'Our content covers logistics and freight trends primarily in Turkey, Europe, the Middle East, and worldwide.' },
+      { q: 'Can I suggest a topic?', a: 'Yes! Email us at info@loadlyapp.com with topic suggestions or questions — we read every message.' },
       { q: 'How do I contact support?', a: 'You can reach us by sending an email to info@loadlyapp.com. We respond within 24 hours at the latest.' },
-      { q: 'Can I use it on mobile?', a: 'Yes! Loadly is a fully mobile-responsive web application. You can easily use it on your phone, tablet, or computer.' },
+      { q: 'Can I use Loadly on mobile?', a: 'Yes! Loadly is a fully mobile-responsive website. You can read articles easily on your phone, tablet, or computer.' },
     ],
   },
 };
@@ -135,13 +135,13 @@ export default async function HomePage({ params }: PageProps) {
 
               <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
                 <TextureButton asChild variant="accent" className="w-full sm:w-auto !rounded-2xl px-10 py-5 text-lg">
-                  <Link href={`/${locale}/register`}>
+                  <Link href={`/${locale}/blog`}>
                     {t.home.registerBtn}
                   </Link>
                 </TextureButton>
                 <TextureButton asChild variant="secondary" className="w-full sm:w-auto !rounded-2xl px-10 py-5 text-lg">
-                  <Link href={`/${locale}/blog`}>
-                    {t.nav.blog}
+                  <Link href={`/${locale}/about`}>
+                    {t.nav.about}
                   </Link>
                 </TextureButton>
               </div>
@@ -230,14 +230,14 @@ export default async function HomePage({ params }: PageProps) {
                 {t.home.ctaDesc}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <Link href={`/${locale}/register`} className="w-full sm:w-auto">
+                <Link href={`/${locale}/blog`} className="w-full sm:w-auto">
                   <TextureButton variant="accent" className="w-full !rounded-2xl transition-transform hover:scale-105 active:scale-95 px-10 py-5 text-base sm:text-lg font-bold tracking-wide">
                     {t.home.ctaJoin}
                   </TextureButton>
                 </Link>
-                <Link href={`/${locale}/blog`} className="w-full sm:w-auto">
+                <Link href={`/${locale}/contact`} className="w-full sm:w-auto">
                   <TextureButton variant="secondary" className="w-full !rounded-2xl transition-transform hover:scale-105 active:scale-95 px-10 py-5 text-base sm:text-lg font-bold tracking-wide">
-                    {t.nav.blog}
+                    {t.nav.contact}
                   </TextureButton>
                 </Link>
               </div>

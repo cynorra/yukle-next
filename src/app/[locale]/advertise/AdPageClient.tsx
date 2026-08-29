@@ -28,9 +28,9 @@ export function AdPageClient() {
   ];
 
   const stats = [
-    { value: '50+', label: 'Ülke', icon: Globe },
-    { value: '5.000+', label: 'Aktif Kullanıcı', icon: Users },
-    { value: '%78', label: 'Mobil Trafik', icon: BarChart3 },
+    { value: '55', label: 'Dil', icon: Globe },
+    { value: 'Günlük', label: 'Yeni İçerik', icon: Users },
+    { value: 'Editoryal', label: 'İçerik Kalitesi', icon: BarChart3 },
   ];
 
   return (
@@ -45,7 +45,7 @@ export function AdPageClient() {
           </h1>
           <p className={`text-lg ${t.muted} max-w-2xl mx-auto leading-relaxed`}>
             Türkiye ve dünya genelinde lojistik ve nakliye sektörü profesyonellerine ulaşmanın en etkili yolu.
-            Platforma kayıtlı binlerce nakliyeci, yük sahibi ve lojistik firmasına markanızı tanıtın.
+            55 dilde yayınlanan içeriklerimiz aracılığıyla markanızı sektöre özel okuyucu kitlemize tanıtın.
           </p>
         </div>
 
@@ -66,10 +66,10 @@ export function AdPageClient() {
           <div className="space-y-3">
             {[
               'Lojistik ve nakliye sektörüne özgü, yüksek kaliteli hedef kitle',
-              'Türkiye başta olmak üzere 50+ ülkede aktif kullanıcı tabanı',
-              'Günlük binlerce aktif oturum ve yük işlemi',
-              'Mobil öncelikli platform — kullanıcıların %78\'i mobil cihazdan erişiyor',
-              'Şehiriçi, şehirlerarası ve uluslararası nakliye segmentlerine ulaşım',
+              '55 dilde yayınlanan, sektöre özel editoryal içerik',
+              'Düzenli olarak güncellenen, güncel makale akışı',
+              'Mobil uyumlu, her cihazdan kolay erişilebilir tasarım',
+              'Nakliye, lojistik ve tedarik zinciri okuyucularına ulaşım',
               'Uygun fiyatlı ve ölçülebilir reklam paketleri',
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-3">
@@ -109,9 +109,9 @@ export function AdPageClient() {
           <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>Kimler Reklam Verebilir?</h2>
           <div className="grid md:grid-cols-2 gap-4">
             {[
-              { title: 'Nakliye ve Lojistik Firmalar', desc: 'Şirket profilinizi öne çıkarın, daha fazla yük teklifi alın.' },
+              { title: 'Nakliye ve Lojistik Firmalar', desc: 'Şirket profilinizi öne çıkarın, sektöre özel okuyucu kitlemize ulaşın.' },
               { title: 'Araç ve Ekipman Satıcıları', desc: 'Tır, kamyon ve lojistik ekipman markaları için hedefli erişim.' },
-              { title: 'Sigorta ve Finans Şirketleri', desc: 'Nakliyecilere ve yük sahiplerine hizmetlerinizi tanıtın.' },
+              { title: 'Sigorta ve Finans Şirketleri', desc: 'Lojistik sektöründeki okuyucularımıza hizmetlerinizi tanıtın.' },
               { title: 'Yazılım ve Teknoloji Şirketleri', desc: 'Lojistik sektörüne yönelik SaaS ve teknoloji çözümlerini duyurun.' },
             ].map(({ title, desc }, i) => (
               <div key={i} className="p-4 rounded-xl bg-surface-light/50 dark:bg-surface-dark/50 border border-border-light dark:border-border-dark">

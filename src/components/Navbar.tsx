@@ -13,7 +13,6 @@ import type { Locale } from '@/utils/translations';
 import { Menu, X, Package, Truck, User, LogOut, MessageSquare, Sun, Moon, BookOpen, Globe, ChevronDown, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TextureCard, TextureCardContent } from '@/components/ui/texture-card';
-import { TextureButton } from '@/components/ui/texture-button';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -228,16 +227,6 @@ export default function Navbar() {
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
                 </button>
-                <TextureButton asChild variant="minimal" className="!rounded-full px-6 py-2 ml-1 shrink-0">
-                  <Link href={`/${locale}/login`}>
-                    {t.nav.login}
-                  </Link>
-                </TextureButton>
-                <TextureButton asChild variant="accent" className="!rounded-full px-6 py-2">
-                  <Link href={`/${locale}/register`}>
-                    {t.nav.register}
-                  </Link>
-                </TextureButton>
               </>
             )}
           </div>
@@ -346,26 +335,7 @@ export default function Navbar() {
                       {t.nav.logout}
                     </button>
                   </div>
-                ) : (
-                  <div className="grid grid-cols-2 gap-3 p-2">
-                    <TextureButton asChild variant="secondary" className="w-full !rounded-xl">
-                      <Link
-                        href={`/${locale}/login`}
-                        onClick={() => setOpen(false)}
-                      >
-                        {t.nav.login}
-                      </Link>
-                    </TextureButton>
-                    <TextureButton asChild variant="accent" className="w-full !rounded-xl">
-                      <Link
-                        href={`/${locale}/register`}
-                        onClick={() => setOpen(false)}
-                      >
-                        {t.nav.register}
-                      </Link>
-                    </TextureButton>
-                  </div>
-                )}
+                ) : null}
               </div>
               
               <div className="flex items-center justify-between px-4 py-3 bg-surface-light dark:bg-surface-dark rounded-xl mt-4">

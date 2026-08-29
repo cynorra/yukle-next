@@ -27,17 +27,17 @@ const FAQ_LABELS: Record<string, { faqTitle: string; items: { q: string; a: stri
   tr: {
     faqTitle: 'Sıkça Sorulan Sorular',
     items: [
-      { q: 'Loadly ücretsiz mi?', a: 'Evet! Yük ilanı oluşturmak ve platforma kayıt olmak tamamen ücretsizdir.' },
+      { q: 'Loadly ücretsiz mi?', a: "Evet! Loadly'deki tüm içerikler ve rehberler tamamen ücretsizdir, kayıt gerekmez." },
       { q: 'Destek süreniz ne kadar?', a: 'E-posta taleplerinize en geç 24 saat içinde yanıt veriyoruz.' },
-      { q: 'Hangi ülkelerde hizmet veriyorsunuz?', a: '50\'den fazla ülkede aktif kullanıcılarımız bulunmakta olup küresel erişimimizi sürekli genişletiyoruz.' },
+      { q: 'Hangi bölgeleri kapsıyorsunuz?', a: 'İçeriklerimiz başta Türkiye olmak üzere Avrupa, Orta Doğu ve dünya genelindeki lojistik trendlerini kapsar.' },
     ],
   },
   en: {
     faqTitle: 'Frequently Asked Questions',
     items: [
-      { q: 'Is Loadly free to use?', a: 'Yes! Creating load listings and registering on the platform is completely free.' },
+      { q: 'Is Loadly free to use?', a: 'Yes! All content and guides on Loadly are completely free, no registration required.' },
       { q: 'How fast do you respond to support requests?', a: 'We respond to email inquiries within 24 hours at the latest.' },
-      { q: 'Which countries do you serve?', a: 'We have active users in over 50 countries and are continuously expanding our global reach.' },
+      { q: 'Which regions do you cover?', a: 'Our content covers logistics trends primarily in Turkey, Europe, the Middle East, and worldwide.' },
     ],
   },
 };
