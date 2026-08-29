@@ -22,6 +22,14 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const geminiApiKey = process.env.GEMINI_API_KEY;
+// Separate key/provider for the per-language polish pass specifically — that
+// step alone now makes ~54 calls/run (one per translated language), which
+// would compete with the base-article/topic-bank generation for the same
+// Gemini free-tier daily quota. Groq's free tier has a much higher daily
+// request ceiling, so the polish pass runs there instead; base article
+// generation and the topic bank stay on Gemini (2 calls/day tops, no
+// pressure there).
+const groqApiKey = process.env.GROQ_API_KEY;
 const defaultAuthorId = process.env.SCRAPER_SHIPPER_ID || '3c9d15c1-ce40-42c4-b5bc-f2de51a747d5';
 
 if (!supabaseUrl || (!anonKey && !serviceKey)) {
@@ -696,9 +704,10 @@ async function translatePostUsingGoogle(basePost, targetLangCode) {
 // target languages at volume, a real (if secondary) contributor to the
 // AdSense "low value content" rejection alongside the bot-listing hub pages.
 // So every translated language, not just Turkish, now gets one lightweight
-// Gemini editing pass for natural, native-quality phrasing — not a rewrite,
+// editing pass (via Groq, not Gemini — see the comment by groqApiKey above
+// for why) for natural, native-quality phrasing — not a rewrite,
 // facts/numbers/structure untouched, and skipped entirely (falls back to the
-// plain machine translation) if Gemini fails or visibly truncates the
+// plain machine translation) if the call fails or visibly truncates the
 // content. Turkish additionally requires a fixed set of client-flagged
 // keywords that Google Translate reliably fails to produce on its own (see
 // TR_REQUIRED_KEYWORDS below) — every other language gets the fluency pass
@@ -710,16 +719,13 @@ function wordCount(html) {
 }
 
 async function polishTranslatedPost(post, langName, langCode) {
-  if (!geminiApiKey) return post;
+  if (!groqApiKey) return post;
 
   const keywordInstruction = langCode === 'tr'
     ? ` so that each of these Turkish keywords appears naturally at least once somewhere across the title/excerpt/content, wherever it topically fits: ${TR_REQUIRED_KEYWORDS.join(', ')}. Skip any keyword that genuinely has no natural place in this specific article rather than forcing it in. Never keyword-stuff — one natural mention each is enough.`
     : '';
 
-  const payload = JSON.stringify({
-    contents: [{
-      parts: [{
-        text: `You are a native ${langName} editor for Loadly, a freight/logistics marketplace blog. The JSON below is a ${langName} blog post that was machine-translated from English by Google Translate. Lightly edit it for natural, fluent, native-quality phrasing — fix awkward literal machine-translation wording, unnatural word order, and mistranslated idioms.${keywordInstruction} Do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — this is a polish pass, not a rewrite.
+  const prompt = `You are a native ${langName} editor for Loadly, a freight/logistics marketplace blog. The JSON below is a ${langName} blog post that was machine-translated from English by Google Translate. Lightly edit it for natural, fluent, native-quality phrasing — fix awkward literal machine-translation wording, unnatural word order, and mistranslated idioms.${keywordInstruction} Do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — this is a polish pass, not a rewrite.
 
 Rules:
 - Preserve every HTML tag in "content" exactly as structured (h2/h3/p/ul/li/table/a href/strong/blockquote etc.) — only edit the text inside them. Do not add, remove, or reorder tags or sections.
@@ -730,28 +736,10 @@ Rules:
 Input JSON:
 ${JSON.stringify({ title: post.title, excerpt: post.excerpt, content: post.content, meta_title: post.meta_title, meta_description: post.meta_description })}
 
-Return ONLY valid JSON with this exact shape: {"title": "...", "excerpt": "...", "content": "...", "meta_title": "...", "meta_description": "..."}`
-      }]
-    }],
-    generationConfig: {
-      responseMimeType: 'application/json',
-      maxOutputTokens: 32768,
-      responseSchema: {
-        type: 'OBJECT',
-        properties: {
-          title: { type: 'STRING' },
-          excerpt: { type: 'STRING' },
-          content: { type: 'STRING' },
-          meta_title: { type: 'STRING' },
-          meta_description: { type: 'STRING' }
-        },
-        required: ['title', 'excerpt', 'content', 'meta_title', 'meta_description']
-      }
-    }
-  });
+Return ONLY valid JSON with this exact shape, no markdown code fences, no extra text: {"title": "...", "excerpt": "...", "content": "...", "meta_title": "...", "meta_description": "..."}`;
 
   try {
-    const polished = await callGeminiWithRetry(payload, 2);
+    const polished = await callGroqWithRetry(prompt, 2);
     const originalWords = wordCount(post.content);
     const polishedWords = wordCount(polished.content);
     if (polishedWords < originalWords * 0.8) {
@@ -762,6 +750,82 @@ Return ONLY valid JSON with this exact shape: {"title": "...", "excerpt": "...",
   } catch (e) {
     console.warn(`[${langName} Polish] Failed, keeping plain machine translation: ${e.message}`);
     return post;
+  }
+}
+
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
+
+function makeGroqRequest(prompt) {
+  const payload = JSON.stringify({
+    model: GROQ_MODEL,
+    messages: [{ role: 'user', content: prompt }],
+    response_format: { type: 'json_object' },
+    temperature: 0.3,
+    max_tokens: 8192
+  });
+
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'api.groq.com',
+      port: 443,
+      path: '/openai/v1/chat/completions',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${groqApiKey}`,
+        'Content-Length': Buffer.byteLength(payload)
+      }
+    };
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (res.statusCode !== 200) {
+            reject({ statusCode: res.statusCode, message: parsed.error?.message || data, raw: data });
+            return;
+          }
+          const finishReason = parsed.choices?.[0]?.finish_reason;
+          if (finishReason === 'length') {
+            reject(new Error('Groq hit max_tokens — response was truncated mid-generation'));
+            return;
+          }
+          const textResponse = parsed.choices?.[0]?.message?.content;
+          if (!textResponse) {
+            reject(new Error(`Empty response from Groq API (finish_reason: ${finishReason || 'unknown'})`));
+            return;
+          }
+          resolve(JSON.parse(textResponse));
+        } catch (e) {
+          reject(new Error(`Failed to parse Groq output: ${e.message}. Raw: ${data.slice(0, 500)}`));
+        }
+      });
+    });
+    req.on('error', reject);
+    req.write(payload);
+    req.end();
+  });
+}
+
+async function callGroqWithRetry(prompt, maxRetries = 3) {
+  let attempt = 0;
+  while (attempt < maxRetries) {
+    try {
+      return await makeGroqRequest(prompt);
+    } catch (err) {
+      attempt++;
+      const isRateLimit = err.statusCode === 429 || (err.message && (err.message.includes('429') || err.message.includes('rate limit')));
+      if (isRateLimit && attempt < maxRetries) {
+        console.warn(`[Groq 429 Rate Limit] Waiting 20s before retry ${attempt}/${maxRetries}...`);
+        await sleep(20000);
+      } else if (attempt < maxRetries) {
+        console.warn(`[Groq API Error] Status: ${err.statusCode || 'unknown'}, Msg: ${err.message}. Waiting 5s before retry ${attempt}/${maxRetries}...`);
+        await sleep(5000);
+      } else {
+        throw new Error(err.message || JSON.stringify(err));
+      }
+    }
   }
 }
 
