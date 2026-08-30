@@ -9,17 +9,20 @@ import {
   Star,
   Zap,
   TrendingUp,
-  ChevronDown,
   HelpCircle,
+  ArrowRight,
 } from 'lucide-react';
 import { HomeAnimations } from './_home/HomeAnimations';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
-import { TextGif } from '@/components/ui/text-gif';
-import { TextureCard } from '@/components/ui/texture-card';
 import { TextureButton } from '@/components/ui/texture-button';
 import { Link000 } from '@/components/ui/skiper-ui/skiper40';
 import { ScrollReveal } from '@/components/ui/scroll-reveal';
+import BlogCard from '@/components/blog/BlogCard';
+import { createPublicClient } from '@/lib/supabase/public';
+import type { BlogPost } from '@/types/database';
+
+export const revalidate = 300;
 
 const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }[] }> = {
   tr: {
@@ -54,6 +57,49 @@ const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }
   },
 };
 
+const LATEST_POSTS_COPY: Record<string, { title: string; subtitle: string; viewAll: string }> = {
+  tr: {
+    title: 'Son Yazılar',
+    subtitle: 'Nakliye maliyetleri, güzergahlar ve sektör mevzuatı üzerine en güncel rehberlerimiz.',
+    viewAll: 'Tüm Yazıları Gör',
+  },
+  en: {
+    title: 'Latest Articles',
+    subtitle: 'Our newest guides on freight costs, shipping routes, and industry regulations.',
+    viewAll: 'View All Articles',
+  },
+};
+
+const LATEST_POSTS_COLUMNS = 'id, title, slug, excerpt, cover_image, author_id, published, language, created_at, updated_at, author:profiles(full_name)';
+
+// Homepage doubles as the site's editorial front page, so it needs real
+// article previews, not just marketing copy — pulls the same columns as
+// the /blog listing. Falls back to English when a locale's translation
+// queue hasn't caught up yet, so the section is never empty.
+async function fetchLatestPosts(locale: string): Promise<BlogPost[]> {
+  const supabase = createPublicClient();
+  const { data } = await supabase
+    .from('blog_posts')
+    .select(LATEST_POSTS_COLUMNS)
+    .eq('published', true)
+    .eq('language', locale)
+    .order('created_at', { ascending: false })
+    .limit(6);
+
+  if (data && data.length > 0) return data as unknown as BlogPost[];
+  if (locale === 'en') return [];
+
+  const { data: fallback } = await supabase
+    .from('blog_posts')
+    .select(LATEST_POSTS_COLUMNS)
+    .eq('published', true)
+    .eq('language', 'en')
+    .order('created_at', { ascending: false })
+    .limit(6);
+
+  return (fallback as unknown as BlogPost[]) || [];
+}
+
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
@@ -85,6 +131,8 @@ export default async function HomePage({ params }: PageProps) {
   ];
 
   const faqData = HOME_FAQS[locale] ?? HOME_FAQS.en;
+  const latestCopy = LATEST_POSTS_COPY[locale] ?? LATEST_POSTS_COPY.en;
+  const latestPosts = await fetchLatestPosts(locale);
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -104,36 +152,23 @@ export default async function HomePage({ params }: PageProps) {
     />
     <div className="min-h-screen bg-background-light dark:bg-background-dark selection:bg-accent/30">
       {/* Hero */}
-      <section className="relative pt-24 pb-32 px-4 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none opacity-20 dark:opacity-10">
-          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-accent mix-blend-multiply blur-[120px] animate-pulse" />
-          <div className="absolute bottom-[10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-blue-500 mix-blend-multiply blur-[120px] opacity-30" />
-        </div>
-
+      <section className="relative pt-24 pb-16 px-4">
         <ScrollReveal>
-          <div className="relative max-w-6xl mx-auto">
-            <div className="flex flex-col items-center text-center space-y-10">
-              <div>
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-widest mb-4">
-                  <Zap size={14} /> {t.home.tagline}
-                </span>
-              </div>
+          <div className="relative max-w-4xl mx-auto">
+            <div className="flex flex-col items-center text-center space-y-7">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-widest">
+                <Zap size={14} /> {t.home.tagline}
+              </span>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-black leading-[1.1] tracking-tight text-fg">
-                {t.home.heroTitle1}<br />
-                <TextGif
-                  text={t.home.heroTitle2}
-                  gifUrl="https://media.giphy.com/media/3zvbrvbRe7wxBofOBI/giphy.gif"
-                  size="xxl"
-                  className="mt-2 block dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
-                />
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-[1.15] tracking-tight text-fg max-w-3xl">
+                {t.home.heroTitle1} <span className="text-accent">{t.home.heroTitle2}</span>
               </h1>
 
-              <p className="max-w-2xl text-lg sm:text-xl text-muted leading-relaxed font-medium">
+              <p className="max-w-2xl text-lg sm:text-xl text-muted leading-relaxed">
                 {t.home.heroDesc}
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto pt-2">
                 <TextureButton asChild variant="accent" className="w-full sm:w-auto !rounded-2xl px-10 py-5 text-lg">
                   <Link href={`/${locale}/blog`}>
                     {t.home.registerBtn}
@@ -145,41 +180,52 @@ export default async function HomePage({ params }: PageProps) {
                   </Link>
                 </TextureButton>
               </div>
-
-              <div className="pt-12">
-                <span className="text-sm font-medium text-muted/60">{t.home.activeUsers}</span>
-              </div>
             </div>
           </div>
         </ScrollReveal>
-
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
-          <ChevronDown size={32} />
-        </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-24 border-y border-border-light dark:border-border-dark bg-surface-light/50 dark:bg-surface-dark/50">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-6">
-            {[
-              { value: t.home.stat1Val, label: t.home.stat1Label, icon: MapPin, color: 'text-blue-500' },
-              { value: t.home.stat2Val, label: t.home.stat2Label, icon: Truck, color: 'text-green-500' },
-              { value: t.home.stat3Val, label: t.home.stat3Label, icon: Star, color: 'text-yellow-500' },
-            ].map((stat, idx) => (
-              <ScrollReveal key={idx} delay={idx * 0.1}>
-                <div className="flex flex-col items-center text-center group p-8 rounded-[2rem] bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-xl border border-border-light dark:border-border-dark shadow-xl hover:-translate-y-2 transition-all duration-300">
-                  <div className="w-16 h-16 rounded-2xl bg-white dark:bg-black shadow-inner flex items-center justify-center mb-6 border border-border-light dark:border-border-dark group-hover:scale-110 transition-transform">
-                    <stat.icon size={32} className={stat.color} />
-                  </div>
-                  <div className="text-4xl font-black text-fg mb-3">{stat.value}</div>
-                  <div className="text-sm font-bold text-muted uppercase tracking-widest">
-                    {stat.label}
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
+      {/* Latest Articles — the site's actual content, front and center */}
+      {latestPosts.length > 0 && (
+        <section className="py-16 px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 pb-6 border-b border-border-light dark:border-border-dark">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-black text-fg tracking-tight mb-2">
+                  {latestCopy.title}
+                </h2>
+                <p className="text-muted max-w-xl">{latestCopy.subtitle}</p>
+              </div>
+              <Link
+                href={`/${locale}/blog`}
+                className="inline-flex items-center gap-2 text-accent font-bold text-sm shrink-0 hover:gap-3 transition-all"
+              >
+                {latestCopy.viewAll} <ArrowRight size={16} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {latestPosts.slice(0, 6).map((post) => (
+                <BlogCard key={post.id} post={post} />
+              ))}
+            </div>
           </div>
+        </section>
+      )}
+
+      {/* Stats — a slim editorial byline row, not a marketing card grid */}
+      <section className="py-10 border-y border-border-light dark:border-border-dark bg-surface-light/40 dark:bg-surface-dark/40">
+        <div className="max-w-4xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          {[
+            { value: t.home.stat1Val, label: t.home.stat1Label, icon: MapPin, color: 'text-blue-500' },
+            { value: t.home.stat2Val, label: t.home.stat2Label, icon: Truck, color: 'text-green-500' },
+            { value: t.home.stat3Val, label: t.home.stat3Label, icon: Star, color: 'text-yellow-500' },
+          ].map((stat, idx) => (
+            <div key={idx} className="flex items-center gap-2.5">
+              <stat.icon size={18} className={stat.color} />
+              <span className="text-sm font-bold text-fg">{stat.value}</span>
+              <span className="text-sm text-muted">{stat.label}</span>
+            </div>
+          ))}
         </div>
       </section>
 
