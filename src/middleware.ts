@@ -56,10 +56,9 @@ export async function middleware(request: NextRequest) {
     // Prevent memory leak in edge isolates
     if (rateLimitMap.size > 10000) rateLimitMap.clear();
   }
-  // Bypass middleware for sitemaps, feeds, robots.txt, and llms.txt
+  // Bypass middleware for sitemaps, robots.txt, and llms.txt
   if (
     pathname.startsWith('/sitemap') ||
-    pathname.startsWith('/loads-feed') ||
     pathname === '/robots.txt' ||
     pathname.startsWith('/llms')
   ) {

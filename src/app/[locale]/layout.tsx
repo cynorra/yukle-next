@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { notFound } from 'next/navigation';
 import '../globals.css';
 import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
@@ -50,9 +51,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         return acc;
       }, { 'x-default': '/en' } as Record<string, string>),
       types: {
+        // Loads RSS (marketplace-backed) was removed along with the
+        // marketplace's public surface — don't advertise a feed that 404s.
         'application/rss+xml': [
           { url: `${SITE_URL}/${locale}/feed.xml`, title: 'Loadly Blog RSS' },
-          { url: `${SITE_URL}/loads-feed.xml`, title: 'Loadly Live Loads RSS' },
         ],
       },
     },
@@ -124,7 +126,13 @@ export const viewport: Viewport = {
 
 export default async function LocalizedLayout({ children, params }: Props) {
   const { locale: rawLocale } = await params;
-  const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
+  // Dead top-level routes that used to be real (e.g. /loads-feed.xml,
+  // /sitemap-loads.xml) contain a dot, so middleware's static-asset bypass
+  // lets them reach here unredirected — without this check, Next.js falls
+  // through to this dynamic segment, treats the dead filename as `locale`,
+  // and serves the English homepage with a 200 (a "soft 404").
+  if (!(rawLocale in TRANSLATIONS)) notFound();
+  const locale: Locale = rawLocale as Locale;
   const isRtl = RTL_LOCALES.includes(locale);
   const t = TRANSLATIONS[locale];
 
