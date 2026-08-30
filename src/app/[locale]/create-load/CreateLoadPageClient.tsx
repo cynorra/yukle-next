@@ -97,7 +97,7 @@ export function CreateLoadPageClient() {
     setSubmitting(true);
     setError(null);
 
-    const { data: newLoad, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from('loads')
       .insert({
         title: title.trim(),
@@ -126,14 +126,8 @@ export function CreateLoadPageClient() {
       return;
     }
 
-    // Instantly notify Bing, Yandex, Naver, Seznam about the new load URL.
-    if (newLoad?.id) {
-      fetch('/api/indexnow', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: `/marketplace/${newLoad.id}` }),
-      }).catch(() => {});
-    }
+    // Marketplace listings are noindex'd, so there's nothing to submit for
+    // indexing here — see the same note in marketplace/page.tsx.
 
     router.push(`/${locale}/dashboard`);
   }

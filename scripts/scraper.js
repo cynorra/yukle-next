@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const { createClient } = require('@supabase/supabase-js');
-const { submitToIndexNow, submitToBaidu, pingGoogleIndexing } = require('./lib/indexnow');
 
 // 1. Load env variables manually from .env.local
 const envLocalPath = path.join(__dirname, '..', '.env.local');
@@ -872,15 +871,11 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
     }
   }
 
-  // Push newly-inserted loads to the search engines that support instant
-  // submission (Google doesn't support IndexNow — sitemap ping is the
-  // best-effort fallback for Google specifically).
-  if (insertedLoadIds.length > 0) {
-    const urls = insertedLoadIds.map((id) => `${process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com'}/en/marketplace/${id}`);
-    await submitToIndexNow(urls);
-    await submitToBaidu(urls);
-    for (const url of urls) await pingGoogleIndexing(url);
-  }
+  // Marketplace listings are noindex'd (2026-08-29: marketplace dropped out
+  // of the site's public/indexed surface) — submitting their URLs to
+  // IndexNow/Baidu/Google here would just be the "submitted a noindexed URL
+  // for indexing" red flag search consoles warn about. No indexing push for
+  // scraped loads.
 
   console.log(`\nScraping run completed successfully! Total new loads imported: ${totalInserted}`);
   return totalInserted;

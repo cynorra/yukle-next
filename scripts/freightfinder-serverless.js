@@ -12,7 +12,6 @@
 const https    = require('https');
 const cheerio  = require('cheerio');
 const { translateListingsBatch } = require('./translate-free');
-const { submitToIndexNow, submitToBaidu, pingGoogleIndexing } = require('./lib/indexnow');
 
 // Varied, natural-language descriptions instead of one rigid "Company: X
 // Phone: Y Route: A→B" template repeated identically across every listing —
@@ -291,12 +290,11 @@ async function runFreightFinderScraper({ supabase, shipperId, maxPerRun = 75, pa
 
   if (batchQueue.length > 0) await flushBatch();
 
-  if (insertedLoadIds.length > 0) {
-    const urls = insertedLoadIds.map((id) => `${process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com'}/en/marketplace/${id}`);
-    await submitToIndexNow(urls);
-    await submitToBaidu(urls);
-    for (const url of urls) await pingGoogleIndexing(url);
-  }
+  // Marketplace listings are noindex'd (2026-08-29: marketplace dropped out
+  // of the site's public/indexed surface) — submitting their URLs to
+  // IndexNow/Baidu/Google here would just be the "submitted a noindexed URL
+  // for indexing" red flag search consoles warn about. No indexing push for
+  // scraped loads.
 
   log(`[FreightFinder] Done. Inserted: ${totalInserted}`);
   return totalInserted;
