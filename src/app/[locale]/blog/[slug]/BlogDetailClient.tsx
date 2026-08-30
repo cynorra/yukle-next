@@ -481,7 +481,6 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
               fill
               sizes="100vw"
               priority
-              unoptimized={true}
               className="object-cover transform hover:scale-105 transition-transform duration-700"
             />
           </div>
