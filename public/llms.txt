@@ -1,6 +1,6 @@
-# Loadly — Global Logistics & Freight Matchmaking Platform
+# Loadly — Global Logistics & Freight Content Platform
 
-> Loadly (loadlyapp.com) is a premium international logistics matchmaking platform connecting shippers with carriers worldwide. Shippers post freight ads specifying origin, destination, cargo type, and weight. Carriers submit competitive bids. Upon bid acceptance, the platform unlocks secure real-time messaging between both parties.
+> Loadly (loadlyapp.com) publishes practical guides, route insights, and industry analysis for the logistics and freight sector, in 55 languages, for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace still exists for a small number of existing accounts but is not part of the site's public or indexed surface.
 
 ## Site Index & Entry Points
 
@@ -8,81 +8,53 @@
 - **Sitemap Index**: https://loadlyapp.com/sitemap.xml
 - **Sub-Sitemaps**:
   - Static Pages: https://loadlyapp.com/sitemap-static.xml
-  - Active Freight Listings: https://loadlyapp.com/sitemap-loads.xml
-  - Blog Articles: https://loadlyapp.com/sitemap-blogs.xml
-  - Shipping Routes (Lane Hubs): https://loadlyapp.com/sitemap-routes.xml
-- **Marketplace (Load Board)**: https://loadlyapp.com/en/marketplace
+  - Blog Articles (chunked): https://loadlyapp.com/sitemap-blogs.xml
 - **Logistics Blog & Industry Resources**: https://loadlyapp.com/en/blog
-- **Shipping Routes**: Durable per-lane pages (e.g. https://loadlyapp.com/en/shipping-routes/phoenix-az-to-tucson-az) listing currently active loads on that origin→destination pair
-- **City Hubs**: All active loads originating from one city, any destination (e.g. https://loadlyapp.com/en/shipping-routes/from/phoenix-az) — matches broader queries like "freight loads from Phoenix"
-- **Country Hubs**: All active loads originating from one country (e.g. https://loadlyapp.com/en/shipping-routes/country/usa) — matches top-of-funnel queries like "freight shipping USA"
-- **Destination City Hubs**: All active loads heading to one city, any origin (e.g. https://loadlyapp.com/en/shipping-routes/to/phoenix-az) — matches queries like "freight loads to Phoenix"
-- **Destination Country Hubs**: All active loads heading to one country, any origin (e.g. https://loadlyapp.com/en/shipping-routes/to-country/usa) — matches queries like "freight shipping to USA"
-- **Equipment Hubs**: All active loads requiring a given truck/trailer type (e.g. https://loadlyapp.com/en/shipping-routes/truck-type/frigo) — matches equipment-specific queries like "reefer loads"
-- **Cargo Type Hubs**: All active loads of a given cargo category (e.g. https://loadlyapp.com/en/shipping-routes/cargo-type/hazardous) — matches queries like "hazardous material freight"
+- **Blog RSS (per locale)**: https://loadlyapp.com/{locale}/feed.xml
 - **LLMs Full Context**: https://loadlyapp.com/llms-full.txt
 
 ## Language & Locale Coverage
 
-Loadly serves users in **47 languages** with fully localized page titles, descriptions, UI, blog articles, and structured data:
+Loadly serves users in **55 languages** with fully localized page titles, descriptions, UI, blog articles, and structured data:
 
-`en` (English), `tr` (Türkçe), `es` (Español), `pt` (Português), `fr` (Français), `de` (Deutsch), `it` (Italiano), `pl` (Polski), `nl` (Nederlands), `ru` (Русский), `uk` (Українська), `zh` (中文), `ja` (日本語), `hi` (हिन्दी), `ar` (العربية), `fa` (فارسی), `ko` (한국어), `vi` (Tiếng Việt), `id` (Bahasa Indonesia), `bn` (বাংলা), `ur` (اردو), `th` (ไทย), `ms` (Bahasa Melayu), `tl` (Filipino), `ro` (Română), `sv` (Svenska), `cs` (Čeština), `hu` (Magyar), `el` (Ελληνικά), `az` (Azərbaycan), `kk` (Қазақша), `he` (עברית), `bg` (Български), `hr` (Hrvatski), `sr` (Srpski), `sk` (Slovenčina), `da` (Dansk), `fi` (Suomi), `no` (Norsk), `uz` (Oʻzbekcha), `ta` (தமிழ்), `mr` (मराठी), `ka` (ქართული), `lt` (Lietuvių), `lv` (Latviešu), `et` (Eesti), `sl` (Slovenščina)
+`en` (English), `tr` (Türkçe), `es` (Español), `pt` (Português), `fr` (Français), `de` (Deutsch), `it` (Italiano), `pl` (Polski), `nl` (Nederlands), `ru` (Русский), `uk` (Українська), `zh` (中文), `ja` (日本語), `hi` (हिन्दी), `ar` (العربية), `fa` (فارسی), `ko` (한국어), `vi` (Tiếng Việt), `id` (Bahasa Indonesia), `bn` (বাংলা), `ur` (اردو), `th` (ไทย), `ms` (Bahasa Melayu), `tl` (Filipino), `ro` (Română), `sv` (Svenska), `cs` (Čeština), `hu` (Magyar), `el` (Ελληνικά), `az` (Azərbaycan), `kk` (Қазақша), `he` (עברית), `bg` (Български), `hr` (Hrvatski), `sr` (Srpski), `sk` (Slovenčina), `da` (Dansk), `fi` (Suomi), `no` (Norsk), `uz` (Oʻzbekcha), `ta` (தமிழ்), `mr` (मराठी), `ka` (ქართული), `lt` (Lietuvių), `lv` (Latviešu), `et` (Eesti), `sl` (Slovenščina), `kn` (ಕನ್ನಡ), `te` (తెలుగు), `pa` (ਪੰਜਾਬੀ), `gu` (ગુજરાતી), `ml` (മലയാളം), `sw` (Kiswahili), `ne` (नेपाली), `si` (සිංහල)
 
 Each page has `hreflang` alternate links and `x-default` pointing to the English version.
 
-## User Personas & Roles
+## What Loadly Is
 
-- **Shippers (Load Owners)**: Individuals, logistics companies, manufacturers, or e-commerce businesses with cargo to transport.
-- **Carriers (Drivers/Transporters)**: Owner-operators of cargo vans, semi-trucks, reefer trucks, flatbeds, or tankers looking for shipping assignments.
+Loadly is a content platform, not a transaction platform. It publishes researched, edited guides and analysis on:
+- Freight costs and rate benchmarking
+- Shipping routes and lane guides
+- Industry regulation and compliance
+- LTL (Less Than Truckload) and FTL (Full Truckload) logistics
+- Broader supply chain trends
 
-## Platform Capabilities
+Articles are published regularly across all 55 languages, are free to read, and require no registration.
 
-- **Freight Bidding & Matching**: Carriers place real-time bids with pricing and notes on active load listings.
-- **Secure Messaging & Verification**: Accepting a bid unlocks real-time chat. Phone numbers are protected until both parties consent.
-- **Gamification & Points System**: Driver engagement is rewarded through points (e.g., bidding costs points; first-message bonuses reward active carriers).
-- **Ratings & Reviews**: Mutual rating system after shipment completion for platform quality control.
-- **AI-Powered Viral SEO Blog**: Dynamically generated, audience-targeted logistics articles published in 47 languages. Each article is uniquely crafted for one of 7 professional audience segments (truck drivers, shippers, e-commerce businesses, freight brokers, importers/exporters, small businesses, warehouse managers). Articles include FAQ schema, 1,500+ words, structured data, and IndexNow instant indexing.
+## Target Audience Segments
 
-## Target Audience Segments (Blog & Platform)
-
-- **Truck Drivers & Owner-Operators**: Load finding, empty mile reduction, fuel efficiency, income optimization
-- **Freight Shippers & Logistics Managers**: Carrier selection, rate negotiation, shipment tracking, compliance
-- **E-commerce & Retail Businesses**: Fulfillment costs, last-mile delivery, LTL freight, carrier comparison
-- **Freight Brokers & Forwarders**: Market intelligence, carrier relationships, fraud prevention, technology
-- **Importers, Exporters & Manufacturers**: Customs clearance, international freight, Incoterms, supply chain
-- **Small Businesses & Startups**: Affordable shipping, LTL guide, freight marketplace benefits
-- **Warehouse & Distribution Managers**: Operational efficiency, carrier performance, dock scheduling, KPIs
-
-## Supported Cargo Types
-- General Cargo
-- Hazardous Material
-- Perishable (Reefer Required)
-- Oversized / Heavy Haul
-- Fragile Shipments
-
-## Supported Fleet / Truck Types
-- TIR / Semi-truck
-- Truck / Rigid Truck
-- Van / Light Commercial Vehicle
-- Flatbed / Trailer
-- Tanker
-- Reefer / Refrigerated Trailer
+- **Truck Drivers & Owner-Operators**: load finding, empty-mile reduction, fuel efficiency, income optimization
+- **Freight Shippers & Logistics Managers**: carrier selection, rate negotiation, shipment tracking, compliance
+- **E-commerce & Retail Businesses**: fulfillment costs, last-mile delivery, LTL freight, carrier comparison
+- **Freight Brokers & Forwarders**: market intelligence, carrier relationships, technology
+- **Importers, Exporters & Manufacturers**: customs clearance, international freight, Incoterms, supply chain
+- **Small Businesses & Startups**: affordable shipping, LTL guides
+- **Warehouse & Distribution Managers**: operational efficiency, carrier performance, KPIs
 
 ## Structured Data & Schema
 
-All pages include rich JSON-LD structured data:
-- **Homepage**: `WebSite` + `Organization` + `SoftwareApplication` + `SearchAction`
-- **Marketplace List**: `ItemList` schema with individual load entries
-- **Load Detail**: `Service` + `BreadcrumbList` + `Offer` schemas
+- **Homepage**: `WebSite` + `Organization` + `SoftwareApplication` + `Person` (founder)
 - **Blog List**: `FAQPage` schema with industry Q&A
-- **Blog Article**: `BlogPosting` (headline, author, publisher, wordCount, keywords, datePublished) + `FAQPage` (auto-extracted Q&A pairs for Google People Also Ask)
-- **All Pages**: `hreflang` alternate links for 47 languages + `x-default`
+- **Blog Article**: `BlogPosting` (headline, author, publisher, wordCount, keywords, datePublished) + `FAQPage` (auto-extracted Q&A pairs)
+- **Homepage FAQ**: `FAQPage` schema
+- **All Pages**: `hreflang` alternate links for 55 languages + `x-default`
 
 ## Crawling Guidelines
 
-- All public pages are indexable with `robots: index, follow`
-- Private pages (dashboard, profile, messages) are blocked via robots.txt and meta robots
-- Sitemaps are dynamically generated via sitemap index with 4 sub-sitemaps
-- **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam for all 47 language versions
+- Public content pages (home, blog, about, contact, advertise, privacy, terms) are indexable with `robots: index, follow`
+- The legacy marketplace and its listing pages are `noindex, nofollow` — not part of the indexed surface, and deliberately excluded from sitemaps and indexing pushes
+- Private pages (dashboard, profile, messages, create-load, etc.) are blocked via robots.txt and meta robots
+- **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam for all 55 language versions
 - All major AI crawlers explicitly allowed: GPTBot, ClaudeBot, Google-Extended, PerplexityBot, Meta-ExternalAgent, Amazonbot, Bytespider, YouBot, cohere-ai, CCBot, Diffbot, Copilot
 - `Crawl-delay` is set for aggressive crawlers (Baidu, Sogou, Bytespider)

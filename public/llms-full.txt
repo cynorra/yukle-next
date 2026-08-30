@@ -4,19 +4,18 @@
 
 ## 1. Platform Overview
 
-**Loadly** (https://loadlyapp.com) is a global freight logistics marketplace that connects shippers (people or companies with cargo) to carriers (truck drivers, transport companies). The platform operates in **47 languages** and targets users in **190+ countries**.
+**Loadly** (https://loadlyapp.com) is a logistics and freight **content platform** — it publishes practical guides, route insights, and industry analysis in **55 languages** for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace (shipper-carrier load matching) still exists for a small number of pre-existing accounts, but it is not part of the site's public or indexed surface — it carries `noindex, nofollow` and is excluded from sitemaps and indexing pushes.
 
 ### Core Value Proposition
-- Shippers post loads specifying origin, destination, weight, cargo type, and optional pricing
-- Carriers browse the marketplace and submit competitive bids
-- Upon bid acceptance, secure real-time messaging is unlocked
-- After delivery, both parties rate each other
+- Researched, editorially-reviewed guides on freight costs, shipping routes, and industry regulation
+- Published regularly across all 55 languages
+- Free to read, no registration or subscription required
 
 ### Technology Stack
 - **Frontend**: Next.js 15 (App Router), React 19, TypeScript
 - **Backend**: Supabase (PostgreSQL + Auth + Realtime)
-- **Hosting**: Render
-- **SEO**: Server-side rendering, ISR, structured data, sitemap index
+- **Hosting**: Cloudflare Workers (via OpenNext)
+- **SEO**: Server-side rendering, ISR, structured data, chunked sitemap index
 
 ---
 
@@ -27,52 +26,50 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 
 | Page | Path | Description |
 |------|------|-------------|
-| Homepage | `/{locale}` | Landing page with platform overview |
-| Marketplace | `/{locale}/marketplace` | Active freight listings board |
-| Load Detail | `/{locale}/marketplace/{id}` | Individual freight listing |
+| Homepage | `/{locale}` | Editorial front page — hero, latest articles, FAQ |
 | Blog List | `/{locale}/blog` | Logistics industry articles |
 | Blog Article | `/{locale}/blog/{slug}` | Individual blog post |
-| Find Loads | `/{locale}/find-loads` | Load search tool |
-| Shipping Routes (Lane Hub) | `/{locale}/shipping-routes/{lane}` | Durable page per origin→destination city pair listing currently active loads on that route |
-| Shipping Routes (City Hub) | `/{locale}/shipping-routes/from/{citySlug}` | All active loads originating from one city, any destination |
-| Shipping Routes (Country Hub) | `/{locale}/shipping-routes/country/{countrySlug}` | All active loads originating from one country, any destination |
-| Shipping Routes (Destination City Hub) | `/{locale}/shipping-routes/to/{citySlug}` | All active loads heading to one city, any origin |
-| Shipping Routes (Destination Country Hub) | `/{locale}/shipping-routes/to-country/{countrySlug}` | All active loads heading to one country, any origin |
-| Shipping Routes (Equipment Hub) | `/{locale}/shipping-routes/truck-type/{truckType}` | All active loads requiring a given truck/trailer type (TIR, flatbed, reefer, container, etc.) |
-| Shipping Routes (Cargo Type Hub) | `/{locale}/shipping-routes/cargo-type/{loadType}` | All active loads of a given cargo category (general, hazardous, perishable, oversized, fragile) |
+| About | `/{locale}/about` | Mission, editorial process, team |
+| Contact | `/{locale}/contact` | Contact information |
 | Advertise | `/{locale}/advertise` | Advertising information |
 | Privacy Policy | `/{locale}/privacy-policy` | KVKK / GDPR compliance |
-| Privacy | `/{locale}/privacy` | Data privacy information |
 | Terms | `/{locale}/terms` | Terms of service |
-| Login | `/{locale}/login` | User authentication |
-| Register | `/{locale}/register` | New user registration |
 
-### Private Pages (Not Indexable)
+### Legacy Pages (Not Indexed — `noindex, nofollow`)
+These still function for existing accounts but are deliberately excluded from search indexing, sitemaps, and IndexNow/Baidu/Google-ping submissions.
+
+| Page | Path | Description |
+|------|------|-------------|
+| Marketplace | `/{locale}/marketplace` | Legacy freight listings board |
+| Load Detail | `/{locale}/marketplace/{id}` | Individual legacy freight listing |
+| Find Loads | `/{locale}/find-loads` | Legacy load search tool |
+
+### Private Pages (Auth-Gated, Not Indexable)
 | Page | Path | Description |
 |------|------|-------------|
 | Dashboard | `/{locale}/dashboard` | User's load management |
 | Profile | `/{locale}/profile` | User profile settings |
 | Messages | `/{locale}/messages` | Secure chat system |
 | Favorites | `/{locale}/favorites` | Saved loads |
-| Create Load | `/{locale}/create-load` | Load posting form |
-| Edit Load | `/{locale}/edit-load/{id}` | Load editing form |
+| Create Load | `/{locale}/create-load` | Legacy load posting form |
+| Edit Load | `/{locale}/edit-load/{id}` | Legacy load editing form |
+| Login | `/{locale}/login` | User authentication |
+| Register | `/{locale}/register` | New user registration |
 
 ### API & System
 | Endpoint | Description |
 |----------|-------------|
-| `/sitemap.xml` | Sitemap index |
+| `/sitemap.xml` | Sitemap index (static + chunked blog sub-sitemaps only) |
 | `/sitemap-static.xml` | Static pages sitemap |
-| `/sitemap-loads.xml` | Active loads sitemap |
-| `/sitemap-blogs.xml` | Blog posts sitemap |
-| `/sitemap-routes.xml` | Shipping route sitemap (lane, city, and country hub pages) |
+| `/sitemap-blogs.xml` → `/sitemap-blogs-{n}.xml` | Chunked blog posts sitemap |
+| `/{locale}/feed.xml` | Per-locale blog RSS feed |
 | `/robots.txt` | Crawler directives |
 | `/llms.txt` | AI platform summary |
 | `/llms-full.txt` | This file |
-| `/api/indexnow` | IndexNow submission endpoint |
 
 ---
 
-## 3. Supported Languages (47)
+## 3. Supported Languages (55)
 
 | Code | Language | Script Direction |
 |------|----------|-----------------|
@@ -123,6 +120,14 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 | lv | Latviešu | LTR |
 | et | Eesti | LTR |
 | sl | Slovenščina | LTR |
+| kn | ಕನ್ನಡ | LTR |
+| te | తెలుగు | LTR |
+| pa | ਪੰਜਾਬੀ | LTR |
+| gu | ગુજરાતી | LTR |
+| ml | മലയാളം | LTR |
+| sw | Kiswahili | LTR |
+| ne | नेपाली | LTR |
+| si | සිංහල | LTR |
 
 ---
 
@@ -132,13 +137,14 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 ```json
 {
   "@type": "WebSite",
-  "potentialAction": { "@type": "SearchAction", "target": "/{locale}/marketplace?q={query}" }
+  "name": "Loadly",
+  "alternateName": ["Loadly Logistics", "Loadly App"]
 }
 {
   "@type": "Organization",
   "name": "Loadly",
   "areaServed": "Worldwide",
-  "serviceType": "Freight Marketplace"
+  "serviceType": "Logistics Content Platform"
 }
 {
   "@type": "SoftwareApplication",
@@ -146,28 +152,9 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
   "operatingSystem": "Web, iOS, Android",
   "offers": { "price": "0", "priceCurrency": "USD" }
 }
-```
-
-### Marketplace Listing
-```json
 {
-  "@type": "ItemList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "url": "...", "name": "Load Title" }
-  ]
-}
-```
-
-### Load Detail
-```json
-{
-  "@type": "Service",
-  "areaServed": ["Origin City", "Destination City"],
-  "offers": { "@type": "Offer", "price": "...", "priceCurrency": "USD" }
-}
-{
-  "@type": "BreadcrumbList",
-  "itemListElement": ["Home", "Marketplace", "Load Title"]
+  "@type": "FAQPage",
+  "mainEntity": ["..."]
 }
 ```
 
@@ -183,47 +170,35 @@ All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
 }
 ```
 
----
-
-## 5. Cargo & Fleet Types
-
-### Cargo Categories
-| Type | Description |
-|------|-------------|
-| general | Standard palletized or boxed cargo |
-| hazardous | ADR-classified dangerous goods |
-| perishable | Temperature-controlled goods requiring reefer |
-| oversized | Out-of-gauge cargo requiring special permits |
-| fragile | Delicate items needing careful handling |
-
-### Vehicle Categories
-| Type | Description |
-|------|-------------|
-| tir | International TIR semi-trailer trucks |
-| kamyon | Medium/heavy rigid trucks |
-| kamyonet | Light commercial vans (< 3.5t) |
-| dorser | Flatbed or curtain-side trailers |
-| tanker | Liquid/gas tanker trucks |
-| frigorifik | Refrigerated trailers and trucks |
+### Blog List
+```json
+{
+  "@type": "FAQPage",
+  "mainEntity": ["..."]
+}
+```
 
 ---
 
-## 6. Frequently Asked Questions
+## 5. Frequently Asked Questions
 
 **Q: What is Loadly?**
-A: Loadly is a global freight marketplace where shippers post loads and carriers bid for transport jobs. It operates in 47 languages across 190+ countries.
-
-**Q: How does pricing work?**
-A: Shippers can set a price or leave it open for bidding. Carriers submit their best offer. The shipper accepts the most suitable bid.
+A: Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector, available in 55 languages.
 
 **Q: Is Loadly free to use?**
-A: Yes, creating an account and posting loads is free. Carriers use a points system for bidding.
+A: Yes. All articles and guides on Loadly are completely free to read, with no registration or subscription required.
 
-**Q: What countries does Loadly serve?**
-A: Loadly is global. The platform supports freight from any origin to any destination worldwide, with localized content in 47 languages.
+**Q: What topics does Loadly cover?**
+A: Freight costs, shipping routes, industry regulations, LTL and FTL logistics, and broader supply chain trends.
 
-**Q: How are payments handled?**
-A: Loadly facilitates matching. Payment terms are agreed directly between shipper and carrier.
+**Q: How often is new content published?**
+A: New articles are published regularly, covering the latest developments across the freight and logistics industry.
+
+**Q: Who writes the content?**
+A: Articles are researched and edited for accuracy before publishing, drawing on established industry sources and data.
+
+**Q: Does Loadly still operate a freight marketplace?**
+A: A legacy marketplace exists for a small number of pre-existing accounts, but it is not part of the site's public-facing or indexed content — the blog is the platform's primary public surface.
 
 **Q: Is my data safe?**
-A: Yes. Loadly uses Supabase with row-level security. Phone numbers are hidden until both parties consent. The platform is GDPR and KVKK compliant.
+A: Yes. Loadly uses Supabase with row-level security, and is GDPR / KVKK compliant.
