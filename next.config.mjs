@@ -5,13 +5,14 @@ const nextConfig = {
     cpus: 2, // Limit build worker parallelism to reduce peak memory
   },
   images: {
-    // Cloudflare Pages has no built-in Next.js image optimizer — all images
-    // here are already third-party remote URLs (see remotePatterns below),
-    // so optimization value was already marginal.
-    unoptimized: true,
+    // Vercel's built-in image optimizer (unavailable on the former Cloudflare
+    // Pages host, hence unoptimized:true there) resizes/re-encodes on demand —
+    // real bandwidth savings for the Unsplash/Supabase-hosted images below.
+    // remotePatterns is an explicit allowlist (no wildcard hostnames): the
+    // optimizer fetches whatever URL it's given, so a wide-open '**' pattern
+    // would let anyone point it at arbitrary remote images and run up
+    // optimization usage on someone else's URLs.
     remotePatterns: [
-      { protocol: 'https', hostname: '**' },
-      { protocol: 'http', hostname: '**' },
       { protocol: 'https', hostname: 'i.pravatar.cc' },
       { protocol: 'https', hostname: '**.supabase.co' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
@@ -117,10 +118,13 @@ const nextConfig = {
       },
     ];
   },
-  // Workaround for EISDIR: illegal operation on a directory, readlink on Windows exFAT drives
+  // Workaround for EISDIR: illegal operation on a directory, readlink on Windows exFAT drives.
+  // Windows-only: disabling webpack's persistent cache also disables it on
+  // Vercel's Linux build machines, which don't hit this bug — that would
+  // throw away cache reuse and slow down every single deploy for nothing.
   webpack: (config) => {
     config.resolve.symlinks = false;
-    if (config.cache) {
+    if (process.platform === 'win32' && config.cache) {
       config.cache = false;
     }
     return config;
