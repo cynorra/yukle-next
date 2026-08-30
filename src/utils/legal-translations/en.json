@@ -1,16 +1,16 @@
 {
   "about": {
     "title": "About Us",
-    "description": "Loadly is a logistics and freight content platform, publishing practical guides and industry insights in 55 languages — alongside a free listing service connecting shippers and carriers.",
+    "description": "Loadly is a logistics and freight content platform, publishing practical guides and industry insights in 55 languages for shippers, carriers, and logistics professionals worldwide.",
     "fastEasyTitle": "Fast and Easy",
-    "fastEasyDesc": "Find the most suitable vehicle or load in minutes without wasting time.",
-    "reliableTitle": "Reliable Network",
-    "reliableDesc": "A reliable shipping experience with our rating system and verification processes.",
+    "fastEasyDesc": "Find clear answers on freight costs, routes, and regulations in minutes — no digging through scattered sources.",
+    "reliableTitle": "Trustworthy Content",
+    "reliableDesc": "Every guide is researched and reviewed before publishing, drawing on established industry sources and data.",
     "wideTitle": "Wide Coverage",
-    "wideDesc": "In-depth logistics coverage spanning Turkey, Europe, the Middle East, and beyond — with global registration and listing access.",
+    "wideDesc": "In-depth logistics coverage spanning Turkey, Europe, the Middle East, and beyond — published in 55 languages.",
     "visionTitle": "Our Vision",
-    "visionP1": "By digitizing traditional logistics processes with modern technologies, we aim to create an accessible, transparent, and reliable transportation ecosystem for everyone. Whether it is a small item or a large commercial shipment, we believe that the right vehicle should be matched with the right load in the most efficient way.",
-    "visionP2": "Loadly contributes to reducing the environmental carbon footprint by utilizing the capacities of empty returning vehicles, while allowing shippers to optimize their costs. Thanks to our evolving algorithms, we offer smarter and faster matches every day."
+    "visionP1": "By making reliable, practical logistics knowledge accessible in every major language, we aim to help shippers, carriers, and logistics professionals everywhere make better-informed decisions.",
+    "visionP2": "We continue to expand our library of guides and analysis — covering freight costs, routes, and regulatory changes — so our readers always have access to current, accurate information."
   },
   "contact": {
     "title": "Contact Us",

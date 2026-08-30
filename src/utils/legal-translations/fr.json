@@ -1,16 +1,16 @@
 {
   "about": {
     "title": "À Propos",
-    "description": "Loadly est une plateforme de contenu logistique et de fret qui publie des guides pratiques et des analyses sectorielles en 55 langues, ainsi qu'un service d'annonces gratuit reliant expéditeurs et transporteurs.",
+    "description": "Loadly est une plateforme de contenu logistique et de fret qui publie des guides pratiques et des analyses sectorielles en 55 langues pour les chargeurs, transporteurs et professionnels de la logistique du monde entier.",
     "fastEasyTitle": "Rapide et Facile",
-    "fastEasyDesc": "Trouvez le véhicule ou la charge la plus appropriée en quelques minutes sans perdre de temps.",
-    "reliableTitle": "Réseau Fiable",
-    "reliableDesc": "Une expérience d'expédition fiable grâce à notre système de notation et nos processus de vérification.",
+    "fastEasyDesc": "Trouvez des réponses claires sur les coûts de transport, les itinéraires et la réglementation en quelques minutes, sans avoir à chercher dans des sources dispersées.",
+    "reliableTitle": "Contenu Fiable",
+    "reliableDesc": "Chaque guide est recherché et relu avant publication, en s'appuyant sur des sources et des données sectorielles établies.",
     "wideTitle": "Large Couverture",
-    "wideDesc": "Une couverture logistique approfondie couvrant la Turquie, l'Europe, le Moyen-Orient et au-delà, avec un accès mondial à l'inscription et à la publication d'annonces.",
+    "wideDesc": "Une couverture logistique approfondie couvrant la Turquie, l'Europe, le Moyen-Orient et au-delà, publiée en 55 langues.",
     "visionTitle": "Notre Vision",
-    "visionP1": "En numérisant les processus logistiques traditionnels avec les technologies modernes, nous visons à créer un écosystème de transport accessible, transparent et fiable pour tous. Qu'il s'agisse d'un petit article ou d'une grande cargaison commerciale, nous croyons que le bon véhicule doit être associé à la bonne charge de la manière la plus efficace.",
-    "visionP2": "Loadly contribue à réduire l'empreinte carbone environnementale en utilisant les capacités des véhicules revenant à vide, tout en permettant aux expéditeurs d'optimiser leurs coûts. Grâce à nos algorithmes en constante évolution, nous proposons chaque jour des correspondances plus intelligentes et plus rapides."
+    "visionP1": "En rendant les connaissances logistiques fiables et pratiques accessibles dans les principales langues, nous voulons aider les chargeurs, transporteurs et professionnels de la logistique du monde entier à prendre des décisions plus éclairées.",
+    "visionP2": "Nous continuons d'enrichir notre bibliothèque de guides et d'analyses — sur les coûts de transport, les itinéraires et les évolutions réglementaires — afin que nos lecteurs aient toujours accès à des informations actuelles et fiables."
   },
   "contact": {
     "title": "Nous Contacter",

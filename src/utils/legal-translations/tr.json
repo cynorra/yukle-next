@@ -1,16 +1,16 @@
 {
   "about": {
     "title": "Hakkımızda",
-    "description": "Loadly, 55 dilde lojistik ve nakliye sektörüne dair pratik rehberler ve sektör analizleri sunan bir içerik platformudur; ayrıca nakliyecilerle yük sahiplerini buluşturan ücretsiz bir ilan hizmeti sağlar.",
+    "description": "Loadly, 55 dilde lojistik ve nakliye sektörüne dair pratik rehberler ve sektör analizleri sunan, dünya genelindeki yük sahipleri, nakliyeciler ve lojistik profesyonelleri için bir içerik platformudur.",
     "fastEasyTitle": "Hızlı ve Kolay",
-    "fastEasyDesc": "Zaman kaybetmeden dakikalar içinde en uygun aracı veya yükü bulun.",
-    "reliableTitle": "Güvenilir Ağ",
-    "reliableDesc": "Derecelendirme sistemimiz ve doğrulama süreçlerimizle güvenilir bir nakliye deneyimi.",
+    "fastEasyDesc": "Nakliye maliyetleri, güzergahlar ve mevzuat hakkında net cevapları dakikalar içinde bulun — dağınık kaynaklarda aramaya gerek kalmadan.",
+    "reliableTitle": "Güvenilir İçerik",
+    "reliableDesc": "Her rehber, yayınlanmadan önce araştırılır ve güvenilir sektör kaynaklarına dayanarak editörden geçirilir.",
     "wideTitle": "Geniş Kapsam",
-    "wideDesc": "Türkiye, Avrupa, Orta Doğu ve dünya genelini kapsayan derinlemesine lojistik içerikleri — global kayıt ve ilan erişimiyle.",
+    "wideDesc": "Türkiye, Avrupa, Orta Doğu ve dünya genelini kapsayan derinlemesine lojistik içerikleri — 55 dilde yayınlanıyor.",
     "visionTitle": "Vizyonumuz",
-    "visionP1": "Geleneksel lojistik süreçlerini modern teknolojilerle dijitalleştirerek, herkes için erişilebilir, şeffaf ve güvenilir bir ulaşım ekosistemi yaratmayı hedefliyoruz. İster küçük bir eşya, ister büyük bir ticari gönderi olsun, doğru aracın doğru yükle en verimli şekilde eşleşmesi gerektiğine inanıyoruz.",
-    "visionP2": "Loadly, boş dönen araçların kapasitelerini değerlendirerek çevresel karbon ayak izini azaltmaya katkıda bulunurken, nakliyecilerin maliyetlerini optimize etmelerini sağlar. Gelişen algoritmalarımız sayesinde her geçen gün daha akıllı ve daha hızlı eşleşmeler sunuyoruz."
+    "visionP1": "Güvenilir ve pratik lojistik bilgisini her büyük dilde erişilebilir kılarak, dünyanın her yerindeki yük sahiplerinin, nakliyecilerin ve lojistik profesyonellerinin daha bilinçli kararlar almasına yardımcı olmayı hedefliyoruz.",
+    "visionP2": "Nakliye maliyetleri, güzergahlar ve mevzuat değişiklikleri üzerine rehber ve analiz kütüphanemizi genişletmeye devam ediyoruz — böylece okuyucularımız her zaman güncel ve doğru bilgiye ulaşabiliyor."
   },
   "contact": {
     "title": "Bize Ulaşın",
