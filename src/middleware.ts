@@ -116,7 +116,35 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  // 3. Run Supabase auth session update/refresh — only on routes that
+  // 3. Blog slugs are minted as "{base-slug}-{language}" (see
+  // sitemap-blogs/[page]/route.ts and blog/[slug]/page.tsx), so the correct
+  // locale for a slug is recoverable from the URL alone — no DB call needed.
+  // /blog/[slug] previously only checked this locale/slug match *inside* the
+  // page component, after fetching the post — Next.js still treats a
+  // locale-mismatched hit as a distinct ISR cache entry (even though it's
+  // just a redirect), so all 55 locale prefixes × 5,900+ posts were each an
+  // independently billable ISR write once crawled — same combinatorial-fanout
+  // shape as an unbounded generateStaticParams over locale × content-id.
+  // Catching the mismatch here, before the request ever reaches the page/ISR
+  // layer, means only the canonical (post's actual language) URL is ever
+  // rendered and cached; the other 54 prefixes just 308 through middleware
+  // and never touch the ISR write budget.
+  const blogSlugMatch = pathname.match(/^\/([a-z]{2})\/blog\/([^/]+)$/);
+  if (blogSlugMatch) {
+    const [, urlLocale, slug] = blogSlugMatch;
+    const slugParts = slug.split('-');
+    const slugLocale = slugParts[slugParts.length - 1];
+    if (
+      slugLocale !== urlLocale &&
+      SUPPORTED_LOCALES.includes(slugLocale) &&
+      SUPPORTED_LOCALES.includes(urlLocale)
+    ) {
+      const redirectUrl = new URL(`/${slugLocale}/blog/${slug}${search}`, request.url);
+      return NextResponse.redirect(redirectUrl, 308);
+    }
+  }
+
+  // 4. Run Supabase auth session update/refresh — only on routes that
   // actually need an authenticated session, and never for crawlers.
   const routeSegment = pathname.split('/')[2] || '';
   if (!isCrawler && AUTH_REQUIRED_SEGMENTS.has(routeSegment)) {
