@@ -1,11 +1,13 @@
-name: Scraper Cron Job
+name: Scraper Cron Job (5min)
 
 on:
-  # 2026-09-04: the schedule trigger was moved to scraper-cron.yml because
-  # GitHub stopped firing it on this file after it had been paused/re-enabled
-  # a few times (its cron registration got stuck). This file is kept around
-  # for manual runs (workflow_dispatch) only - don't re-add a schedule here.
-  workflow_dispatch: # Allows manual triggering
+  # New workflow file (2026-09-04): the schedule trigger on scraper.yml
+  # stopped firing after being paused/re-enabled a few times - GitHub's
+  # cron registration for that file seems stuck. Moving the schedule here,
+  # to a file that's never been toggled, to get it registered cleanly.
+  # If this fires reliably, scraper.yml's schedule can stay removed for good.
+  schedule:
+    - cron: '*/5 * * * *'
 
 concurrency:
   group: scraper
