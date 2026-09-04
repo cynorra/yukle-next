@@ -8,6 +8,7 @@ on:
   # If this fires reliably, scraper.yml's schedule can stay removed for good.
   schedule:
     - cron: '*/5 * * * *'
+  workflow_dispatch: # Required so the REST API dispatch (external-trigger fallback) can target this file
 
 concurrency:
   group: scraper
