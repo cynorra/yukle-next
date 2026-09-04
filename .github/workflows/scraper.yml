@@ -7,6 +7,8 @@ on:
   # risk this was paused for doesn't apply to a page nothing links to or
   # indexes. Loads now feed the native Android app (FCM push per country via
   # /api/webhooks/fcm-batch) instead of the website's own listings.
+  # 2026-09-04: re-touching this trigger block (schedule wasn't firing after
+  # being re-enabled above) to force GitHub to re-register the cron schedule.
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch: # Allows manual triggering
