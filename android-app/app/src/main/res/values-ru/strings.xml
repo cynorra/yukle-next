@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Loadly</string>
+    <string name="marketplace_title">Грузы</string>
+    <string name="marketplace_empty">Сейчас нет активных грузов.</string>
+    <string name="retry">Повторить</string>
+    <string name="back">Назад</string>
+    <string name="load_detail_title">Детали груза</string>
+    <string name="load_not_found">Груз не найден.</string>
+    <string name="negotiable">Договорная</string>
+    <string name="marketplace_load_error">Не удалось загрузить грузы. Проверьте соединение и попробуйте снова.</string>
+    <string name="load_detail_load_error">Не удалось загрузить груз. Проверьте соединение и попробуйте снова.</string>
+
+    <string name="connection_error">Ошибка соединения</string>
+
+    <string name="weight_value">%1$s т</string>
+    <string name="weight_detail">Вес: %1$s т</string>
+    <string name="truck_type_detail">Тип транспорта: %1$s</string>
+    <string name="listed_date_detail">Опубликовано: %1$s</string>
+    <string name="shipper_detail">Грузовладелец: %1$s</string>
+    <string name="shipper_verified_mark"> ✓</string>
+
+    <string name="notification_channel_name">Логистические уведомления Loadly</string>
+    <string name="notification_channel_desc">Уведомления о грузах поблизости и сообщениях</string>
+    <string name="location_updated_title">📍 Местоположение обновлено: %1$s</string>
+    <string name="location_updated_body">Нажмите, чтобы увидеть актуальные грузы в вашем регионе.</string>
+</resources>

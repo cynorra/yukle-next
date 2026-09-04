@@ -1,0 +1,18 @@
+<resources>
+    <string-array name="truck_type_keys" translatable="false">
+        <item>tir</item>
+        <item>kamyon</item>
+        <item>kamyonet</item>
+        <item>dorser</item>
+        <item>tanker</item>
+        <item>frigorifik</item>
+    </string-array>
+    <string-array name="truck_type_labels">
+        <item>TIR</item>
+        <item>Camion</item>
+        <item>Camionetă</item>
+        <item>Platformă</item>
+        <item>Cisternă</item>
+        <item>Frigorific</item>
+    </string-array>
+</resources>

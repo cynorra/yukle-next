@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Loadly</string>
+    <string name="marketplace_title">Ladungen</string>
+    <string name="marketplace_empty">Zurzeit keine aktiven Ladungen.</string>
+    <string name="retry">Wiederholen</string>
+    <string name="back">Zurück</string>
+    <string name="load_detail_title">Ladungsdetails</string>
+    <string name="load_not_found">Ladung nicht gefunden.</string>
+    <string name="negotiable">Verhandelbar</string>
+    <string name="marketplace_load_error">Ladungen konnten nicht geladen werden. Verbindung prüfen und erneut versuchen.</string>
+    <string name="load_detail_load_error">Ladung konnte nicht geladen werden. Verbindung prüfen und erneut versuchen.</string>
+
+    <string name="connection_error">Verbindungsfehler</string>
+
+    <string name="weight_value">%1$s t</string>
+    <string name="weight_detail">Gewicht: %1$s t</string>
+    <string name="truck_type_detail">Fahrzeugtyp: %1$s</string>
+    <string name="listed_date_detail">Veröffentlicht: %1$s</string>
+    <string name="shipper_detail">Verlader: %1$s</string>
+    <string name="shipper_verified_mark"> ✓</string>
+
+    <string name="notification_channel_name">Loadly Logistik-Benachrichtigungen</string>
+    <string name="notification_channel_desc">Benachrichtigungen zu Ladungen in der Nähe und Nachrichten</string>
+    <string name="location_updated_title">📍 Standort aktualisiert auf %1$s</string>
+    <string name="location_updated_body">Tippen, um aktuelle Ladungen in Ihrer Nähe zu sehen.</string>
+</resources>

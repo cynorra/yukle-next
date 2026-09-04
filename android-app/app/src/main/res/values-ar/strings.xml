@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Loadly</string>
+    <string name="marketplace_title">الشحنات</string>
+    <string name="marketplace_empty">لا توجد شحنات نشطة حاليًا.</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="back">رجوع</string>
+    <string name="load_detail_title">تفاصيل الشحنة</string>
+    <string name="load_not_found">الشحنة غير موجودة.</string>
+    <string name="negotiable">قابل للتفاوض</string>
+    <string name="marketplace_load_error">تعذر تحميل الشحنات. تحقق من الاتصال وحاول مرة أخرى.</string>
+    <string name="load_detail_load_error">تعذر تحميل الشحنة. تحقق من الاتصال وحاول مرة أخرى.</string>
+
+    <string name="connection_error">خطأ في الاتصال</string>
+
+    <string name="weight_value">%1$s طن</string>
+    <string name="weight_detail">الوزن: %1$s طن</string>
+    <string name="truck_type_detail">نوع المركبة: %1$s</string>
+    <string name="listed_date_detail">تاريخ النشر: %1$s</string>
+    <string name="shipper_detail">صاحب الشحنة: %1$s</string>
+    <string name="shipper_verified_mark"> ✓</string>
+
+    <string name="notification_channel_name">إشعارات Loadly اللوجستية</string>
+    <string name="notification_channel_desc">إشعارات عن الشحنات القريبة والرسائل</string>
+    <string name="location_updated_title">📍 تم تحديث الموقع إلى %1$s</string>
+    <string name="location_updated_body">اضغط لعرض الشحنات النشطة في منطقتك.</string>
+</resources>

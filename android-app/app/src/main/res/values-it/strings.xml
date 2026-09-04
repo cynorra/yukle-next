@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Loadly</string>
+    <string name="marketplace_title">Carichi</string>
+    <string name="marketplace_empty">Nessun carico attivo al momento.</string>
+    <string name="retry">Riprova</string>
+    <string name="back">Indietro</string>
+    <string name="load_detail_title">Dettagli carico</string>
+    <string name="load_not_found">Carico non trovato.</string>
+    <string name="negotiable">Trattabile</string>
+    <string name="marketplace_load_error">Impossibile caricare i carichi. Controlla la connessione e riprova.</string>
+    <string name="load_detail_load_error">Impossibile caricare il carico. Controlla la connessione e riprova.</string>
+
+    <string name="connection_error">Errore di connessione</string>
+
+    <string name="weight_value">%1$s t</string>
+    <string name="weight_detail">Peso: %1$s t</string>
+    <string name="truck_type_detail">Tipo di veicolo: %1$s</string>
+    <string name="listed_date_detail">Pubblicato: %1$s</string>
+    <string name="shipper_detail">Committente: %1$s</string>
+    <string name="shipper_verified_mark"> ✓</string>
+
+    <string name="notification_channel_name">Notifiche logistiche Loadly</string>
+    <string name="notification_channel_desc">Notifiche su carichi nelle vicinanze e messaggi</string>
+    <string name="location_updated_title">📍 Posizione aggiornata a %1$s</string>
+    <string name="location_updated_body">Tocca per vedere i carichi attivi nella tua zona.</string>
+</resources>

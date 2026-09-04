@@ -1,0 +1,20 @@
+<resources>
+    <!-- Keys match the `required_truck_type` values stored in Supabase - do not translate,
+         these are lookup keys, not display text. Labels below are what's shown to users. -->
+    <string-array name="truck_type_keys" translatable="false">
+        <item>tir</item>
+        <item>kamyon</item>
+        <item>kamyonet</item>
+        <item>dorser</item>
+        <item>tanker</item>
+        <item>frigorifik</item>
+    </string-array>
+    <string-array name="truck_type_labels">
+        <item>Semi-Trailer</item>
+        <item>Box Truck</item>
+        <item>Pickup</item>
+        <item>Flatbed</item>
+        <item>Tanker</item>
+        <item>Refrigerated</item>
+    </string-array>
+</resources>

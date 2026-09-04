@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Loadly</string>
+    <string name="marketplace_title">İlanlar</string>
+    <string name="marketplace_empty">Şu anda aktif ilan bulunmuyor.</string>
+    <string name="retry">Tekrar Dene</string>
+    <string name="back">Geri</string>
+    <string name="load_detail_title">İlan Detayı</string>
+    <string name="load_not_found">İlan bulunamadı.</string>
+    <string name="negotiable">Pazarlıklı</string>
+    <string name="marketplace_load_error">İlanlar yüklenemedi. Bağlantınızı kontrol edip tekrar deneyin.</string>
+    <string name="load_detail_load_error">İlan yüklenemedi. Bağlantınızı kontrol edip tekrar deneyin.</string>
+
+    <string name="connection_error">Bağlantı Hatası</string>
+
+    <string name="weight_value">%1$s Ton</string>
+    <string name="weight_detail">Ağırlık: %1$s Ton</string>
+    <string name="truck_type_detail">Araç tipi: %1$s</string>
+    <string name="listed_date_detail">İlan tarihi: %1$s</string>
+    <string name="shipper_detail">Yük sahibi: %1$s</string>
+    <string name="shipper_verified_mark"> ✓</string>
+
+    <string name="notification_channel_name">Loadly Lojistik Bildirimleri</string>
+    <string name="notification_channel_desc">Yakındaki yük ilanları ve mesaj bildirimleri</string>
+    <string name="location_updated_title">📍 Konumunuz %1$s olarak güncellendi</string>
+    <string name="location_updated_body">Bulunduğunuz bölgedeki güncel ilanları görmek için dokunun.</string>
+
+    <string name="notification_toggle">Yeni ilan bildirimlerini aç/kapat</string>
+    <string name="notifications_enabled_toast">Yeni ilan bildirimleri açık</string>
+    <string name="notifications_disabled_toast">Yeni ilan bildirimleri kapalı</string>
+</resources>

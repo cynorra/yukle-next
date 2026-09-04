@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_dark">
+    android:layout_height="match_parent">
+    <!-- No root background: Theme.Loadly's windowBackground already paints
+         background_dark, so this would just repaint the same color (overdraw). -->
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -38,17 +39,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/error_anim" />
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@null"
+            android:src="@android:drawable/stat_sys_warning"
+            app:tint="@color/primary_accent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bağlantı Hatası"
+            android:text="@string/connection_error"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -60,7 +62,7 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/primary_accent"
             android:textColor="@color/black"
-            android:text="Tekrar Dene" />
+            android:text="@string/retry" />
     </LinearLayout>
 
     <!-- Google AdMob Banner Ad (Publisher ID: pub-4674211063760769) -->
@@ -73,5 +75,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Native listings entry point: the website removed /marketplace from its
+         own nav (kept hidden from public browsing for AdSense reasons), so this
+         is the app's own way in, independent of anything on loadlyapp.com. -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/marketplaceFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/marketplace_title"
+        android:src="@android:drawable/ic_menu_agenda"
+        app:backgroundTint="@color/primary_accent"
+        app:layout_constraintBottom_toTopOf="@id/adView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

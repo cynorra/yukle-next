@@ -23,6 +23,7 @@
     </queries>
 
     <application
+        android:name=".LoadlyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,7 +37,28 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4674211063760769~3347511713"/>
-        
+
+        <!-- FCM: used only when this device's process isn't already showing the
+             notification via FcmService.onMessageReceived (e.g. app fully closed) -
+             channel/icon/color must match LoadlyApplication's channel. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="loadly_notifications" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primary_accent" />
+
+        <service
+            android:name=".FcmService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.Loadly.Splash"
@@ -51,6 +73,34 @@
         
         <activity
             android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <!-- App Links: lets loadlyapp.com URLs (incl. the OAuth redirect after
+                 Google sign-in) open directly in this app instead of the browser.
+                 Only takes effect once the app is installed from a release build
+                 whose signing certificate matches assetlinks.json published at
+                 https://loadlyapp.com/.well-known/assetlinks.json - inert until then,
+                 debug builds keep today's behavior (opens in Custom Tab/browser). -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+                <data android:host="loadlyapp.com" />
+                <data android:host="www.loadlyapp.com" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MarketplaceActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".LoadDetailActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />

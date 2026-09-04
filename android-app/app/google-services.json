@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "995170541856",
+    "project_id": "loadly-mobile",
+    "storage_bucket": "loadly-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995170541856:android:79b7e6b73a939ccd3c7745",
+        "android_client_info": {
+          "package_name": "com.cynorra.loadly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAek3mkpDVirdts0QULjwvkw4vG8p6aQPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

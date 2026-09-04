@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">Loadly</string>
+    <string name="brand_wordmark" translatable="false">LOADLY</string>
+    <string name="marketplace_title">Listings</string>
+    <string name="marketplace_empty">No active listings right now.</string>
+    <string name="retry">Retry</string>
+    <string name="back">Back</string>
+    <string name="load_detail_title">Listing Details</string>
+    <string name="load_not_found">Listing not found.</string>
+    <string name="negotiable">Negotiable</string>
+    <string name="marketplace_load_error">Couldn\'t load listings. Check your connection and try again.</string>
+    <string name="load_detail_load_error">Couldn\'t load the listing. Check your connection and try again.</string>
+
+    <string name="connection_error">Connection Error</string>
+
+    <string name="weight_value">%1$s t</string>
+    <string name="weight_detail">Weight: %1$s t</string>
+    <string name="truck_type_detail">Vehicle type: %1$s</string>
+    <string name="listed_date_detail">Listed: %1$s</string>
+    <string name="shipper_detail">Shipper: %1$s</string>
+    <string name="shipper_verified_mark"> ✓</string>
+    <string name="route_format" translatable="false">%1$s → %2$s</string>
+    <string name="price_format" translatable="false">%1$s%2$s</string>
+
+    <string name="notification_channel_name">Loadly Logistics Notifications</string>
+    <string name="notification_channel_desc">Nearby load postings and message notifications</string>
+    <string name="location_updated_title">📍 Location updated to %1$s</string>
+    <string name="location_updated_body">Tap to see current listings in your area.</string>
+
+    <string name="notification_toggle">Toggle new-listing notifications</string>
+    <string name="notifications_enabled_toast">New listing notifications on</string>
+    <string name="notifications_disabled_toast">New listing notifications off</string>
 </resources>

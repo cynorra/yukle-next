@@ -2,8 +2,6 @@ package com.cynorra.loadly;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -55,8 +53,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private static final String APP_HOST = "loadlyapp.com";
-    private static final String CHANNEL_ID = "loadly_notifications";
-    private static final int NOTIFICATION_ID_BASE = 1001;
 
     private WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -93,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
         // Initialize Google AdMob SDK
         MobileAds.initialize(this, initializationStatus -> {});
 
-        createNotificationChannel();
-
         webView = findViewById(R.id.webView);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         progressBar = findViewById(R.id.progressBar);
@@ -111,36 +105,20 @@ public class MainActivity extends AppCompatActivity {
         setupWebView();
         setupBackPressed();
 
+        findViewById(R.id.marketplaceFab).setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, MarketplaceActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
         // Request Location and Notification Permissions
         requestAppPermissions();
 
-        // Check if opened via notification click with target_url
-        String targetUrl = getIntent() != null ? getIntent().getStringExtra("target_url") : null;
-        if (targetUrl != null && !targetUrl.isEmpty()) {
-            webView.loadUrl(targetUrl);
-        } else {
-            // Load live Next.js Web App (Root URL allows automatic country/device language detection via middleware)
-            webView.loadUrl("https://loadlyapp.com/");
-        }
+        webView.loadUrl(resolveStartUrl(getIntent()));
 
         findViewById(R.id.retryButton).setOnClickListener(v -> {
             errorLayout.setVisibility(View.GONE);
             webView.reload();
         });
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Loadly Lojistik Bildirimleri";
-            String description = "Yakındaki yük ilanları ve mesaj bildirimleri";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
     }
 
     private void requestAppPermissions() {
@@ -202,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                             String city = addresses.get(0).getAdminArea();
                             if (city == null || city.isEmpty()) city = addresses.get(0).getLocality();
                             handleCityDetected(city);
+                            LoadlyApplication.updateCountryTopic(MainActivity.this, addresses.get(0).getCountryCode());
                         }
                     }
                 });
@@ -211,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     String city = addresses.get(0).getAdminArea();
                     if (city == null || city.isEmpty()) city = addresses.get(0).getLocality();
                     handleCityDetected(city);
+                    LoadlyApplication.updateCountryTopic(MainActivity.this, addresses.get(0).getCountryCode());
                 }
             }
         } catch (Exception e) {
@@ -222,10 +202,11 @@ public class MainActivity extends AppCompatActivity {
         if (city == null || city.isEmpty()) return;
         if (!city.equalsIgnoreCase(lastDetectedCity)) {
             lastDetectedCity = city;
-            // Send local notification for nearby loads in the user's current city/region
+            // This only confirms the device's city changed, not that any new load actually
+            // exists there - the wording must not claim a fact this check hasn't verified.
             sendNativeNotification(
-                    "🚛 " + city + " Yakınında Yeni Yük İlanları Var!",
-                    "Bulunduğunuz bölgede yeni taşıma ilanları listelendi. Detayları incelemek için dokunun.",
+                    getString(R.string.location_updated_title, city),
+                    getString(R.string.location_updated_body),
                     "https://loadlyapp.com/marketplace"
             );
         }
@@ -247,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, LoadlyApplication.NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -415,12 +396,38 @@ public class MainActivity extends AppCompatActivity {
             String host = uri.getHost();
             boolean isOwnSite = host != null && (host.equals(APP_HOST) || host.endsWith("." + APP_HOST));
             if (isOwnSite) {
+                if (openMarketplaceNatively(uri)) {
+                    return true;
+                }
                 return false; // keep inside app
             }
             openExternally(uri); // external links, Google OAuth, social media
             return true;
         }
         safeStart(new Intent(Intent.ACTION_VIEW, uri));
+        return true;
+    }
+
+    // The website's own /marketplace route only exists for the site's own
+    // logged-in users and isn't part of its public-facing navigation (kept
+    // hidden from search engines/AdSense on purpose); rather than depend on
+    // that route always being buildable, links to it (from the dashboard,
+    // messages, favorites, notifications, etc.) are intercepted here and
+    // shown with this app's own native listings/detail screens, which read
+    // loads directly from Supabase and don't depend on any website page.
+    private boolean openMarketplaceNatively(Uri uri) {
+        List<String> segments = uri.getPathSegments();
+        if (segments.size() < 2 || !"marketplace".equals(segments.get(1))) {
+            return false;
+        }
+        if (segments.size() >= 3 && !segments.get(2).isEmpty()) {
+            Intent intent = new Intent(this, LoadDetailActivity.class);
+            intent.putExtra(LoadDetailActivity.EXTRA_LOAD_ID, segments.get(2));
+            startActivity(intent);
+        } else {
+            startActivity(new Intent(this, MarketplaceActivity.class));
+        }
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         return true;
     }
 
@@ -456,10 +463,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        String targetUrl = intent.getStringExtra("target_url");
-        if (targetUrl != null && !targetUrl.isEmpty() && webView != null) {
-            webView.loadUrl(targetUrl);
+        if (webView != null) {
+            webView.loadUrl(resolveStartUrl(intent));
         }
+    }
+
+    // A cold/new launch can arrive two ways: a local notification tap (carries a
+    // "target_url" string extra) or a real https://loadlyapp.com link via App Links
+    // (carries a Uri in getData(), e.g. the OAuth redirect after Google sign-in) -
+    // without this, App Links would bring the user into the app but always dump
+    // them on the homepage instead of wherever the link actually pointed to.
+    private String resolveStartUrl(Intent intent) {
+        if (intent == null) return "https://loadlyapp.com/";
+        String targetUrl = intent.getStringExtra("target_url");
+        if (targetUrl != null && !targetUrl.isEmpty()) {
+            return targetUrl;
+        }
+        Uri data = intent.getData();
+        if (data != null && "https".equals(data.getScheme())) {
+            return data.toString();
+        }
+        return "https://loadlyapp.com/";
     }
 
     @Override

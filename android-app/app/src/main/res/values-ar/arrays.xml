@@ -1,0 +1,18 @@
+<resources>
+    <string-array name="truck_type_keys" translatable="false">
+        <item>tir</item>
+        <item>kamyon</item>
+        <item>kamyonet</item>
+        <item>dorser</item>
+        <item>tanker</item>
+        <item>frigorifik</item>
+    </string-array>
+    <string-array name="truck_type_labels">
+        <item>شاحنة مقطورة</item>
+        <item>شاحنة</item>
+        <item>شاحنة صغيرة</item>
+        <item>منصة مسطحة</item>
+        <item>صهريج</item>
+        <item>مبرّدة</item>
+    </string-array>
+</resources>

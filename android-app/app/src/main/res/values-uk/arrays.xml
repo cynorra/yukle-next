@@ -1,0 +1,18 @@
+<resources>
+    <string-array name="truck_type_keys" translatable="false">
+        <item>tir</item>
+        <item>kamyon</item>
+        <item>kamyonet</item>
+        <item>dorser</item>
+        <item>tanker</item>
+        <item>frigorifik</item>
+    </string-array>
+    <string-array name="truck_type_labels">
+        <item>Фура</item>
+        <item>Вантажівка</item>
+        <item>Легка вантажівка</item>
+        <item>Платформа</item>
+        <item>Цистерна</item>
+        <item>Рефрижератор</item>
+    </string-array>
+</resources>

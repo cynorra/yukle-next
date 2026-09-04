@@ -4,17 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0f0f13"> <!-- Premium dark background -->
+    android:background="@color/splash_background"> <!-- Must match Theme.Loadly.Splash's windowSplashScreenBackground so the Android 12+ system splash hands off to this Activity with no visible color jump. -->
 
-    <!-- Lottie Animation for a sleek and modern entry -->
-    <!-- Note: We'll need a placeholder or raw file for this -->
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/splashLottie"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="false"
-        app:lottie_rawRes="@raw/splash_anim"
+    <!-- Real Loadly brand mark (public/logo.png), animated in natively -
+         see SplashActivity. Not a placeholder. -->
+    <ImageView
+        android:id="@+id/splashLogo"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/brand_mark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,13 +23,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="LOADLY"
+        android:text="@string/brand_wordmark"
         android:textColor="#FFFFFF"
         android:textSize="28sp"
         android:textStyle="bold"
         android:letterSpacing="0.2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/splashLottie" />
+        app:layout_constraintTop_toBottomOf="@id/splashLogo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

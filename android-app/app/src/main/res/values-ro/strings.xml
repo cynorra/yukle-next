@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Loadly</string>
+    <string name="marketplace_title">Curse</string>
+    <string name="marketplace_empty">Nu există curse active momentan.</string>
+    <string name="retry">Reîncearcă</string>
+    <string name="back">Înapoi</string>
+    <string name="load_detail_title">Detalii cursă</string>
+    <string name="load_not_found">Cursă negăsită.</string>
+    <string name="negotiable">Negociabil</string>
+    <string name="marketplace_load_error">Cursele nu au putut fi încărcate. Verifică conexiunea și încearcă din nou.</string>
+    <string name="load_detail_load_error">Cursa nu a putut fi încărcată. Verifică conexiunea și încearcă din nou.</string>
+
+    <string name="connection_error">Eroare de conexiune</string>
+
+    <string name="weight_value">%1$s t</string>
+    <string name="weight_detail">Greutate: %1$s t</string>
+    <string name="truck_type_detail">Tip vehicul: %1$s</string>
+    <string name="listed_date_detail">Publicat: %1$s</string>
+    <string name="shipper_detail">Expeditor: %1$s</string>
+    <string name="shipper_verified_mark"> ✓</string>
+
+    <string name="notification_channel_name">Notificări logistice Loadly</string>
+    <string name="notification_channel_desc">Notificări despre curse din apropiere și mesaje</string>
+    <string name="location_updated_title">📍 Locație actualizată la %1$s</string>
+    <string name="location_updated_body">Atinge pentru a vedea cursele active din zona ta.</string>
+</resources>
