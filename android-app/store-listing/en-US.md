@@ -1,9 +1,9 @@
 # Play Store Listing — English (US) [en-US, default]
 
-## Title (28/30 chars)
+## Title (29/30 chars)
 Loadly - Load Board & Freight
 
-## Short description (76/80 chars)
+## Short description (73/80 chars)
 Find truck loads, post freight & connect with carriers - live load board.
 
 ## Full description
