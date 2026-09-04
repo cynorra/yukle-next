@@ -97,7 +97,7 @@ export function CreateLoadPageClient() {
     setSubmitting(true);
     setError(null);
 
-    const { error: insertError } = await supabase
+    const { data: newLoad, error: insertError } = await supabase
       .from('loads')
       .insert({
         title: title.trim(),
@@ -128,6 +128,16 @@ export function CreateLoadPageClient() {
 
     // Marketplace listings are noindex'd, so there's nothing to submit for
     // indexing here — see the same note in marketplace/page.tsx.
+
+    // Fire-and-forget: notifies the Android app's "new_loads" FCM topic. Never
+    // blocks navigation - a failed/slow push send shouldn't hold up load creation.
+    if (newLoad?.id) {
+      fetch('/api/webhooks/fcm-new-load', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ loadId: newLoad.id }),
+      }).catch(() => {});
+    }
 
     router.push(`/${locale}/dashboard`);
   }

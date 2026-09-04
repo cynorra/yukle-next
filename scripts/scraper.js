@@ -31,6 +31,28 @@ if (!supabaseUrl || (!anonKey && !serviceKey)) {
 const activeKey = serviceKey || anonKey;
 const supabase = createClient(supabaseUrl, activeKey);
 
+// Notifies the website's per-country FCM push route once per run (not per row - see
+// that route for why). Best-effort: a failure here must never fail the scraper run,
+// the loads are already safely inserted regardless of whether the push goes out.
+async function notifyNewLoads(insertedLoadIds) {
+  if (!insertedLoadIds || insertedLoadIds.length === 0) return;
+  const secret = process.env.SCRAPER_WEBHOOK_SECRET;
+  if (!secret) {
+    console.log('SCRAPER_WEBHOOK_SECRET not set - skipping new-load push notification.');
+    return;
+  }
+  try {
+    const res = await fetch('https://loadlyapp.com/api/webhooks/fcm-batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${secret}` },
+      body: JSON.stringify({ loadIds: insertedLoadIds }),
+    });
+    console.log('fcm-batch push webhook response:', res.status, await res.text());
+  } catch (e) {
+    console.error('Failed to call fcm-batch push webhook (non-fatal):', e.message);
+  }
+}
+
 // Blacklist of company names, phone numbers, or email domains to ignore during scraping.
 // If a user requests removal, add their details here to prevent future scraping.
 const scrapedBlacklist = [
@@ -876,6 +898,8 @@ Detaylar için yukarıdaki iletişim bilgilerinden doğrudan firmayla bağlantı
   // IndexNow/Baidu/Google here would just be the "submitted a noindexed URL
   // for indexing" red flag search consoles warn about. No indexing push for
   // scraped loads.
+
+  await notifyNewLoads(insertedLoadIds);
 
   console.log(`\nScraping run completed successfully! Total new loads imported: ${totalInserted}`);
   return totalInserted;

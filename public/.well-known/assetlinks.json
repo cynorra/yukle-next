@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.cynorra.loadly",
+      "sha256_cert_fingerprints": [
+        "65:C1:99:C5:79:FD:CB:63:D6:66:E4:D5:04:D6:46:14:1E:9C:E1:F1:24:8A:CF:1E:A5:E6:A7:A8:94:1A:79:52"
+      ]
+    }
+  }
+]

@@ -181,7 +181,14 @@ export function DashboardPageClient() {
       description: load.description,
       status: 'active',
     }).select('id').single();
-    if (data) router.push(`/${locale}/edit-load/${data.id}`);
+    if (data) {
+      fetch('/api/webhooks/fcm-new-load', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ loadId: data.id }),
+      }).catch(() => {});
+      router.push(`/${locale}/edit-load/${data.id}`);
+    }
   }
 
   const activeCount = loads.filter((l) => l.status === 'active').length;

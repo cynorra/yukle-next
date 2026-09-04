@@ -1,12 +1,14 @@
 name: Scraper Cron Job
 
 on:
-  # Paused 2026-08-23: stopping new scraped-listing ingestion while we get
-  # AdSense re-approved and address the marketplace thin/duplicate-content
-  # ratio flagged in prior SEO review. Re-enable the schedule block below
-  # once loads should resume flowing in.
-  # schedule:
-  #   - cron: '*/5 * * * *'
+  # Re-enabled 2026-09-04: marketplace listings are no longer part of the
+  # website's public/indexed surface at all (dropped 2026-08-29, see the
+  # noindex comments in scripts/scraper.js) - the thin/duplicate-content SEO
+  # risk this was paused for doesn't apply to a page nothing links to or
+  # indexes. Loads now feed the native Android app (FCM push per country via
+  # /api/webhooks/fcm-batch) instead of the website's own listings.
+  schedule:
+    - cron: '*/5 * * * *'
   workflow_dispatch: # Allows manual triggering
 
 concurrency:
@@ -37,6 +39,7 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SCRAPER_SHIPPER_ID: ${{ secrets.SCRAPER_SHIPPER_ID }}
+          SCRAPER_WEBHOOK_SECRET: ${{ secrets.SCRAPER_WEBHOOK_SECRET }}
         run: node scripts/scraper.js --all
 
       - name: Run US/Canada Scraper (FreightFinder.com)
@@ -45,4 +48,5 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SCRAPER_SHIPPER_ID: ${{ secrets.SCRAPER_SHIPPER_ID }}
+          SCRAPER_WEBHOOK_SECRET: ${{ secrets.SCRAPER_WEBHOOK_SECRET }}
         run: node scripts/freightfinder-serverless.js

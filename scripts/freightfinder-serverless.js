@@ -296,8 +296,32 @@ async function runFreightFinderScraper({ supabase, shipperId, maxPerRun = 75, pa
   // for indexing" red flag search consoles warn about. No indexing push for
   // scraped loads.
 
+  await notifyNewLoads(insertedLoadIds);
+
   log(`[FreightFinder] Done. Inserted: ${totalInserted}`);
   return totalInserted;
+}
+
+// Notifies the website's per-country FCM push route once per run (not per row - a
+// single run can insert dozens of loads, one push per row would spam users). See
+// src/app/api/webhooks/fcm-batch/route.ts. Best-effort: never fails the scraper run.
+async function notifyNewLoads(insertedLoadIds) {
+  if (!insertedLoadIds || insertedLoadIds.length === 0) return;
+  const secret = process.env.SCRAPER_WEBHOOK_SECRET;
+  if (!secret) {
+    console.log('SCRAPER_WEBHOOK_SECRET not set - skipping new-load push notification.');
+    return;
+  }
+  try {
+    const res = await fetch('https://loadlyapp.com/api/webhooks/fcm-batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${secret}` },
+      body: JSON.stringify({ loadIds: insertedLoadIds }),
+    });
+    console.log('fcm-batch push webhook response:', res.status, await res.text());
+  } catch (e) {
+    console.error('Failed to call fcm-batch push webhook (non-fatal):', e.message);
+  }
 }
 
 // ---------------------------------------------------------------------------
