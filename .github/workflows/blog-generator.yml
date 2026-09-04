@@ -43,5 +43,6 @@ jobs:
           CF_WORKERS_AI_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           SCRAPER_SHIPPER_ID: ${{ secrets.SCRAPER_SHIPPER_ID }}
+          REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
           ARTICLES_PER_RUN: '1'
         run: node scripts/blog-generator.js

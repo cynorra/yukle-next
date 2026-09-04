@@ -8,7 +8,9 @@ import type { Locale } from '@/utils/translations';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-export const revalidate = 300;
+// Same reasoning as [locale]/page.tsx: new posts land once a day (09:00 cron), so
+// matched to that cadence instead of an arbitrary shorter window.
+export const revalidate = 86400;
 
 interface Props {
   params: Promise<{ locale: string }>;

@@ -1539,7 +1539,30 @@ async function runBlogGenerator() {
     );
   }
 
+  await triggerRevalidation(postsWithUrls);
+
   return insertedPosts;
+}
+
+// On-demand ISR: makes the new post (and its locale's homepage/blog listing) show
+// up immediately instead of waiting for their time-based `revalidate` window. That
+// window still exists as a fallback ceiling - this just means it almost never
+// actually gets hit in practice. Best-effort, never fails the publish run.
+async function triggerRevalidation(postsWithUrls) {
+  const secret = process.env.REVALIDATE_SECRET;
+  if (!secret || postsWithUrls.length === 0) return;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com'}/api/revalidate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${secret}` },
+      body: JSON.stringify({
+        posts: postsWithUrls.map((p) => ({ language: p.language, slug: p.slug })),
+      }),
+    });
+    console.log('On-demand revalidation response:', res.status, await res.text());
+  } catch (e) {
+    console.error('Failed to trigger on-demand revalidation (non-fatal):', e.message);
+  }
 }
 
 // Number of articles to generate per workflow run. Each article already fans

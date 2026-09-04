@@ -22,7 +22,13 @@ import BlogCard from '@/components/blog/BlogCard';
 import { createPublicClient } from '@/lib/supabase/public';
 import type { BlogPost } from '@/types/database';
 
-export const revalidate = 300;
+// 300s (55 locales x up to 288 regens/day = up to ~15.8k ISR writes/day just from
+// this one route) was way tighter than the content actually needs - the blog posts
+// featured here only change once a day (blog-generator cron runs 09:00 daily, see
+// .github/workflows/blog-generator.yml). Matched to that actual cadence instead of
+// picking an arbitrary shorter number - anything under 24h regenerates for content
+// that hasn't changed since the last regeneration.
+export const revalidate = 86400;
 
 const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }[] }> = {
   tr: {
