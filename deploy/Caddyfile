@@ -1,0 +1,17 @@
+# Production Caddyfile for loadlyapp.com on the Oracle VM.
+# Do NOT install this until the DNS cutover step (see deploy/README.md) —
+# use a separate temporary block for the oracle-test.loadlyapp.com dry run first.
+#
+# Install: sudo ln -sf /opt/loadly/app/deploy/Caddyfile /etc/caddy/Caddyfile && sudo systemctl reload caddy
+
+loadlyapp.com {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:3000
+}
+
+# Canonical host is the apex (matches every hardcoded canonical tag, the
+# sitemap, and robots.txt Host directive in this codebase — this direction
+# has regressed twice across past migrations, always double-check it).
+www.loadlyapp.com {
+	redir https://loadlyapp.com{uri} 308
+}
