@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cynorra.loadly.model.Load;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.cynorra.loadly.network.SupabaseClient;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class MarketplaceActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressBar progressBar;
+    private ShimmerFrameLayout shimmerLayout;
     private LinearLayout emptyLayout;
     private TextView emptyText;
     private final SupabaseClient client = new SupabaseClient();
@@ -59,7 +59,7 @@ public class MarketplaceActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        progressBar = findViewById(R.id.progressBar);
+        shimmerLayout = findViewById(R.id.shimmerLayout);
         emptyLayout = findViewById(R.id.emptyLayout);
         emptyText = findViewById(R.id.emptyText);
 
@@ -99,12 +99,13 @@ public class MarketplaceActivity extends AppCompatActivity {
     private void fetchLoads() {
         emptyLayout.setVisibility(View.GONE);
         if (adapter.isEmpty()) {
-            progressBar.setVisibility(View.VISIBLE);
+            shimmerLayout.setVisibility(View.VISIBLE);
+            shimmerLayout.startShimmer();
         }
         client.fetchActiveLoads(PAGE_SIZE, new SupabaseClient.ListCallback() {
             @Override
             public void onSuccess(List<Load> result) {
-                progressBar.setVisibility(View.GONE);
+                hideShimmer();
                 swipeRefreshLayout.setRefreshing(false);
                 adapter.submitList(result);
                 // A successful (non-error) fetch with zero rows is a genuine "no listings"
@@ -116,7 +117,7 @@ public class MarketplaceActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                progressBar.setVisibility(View.GONE);
+                hideShimmer();
                 swipeRefreshLayout.setRefreshing(false);
                 if (adapter.isEmpty()) {
                     // onError only ever fires for a failed request (network/server issue) -
@@ -127,5 +128,10 @@ public class MarketplaceActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void hideShimmer() {
+        shimmerLayout.stopShimmer();
+        shimmerLayout.setVisibility(View.GONE);
     }
 }

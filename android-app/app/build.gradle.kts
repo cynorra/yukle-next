@@ -65,9 +65,7 @@ dependencies {
     implementation(libs.material)
 
     // User Requested Libraries
-    implementation(libs.lottie)
     implementation(libs.shimmer)
-    implementation(libs.mpandroidchart)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.recyclerview)

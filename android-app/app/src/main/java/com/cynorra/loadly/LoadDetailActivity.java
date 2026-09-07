@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cynorra.loadly.model.Load;
 import com.cynorra.loadly.network.SupabaseClient;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ public class LoadDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_LOAD_ID = "load_id";
 
-    private ProgressBar progressBar;
+    private ShimmerFrameLayout shimmerLayout;
     private ScrollView contentScroll;
     private LinearLayout errorLayout;
     private TextView errorText;
@@ -40,7 +40,7 @@ public class LoadDetailActivity extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
-        progressBar = findViewById(R.id.progressBar);
+        shimmerLayout = findViewById(R.id.shimmerLayout);
         contentScroll = findViewById(R.id.contentScroll);
         errorLayout = findViewById(R.id.errorLayout);
         errorText = findViewById(R.id.errorText);
@@ -56,12 +56,13 @@ public class LoadDetailActivity extends AppCompatActivity {
     }
 
     private void fetchLoad(String id) {
-        progressBar.setVisibility(View.VISIBLE);
+        shimmerLayout.setVisibility(View.VISIBLE);
+        shimmerLayout.startShimmer();
         errorLayout.setVisibility(View.GONE);
         client.fetchLoad(id, new SupabaseClient.DetailCallback() {
             @Override
             public void onSuccess(Load load) {
-                progressBar.setVisibility(View.GONE);
+                hideShimmer();
                 bind(load);
             }
 
@@ -76,8 +77,13 @@ public class LoadDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void hideShimmer() {
+        shimmerLayout.stopShimmer();
+        shimmerLayout.setVisibility(View.GONE);
+    }
+
     private void showError(boolean canRetry) {
-        progressBar.setVisibility(View.GONE);
+        hideShimmer();
         contentScroll.setVisibility(View.GONE);
         errorText.setText(canRetry ? R.string.load_detail_load_error : R.string.load_not_found);
         retryButton.setVisibility(canRetry ? View.VISIBLE : View.GONE);
