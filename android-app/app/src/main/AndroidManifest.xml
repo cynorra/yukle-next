@@ -36,7 +36,7 @@
         <!-- Google AdMob Application ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4674211063760769~3347511713"/>
+            android:value="ca-app-pub-4674211063760769~5359442306"/>
 
         <!-- FCM: used only when this device's process isn't already showing the
              notification via FcmService.onMessageReceived (e.g. app fully closed) -
