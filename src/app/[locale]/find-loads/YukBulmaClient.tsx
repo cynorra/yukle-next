@@ -98,7 +98,7 @@ export function YukBulmaClient() {
             <Link href="/pazar" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-accent text-white font-black text-lg shadow-xl shadow-accent/20 hover:scale-105 transition-all flex items-center justify-center gap-2">
               İlanları Gör <ArrowRight size={20} />
             </Link>
-            <Link href="/kayit" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-white dark:bg-surface-dark border-2 border-accent/20 text-accent font-black text-lg hover:bg-accent/5 transition-all">
+            <Link href="/register" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-white dark:bg-surface-dark border-2 border-accent/20 text-accent font-black text-lg hover:bg-accent/5 transition-all">
               Hemen Kayıt Ol
             </Link>
           </motion.div>
@@ -227,7 +227,7 @@ export function YukBulmaClient() {
             Binlerce nakliyeci ve yük sahibi Loadly ile her gün daha verimli çalışıyor. 
             Siz de topluluğumuza katılın, işinizi büyütün.
           </p>
-          <Link href="/kayit" className="inline-flex px-12 py-5 bg-accent text-white rounded-2xl font-black text-xl shadow-2xl shadow-accent/20 hover:scale-105 transition-all">
+          <Link href="/register" className="inline-flex px-12 py-5 bg-accent text-white rounded-2xl font-black text-xl shadow-2xl shadow-accent/20 hover:scale-105 transition-all">
             Ücretsiz Başla
           </Link>
         </div>

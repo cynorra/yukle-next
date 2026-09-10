@@ -316,7 +316,7 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
                 <Link href={ctaLink} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-bold hover:shadow-lg hover:shadow-accent/20 transition-all">
                   {anchorText}
                 </Link>
-                <Link href="/kayit" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white dark:bg-surface-dark border border-accent/20 text-accent font-bold hover:bg-accent/5 transition-all">
+                <Link href="/register" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white dark:bg-surface-dark border border-accent/20 text-accent font-bold hover:bg-accent/5 transition-all">
                   ücretsiz kayıt
                 </Link>
               </div>

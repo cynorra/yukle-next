@@ -259,7 +259,7 @@ export function LoginPageClient() {
 
               <p className={`text-center text-sm ${t.muted} mt-6`}>
                 Hesabınız yok mu?{' '}
-                <Link href="/kayit" className={`${t.accent} font-semibold hover:underline`}>Ücretsiz Kayıt Ol</Link>
+                <Link href="/register" className={`${t.accent} font-semibold hover:underline`}>Ücretsiz Kayıt Ol</Link>
               </p>
               </TextureCard>
             </>

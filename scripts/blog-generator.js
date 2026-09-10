@@ -764,7 +764,7 @@ async function polishTranslatedPost(post, langName, langCode) {
 
 Rules:
 - Preserve every HTML tag in "content" exactly as structured (h2/h3/p/ul/li/table/a href/strong/blockquote etc.) — only edit the text inside them. Do not add, remove, or reorder tags or sections.
-- Preserve the <a href="/marketplace"> and <a href="/register"> links exactly as they are, including their anchor text unless a keyword fits naturally into that anchor text.
+- Preserve the <a href="/find-loads"> and <a href="/register"> links exactly as they are, including their anchor text unless a keyword fits naturally into that anchor text.
 - meta_title must stay under 60 characters, meta_description under 155 characters.
 - Keep edits minimal and surgical.
 
@@ -1096,7 +1096,7 @@ Return ONLY a valid JSON array of exactly ${BANK_BATCH_SIZE} objects. No markdow
 }
 
 // Fetch a small pool of recently published (English) posts so a new article can
-// link to one of them — without this, every article only links to /marketplace
+// link to one of them — without this, every article only links to /find-loads
 // and /register, and older posts become orphan pages with zero inbound links
 // as the archive grows (see universal-adsense-site-standard.md §3.8). Returns
 // {title, baseSlug} pairs; baseSlug has the "-en" language suffix stripped so
@@ -1244,7 +1244,7 @@ async function generateBasePost(topicData) {
   const formatDesc = formatSpec?.description || 'comprehensive expert guide';
 
   // Offer a few real, recently-published posts as an optional 3rd internal
-  // link so articles stop being islands that only point at /marketplace and
+  // link so articles stop being islands that only point at /find-loads and
   // /register — without this every older post becomes an orphan page with
   // zero inbound links as the archive grows (universal-adsense-site-standard.md §3.8).
   const linkPool = await getRecentPostsForLinking(12);
@@ -1309,10 +1309,10 @@ MINIMUM ${minWords} words of substantive expert content. No filler. Every senten
 INTERNAL LINKING (mandatory — do not skip)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 This article is currently published with ZERO links back to the product, so it drives SEO traffic that never converts. Fix this in every article:
-- Include exactly 2 <a> links total, using ONLY these two hrefs (relative, no locale prefix, no domain): <a href="/marketplace"> and <a href="/register">
+- Include exactly 2 <a> links total, using ONLY these two hrefs (relative, no locale prefix, no domain): <a href="/find-loads"> and <a href="/register">
 - Never use any other href for these two — no other route exists for them to point to, and no third-party/external links
-- Anchor text must be natural and specific to the topic, never "click here" or "this link" (e.g. <a href="/marketplace">browse live LTL loads near you</a>, not <a href="/marketplace">marketplace</a>)
-- Placement: one <a href="/marketplace"> link woven naturally into a SOLUTION SECTION where a marketplace genuinely solves the problem being discussed; one <a href="/register"> link in the CTA CONCLUSION section
+- Anchor text must be natural and specific to the topic, never "click here" or "this link" (e.g. <a href="/find-loads">browse live LTL loads near you</a>, not <a href="/find-loads">marketplace</a>)
+- Placement: one <a href="/find-loads"> link woven naturally into a SOLUTION SECTION where a marketplace genuinely solves the problem being discussed; one <a href="/register"> link in the CTA CONCLUSION section
 - These count toward the article but must read as genuinely helpful signposting, not ad copy${relatedLinksBlock}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
