@@ -10,7 +10,7 @@ import {
   Weight, Package, Clock, User, Star, Truck, Send,
   MessageSquare, Shield, ArrowLeft, Phone, CheckCircle2, CircleDot,
   Loader2, TrendingUp, X, Check, Zap, Heart, ExternalLink, Share2, PenLine,
-  ChevronRight, HelpCircle, ShieldCheck, FileText,
+  HelpCircle, ShieldCheck, FileText,
 } from 'lucide-react';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -469,7 +469,7 @@ export function LoadDetailClient({
       <div className="text-center">
         <Package size={48} className={`${t.mutedDark} mx-auto mb-4`} />
         <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{td.loadNotFound}</h3>
-        <Link href={`/${locale}/marketplace`} className="inline-flex items-center gap-2 text-[#F5A623] hover:underline text-sm"><ArrowLeft size={16} />{td.backToMarket}</Link>
+        <Link href={`/${locale}/dashboard`} className="inline-flex items-center gap-2 text-[#F5A623] hover:underline text-sm"><ArrowLeft size={16} />{td.backToMarket}</Link>
       </div>
     </div>
   );
@@ -488,7 +488,7 @@ export function LoadDetailClient({
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <Link href={`/${locale}/marketplace`} className={`inline-flex items-center gap-2 ${t.sub} hover:text-accent text-sm mb-6 transition-colors font-medium`}>
+        <Link href={`/${locale}/dashboard`} className={`inline-flex items-center gap-2 ${t.sub} hover:text-accent text-sm mb-6 transition-colors font-medium`}>
           <ArrowLeft size={16} className={isRtl ? 'rotate-180' : ''} />{td.backToMarket}
         </Link>
 
@@ -1052,9 +1052,6 @@ export function LoadDetailClient({
               <h3 className="text-lg font-bold text-fg">
                 {locale === 'tr' ? 'Benzer Lojistik İlanları' : 'Similar Available Freight Loads'}
               </h3>
-              <Link href={`/${locale}/marketplace`} className="text-xs font-bold text-accent hover:underline flex items-center gap-1">
-                {locale === 'tr' ? 'Tüm İlanları Gör' : 'View All Loads'} <ChevronRight size={14} />
-              </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {similarLoads.map((simLoad: any) => (
