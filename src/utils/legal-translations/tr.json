@@ -27,6 +27,56 @@
     "quickSupportDesc": "Reklam fırsatları, işbirlikleri veya hesap yönetimi ile ilgili acil destek ihtiyaçlarınız için e-posta kanalımızı kullanmanızı öneririz. En geç 24 saat içinde geri dönüş yapmaktayız.",
     "advCollab": "Reklam ve İşbirliği:"
   },
+  "cookiePolicy": {
+    "title": "Çerez Politikası",
+    "description": "Loadly ve üçüncü taraf sağlayıcılarının tarayıcınızda tek tek hangi çerezleri, hangi amaçla sakladığının detaylı dökümü.",
+    "introTitle": "Çerez Nedir?",
+    "introDesc": "Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınızda saklanan küçük metin dosyalarıdır. Bir sitenin tercihlerinizi hatırlamasını, oturumunuzu açık tutmasını ve — onay verdiğiniz durumlarda — trafiği ölçmesini ve ilgili reklamları göstermesini sağlarlar. Bu sayfa, Loadly ve sağlayıcılarının kullandığı her çerez kategorisini tek tek listeler. Çerezlerin dokunabileceği kişisel verileri nasıl işlediğimiz için Gizlilik Politikamıza bakabilirsiniz.",
+    "tableTitle": "Kullandığımız Çerezler",
+    "colName": "Çerez",
+    "colPurpose": "Amaç",
+    "colDuration": "Süre",
+    "colProvider": "Sağlayıcı",
+    "rows": [
+      {
+        "name": "NEXT_LOCALE",
+        "purpose": "Seçtiğiniz görüntüleme dilini hatırlar, böylece her sayfada yeniden seçmenize gerek kalmaz.",
+        "duration": "Oturum (tarayıcınızı kapattığınızda silinir)",
+        "provider": "Loadly (birinci taraf, kesinlikle gerekli)"
+      },
+      {
+        "name": "cookie-consent",
+        "purpose": "Çerez onay tercihinizi (kabul veya red) saklar, böylece her ziyarette tekrar sormayız. Geleneksel bir çerez değil, local storage'da saklanır.",
+        "duration": "Kalıcı, tarayıcı site verilerinizi temizleyene kadar",
+        "provider": "Loadly (birinci taraf, kesinlikle gerekli)"
+      },
+      {
+        "name": "sb-access-token / sb-refresh-token",
+        "purpose": "Sayfa yüklemeleri arasında Loadly hesabınızda oturumunuzu açık tutar.",
+        "duration": "Oturum, refresh token için en fazla 7 gün",
+        "provider": "Supabase, Loadly adına (birinci taraf, kesinlikle gerekli)"
+      },
+      {
+        "name": "_ga, _gid",
+        "purpose": "Toplu trafik analitiği için benzersiz ziyaretçileri ayırt eder ve sayar. Sadece çerezleri kabul ettiğinizde ayarlanır.",
+        "duration": "_ga: genellikle 2 yıl · _gid: genellikle 24 saat",
+        "provider": "Google Analytics (üçüncü taraf, analitik)"
+      },
+      {
+        "name": "IDE, test_cookie ve ilgili reklam çerezleri",
+        "purpose": "Google AdSense/DoubleClick tarafından, bu ve diğer sitelerdeki ziyaretlerinize göre reklam sunmak ve reklam performansını ölçmek için kullanılır. Sadece çerezleri kabul ettiğinizde ayarlanır.",
+        "duration": "Çereze göre değişir, genellikle en fazla 13 ay",
+        "provider": "Google AdSense / DoubleClick (üçüncü taraf, reklam)"
+      }
+    ],
+    "rowsNote": "Google, kendi analitik ve reklam çerezlerinin tam listesini ve ömrünü kendisi kontrol eder ve bunlar bizim tarafımızdan haber verilmeden değişebilir — güncel, resmi liste için Google'ın kendi çerez dokümantasyonuna bakın.",
+    "manageTitle": "Çerez Tercihlerinizi Yönetme",
+    "manageDesc": "İlk ziyaretinizde gösterilen onay bannerından zorunlu olmayan (analitik/reklam) çerezleri kabul edebilir veya reddedebilir, ya da tarayıcınızda loadlyapp.com için site verilerini temizleyerek tercihinizi istediğiniz zaman değiştirebilirsiniz. Kişiselleştirilmiş reklamlardan doğrudan Google üzerinden de çıkabilirsiniz:",
+    "browserTitle": "Tarayıcınızda Çerezleri Engelleme",
+    "browserDesc": "Her modern tarayıcı, ayarlarından çerezleri engellemenize veya silmenize izin verir. Kesinlikle gerekli çerezleri (NEXT_LOCALE veya oturum açma çerezleri gibi) engellemenin, Loadly'nin oturum açık tutma gibi bazı bölümlerinin doğru çalışmasını durdurabileceğini unutmayın.",
+    "contactTitle": "Sorularınız",
+    "contactDesc": "Bu Çerez Politikası hakkında sorularınız varsa bize ulaşın:"
+  },
   "privacy": {
     "title": "Gizlilik Politikası",
     "description": "Loadly platformu gizlilik politikası.",
@@ -60,6 +110,7 @@
     "cookiesAdTitle": "Reklam Çerezleri",
     "cookiesAdDesc": "Loadly, Google AdSense ve diğer üçüncü taraf reklam ağları tarafından sağlanan reklamlar gösterebilir. Bu sağlayıcılar, bu ve diğer web sitelerini ziyaretlerinize dayalı olarak reklam sunmak ve reklam performansını ölçmek amacıyla çerezler (Google DoubleClick DART çerezi dahil) kullanır.",
     "cookiesAdNote": "Aşağıdaki bağlantıları kullanarak kişiselleştirilmiş reklamları istediğiniz zaman yönetebilir veya devre dışı bırakabilirsiniz:",
+    "cookiePolicyLinkText": "Çerez bazında tam dökümü Çerez Politikamızda görebilirsiniz.",
     "thirdPartiesTitle": "5. Üçüncü Taraflar",
     "thirdPartiesDesc": "Kişisel verileriniz aşağıdaki durumlarda üçüncü taraflarla paylaşılabilir:",
     "thirdPartiesL1": "Platformun teknik altyapısını sağlayan hizmet sağlayıcılar (hosting, veritabanı hizmetleri)",

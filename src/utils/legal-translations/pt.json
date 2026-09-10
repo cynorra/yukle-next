@@ -27,6 +27,56 @@
     "quickSupportDesc": "Recomendamos usar nosso canal de email para suas necessidades urgentes de suporte relacionadas a oportunidades de publicidade, colaborações ou gerenciamento de contas. Retornamos em no máximo 24 horas.",
     "advCollab": "Publicidade e Colaboração:"
   },
+  "cookiePolicy": {
+    "title": "Política de Cookies",
+    "description": "Um detalhamento, cookie por cookie, do que a Loadly e seus provedores terceirizados armazenam em seu navegador, e por quê.",
+    "introTitle": "O que são Cookies?",
+    "introDesc": "Cookies são pequenos arquivos de texto armazenados no seu navegador quando você visita um site. Eles permitem que um site lembre suas preferências, mantenha você conectado e — quando você consentir — meça o tráfego e exiba anúncios relevantes. Esta página lista, individualmente, cada categoria de cookie que a Loadly e seus provedores utilizam. Para saber como tratamos os dados pessoais que os cookies podem envolver, consulte nossa Política de Privacidade.",
+    "tableTitle": "Cookies que Utilizamos",
+    "colName": "Cookie",
+    "colPurpose": "Finalidade",
+    "colDuration": "Duração",
+    "colProvider": "Provedor",
+    "rows": [
+      {
+        "name": "NEXT_LOCALE",
+        "purpose": "Lembra o idioma de exibição selecionado para que você não precise escolher novamente em cada página.",
+        "duration": "Sessão (apagado ao fechar o navegador)",
+        "provider": "Loadly (própria, estritamente necessária)"
+      },
+      {
+        "name": "cookie-consent",
+        "purpose": "Armazena sua escolha de consentimento de cookies (aceito ou recusado) para não perguntarmos novamente a cada visita. Armazenado no armazenamento local, não é um cookie tradicional.",
+        "duration": "Persistente, até que você limpe os dados do site no navegador",
+        "provider": "Loadly (própria, estritamente necessária)"
+      },
+      {
+        "name": "sb-access-token / sb-refresh-token",
+        "purpose": "Mantém você conectado à sua conta Loadly entre carregamentos de página.",
+        "duration": "Sessão, até 7 dias para o token de atualização",
+        "provider": "Supabase, em nome da Loadly (própria, estritamente necessária)"
+      },
+      {
+        "name": "_ga, _gid",
+        "purpose": "Distinguem e contam visitantes únicos para análise agregada de tráfego. Definidos apenas se você aceitar os cookies.",
+        "duration": "_ga: normalmente 2 anos · _gid: normalmente 24 horas",
+        "provider": "Google Analytics (terceiros, análise)"
+      },
+      {
+        "name": "IDE, test_cookie e cookies publicitários relacionados",
+        "purpose": "Usados pelo Google AdSense/DoubleClick para exibir anúncios e medir seu desempenho com base em suas visitas a este e outros sites. Definidos apenas se você aceitar os cookies.",
+        "duration": "Varia por cookie, normalmente até 13 meses",
+        "provider": "Google AdSense / DoubleClick (terceiros, publicidade)"
+      }
+    ],
+    "rowsNote": "O Google controla a lista exata e a duração de seus próprios cookies analíticos e publicitários, que podem mudar sem aviso prévio de nossa parte — consulte a documentação oficial de cookies do Google para a lista atual e autorizada.",
+    "manageTitle": "Gerenciando suas Preferências de Cookies",
+    "manageDesc": "Você pode aceitar ou recusar cookies não essenciais (análise/publicidade) no banner de consentimento exibido na sua primeira visita, ou alterar sua escolha a qualquer momento limpando os dados do site loadlyapp.com no seu navegador. Você também pode optar por não receber publicidade personalizada diretamente com o Google:",
+    "browserTitle": "Bloqueando Cookies no seu Navegador",
+    "browserDesc": "Todo navegador moderno permite bloquear ou excluir cookies em suas configurações. Note que bloquear cookies estritamente necessários (como o NEXT_LOCALE ou os cookies de login) pode impedir que partes da Loadly, como permanecer conectado, funcionem corretamente.",
+    "contactTitle": "Dúvidas",
+    "contactDesc": "Se você tiver dúvidas sobre esta Política de Cookies, entre em contato conosco em:"
+  },
   "privacy": {
     "title": "Política de Privacidade",
     "description": "Política de privacidade da plataforma Loadly.",
@@ -60,6 +110,7 @@
     "cookiesAdTitle": "Cookies Publicitários",
     "cookiesAdDesc": "A Loadly pode exibir anúncios fornecidos pelo Google AdSense e outras redes de publicidade de terceiros. Esses provedores usam cookies (incluindo o cookie DART do Google DoubleClick) para exibir anúncios com base em suas visitas a este e a outros sites, e para medir o desempenho dos anúncios.",
     "cookiesAdNote": "Você pode gerenciar ou desativar a publicidade personalizada a qualquer momento usando os links abaixo:",
+    "cookiePolicyLinkText": "Veja o detalhamento completo cookie por cookie em nossa Política de Cookies.",
     "thirdPartiesTitle": "5. Terceiros",
     "thirdPartiesDesc": "Seus dados pessoais podem ser compartilhados com terceiros nos seguintes casos:",
     "thirdPartiesL1": "Provedores de serviços que fornecem a infraestrutura técnica da plataforma (hospedagem, serviços de banco de dados)",

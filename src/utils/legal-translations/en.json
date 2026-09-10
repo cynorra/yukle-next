@@ -27,6 +27,56 @@
     "quickSupportDesc": "We recommend using our email channel for your urgent support needs regarding advertising opportunities, collaborations, or account management. We return within 24 hours at the latest.",
     "advCollab": "Advertising & Collaboration:"
   },
+  "cookiePolicy": {
+    "title": "Cookie Policy",
+    "description": "A detailed, cookie-by-cookie breakdown of what Loadly and its third-party providers store in your browser, and why.",
+    "introTitle": "What Are Cookies?",
+    "introDesc": "Cookies are small text files stored in your browser when you visit a website. They let a site remember your preferences, keep you signed in, and — where you've consented — measure traffic and show relevant ads. This page lists, individually, every category of cookie Loadly and its providers use. For how we handle the personal data cookies may touch, see our Privacy Policy.",
+    "tableTitle": "Cookies We Use",
+    "colName": "Cookie",
+    "colPurpose": "Purpose",
+    "colDuration": "Duration",
+    "colProvider": "Provider",
+    "rows": [
+      {
+        "name": "NEXT_LOCALE",
+        "purpose": "Remembers your selected display language so you don't have to re-select it on every page.",
+        "duration": "Session (cleared when you close your browser)",
+        "provider": "Loadly (first-party, strictly necessary)"
+      },
+      {
+        "name": "cookie-consent",
+        "purpose": "Stores your cookie consent choice (accepted or declined) so we don't ask again on every visit. Stored in local storage, not a traditional cookie.",
+        "duration": "Persistent, until you clear your browser's site data",
+        "provider": "Loadly (first-party, strictly necessary)"
+      },
+      {
+        "name": "sb-access-token / sb-refresh-token",
+        "purpose": "Keeps you signed in to your Loadly account between page loads.",
+        "duration": "Session, up to 7 days for the refresh token",
+        "provider": "Supabase, on Loadly's behalf (first-party, strictly necessary)"
+      },
+      {
+        "name": "_ga, _gid",
+        "purpose": "Distinguish and count unique visitors for aggregate traffic analytics. Only set once you accept cookies.",
+        "duration": "_ga: typically 2 years · _gid: typically 24 hours",
+        "provider": "Google Analytics (third-party, analytics)"
+      },
+      {
+        "name": "IDE, test_cookie, and related advertising cookies",
+        "purpose": "Used by Google AdSense/DoubleClick to serve ads and measure ad performance based on your visits to this and other sites. Only set once you accept cookies.",
+        "duration": "Varies by cookie, typically up to 13 months",
+        "provider": "Google AdSense / DoubleClick (third-party, advertising)"
+      }
+    ],
+    "rowsNote": "Google controls the exact list and lifetime of its own analytics and advertising cookies, and these can change without notice on our end — see Google's own cookie documentation for the current, authoritative list.",
+    "manageTitle": "Managing Your Cookie Choices",
+    "manageDesc": "You can accept or decline non-essential (analytics/advertising) cookies from the consent banner shown on your first visit, or change your choice at any time by clearing your browser's site data for loadlyapp.com. You can also opt out of personalized advertising directly with Google:",
+    "browserTitle": "Blocking Cookies in Your Browser",
+    "browserDesc": "Every modern browser lets you block or delete cookies from its settings. Note that blocking strictly-necessary cookies (like NEXT_LOCALE or the sign-in cookies) may stop parts of Loadly — like staying signed in — from working correctly.",
+    "contactTitle": "Questions",
+    "contactDesc": "If you have questions about this Cookie Policy, contact us at:"
+  },
   "privacy": {
     "title": "Privacy Policy",
     "description": "Loadly platform privacy policy.",
@@ -60,6 +110,7 @@
     "cookiesAdTitle": "Advertising Cookies",
     "cookiesAdDesc": "Loadly may display advertisements served by Google AdSense and other third-party ad networks. These providers use cookies (including the Google DoubleClick DART cookie) to serve ads based on your visits to this and other websites, and to measure ad performance.",
     "cookiesAdNote": "You can manage or opt out of personalized advertising at any time using the links below:",
+    "cookiePolicyLinkText": "See the full cookie-by-cookie breakdown in our Cookie Policy.",
     "thirdPartiesTitle": "5. Third Parties",
     "thirdPartiesDesc": "Your personal data may be shared with third parties in the following cases:",
     "thirdPartiesL1": "Service providers providing the technical infrastructure of the platform (hosting, database services)",

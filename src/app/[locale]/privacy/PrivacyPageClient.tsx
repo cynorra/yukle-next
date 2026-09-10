@@ -1,6 +1,8 @@
 'use client';
 
 import { useT } from '@/hooks/useT';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { Lock, AlertTriangle } from 'lucide-react';
 
 interface PrivacyData {
@@ -14,6 +16,8 @@ interface Props {
 export function PrivacyPageClient({ data }: Props) {
   const t = useT();
   const content = data.privacy;
+  const params = useParams();
+  const locale = typeof params?.locale === 'string' ? params.locale : 'en';
 
   return (
     <div className={t.pageFull}>
@@ -121,6 +125,13 @@ export function PrivacyPageClient({ data }: Props) {
                   </a>
                 </li>
               </ul>
+              {content.cookiePolicyLinkText && (
+                <p className={`text-sm ${t.sub} leading-relaxed mt-3`}>
+                  <Link href={`/${locale}/cookie-policy`} className="text-[#F5A623] hover:underline">
+                    {content.cookiePolicyLinkText}
+                  </Link>
+                </p>
+              )}
             </div>
           )}
         </div>
