@@ -23,11 +23,11 @@ export default function PointsBadge({ points, size = 'md', showLabel = false }: 
 
   return (
     <div
-      className={`inline-flex items-center ${sizeClasses[size]} rounded-full bg-[#F5A623]/10 border border-[#F5A623]/30 text-[#F5A623] font-bold`}
+      className={`inline-flex items-center ${sizeClasses[size]} rounded-full bg-[#A66700]/10 border border-[#A66700]/30 text-[#A66700] font-bold`}
     >
-      <Zap size={iconSizes[size]} className="fill-[#F5A623]" />
+      <Zap size={iconSizes[size]} className="fill-[#A66700]" />
       <span>{formatLocaleNumber(locale, points)}</span>
-      {showLabel && <span className="font-normal text-[#F5A623]/70">{locale === 'tr' ? 'puan' : 'pts'}</span>}
+      {showLabel && <span className="font-normal text-[#A66700]/70">{locale === 'tr' ? 'puan' : 'pts'}</span>}
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { POINT_REWARDS } from '@/types/database';
 import { MessageCircle, Phone, Clock, ChevronRight, Send, ArrowLeft, Package, Loader2, PhoneCall, User, ExternalLink } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { formatLocaleDateTime, formatLocaleTime } from '@/utils/intlFormat';
+import { getAppTranslation, fillTemplate } from '@/utils/getAppTranslation';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmptyState from '@/components/EmptyState';
 import { clsx, type ClassValue } from 'clsx';
@@ -31,6 +32,7 @@ export function MessagesPageClient() {
   const t = useT();
   const { user } = useAuth();
   const { locale } = useTranslation();
+  const c = getAppTranslation(locale);
   const toast = useToast();
   const { conversationId } = useParams<{ conversationId: string }>();
   const router = useRouter();
@@ -122,7 +124,7 @@ export function MessagesPageClient() {
       content: newMessage.trim(), read: false,
     });
     if (error) {
-      toast.error('Mesaj gönderilemedi. Lütfen tekrar deneyin.');
+      toast.error(c.messages.sendFailed);
       setSending(false);
       return;
     }
@@ -130,7 +132,7 @@ export function MessagesPageClient() {
       await supabase.from('conversations').update({ last_message_at: new Date().toISOString() }).eq('id', activeConv.id);
       if (!firstMessageSent.current && messages.length === 0) {
         firstMessageSent.current = true;
-        await supabase.rpc('add_points', { p_user_id: user.id, p_points: POINT_REWARDS.first_message, p_reason: 'first_message', p_description: 'İlk mesaj bonusu', p_load_id: activeConv.load_id });
+        await supabase.rpc('add_points', { p_user_id: user.id, p_points: POINT_REWARDS.first_message, p_reason: 'first_message', p_description: c.profile.reasonFirstMessage, p_load_id: activeConv.load_id });
       }
       setNewMessage('');
     }
@@ -141,7 +143,7 @@ export function MessagesPageClient() {
     if (!user || !activeConv) return;
     setSharingPhone(true);
     const { error: shareErr } = await supabase.from('conversations').update({ phone_shared_by: user.id, phone_shared_at: new Date().toISOString() }).eq('id', activeConv.id);
-    if (shareErr) { toast.error('Telefon paylaşılamadı.'); setSharingPhone(false); return; }
+    if (shareErr) { toast.error(c.messages.sharePhoneFailed); setSharingPhone(false); return; }
     setActiveConv((prev) => prev ? { ...prev, phone_shared_by: user.id } : prev);
     setSharingPhone(false);
     await fetchOtherPhone(activeConv);
@@ -154,7 +156,7 @@ export function MessagesPageClient() {
         <div className="max-w-3xl mx-auto px-4 py-8">
           <div className="mb-8">
             <h1 className={`text-2xl font-bold ${t.heading} flex items-center gap-3`}>
-              <MessageCircle size={28} className="text-[#F5A623]" />Mesajlar
+              <MessageCircle size={28} className="text-[#A66700]" />{c.messages.title}
             </h1>
           </div>
           {loading ? (
@@ -162,12 +164,12 @@ export function MessagesPageClient() {
               <div className={`w-8 h-8 border-2 ${t.spinner} rounded-full animate-spin`} />
             </div>
           ) : conversations.length === 0 ? (
-            <EmptyState 
+            <EmptyState
               icon={MessageCircle}
-              title="Henüz mesaj yok"
-              description="Teklifler kabul edildikten sonra burada mesajlaşma listesi görünür."
+              title={c.messages.noMessagesTitle}
+              description={c.messages.noMessagesDesc}
               action={{
-                label: 'İlanlarıma Git',
+                label: c.messages.goToMyLoads,
                 onClick: () => router.push(`/${locale}/dashboard`),
                 icon: Package
               }}
@@ -178,16 +180,16 @@ export function MessagesPageClient() {
                 <button key={conv.id} onClick={() => router.push(`/${locale}/messages/${conv.id}`)}
                   className={`w-full flex items-center justify-between p-5 rounded-2xl ${t.card} ${t.cardHover} transition-all group text-left`}>
                   <div className="flex items-center gap-4 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-[#F5A623]/10 flex items-center justify-center shrink-0 text-[#F5A623] font-bold">
+                    <div className="w-10 h-10 rounded-full bg-[#A66700]/10 flex items-center justify-center shrink-0 text-[#A66700] font-bold">
                       {conv.other_user?.full_name?.[0]?.toUpperCase() ?? <User size={18} />}
                     </div>
                     <div className="min-w-0">
                       <div className={`text-sm ${t.heading} font-medium truncate`}>
-                        {conv.other_user?.full_name ?? 'Kullanıcı'}
+                        {conv.other_user?.full_name ?? c.common.user}
                         {conv.other_user?.company_name && <span className={`${t.muted} font-normal ml-1`}>· {conv.other_user.company_name}</span>}
                       </div>
                       <div className={`text-xs ${t.muted} flex items-center gap-1 mt-0.5 truncate`}>
-                        <Package size={11} />{conv.load?.title_translations?.[locale] || conv.load?.title || `Yük #${conv.load_id.slice(0, 8)}`}
+                        <Package size={11} />{conv.load?.title_translations?.[locale] || conv.load?.title || fillTemplate(c.messages.loadFallback, { id: conv.load_id.slice(0, 8) })}
                       </div>
                       <div className={`text-xs ${t.mutedDark} flex items-center gap-1 mt-0.5`}>
                         <Clock size={11} />
@@ -198,10 +200,10 @@ export function MessagesPageClient() {
                   <div className="flex items-center gap-2 shrink-0">
                     {conv.phone_shared_by && (
                       <span className="hidden sm:flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-green-400/10 text-green-400 border border-green-400/20">
-                        <Phone size={11} />Telefon
+                        <Phone size={11} />{c.common.phone}
                       </span>
                     )}
-                    <ChevronRight size={16} className={`${t.mutedDark} group-hover:text-[#F5A623] transition-colors`} />
+                    <ChevronRight size={16} className={`${t.mutedDark} group-hover:text-[#A66700] transition-colors`} />
                   </div>
                 </button>
               ))}
@@ -225,8 +227,8 @@ export function MessagesPageClient() {
       )}>
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4 min-w-0">
-            <button 
-              onClick={() => router.push(`/${locale}/messages`)} 
+            <button
+              onClick={() => router.push(`/${locale}/messages`)}
               className={cn(
                 "p-2 rounded-xl transition-all hover:bg-surface-light dark:hover:bg-surface-dark group",
                 t.sub
@@ -236,7 +238,7 @@ export function MessagesPageClient() {
             </button>
             <div className="min-w-0">
               <div className={cn("text-lg font-black tracking-tight flex items-center gap-2", t.heading)}>
-                {activeConv?.other_user?.full_name ?? 'Kullanıcı'}
+                {activeConv?.other_user?.full_name ?? c.common.user}
                 {otherId && (
                   <Link href={`/${locale}/user/${otherId}`} className="shrink-0 p-1 hover:bg-accent/10 rounded-lg transition-colors">
                     <ExternalLink size={14} className={cn("text-muted/60 hover:text-accent transition-colors")} />
@@ -247,9 +249,9 @@ export function MessagesPageClient() {
                 <Package size={12} className="text-accent shrink-0" />
                 {activeConv?.load_id ? (
                   <Link href={`/${locale}/marketplace/${activeConv.load_id}`} className="hover:text-accent transition-colors truncate">
-                    {activeConv?.load?.title_translations?.[locale] || activeConv?.load?.title || `Yük #${activeConv?.load_id?.slice(0, 8)}`}
+                    {activeConv?.load?.title_translations?.[locale] || activeConv?.load?.title || fillTemplate(c.messages.loadFallback, { id: activeConv?.load_id?.slice(0, 8) || '' })}
                   </Link>
-                ) : (activeConv?.load?.title_translations?.[locale] || activeConv?.load?.title || 'İlan')}
+                ) : (activeConv?.load?.title_translations?.[locale] || activeConv?.load?.title || c.messages.loadFallbackGeneric)}
               </div>
             </div>
           </div>
@@ -259,12 +261,12 @@ export function MessagesPageClient() {
             <button onClick={sharePhone} disabled={sharingPhone}
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-green-500 text-white shadow-lg shadow-green-500/20 hover:shadow-green-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all shrink-0">
               {sharingPhone ? <Loader2 size={14} className="animate-spin" /> : <PhoneCall size={14} />}
-              <span className="hidden sm:inline">Telefon Paylaş</span>
+              <span className="hidden sm:inline">{c.messages.sharePhone}</span>
             </button>
           ) : activeConv?.phone_shared_by ? (
             <div className="flex flex-col items-end gap-1 shrink-0">
               <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-green-500 bg-green-500/10 border border-green-500/20">
-                <Phone size={12} />Paylaşıldı
+                <Phone size={12} />{c.messages.phoneShared}
               </span>
               {otherPhone && activeConv.phone_shared_by !== user?.id && (
                 <a href={`tel:${otherPhone}`} className="text-sm text-accent font-black hover:underline tracking-tight">{otherPhone}</a>
@@ -281,15 +283,15 @@ export function MessagesPageClient() {
             <div className="w-16 h-16 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center mx-auto mb-4">
               <MessageCircle size={32} className="text-accent/30" />
             </div>
-            Henüz mesaj yok. İlk mesajı gönderin ve <br />
-            <span className="text-accent font-black">+{POINT_REWARDS.first_message} puan</span> kazanın!
+            {c.messages.noMessagesInChatPrefix} <br />
+            <span className="text-accent font-black">+{POINT_REWARDS.first_message} {c.messages.noMessagesInChatSuffix}</span>
           </div>
         )}
         <AnimatePresence initial={false}>
           {messages.map((msg) => {
             const isMine = msg.sender_id === user?.id;
             return (
-              <motion.div 
+              <motion.div
                 key={msg.id}
                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -298,8 +300,8 @@ export function MessagesPageClient() {
               >
                 <div className={cn(
                   "max-w-[85%] sm:max-w-[70%] px-5 py-3 rounded-2xl text-sm font-medium shadow-sm relative group",
-                  isMine 
-                    ? "bg-accent text-white rounded-br-sm shadow-accent/10" 
+                  isMine
+                    ? "bg-accent text-white rounded-br-sm shadow-accent/10"
                     : cn(t.card, "rounded-bl-sm")
                 )}>
                   <p className="leading-relaxed">{msg.content}</p>
@@ -327,24 +329,24 @@ export function MessagesPageClient() {
         <div className="max-w-3xl mx-auto">
           <form onSubmit={sendMessage} className="flex gap-3 items-center">
             <div className="flex-1 relative group">
-              <input 
-                type="text" 
-                value={newMessage} 
+              <input
+                type="text"
+                value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Mesajınızı yazın..."
+                placeholder={c.messages.messagePlaceholder}
                 className={cn(
                   "w-full pl-5 pr-5 py-4 rounded-2xl outline-none transition-all font-medium text-sm",
                   t.input
-                )} 
+                )}
               />
             </div>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={sending || !newMessage.trim()}
               className="h-12 w-12 sm:w-auto sm:px-8 rounded-2xl bg-accent text-white font-bold disabled:opacity-30 shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 shrink-0"
             >
               {sending ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
-              <span className="hidden sm:inline">Gönder</span>
+              <span className="hidden sm:inline">{c.messages.send}</span>
             </button>
           </form>
         </div>

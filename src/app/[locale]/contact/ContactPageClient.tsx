@@ -54,7 +54,7 @@ export function ContactPageClient({ data, locale }: Props) {
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className={`text-4xl font-bold ${t.heading} flex items-center justify-center gap-4 mb-4`}>
-            <MessageSquare size={40} className="text-[#F5A623]" />
+            <MessageSquare size={40} className="text-[#A66700]" />
             {content.title}
           </h1>
           <p className={`text-lg ${t.muted} max-w-2xl mx-auto leading-relaxed`}>
@@ -68,21 +68,21 @@ export function ContactPageClient({ data, locale }: Props) {
             <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>{content.getInTouch}</h2>
 
             <div className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#F5A623]/20 flex items-center justify-center shrink-0">
-                <Mail size={24} className="text-[#F5A623]" />
+              <div className="w-12 h-12 rounded-full bg-[#A66700]/20 flex items-center justify-center shrink-0">
+                <Mail size={24} className="text-[#A66700]" />
               </div>
               <div>
                 <h3 className={`text-lg font-bold ${t.heading} mb-1`}>{content.emailTitle}</h3>
                 <p className={`text-sm ${t.muted} mb-2`}>{content.emailDesc}</p>
-                <a href="mailto:info@loadlyapp.com" className="text-[#F5A623] hover:underline font-medium">
+                <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline font-medium">
                   info@loadlyapp.com
                 </a>
               </div>
             </div>
 
             <div className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#F5A623]/20 flex items-center justify-center shrink-0">
-                <MapPin size={24} className="text-[#F5A623]" />
+              <div className="w-12 h-12 rounded-full bg-[#A66700]/20 flex items-center justify-center shrink-0">
+                <MapPin size={24} className="text-[#A66700]" />
               </div>
               <div>
                 <h3 className={`text-lg font-bold ${t.heading} mb-1`}>{content.addressTitle}</h3>
@@ -101,7 +101,7 @@ export function ContactPageClient({ data, locale }: Props) {
               <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20">
                 <p className="text-sm text-orange-400 font-medium">
                   {content.advCollab}{' '}
-                  <a href="mailto:reklam@loadlyapp.com" className="hover:underline ml-1 text-[#F5A623]">
+                  <a href="mailto:reklam@loadlyapp.com" className="hover:underline ml-1 text-[#A66700]">
                     reklam@loadlyapp.com
                   </a>
                 </p>
@@ -111,12 +111,12 @@ export function ContactPageClient({ data, locale }: Props) {
             {/* Contact Form (mailto) */}
             <div className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
               <h3 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
-                <Phone size={20} className="text-[#F5A623]" />
+                <Phone size={20} className="text-[#A66700]" />
                 {content.emailTitle}
               </h3>
               <a
                 href="mailto:info@loadlyapp.com?subject=Loadly Support Request"
-                className="block w-full text-center py-3 px-6 bg-[#F5A623] text-white font-bold rounded-xl hover:bg-orange-500 transition-colors"
+                className="block w-full text-center py-3 px-6 bg-[#A66700] text-white font-bold rounded-xl hover:bg-orange-500 transition-colors"
               >
                 info@loadlyapp.com
               </a>
@@ -127,7 +127,7 @@ export function ContactPageClient({ data, locale }: Props) {
         {/* FAQ */}
         <div className="mb-8">
           <h2 className={`text-2xl font-bold ${t.heading} mb-6 flex items-center gap-3`}>
-            <HelpCircle size={28} className="text-[#F5A623]" />
+            <HelpCircle size={28} className="text-[#A66700]" />
             {faq.faqTitle}
           </h2>
           <div className="space-y-4">

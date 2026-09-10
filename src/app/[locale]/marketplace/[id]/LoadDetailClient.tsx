@@ -469,7 +469,7 @@ export function LoadDetailClient({
       <div className="text-center">
         <Package size={48} className={`${t.mutedDark} mx-auto mb-4`} />
         <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{td.loadNotFound}</h3>
-        <Link href={`/${locale}/dashboard`} className="inline-flex items-center gap-2 text-[#F5A623] hover:underline text-sm"><ArrowLeft size={16} />{td.backToMarket}</Link>
+        <Link href={`/${locale}/dashboard`} className="inline-flex items-center gap-2 text-[#A66700] hover:underline text-sm"><ArrowLeft size={16} />{td.backToMarket}</Link>
       </div>
     </div>
   );
@@ -678,7 +678,7 @@ export function LoadDetailClient({
             {user && isDriver && load.status === 'active' && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
-                  <TrendingUp size={20} className="text-[#F5A623]" />
+                  <TrendingUp size={20} className="text-[#A66700]" />
                   {myOffer ? td.yourOffer : td.makeOffer}
                 </h2>
 
@@ -711,7 +711,7 @@ export function LoadDetailClient({
                     </div>
                     {offerError && <p className="text-red-400 text-xs">{offerError}</p>}
                     <button type="submit" disabled={submittingOffer}
-                      className="w-full py-3 rounded-xl bg-[#F5A623] text-black font-bold text-sm hover:bg-[#F5A623]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                      className="w-full py-3 rounded-xl bg-[#A66700] text-black font-bold text-sm hover:bg-[#A66700]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
                       {submittingOffer ? <><Loader2 size={16} className="animate-spin" />{td.sending}</> : myOffer ? td.updateOffer : td.sendOffer}
                     </button>
                     {!myOffer && (
@@ -729,10 +729,10 @@ export function LoadDetailClient({
             {user && isOwner && load.status === 'active' && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
-                  <TrendingUp size={20} className="text-[#F5A623]" />
+                  <TrendingUp size={20} className="text-[#A66700]" />
                   {td.offersTitle}
                   {pendingOffers.length > 0 && (
-                    <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-[#F5A623] text-black font-bold">{pendingOffers.length}</span>
+                    <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-[#A66700] text-black font-bold">{pendingOffers.length}</span>
                   )}
                 </h2>
 
@@ -751,11 +751,11 @@ export function LoadDetailClient({
                               <span className={`${t.heading} font-medium text-sm`}>{offer.driver?.full_name}</span>
                               {offer.driver?.is_verified && <Shield size={12} className="text-blue-400" />}
                               {offer.driver?.points != null && (
-                                <span className="flex items-center gap-0.5 text-xs text-[#F5A623]"><Zap size={10} />{offer.driver.points}</span>
+                                <span className="flex items-center gap-0.5 text-xs text-[#A66700]"><Zap size={10} />{offer.driver.points}</span>
                               )}
                             </div>
                             {offer.driver?.company_name && <p className={`text-xs ${t.muted} mb-1`}>{offer.driver.company_name}</p>}
-                            {offer.price && <p className="text-[#F5A623] font-bold text-sm">{formatPrice(offer.price, locale)}</p>}
+                            {offer.price && <p className="text-[#A66700] font-bold text-sm">{formatPrice(offer.price, locale)}</p>}
                             {offer.note && <p className={`text-xs ${t.sub} mt-1`}>{offer.note}</p>}
                             <p className={`text-xs ${t.mutedDark} mt-1`}>
                               {formatDate(offer.created_at, locale)} {formatTime(offer.created_at, locale)}
@@ -841,13 +841,13 @@ export function LoadDetailClient({
                   <div className="flex gap-3 flex-wrap">
                     {isOwner && load.assigned_driver_id && (
                       <button onClick={() => { setReviewTarget({ id: load.assigned_driver_id!, name: td.rateDriver }); setShowReview(true); }}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20 text-sm font-medium hover:bg-[#F5A623]/20 transition-colors">
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#A66700]/10 text-[#A66700] border border-[#A66700]/20 text-sm font-medium hover:bg-[#A66700]/20 transition-colors">
                         <Star size={15} />{td.rateDriver}
                       </button>
                     )}
                     {isAssignedDriver && (
                       <button onClick={() => { setReviewTarget({ id: load.shipper_id, name: td.rateShipper }); setShowReview(true); }}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20 text-sm font-medium hover:bg-[#F5A623]/20 transition-colors">
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#A66700]/10 text-[#A66700] border border-[#A66700]/20 text-sm font-medium hover:bg-[#A66700]/20 transition-colors">
                         <Star size={15} />{td.rateShipper}
                       </button>
                     )}
@@ -860,7 +860,7 @@ export function LoadDetailClient({
             {user && conversation && (load.status !== 'active' || !isOwner) && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-4 flex items-center gap-2`}>
-                  <MessageSquare size={20} className="text-[#F5A623]" />
+                  <MessageSquare size={20} className="text-[#A66700]" />
                   {globalT.nav.messages} — {localizedTitle}
                 </h2>
 
@@ -870,7 +870,7 @@ export function LoadDetailClient({
                     <div className="flex items-center justify-between gap-3">
                       <span className={`text-sm ${t.sub} flex items-center gap-2`}><Phone size={16} />{td.sharePhoneDesc}</span>
                       <button onClick={handleSharePhone} disabled={sharingPhone}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F5A623]/10 text-[#F5A623] text-xs font-medium border border-[#F5A623]/20 hover:bg-[#F5A623]/20 transition-colors disabled:opacity-50">
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#A66700]/10 text-[#A66700] text-xs font-medium border border-[#A66700]/20 hover:bg-[#A66700]/20 transition-colors disabled:opacity-50">
                         <Phone size={12} />{sharingPhone ? td.sharing : td.sharePhone}
                       </button>
                     </div>
@@ -882,7 +882,7 @@ export function LoadDetailClient({
                       </p>
                       {otherPhone && conversation.phone_shared_by !== user.id && (
                         <div className={`flex items-center gap-2 mt-2 p-2 rounded-lg ${t.isDark ? "bg-white/[0.03]" : "bg-black/[0.04]"}`}>
-                          <Phone size={14} className="text-[#F5A623]" />
+                          <Phone size={14} className="text-[#A66700]" />
                           <span className={`${t.heading} font-medium text-sm`}>{otherPhone}</span>
                         </div>
                       )}
@@ -899,9 +899,9 @@ export function LoadDetailClient({
                     <p className={`text-center ${t.muted} text-sm py-8`}>{td.noMessagesYet}</p>
                   ) : messages.map((msg) => (
                     <div key={msg.id} className={`flex ${msg.sender_id === user.id ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl ${msg.sender_id === user.id ? `bg-[#F5A623]/20 rounded-br-md ${t.heading}` : `${t.isDark ? 'bg-white/[0.06]' : 'bg-black/[0.05]'} ${t.body} rounded-bl-md`}`}>
+                      <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl ${msg.sender_id === user.id ? `bg-[#A66700]/20 rounded-br-md ${t.heading}` : `${t.isDark ? 'bg-white/[0.06]' : 'bg-black/[0.05]'} ${t.body} rounded-bl-md`}`}>
                         <p className="text-sm">{msg.content}</p>
-                        <p className={`text-[10px] mt-1 ${msg.sender_id === user.id ? 'text-[#F5A623]/60' : 'text-gray-500'}`}>{formatTime(msg.created_at, locale)}</p>
+                        <p className={`text-[10px] mt-1 ${msg.sender_id === user.id ? 'text-[#A66700]/60' : 'text-gray-500'}`}>{formatTime(msg.created_at, locale)}</p>
                       </div>
                     </div>
                   ))}
@@ -911,9 +911,9 @@ export function LoadDetailClient({
                 <form onSubmit={handleSendMessage} className="flex items-center gap-2">
                   <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)}
                     placeholder={td.typeMessage}
-                    className={`flex-1 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-[#F5A623]/40 ${t.input}`} />
+                    className={`flex-1 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-[#A66700]/40 ${t.input}`} />
                   <button type="submit" disabled={!newMessage.trim() || sendingMessage}
-                    className="p-3 rounded-xl bg-[#F5A623] text-black hover:bg-[#F5A623]/90 transition-all disabled:opacity-30">
+                    className="p-3 rounded-xl bg-[#A66700] text-black hover:bg-[#A66700]/90 transition-all disabled:opacity-30">
                     <Send size={18} />
                   </button>
                 </form>
@@ -924,7 +924,7 @@ export function LoadDetailClient({
             {isOwner && load.status === 'active' && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card}`}>
                 <h2 className={`text-lg font-bold ${t.heading} mb-2 flex items-center gap-2`}>
-                  <MessageSquare size={20} className="text-[#F5A623]" />
+                  <MessageSquare size={20} className="text-[#A66700]" />
                   {globalT.nav.messages}
                 </h2>
                 <p className={`text-sm ${t.sub}`}>{td.chatStartOfferAccepted}</p>
@@ -934,10 +934,10 @@ export function LoadDetailClient({
             {/* Giriş yapmamış */}
             {!user && !authLoading && !load.tags?.includes('external') && (
               <div className={`p-6 rounded-2xl ${t.card} text-center`}>
-                <MessageSquare size={32} className="text-[#F5A623] mx-auto mb-3" />
+                <MessageSquare size={32} className="text-[#A66700] mx-auto mb-3" />
                 <h3 className={`text-lg font-bold ${t.heading} mb-2`}>{td.loginToOfferTitle}</h3>
                 <p className={`text-sm ${t.sub} mb-4`}>{td.loginToOfferDesc}</p>
-                <Link href={`/${locale}/login`} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#F5A623] text-black font-medium text-sm hover:bg-[#F5A623]/90 transition-all">{td.login}</Link>
+                <Link href={`/${locale}/login`} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#A66700] text-black font-medium text-sm hover:bg-[#A66700]/90 transition-all">{td.login}</Link>
               </div>
             )}
           </div>
@@ -948,12 +948,12 @@ export function LoadDetailClient({
             <div className={`p-6 rounded-2xl ${t.card}`}>
               <h3 className={`text-sm font-medium ${t.muted} mb-4`}>{td.shipper}</h3>
               <div className="flex items-center gap-3 mb-4">
-                <Link href={`/${locale}/user/${load.shipper?.id}`} className={`w-12 h-12 rounded-full flex items-center justify-center hover:ring-2 hover:ring-[#F5A623]/40 transition-all ${t.isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`}>
+                <Link href={`/${locale}/user/${load.shipper?.id}`} className={`w-12 h-12 rounded-full flex items-center justify-center hover:ring-2 hover:ring-[#A66700]/40 transition-all ${t.isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`}>
                   {load.shipper?.avatar_url ? <Image src={load.shipper.avatar_url} alt="" width={48} height={48} className="w-12 h-12 rounded-full object-cover" /> : <User size={20} className={t.muted} />}
                 </Link>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <Link href={`/${locale}/user/${load.shipper?.id}`} className={`${t.heading} font-medium text-sm hover:text-[#F5A623] transition-colors flex items-center gap-1`}>
+                    <Link href={`/${locale}/user/${load.shipper?.id}`} className={`${t.heading} font-medium text-sm hover:text-[#A66700] transition-colors flex items-center gap-1`}>
                       {load.shipper?.full_name}
                       <ExternalLink size={12} className={t.muted} />
                     </Link>
@@ -969,7 +969,7 @@ export function LoadDetailClient({
               </div>
               {load.shipper?.rating != null && (
                 <div className="flex items-center gap-1 mb-3">
-                  <Star size={14} className="text-[#F5A623] fill-[#F5A623]" />
+                  <Star size={14} className="text-[#A66700] fill-[#A66700]" />
                   <span className={`text-sm ${t.heading} font-medium`}>{load.shipper.rating.toFixed(1)}</span>
                   <span className={`text-xs ${t.muted}`}> {td.reviews}</span>
                 </div>
@@ -977,7 +977,7 @@ export function LoadDetailClient({
               {/* Telefon sadece conversation + paylaşım varsa */}
               {isOwner && conversation?.phone_shared_by && conversation.phone_shared_by !== user?.id && otherPhone && (
                 <div className={`flex items-center gap-2 p-3 rounded-xl ${t.card}`}>
-                  <Phone size={16} className="text-[#F5A623]" />
+                  <Phone size={16} className="text-[#A66700]" />
                   <span className={`text-sm ${t.heading}`}>{otherPhone}</span>
                 </div>
               )}
@@ -1001,7 +1001,7 @@ export function LoadDetailClient({
                   <div key={label}>
                     <div className="flex items-center justify-between">
                       <span className={`text-sm ${t.sub}`}>{label}</span>
-                      <span className={`text-sm font-medium ${highlight ? 'text-[#F5A623]' : 'text-fg'}`}>{value}</span>
+                      <span className={`text-sm font-medium ${highlight ? 'text-[#A66700]' : 'text-fg'}`}>{value}</span>
                     </div>
                     <div className={`w-full h-px mt-3 ${t.isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`} />
                   </div>

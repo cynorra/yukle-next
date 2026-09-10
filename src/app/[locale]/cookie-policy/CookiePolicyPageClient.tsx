@@ -44,7 +44,7 @@ export function CookiePolicyPageClient({ data }: Props) {
         {/* Header */}
         <div className="mb-8">
           <h1 className={`text-2xl font-bold ${t.heading} flex items-center gap-3`}>
-            <Cookie size={28} className="text-[#F5A623]" />
+            <Cookie size={28} className="text-[#A66700]" />
             {content.title}
           </h1>
           <p className={`text-sm ${t.muted} mt-1`}>
@@ -102,7 +102,7 @@ export function CookiePolicyPageClient({ data }: Props) {
                 href="https://adssettings.google.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#F5A623] hover:underline inline-flex items-center gap-1"
+                className="text-[#A66700] hover:underline inline-flex items-center gap-1"
               >
                 Google Ads Settings <ExternalLink size={12} />
               </a>
@@ -112,7 +112,7 @@ export function CookiePolicyPageClient({ data }: Props) {
                 href="https://www.aboutads.info/choices/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#F5A623] hover:underline inline-flex items-center gap-1"
+                className="text-[#A66700] hover:underline inline-flex items-center gap-1"
               >
                 Digital Advertising Alliance (aboutads.info) <ExternalLink size={12} />
               </a>
@@ -135,7 +135,7 @@ export function CookiePolicyPageClient({ data }: Props) {
             {content.contactDesc}
           </p>
           <ul className={`list-none space-y-2 text-sm ${t.sub} mt-3`}>
-            <li>Email: <a href="mailto:kvkk@loadlyapp.com" className="text-[#F5A623] hover:underline">kvkk@loadlyapp.com</a></li>
+            <li>Email: <a href="mailto:kvkk@loadlyapp.com" className="text-[#A66700] hover:underline">kvkk@loadlyapp.com</a></li>
           </ul>
         </div>
       </div>

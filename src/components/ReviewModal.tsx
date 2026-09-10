@@ -63,7 +63,7 @@ export default function ReviewModal({ loadId, reviewedId, reviewedName, onClose,
                 onMouseLeave={() => setHover(0)}
                 className="transition-transform hover:scale-110">
                 <Star size={36} className={`transition-colors ${
-                  star <= (hover || rating) ? 'text-[#F5A623] fill-[#F5A623]' : t.mutedDark
+                  star <= (hover || rating) ? 'text-[#A66700] fill-[#A66700]' : t.mutedDark
                 }`} />
               </button>
             ))}

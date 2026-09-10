@@ -74,7 +74,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
         {/* Profil kartı */}
         <div className={`p-6 rounded-2xl ${t.card} mb-6`}>
           <div className="flex items-start gap-5">
-            <div className="w-20 h-20 rounded-full bg-[#F5A623]/10 flex items-center justify-center shrink-0 text-3xl font-bold text-[#F5A623]">
+            <div className="w-20 h-20 rounded-full bg-[#A66700]/10 flex items-center justify-center shrink-0 text-3xl font-bold text-[#A66700]">
               {profile.avatar_url
                 ? <Image src={profile.avatar_url} alt="" width={80} height={80} className="w-20 h-20 rounded-full object-cover" />
                 : profile.full_name[0]?.toUpperCase()}
@@ -95,7 +95,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                 </div>
               )}
               <div className="flex items-center gap-1 text-sm mb-3">
-                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${profile.role === 'driver' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20'}`}>
+                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${profile.role === 'driver' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-[#A66700]/10 text-[#A66700] border border-[#A66700]/20'}`}>
                   {profile.role === 'driver' ? c.roleDriver : c.roleShipper}
                 </span>
               </div>
@@ -109,8 +109,8 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                     <span className={`${t.muted} text-xs`}>({fillTemplate(c.reviewsCount, { count: reviews.length })})</span>
                   </div>
                 )}
-                <div className="flex items-center gap-1 text-[#F5A623] text-sm font-bold">
-                  <Zap size={14} className="fill-[#F5A623]" />{fillTemplate(c.pointsLabel, { count: formatLocaleNumber(locale, profile.points) })}
+                <div className="flex items-center gap-1 text-[#A66700] text-sm font-bold">
+                  <Zap size={14} className="fill-[#A66700]" />{fillTemplate(c.pointsLabel, { count: formatLocaleNumber(locale, profile.points) })}
                 </div>
                 {completedLoads > 0 && (
                   <div className={`flex items-center gap-1 ${t.sub} text-sm`}>
@@ -129,7 +129,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
           {!isOwnProfile && user && (
             <div className="mt-5 pt-5 border-t border-white/[0.06] flex gap-3">
               <Link href={`/${locale}/messages`}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20 text-sm font-medium hover:bg-[#F5A623]/20 transition-colors">
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#A66700]/10 text-[#A66700] border border-[#A66700]/20 text-sm font-medium hover:bg-[#A66700]/20 transition-colors">
                 <MessageCircle size={16} />{c.sendMessage}
               </Link>
             </div>
@@ -147,11 +147,11 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
         {/* Tabs */}
         <div className={`flex gap-1 p-1 rounded-xl ${t.card} mb-6`}>
           <button onClick={() => setActiveTab('reviews')}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === 'reviews' ? 'bg-[#F5A623] text-black' : 'text-gray-400 hover:text-white'}`}>
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === 'reviews' ? 'bg-[#A66700] text-black' : 'text-gray-400 hover:text-white'}`}>
             <Star size={16} />{fillTemplate(c.reviewsTab, { count: reviews.length })}
           </button>
           <button onClick={() => setActiveTab('loads')}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === 'loads' ? 'bg-[#F5A623] text-black' : 'text-gray-400 hover:text-white'}`}>
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === 'loads' ? 'bg-[#A66700] text-black' : 'text-gray-400 hover:text-white'}`}>
             <Package size={16} />{fillTemplate(c.loadsTab, { count: loads.length })}
           </button>
         </div>
@@ -167,14 +167,14 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
             ) : reviews.map((review) => (
               <div key={review.id} className={`p-5 rounded-2xl ${t.card}`}>
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#F5A623]/10 flex items-center justify-center text-sm font-bold text-[#F5A623] shrink-0">
+                  <div className="w-9 h-9 rounded-full bg-[#A66700]/10 flex items-center justify-center text-sm font-bold text-[#A66700] shrink-0">
                     {review.reviewer.avatar_url
                       ? <Image src={review.reviewer.avatar_url} alt="" width={36} height={36} className="w-9 h-9 rounded-full object-cover" />
                       : review.reviewer.full_name[0]?.toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <Link href={`/${locale}/user/${review.reviewer.id}`} className={`text-sm font-medium ${t.heading} hover:text-[#F5A623] transition-colors`}>
+                      <Link href={`/${locale}/user/${review.reviewer.id}`} className={`text-sm font-medium ${t.heading} hover:text-[#A66700] transition-colors`}>
                         {review.reviewer.full_name}
                       </Link>
                       <span className={`text-xs ${t.muted}`}>{formatLocaleDate(locale, review.created_at)}</span>
@@ -198,19 +198,19 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
               </div>
             ) : loads.map((load) => (
               <Link key={load.id} href={`/${locale}/marketplace/${load.id}`}
-                className={`flex items-center justify-between p-4 rounded-2xl ${t.card} hover:border-[#F5A623]/20 transition-all group`}>
+                className={`flex items-center justify-between p-4 rounded-2xl ${t.card} hover:border-[#A66700]/20 transition-all group`}>
                 <div className="flex-1 min-w-0">
-                  <h3 className={`${t.heading} text-sm font-medium truncate group-hover:text-[#F5A623] transition-colors mb-1`}>
+                  <h3 className={`${t.heading} text-sm font-medium truncate group-hover:text-[#A66700] transition-colors mb-1`}>
                     {load.title_translations?.[locale] || load.title}
                   </h3>
                   <div className={`flex items-center gap-2 text-xs ${t.muted}`}>
-                    <MapPin size={12} className="text-[#F5A623]" />{load.origin_city}
+                    <MapPin size={12} className="text-[#A66700]" />{load.origin_city}
                     <ArrowRight size={12} />
                     <MapPin size={12} className="text-green-400" />{load.destination_city}
                   </div>
                 </div>
                 <span className={`ml-3 px-2 py-0.5 text-xs rounded-full border shrink-0 ${
-                  load.status === 'active' ? 'text-[#F5A623] bg-[#F5A623]/10 border-[#F5A623]/20' :
+                  load.status === 'active' ? 'text-[#A66700] bg-[#A66700]/10 border-[#A66700]/20' :
                   load.status === 'completed' ? 'text-green-400 bg-green-400/10 border-green-400/20' :
                   'text-gray-400 bg-gray-400/10 border-gray-400/20'
                 }`}>

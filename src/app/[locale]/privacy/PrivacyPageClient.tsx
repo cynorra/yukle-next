@@ -25,7 +25,7 @@ export function PrivacyPageClient({ data }: Props) {
         {/* Header */}
         <div className="mb-8">
           <h1 className={`text-2xl font-bold ${t.heading} flex items-center gap-3`}>
-            <Lock size={28} className="text-[#F5A623]" />
+            <Lock size={28} className="text-[#A66700]" />
             {content.title}
           </h1>
           <p className={`text-sm ${t.muted} mt-1`}>
@@ -115,19 +115,19 @@ export function PrivacyPageClient({ data }: Props) {
               </p>
               <ul className={`list-disc list-inside space-y-1.5 text-sm ${t.sub}`}>
                 <li>
-                  <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" className="text-[#F5A623] hover:underline">
+                  <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" className="text-[#A66700] hover:underline">
                     Google Ads Settings
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="text-[#F5A623] hover:underline">
+                  <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="text-[#A66700] hover:underline">
                     Digital Advertising Alliance (aboutads.info)
                   </a>
                 </li>
               </ul>
               {content.cookiePolicyLinkText && (
                 <p className={`text-sm ${t.sub} leading-relaxed mt-3`}>
-                  <Link href={`/${locale}/cookie-policy`} className="text-[#F5A623] hover:underline">
+                  <Link href={`/${locale}/cookie-policy`} className="text-[#A66700] hover:underline">
                     {content.cookiePolicyLinkText}
                   </Link>
                 </p>
@@ -194,7 +194,7 @@ export function PrivacyPageClient({ data }: Props) {
             {content.contactDesc}
           </p>
           <ul className={`list-none space-y-2 text-sm ${t.sub} mt-3`}>
-            <li>Email: <a href="mailto:kvkk@loadlyapp.com" className="text-[#F5A623] hover:underline">kvkk@loadlyapp.com</a></li>
+            <li>Email: <a href="mailto:kvkk@loadlyapp.com" className="text-[#A66700] hover:underline">kvkk@loadlyapp.com</a></li>
           </ul>
         </div>
       </div>

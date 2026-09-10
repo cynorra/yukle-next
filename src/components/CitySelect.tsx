@@ -90,7 +90,7 @@ export default function CitySelect({ value, onChange, placeholder = 'Şehir seç
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Ara..."
-          className={`w-full px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[#F5A623]/40 ${t.input}`}
+          className={`w-full px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[#A66700]/40 ${t.input}`}
           autoFocus
         />
       </div>
@@ -106,7 +106,7 @@ export default function CitySelect({ value, onChange, placeholder = 'Şehir seç
               setSearch('');
             }}
             className={`w-full px-4 py-2.5 text-left text-sm hover:bg-black/5 transition-colors ${t.isDark ? "" : "hover:bg-black/[0.04]"} ${
-              city.id === value ? `text-[#F5A623] bg-[#F5A623]/5` : t.body
+              city.id === value ? `text-[#A66700] bg-[#A66700]/5` : t.body
             }`}
           >
             {city.name}
@@ -123,10 +123,10 @@ export default function CitySelect({ value, onChange, placeholder = 'Şehir seç
         ref={buttonRef}
         type="button"
         onClick={handleOpen}
-        className={`w-full px-4 py-3 rounded-xl text-left flex items-center justify-between gap-2 transition-colors ${t.input} hover:border-[#F5A623]/30`}
+        className={`w-full px-4 py-3 rounded-xl text-left flex items-center justify-between gap-2 transition-colors ${t.input} hover:border-[#A66700]/30`}
       >
         <span className={`flex items-center gap-2 ${selectedCity ? t.heading : t.muted}`}>
-          <MapPin size={16} className="text-[#F5A623] shrink-0" />
+          <MapPin size={16} className="text-[#A66700] shrink-0" />
           {selectedCity?.name || placeholder}
         </span>
         <ChevronDown size={16} className={`text-gray-500 transition-transform ${open ? 'rotate-180' : ''}`} />
@@ -138,7 +138,7 @@ export default function CitySelect({ value, onChange, placeholder = 'Şehir seç
         <select
           value={districtValue ?? ''}
           onChange={(e) => onChange(value, e.target.value ? Number(e.target.value) : null)}
-          className={`mt-2 w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-[#F5A623]/40 ${t.select}`}
+          className={`mt-2 w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-[#A66700]/40 ${t.select}`}
         >
           <option value="">İlçe seçin (opsiyonel)</option>
           {districts.map((d) => (

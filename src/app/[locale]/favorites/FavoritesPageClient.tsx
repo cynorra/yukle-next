@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTranslation } from '@/hooks/useTranslation';
 import { supabase } from '@/lib/supabase';
 import { useT } from '@/hooks/useT';
 import { formatLocaleDate, formatLocaleCurrency } from '@/utils/intlFormat';
+import { getAppTranslation } from '@/utils/getAppTranslation';
 import { Heart, MapPin, ArrowRight, Clock, Package, Trash2 } from 'lucide-react';
 
 interface FavoriteLoad {
@@ -26,6 +28,8 @@ export function FavoritesPageClient() {
   const params = useParams();
   const locale = (params?.locale as string) || 'en';
   const t = useT();
+  const { t: tGlobal } = useTranslation();
+  const c = getAppTranslation(locale);
   const { user } = useAuth();
   const [favorites, setFavorites] = useState<FavoriteLoad[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,14 +83,21 @@ export function FavoritesPageClient() {
     setFavorites((prev) => prev.filter((f) => f.favorite_id !== favoriteId));
   }
 
+  function statusLabel(status: string) {
+    if (status === 'active') return tGlobal.marketplace.active;
+    if (status === 'completed') return tGlobal.marketplace.completed;
+    if (status === 'in_transit') return tGlobal.marketplace.inTransit;
+    return tGlobal.marketplace.cancelled;
+  }
+
   return (
     <div className={t.pageFull}>
       <div className="max-w-3xl mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className={`text-2xl font-bold ${t.heading} flex items-center gap-3`}>
-            <Heart size={28} className={t.accent} />Favorilerim
+            <Heart size={28} className={t.accent} />{c.favorites.title}
           </h1>
-          <p className={`text-sm ${t.muted} mt-1`}>Kaydettiğiniz yük ilanları.</p>
+          <p className={`text-sm ${t.muted} mt-1`}>{c.favorites.subtitle}</p>
         </div>
 
         {loading ? (
@@ -96,10 +107,10 @@ export function FavoritesPageClient() {
         ) : favorites.length === 0 ? (
           <div className="text-center py-16">
             <Heart size={48} className={`${t.mutedDark} mx-auto mb-4`} />
-            <h3 className={`text-xl font-bold ${t.heading} mb-2`}>Favori ilan yok</h3>
-            <p className={`${t.sub} text-sm mb-6`}>İlan detay sayfasından favorilere ekleyebilirsiniz.</p>
-            <Link href={`/${locale}/marketplace`} className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${t.btnPrimary}`}>
-              <Package size={16} />Pazara Git
+            <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{c.favorites.noFavoritesTitle}</h3>
+            <p className={`${t.sub} text-sm mb-6`}>{c.favorites.noFavoritesDesc}</p>
+            <Link href={`/${locale}/dashboard`} className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${t.btnPrimary}`}>
+              <Package size={16} />{c.favorites.goToDashboard}
             </Link>
           </div>
         ) : (
@@ -111,7 +122,7 @@ export function FavoritesPageClient() {
                     <span className={`px-2.5 py-0.5 text-xs font-medium rounded-full border ${
                       fav.status === 'active' ? t.badgeActive : fav.status === 'completed' ? t.badgeCompleted : t.badgeCancelled
                     }`}>
-                      {fav.status === 'active' ? 'Aktif' : fav.status === 'completed' ? 'Tamamlandı' : fav.status === 'in_transit' ? 'Taşınıyor' : 'İptal'}
+                      {statusLabel(fav.status)}
                     </span>
                     <span className={`text-xs ${t.muted} flex items-center gap-1`}>
                       <Clock size={11} />{formatLocaleDate(locale, fav.created_at)}
@@ -122,13 +133,13 @@ export function FavoritesPageClient() {
                     <span className="flex items-center gap-1"><MapPin size={13} className={t.accent} />{fav.origin_city_name}</span>
                     <ArrowRight size={13} className={t.mutedDark} />
                     <span className="flex items-center gap-1"><MapPin size={13} className="text-green-400" />{fav.dest_city_name}</span>
-                    <span className={t.muted}>{fav.weight_ton} Ton</span>
+                    <span className={t.muted}>{fav.weight_ton} {c.favorites.ton}</span>
                   </div>
                 </Link>
                 <div className="flex items-center gap-3 shrink-0">
                   {fav.price && <span className={`font-bold text-sm ${t.accent}`}>{formatLocaleCurrency(locale, fav.price)}</span>}
                   <button onClick={() => removeFavorite(fav.favorite_id)}
-                    className={`p-2 rounded-lg transition-all ${t.btnDanger}`} title="Favoriden Çıkar">
+                    className={`p-2 rounded-lg transition-all ${t.btnDanger}`} title={c.favorites.removeFavorite}>
                     <Trash2 size={16} />
                   </button>
                 </div>

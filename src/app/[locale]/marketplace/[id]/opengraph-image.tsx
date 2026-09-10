@@ -78,7 +78,7 @@ export default async function Image({ params }: { params: Promise<{ id: string; 
                 width: '48px',
                 height: '48px',
                 borderRadius: '14px',
-                backgroundColor: '#F5A623',
+                backgroundColor: '#A66700',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -90,7 +90,7 @@ export default async function Image({ params }: { params: Promise<{ id: string; 
               L
             </div>
             <span style={{ fontSize: '32px', fontWeight: '800', letterSpacing: '-1px', color: '#FFFFFF' }}>
-              Loadly<span style={{ color: '#F5A623' }}>.</span>
+              Loadly<span style={{ color: '#A66700' }}>.</span>
             </span>
           </div>
 
@@ -100,7 +100,7 @@ export default async function Image({ params }: { params: Promise<{ id: string; 
               borderRadius: '999px',
               backgroundColor: 'rgba(245, 166, 35, 0.15)',
               border: '1px solid rgba(245, 166, 35, 0.3)',
-              color: '#F5A623',
+              color: '#A66700',
               fontSize: '18px',
               fontWeight: '700',
             }}
@@ -123,7 +123,7 @@ export default async function Image({ params }: { params: Promise<{ id: string; 
             }}
           >
             <span style={{ color: '#FFFFFF' }}>{origin}</span>
-            <span style={{ color: '#F5A623', fontSize: '40px' }}>{'→'}</span>
+            <span style={{ color: '#A66700', fontSize: '40px' }}>{'→'}</span>
             <span style={{ color: '#FFFFFF' }}>{destination}</span>
           </div>
 
@@ -168,7 +168,7 @@ export default async function Image({ params }: { params: Promise<{ id: string; 
             style={{
               fontSize: '36px',
               fontWeight: '900',
-              color: '#F5A623',
+              color: '#A66700',
             }}
           >
             {price}

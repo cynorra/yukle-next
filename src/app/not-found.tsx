@@ -25,7 +25,7 @@ export default function RootNotFound() {
             color: '#f5f5f5',
           }}
         >
-          <div style={{ fontSize: '4rem', fontWeight: 900, color: '#F5A623', marginBottom: '1rem' }}>404</div>
+          <div style={{ fontSize: '4rem', fontWeight: 900, color: '#A66700', marginBottom: '1rem' }}>404</div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.75rem' }}>Page Not Found</h1>
           <p style={{ color: '#a3a3a3', marginBottom: '2rem', maxWidth: 420 }}>
             The page you&apos;re looking for doesn&apos;t exist or may have moved.
@@ -34,7 +34,7 @@ export default function RootNotFound() {
             href="/"
             style={{
               padding: '0.75rem 2rem',
-              background: '#F5A623',
+              background: '#A66700',
               color: '#111',
               fontWeight: 700,
               borderRadius: '0.75rem',

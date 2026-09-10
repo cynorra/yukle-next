@@ -167,7 +167,7 @@ export default function RouteMap({ origin, destination, locale = 'en' }: RouteMa
         <Marker position={coords[1]}>
           <Popup>Varış / Destination: {destination}</Popup>
         </Marker>
-        <Polyline positions={coords} color="#F5A623" weight={4} dashArray="5, 10" />
+        <Polyline positions={coords} color="#A66700" weight={4} dashArray="5, 10" />
       </MapContainer>
     </div>
   );

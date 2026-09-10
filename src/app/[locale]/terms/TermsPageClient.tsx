@@ -21,7 +21,7 @@ export function TermsPageClient({ data }: Props) {
         {/* Header */}
         <div className="mb-8">
           <h1 className={`text-2xl font-bold ${t.heading} flex items-center gap-3`}>
-            <FileText size={28} className="text-[#F5A623]" />
+            <FileText size={28} className="text-[#A66700]" />
             {content.title}
           </h1>
           <p className={`text-sm ${t.muted} mt-1`}>
@@ -146,7 +146,7 @@ export function TermsPageClient({ data }: Props) {
             {content.contactDesc}
           </p>
           <ul className={`list-none space-y-2 text-sm ${t.sub} mt-3`}>
-            <li>Email: <a href="mailto:info@loadlyapp.com" className="text-[#F5A623] hover:underline">info@loadlyapp.com</a></li>
+            <li>Email: <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline">info@loadlyapp.com</a></li>
           </ul>
         </div>
       </div>

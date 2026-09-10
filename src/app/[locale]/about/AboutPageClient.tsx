@@ -130,7 +130,7 @@ export function AboutPageClient({ data, locale }: Props) {
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className={`text-4xl font-bold ${t.heading} flex items-center justify-center gap-4 mb-4`}>
-            <Info size={40} className="text-[#F5A623]" />
+            <Info size={40} className="text-[#A66700]" />
             {content.title}
           </h1>
           <p className={`text-lg ${t.muted} max-w-2xl mx-auto leading-relaxed`}>
@@ -147,7 +147,7 @@ export function AboutPageClient({ data, locale }: Props) {
             { ...extra.stats[3], Icon: Star },
           ].map(({ value, label, Icon }, idx) => (
             <div key={idx} className="p-4 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-center">
-              <Icon size={24} className="text-[#F5A623] mx-auto mb-2" />
+              <Icon size={24} className="text-[#A66700] mx-auto mb-2" />
               <div className="text-2xl font-black text-fg">{value}</div>
               <div className="text-xs text-muted mt-1">{label}</div>
             </div>
@@ -162,8 +162,8 @@ export function AboutPageClient({ data, locale }: Props) {
             { Icon: Globe, title: content.wideTitle, desc: content.wideDesc },
           ].map(({ Icon, title, desc }, idx) => (
             <div key={idx} className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-[#F5A623]/20 flex items-center justify-center mb-4">
-                <Icon size={32} className="text-[#F5A623]" />
+              <div className="w-16 h-16 rounded-full bg-[#A66700]/20 flex items-center justify-center mb-4">
+                <Icon size={32} className="text-[#A66700]" />
               </div>
               <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{title}</h3>
               <p className={`text-sm ${t.muted}`}>{desc}</p>
@@ -204,7 +204,7 @@ export function AboutPageClient({ data, locale }: Props) {
           <div className="grid md:grid-cols-3 gap-6">
             {extra.howSteps.map((step, idx) => (
               <div key={idx} className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                <div className="w-10 h-10 rounded-xl bg-[#F5A623]/20 flex items-center justify-center mb-4 text-[#F5A623] font-black text-lg">
+                <div className="w-10 h-10 rounded-xl bg-[#A66700]/20 flex items-center justify-center mb-4 text-[#A66700] font-black text-lg">
                   {idx + 1}
                 </div>
                 <h3 className={`text-lg font-bold ${t.heading} mb-2`}>{step.title}</h3>

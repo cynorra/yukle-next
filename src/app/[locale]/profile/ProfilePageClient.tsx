@@ -8,25 +8,27 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { useT } from '@/hooks/useT';
 import { formatLocaleDateTime } from '@/utils/intlFormat';
+import { getAppTranslation } from '@/utils/getAppTranslation';
 import type { PointTransaction } from '@/types/database';
 import { POINT_REWARDS } from '@/types/database';
 import PointsBadge from '@/components/PointsBadge';
 import { User, Mail, Phone, Building2, Star, Shield, PenLine, X, Loader2, Save, Zap, TrendingUp, Gift, Truck, Package, RefreshCw, Camera, Trash2, AlertTriangle, Settings } from 'lucide-react';
 
-const REASON_LABELS: Record<string, string> = {
-  register: '🎉 Kayıt bonusu',
-  create_load: '📦 Yük ilanı oluşturma',
-  load_completed: '✅ Taşıma tamamlandı',
-  profile_complete: '👤 Profil tamamlama',
-  daily_login: '☀️ Günlük giriş',
-  first_message: '💬 İlk mesaj bonusu',
-};
-
 export function ProfilePageClient() {
   const t = useT();
   const params = useParams();
   const locale = (params?.locale as string) || 'en';
+  const c = getAppTranslation(locale);
   const { user, profile, refreshProfile } = useAuth();
+
+  const REASON_LABELS: Record<string, string> = {
+    register: c.profile.reasonRegister,
+    create_load: c.profile.reasonCreateLoad,
+    load_completed: c.profile.reasonLoadCompleted,
+    profile_complete: c.profile.reasonProfileComplete,
+    daily_login: c.profile.reasonDailyLogin,
+    first_message: c.profile.reasonFirstMessage,
+  };
 
   const [editing, setEditing] = useState(false);
   const [fullName, setFullName] = useState('');
@@ -118,7 +120,7 @@ export function ProfilePageClient() {
         p_user_id: user.id,
         p_points: POINT_REWARDS.profile_complete,
         p_reason: 'profile_complete',
-        p_description: 'Profil tamamlama bonusu',
+        p_description: c.profile.profileCompleteBonusDesc,
         p_load_id: null,
       });
     }
@@ -166,11 +168,11 @@ export function ProfilePageClient() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h1 className={`text-xl font-black ${t.heading} mb-1`}>
-                    {profile?.full_name || 'Kullanıcı'}
+                    {profile?.full_name || c.common.user}
                   </h1>
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className={`text-sm font-medium ${t.sub}`}>
-                      {profile?.role === 'shipper' ? '📦 Yük Sahibi' : '🚛 Nakliyeci'}
+                      {profile?.role === 'shipper' ? c.profile.roleShipperEmoji : c.profile.roleDriverEmoji}
                     </span>
                     {profile?.company_name && (
                       <span className={`text-xs px-2.5 py-1 rounded-full bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark ${t.muted} font-medium`}>
@@ -192,7 +194,7 @@ export function ProfilePageClient() {
                     onClick={() => setEditing(true)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all shrink-0 ${t.btnSecondary}`}
                   >
-                    <PenLine size={14} />Düzenle
+                    <PenLine size={14} />{c.profile.edit}
                   </button>
                 )}
               </div>
@@ -206,7 +208,7 @@ export function ProfilePageClient() {
                 <Zap size={16} className="text-accent" />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-wider text-accent/60 mb-0.5">Toplam Puan</p>
+                <p className="text-[10px] font-black uppercase tracking-wider text-accent/60 mb-0.5">{c.profile.totalPoints}</p>
                 <PointsBadge points={profile?.points ?? 0} size="lg" showLabel />
               </div>
             </div>
@@ -214,7 +216,7 @@ export function ProfilePageClient() {
               onClick={() => setActiveTab('points')}
               className={`text-xs font-bold ${t.accent} hover:underline`}
             >
-              Geçmişi gör →
+              {c.profile.viewHistory}
             </button>
           </div>
         </div>
@@ -227,7 +229,7 @@ export function ProfilePageClient() {
               }`}
           >
             <User size={16} />
-            Bilgilerim
+            {c.profile.tabInfo}
           </button>
           <button
             onClick={() => setActiveTab('points')}
@@ -235,7 +237,7 @@ export function ProfilePageClient() {
               }`}
           >
             <Zap size={16} />
-            Puan Geçmişi
+            {c.profile.tabPoints}
           </button>
           <button
             onClick={() => setActiveTab('settings')}
@@ -243,13 +245,13 @@ export function ProfilePageClient() {
               }`}
           >
             <Settings size={16} />
-            Ayarlar
+            {c.profile.tabSettings}
           </button>
         </div>
 
         {success && (
           <div className="mb-6 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
-            Profil başarıyla güncellendi.
+            {c.profile.updated}
           </div>
         )}
 
@@ -259,21 +261,21 @@ export function ProfilePageClient() {
             <form onSubmit={handleSave} className="space-y-4">
               <div className={`p-6 rounded-2xl ${t.card} space-y-4`}>
                 <div>
-                  <label className={`block text-xs ${t.muted} mb-1.5`}>Ad Soyad</label>
-                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Ad Soyad" required
+                  <label className={`block text-xs ${t.muted} mb-1.5`}>{c.profile.fullName}</label>
+                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder={c.profile.fullName} required
                     className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none transition-colors ${t.input}`} />
                 </div>
                 <div>
-                  <label className={`block text-xs ${t.muted} mb-1.5`}>Telefon</label>
-                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="05XX XXX XX XX"
+                  <label className={`block text-xs ${t.muted} mb-1.5`}>{c.common.phone}</label>
+                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={c.profile.phonePlaceholder}
                     className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none transition-colors ${t.input}`} />
                 </div>
                 <div>
                   <label className={`block text-xs ${t.muted} mb-1.5`}>
-                    Firma Adı
-                    <span className="ml-1 text-[#F5A623]/70">(+30 puan)</span>
+                    {c.profile.companyName}
+                    <span className="ml-1 text-[#A66700]/70">{c.profile.companyBonusHint}</span>
                   </label>
-                  <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="Firma adı girerek puan kazan"
+                  <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder={c.profile.companyPlaceholder}
                     className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none transition-colors ${t.input}`} />
                 </div>
               </div>
@@ -282,12 +284,12 @@ export function ProfilePageClient() {
               )}
               <div className="flex gap-3">
                 <button type="submit" disabled={saving}
-                  className="flex-1 py-3 rounded-xl bg-[#F5A623] text-black font-bold text-sm hover:bg-[#F5A623]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
-                  {saving ? <><Loader2 size={18} className="animate-spin" />Kaydediliyor...</> : <><Save size={18} />Kaydet</>}
+                  className="flex-1 py-3 rounded-xl bg-[#A66700] text-black font-bold text-sm hover:bg-[#A66700]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                  {saving ? <><Loader2 size={18} className="animate-spin" />{c.profile.saving}</> : <><Save size={18} />{c.profile.save}</>}
                 </button>
                 <button type="button" onClick={cancelEdit}
                   className={`px-6 py-3 rounded-xl bg-white/5 ${t.sub} font-medium text-sm border border-white/10 hover:bg-white/10 transition-colors flex items-center gap-2`}>
-                  <X size={18} />İptal
+                  <X size={18} />{c.common.cancel}
                 </button>
               </div>
             </form>
@@ -295,15 +297,15 @@ export function ProfilePageClient() {
             <div className={`p-6 rounded-2xl ${t.card}`}>
               <div className="space-y-5">
                 {[
-                  { icon: User, label: 'Ad Soyad', value: profile?.full_name || '-' },
-                  { icon: Mail, label: 'E-posta', value: user?.email || '-' },
-                  { icon: Phone, label: 'Telefon', value: profile?.phone || '-' },
-                  { icon: Shield, label: 'Rol', value: profile?.role === 'shipper' ? 'Yük Sahibi' : 'Sürücü' },
-                  { icon: Building2, label: 'Firma Adı', value: profile?.company_name || '-' },
+                  { icon: User, label: c.profile.fullName, value: profile?.full_name || '-' },
+                  { icon: Mail, label: c.profile.email, value: user?.email || '-' },
+                  { icon: Phone, label: c.common.phone, value: profile?.phone || '-' },
+                  { icon: Shield, label: c.profile.role, value: profile?.role === 'shipper' ? c.profile.roleShipper : c.profile.roleDriver },
+                  { icon: Building2, label: c.profile.companyName, value: profile?.company_name || '-' },
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-[#F5A623]/10 flex items-center justify-center shrink-0">
-                      <Icon size={18} className="text-[#F5A623]" />
+                    <div className="w-10 h-10 rounded-full bg-[#A66700]/10 flex items-center justify-center shrink-0">
+                      <Icon size={18} className="text-[#A66700]" />
                     </div>
                     <div>
                       <div className={`text-xs ${t.muted}`}>{label}</div>
@@ -312,15 +314,15 @@ export function ProfilePageClient() {
                   </div>
                 ))}
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#F5A623]/10 flex items-center justify-center shrink-0">
-                    <Star size={18} className="text-[#F5A623]" />
+                  <div className="w-10 h-10 rounded-full bg-[#A66700]/10 flex items-center justify-center shrink-0">
+                    <Star size={18} className="text-[#A66700]" />
                   </div>
                   <div>
-                    <div className={`text-xs ${t.muted}`}>Değerlendirme</div>
+                    <div className={`text-xs ${t.muted}`}>{c.profile.rating}</div>
                     <div className={`${t.heading} font-medium flex items-center gap-1`}>
                       {profile?.rating != null ? (
-                        <><Star size={14} className="text-[#F5A623] fill-[#F5A623]" />{profile.rating.toFixed(1)}</>
-                      ) : 'Henüz değerlendirme yok'}
+                        <><Star size={14} className="text-[#A66700] fill-[#A66700]" />{profile.rating.toFixed(1)}</>
+                      ) : c.profile.noRatingYet}
                     </div>
                   </div>
                 </div>
@@ -336,10 +338,10 @@ export function ProfilePageClient() {
             {/* Avatar Upload */}
             <div className={`p-6 rounded-2xl ${t.card}`}>
               <h3 className={`text-sm font-bold ${t.heading} mb-4 flex items-center gap-2`}>
-                <Camera size={16} className={t.accent} />Profil Fotoğrafı
+                <Camera size={16} className={t.accent} />{c.profile.photoTitle}
               </h3>
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-[#F5A623]/10 flex items-center justify-center text-2xl font-bold text-[#F5A623] shrink-0 overflow-hidden">
+                <div className="w-16 h-16 rounded-full bg-[#A66700]/10 flex items-center justify-center text-2xl font-bold text-[#A66700] shrink-0 overflow-hidden">
                   {profile?.avatar_url
                     ? <Image src={profile.avatar_url} alt="" width={64} height={64} className="w-16 h-16 object-cover" />
                     : profile?.full_name?.[0]?.toUpperCase()}
@@ -347,7 +349,7 @@ export function ProfilePageClient() {
                 <div>
                   <label className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium cursor-pointer transition-all ${t.btnSecondary} ${avatarUploading ? 'opacity-50' : ''}`}>
                     {avatarUploading ? <Loader2 size={16} className="animate-spin" /> : <Camera size={16} />}
-                    {avatarUploading ? 'Yükleniyor...' : 'Fotoğraf Değiştir'}
+                    {avatarUploading ? c.profile.uploading : c.profile.changePhoto}
                     <input type="file" accept="image/*" className="hidden" disabled={avatarUploading}
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
@@ -364,7 +366,7 @@ export function ProfilePageClient() {
                         setAvatarUploading(false);
                       }} />
                   </label>
-                  <p className={`text-xs ${t.muted} mt-1.5`}>JPG, PNG veya WebP. Maks 5MB.</p>
+                  <p className={`text-xs ${t.muted} mt-1.5`}>{c.profile.photoHint}</p>
                 </div>
               </div>
             </div>
@@ -373,17 +375,17 @@ export function ProfilePageClient() {
             {/* Hesap Türü Değiştir */}
             <div className={`p-6 rounded-2xl ${t.card}`}>
               <h3 className={`text-sm font-bold ${t.heading} mb-1 flex items-center gap-2`}>
-                <RefreshCw size={16} className={t.accent} />Hesap Türü
+                <RefreshCw size={16} className={t.accent} />{c.profile.accountTypeTitle}
               </h3>
-              <p className={`text-xs ${t.muted} mb-4`}>Mevcut hesap türünüz: <span className={`font-bold ${t.accent}`}>{profile?.role === 'driver' ? 'Nakliyeci' : 'Yük Sahibi'}</span></p>
+              <p className={`text-xs ${t.muted} mb-4`}>{c.profile.currentAccountType} <span className={`font-bold ${t.accent}`}>{profile?.role === 'driver' ? c.profile.roleDriver : c.profile.roleShipper}</span></p>
 
               {roleChangeError && <p className="text-red-400 text-xs mb-3">{roleChangeError}</p>}
-              {roleChangeSuccess && <p className="text-green-400 text-xs mb-3">Hesap türü başarıyla değiştirildi.</p>}
+              {roleChangeSuccess && <p className="text-green-400 text-xs mb-3">{c.profile.accountTypeChanged}</p>}
 
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { id: 'shipper' as const, icon: Package, label: 'Yük Sahibi', sub: 'İlan aç, teklif al' },
-                  { id: 'driver' as const, icon: Truck, label: 'Nakliyeci', sub: 'Teklif ver, taşı' },
+                  { id: 'shipper' as const, icon: Package, label: c.profile.roleShipper, sub: c.profile.shipperDesc },
+                  { id: 'driver' as const, icon: Truck, label: c.profile.roleDriver, sub: c.profile.driverDesc },
                 ].map((r) => (
                   <button key={r.id} onClick={() => handleRoleChange(r.id)} disabled={changingRole || r.id === profile?.role}
                     className={`p-4 rounded-xl border text-left transition-all disabled:cursor-default ${r.id === profile?.role
@@ -393,38 +395,38 @@ export function ProfilePageClient() {
                     <r.icon size={20} className={`mb-2 ${r.id === profile?.role ? t.accent : t.muted}`} />
                     <p className={`text-sm font-bold ${r.id === profile?.role ? t.accent : t.heading}`}>{r.label}</p>
                     <p className={`text-xs ${t.muted}`}>{r.sub}</p>
-                    {r.id === profile?.role && <p className="text-xs text-green-400 mt-1">✓ Mevcut</p>}
+                    {r.id === profile?.role && <p className="text-xs text-green-400 mt-1">{c.profile.currentBadge}</p>}
                   </button>
                 ))}
               </div>
-              <p className={`text-xs ${t.muted} mt-3`}>Not: Aktif ilanlarınız veya kabul edilmiş taşımalarınız varken tür değiştirilemez.</p>
+              <p className={`text-xs ${t.muted} mt-3`}>{c.profile.roleChangeNote}</p>
             </div>
 
             {/* Danger Zone */}
             <div className="p-6 rounded-2xl bg-red-500/5 border border-red-500/20">
               <h3 className="text-sm font-bold text-red-400 mb-4 flex items-center gap-2">
-                <AlertTriangle size={16} />Tehlikeli Bölge
+                <AlertTriangle size={16} />{c.profile.dangerZoneTitle}
               </h3>
-              <p className={`text-sm ${t.sub} mb-4`}>Hesabınızı sildiğinizde tüm verileriniz kalıcı olarak silinir. Bu işlem geri alınamaz.</p>
+              <p className={`text-sm ${t.sub} mb-4`}>{c.profile.dangerZoneDesc}</p>
               {!deletingAccount ? (
                 <button onClick={() => setDeletingAccount(true)}
                   className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-colors">
-                  <Trash2 size={16} />Hesabımı Sil
+                  <Trash2 size={16} />{c.profile.deleteAccount}
                 </button>
               ) : (
                 <div className="space-y-3">
-                  <p className="text-sm text-red-400 font-medium">Hesabınızı silmek istediğinizden emin misiniz?</p>
+                  <p className="text-sm text-red-400 font-medium">{c.profile.deleteConfirmText}</p>
                   <div className="flex gap-3">
                     <button onClick={async () => {
                       const { error } = await supabase.rpc('delete_user_account', { p_user_id: user!.id });
                       if (!error) { router.push('/'); }
                     }}
                       className={`px-4 py-2 rounded-xl text-sm font-bold bg-red-500 ${t.heading} hover:bg-red-600 transition-colors`}>
-                      Evet, Sil
+                      {c.profile.deleteConfirmYes}
                     </button>
                     <button onClick={() => setDeletingAccount(false)}
                       className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${t.btnSecondary}`}>
-                      Vazgeç
+                      {c.common.cancel}
                     </button>
                   </div>
                 </div>
@@ -439,22 +441,22 @@ export function ProfilePageClient() {
             {/* Kazanma rehberi */}
             <div className={`p-5 rounded-2xl ${t.card}`}>
               <h3 className={`text-sm font-bold ${t.heading} mb-4 flex items-center gap-2`}>
-                <Gift size={16} className="text-[#F5A623]" />
-                Puan Nasıl Kazanılır?
+                <Gift size={16} className="text-[#A66700]" />
+                {c.profile.howToEarnTitle}
               </h3>
               <div className="space-y-2">
                 {[
-                  { label: 'Platforma kayıt', pts: 50 },
-                  { label: 'İlk yük ilanı', pts: 100 },
-                  { label: 'Yük ilanı oluşturma', pts: 20 },
-                  { label: 'Taşıma tamamlama', pts: 200 },
-                  { label: 'Profil tamamlama', pts: 30 },
-                  { label: 'İlk mesaj gönderme', pts: 20 },
-                  { label: 'Günlük giriş', pts: 10 },
+                  { label: c.profile.earnRegister, pts: 50 },
+                  { label: c.profile.earnFirstLoad, pts: 100 },
+                  { label: c.profile.earnCreateLoad, pts: 20 },
+                  { label: c.profile.earnCompleteLoad, pts: 200 },
+                  { label: c.profile.earnCompleteProfile, pts: 30 },
+                  { label: c.profile.earnFirstMessage, pts: 20 },
+                  { label: c.profile.earnDailyLogin, pts: 10 },
                 ].map(({ label, pts }) => (
                   <div key={label} className="flex items-center justify-between text-sm">
                     <span className={t.sub}>{label}</span>
-                    <span className="text-[#F5A623] font-bold">+{pts}</span>
+                    <span className="text-[#A66700] font-bold">+{pts}</span>
                   </div>
                 ))}
               </div>
@@ -463,11 +465,11 @@ export function ProfilePageClient() {
             {/* Geçmiş */}
             <div>
               <h3 className={`text-sm font-bold ${t.heading} mb-3 flex items-center gap-2`}>
-                <TrendingUp size={16} className="text-[#F5A623]" />
-                Son İşlemler
+                <TrendingUp size={16} className="text-[#A66700]" />
+                {c.profile.recentTransactions}
               </h3>
               {transactions.length === 0 ? (
-                <div className={`text-center py-10 ${t.muted} text-sm`}>Henüz puan işlemi yok.</div>
+                <div className={`text-center py-10 ${t.muted} text-sm`}>{c.profile.noTransactionsYet}</div>
               ) : (
                 <div className="space-y-2">
                   {transactions.map((tx) => (
@@ -478,7 +480,7 @@ export function ProfilePageClient() {
                           {formatLocaleDateTime(locale, tx.created_at)}
                         </div>
                       </div>
-                      <span className={`font-bold text-sm ${tx.points > 0 ? 'text-[#F5A623]' : 'text-red-400'}`}>
+                      <span className={`font-bold text-sm ${tx.points > 0 ? 'text-[#A66700]' : 'text-red-400'}`}>
                         {tx.points > 0 ? '+' : ''}{tx.points}
                       </span>
                     </div>
