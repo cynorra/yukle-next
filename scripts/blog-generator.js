@@ -1095,6 +1095,30 @@ Return ONLY a valid JSON array of exactly ${BANK_BATCH_SIZE} objects. No markdow
   await sleep(65000);
 }
 
+// Fetch a small pool of recently published (English) posts so a new article can
+// link to one of them — without this, every article only links to /marketplace
+// and /register, and older posts become orphan pages with zero inbound links
+// as the archive grows (see universal-adsense-site-standard.md §3.8). Returns
+// {title, baseSlug} pairs; baseSlug has the "-en" language suffix stripped so
+// the caller can rebuild a same-language href per translation.
+async function getRecentPostsForLinking(poolSize = 12) {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('title, slug')
+      .eq('language', 'en')
+      .order('created_at', { ascending: false })
+      .limit(poolSize);
+    if (error || !data || data.length === 0) return [];
+    return data
+      .filter(p => p.slug && p.slug.endsWith('-en'))
+      .map(p => ({ title: p.title, baseSlug: p.slug.slice(0, -3) }));
+  } catch (err) {
+    console.warn('getRecentPostsForLinking error:', err.message);
+    return [];
+  }
+}
+
 // Fetch recent post titles from DB to provide uniqueness context to Gemini
 async function getRecentTopics(limit = 150) {
   try {
@@ -1156,6 +1180,15 @@ async function generateBasePost(topicData) {
   const minWords = formatSpec?.minWords || 2000;
   const formatDesc = formatSpec?.description || 'comprehensive expert guide';
 
+  // Offer a few real, recently-published posts as an optional 3rd internal
+  // link so articles stop being islands that only point at /marketplace and
+  // /register — without this every older post becomes an orphan page with
+  // zero inbound links as the archive grows (universal-adsense-site-standard.md §3.8).
+  const linkPool = await getRecentPostsForLinking(12);
+  const relatedLinksBlock = linkPool.length === 0
+    ? ''
+    : `\n- OPTIONAL 3rd link: if — and only if — one of these already-published posts is genuinely relevant to a point you're making, you may add ONE more <a> link to it using EXACTLY the href shown (do not alter the slug), with natural anchor text. Skip this entirely if none of them genuinely fit the topic — never force it.\n${linkPool.map(p => `  · "${p.title}" → <a href="/en/blog/${p.baseSlug}-en">`).join('\n')}`;
+
   const payload = JSON.stringify({
     contents: [{
       parts: [{
@@ -1205,7 +1238,7 @@ Use ONLY these HTML tags. No markdown, no code fences, no html/head/body wrapper
 <h2> main sections (6-8 total) | <h3> subsections | <p> paragraphs (3-5 sentences)
 <ul><li> bullet lists | <ol><li> numbered steps | <strong> key data/terms
 <blockquote> cited statistics and expert quotes | <table><tr><th><td> for comparisons
-<a href="..."> internal links — see INTERNAL LINKING below for the only two URLs allowed
+<a href="..."> internal links — see INTERNAL LINKING below for exactly which URLs are allowed
 
 MINIMUM ${minWords} words of substantive expert content. No filler. Every sentence earns its place.
 
@@ -1214,10 +1247,10 @@ INTERNAL LINKING (mandatory — do not skip)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 This article is currently published with ZERO links back to the product, so it drives SEO traffic that never converts. Fix this in every article:
 - Include exactly 2 <a> links total, using ONLY these two hrefs (relative, no locale prefix, no domain): <a href="/marketplace"> and <a href="/register">
-- Never use any other href — no other route exists for these links to point to, and no third-party/external links
+- Never use any other href for these two — no other route exists for them to point to, and no third-party/external links
 - Anchor text must be natural and specific to the topic, never "click here" or "this link" (e.g. <a href="/marketplace">browse live LTL loads near you</a>, not <a href="/marketplace">marketplace</a>)
 - Placement: one <a href="/marketplace"> link woven naturally into a SOLUTION SECTION where a marketplace genuinely solves the problem being discussed; one <a href="/register"> link in the CTA CONCLUSION section
-- These count toward the article but must read as genuinely helpful signposting, not ad copy
+- These count toward the article but must read as genuinely helpful signposting, not ad copy${relatedLinksBlock}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 MANDATORY SECTIONS (in this order)
@@ -1463,6 +1496,15 @@ async function runBlogGenerator() {
   const targetLanguages = Object.entries(blogLanguagesMapping).filter(([, code]) => code !== baseLanguage);
   const translatedPosts = [];
 
+  // Find any optional related-post link(s) the model actually used (see the
+  // relatedLinksBlock prompt addition in generateBasePost) so each
+  // translation's copy of that link can be repointed at the SAME related
+  // post's translation, rather than every language linking to the English
+  // version. Deterministic string-replace, not left to the translator, so
+  // it can't drift or get mistranslated.
+  const usedRelatedSlugs = [...basePost.content.matchAll(/\/en\/blog\/([a-z0-9-]+)-en/g)]
+    .map(m => m[1]);
+
   console.log(`Translating base post into ${targetLanguages.length} languages (concurrency: 5)...`);
 
   const tasks = targetLanguages.map(([langName, langCode]) => async () => {
@@ -1470,6 +1512,12 @@ async function runBlogGenerator() {
       console.log(`Translating to ${langName} (${langCode})...`);
       let translation = await translatePost(basePost, langCode);
       translation = await polishTranslatedPost(translation, langName, langCode);
+      if (usedRelatedSlugs.length > 0 && translation.content) {
+        for (const relatedSlug of usedRelatedSlugs) {
+          translation.content = translation.content.split(`/en/blog/${relatedSlug}-en`)
+            .join(`/${langCode}/blog/${relatedSlug}-${langCode}`);
+        }
+      }
       translatedPosts.push({ ...translation, langCode });
       console.log(`✓ ${langName} (${langCode})`);
     } catch (err) {
