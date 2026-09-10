@@ -197,6 +197,7 @@ export default function Navbar() {
                 <NotificationBell />
                 <button
                   onClick={toggleTheme}
+                  aria-label="Toggle theme"
                   className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-light dark:border-border-dark bg-surface-light/50 dark:bg-surface-dark/50 hover:bg-surface-light dark:hover:bg-surface-dark text-muted hover:text-fg transition-all shrink-0"
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -215,6 +216,7 @@ export default function Navbar() {
                 <button
                   onClick={() => signOut()}
                   className="p-2 rounded-full text-muted hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                  aria-label="Log out"
                 >
                   <LogOut size={16} />
                 </button>
@@ -223,6 +225,7 @@ export default function Navbar() {
               <>
                 <button
                   onClick={toggleTheme}
+                  aria-label="Toggle theme"
                   className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-light dark:border-border-dark bg-surface-light/50 dark:bg-surface-dark/50 hover:bg-surface-light dark:hover:bg-surface-dark text-muted hover:text-fg transition-all shrink-0"
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -279,6 +282,7 @@ export default function Navbar() {
             <button
               onClick={() => setOpen(!open)}
               className="p-2 rounded-lg text-muted hover:text-fg hover:bg-surface-light dark:hover:bg-surface-dark transition-colors"
+              aria-label={open ? 'Close menu' : 'Open menu'}
             >
               {open ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -342,6 +346,7 @@ export default function Navbar() {
                 <span className="text-sm font-medium text-muted">Theme</span>
                 <button
                   onClick={toggleTheme}
+                  aria-label="Toggle theme"
                   className="p-2 rounded-lg bg-background-light dark:bg-background-dark text-fg border border-border-light dark:border-border-dark"
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}

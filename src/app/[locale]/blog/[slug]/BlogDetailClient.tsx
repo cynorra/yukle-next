@@ -185,10 +185,13 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
         return;
       }
 
-      // H1 (#)
+      // A stray single '#' in AI-generated body content is rendered as h2,
+      // not h1 - the page already has exactly one real h1 (the post title
+      // below), and a second h1 here would break heading hierarchy for
+      // both screen readers and SEO.
       const h1 = line.match(/^#\s+(.*)/);
       if (h1) {
-        elements.push(<h1 key={index} className="text-3xl font-black mt-14 mb-6 text-fg">{renderInline(h1[1])}</h1>);
+        elements.push(<h2 key={index} className="text-2xl font-black mt-12 mb-6 text-fg border-l-4 border-accent pl-4">{renderInline(h1[1])}</h2>);
         return;
       }
 
@@ -444,21 +447,24 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
             <div className="h-10 w-[1px] bg-border-light dark:bg-border-dark hidden md:block" />
 
             <div className="flex items-center gap-2">
-              <button 
+              <button
                 onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
                 className={`p-2.5 rounded-xl ${t.btnSecondary} hover:text-accent transition-all`}
+                aria-label="Share on Facebook"
               >
                 <Facebook size={20} />
               </button>
-              <button 
+              <button
                 onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`, '_blank')}
                 className={`p-2.5 rounded-xl ${t.btnSecondary} hover:text-accent transition-all`}
+                aria-label="Share on Twitter"
               >
                 <Twitter size={20} />
               </button>
-              <button 
+              <button
                 onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(post.title + ' ' + window.location.href)}`, '_blank')}
                 className={`p-2.5 rounded-xl ${t.btnSecondary} hover:text-accent transition-all`}
+                aria-label="Share on WhatsApp"
               >
                 <MessageCircle size={20} />
               </button>
