@@ -1,6 +1,8 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { Zap } from 'lucide-react';
+import { formatLocaleNumber } from '@/utils/intlFormat';
 
 interface PointsBadgeProps {
   points: number;
@@ -9,6 +11,9 @@ interface PointsBadgeProps {
 }
 
 export default function PointsBadge({ points, size = 'md', showLabel = false }: PointsBadgeProps) {
+  const params = useParams();
+  const locale = (params?.locale as string) || 'en';
+
   const sizeClasses = {
     sm: 'text-xs px-2 py-0.5 gap-1',
     md: 'text-sm px-3 py-1 gap-1.5',
@@ -21,8 +26,8 @@ export default function PointsBadge({ points, size = 'md', showLabel = false }: 
       className={`inline-flex items-center ${sizeClasses[size]} rounded-full bg-[#F5A623]/10 border border-[#F5A623]/30 text-[#F5A623] font-bold`}
     >
       <Zap size={iconSizes[size]} className="fill-[#F5A623]" />
-      <span>{points.toLocaleString('tr-TR')}</span>
-      {showLabel && <span className="font-normal text-[#F5A623]/70">puan</span>}
+      <span>{formatLocaleNumber(locale, points)}</span>
+      {showLabel && <span className="font-normal text-[#F5A623]/70">{locale === 'tr' ? 'puan' : 'pts'}</span>}
     </div>
   );
 }

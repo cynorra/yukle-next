@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
+import { formatLocaleTime, formatLocaleShortDate } from '@/utils/intlFormat';
 import { Bell, MessageCircle, TrendingUp, CheckCircle2, X, Clock, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TextureCard, TextureCardHeader, TextureCardTitle, TextureCardContent, TextureSeparator } from '@/components/ui/texture-card';
@@ -210,7 +211,7 @@ export default function NotificationBell() {
                             {n.title}
                           </p>
                           <span className={cn("text-[10px] font-medium whitespace-nowrap pt-0.5", t.muted)}>
-                            {new Date(n.created_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+                            {formatLocaleTime(locale, n.created_at)}
                           </span>
                         </div>
                         <p className={cn("text-xs leading-relaxed mt-1 line-clamp-2", t.muted)}>
@@ -220,7 +221,7 @@ export default function NotificationBell() {
                         <div className="flex items-center justify-between mt-2">
                           <div className={cn("flex items-center gap-1.5 text-[10px] font-bold", t.mutedDark)}>
                             <Clock size={10} />
-                            {new Date(n.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}
+                            {formatLocaleShortDate(locale, n.created_at)}
                           </div>
                           
                           {n.load_id && (

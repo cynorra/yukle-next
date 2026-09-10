@@ -1182,6 +1182,37 @@ async function isTooSimilarToRecent(newContent) {
   }
 }
 
+// Loadly's blog pipeline never does real hands-on product testing (it's a
+// logistics/freight editorial blog, not a review site) — so hasHandsOnTest
+// is implicitly always false, and per universal-adsense-site-standard.md
+// §1.3 the language that implies otherwise must be blocked at the code
+// level (regex), not left for a human to notice after publish:
+// "İçerik üretim sisteminde hasHandsOnTest: boolean alanı olsun, varsayılan
+// false. Bu alan false iken 'we tested', 'hands-on', 'in our benchmark',
+// 'our testing showed' gibi ifadelerin geçmesi kod seviyesinde (lint/regex)
+// engellensin, insan gözünün fark etmesine bırakılmasın."
+const FABRICATED_TESTING_PATTERNS = [
+  /\bwe(?:'ve| have)? tested\b/i,
+  /\bwe(?:'ve| have)? benchmarked\b/i,
+  /\bour (?:own )?(?:hands-on )?test(?:ing|s)? (?:showed|found|revealed|confirmed)\b/i,
+  /\bin our (?:hands-on )?(?:test(?:ing|s)?|benchmark(?:s|ing)?|lab)\b/i,
+  /\bhands-on (?:test(?:ing|s)?|review|experience) (?:showed|found|revealed|confirmed|with)\b/i,
+  /\bafter (?:extensive |thorough )?hands-on testing\b/i,
+  /\bour (?:internal |own )?benchmark(?:s|ing)?\b/i,
+  /\bwhen we tested\b/i,
+  /\bduring our testing\b/i,
+  /\bour team tested\b/i,
+];
+
+function findFabricatedTestingClaim(...texts) {
+  const combined = texts.filter(Boolean).join('\n');
+  for (const pattern of FABRICATED_TESTING_PATTERNS) {
+    const match = combined.match(pattern);
+    if (match) return match[0];
+  }
+  return null;
+}
+
 // Fetch recent post titles from DB to provide uniqueness context to Gemini
 async function getRecentTopics(limit = 150) {
   try {
@@ -1527,6 +1558,17 @@ async function runBlogGenerator() {
   const similarity = await isTooSimilarToRecent(basePost.content);
   if (similarity.tooSimilar) {
     console.warn(`[Similarity] "${basePost.title}" is ${(similarity.score * 100).toFixed(0)}% similar to existing post "${similarity.matchedTitle}" (threshold ${SIMILARITY_THRESHOLD * 100}%) — skipping this run instead of publishing a near-duplicate.`);
+    return null;
+  }
+
+  // Loadly never does real hands-on product testing — block any language
+  // that implies otherwise before it reaches the DB (universal-adsense-
+  // site-standard.md §1.3, hasHandsOnTest gate). The prompt already asks
+  // the model not to fabricate this, but that's an instruction, not an
+  // enforcement — this is the code-level backstop.
+  const fabricatedClaim = findFabricatedTestingClaim(basePost.title, basePost.excerpt, basePost.content);
+  if (fabricatedClaim) {
+    console.warn(`[QualityGate] "${basePost.title}" contains an unverifiable hands-on-testing claim ("${fabricatedClaim}") — Loadly has no real testing methodology, skipping this run instead of publishing a fabricated claim.`);
     return null;
   }
 

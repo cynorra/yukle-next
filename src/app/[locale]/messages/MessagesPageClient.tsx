@@ -12,6 +12,7 @@ import { useToast } from '@/components/Toast';
 import { POINT_REWARDS } from '@/types/database';
 import { MessageCircle, Phone, Clock, ChevronRight, Send, ArrowLeft, Package, Loader2, PhoneCall, User, ExternalLink } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { formatLocaleDateTime, formatLocaleTime } from '@/utils/intlFormat';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmptyState from '@/components/EmptyState';
 import { clsx, type ClassValue } from 'clsx';
@@ -190,7 +191,7 @@ export function MessagesPageClient() {
                       </div>
                       <div className={`text-xs ${t.mutedDark} flex items-center gap-1 mt-0.5`}>
                         <Clock size={11} />
-                        {new Date(conv.last_message_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                        {formatLocaleDateTime(locale, conv.last_message_at)}
                       </div>
                     </div>
                   </div>
@@ -307,7 +308,7 @@ export function MessagesPageClient() {
                     isMine ? "text-white/80" : t.muted
                   )}>
                     <Clock size={10} />
-                    {new Date(msg.created_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+                    {formatLocaleTime(locale, msg.created_at)}
                   </div>
                 </div>
               </motion.div>

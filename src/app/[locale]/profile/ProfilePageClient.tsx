@@ -1,12 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { useT } from '@/hooks/useT';
+import { formatLocaleDateTime } from '@/utils/intlFormat';
 import type { PointTransaction } from '@/types/database';
 import { POINT_REWARDS } from '@/types/database';
 import PointsBadge from '@/components/PointsBadge';
@@ -23,6 +24,8 @@ const REASON_LABELS: Record<string, string> = {
 
 export function ProfilePageClient() {
   const t = useT();
+  const params = useParams();
+  const locale = (params?.locale as string) || 'en';
   const { user, profile, refreshProfile } = useAuth();
 
   const [editing, setEditing] = useState(false);
@@ -472,7 +475,7 @@ export function ProfilePageClient() {
                       <div>
                         <div className={`text-sm ${t.heading}`}>{REASON_LABELS[tx.reason] || tx.reason}</div>
                         <div className={`text-xs ${t.muted} mt-0.5`}>
-                          {new Date(tx.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                          {formatLocaleDateTime(locale, tx.created_at)}
                         </div>
                       </div>
                       <span className={`font-bold text-sm ${tx.points > 0 ? 'text-[#F5A623]' : 'text-red-400'}`}>

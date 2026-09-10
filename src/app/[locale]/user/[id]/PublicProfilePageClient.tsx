@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
+import { formatLocaleNumber, formatLocaleMonthYear, formatLocaleDate } from '@/utils/intlFormat';
 import { Star, Shield, Building2, MapPin, ArrowRight, Package, Zap, MessageCircle, Calendar } from 'lucide-react';
 
 interface PublicProfile {
@@ -107,7 +108,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                   </div>
                 )}
                 <div className="flex items-center gap-1 text-[#F5A623] text-sm font-bold">
-                  <Zap size={14} className="fill-[#F5A623]" />{profile.points.toLocaleString('tr-TR')} puan
+                  <Zap size={14} className="fill-[#F5A623]" />{formatLocaleNumber(locale, profile.points)} puan
                 </div>
                 {completedLoads > 0 && (
                   <div className={`flex items-center gap-1 ${t.sub} text-sm`}>
@@ -116,7 +117,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                 )}
                 <div className={`flex items-center gap-1 ${t.muted} text-xs`}>
                   <Calendar size={12} />
-                  {new Date(profile.created_at).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })} üye
+                  {formatLocaleMonthYear(locale, profile.created_at)} üye
                 </div>
               </div>
             </div>
@@ -174,7 +175,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                       <Link href={`/${locale}/user/${review.reviewer.id}`} className={`text-sm font-medium ${t.heading} hover:text-[#F5A623] transition-colors`}>
                         {review.reviewer.full_name}
                       </Link>
-                      <span className={`text-xs ${t.muted}`}>{new Date(review.created_at).toLocaleDateString('tr-TR')}</span>
+                      <span className={`text-xs ${t.muted}`}>{formatLocaleDate(locale, review.created_at)}</span>
                     </div>
                     <div className="flex items-center gap-0.5 mb-2">{renderStars(review.rating)}</div>
                     {review.comment && <p className={`text-sm ${t.sub}`}>{review.comment}</p>}

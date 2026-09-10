@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { useT } from '@/hooks/useT';
+import { formatLocaleDate, formatLocaleCurrency } from '@/utils/intlFormat';
 import { Heart, MapPin, ArrowRight, Clock, Package, Trash2 } from 'lucide-react';
 
 interface FavoriteLoad {
@@ -113,7 +114,7 @@ export function FavoritesPageClient() {
                       {fav.status === 'active' ? 'Aktif' : fav.status === 'completed' ? 'Tamamlandı' : fav.status === 'in_transit' ? 'Taşınıyor' : 'İptal'}
                     </span>
                     <span className={`text-xs ${t.muted} flex items-center gap-1`}>
-                      <Clock size={11} />{new Date(fav.created_at).toLocaleDateString('tr-TR')}
+                      <Clock size={11} />{formatLocaleDate(locale, fav.created_at)}
                     </span>
                   </div>
                   <h3 className={`${t.heading} font-bold mb-1.5 truncate hover:${t.accent} transition-colors`}>{fav.title}</h3>
@@ -125,7 +126,7 @@ export function FavoritesPageClient() {
                   </div>
                 </Link>
                 <div className="flex items-center gap-3 shrink-0">
-                  {fav.price && <span className={`font-bold text-sm ${t.accent}`}>{fav.price.toLocaleString('tr-TR')} TL</span>}
+                  {fav.price && <span className={`font-bold text-sm ${t.accent}`}>{formatLocaleCurrency(locale, fav.price)}</span>}
                   <button onClick={() => removeFavorite(fav.favorite_id)}
                     className={`p-2 rounded-lg transition-all ${t.btnDanger}`} title="Favoriden Çıkar">
                     <Trash2 size={16} />
