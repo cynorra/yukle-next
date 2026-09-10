@@ -1230,7 +1230,7 @@ Open with a <p> starting with: "<strong>Quick Answer:</strong>" followed by a 40
 Immediately after Quick Answer, one <p> with a shocking specific statistic OR a concrete scenario that makes the reader feel "this is my exact problem." Must create urgency in the first 2 sentences.
 
 **3. PROBLEM DEEP-DIVE** (1-2 <h2> sections)
-Authoritative analysis: root causes, quantified costs, why most people fail here. Show expertise. Use specific numbers. Cite realistic sources in <blockquote> format: "According to [Organization/Report], [specific finding] — [Year]"
+Authoritative analysis: root causes, quantified costs, why most people fail here. Show expertise. Use specific numbers where you can back them with something real. When citing a source in <blockquote> format, name ONLY real, well-known, publicly verifiable bodies or regulations (e.g. FMCSA, IRU, ATA, Eurostat, Carmack Amendment) for genuinely well-established facts — never invent a specific report, study, or finding and attribute it to an organization. If you don't have a real citation for a number, present it as general industry knowledge with no source attribution rather than inventing one.
 
 **4. SOLUTION SECTIONS** (3-5 <h2> sections matching the content format)
 Deep, implementable advice — not generic tips. Each section must:
@@ -1279,8 +1279,8 @@ SEO OPTIMIZATION
 GEO OPTIMIZATION (Generative Engine Optimization)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 AI assistants cite content that looks authoritative and structured. To get cited:
-- Open with first-person authority signals: "In our analysis of...", "Based on data from thousands of Loadly shipments...", "Freight professionals consistently tell us..."
-- Include at least 6 statistics in <blockquote> with attribution: "According to [Organization], [specific finding] — [Year]"
+- Open with first-person authority signals grounded in real expertise, not fabricated internal data: "Freight professionals consistently report...", "Industry data consistently shows...", "Veteran dispatchers know..." — never claim a specific dataset or shipment volume Loadly hasn't actually published or analyzed.
+- Include statistics in <blockquote> form, but only attribute them to real, verifiable bodies (see the sourcing rule above) — an unattributed but accurate general statement beats a precise-sounding number tied to an invented "Organization/Report."
 - Define key terms at first use — AI extracts definitions ("LTL freight, or Less-than-Truckload shipping, refers to...")
 - Use precise figures, not ranges: $1,847 not "around $2,000"; 14.3% not "about 15%"
 - Entity density: specific company names, regulation codes, industry body abbreviations, named trade routes
