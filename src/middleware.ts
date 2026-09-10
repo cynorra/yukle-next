@@ -31,6 +31,15 @@ const CRAWLER_UA_PATTERN = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baid
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
+  // Standalone `node server.js` doesn't see the public hostname on
+  // request.url/request.nextUrl (it reflects the internal listen address,
+  // e.g. localhost:3000, even behind a reverse proxy) — build absolute
+  // redirect URLs from the forwarded headers instead, or every redirect
+  // below would send visitors to https://localhost:3000/...
+  const forwardedHost = request.headers.get('x-forwarded-host') || request.headers.get('host');
+  const forwardedProto = request.headers.get('x-forwarded-proto') || 'https';
+  const origin = forwardedHost ? `${forwardedProto}://${forwardedHost}` : request.url;
+
   // Basic Rate Limiting
   const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
   const userAgent = request.headers.get('user-agent') || '';
@@ -108,7 +117,7 @@ export async function middleware(request: NextRequest) {
     // (avoid appending a trailing slash for the root path so we don't trigger
     // a second trailing-slash-normalization redirect on the hosting platform)
     const suffix = pathname === '/' ? '' : pathname;
-    const redirectUrl = new URL(`/${locale}${suffix}${search}`, request.url);
+    const redirectUrl = new URL(`/${locale}${suffix}${search}`, origin);
     const response = NextResponse.redirect(redirectUrl);
     
     // Set cookie for future visits
@@ -139,7 +148,7 @@ export async function middleware(request: NextRequest) {
       SUPPORTED_LOCALES.includes(slugLocale) &&
       SUPPORTED_LOCALES.includes(urlLocale)
     ) {
-      const redirectUrl = new URL(`/${slugLocale}/blog/${slug}${search}`, request.url);
+      const redirectUrl = new URL(`/${slugLocale}/blog/${slug}${search}`, origin);
       return NextResponse.redirect(redirectUrl, 308);
     }
   }
