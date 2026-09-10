@@ -6,7 +6,10 @@
 
 loadlyapp.com {
 	encode zstd gzip
-	reverse_proxy 127.0.0.1:3000
+	reverse_proxy 127.0.0.1:3000 {
+		header_up Host {host}
+		header_up X-Forwarded-Proto {scheme}
+	}
 }
 
 # Canonical host is the apex (matches every hardcoded canonical tag, the
