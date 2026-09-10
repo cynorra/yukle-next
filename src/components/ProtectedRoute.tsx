@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
 
@@ -14,18 +14,20 @@ export default function ProtectedRoute({
 }) {
   const { user, profile, loading } = useAuth();
   const router = useRouter();
+  const params = useParams();
+  const locale = (params?.locale as string) || 'en';
   const t = useT();
 
   useEffect(() => {
     if (loading) return;
     if (!user) {
-      router.replace('/giris');
+      router.replace(`/${locale}/login`);
       return;
     }
     if (roles && profile && !roles.includes(profile.role)) {
-      router.replace('/');
+      router.replace(`/${locale}`);
     }
-  }, [user, profile, loading, roles, router]);
+  }, [user, profile, loading, roles, router, locale]);
 
   if (loading) {
     return (

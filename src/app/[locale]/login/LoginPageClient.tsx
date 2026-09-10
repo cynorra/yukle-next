@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -12,16 +12,13 @@ import { supabase } from '@/lib/supabase';
 import { motion } from 'framer-motion';
 import { TextureCard } from '@/components/ui/texture-card';
 import { TextureButton } from '@/components/ui/texture-button';
-
-const benefits = [
-  { icon: MapPin, text: "Türkiye'nin 81 ilinde aktif ilanlar" },
-  { icon: Package, text: 'Anında teklif al, güvenle taşı' },
-  { icon: Shield, text: 'Onaylı nakliyeci ve yük sahibi ağı' },
-  { icon: Truck, text: '7/24 kesintisiz erişim, ücretsiz kayıt' },
-];
+import { getAppTranslation, fillTemplate } from '@/utils/getAppTranslation';
 
 export function LoginPageClient() {
   const t = useT();
+  const params = useParams();
+  const locale = (params?.locale as string) || 'en';
+  const c = getAppTranslation(locale);
   const { user, signIn, signInWithGoogle } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -32,6 +29,13 @@ export function LoginPageClient() {
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
+
+  const benefits = [
+    { icon: MapPin, text: c.auth.benefit1 },
+    { icon: Package, text: c.auth.benefit2 },
+    { icon: Shield, text: c.auth.benefit3 },
+    { icon: Truck, text: c.auth.benefit4 },
+  ];
 
   // Zaten giriş yapmış kullanıcıyı anasayfaya gönder
   useEffect(() => {
@@ -45,7 +49,7 @@ export function LoginPageClient() {
     setLoading(true);
     const { error: err } = await signIn(email, password);
     if (err) {
-      setError(err.message === 'Invalid login credentials' ? 'E-posta veya şifre hatalı.' : err.message);
+      setError(err.message === 'Invalid login credentials' ? c.auth.invalidCredentials : err.message);
     } else {
       router.push('/');
     }
@@ -56,7 +60,7 @@ export function LoginPageClient() {
     try {
       await signInWithGoogle();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Google girişi başarısız oldu.');
+      setError(err instanceof Error ? err.message : c.auth.googleLoginFailed);
     }
   }
 
@@ -64,7 +68,7 @@ export function LoginPageClient() {
     e.preventDefault();
     setResetLoading(true);
     const { error: err } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-      redirectTo: `${window.location.origin}/sifre-sifirla`,
+      redirectTo: `${window.location.origin}/${locale}/reset-password`,
     });
     if (!err) setResetSent(true);
     setResetLoading(false);
@@ -88,15 +92,15 @@ export function LoginPageClient() {
             <div className="w-10 h-10 rounded-2xl bg-accent flex items-center justify-center">
               <Truck size={22} className="text-white" />
             </div>
-            <span className="text-2xl font-black text-white tracking-tight">YükLe</span>
+            <span className="text-2xl font-black text-white tracking-tight">Loadly</span>
           </div>
 
           <h2 className="text-4xl font-black text-white leading-tight mb-5">
-            Türkiye'nin<br />
-            <span className="text-accent">Lojistik Pazarı</span>
+            {c.auth.taglineLine1}<br />
+            <span className="text-accent">{c.auth.taglineLine2}</span>
           </h2>
           <p className="text-white/50 text-lg font-medium mb-14 leading-relaxed">
-            Nakliyeciler ve yük sahipleri için tasarlanmış en hızlı eşleştirme platformu.
+            {c.auth.taglineDesc}
           </p>
 
           <div className="space-y-5">
@@ -119,7 +123,7 @@ export function LoginPageClient() {
 
         <div className="relative z-10 pt-10 border-t border-white/10">
           <p className="text-white/30 text-xs font-bold uppercase tracking-widest">
-            © 2026 YükLe Lojistik Platformu
+            {c.auth.footerCopyright}
           </p>
         </div>
       </div>
@@ -140,8 +144,8 @@ export function LoginPageClient() {
           {showReset ? (
             <>
               <div className="mb-8">
-                <h1 className={`text-2xl font-black ${t.heading} mb-2`}>Şifreni Sıfırla</h1>
-                <p className={`text-sm ${t.sub}`}>E-posta adresine bağlantı göndereceğiz.</p>
+                <h1 className={`text-2xl font-black ${t.heading} mb-2`}>{c.auth.resetTitle}</h1>
+                <p className={`text-sm ${t.sub}`}>{c.auth.resetSubtitle}</p>
               </div>
 
               <TextureCard className="p-6">
@@ -150,34 +154,34 @@ export function LoginPageClient() {
                     <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-4">
                       <Mail size={28} className="text-green-400" />
                     </div>
-                    <h3 className={`font-bold text-lg ${t.heading} mb-2`}>Gönderildi!</h3>
-                    <p className={`text-sm ${t.sub} mb-6`}>{resetEmail} adresini kontrol edin.</p>
+                    <h3 className={`font-bold text-lg ${t.heading} mb-2`}>{c.auth.sent}</h3>
+                    <p className={`text-sm ${t.sub} mb-6`}>{fillTemplate(c.auth.checkEmail, { email: resetEmail })}</p>
                     <TextureButton
                       onClick={() => { setShowReset(false); setResetSent(false); }}
                       variant="primary"
                       className="w-full !rounded-xl"
                     >
-                      Giriş Sayfasına Dön
+                      {c.auth.backToLogin}
                     </TextureButton>
                   </div>
                 ) : (
                   <form onSubmit={handleReset} className="space-y-4">
                     <div>
-                      <label className={`block text-sm font-medium ${t.sub} mb-2`}>E-posta</label>
+                      <label htmlFor="reset-email" className={`block text-sm font-medium ${t.sub} mb-2`}>{c.auth.emailLabel}</label>
                       <div className="relative">
                         <Mail size={16} className={`absolute left-4 top-1/2 -translate-y-1/2 ${t.muted}`} />
-                        <input type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required
+                        <input id="reset-email" type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required
                           className={`w-full pl-11 pr-4 py-3.5 rounded-xl text-sm focus:outline-none ${t.input}`}
-                          placeholder="ornek@email.com" />
+                          placeholder={c.auth.emailPlaceholder} />
                       </div>
                     </div>
                     <TextureButton type="submit" variant="primary" disabled={resetLoading}
                       className="w-full !rounded-xl">
-                      {resetLoading ? <><Loader2 size={16} className="animate-spin mr-2 inline" />Gönderiliyor...</> : 'Bağlantı Gönder'}
+                      {resetLoading ? <><Loader2 size={16} className="animate-spin mr-2 inline" />{c.auth.sendingLink}</> : c.auth.sendLink}
                     </TextureButton>
                     <TextureButton type="button" variant="secondary" onClick={() => setShowReset(false)}
                       className="w-full !rounded-xl">
-                      ← Geri Dön
+                      {c.auth.backBtn}
                     </TextureButton>
                   </form>
                 )}
@@ -186,8 +190,8 @@ export function LoginPageClient() {
           ) : (
             <>
               <div className="mb-8">
-                <h1 className={`text-2xl font-black ${t.heading} mb-2`}>Hoş Geldiniz</h1>
-                <p className={`text-sm ${t.sub}`}>Hesabınıza giriş yapın.</p>
+                <h1 className={`text-2xl font-black ${t.heading} mb-2`}>{c.auth.welcomeTitle}</h1>
+                <p className={`text-sm ${t.sub}`}>{c.auth.welcomeSubtitle}</p>
               </div>
 
               <TextureCard className="p-6">
@@ -199,26 +203,26 @@ export function LoginPageClient() {
                 )}
 
                 <div>
-                  <label className={`block text-sm font-medium ${t.sub} mb-2`}>E-posta</label>
+                  <label htmlFor="login-email" className={`block text-sm font-medium ${t.sub} mb-2`}>{c.auth.emailLabel}</label>
                   <div className="relative">
                     <Mail size={16} className={`absolute left-4 top-1/2 -translate-y-1/2 ${t.muted}`} />
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
+                    <input id="login-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
                       className={`w-full pl-11 pr-4 py-3.5 rounded-xl text-sm focus:outline-none ${t.input}`}
-                      placeholder="ornek@email.com" />
+                      placeholder={c.auth.emailPlaceholder} />
                   </div>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className={`block text-sm font-medium ${t.sub}`}>Şifre</label>
+                    <label htmlFor="login-password" className={`block text-sm font-medium ${t.sub}`}>{c.auth.passwordLabel}</label>
                     <button type="button" onClick={() => { setResetEmail(email); setShowReset(true); }}
                       className={`text-xs font-semibold ${t.accent} hover:underline`}>
-                      Şifremi Unuttum
+                      {c.auth.forgotPassword}
                     </button>
                   </div>
                   <div className="relative">
                     <Lock size={16} className={`absolute left-4 top-1/2 -translate-y-1/2 ${t.muted}`} />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
+                    <input id="login-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
                       className={`w-full pl-11 pr-4 py-3.5 rounded-xl text-sm focus:outline-none ${t.input}`}
                       placeholder="••••••••" />
                   </div>
@@ -227,8 +231,8 @@ export function LoginPageClient() {
                 <TextureButton type="submit" variant="primary" disabled={loading}
                   className="w-full !rounded-xl mt-2">
                   {loading
-                    ? <><Loader2 size={16} className="animate-spin mr-2 inline" />Giriş yapılıyor...</>
-                    : <><ArrowRight size={16} className="mr-2 inline" />Giriş Yap</>
+                    ? <><Loader2 size={16} className="animate-spin mr-2 inline" />{c.auth.loggingIn}</>
+                    : <><ArrowRight size={16} className="mr-2 inline" />{c.auth.loginBtn}</>
                   }
                 </TextureButton>
 
@@ -237,7 +241,7 @@ export function LoginPageClient() {
                     <div className={`w-full border-t ${t.divider}`}></div>
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className={`${t.page} px-2 ${t.muted}`}>VEYA</span>
+                    <span className={`${t.page} px-2 ${t.muted}`}>{c.auth.or}</span>
                   </div>
                 </div>
 
@@ -253,13 +257,13 @@ export function LoginPageClient() {
                     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                   </svg>
-                  Google ile Giriş Yap
+                  {c.auth.googleLogin}
                 </TextureButton>
               </form>
 
               <p className={`text-center text-sm ${t.muted} mt-6`}>
-                Hesabınız yok mu?{' '}
-                <Link href="/register" className={`${t.accent} font-semibold hover:underline`}>Ücretsiz Kayıt Ol</Link>
+                {c.auth.noAccount}{' '}
+                <Link href="/register" className={`${t.accent} font-semibold hover:underline`}>{c.auth.registerLink}</Link>
               </p>
               </TextureCard>
             </>

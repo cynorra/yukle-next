@@ -297,7 +297,7 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
       // Inject CTA after first 2-3 paragraphs
       if (paragraphCount === 3) {
         let ctaText = '';
-        const ctaLink = '/pazar';
+        const ctaLink = '/register';
         let anchorText = '';
 
         if (slug === 'sehirler-arasi-nakliye-maliyet-dusurme') {
