@@ -15,7 +15,9 @@ echo "==> git pull"
 git pull --ff-only
 
 echo "==> npm ci"
-npm ci
+# puppeteer is only used by the scraper scripts, which run in CI, not on this VM.
+# Skip its Chrome download here — the VM lacks unzip/tar in a form it accepts anyway.
+PUPPETEER_SKIP_DOWNLOAD=true npm ci
 
 echo "==> next build"
 npm run build

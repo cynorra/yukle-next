@@ -15,3 +15,5 @@ next-env.d.ts
 .gemini-prompts
 
 graphify-out
+
+oracle
