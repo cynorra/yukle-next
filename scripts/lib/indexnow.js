@@ -1,11 +1,11 @@
 /**
  * scripts/lib/indexnow.js
  *
- * CommonJS port of src/lib/indexnow.ts + src/lib/baiduPush.ts +
- * src/lib/googleIndexing.ts for use in scripts run directly via `node` (the
- * GitHub Actions cron jobs) rather than through the Next.js build — those
- * TS files live under src/ and aren't reachable from a plain `node scripts/*.js`
- * invocation. Keep this in sync with the src/lib/ versions if either changes.
+ * CommonJS port of src/lib/indexnow.ts + src/lib/baiduPush.ts for use in
+ * scripts run directly via `node` (the GitHub Actions cron jobs) rather
+ * than through the Next.js build — those TS files live under src/ and
+ * aren't reachable from a plain `node scripts/*.js` invocation. Keep this
+ * in sync with the src/lib/ versions if either changes.
  */
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
@@ -83,13 +83,4 @@ async function pingBaiduBlogPost(postTitle, postUrl) {
   }
 }
 
-async function pingGoogleIndexing(url) {
-  try {
-    const sitemapPingUrl = `https://www.google.com/ping?sitemap=${encodeURIComponent(`${SITE_URL}/sitemap.xml`)}`;
-    await fetch(sitemapPingUrl, { method: 'GET' }).catch(() => {});
-  } catch {
-    // Silently fail – indexing is best-effort
-  }
-}
-
-module.exports = { submitToIndexNow, submitToBaidu, pingBaiduBlogPost, pingGoogleIndexing };
+module.exports = { submitToIndexNow, submitToBaidu, pingBaiduBlogPost };
