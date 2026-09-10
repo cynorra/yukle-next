@@ -1,0 +1,34 @@
+name: Blog Freshness Report
+
+# Reports (does not edit) English blog posts older than 60 days, so someone
+# can skim for pricing/regulatory specifics that have drifted since
+# publication. Weekly — this is a monitoring habit, not a one-time gate (see
+# universal-adsense-site-standard.md §1.5 and §2b.1).
+on:
+  schedule:
+    - cron: '0 8 * * 1' # Mondays, 08:00 UTC
+  workflow_dispatch:
+
+jobs:
+  freshness-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run freshness report
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/blog-freshness-report.js

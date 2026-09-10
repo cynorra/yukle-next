@@ -1119,6 +1119,69 @@ async function getRecentPostsForLinking(poolSize = 12) {
   }
 }
 
+// Reduce HTML content to a comparable bag of lowercase words (strip tags,
+// collapse whitespace) — used by isTooSimilarToRecent below.
+function textOnly(html) {
+  return (html || '')
+    .replace(/<[^>]+>/g, ' ')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+// 5-word shingles, compared as sets via Jaccard similarity — cheap (no
+// embeddings API call), good enough to catch near-duplicate articles that
+// slightly reword the same topic/structure.
+function shingleSet(words, n = 5) {
+  const set = new Set();
+  for (let i = 0; i + n <= words.length; i++) {
+    set.add(words.slice(i, i + n).join(' '));
+  }
+  return set;
+}
+
+function jaccardSimilarity(setA, setB) {
+  if (setA.size === 0 || setB.size === 0) return 0;
+  let intersection = 0;
+  const [smaller, larger] = setA.size <= setB.size ? [setA, setB] : [setB, setA];
+  for (const shingle of smaller) {
+    if (larger.has(shingle)) intersection++;
+  }
+  const union = setA.size + setB.size - intersection;
+  return union === 0 ? 0 : intersection / union;
+}
+
+// Guard against near-duplicate articles slipping through (universal-adsense-
+// site-standard.md §1.4: "cümle-seviyesi benzerlik kontrolü, %70 üzeri
+// benzerlik tespit edilirse otomatik durdurulsun"). Compares against a pool
+// of recent English posts' body text — cheap local check, no external API.
+const SIMILARITY_THRESHOLD = 0.70;
+const SIMILARITY_COMPARISON_POOL = 20;
+
+async function isTooSimilarToRecent(newContent) {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('title, content')
+      .eq('language', 'en')
+      .order('created_at', { ascending: false })
+      .limit(SIMILARITY_COMPARISON_POOL);
+    if (error || !data || data.length === 0) return { tooSimilar: false };
+
+    const newShingles = shingleSet(textOnly(newContent));
+    let best = { score: 0, title: null };
+    for (const post of data) {
+      const score = jaccardSimilarity(newShingles, shingleSet(textOnly(post.content)));
+      if (score > best.score) best = { score, title: post.title };
+    }
+    return { tooSimilar: best.score >= SIMILARITY_THRESHOLD, score: best.score, matchedTitle: best.title };
+  } catch (err) {
+    console.warn('isTooSimilarToRecent error (non-fatal, allowing publish):', err.message);
+    return { tooSimilar: false };
+  }
+}
+
 // Fetch recent post titles from DB to provide uniqueness context to Gemini
 async function getRecentTopics(limit = 150) {
   try {
@@ -1455,6 +1518,16 @@ async function runBlogGenerator() {
       meta_description: local.meta_description
     };
     baseLanguage = 'en';
+  }
+
+  // Reject near-duplicate content before it's translated/published, not after
+  // (universal-adsense-site-standard.md §1.4). A regenerated fallback article
+  // can still legitimately repeat itself over a long enough archive, so this
+  // applies to both the AI and fallback-library paths.
+  const similarity = await isTooSimilarToRecent(basePost.content);
+  if (similarity.tooSimilar) {
+    console.warn(`[Similarity] "${basePost.title}" is ${(similarity.score * 100).toFixed(0)}% similar to existing post "${similarity.matchedTitle}" (threshold ${SIMILARITY_THRESHOLD * 100}%) — skipping this run instead of publishing a near-duplicate.`);
+    return null;
   }
 
   // Sanitize base slug
