@@ -1,0 +1,43 @@
+{
+  "badge": "O Mercado de Frete Mais Dinâmico",
+  "heroTitleLine1": "Encontre Cargas de Forma",
+  "heroTitleAccent": "Rápida, Segura",
+  "heroTitleLine2": "e Inteligente",
+  "heroSub": "Encontre com a Loadly a carga ideal para seu caminhão vazio em segundos. Digitalize seu processo de frete com filtragem por rota e uma rede de usuários verificados.",
+  "ctaViewListings": "Ver Anúncios",
+  "ctaRegister": "Cadastre-se Agora",
+  "howItWorksTitle": "Como Funciona?",
+  "howItWorksSub": "Encontre sua carga e comece a rodar em 3 passos simples.",
+  "steps": [
+    { "title": "Explore os Anúncios", "desc": "Filtre os anúncios de frete que melhor combinam com sua rota, tipo de caminhão e agenda." },
+    { "title": "Entre em Contato Rapidamente", "desc": "Converse diretamente com o dono do anúncio, esclareça os detalhes e envie sua oferta." },
+    { "title": "Combine Instantaneamente", "desc": "Assim que o acordo for fechado, transporte sua carga com segurança e receba o pagamento." }
+  ],
+  "trustTitleLine1": "Sua Segurança",
+  "trustTitleAccent": "É Nossa Prioridade",
+  "features": [
+    { "title": "Perfis Verificados", "desc": "Todos os usuários passam por verificação de identidade e documentos, garantindo negociações seguras." },
+    { "title": "Sistema de Avaliação", "desc": "Veja o histórico de transportadoras e embarcadores e trabalhe com os melhores." },
+    { "title": "Correspondência de Rotas", "desc": "Não perca oportunidades de frete de retorno e carga parcial — transforme quilômetros vazios em lucro." }
+  ],
+  "trustCardTitle": "Plataforma Verificada",
+  "trustCardBadge": "FRETE SEGURO",
+  "trustCardList": [
+    "Verificação de Licença de Transportadora",
+    "Verificação de Empresa/Pessoa Física",
+    "Suporte 24/7",
+    "Suporte a Frete Segurado"
+  ],
+  "routeSectionTitleLine1": "Tecnologia de Correspondência",
+  "routeSectionTitleLine2": "Inteligente por Rotas",
+  "routeSectionDesc": "Veja todas as oportunidades ao longo da sua rota, não apenas na sua localização atual. Evite viagens de retorno vazias com nosso algoritmo de frete de retorno e aumente sua lucratividade.",
+  "stat1Value": "+40%",
+  "stat1Label": "Mais Lucro",
+  "stat2Value": "0 KM",
+  "stat2Label": "Risco de Retorno Vazio",
+  "routeCta": "Experimente Agora",
+  "finalTitleLine1": "Dê um Passo Digital",
+  "finalTitleLine2": "Rumo ao Mundo da Logística",
+  "finalSub": "Milhares de transportadoras e embarcadores trabalham de forma mais eficiente todos os dias com a Loadly. Junte-se à nossa comunidade e faça seu negócio crescer.",
+  "finalCta": "Comece Grátis"
+}

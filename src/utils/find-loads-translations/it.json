@@ -1,0 +1,43 @@
+{
+  "badge": "Il Mercato dei Carichi Più Dinamico",
+  "heroTitleLine1": "Trova Carichi in Modo",
+  "heroTitleAccent": "Veloce, Sicuro",
+  "heroTitleLine2": "e Intelligente",
+  "heroSub": "Trova con Loadly il carico ideale per il tuo camion vuoto in pochi secondi. Digitalizza il tuo processo di trasporto con il filtro per percorso e una rete di utenti verificati.",
+  "ctaViewListings": "Vedi gli Annunci",
+  "ctaRegister": "Iscriviti Ora",
+  "howItWorksTitle": "Come Funziona?",
+  "howItWorksSub": "Trova il tuo carico e parti in 3 semplici passaggi.",
+  "steps": [
+    { "title": "Sfoglia gli Annunci", "desc": "Filtra gli annunci di carico più adatti al tuo percorso, tipo di camion e calendario." },
+    { "title": "Contatta Rapidamente", "desc": "Scrivi direttamente al proprietario dell'annuncio, chiarisci i dettagli e invia la tua offerta." },
+    { "title": "Abbinamento Istantaneo", "desc": "Una volta raggiunto l'accordo, trasporta il carico in sicurezza e ricevi il pagamento." }
+  ],
+  "trustTitleLine1": "La Tua Sicurezza",
+  "trustTitleAccent": "È la Nostra Priorità",
+  "features": [
+    { "title": "Profili Verificati", "desc": "Tutti gli utenti superano la verifica dell'identità e dei documenti, garantendo scambi sicuri." },
+    { "title": "Sistema di Valutazione", "desc": "Consulta lo storico di trasportatori e mittenti e lavora con i migliori." },
+    { "title": "Abbinamento per Percorso", "desc": "Non perdere le opportunità di carico di ritorno e carico parziale: trasforma i chilometri a vuoto in guadagno." }
+  ],
+  "trustCardTitle": "Piattaforma Verificata",
+  "trustCardBadge": "TRASPORTO SICURO",
+  "trustCardList": [
+    "Verifica Licenza del Vettore",
+    "Verifica Azienda/Privato",
+    "Assistenza 24/7",
+    "Supporto Trasporto Assicurato"
+  ],
+  "routeSectionTitleLine1": "Tecnologia di Abbinamento",
+  "routeSectionTitleLine2": "Intelligente per Percorso",
+  "routeSectionDesc": "Scopri tutte le opportunità lungo il tuo percorso, non solo nella tua posizione attuale. Evita i viaggi di ritorno a vuoto grazie al nostro algoritmo di carico di ritorno e aumenta la tua redditività.",
+  "stat1Value": "+40%",
+  "stat1Label": "Guadagno in Più",
+  "stat2Value": "0 KM",
+  "stat2Label": "Rischio di Ritorno a Vuoto",
+  "routeCta": "Provalo Ora",
+  "finalTitleLine1": "Fai un Passo Digitale",
+  "finalTitleLine2": "Nel Mondo della Logistica",
+  "finalSub": "Migliaia di trasportatori e mittenti lavorano in modo più efficiente ogni giorno con Loadly. Unisciti alla nostra community e fai crescere la tua attività.",
+  "finalCta": "Inizia Gratis"
+}

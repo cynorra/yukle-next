@@ -1,58 +1,32 @@
 'use client';
 
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useT } from '@/hooks/useT';
-import { 
-  Search, 
-  ShieldCheck, 
-  Route, 
-  Zap, 
-  CheckCircle2, 
+import { getFindLoadsTranslation } from '@/utils/getFindLoadsTranslation';
+import {
+  Search,
+  ShieldCheck,
+  Route,
+  Zap,
+  CheckCircle2,
   ArrowRight,
   MessageCircle,
   Star
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+const STEP_ICONS = [Search, MessageCircle, Zap];
+const FEATURE_ICONS = [ShieldCheck, Star, Route];
+
 export function YukBulmaClient() {
   const t = useT();
-  
+  const params = useParams();
+  const locale = (params?.locale as string) || 'en';
+  const c = getFindLoadsTranslation(locale);
 
-  const steps = [
-    {
-      icon: Search,
-      title: 'İlanları İnceleyin',
-      desc: 'Güzergahınıza, araç tipinize ve takviminize en uygun yük ilanlarını filtreleyin.'
-    },
-    {
-      icon: MessageCircle,
-      title: 'Hızlıca İletişime Geçin',
-      desc: 'İlan sahibiyle doğrudan mesajlaşın, detayları netleştirin ve teklifinizi sunun.'
-    },
-    {
-      icon: Zap,
-      title: 'Anında Eşleşin',
-      desc: 'Anlaşma sağlandığında yükünüzü güvenle taşıyın ve ödemenizi alın.'
-    }
-  ];
-
-  const features = [
-    {
-      icon: ShieldCheck,
-      title: 'Doğrulanmış Profil',
-      desc: 'Tüm kullanıcılar kimlik ve belge doğrulamasından geçer, güvenli ticaret sağlanır.'
-    },
-    {
-      icon: Star,
-      title: 'Puanlama Sistemi',
-      desc: 'Nakliyeci ve yük sahiplerinin geçmiş performanslarını görün, en iyilerle çalışın.'
-    },
-    {
-      icon: Route,
-      title: 'Güzergah Eşleşmesi',
-      desc: 'Dönüş yükü ve parça yük fırsatlarını kaçırmayın, boş kilometreleri kazanca dönüştürün.'
-    }
-  ];
+  const steps = c.steps.map((s, idx) => ({ ...s, icon: STEP_ICONS[idx] }));
+  const features = c.features.map((f, idx) => ({ ...f, icon: FEATURE_ICONS[idx] }));
 
   return (
     <div className={t.pageFull}>
@@ -66,40 +40,39 @@ export function YukBulmaClient() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent font-bold text-sm mb-8"
           >
             <Zap size={18} />
-            Türkiye'nin En Dinamik Yük Pazaryeri
+            {c.badge}
           </motion.div>
-          
-          <motion.h1 
+
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className={`text-5xl md:text-7xl font-black ${t.heading} mb-8 leading-[1.1] tracking-tight`}
           >
-            Hızlı, Güvenli ve Akıllı <br />
-            <span className="text-accent">Yük Bulma</span> Deneyimi
+            {c.heroTitleLine1} <br />
+            <span className="text-accent">{c.heroTitleAccent}</span> {c.heroTitleLine2}
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className={`text-xl ${t.sub} max-w-3xl mx-auto mb-12`}
           >
-            Loadly ile boş araçlarınıza en uygun yükü saniyeler içinde bulun. 
-            Rota bazlı filtreleme ve doğrulanmış kullanıcı ağı ile nakliye süreçlerinizi dijitalleştirin.
+            {c.heroSub}
           </motion.p>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Link href="/pazar" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-accent text-white font-black text-lg shadow-xl shadow-accent/20 hover:scale-105 transition-all flex items-center justify-center gap-2">
-              İlanları Gör <ArrowRight size={20} />
+            <Link href="/register" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-accent text-white font-black text-lg shadow-xl shadow-accent/20 hover:scale-105 transition-all flex items-center justify-center gap-2">
+              {c.ctaViewListings} <ArrowRight size={20} />
             </Link>
             <Link href="/register" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-white dark:bg-surface-dark border-2 border-accent/20 text-accent font-black text-lg hover:bg-accent/5 transition-all">
-              Hemen Kayıt Ol
+              {c.ctaRegister}
             </Link>
           </motion.div>
         </div>
@@ -109,8 +82,8 @@ export function YukBulmaClient() {
       <section className="py-24 bg-surface-light dark:bg-surface-dark border-y border-border-light dark:border-border-dark">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-20">
-            <h2 className={`text-4xl font-black ${t.heading} mb-4`}>Nasıl Çalışır?</h2>
-            <p className={t.sub}>3 basit adımda yükünüzü bulun ve yola çıkın.</p>
+            <h2 className={`text-4xl font-black ${t.heading} mb-4`}>{c.howItWorksTitle}</h2>
+            <p className={t.sub}>{c.howItWorksSub}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -138,8 +111,8 @@ export function YukBulmaClient() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <h2 className={`text-4xl md:text-5xl font-black ${t.heading} mb-8 leading-tight`}>
-                Güvenliğiniz <br />
-                <span className="text-accent">Önceliğimizdir</span>
+                {c.trustTitleLine1} <br />
+                <span className="text-accent">{c.trustTitleAccent}</span>
               </h2>
               <div className="space-y-8">
                 {features.map((f, idx) => (
@@ -163,17 +136,12 @@ export function YukBulmaClient() {
                     <ShieldCheck size={32} />
                   </div>
                   <div>
-                    <div className={`text-lg font-black ${t.heading}`}>Doğrulanmış Platform</div>
-                    <div className="text-xs font-bold text-green-500">GÜVENLİ TAŞIMACILIK</div>
+                    <div className={`text-lg font-black ${t.heading}`}>{c.trustCardTitle}</div>
+                    <div className="text-xs font-bold text-green-500">{c.trustCardBadge}</div>
                   </div>
                 </div>
                 <ul className="space-y-4">
-                  {[
-                    'K Yetki Belgesi Kontrolü',
-                    'Firma/Şahıs Doğrulaması',
-                    '7/24 Destek Hattı',
-                    'Sigortalı Taşımacılık Desteği'
-                  ].map((item, i) => (
+                  {c.trustCardList.map((item, i) => (
                     <li key={i} className="flex items-center gap-3">
                       <CheckCircle2 size={18} className="text-accent" />
                       <span className={`font-bold ${t.sub}`}>{item}</span>
@@ -192,25 +160,24 @@ export function YukBulmaClient() {
         <div className="max-w-7xl mx-auto px-4 relative">
           <div className="max-w-2xl">
             <h2 className="text-4xl md:text-5xl font-black mb-8 leading-tight">
-              Rota Bazlı Akıllı <br />
-              Eşleştirme Teknolojisi
+              {c.routeSectionTitleLine1} <br />
+              {c.routeSectionTitleLine2}
             </h2>
             <p className="text-white/80 text-lg mb-12">
-              Sadece mevcut konumunuzda değil, gideceğiniz rota üzerindeki tüm fırsatları görün. 
-              Dönüş yükü (backhaul) algoritması ile aracınızın boş dönmesini engelleyin, karlılığınızı artırın.
+              {c.routeSectionDesc}
             </p>
             <div className="grid grid-cols-2 gap-8 mb-12">
               <div>
-                <div className="text-4xl font-black mb-2">%40</div>
-                <div className="text-white/60 text-sm font-bold uppercase tracking-widest">Daha Fazla Kazanç</div>
+                <div className="text-4xl font-black mb-2">{c.stat1Value}</div>
+                <div className="text-white/60 text-sm font-bold uppercase tracking-widest">{c.stat1Label}</div>
               </div>
               <div>
-                <div className="text-4xl font-black mb-2">0 KM</div>
-                <div className="text-white/60 text-sm font-bold uppercase tracking-widest">Boş Dönüş Riski</div>
+                <div className="text-4xl font-black mb-2">{c.stat2Value}</div>
+                <div className="text-white/60 text-sm font-bold uppercase tracking-widest">{c.stat2Label}</div>
               </div>
             </div>
-            <Link href="/pazar" className="inline-flex px-8 py-4 bg-white text-accent rounded-xl font-black hover:bg-white/90 transition-all">
-              Hemen Dene
+            <Link href="/register" className="inline-flex px-8 py-4 bg-white text-accent rounded-xl font-black hover:bg-white/90 transition-all">
+              {c.routeCta}
             </Link>
           </div>
         </div>
@@ -220,15 +187,14 @@ export function YukBulmaClient() {
       <section className="py-32 text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className={`text-4xl font-black ${t.heading} mb-8`}>
-            Lojistik Dünyasına <br />
-            Dijital Bir Adım Atın
+            {c.finalTitleLine1} <br />
+            {c.finalTitleLine2}
           </h2>
           <p className={`${t.sub} text-lg mb-12`}>
-            Binlerce nakliyeci ve yük sahibi Loadly ile her gün daha verimli çalışıyor. 
-            Siz de topluluğumuza katılın, işinizi büyütün.
+            {c.finalSub}
           </p>
           <Link href="/register" className="inline-flex px-12 py-5 bg-accent text-white rounded-2xl font-black text-xl shadow-2xl shadow-accent/20 hover:scale-105 transition-all">
-            Ücretsiz Başla
+            {c.finalCta}
           </Link>
         </div>
       </section>
