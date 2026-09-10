@@ -764,7 +764,7 @@ async function polishTranslatedPost(post, langName, langCode) {
 
 Rules:
 - Preserve every HTML tag in "content" exactly as structured (h2/h3/p/ul/li/table/a href/strong/blockquote etc.) — only edit the text inside them. Do not add, remove, or reorder tags or sections.
-- Preserve the <a href="/find-loads"> and <a href="/register"> links exactly as they are, including their anchor text unless a keyword fits naturally into that anchor text.
+- Preserve the <a href="/register"> link (and any other <a href> already present) exactly as it is, including its anchor text unless a keyword fits naturally into that anchor text.
 - meta_title must stay under 60 characters, meta_description under 155 characters.
 - Keep edits minimal and surgical.
 
@@ -1096,8 +1096,8 @@ Return ONLY a valid JSON array of exactly ${BANK_BATCH_SIZE} objects. No markdow
 }
 
 // Fetch a small pool of recently published (English) posts so a new article can
-// link to one of them — without this, every article only links to /find-loads
-// and /register, and older posts become orphan pages with zero inbound links
+// link to one of them — without this, every article only links to /register,
+// and older posts become orphan pages with zero inbound links
 // as the archive grows (see universal-adsense-site-standard.md §3.8). Returns
 // {title, baseSlug} pairs; baseSlug has the "-en" language suffix stripped so
 // the caller can rebuild a same-language href per translation.
@@ -1243,14 +1243,14 @@ async function generateBasePost(topicData) {
   const minWords = formatSpec?.minWords || 2000;
   const formatDesc = formatSpec?.description || 'comprehensive expert guide';
 
-  // Offer a few real, recently-published posts as an optional 3rd internal
-  // link so articles stop being islands that only point at /find-loads and
-  // /register — without this every older post becomes an orphan page with
+  // Offer a few real, recently-published posts as an optional 2nd internal
+  // link so articles stop being islands that only point at /register —
+  // without this every older post becomes an orphan page with
   // zero inbound links as the archive grows (universal-adsense-site-standard.md §3.8).
   const linkPool = await getRecentPostsForLinking(12);
   const relatedLinksBlock = linkPool.length === 0
     ? ''
-    : `\n- OPTIONAL 3rd link: if — and only if — one of these already-published posts is genuinely relevant to a point you're making, you may add ONE more <a> link to it using EXACTLY the href shown (do not alter the slug), with natural anchor text. Skip this entirely if none of them genuinely fit the topic — never force it.\n${linkPool.map(p => `  · "${p.title}" → <a href="/en/blog/${p.baseSlug}-en">`).join('\n')}`;
+    : `\n- OPTIONAL 2nd link: if — and only if — one of these already-published posts is genuinely relevant to a point you're making, you may add ONE more <a> link to it using EXACTLY the href shown (do not alter the slug), with natural anchor text. Skip this entirely if none of them genuinely fit the topic — never force it.\n${linkPool.map(p => `  · "${p.title}" → <a href="/en/blog/${p.baseSlug}-en">`).join('\n')}`;
 
   const payload = JSON.stringify({
     contents: [{
@@ -1309,11 +1309,11 @@ MINIMUM ${minWords} words of substantive expert content. No filler. Every senten
 INTERNAL LINKING (mandatory — do not skip)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 This article is currently published with ZERO links back to the product, so it drives SEO traffic that never converts. Fix this in every article:
-- Include exactly 2 <a> links total, using ONLY these two hrefs (relative, no locale prefix, no domain): <a href="/find-loads"> and <a href="/register">
-- Never use any other href for these two — no other route exists for them to point to, and no third-party/external links
-- Anchor text must be natural and specific to the topic, never "click here" or "this link" (e.g. <a href="/find-loads">browse live LTL loads near you</a>, not <a href="/find-loads">marketplace</a>)
-- Placement: one <a href="/find-loads"> link woven naturally into a SOLUTION SECTION where a marketplace genuinely solves the problem being discussed; one <a href="/register"> link in the CTA CONCLUSION section
-- These count toward the article but must read as genuinely helpful signposting, not ad copy${relatedLinksBlock}
+- Include exactly 1 mandatory <a> link, using ONLY this href (relative, no locale prefix, no domain): <a href="/register">
+- Never use any other href for it — no other public route exists for it to point to, and no third-party/external links
+- Anchor text must be natural and specific to the topic, never "click here" or "this link" (e.g. <a href="/register">start finding loads on Loadly</a>, not <a href="/register">register</a>)
+- Placement: in the CTA CONCLUSION section
+- This counts toward the article but must read as genuinely helpful signposting, not ad copy${relatedLinksBlock}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 MANDATORY SECTIONS (in this order)
