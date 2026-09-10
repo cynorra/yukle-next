@@ -1,0 +1,17 @@
+{
+  "verified": "Vérifié",
+  "roleDriver": "Transporteur",
+  "roleShipper": "Expéditeur",
+  "reviewsCount": "{count} avis",
+  "pointsLabel": "{count} points",
+  "completedLoads": "{count} transports terminés",
+  "memberSince": "Membre depuis {date}",
+  "sendMessage": "Envoyer un Message",
+  "editProfile": "Modifier le Profil",
+  "reviewsTab": "Avis ({count})",
+  "loadsTab": "Annonces ({count})",
+  "noReviewsYet": "Aucun avis pour le moment.",
+  "noLoadsYet": "Aucune annonce pour le moment.",
+  "statusActive": "Actif",
+  "statusCompleted": "Terminé"
+}

@@ -1,0 +1,17 @@
+{
+  "verified": "Doğrulandı",
+  "roleDriver": "Sürücü",
+  "roleShipper": "Yük Sahibi",
+  "reviewsCount": "{count} yorum",
+  "pointsLabel": "{count} puan",
+  "completedLoads": "{count} tamamlanan taşıma",
+  "memberSince": "{date} tarihinden beri üye",
+  "sendMessage": "Mesaj Gönder",
+  "editProfile": "Profili Düzenle",
+  "reviewsTab": "Değerlendirmeler ({count})",
+  "loadsTab": "İlanlar ({count})",
+  "noReviewsYet": "Henüz değerlendirme yok.",
+  "noLoadsYet": "Henüz ilan yok.",
+  "statusActive": "Aktif",
+  "statusCompleted": "Tamamlandı"
+}

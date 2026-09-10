@@ -1,0 +1,17 @@
+{
+  "verified": "Verificato",
+  "roleDriver": "Trasportatore",
+  "roleShipper": "Mittente",
+  "reviewsCount": "{count} recensioni",
+  "pointsLabel": "{count} punti",
+  "completedLoads": "{count} trasporti completati",
+  "memberSince": "Membro dal {date}",
+  "sendMessage": "Invia Messaggio",
+  "editProfile": "Modifica Profilo",
+  "reviewsTab": "Recensioni ({count})",
+  "loadsTab": "Annunci ({count})",
+  "noReviewsYet": "Ancora nessuna recensione.",
+  "noLoadsYet": "Ancora nessun annuncio.",
+  "statusActive": "Attivo",
+  "statusCompleted": "Completato"
+}

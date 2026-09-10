@@ -1,0 +1,17 @@
+{
+  "verified": "Verified",
+  "roleDriver": "Driver",
+  "roleShipper": "Shipper",
+  "reviewsCount": "{count} reviews",
+  "pointsLabel": "{count} points",
+  "completedLoads": "{count} completed loads",
+  "memberSince": "Member since {date}",
+  "sendMessage": "Send Message",
+  "editProfile": "Edit Profile",
+  "reviewsTab": "Reviews ({count})",
+  "loadsTab": "Listings ({count})",
+  "noReviewsYet": "No reviews yet.",
+  "noLoadsYet": "No listings yet.",
+  "statusActive": "Active",
+  "statusCompleted": "Completed"
+}

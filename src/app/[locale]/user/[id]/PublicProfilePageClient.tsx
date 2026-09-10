@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
 import { formatLocaleNumber, formatLocaleMonthYear, formatLocaleDate } from '@/utils/intlFormat';
+import { getProfileTranslation, fillTemplate } from '@/utils/getProfileTranslation';
 import { Star, Shield, Building2, MapPin, ArrowRight, Package, Zap, MessageCircle, Calendar } from 'lucide-react';
 
 interface PublicProfile {
@@ -51,10 +52,11 @@ interface PublicProfilePageClientProps {
 export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfilePageClientProps) {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
-  const { locale } = useTranslation();
+  const { locale, t: tGlobal } = useTranslation();
   const [activeTab, setActiveTab] = useState<'reviews' | 'loads'>('reviews');
 
   const t = useT();
+  const c = getProfileTranslation(locale);
 
   function renderStars(rating: number) {
     return Array.from({ length: 5 }, (_, i) => (
@@ -82,7 +84,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                 <h1 className={`text-2xl font-bold ${t.heading}`}>{profile.full_name}</h1>
                 {profile.is_verified && (
                   <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs">
-                    <Shield size={12} />Doğrulandı
+                    <Shield size={12} />{c.verified}
                   </span>
                 )}
               </div>
@@ -94,7 +96,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
               )}
               <div className="flex items-center gap-1 text-sm mb-3">
                 <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${profile.role === 'driver' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20'}`}>
-                  {profile.role === 'driver' ? 'Sürücü' : 'Yük Sahibi'}
+                  {profile.role === 'driver' ? c.roleDriver : c.roleShipper}
                 </span>
               </div>
 
@@ -104,20 +106,20 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                   <div className="flex items-center gap-1">
                     {renderStars(Math.round(profile.rating))}
                     <span className={`${t.heading} font-bold text-sm ml-1`}>{profile.rating.toFixed(1)}</span>
-                    <span className={`${t.muted} text-xs`}>({reviews.length} yorum)</span>
+                    <span className={`${t.muted} text-xs`}>({fillTemplate(c.reviewsCount, { count: reviews.length })})</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1 text-[#F5A623] text-sm font-bold">
-                  <Zap size={14} className="fill-[#F5A623]" />{formatLocaleNumber(locale, profile.points)} puan
+                  <Zap size={14} className="fill-[#F5A623]" />{fillTemplate(c.pointsLabel, { count: formatLocaleNumber(locale, profile.points) })}
                 </div>
                 {completedLoads > 0 && (
                   <div className={`flex items-center gap-1 ${t.sub} text-sm`}>
-                    <Package size={14} />{completedLoads} tamamlanan taşıma
+                    <Package size={14} />{fillTemplate(c.completedLoads, { count: completedLoads })}
                   </div>
                 )}
                 <div className={`flex items-center gap-1 ${t.muted} text-xs`}>
                   <Calendar size={12} />
-                  {formatLocaleMonthYear(locale, profile.created_at)} üye
+                  {fillTemplate(c.memberSince, { date: formatLocaleMonthYear(locale, profile.created_at) })}
                 </div>
               </div>
             </div>
@@ -128,7 +130,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
             <div className="mt-5 pt-5 border-t border-white/[0.06] flex gap-3">
               <Link href={`/${locale}/messages`}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20 text-sm font-medium hover:bg-[#F5A623]/20 transition-colors">
-                <MessageCircle size={16} />Mesaj Gönder
+                <MessageCircle size={16} />{c.sendMessage}
               </Link>
             </div>
           )}
@@ -136,7 +138,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
             <div className="mt-5 pt-5 border-t border-white/[0.06]">
               <Link href={`/${locale}/profile`}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.05] ${t.body} border border-white/[0.08] text-sm font-medium hover:bg-white/[0.08] transition-colors w-fit`}>
-                Profili Düzenle
+                {c.editProfile}
               </Link>
             </div>
           )}
@@ -146,11 +148,11 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
         <div className={`flex gap-1 p-1 rounded-xl ${t.card} mb-6`}>
           <button onClick={() => setActiveTab('reviews')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === 'reviews' ? 'bg-[#F5A623] text-black' : 'text-gray-400 hover:text-white'}`}>
-            <Star size={16} />Değerlendirmeler ({reviews.length})
+            <Star size={16} />{fillTemplate(c.reviewsTab, { count: reviews.length })}
           </button>
           <button onClick={() => setActiveTab('loads')}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === 'loads' ? 'bg-[#F5A623] text-black' : 'text-gray-400 hover:text-white'}`}>
-            <Package size={16} />İlanlar ({loads.length})
+            <Package size={16} />{fillTemplate(c.loadsTab, { count: loads.length })}
           </button>
         </div>
 
@@ -160,7 +162,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
             {reviews.length === 0 ? (
               <div className={`text-center py-12 ${t.muted}`}>
                 <Star size={40} className="mx-auto mb-3 text-gray-700" />
-                <p>Henüz değerlendirme yok.</p>
+                <p>{c.noReviewsYet}</p>
               </div>
             ) : reviews.map((review) => (
               <div key={review.id} className={`p-5 rounded-2xl ${t.card}`}>
@@ -192,7 +194,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
             {loads.length === 0 ? (
               <div className={`text-center py-12 ${t.muted}`}>
                 <Package size={40} className="mx-auto mb-3 text-gray-700" />
-                <p>Henüz ilan yok.</p>
+                <p>{c.noLoadsYet}</p>
               </div>
             ) : loads.map((load) => (
               <Link key={load.id} href={`/${locale}/marketplace/${load.id}`}
@@ -212,7 +214,7 @@ export function PublicProfilePageClient({ profile, reviews, loads }: PublicProfi
                   load.status === 'completed' ? 'text-green-400 bg-green-400/10 border-green-400/20' :
                   'text-gray-400 bg-gray-400/10 border-gray-400/20'
                 }`}>
-                  {load.status === 'active' ? 'Aktif' : load.status === 'completed' ? 'Tamamlandı' : load.status}
+                  {load.status === 'active' ? tGlobal.marketplace.active : load.status === 'completed' ? tGlobal.marketplace.completed : load.status}
                 </span>
               </Link>
             ))}

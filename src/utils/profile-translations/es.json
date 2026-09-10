@@ -1,0 +1,17 @@
+{
+  "verified": "Verificado",
+  "roleDriver": "Transportista",
+  "roleShipper": "Cargador",
+  "reviewsCount": "{count} reseñas",
+  "pointsLabel": "{count} puntos",
+  "completedLoads": "{count} envíos completados",
+  "memberSince": "Miembro desde {date}",
+  "sendMessage": "Enviar Mensaje",
+  "editProfile": "Editar Perfil",
+  "reviewsTab": "Reseñas ({count})",
+  "loadsTab": "Anuncios ({count})",
+  "noReviewsYet": "Aún no hay reseñas.",
+  "noLoadsYet": "Aún no hay anuncios.",
+  "statusActive": "Activo",
+  "statusCompleted": "Completado"
+}

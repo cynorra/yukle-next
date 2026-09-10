@@ -1,0 +1,17 @@
+{
+  "verified": "認証済み",
+  "roleDriver": "運送会社",
+  "roleShipper": "荷主",
+  "reviewsCount": "{count}件の評価",
+  "pointsLabel": "{count}ポイント",
+  "completedLoads": "{count}件の完了した輸送",
+  "memberSince": "{date}から登録",
+  "sendMessage": "メッセージを送る",
+  "editProfile": "プロフィールを編集",
+  "reviewsTab": "評価 ({count})",
+  "loadsTab": "求荷情報 ({count})",
+  "noReviewsYet": "まだ評価がありません。",
+  "noLoadsYet": "まだ求荷情報がありません。",
+  "statusActive": "募集中",
+  "statusCompleted": "完了"
+}
