@@ -940,11 +940,16 @@ const BANK_REFILL_THRESHOLD = 8;
 
 // ─── FALLBACK LIBRARY USAGE CAP ──────────────────────────────────────────────
 // The 3 hand-written canned articles exist only as a last resort when Gemini
-// fails. Publishing the same canned article (x46 locales) too many times is
+// fails. Publishing the same canned article (x53 locales) too many times is
 // exactly the kind of duplicate/low-value content AdSense flags, so cap how
 // many times each one can ever be republished; once all 3 are capped, that
 // generation pass is skipped entirely instead of adding more duplicates.
-const MAX_FALLBACK_USES_PER_ARTICLE = 5;
+// Lowered 5 -> 2 (2026-09-11): a live DB audit found 1790 rows (30% of the
+// entire blog) were these 3 articles republished over and over - 17 uses of
+// one of them alone, most from BEFORE this cap existed, but the incident
+// showed even a cap of 5 leaves real templated-content risk if it's ever
+// hit repeatedly in a short window. All 1790 were deleted the same day.
+const MAX_FALLBACK_USES_PER_ARTICLE = 2;
 
 async function pickFallbackArticle() {
   const counts = await Promise.all(fallbackArticles.map(async (article) => {

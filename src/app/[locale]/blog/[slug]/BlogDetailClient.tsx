@@ -20,7 +20,23 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import AdBanner from '@/components/AdBanner';
 
-export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; locale: string; slug: string }) {
+interface RelatedPost {
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  cover_image: string | null;
+}
+
+const RELATED_ARTICLES_LABEL: Record<string, string> = {
+  en: 'Related Articles', tr: 'İlgili Makaleler', es: 'Artículos Relacionados',
+  fr: 'Articles Similaires', de: 'Ähnliche Artikel', pt: 'Artigos Relacionados',
+  it: 'Articoli Correlati', pl: 'Powiązane Artykuły', nl: 'Gerelateerde Artikelen',
+  ru: 'Похожие Статьи', uk: 'Схожі Статті', zh: '相关文章', ja: '関連記事',
+  hi: 'संबंधित लेख', ar: 'مقالات ذات صلة', fa: 'مقالات مرتبط', ko: '관련 기사',
+  vi: 'Bài Viết Liên Quan', id: 'Artikel Terkait',
+};
+
+export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { post: BlogPost; locale: string; slug: string; relatedPosts?: RelatedPost[] }) {
   const t = useT();
   const activeLocale = (locale in BLOG_TRANSLATIONS) ? (locale as Locale) : 'en';
   const tr = BLOG_TRANSLATIONS[activeLocale];
@@ -519,6 +535,43 @@ export function BlogDetailClient({ post, locale, slug }: { post: BlogPost; local
           format="rectangle"
           className="w-full mb-16"
         />
+
+        {/* Related Articles (internal linking / orphan-page prevention) */}
+        {relatedPosts.length > 0 && (
+          <div className="mb-12">
+            <h2 className={`text-2xl font-black ${t.heading} mb-6`}>
+              {RELATED_ARTICLES_LABEL[locale] || RELATED_ARTICLES_LABEL.en}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {relatedPosts.map((rp) => (
+                <Link
+                  key={rp.slug}
+                  href={`/${locale}/blog/${rp.slug}`}
+                  className={`flex gap-4 p-4 rounded-2xl ${t.card} hover:border-accent/40 transition-colors group`}
+                >
+                  <div className="relative w-20 h-20 shrink-0 rounded-xl overflow-hidden">
+                    <Image
+                      src={rp.cover_image || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=200&auto=format&fit=crop'}
+                      alt={rp.title}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                      unoptimized={true}
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <div className={`font-bold text-sm ${t.heading} group-hover:text-accent transition-colors line-clamp-2`}>
+                      {rp.title}
+                    </div>
+                    {rp.excerpt && (
+                      <div className={`text-xs ${t.muted} mt-1 line-clamp-2`}>{rp.excerpt}</div>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Footer Info */}
         <div className="p-8 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark mb-12">

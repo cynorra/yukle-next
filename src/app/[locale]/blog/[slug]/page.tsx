@@ -61,6 +61,37 @@ const getPost = cache(async (slug: string) => {
   return data;
 });
 
+// Internal-linking backstop (universal-adsense-site-standard.md 3.8): every
+// article - old or new - renders this, pulling from the same recent-posts
+// pool. A brand-new post enters that pool immediately, so it starts getting
+// surfaced (and linked to) from older articles' pages on the very next
+// render, without editing any already-published row. The pick is seeded off
+// the current slug so it's deterministic per-article (stable across ISR
+// re-renders) but varies from article to article, instead of every page on
+// the site linking to the exact same "latest 4".
+async function getRelatedPosts(language: string, excludeSlug: string, count = 4) {
+  const supabase = createPublicClient();
+  const { data } = await supabase
+    .from('blog_posts')
+    .select('slug, title, excerpt, cover_image')
+    .eq('language', language)
+    .eq('published', true)
+    .neq('slug', excludeSlug)
+    .order('created_at', { ascending: false })
+    .limit(40);
+  if (!data || data.length === 0) return [];
+
+  let seed = 0;
+  for (let i = 0; i < excludeSlug.length; i++) seed = (seed * 31 + excludeSlug.charCodeAt(i)) >>> 0;
+  const pool = [...data];
+  for (let i = pool.length - 1; i > 0; i--) {
+    seed = (seed * 1103515245 + 12345) >>> 0;
+    const j = seed % (i + 1);
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, count);
+}
+
 export async function generateStaticParams() {
   // Build sırasında sayfa üretme; sayfalar ilk ziyarette ISR ile oluşturulur
   return [];
@@ -197,6 +228,7 @@ export default async function BlogSlugPage({
   };
 
   const faqSchema = extractFaqSchema(post.content || '');
+  const relatedPosts = await getRelatedPosts(post.language || locale, slug);
 
   return (
     <>
@@ -210,7 +242,7 @@ export default async function BlogSlugPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
-      <BlogDetailClient post={post} locale={locale} slug={slug} />
+      <BlogDetailClient post={post} locale={locale} slug={slug} relatedPosts={relatedPosts} />
     </>
   );
 }
