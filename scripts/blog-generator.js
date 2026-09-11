@@ -227,7 +227,7 @@ const fallbackArticles = [
   {
     title: '7 Proven Strategies Owner-Operators Use to Eliminate Empty Miles and Maximize Revenue',
     slug: 'owner-operators-eliminate-empty-miles-maximize-revenue',
-    excerpt: 'Empty miles are silently destroying owner-operator profits — costing the average driver over $18,000 per year. Discover the exact strategies top-earning owner-operators use to keep their trucks loaded and their income growing.',
+    excerpt: 'Empty miles are silently destroying owner-operator profits — costing the average driver over $15,000 per year. Discover the exact strategies top-earning owner-operators use to keep their trucks loaded and their income growing.',
     content: `<h2>The Empty Mile Problem Is Bigger Than You Think</h2>
 <p>The average owner-operator drives <strong>15-20% of their total miles empty</strong> — that's one in every five miles generating zero revenue while burning fuel, adding wear, and eating into your bottom line. For a driver running 120,000 miles per year at $0.65 per mile in operating costs, that's over <strong>$15,600 lost annually to deadhead miles</strong>. The good news? The top earners have cracked the code on minimizing this waste.</p>
 
@@ -240,7 +240,7 @@ const fallbackArticles = [
 </ul>
 
 <h2>2. Use Real-Time Load Boards to Your Advantage</h2>
-<p>Digital freight marketplaces have transformed how owner-operators find loads. Platforms like Loadly give you access to thousands of verified loads in real time, with transparent rates so you know you're not being lowballed. Drivers using digital platforms report <strong>31% fewer empty miles</strong> compared to those relying solely on dispatchers or phone calls.</p>
+<p>Digital freight marketplaces have transformed how owner-operators find loads. Platforms like Loadly give you access to thousands of verified loads in real time, with transparent rates so you know you're not being lowballed. Drivers using digital platforms commonly report noticeably fewer empty miles compared to those relying solely on dispatchers or phone calls.</p>
 <blockquote>Carriers who actively use digital freight-matching platforms consistently report meaningfully fewer deadhead miles within their first few months, according to industry observation — though results vary by lane and equipment type.</blockquote>
 
 <h2>3. Build a Portfolio of Direct Shipper Relationships</h2>
@@ -261,7 +261,7 @@ const fallbackArticles = [
 <h2>Key Takeaways</h2>
 <ul>
   <li>Plan return loads before accepting outbound freight to eliminate reactive deadheading</li>
-  <li>Digital freight platforms reduce empty miles by up to 31% for active users</li>
+  <li>Digital freight platforms help active users cut empty miles noticeably compared to phone/dispatcher-only booking</li>
   <li>3-5 direct shipper relationships can fill 40-60% of your schedule reliably</li>
   <li>High platform ratings unlock premium-rate loads unavailable to lower-rated carriers</li>
   <li>Seasonal freight positioning can dramatically increase your loaded mile percentage</li>
@@ -318,7 +318,7 @@ const fallbackArticles = [
 <h2>Step 6: Distribute Your Inventory Closer to Customers</h2>
 <p>Every shipping zone you can eliminate from a typical shipment saves money. If 60% of your customers are on the East Coast but you ship from a single West Coast warehouse, you're paying Zone 7-8 rates for the majority of your orders. Adding a second fulfillment location — even a 3PL — can reduce your average shipping cost by <strong>20-35%</strong> while also improving delivery speed.</p>
 
-<h2>Key Takeaways</h2>
+<h2>The Bottom Line</h2>
 <ul>
   <li>Audit 90 days of shipping data before making any changes — find your biggest waste areas first</li>
   <li>Negotiate carrier contracts annually — even 50 packages/day gives you leverage</li>
@@ -328,7 +328,7 @@ const fallbackArticles = [
   <li>A second fulfillment location reduces average shipping cost by 20-35% for businesses with distributed customers</li>
 </ul>
 
-<h2>Frequently Asked Questions</h2>
+<h2>Frequently Asked Questions About E-commerce Freight Costs</h2>
 <h3>What is DIM weight and how does it affect my shipping costs?</h3>
 <p>Dimensional weight (DIM weight) is a pricing method where carriers charge based on package volume rather than actual weight when the package is large but light. The formula is: (length × width × height) ÷ DIM divisor. Using right-sized packaging eliminates this surcharge and can generate immediate savings.</p>
 
@@ -351,7 +351,7 @@ const fallbackArticles = [
     slug: 'international-road-freight-documentation-cmr-tir-customs-masterclass',
     excerpt: 'A single documentation error in international road freight can cost $3,000+ in delays, fines, and demurrage. This masterclass covers every document you need to cross borders without disruption.',
     content: `<h2>Why Documentation Is the #1 Cause of Border Delays in International Freight</h2>
-<p>Border agencies reject or delay <strong>1 in 7 international freight shipments</strong> due to documentation errors — and the average delay costs carriers and shippers between <strong>$1,200 and $4,500</strong> per incident when you factor in demurrage, driver waiting time, expedite fees, and potential cargo spoilage. Getting documentation right is not bureaucratic box-ticking — it is direct profit protection for every party in the supply chain.</p>
+<p>Documentation errors are one of the most common causes of border delays in international freight, and a delay commonly costs carriers and shippers somewhere in the $1,200-$4,500 range per incident when you factor in demurrage, driver waiting time, expedite fees, and potential cargo spoilage. Getting documentation right is not bureaucratic box-ticking — it is direct profit protection for every party in the supply chain.</p>
 
 <h2>The CMR Consignment Note: Your Most Important Document</h2>
 <p>The CMR (Convention on the Contract for the International Carriage of Goods by Road) is the legal backbone of every international road freight shipment. It establishes the contract between shipper, carrier, and consignee, defines liability, and proves the condition of goods at pickup. Always complete it in triplicate: one original for the shipper, one for the consignee, and one that travels with the cargo.</p>
@@ -383,9 +383,9 @@ const fallbackArticles = [
 <h2>e-CMR: The Digital Future of Freight Documentation</h2>
 <p>The electronic CMR (e-CMR) is legally valid in <strong>over 30 countries</strong> under the additional protocol to the CMR Convention. e-CMR eliminates paper handling, reduces errors, enables real-time document sharing, and creates an immutable digital audit trail. Countries that currently accept e-CMR include all EU member states, Switzerland, Norway, and several Central Asian nations.</p>
 
-<h2>Key Takeaways</h2>
+<h2>What This Means for Your Operations</h2>
 <ul>
-  <li>1 in 7 international shipments is delayed due to documentation errors — costing $1,200-$4,500 per incident</li>
+  <li>Documentation errors are one of the most common causes of international shipment delays — commonly costing $1,200-$4,500 per incident</li>
   <li>CMR must be completed in triplicate — missing signatures or dates make it legally void</li>
   <li>TIR Carnet allows multi-border transit in 77 countries with minimal inspection</li>
   <li>Dozvola permits are allocated in limited quantities — apply for next year's allocation in Q3</li>
@@ -393,7 +393,7 @@ const fallbackArticles = [
   <li>Cross-reference all documents before departure — discrepancies between CMR and customs declarations are the most common delay trigger</li>
 </ul>
 
-<h2>Frequently Asked Questions</h2>
+<h2>CMR & TIR Carnet FAQ</h2>
 <h3>What happens if I lose the CMR during transport?</h3>
 <p>Contact the shipper immediately to issue a replacement. Without a valid CMR, you cannot prove delivery conditions, and the consignee may legally refuse the load or dispute damage liability. Some carriers mitigate this risk by using e-CMR, which creates a permanent digital record.</p>
 
@@ -426,7 +426,7 @@ const blogLanguagesMapping = {
   'Danish': 'da', 'Finnish': 'fi', 'Norwegian': 'no', 'Uzbek': 'uz',
   'Tamil': 'ta', 'Marathi': 'mr', 'Georgian': 'ka', 'Lithuanian': 'lt',
   'Latvian': 'lv', 'Estonian': 'et', 'Slovenian': 'sl',
-  'Kannada': 'kn', 'Telugu': 'te', 'Punjabi': 'pa', 'Gujarati': 'gu',
+  'Kannada': 'kn', 'Punjabi': 'pa', 'Gujarati': 'gu',
   'Malayalam': 'ml', 'Swahili': 'sw', 'Nepali': 'ne', 'Sinhala': 'si'
 };
 
@@ -1202,6 +1202,16 @@ const FABRICATED_TESTING_PATTERNS = [
   /\bwhen we tested\b/i,
   /\bduring our testing\b/i,
   /\bour team tested\b/i,
+  // First-person fabricated-experience claims — a live run (2026-09-11)
+  // produced "As a logistics manager for years, I've seen firsthand...".
+  // Loadly's content isn't written by a named professional with that
+  // specific personal work history, so this is the same class of dishonest
+  // declaration as "we tested" — just prose instead of a methodology claim.
+  // Third-person framing ("veteran dispatchers know...") stays allowed.
+  /\bas an? (?:[a-z-]+ )?(?:driver|dispatcher|broker|carrier|owner-operator|logistics manager|freight manager|shipper|fleet manager|trucking company owner)(?: (?:for|with) [a-z0-9 ]+ years)?,? I(?:'ve| have)\b/i,
+  /\bin my (?:\d+\+? |[a-z]+ )?years? (?:as|working|in)\b/i,
+  /\bI(?:'ve| have) (?:seen|witnessed|learned|found) firsthand\b/i,
+  /\bI(?:'ve| have) been (?:a|an) [a-z-]+ for (?:\d+\+? |[a-z]+ )?years\b/i,
 ];
 
 function findFabricatedTestingClaim(...texts) {
@@ -1234,15 +1244,26 @@ const KNOWN_REAL_CITATION_SOURCES = [
   'UNCTAD', 'International Road Transport Union', 'Incoterms', 'ICS',
   'International Chamber of Shipping', 'FTR', 'ACT Research', 'DAT Freight',
   'DAT Solutions', 'Freightos', 'Freightos Baltic Index', 'SONAR', 'Logistics Managers’ Index',
+  // Real maritime/freight data & research providers, seen in a live run
+  // citing Sea-Intelligence's Global Liner Performance report (2026-09-11):
+  'Sea-Intelligence', 'Drewry', 'Xeneta', 'Linerlytica', 'Alphaliner',
+  'Container Trades Statistics', 'CTS', 'World Shipping Council', 'BIMCO',
 ];
 
 function findFabricatedCitation(content) {
   if (!content) return null;
   const blockquotes = [...content.matchAll(/<blockquote>(.*?)<\/blockquote>/gis)].map(m => m[1]);
   for (const bq of blockquotes) {
-    const attributionMatch = bq.match(/—\s*([A-Z][A-Za-z0-9.,'&() ]{3,90})\s*$/);
+    // Strip inner tags (the model sometimes wraps blockquote text in <p>),
+    // collapse whitespace, and trim trailing punctuation/quote marks so the
+    // attribution — if present — sits at the literal end of the string.
+    const text = bq.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/["'"'.\s]+$/, '').trim();
+    // Accept em dash (—), en dash (–), and a space-padded hyphen (-) — the
+    // model isn't consistent about which one it uses for attribution.
+    const attributionMatch = text.match(/[—–]\s*([A-Z][A-Za-z0-9.,'&() ]{2,90})$|(?:^|\s)-\s+([A-Z][A-Za-z0-9.,'&() ]{2,90})$/);
     if (!attributionMatch) continue;
-    const org = attributionMatch[1].replace(/,?\s*\d{4}$/, '').trim();
+    const rawOrg = attributionMatch[1] || attributionMatch[2];
+    const org = rawOrg.replace(/,?\s*\d{4}$/, '').trim();
     const orgLower = org.toLowerCase();
     // Short acronyms (ATA, ICS, DOT...) need a word-boundary match — a plain
     // substring check false-positived on "analytics" containing "ics".
@@ -1347,6 +1368,8 @@ async function generateBasePost(topicData) {
       parts: [{
         text: `You are a veteran freight industry expert and editorial director at Loadly — a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals. You have spent 15+ years in the field: as a dispatcher, a freight broker, an owner-operator, and a logistics manager. You write from real experience, not theory. Your readers are working professionals who can instantly detect generic AI content and click away. They stay only when they learn something specific, surprising, or immediately actionable that they couldn't find anywhere else.
 
+IMPORTANT: this background is YOUR writing voice/depth of knowledge only — it shapes how well-informed and specific your writing sounds. It is NOT something the published article is allowed to claim about itself. Loadly's articles are not bylined by a specific veteran driver/broker/dispatcher with this personal history, so the article text must NEVER say "As a dispatcher for 15 years, I've seen...", "In my years as a logistics manager...", "I've seen firsthand...", or any other first-person claim that the writer personally lived this experience — that is a fabricated credential. Write with the depth that expertise gives you, but stay in third person about the industry ("veteran dispatchers know...", "carriers who run this lane often find...") rather than first person about yourself.
+
 THE READER COMES FIRST. Before writing any sentence, ask: "Does this help the reader solve a real problem right now?" If the answer is no, don't write it.
 
 Write the article below with these specifications:
@@ -1367,7 +1390,7 @@ AUDIENCE-FIRST WRITING RULES (non-negotiable)
 1. WRITE FOR ONE PERSON: Picture a specific reader — e.g., a 42-year-old owner-operator sitting in a truck stop at 10pm, worried about cash flow after a slow week. Write to solve HIS exact problem.
 2. NO GENERIC ADVICE: "Plan ahead," "communicate clearly," "track your metrics" are filler. Replace every vague tip with a specific, implementable action: what exactly to do, what tool to use, what number to aim for.
 3. INCLUDE INSIDER KNOWLEDGE: Every section must contain at least one insight that a reader would only know if they'd actually worked in this industry — something that makes them think "I never thought of it that way."
-4. USE REAL NUMBERS: Not "significant savings" — say "$1,840 per truck per year." Not "faster delivery" — say "2.3 days faster on average." Specific numbers are what get cited by AI and shared by professionals.
+4. USE CONCRETE NUMBERS, HONESTLY FRAMED: Not "significant savings" — say "commonly $1,500-2,500 per truck per year" or "often in the low-to-mid four figures." A number can be specific without being falsely precise — never invent a single decimal-precision figure (e.g. "$1,847", "2.3 days", "14.3%") and present it as a discovered fact with no source; that reads as fabricated data even when the underlying direction is true. Use realistic ranges or "typically"/"commonly" framing for anything not tied to one of the real, verifiable sources named in the sourcing rule below.
 5. CONTROVERSIAL WHEN WARRANTED: If the conventional wisdom is wrong or incomplete, say so directly. Readers share content that challenges what they thought they knew.
 6. NARRATIVE PULL: Open with a scenario, problem, or statistic so specific that the reader immediately thinks "this is about me." End each section making them want to read the next one.
 
@@ -1418,7 +1441,7 @@ Open with a <p> starting with a bolded lead-in — vary it instead of always wri
 Immediately after Quick Answer, one <p> with a shocking specific statistic OR a concrete scenario that makes the reader feel "this is my exact problem." Must create urgency in the first 2 sentences.
 
 **3. PROBLEM DEEP-DIVE** (1-2 <h2> sections)
-Authoritative analysis: root causes, quantified costs, why most people fail here. Show expertise. Use specific numbers where you can back them with something real. When citing a source in <blockquote> format, name ONLY real, well-known, publicly verifiable bodies or regulations (e.g. FMCSA, IRU, ATA, Eurostat, Carmack Amendment) for genuinely well-established facts — never invent a specific report, study, or finding and attribute it to an organization. If you don't have a real citation for a number, present it as general industry knowledge with no source attribution rather than inventing one.
+Authoritative analysis: root causes, quantified costs, why most people fail here. Show expertise. Use specific numbers where you can back them with something real. This sourcing rule applies EVERYWHERE in the article, not just <blockquote> — the Quick Answer, Hook, and every other section too: when citing a source, name ONLY real, well-known, publicly verifiable bodies or regulations (e.g. FMCSA, IRU, ATA, Eurostat, Carmack Amendment) for genuinely well-established facts — never invent a specific report, study, org, or finding and attribute it to a source. If you don't have a real citation for a number, present it as a realistic range or general industry knowledge with no source attribution rather than inventing a precise, uncited figure — a specific-looking unsourced number (e.g. "$50,000 per delayed shipment") is just as much a fabrication as a fake attributed quote.
 
 **4. SOLUTION SECTIONS** (3-5 <h2> sections matching the content format)
 Deep, implementable advice — not generic tips. Each section must:
@@ -1445,13 +1468,13 @@ Don't pitch Loadly — show how Loadly solves the specific problem the reader ju
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 QUALITY ANTI-PATTERNS (these will get the article rejected)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NEVER write these generic phrases — replace every instance with specifics:
-✗ "It's important to..." → ✓ "This costs carriers an average of $X per year because..."
-✗ "Many companies struggle with..." → ✓ "73% of carriers report that..."
+NEVER write these generic phrases — replace every instance with specifics (but never a fabricated exact-sounding number/percentage presented as a discovered fact — see the sourcing rule above):
+✗ "It's important to..." → ✓ "This typically costs carriers hundreds to low-thousands of dollars per year because..."
+✗ "Many companies struggle with..." → ✓ "A large share of carriers report that..." or, if you have a real cited source, the real figure from it
 ✗ "Consider your options carefully" → ✓ "Compare [Option A] vs [Option B]: use A when X, use B when Y"
-✗ "Effective communication is key" → ✓ "Send a check-call every 2 hours on live loads — shippers who require this pay 8% higher rates"
+✗ "Effective communication is key" → ✓ "Send a check-call every 2 hours on live loads — shippers who require this tend to pay noticeably higher rates"
 ✗ "There are several factors to consider" → ✓ List exactly what those factors are with weights/criteria
-✗ Vague statistics like "many," "most," "significantly" → Always use precise numbers
+✗ Vague statistics like "many," "most," "significantly" with nothing else → ✓ A concrete range or mechanism, honestly framed as typical/illustrative rather than an invented precise figure
 ✗ Sections that could appear in ANY logistics article → Every section must be specific to THIS topic
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1467,10 +1490,10 @@ SEO OPTIMIZATION
 GEO OPTIMIZATION (Generative Engine Optimization)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 AI assistants cite content that looks authoritative and structured. To get cited:
-- Open with first-person authority signals grounded in real expertise, not fabricated internal data: "Freight professionals consistently report...", "Industry data consistently shows...", "Veteran dispatchers know..." — never claim a specific dataset or shipment volume Loadly hasn't actually published or analyzed.
+- Open with third-person authority signals grounded in real expertise, not fabricated internal data or a fabricated personal history: "Freight professionals consistently report...", "Industry data consistently shows...", "Veteran dispatchers know..." — never claim a specific dataset or shipment volume Loadly hasn't actually published or analyzed, and never write in first person as if the article's author personally has the professional history being described (e.g. NEVER "As a dispatcher for 15 years, I've seen..." or "In my years as a logistics manager..." — Loadly's articles aren't bylined by a specific veteran driver/broker/dispatcher, so a claim like that is a fabricated credential, exactly like "we tested"). Keep it third-person: describe what the industry/professionals experience, not what "I" personally lived through.
 - Include statistics in <blockquote> form, but only attribute them to real, verifiable bodies (see the sourcing rule above) — an unattributed but accurate general statement beats a precise-sounding number tied to an invented "Organization/Report."
 - Define key terms at first use — AI extracts definitions ("LTL freight, or Less-than-Truckload shipping, refers to...")
-- Use precise figures, not ranges: $1,847 not "around $2,000"; 14.3% not "about 15%"
+- Use realistic ranges honestly, not invented decimal-precision figures: "commonly $1,500-2,500" not a fabricated "$1,847"; "roughly 12-16%" not a fabricated "14.3%" — false precision is a fabrication risk, not an AEO win, and AI assistants extracting a number as fact from your page makes an unsourced fabrication worse, not better
 - Entity density: specific company names, regulation codes, industry body abbreviations, named trade routes
 - Conclude sections with a summary sentence AI can extract as a standalone fact
 
