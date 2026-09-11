@@ -63,6 +63,7 @@ export function PrivacyPageClient({ data }: Props) {
             <li>{content.dataL3}</li>
             <li>{content.dataL4}</li>
             <li>{content.dataL5}</li>
+            {content.dataL6 && <li>{content.dataL6}</li>}
           </ul>
           <p className={`text-sm ${t.muted} mt-3 italic`}>
             {content.dataNote}

@@ -137,7 +137,8 @@
     "ccpaL1": "El derecho a saber qué información personal recopilamos y cómo se utiliza",
     "ccpaL2": "El derecho a solicitar la eliminación de su información personal",
     "ccpaL3": "El derecho a optar por no participar en la \"venta\" o el \"intercambio\" de su información personal, un término que, según la CCPA, puede incluir permitir que proveedores de publicidad externos como Google AdSense utilicen identificadores para publicidad personalizada",
-    "ccpaNote": "Para ejercer cualquiera de estos derechos, envíe un correo electrónico a kvkk@loadlyapp.com con el asunto \"California Privacy Request\". También puede optar por no recibir publicidad personalizada directamente a través del enlace de Configuración de Anuncios de Google indicado arriba."
+    "ccpaNote": "Para ejercer cualquiera de estos derechos, envíe un correo electrónico a kvkk@loadlyapp.com con el asunto \"California Privacy Request\". También puede optar por no recibir publicidad personalizada directamente a través del enlace de Configuración de Anuncios de Google indicado arriba.",
+    "dataL6": "Mobile app (Android) data: if you grant location permission, your device location is used on-device (via Android Geocoder) to determine your country and subscribe you to that country's push-notification topic via Firebase Cloud Messaging — raw coordinates are never sent to or stored on Loadly's own servers. The app also holds a Firebase push-notification registration token (needed to deliver notifications to your device) and, if you accept ads, an advertising identifier used by Google AdMob."
   },
   "terms": {
     "title": "Términos de Servicio",

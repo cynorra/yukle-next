@@ -137,7 +137,8 @@
     "ccpaL3": "The right to opt out of the \"sale\" or \"sharing\" of your personal information — a term that, under CCPA, can include allowing third-party ad providers like Google AdSense to use identifiers for personalized advertising",
     "ccpaNote": "To exercise any of these rights, email kvkk@loadlyapp.com with the subject \"California Privacy Request\". You can also opt out of personalized advertising directly via the Google Ads Settings link above.",
     "contactTitle": "10. Contact",
-    "contactDesc": "If you have questions or concerns about the privacy policy, you can contact us through the following channels:"
+    "contactDesc": "If you have questions or concerns about the privacy policy, you can contact us through the following channels:",
+    "dataL6": "Mobile app (Android) data: if you grant location permission, your device location is used on-device (via Android Geocoder) to determine your country and subscribe you to that country's push-notification topic via Firebase Cloud Messaging — raw coordinates are never sent to or stored on Loadly's own servers. The app also holds a Firebase push-notification registration token (needed to deliver notifications to your device) and, if you accept ads, an advertising identifier used by Google AdMob."
   },
   "terms": {
     "title": "Terms of Service",

@@ -137,7 +137,8 @@
     "ccpaL3": "Kişisel bilgilerinizin \"satışından\" veya \"paylaşımından\" vazgeçme hakkı — CCPA kapsamında bu terim, Google AdSense gibi üçüncü taraf reklam sağlayıcılarının kişiselleştirilmiş reklamlar için tanımlayıcı kullanmasına izin vermeyi de kapsayabilir",
     "ccpaNote": "Bu haklardan herhangi birini kullanmak için konu satırına \"California Privacy Request\" yazarak kvkk@loadlyapp.com adresine e-posta gönderin. Yukarıdaki Google Ads Settings bağlantısı üzerinden de kişiselleştirilmiş reklamlardan doğrudan vazgeçebilirsiniz.",
     "contactTitle": "10. İletişim",
-    "contactDesc": "Gizlilik politikası hakkında sorularınız veya endişeleriniz varsa, aşağıdaki kanallar aracılığıyla bizimle iletişime geçebilirsiniz:"
+    "contactDesc": "Gizlilik politikası hakkında sorularınız veya endişeleriniz varsa, aşağıdaki kanallar aracılığıyla bizimle iletişime geçebilirsiniz:",
+    "dataL6": "Mobil uygulama (Android) verileri: konum izni verirseniz, cihaz konumunuz ülkenizi belirlemek için cihaz üzerinde (Android Geocoder ile) işlenir ve Firebase Cloud Messaging üzerinden o ülkenin push bildirim konusuna abone olmanız sağlanır — ham koordinatlar Loadly'nin kendi sunucularına asla gönderilmez veya saklanmaz. Uygulama ayrıca bildirim gönderebilmek için bir Firebase push bildirim kayıt jetonu ve reklamları kabul ederseniz Google AdMob tarafından kullanılan bir reklam kimliği tutar."
   },
   "terms": {
     "title": "Hizmet Şartları",
