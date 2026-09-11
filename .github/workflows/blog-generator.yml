@@ -2,7 +2,7 @@ name: Blog Generator Cron Job
 
 on:
   schedule:
-    # Gunde 1 kez, tek makale x 47 dil, sadece hafta ici. Onceki */5 dakika x 3
+    # Gunde 1 kez, tek makale x 55 dil, sadece hafta ici. Onceki */5 dakika x 3
     # makale temposu (gunde 288 tetikleme, teorik tavanda 864 makale/gun)
     # editoryal degil, otomatik icerik ureten bir "content mill" gibi
     # goruluyordu -- hem organik siralama hem AdSense'in "scaled content
