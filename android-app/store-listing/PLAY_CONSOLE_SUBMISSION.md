@@ -15,9 +15,9 @@ is the checklist for that, not something Claude can complete unattended.
 
 | Field | Value |
 |---|---|
-| Package name (applicationId) | `com.cynorra.loadly` |
+| Package name (applicationId) | `app.yukbul.android` (original YukBul package, kept for Play Console upload identity — Java source packages/namespace stay `com.cynorra.loadly`, unrelated to this) |
 | App name | Loadly |
-| Version code / name | 1 / "1.0" |
+| Version code / name | 3 / "1.1" |
 | compileSdk / targetSdk / minSdk | 36 / 36 / 24 |
 | Default listing language | English (US) — `store-listing/en-US.md` |
 | Category | **Business** (closest fit — it's a B2B load board/marketplace, not
