@@ -241,7 +241,7 @@ const fallbackArticles = [
 
 <h2>2. Use Real-Time Load Boards to Your Advantage</h2>
 <p>Digital freight marketplaces have transformed how owner-operators find loads. Platforms like Loadly give you access to thousands of verified loads in real time, with transparent rates so you know you're not being lowballed. Drivers using digital platforms report <strong>31% fewer empty miles</strong> compared to those relying solely on dispatchers or phone calls.</p>
-<blockquote>Carriers using AI-powered freight matching platforms reduce deadhead miles by an average of 28% within the first 90 days — Freight Tech Insider, 2024</blockquote>
+<blockquote>Carriers who actively use digital freight-matching platforms consistently report meaningfully fewer deadhead miles within their first few months, according to industry observation — though results vary by lane and equipment type.</blockquote>
 
 <h2>3. Build a Portfolio of Direct Shipper Relationships</h2>
 <p>The highest-earning owner-operators have 3-5 direct shipper accounts that provide consistent freight on their preferred lanes. Use load boards to find these shippers first, deliver exceptional service, then approach them directly about dedicated lane agreements. A single dedicated shipper relationship can fill 40-60% of your schedule reliably.</p>
@@ -304,7 +304,7 @@ const fallbackArticles = [
 
 <h2>Step 2: Negotiate Carrier Contracts Like a Fortune 500 Company</h2>
 <p>Most small and mid-size e-commerce businesses accept the rates carriers offer without negotiating. This is a costly mistake. Even businesses shipping 50-100 packages per day have negotiating leverage — carriers want your volume. Key negotiation points include: base rate discounts, minimum charge reductions, residential surcharge caps, and fuel surcharge table adjustments.</p>
-<blockquote>E-commerce brands that renegotiate carrier contracts annually save an average of 11-23% compared to those on auto-renewed rates — Shipware Parcel Spend Analysis, 2024</blockquote>
+<blockquote>E-commerce brands that renegotiate carrier contracts annually rather than accepting auto-renewed rates typically unlock meaningful savings — parcel-spend consultants regularly find double-digit percentage gaps between renegotiated and stale contract rates.</blockquote>
 
 <h2>Step 3: Build a Multi-Carrier Strategy</h2>
 <p>Single-carrier dependency is one of the most expensive mistakes in e-commerce logistics. Using 3-5 carriers and dynamically routing based on zone performance, service type, and current rates can reduce your blended cost-per-shipment by <strong>15-25%</strong>. Regional carriers like OnTrac, LSO, and Spee-Dee often beat national carriers by 20-40% on specific zones.</p>
@@ -362,7 +362,7 @@ const fallbackArticles = [
   <li><strong>Box 21 (Date of takeover):</strong> Must match the actual pickup date — discrepancies trigger customs holds</li>
   <li><strong>Box 23 (Carrier signature):</strong> Often forgotten in rush pickups — without it the CMR is legally void</li>
 </ul>
-<blockquote>Incomplete CMR notes account for 43% of all documentation-related freight delays at EU external borders — European Freight Transport Association, 2024</blockquote>
+<blockquote>Incomplete or inconsistent CMR notes are one of the most common causes of documentation-related freight delays at EU external borders, according to customs brokers who process these shipments daily.</blockquote>
 
 <h2>TIR Carnet: The Fast-Track System for Multi-Border Transit</h2>
 <p>The TIR (Transports Internationaux Routiers) Carnet is a customs document that allows sealed vehicles to cross multiple international borders with minimal inspection. With <strong>77 member countries</strong> including all EU states, Turkey, Russia, and Central Asian nations, TIR is the most efficient system for transcontinental road freight.</p>
@@ -760,7 +760,7 @@ async function polishTranslatedPost(post, langName, langCode) {
     ? ` so that each of these Turkish keywords appears naturally at least once somewhere across the title/excerpt/content, wherever it topically fits: ${TR_REQUIRED_KEYWORDS.join(', ')}. Skip any keyword that genuinely has no natural place in this specific article rather than forcing it in. Never keyword-stuff — one natural mention each is enough.`
     : '';
 
-  const prompt = `You are a native ${langName} editor for Loadly, a freight/logistics marketplace blog. The JSON below is a ${langName} blog post that was machine-translated from English. Lightly edit it for natural, fluent, native-quality phrasing — fix awkward literal machine-translation wording, unnatural word order, and mistranslated idioms.${keywordInstruction} Do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — this is a polish pass, not a rewrite.
+  const prompt = `You are a native ${langName} editor for Loadly, a logistics and freight content platform. The JSON below is a ${langName} blog post that was machine-translated from English. Lightly edit it for natural, fluent, native-quality phrasing — fix awkward literal machine-translation wording, unnatural word order, and mistranslated idioms.${keywordInstruction} Do NOT rewrite it, do NOT change any facts, numbers, claims, or the overall structure — this is a polish pass, not a rewrite.
 
 Rules:
 - Preserve every HTML tag in "content" exactly as structured (h2/h3/p/ul/li/table/a href/strong/blockquote etc.) — only edit the text inside them. Do not add, remove, or reorder tags or sections.
@@ -1010,7 +1010,7 @@ async function refillTopicBank(recentTitles) {
   const payload = JSON.stringify({
     contents: [{
       parts: [{
-        text: `You are the chief content strategist at Loadly, a global digital freight marketplace.
+        text: `You are the chief content strategist at Loadly, a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals.
 
 Generate exactly ${BANK_BATCH_SIZE} completely unique, diverse, high-traffic blog topic ideas for our content calendar.
 
@@ -1105,14 +1105,14 @@ async function getRecentPostsForLinking(poolSize = 12) {
   try {
     const { data, error } = await supabase
       .from('blog_posts')
-      .select('title, slug')
+      .select('title, slug, excerpt')
       .eq('language', 'en')
       .order('created_at', { ascending: false })
       .limit(poolSize);
     if (error || !data || data.length === 0) return [];
     return data
       .filter(p => p.slug && p.slug.endsWith('-en'))
-      .map(p => ({ title: p.title, baseSlug: p.slug.slice(0, -3) }));
+      .map(p => ({ title: p.title, baseSlug: p.slug.slice(0, -3), excerpt: p.excerpt }));
   } catch (err) {
     console.warn('getRecentPostsForLinking error:', err.message);
     return [];
@@ -1283,10 +1283,22 @@ async function generateBasePost(topicData) {
     ? ''
     : `\n- OPTIONAL 2nd link: if — and only if — one of these already-published posts is genuinely relevant to a point you're making, you may add ONE more <a> link to it using EXACTLY the href shown (do not alter the slug), with natural anchor text. Skip this entirely if none of them genuinely fit the topic — never force it.\n${linkPool.map(p => `  · "${p.title}" → <a href="/en/blog/${p.baseSlug}-en">`).join('\n')}`;
 
+  // The similarity guard (isTooSimilarToRecent, 70% Jaccard on 5-word
+  // shingles) was rejecting ~half of runs even across genuinely different
+  // topics — the real cause wasn't topic overlap but every article sharing
+  // the same rigid boilerplate: identical "Quick Answer:" lead-in, identical
+  // "Key Takeaways"/"FAQ" headings, identical CTA sentence shape. Showing the
+  // model its own most recent openings/angles and telling it to structurally
+  // diverge attacks the actual source of the overlap instead of loosening
+  // the threshold (which would let real near-duplicates back through).
+  const recentAnglesBlock = linkPool.length === 0
+    ? ''
+    : `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nSTRUCTURAL DIVERSITY — MANDATORY\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nHere are the ${linkPool.length} most recently published articles (title + opening angle):\n${linkPool.map(p => `  · "${p.title}" — ${p.excerpt || '(no excerpt on file)'}`).join('\n')}\n\nYour article must feel unmistakably different from every one of these in more than just topic:\n- Pick a HOOK PARAGRAPH scenario, statistic, or framing device none of them used (don't default to the same "picture a driver at a truck stop" or "X% of companies" opener style twice in a row).\n- Vary sentence rhythm and paragraph opening patterns — do not start consecutive articles' Quick Answer or Hook the same grammatical way.\n- If your instinct is to open with something close to one of the excerpts above, choose a different angle entirely before writing a single word.`;
+
   const payload = JSON.stringify({
     contents: [{
       parts: [{
-        text: `You are a veteran freight industry expert and editorial director at Loadly — a global digital freight marketplace. You have spent 15+ years in the field: as a dispatcher, a freight broker, an owner-operator, and a logistics manager. You write from real experience, not theory. Your readers are working professionals who can instantly detect generic AI content and click away. They stay only when they learn something specific, surprising, or immediately actionable that they couldn't find anywhere else.
+        text: `You are a veteran freight industry expert and editorial director at Loadly — a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals. You have spent 15+ years in the field: as a dispatcher, a freight broker, an owner-operator, and a logistics manager. You write from real experience, not theory. Your readers are working professionals who can instantly detect generic AI content and click away. They stay only when they learn something specific, surprising, or immediately actionable that they couldn't find anywhere else.
 
 THE READER COMES FIRST. Before writing any sentence, ask: "Does this help the reader solve a real problem right now?" If the answer is no, don't write it.
 
@@ -1300,8 +1312,8 @@ SEARCH INTENT: ${searchIntent}
 VIRAL ANGLE: ${viralAngle}
 CONTENT FORMAT: ${contentFormat || formatSpec?.type} — ${formatDesc}
 TOPIC CLUSTER: ${topicCluster}
-PLATFORM: Loadly (digital freight marketplace connecting shippers, carriers and truck drivers worldwide)
-
+PLATFORM: Loadly (logistics and freight content platform — free practical guides and industry analysis for shippers, carriers, and logistics professionals, no signup required to read)
+${recentAnglesBlock}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 AUDIENCE-FIRST WRITING RULES (non-negotiable)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1315,13 +1327,15 @@ AUDIENCE-FIRST WRITING RULES (non-negotiable)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TITLE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Choose the formula that best fits the topic and content format:
+Choose the formula that best fits the topic and content format — but check the recently published titles listed above first, and do NOT pick the same formula (especially "[Year] [Topic] Playbook") two articles in a row:
 • "[Number] [Power Word] [Topic] Every [Audience] Needs in 2025"
 • "The [Format]: How to [Achieve Benefit] Without [Pain Point]"
 • "Why [Common Belief] Is [Wrong/Outdated/Costing You] in 2025"
 • "[Specific Problem]: Causes, Real Costs & the Expert Fix"
 • "What [Trend/Change] Means for [Audience] Right Now"
 • "The [Year] [Topic] Playbook: [Specific Outcome Promised]"
+• A direct question a reader would type verbatim (e.g., "How Much Does It Really Cost to X in 2025?")
+• A blunt, non-formulaic statement of the finding itself, no template at all
 
 Rules: primary keyword included naturally, max 70 chars, creates urgency or promises specific value.
 
@@ -1351,7 +1365,7 @@ MANDATORY SECTIONS (in this order)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 **1. QUICK ANSWER BOX** (AEO — for AI assistants and featured snippets)
-Open with a <p> starting with: "<strong>Quick Answer:</strong>" followed by a 40-60 word direct answer to the primary question this article addresses. This is what Google's AI Overview and ChatGPT will pull. Make it complete enough to stand alone.
+Open with a <p> starting with a bolded lead-in — vary it instead of always writing "Quick Answer:" (e.g. <strong>Quick Answer:</strong>, <strong>Short Answer:</strong>, <strong>The Bottom Line:</strong>, <strong>In Short:</strong>) — followed by a 40-60 word direct answer to the primary question this article addresses. This is what Google's AI Overview and ChatGPT will pull. Make it complete enough to stand alone.
 
 **2. HOOK PARAGRAPH**
 Immediately after Quick Answer, one <p> with a shocking specific statistic OR a concrete scenario that makes the reader feel "this is my exact problem." Must create urgency in the first 2 sentences.
@@ -1369,10 +1383,10 @@ Deep, implementable advice — not generic tips. Each section must:
 **5. COMPARISON TABLE** (if format is Comparison/Checklist/Decision Guide)
 Use <table> to compare options, tools, or approaches across 3-5 criteria.
 
-**6. KEY TAKEAWAYS** (<h2>Key Takeaways</h2>)
+**6. KEY TAKEAWAYS** — vary the heading each time instead of always writing "Key Takeaways" (e.g. <h2>Key Takeaways</h2>, <h2>The Bottom Line</h2>, <h2>What This Means for You</h2>, <h2>[Topic] at a Glance</h2>)
 <ul> with 6-8 crisp, actionable bullets. Each one should be valuable enough to share on its own.
 
-**7. FAQ SECTION** (<h2>Frequently Asked Questions</h2>) — AEO CRITICAL
+**7. FAQ SECTION** — AEO CRITICAL. The <h2> heading MUST literally contain the word "FAQ" or the phrase "Frequently Asked" (schema extraction depends on this substring) but vary the rest: <h2>Frequently Asked Questions</h2>, <h2>Frequently Asked Questions About [Topic]</h2>, <h2>[Topic] FAQ</h2>, <h2>FAQ: [Topic]</h2>.
 Minimum 5 Q&A pairs structured for voice search and People Also Ask:
 - <h3> questions: Write as exact natural-language queries (e.g., "How much does LTL freight cost per mile in 2025?")
 - <p> answers: Start with a direct 1-sentence answer, then 2-3 sentences of supporting detail. Must be self-contained — AI assistants extract these verbatim.
