@@ -216,6 +216,7 @@ export default async function BlogSlugPage({
       '@type': 'Person',
       name: post.author?.full_name || 'Eren Şimşir',
       jobTitle: 'Chief Technical Editor',
+      url: `${SITE_URL}/${locale}/author/eren-simsir`,
       sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
     },
     publisher: {
@@ -227,6 +228,19 @@ export default async function BlogSlugPage({
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/${locale}/blog/${slug}` },
   };
 
+  // universal-adsense-site-standard.md 3.12.2: BreadcrumbList should mirror
+  // the real, visible navigation trail (Home > Blog > this post) - the
+  // "Back to Blog" link + the post title are that trail on this page.
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/${locale}` },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/${locale}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `${SITE_URL}/${locale}/blog/${slug}` },
+    ],
+  };
+
   const faqSchema = extractFaqSchema(post.content || '');
   const relatedPosts = await getRelatedPosts(post.language || locale, slug);
 
@@ -235,6 +249,10 @@ export default async function BlogSlugPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {faqSchema && (
         <script
