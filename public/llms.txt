@@ -1,6 +1,6 @@
 # Loadly — Global Logistics & Freight Content Platform
 
-> Loadly (loadlyapp.com) publishes practical guides, route insights, and industry analysis for the logistics and freight sector, in 55 languages, for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace still exists for a small number of existing accounts but is not part of the site's public or indexed surface.
+> Loadly (loadlyapp.com) publishes practical guides, route insights, and industry analysis for the logistics and freight sector, in 54 languages, for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace still exists for a small number of existing accounts but is not part of the site's public or indexed surface.
 
 ## Site Index & Entry Points
 
@@ -15,9 +15,11 @@
 
 ## Language & Locale Coverage
 
-Loadly serves users in **55 languages** with fully localized page titles, descriptions, UI, blog articles, and structured data:
+Loadly serves users in **54 languages** with fully localized page titles, descriptions, UI, blog articles, and structured data:
 
-`en` (English), `tr` (Türkçe), `es` (Español), `pt` (Português), `fr` (Français), `de` (Deutsch), `it` (Italiano), `pl` (Polski), `nl` (Nederlands), `ru` (Русский), `uk` (Українська), `zh` (中文), `ja` (日本語), `hi` (हिन्दी), `ar` (العربية), `fa` (فارسی), `ko` (한국어), `vi` (Tiếng Việt), `id` (Bahasa Indonesia), `bn` (বাংলা), `ur` (اردو), `th` (ไทย), `ms` (Bahasa Melayu), `tl` (Filipino), `ro` (Română), `sv` (Svenska), `cs` (Čeština), `hu` (Magyar), `el` (Ελληνικά), `az` (Azərbaycan), `kk` (Қазақша), `he` (עברית), `bg` (Български), `hr` (Hrvatski), `sr` (Srpski), `sk` (Slovenčina), `da` (Dansk), `fi` (Suomi), `no` (Norsk), `uz` (Oʻzbekcha), `ta` (தமிழ்), `mr` (मराठी), `ka` (ქართული), `lt` (Lietuvių), `lv` (Latviešu), `et` (Eesti), `sl` (Slovenščina), `kn` (ಕನ್ನಡ), `te` (తెలుగు), `pa` (ਪੰਜਾਬੀ), `gu` (ગુજરાતી), `ml` (മലയാളം), `sw` (Kiswahili), `ne` (नेपाली), `si` (සිංහල)
+`en` (English), `tr` (Türkçe), `es` (Español), `pt` (Português), `fr` (Français), `de` (Deutsch), `it` (Italiano), `pl` (Polski), `nl` (Nederlands), `ru` (Русский), `uk` (Українська), `zh` (中文), `ja` (日本語), `hi` (हिन्दी), `ar` (العربية), `fa` (فارسی), `ko` (한국어), `vi` (Tiếng Việt), `id` (Bahasa Indonesia), `bn` (বাংলা), `ur` (اردو), `th` (ไทย), `ms` (Bahasa Melayu), `tl` (Filipino), `ro` (Română), `sv` (Svenska), `cs` (Čeština), `hu` (Magyar), `el` (Ελληνικά), `az` (Azərbaycan), `kk` (Қазақша), `he` (עברית), `bg` (Български), `hr` (Hrvatski), `sr` (Srpski), `sk` (Slovenčina), `da` (Dansk), `fi` (Suomi), `no` (Norsk), `uz` (Oʻzbekcha), `ta` (தமிழ்), `mr` (मराठी), `ka` (ქართული), `lt` (Lietuvių), `lv` (Latviešu), `et` (Eesti), `sl` (Slovenščina), `kn` (ಕನ್ನಡ), `pa` (ਪੰਜਾਬੀ), `gu` (ગુજરાતી), `ml` (മലയാളം), `sw` (Kiswahili), `ne` (नेपाली), `si` (සිංහල)
+
+(Telugu UI strings still exist site-wide, but blog articles are no longer generated in Telugu — Cloudflare Workers AI's translation model doesn't support it under any identifier, confirmed 2026-09-11, so it's left out of this content-specific list to avoid claiming article coverage that can't exist.)
 
 Each page has `hreflang` alternate links and `x-default` pointing to the English version.
 
@@ -30,7 +32,7 @@ Loadly is a content platform, not a transaction platform. It publishes researche
 - LTL (Less Than Truckload) and FTL (Full Truckload) logistics
 - Broader supply chain trends
 
-Articles are published regularly across all 55 languages, are free to read, and require no registration.
+Articles are published regularly across all 54 languages, are free to read, and require no registration.
 
 ## Target Audience Segments
 
@@ -48,13 +50,13 @@ Articles are published regularly across all 55 languages, are free to read, and 
 - **Blog List**: `FAQPage` schema with industry Q&A
 - **Blog Article**: `BlogPosting` (headline, author, publisher, wordCount, keywords, datePublished) + `FAQPage` (auto-extracted Q&A pairs)
 - **Homepage FAQ**: `FAQPage` schema
-- **All Pages**: `hreflang` alternate links for 55 languages + `x-default`
+- **All Pages**: `hreflang` alternate links for 54 languages + `x-default`
 
 ## Crawling Guidelines
 
 - Public content pages (home, blog, about, contact, advertise, privacy, terms) are indexable with `robots: index, follow`
 - The legacy marketplace and its listing pages are `noindex, nofollow` — not part of the indexed surface, and deliberately excluded from sitemaps and indexing pushes
 - Private pages (dashboard, profile, messages, create-load, etc.) are blocked via robots.txt and meta robots
-- **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam for all 55 language versions
+- **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam for all 54 language versions
 - All major AI crawlers explicitly allowed: GPTBot, ClaudeBot, Google-Extended, PerplexityBot, Meta-ExternalAgent, Amazonbot, Bytespider, YouBot, cohere-ai, CCBot, Diffbot, Copilot
 - `Crawl-delay` is set for aggressive crawlers (Baidu, Sogou, Bytespider)

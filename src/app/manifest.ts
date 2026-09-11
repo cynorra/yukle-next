@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Loadly — Freight & Logistics Guides',
     short_name: 'Loadly',
-    description: 'Logistics and freight industry guides, route insights, and practical shipping information, published in 55 languages.',
+    description: 'Logistics and freight industry guides, route insights, and practical shipping information, published in 54 languages.',
     start_url: '/en',
     display: 'standalone',
     background_color: '#0a0a0a',

@@ -14,14 +14,14 @@ interface Copy {
 const COPY: Record<string, Copy> = {
   en: {
     role: 'Founder & Chief Technical Editor, Loadly',
-    bioP1: "Eren Şimşir founded and runs Loadly, a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals in 55 languages. Loadly's editorial process is described in detail on the Editorial Policy page — articles are AI-assisted under a set of written editorial rules and automated quality checks, reviewed and maintained by Eren as a single-person operation.",
+    bioP1: "Eren Şimşir founded and runs Loadly, a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals in 54 languages. Loadly's editorial process is described in detail on the Editorial Policy page — articles are AI-assisted under a set of written editorial rules and automated quality checks, reviewed and maintained by Eren as a single-person operation.",
     bioP2: "Eren also builds and maintains Loadly's technical infrastructure end to end — the marketplace platform, the multilingual content pipeline, and the site's SEO/accessibility work.",
     linkedin: 'LinkedIn',
     contact: 'Contact',
   },
   tr: {
     role: "Kurucu & Baş Teknik Editör, Loadly",
-    bioP1: "Eren Şimşir, gönderenler, taşıyıcılar ve lojistik profesyonelleri için 55 dilde pratik rehberler yayınlayan bir lojistik ve nakliye içerik platformu olan Loadly'yi kurdu ve yönetiyor. Loadly'nin editoryal süreci Editoryal Politika sayfasında detaylı anlatılıyor — makaleler yazılı editoryal kurallar ve otomatik kalite kontrolleri altında yapay zeka desteğiyle hazırlanıyor, tek kişilik bir operasyon olarak Eren tarafından gözden geçiriliyor ve sürdürülüyor.",
+    bioP1: "Eren Şimşir, gönderenler, taşıyıcılar ve lojistik profesyonelleri için 54 dilde pratik rehberler yayınlayan bir lojistik ve nakliye içerik platformu olan Loadly'yi kurdu ve yönetiyor. Loadly'nin editoryal süreci Editoryal Politika sayfasında detaylı anlatılıyor — makaleler yazılı editoryal kurallar ve otomatik kalite kontrolleri altında yapay zeka desteğiyle hazırlanıyor, tek kişilik bir operasyon olarak Eren tarafından gözden geçiriliyor ve sürdürülüyor.",
     bioP2: "Eren ayrıca Loadly'nin teknik altyapısını da uçtan uca kuruyor ve sürdürüyor — pazar yeri platformu, çok dilli içerik hattı ve sitenin SEO/erişilebilirlik çalışmaları.",
     linkedin: 'LinkedIn',
     contact: 'İletişim',

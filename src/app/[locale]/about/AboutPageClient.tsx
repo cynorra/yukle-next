@@ -47,14 +47,14 @@ const EXTRA: Record<string, {
   tr: {
     statsTitle: 'Loadly Neler Sunuyor',
     stats: [
-      { value: '55', label: 'Desteklenen Dil' },
+      { value: '54', label: 'Desteklenen Dil' },
       { value: 'Günlük', label: 'Güncel İçerik' },
       { value: 'Ücretsiz', label: 'Sınırsız Okuma' },
       { value: 'Kurucu Liderliğinde', label: 'Şeffaf Ekip' },
     ],
     missionTitle: 'Misyonumuz',
     missionText:
-      'Lojistik sektörüne dair güvenilir, güncel ve pratik bilgiyi 55 dilde herkese ulaştırmaktır. Nakliye maliyetleri, güzergah rehberleri ve mevzuat değişiklikleri üzerine düzenli yayınladığımız içeriklerle sektör profesyonellerine ve işletmelere karar alma süreçlerinde yardımcı oluyoruz.',
+      'Lojistik sektörüne dair güvenilir, güncel ve pratik bilgiyi 54 dilde herkese ulaştırmaktır. Nakliye maliyetleri, güzergah rehberleri ve mevzuat değişiklikleri üzerine düzenli yayınladığımız içeriklerle sektör profesyonellerine ve işletmelere karar alma süreçlerinde yardımcı oluyoruz.',
     teamTitle: 'Kimler Yapıyor',
     teamName: 'Eren Şimşir',
     teamRole: 'Baş Teknik Editör',
@@ -62,7 +62,7 @@ const EXTRA: Record<string, {
     teamLinkedInLabel: "LinkedIn'de görüntüle",
     whyTitle: "Neden Loadly'yi Takip Etmelisiniz?",
     whyItems: [
-      '55 dilde, düzenli yayınlanan uzman içerikler',
+      '54 dilde, düzenli yayınlanan uzman içerikler',
       'Araştırılmış, doğruluğu kontrol edilmiş makaleler',
       'Nakliye maliyetleri, güzergah ve mevzuat rehberleri',
       'Güncel sektör trendleri ve analizleri',
@@ -83,14 +83,14 @@ const EXTRA: Record<string, {
   en: {
     statsTitle: 'What Loadly Offers',
     stats: [
-      { value: '55', label: 'Languages Supported' },
+      { value: '54', label: 'Languages Supported' },
       { value: 'Daily', label: 'Fresh Content' },
       { value: 'Free', label: 'Unlimited Reading' },
       { value: 'Founder-Led', label: 'Transparent Team' },
     ],
     missionTitle: 'Our Mission',
     missionText:
-      'To make reliable, up-to-date, and practical logistics knowledge available to everyone, in 55 languages. Through regularly published content on freight costs, route guides, and regulatory changes, we help industry professionals and businesses make better decisions.',
+      'To make reliable, up-to-date, and practical logistics knowledge available to everyone, in 54 languages. Through regularly published content on freight costs, route guides, and regulatory changes, we help industry professionals and businesses make better decisions.',
     teamTitle: 'Who Builds Loadly',
     teamName: 'Eren Şimşir',
     teamRole: 'Chief Technical Editor',
@@ -98,7 +98,7 @@ const EXTRA: Record<string, {
     teamLinkedInLabel: 'View on LinkedIn',
     whyTitle: 'Why Follow Loadly?',
     whyItems: [
-      'Expert content published regularly in 55 languages',
+      'Expert content published regularly in 54 languages',
       'Researched, fact-checked articles',
       'Freight cost, route, and regulation guides',
       'Up-to-date industry trends and analysis',

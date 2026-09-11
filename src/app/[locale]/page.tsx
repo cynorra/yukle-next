@@ -32,12 +32,12 @@ const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }
   tr: {
     title: 'Sıkça Sorulan Sorular',
     items: [
-      { q: 'Loadly nedir?', a: 'Loadly, lojistik ve nakliye sektörü için pratik rehberler, sektör analizleri ve haberler yayınlayan, 55 dilde erişilebilen bir içerik platformudur.' },
+      { q: 'Loadly nedir?', a: 'Loadly, lojistik ve nakliye sektörü için pratik rehberler, sektör analizleri ve haberler yayınlayan, 54 dilde erişilebilen bir içerik platformudur.' },
       { q: 'Loadly ücretsiz mi?', a: "Evet. Loadly'deki tüm makaleler ve rehberler tamamen ücretsizdir, kayıt veya abonelik gerektirmez." },
       { q: 'Loadly hangi konuları kapsıyor?', a: 'Nakliye maliyetleri, sevkiyat güzergahları, sektör mevzuatı, parsiyel (LTL) ve komple (FTL) lojistik ile daha geniş tedarik zinciri trendlerini kapsıyoruz.' },
       { q: 'Ne sıklıkla yeni içerik yayınlanıyor?', a: 'Yeni makaleler düzenli olarak yayınlanır ve nakliye ile lojistik sektöründeki en güncel gelişmeleri kapsar.' },
       { q: 'İçerikleri kim yazıyor?', a: 'Makaleler, yayınlanmadan önce araştırılır ve doğruluk için editörden geçirilir, güvenilir sektör kaynaklarına ve verilere dayanır.' },
-      { q: 'Loadly hangi dillerde mevcut?', a: 'Loadly, 55 dilde içerik yayınlar; böylece rehberleri ve sektör haberlerini kendi dilinizde okuyabilirsiniz.' },
+      { q: 'Loadly hangi dillerde mevcut?', a: 'Loadly, 54 dilde içerik yayınlar; böylece rehberleri ve sektör haberlerini kendi dilinizde okuyabilirsiniz.' },
       { q: 'Hangi bölgeleri kapsıyorsunuz?', a: 'İçeriklerimiz başta Türkiye olmak üzere Avrupa, Orta Doğu ve dünya genelindeki lojistik trendlerini kapsar.' },
       { q: 'Bir konu önerebilir miyim?', a: 'Evet! Konu önerileriniz veya sorularınız için info@loadlyapp.com adresine e-posta gönderebilirsiniz — her mesajı okuyoruz.' },
       { q: 'Destek için nasıl iletişime geçebilirim?', a: 'info@loadlyapp.com adresine e-posta göndererek bizimle iletişime geçebilirsiniz. En geç 24 saat içinde size geri dönüş yapıyoruz.' },
@@ -47,12 +47,12 @@ const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }
   en: {
     title: 'Frequently Asked Questions',
     items: [
-      { q: 'What is Loadly?', a: 'Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector, available in 55 languages.' },
+      { q: 'What is Loadly?', a: 'Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector, available in 54 languages.' },
       { q: 'Is Loadly free to use?', a: 'Yes. All articles and guides on Loadly are completely free to read, with no registration or subscription required.' },
       { q: 'What topics does Loadly cover?', a: 'We cover freight costs, shipping routes, industry regulations, LTL and FTL logistics, and broader supply chain trends.' },
       { q: 'How often is new content published?', a: 'New articles are published regularly, covering the latest developments across the freight and logistics industry.' },
       { q: 'Who writes the content?', a: 'Articles are researched and edited for accuracy before publishing, drawing on established industry sources and data.' },
-      { q: 'Which languages is Loadly available in?', a: 'Loadly publishes content in 55 languages, so you can read guides and industry news in your own language.' },
+      { q: 'Which languages is Loadly available in?', a: 'Loadly publishes content in 54 languages, so you can read guides and industry news in your own language.' },
       { q: 'Which regions do you cover?', a: 'Our content covers logistics and freight trends primarily in Turkey, Europe, the Middle East, and worldwide.' },
       { q: 'Can I suggest a topic?', a: 'Yes! Email us at info@loadlyapp.com with topic suggestions or questions — we read every message.' },
       { q: 'How do I contact support?', a: 'You can reach us by sending an email to info@loadlyapp.com. We respond within 24 hours at the latest.' },

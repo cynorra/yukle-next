@@ -28,7 +28,7 @@ export function AdPageClient() {
   ];
 
   const stats = [
-    { value: '55', label: 'Dil', icon: Globe },
+    { value: '54', label: 'Dil', icon: Globe },
     { value: 'Günlük', label: 'Yeni İçerik', icon: Users },
     { value: 'Editoryal', label: 'İçerik Kalitesi', icon: BarChart3 },
   ];
@@ -45,7 +45,7 @@ export function AdPageClient() {
           </h1>
           <p className={`text-lg ${t.muted} max-w-2xl mx-auto leading-relaxed`}>
             Türkiye ve dünya genelinde lojistik ve nakliye sektörü profesyonellerine ulaşmanın en etkili yolu.
-            55 dilde yayınlanan içeriklerimiz aracılığıyla markanızı sektöre özel okuyucu kitlemize tanıtın.
+            54 dilde yayınlanan içeriklerimiz aracılığıyla markanızı sektöre özel okuyucu kitlemize tanıtın.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export function AdPageClient() {
           <div className="space-y-3">
             {[
               'Lojistik ve nakliye sektörüne özgü, yüksek kaliteli hedef kitle',
-              '55 dilde yayınlanan, sektöre özel editoryal içerik',
+              '54 dilde yayınlanan, sektöre özel editoryal içerik',
               'Düzenli olarak güncellenen, güncel makale akışı',
               'Mobil uyumlu, her cihazdan kolay erişilebilir tasarım',
               'Nakliye, lojistik ve tedarik zinciri okuyucularına ulaşım',

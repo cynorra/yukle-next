@@ -1,7 +1,7 @@
 # ═══════════════════════════════════════════════════════════════
 # Loadly – robots.txt
 # Global Logistics & Freight Content Platform · https://loadlyapp.com
-# 55 languages
+# 54 languages
 # ═══════════════════════════════════════════════════════════════
 
 # ─── PRIVATE PATHS (blocked for all bots) ─────────────────────

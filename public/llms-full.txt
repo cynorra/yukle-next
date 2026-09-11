@@ -4,11 +4,11 @@
 
 ## 1. Platform Overview
 
-**Loadly** (https://loadlyapp.com) is a logistics and freight **content platform** — it publishes practical guides, route insights, and industry analysis in **55 languages** for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace (shipper-carrier load matching) still exists for a small number of pre-existing accounts, but it is not part of the site's public or indexed surface — it carries `noindex, nofollow` and is excluded from sitemaps and indexing pushes.
+**Loadly** (https://loadlyapp.com) is a logistics and freight **content platform** — it publishes practical guides, route insights, and industry analysis in **54 languages** for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace (shipper-carrier load matching) still exists for a small number of pre-existing accounts, but it is not part of the site's public or indexed surface — it carries `noindex, nofollow` and is excluded from sitemaps and indexing pushes.
 
 ### Core Value Proposition
 - Researched, editorially-reviewed guides on freight costs, shipping routes, and industry regulation
-- Published regularly across all 55 languages
+- Published regularly across all 54 languages
 - Free to read, no registration or subscription required
 
 ### Technology Stack
@@ -69,7 +69,7 @@ These still function for existing accounts but are deliberately excluded from se
 
 ---
 
-## 3. Supported Languages (55)
+## 3. Supported Languages (54)
 
 | Code | Language | Script Direction |
 |------|----------|-----------------|
@@ -121,7 +121,6 @@ These still function for existing accounts but are deliberately excluded from se
 | et | Eesti | LTR |
 | sl | Slovenščina | LTR |
 | kn | ಕನ್ನಡ | LTR |
-| te | తెలుగు | LTR |
 | pa | ਪੰਜਾਬੀ | LTR |
 | gu | ગુજરાતી | LTR |
 | ml | മലയാളം | LTR |
@@ -183,7 +182,7 @@ These still function for existing accounts but are deliberately excluded from se
 ## 5. Frequently Asked Questions
 
 **Q: What is Loadly?**
-A: Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector, available in 55 languages.
+A: Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector, available in 54 languages.
 
 **Q: Is Loadly free to use?**
 A: Yes. All articles and guides on Loadly are completely free to read, with no registration or subscription required.
