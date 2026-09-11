@@ -1,5 +1,6 @@
 package com.cynorra.loadly;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.cynorra.loadly.model.Load;
 import com.cynorra.loadly.network.SupabaseClient;
@@ -52,6 +54,16 @@ public class LoadDetailActivity extends AppCompatActivity {
             showError(false);
             return;
         }
+
+        // Native screens are anonymous (no in-app sign-in/messaging) - this hands off to
+        // the same load's real page on the website, where signed-in users can actually
+        // message the shipper. No locale prefix: loadlyapp.com's own middleware redirects
+        // to the visitor's detected locale automatically.
+        findViewById(R.id.contactShipperButton).setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://loadlyapp.com/marketplace/" + loadId);
+            new CustomTabsIntent.Builder().build().launchUrl(this, uri);
+        });
+
         fetchLoad(loadId);
     }
 
@@ -119,7 +131,11 @@ public class LoadDetailActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.weightText)).setText(getString(R.string.weight_detail, weight));
 
         TextView truckText = findViewById(R.id.truckText);
-        String truckLabel = TruckTypes.loadLabels(this).get(load.requiredTruckType);
+        // Falls back to the raw value instead of hiding it - see LoadAdapter's identical
+        // comment for why (scraper vocabulary vs. this map's known keys).
+        String truckLabel = load.requiredTruckType != null
+                ? TruckTypes.loadLabels(this).getOrDefault(load.requiredTruckType, load.requiredTruckType)
+                : null;
         if (truckLabel != null) {
             truckText.setText(getString(R.string.truck_type_detail, truckLabel));
             truckText.setVisibility(View.VISIBLE);

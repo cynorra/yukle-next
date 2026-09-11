@@ -17,3 +17,8 @@ next-env.d.ts
 graphify-out
 
 oracle
+
+# JVM crash dumps - a Gradle daemon OOM (see android-app memory) occasionally
+# writes these to whatever the current working directory was, not just android-app/
+hs_err_pid*.log
+replay_pid*.log

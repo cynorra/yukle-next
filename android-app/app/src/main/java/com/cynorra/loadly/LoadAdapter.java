@@ -124,7 +124,13 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
 
             titleText.setText(load.title);
 
-            String truckLabel = truckLabels.get(load.requiredTruckType);
+            // Falls back to the raw value instead of hiding it - the loads scraper writes
+            // a different required_truck_type vocabulary than this map's known keys cover
+            // (see arrays.xml), so an unmapped-but-real value should still be visible
+            // rather than silently disappearing, matching the website's own fallback.
+            String truckLabel = load.requiredTruckType != null
+                    ? truckLabels.getOrDefault(load.requiredTruckType, load.requiredTruckType)
+                    : null;
             StringBuilder meta = new StringBuilder();
             meta.append(itemView.getContext().getString(R.string.weight_value, formatWeight(load.weightTon)));
             if (truckLabel != null) {

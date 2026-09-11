@@ -37,6 +37,12 @@ const LOAD_TYPES: Record<string, string> = {
   fragile: 'Fragile',
 };
 
+// flatbed/frigo/container: the loads scraper (scripts/freightfinder-serverless.js) writes
+// a different required_truck_type vocabulary than this manual-form list - both are real,
+// live values in the same DB column (58% of active loads use the scraper's vocabulary as
+// of 2026-09-11). flatbed/frigo map to the same real vehicle type as dorser/frigorifik
+// (same concept, different source string), so they share that label rather than inventing
+// a new distinction.
 const TRUCK_TYPES: Record<string, string> = {
   tir: 'TIR',
   kamyon: 'Truck',
@@ -44,6 +50,9 @@ const TRUCK_TYPES: Record<string, string> = {
   dorser: 'Trailer',
   tanker: 'Tanker',
   frigorifik: 'Reefer',
+  flatbed: 'Trailer',
+  frigo: 'Reefer',
+  container: 'Container',
 };
 
 const PAGE_SIZE = 50;

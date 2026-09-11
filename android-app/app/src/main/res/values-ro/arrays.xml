@@ -6,6 +6,9 @@
         <item>dorser</item>
         <item>tanker</item>
         <item>frigorifik</item>
+        <item>flatbed</item>
+        <item>frigo</item>
+        <item>container</item>
     </string-array>
     <string-array name="truck_type_labels">
         <item>TIR</item>
@@ -14,5 +17,8 @@
         <item>Platformă</item>
         <item>Cisternă</item>
         <item>Frigorific</item>
+        <item>Platformă</item>
+        <item>Frigorific</item>
+        <item>Container</item>
     </string-array>
 </resources>

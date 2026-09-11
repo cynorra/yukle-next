@@ -17,10 +17,11 @@ import com.google.firebase.messaging.RemoteMessage;
 
 /**
  * Receives Firebase Cloud Messaging pushes, including while the app is fully closed
- * (the OS starts this service on its own). Nothing server-side sends these yet - that
- * needs a backend/website change to trigger a send when a new load is posted, out of
- * scope here. Wired up so pushes can be tested right now from the Firebase Console's
- * "Send test message" tool, targeted at this device's token (logged in onNewToken).
+ * (the OS starts this service on its own). The website triggers real sends server-side
+ * on new-load creation (src/app/api/webhooks/fcm-new-load) and the scraper's batch runs
+ * (src/app/api/webhooks/fcm-batch), per-country topic (see LoadlyApplication). Can also
+ * be tested directly from the Firebase Console's "Send test message" tool, targeted at
+ * this device's token (logged in onNewToken).
  */
 public class FcmService extends FirebaseMessagingService {
 

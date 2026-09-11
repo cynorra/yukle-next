@@ -6,6 +6,7 @@
     <string name="back">Geri</string>
     <string name="load_detail_title">İlan Detayı</string>
     <string name="load_not_found">İlan bulunamadı.</string>
+    <string name="contact_shipper">Loadly\'de Gönderenle İletişime Geç</string>
     <string name="negotiable">Pazarlıklı</string>
     <string name="marketplace_load_error">İlanlar yüklenemedi. Bağlantınızı kontrol edip tekrar deneyin.</string>
     <string name="load_detail_load_error">İlan yüklenemedi. Bağlantınızı kontrol edip tekrar deneyin.</string>

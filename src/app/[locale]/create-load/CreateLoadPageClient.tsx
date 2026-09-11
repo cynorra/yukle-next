@@ -18,6 +18,8 @@ const LOAD_TYPES: Record<string, string> = {
   fragile: 'Fragile',
 };
 
+// Kept in sync with _marketplace/MarketClient.tsx's TRUCK_TYPES - see that file's
+// comment for why flatbed/frigo/container exist alongside dorser/frigorifik.
 const TRUCK_TYPES: Record<string, string> = {
   tir: 'TIR',
   kamyon: 'Truck',
@@ -25,6 +27,9 @@ const TRUCK_TYPES: Record<string, string> = {
   dorser: 'Trailer',
   tanker: 'Tanker',
   frigorifik: 'Reefer',
+  flatbed: 'Trailer',
+  frigo: 'Reefer',
+  container: 'Container',
 };
 
 export function CreateLoadPageClient() {

@@ -1,6 +1,13 @@
 <resources>
     <!-- Keys match the `required_truck_type` values stored in Supabase - do not translate,
          these are lookup keys, not display text. Labels below are what's shown to users. -->
+    <!-- flatbed/frigo/container: the loads scraper (scripts/freightfinder-serverless.js)
+         writes a DIFFERENT required_truck_type vocabulary than this app's own manual
+         "create load" web form does (dorser/tanker/etc above) - both are real, live values
+         in the same DB column. Live-verified 2026-09-11: 58% of active loads use the
+         scraper's vocabulary. flatbed/frigo map to the same real vehicle type as
+         dorser/frigorifik above (same concept, different source string), so they
+         deliberately share that label text rather than inventing a new distinction. -->
     <string-array name="truck_type_keys" translatable="false">
         <item>tir</item>
         <item>kamyon</item>
@@ -8,6 +15,9 @@
         <item>dorser</item>
         <item>tanker</item>
         <item>frigorifik</item>
+        <item>flatbed</item>
+        <item>frigo</item>
+        <item>container</item>
     </string-array>
     <string-array name="truck_type_labels">
         <item>Semi-Trailer</item>
@@ -16,5 +26,8 @@
         <item>Flatbed</item>
         <item>Tanker</item>
         <item>Refrigerated</item>
+        <item>Flatbed</item>
+        <item>Refrigerated</item>
+        <item>Container</item>
     </string-array>
 </resources>
