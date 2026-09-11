@@ -42,6 +42,11 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            ndk {
+                // Bundles a native-debug-symbols.zip in the AAB so Play Console can
+                // symbolicate crashes/ANRs in native code (Play Services / Firebase .so libs).
+                debugSymbolLevel = "SYMBOL_TABLE"
+            }
             if (keystorePropertiesFile.exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
