@@ -326,6 +326,15 @@ export default async function HomePage({ params }: PageProps) {
             <Link000 href={`/${locale}/advertise`} className="hover:text-accent transition-colors">
               {t.nav.reklam}
             </Link000>
+            <Link000 href={`/${locale}/editorial-policy`} className="hover:text-accent transition-colors">
+              {locale === 'tr' ? 'Editoryal Politika' : 'Editorial Policy'}
+            </Link000>
+            <Link000 href={`/${locale}/accessibility`} className="hover:text-accent transition-colors">
+              {locale === 'tr' ? 'Erişilebilirlik' : 'Accessibility'}
+            </Link000>
+            <Link000 href={`/${locale}/cookie-policy`} className="hover:text-accent transition-colors">
+              {locale === 'tr' ? 'Çerez Politikası' : 'Cookie Policy'}
+            </Link000>
           </div>
         </div>
       </footer>

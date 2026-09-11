@@ -130,7 +130,13 @@
     "rightsNote": "Bu hakları kullanmak için kvkk@loadlyapp.com adresinden başvuru yapabilirsiniz.",
     "changesTitle": "8. Politika Değişiklikleri",
     "changesDesc": "Loadly, bu gizlilik politikasını yasal gerekliliklere veya platform özelliklerindeki değişikliklere uygun olarak güncelleme hakkını saklı tutar. Politika değişiklikleri platformda yayınlanacak ve güncelleme tarihi revize edilecektir. Değişikliklerden haberdar olmak için bu sayfayı düzenli olarak kontrol etmeniz önerilir. Platformu kullanmaya devam ederek, güncellenmiş politikayı kabul etmiş olursunuz.",
-    "contactTitle": "9. İletişim",
+    "ccpaTitle": "9. Kaliforniya Sakinleri (CCPA/CPRA)",
+    "ccpaDesc": "Kaliforniya'da ikamet ediyorsanız, California Consumer Privacy Act (CCPA) ve California Privacy Rights Act (CPRA) kapsamında ek haklarınız vardır:",
+    "ccpaL1": "Hangi kişisel bilgileri topladığımızı ve nasıl kullanıldığını öğrenme hakkı",
+    "ccpaL2": "Kişisel bilgilerinizin silinmesini talep etme hakkı",
+    "ccpaL3": "Kişisel bilgilerinizin \"satışından\" veya \"paylaşımından\" vazgeçme hakkı — CCPA kapsamında bu terim, Google AdSense gibi üçüncü taraf reklam sağlayıcılarının kişiselleştirilmiş reklamlar için tanımlayıcı kullanmasına izin vermeyi de kapsayabilir",
+    "ccpaNote": "Bu haklardan herhangi birini kullanmak için konu satırına \"California Privacy Request\" yazarak kvkk@loadlyapp.com adresine e-posta gönderin. Yukarıdaki Google Ads Settings bağlantısı üzerinden de kişiselleştirilmiş reklamlardan doğrudan vazgeçebilirsiniz.",
+    "contactTitle": "10. İletişim",
     "contactDesc": "Gizlilik politikası hakkında sorularınız veya endişeleriniz varsa, aşağıdaki kanallar aracılığıyla bizimle iletişime geçebilirsiniz:"
   },
   "terms": {

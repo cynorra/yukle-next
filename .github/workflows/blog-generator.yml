@@ -34,6 +34,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # universal-adsense-site-standard.md 2.2: publishing at the exact same
+      # second every single weekday is a pattern a human editorial process
+      # never produces. This is a real random delay (not a spoofed
+      # published-at timestamp) so the article's actual created_at lands
+      # somewhere in a believable morning window instead of always 09:00:0X
+      # UTC on the nose.
+      - name: Randomized human-like publish delay
+        run: sleep $(( RANDOM % 7200 ))
+
       - name: Run Blog Generator
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}

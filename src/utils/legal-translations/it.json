@@ -130,8 +130,14 @@
     "rightsNote": "Puoi inviare una richiesta via kvkk@loadlyapp.com per esercitare questi diritti.",
     "changesTitle": "8. Modifiche all'Informativa",
     "changesDesc": "Loadly si riserva il diritto di aggiornare questa informativa sulla privacy in conformità con i requisiti legali o le modifiche nelle funzionalità della piattaforma. Le modifiche all'informativa saranno pubblicate sulla piattaforma e la data di aggiornamento verrà revisionata. Si raccomanda di controllare regolarmente questa pagina per rimanere informati sulle modifiche. Continuando a utilizzare la piattaforma, accetti l'informativa aggiornata.",
-    "contactTitle": "9. Contatti",
-    "contactDesc": "Se hai domande o dubbi sull'informativa sulla privacy, puoi contattarci tramite i seguenti canali:"
+    "contactTitle": "10. Contatti",
+    "contactDesc": "Se hai domande o dubbi sull'informativa sulla privacy, puoi contattarci tramite i seguenti canali:",
+    "ccpaTitle": "9. California Residents (CCPA/CPRA)",
+    "ccpaDesc": "If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA) and the California Privacy Rights Act (CPRA):",
+    "ccpaL1": "The right to know what personal information we collect and how it is used",
+    "ccpaL2": "The right to request deletion of your personal information",
+    "ccpaL3": "The right to opt out of the \"sale\" or \"sharing\" of your personal information — a term that, under CCPA, can include allowing third-party ad providers like Google AdSense to use identifiers for personalized advertising",
+    "ccpaNote": "To exercise any of these rights, email kvkk@loadlyapp.com with the subject \"California Privacy Request\". You can also opt out of personalized advertising directly via the Google Ads Settings link above."
   },
   "terms": {
     "title": "Termini di Servizio",

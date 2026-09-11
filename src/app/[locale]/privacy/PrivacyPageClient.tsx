@@ -187,7 +187,25 @@ export function PrivacyPageClient({ data }: Props) {
           </p>
         </div>
 
-        {/* Section 9: İletişim */}
+        {/* Section 9: California Residents (CCPA/CPRA) */}
+        {content.ccpaTitle && (
+          <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+            <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.ccpaTitle}</h2>
+            <p className={`text-sm ${t.sub} leading-relaxed mb-3`}>
+              {content.ccpaDesc}
+            </p>
+            <ul className={`list-disc list-inside space-y-2 text-sm ${t.sub}`}>
+              <li>{content.ccpaL1}</li>
+              <li>{content.ccpaL2}</li>
+              <li>{content.ccpaL3}</li>
+            </ul>
+            <p className={`text-sm ${t.sub} leading-relaxed mt-3`}>
+              {content.ccpaNote}
+            </p>
+          </div>
+        )}
+
+        {/* Section 10: İletişim */}
         <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.contactTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
