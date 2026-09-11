@@ -13,7 +13,7 @@ Loadly łączy kierowców tirów, przewoźników i właścicieli busów bezpośr
 ✓ Bezpośredni kontakt: Rozmawiaj o stawkach i szczegółach na czacie bez pośredników
 ✓ Filtrowanie po trasie i wadze: Ustaw relację, masę towaru oraz typ zabudowy
 ✓ Powiadomienia na żywo: Otrzymuj informacje, gdy pojawi się doładunek na Twojej trasie
-✓ Przewodnik drogowy w 55 językach: Przepisy czasu pracy, wagi i opłaty drogowe
+✓ Przewodnik drogowy w 54 językach: Przepisy czasu pracy, wagi i opłaty drogowe
 
 Nie jedź na pusto. Pobierz Loadly już dziś i znajdź opłacalny ładunek dla swojego auta!
 

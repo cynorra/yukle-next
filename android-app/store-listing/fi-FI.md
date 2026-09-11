@@ -13,7 +13,7 @@ Loadly yhdistää kuorma-autonkuljettajat, rahdinkuljettajat ja kuljetusyrittäj
 ✓ Suora keskustelu: Sovi rahtihinnat ja aikataulut suoraan tavaranomistajan kanssa
 ✓ Reitti- ja painosuodattimet: Etsi lastia lähtöpaikan, määränpään ja painon mukaan
 ✓ Reaaliaikaiset ilmoitukset: Saat hälytyksen heti, kun reitillesi tulee uutta rahtia
-✓ Kuljettajan opas 55 kielellä: Ajo- ja lepoajat, tulliohjeet sekä tiemaksut
+✓ Kuljettajan opas 54 kielellä: Ajo- ja lepoajat, tulliohjeet sekä tiemaksut
 
 Älä aja tyhjällä autolla. Lataa Loadly-sovellus nyt ja ota uusi kuorma kyytiin!
 

@@ -13,7 +13,7 @@ Loadly verbind trokdrywers, vervoermaatskappye en eienaar-bestuurders direk met 
 ✓ Direkte boodskappe: Onderhandel tariewe direk met die vrag-eienaar sonder middelmanne
 ✓ Roete- en gewigfilters: Soek volgens vertrekpunt, bestemming en tonnemaat
 ✓ Intydse kennisgewings: Kry dadelik kennis wanneer 'n nuwe vrag op jou roete beskikbaar is
-✓ Logistieke gids in 55 tale: Weegbrugreëls, padregulasies en vervoerriglyne
+✓ Logistieke gids in 54 tale: Weegbrugreëls, padregulasies en vervoerriglyne
 
 Moenie met 'n leë trok ry nie. Laai Loadly nou af en bespreek jou volgende vrag vandag!
 

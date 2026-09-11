@@ -13,7 +13,7 @@ Loadly povezuje voznike tovornjakov, avtoprevoznike in prevoznike s kombiji nepo
 ✓ Neposredni klepet: Dogovorite se o ceni prevoza neposredno z lastnikom tovora
 ✓ Filtri po relaciji in teži: Izberite kraj naklada, razklada, težo ter tip nadgradnje
 ✓ Opozorila v realnem času: Bodite obveščeni takoj, ko se na vaši relaciji objavi nov tovor
-✓ Prevozniški vodnik v 55 jezikih: Predpisi o vožnji, cestnine in mejne kontrole
+✓ Prevozniški vodnik v 54 jezikih: Predpisi o vožnji, cestnine in mejne kontrole
 
 Ne vozite prazni. Prenesite aplikacijo Loadly zdaj in poiščite svoj naslednji tovor!
 

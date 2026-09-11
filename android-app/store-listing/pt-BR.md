@@ -13,7 +13,7 @@ O Loadly conecta caminhoneiros autônomos, frotistas e motoristas diretamente co
 ✓ Chat direto: Negocie o valor do frete e os detalhes direto com quem paga
 ✓ Filtro por rota e peso: Localize cargas por cidade de origem, destino e tonelagem
 ✓ Avisos de cargas novas: Seja notificado assim que pintar frete na sua rota preferida
-✓ Guia do caminhoneiro em 55 idiomas: Pontos de parada, pesagem e leis de trânsito
+✓ Guia do caminhoneiro em 54 idiomas: Pontos de parada, pesagem e leis de trânsito
 
 Não rode no vazio. Baixe o Loadly agora e pegue o seu próximo frete na estrada!
 

@@ -13,7 +13,7 @@ Loadly conecta directamente a camioneros, transportistas autónomos y agencias c
 ✓ Chat directo con cargadores: Negocia tarifas y condiciones al instante
 ✓ Filtros de ruta y tonelaje: Encuentra cargas según tu destino, peso y capacidad
 ✓ Avisos en tiempo real: Recibe alertas cuando haya una nueva carga en tu itinerario
-✓ Guía de carretera en 55 idiomas: Restricciones de tráfico, áreas de descanso y normativa
+✓ Guía de carretera en 54 idiomas: Restricciones de tráfico, áreas de descanso y normativa
 
 No vuelvas de vacío. ¡Descarga Loadly ahora y consigue cargas rentables para tu camión!
 

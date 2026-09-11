@@ -13,7 +13,7 @@ O Loadly junta motoristas de pesados, camionistas e pequenas empresas de transpo
 ✓ Conversação direta: Fale diretamente com o expedidor para combinar preços e prazos
 ✓ Filtros de percurso: Pesquise por rota, peso total e tipo de carroçaria
 ✓ Alertas imediatos: Saiba quando surge uma carga disponível no seu trajeto habitual
-✓ Guia rodoviário em 55 línguas: Regulamentação de trânsito, tempos de descanso e portagens
+✓ Guia rodoviário em 54 línguas: Regulamentação de trânsito, tempos de descanso e portagens
 
 Rentabilize as suas viagens. Transfira já o Loadly e encontre carga para o seu camião!
 

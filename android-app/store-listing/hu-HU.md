@@ -13,7 +13,7 @@ A Loadly közvetlenül köti össze a kamionsofőröket, fuvarozókat és furgon
 ✓ Közvetlen üzenetküldés: Egyezz meg a fuvardíjról közvetlenül a megbízóval
 ✓ Útvonal és súly szerinti szűrés: Állítsd be az indulást, érkezést és a tonnát
 ✓ Értesítések valós időben: Azonnal jelezzük, ha a te útvonaladon új rakomány van
-✓ Fuvarozói tudástár 55 nyelven: Kamionstopok, útdíjak és külföldi szabályozások
+✓ Fuvarozói tudástár 54 nyelven: Kamionstopok, útdíjak és külföldi szabályozások
 
 Ne gurulj üresen. Töltsd le a Loadly-t most, és szerezz biztos fuvart egyszerűen!
 

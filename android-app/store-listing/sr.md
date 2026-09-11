@@ -13,7 +13,7 @@ Loadly povezuje vozače kamiona, špeditere i vlasnike kombija direktno sa vlasn
 ✓ Direktan kontakt: Dogovorite cenu i detalje utovara direktno preko poruka
 ✓ Filteri po relaciji i težini: Lako podesite mesto utovara, istovara i nosivost
 ✓ Obaveštenja uživo: Saznajte odmah kada se pojavi novi teret na vašoj relaciji
-✓ Vodič za vozače na 55 jezika: Granični prelazi, carine i propisi u međunarodnom transportu
+✓ Vodič za vozače na 54 jezika: Granični prelazi, carine i propisi u međunarodnom transportu
 
 Ne vozite na prazno. Preuzmite Loadly aplikaciju sada i pronađite teret za svoj kamion!
 

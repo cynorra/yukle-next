@@ -15,7 +15,7 @@ Loadly fura haydovchilari, yuk mashinasi egalari va tashuvchilarni bevosita yuk 
 ✓ Vositachisiz to'g'ridan-to'g'ri chat: Narxni bevosita yuk beruvchi bilan kelishing
 ✓ Yo'nalish va tonnaj filtrlari: Shahar, og'irlik va hajm bo'yicha aniq saralash
 ✓ Jonli bildirishnomalar: Sizning yo'nalishingizda yangi yuk chiqishi bilan xabar oling
-✓ 55 tilda haydovchi qo'llanmasi: Bojxona, tarozi tartiblari va yo'l harakati qoidalari
+✓ 54 tilda haydovchi qo'llanmasi: Bojxona, tarozi tartiblari va yo'l harakati qoidalari
 
 Mashinangiz bo'sh qolmasin. Loadly ilovasini hoziroq yuklab oling va yangi yuk toping!
 

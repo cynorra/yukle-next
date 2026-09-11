@@ -13,7 +13,7 @@ Loadly spaja vozače kamiona, privatne prijevoznike i vlasnike kombija izravno s
 ✓ Izravna komunikacija: Pregovarajte o cijeni izravno s vlasnikom tereta putem poruka
 ✓ Filtriranje po relaciji i masi: Tražite teret po ruti, težini i željenom datumu
 ✓ Brze obavijesti: Primite obavijest čim se objavi nova pošiljka na vašoj liniji
-✓ Prometni vodič na 55 jezika: Pravila tranzita, odmorišta i propisi za profesionalne vozače
+✓ Prometni vodič na 54 jezika: Pravila tranzita, odmorišta i propisi za profesionalne vozače
 
 Zaboravite prazne vožnje. Preuzmite Loadly i pronađite teret za svoj kamion već danas!
 

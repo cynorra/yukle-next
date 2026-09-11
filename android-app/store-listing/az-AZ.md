@@ -13,7 +13,7 @@ Loadly tır sürücülərini, yük maşını sahiblərini və logistika şirkət
 ✓ Birbaşa çatlarda danışıq: Yük sahibi ilə vasitəçisiz, birbaşa qiyməti razılaşdırın
 ✓ Marşrut və tonnaj filtri: Şəhər, ölkə, çəki və maşın növünə görə seçim
 ✓ Ani bildirişlər: Sizin istiqamətinizdə yeni yük paylaşıldıqda dərhal xəbərdar olun
-✓ 55 dildə sürücü bələdçisi: Gömrük postları, tərəzilər və nəqliyyat qaydaları
+✓ 54 dildə sürücü bələdçisi: Gömrük postları, tərəzilər və nəqliyyat qaydaları
 
 Maşınınız boş qalmasın. Loadly tətbiqini elə indi yükləyin və qayıdış yükünüzü tapın!
 

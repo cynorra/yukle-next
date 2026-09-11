@@ -13,7 +13,7 @@ Ang Loadly ay ginawa para sa mga truck driver, operator, at trucking logistics u
 ✓ Direktang mensahe: Makipag-usap at makipagtawaran nang direkta sa may-ari ng karga
 ✓ Filter ayon sa ruta at timbang: Piliin ang pickup, drop-off point, at bigat ng karga
 ✓ Real-time alert: Makatanggap agad ng notification kapag may bagong karga sa iyong ruta
-✓ Gabay sa transportasyon sa 55 wika: Impormasyon sa weighbridges, travel rules, at batas trapiko
+✓ Gabay sa transportasyon sa 54 wika: Impormasyon sa weighbridges, travel rules, at batas trapiko
 
 Huwag nang bumiyahe nang walang laman. I-download ang Loadly ngayon at kumuha ng bagong biyahe!
 

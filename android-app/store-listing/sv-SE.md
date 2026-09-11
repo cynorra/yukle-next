@@ -13,7 +13,7 @@ Loadly kopplar ihop lastbilschaufförer, åkerier och transportörer direkt med 
 ✓ Direktmeddelanden: Förhandla fraktpris direkt med transportköparen
 ✓ Rutt- och viktfilter: Sök på avreseort, destination, godsvikt och biltyp
 ✓ Realtidsnotiser: Få besked så fort en passande frakt läggs ut längs din väg
-✓ Åkarguide på 55 språk: Körtider, vägavgifter och internationella transportregler
+✓ Åkarguide på 54 språk: Körtider, vägavgifter och internationella transportregler
 
 Sluta köra med tomt flak. Ladda ner Loadly i dag och hitta nästa frakt direkt i mobilen!
 

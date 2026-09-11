@@ -13,7 +13,7 @@ Loadly inawaunganisha madereva wa malori, wamiliki wa magari ya mizigo na wasafi
 ✓ Ujumbe wa moja kwa moja: Zungumza bei na maelezo ya safari moja kwa moja na mteja
 ✓ Vichungi vya njia na uzito: Tafuta mizigo kwa eneo unalotoka, unakoenda na uzito
 ✓ Taarifa za papo hapo: Pata ujumbe mzigo mpya unapotokea kwenye njia yako
-✓ Mwongozo wa wasafirishaji wa lugha 55: Sheria za mizani, mipaka na kanuni za barabara
+✓ Mwongozo wa wasafirishaji wa lugha 54: Sheria za mizani, mipaka na kanuni za barabara
 
 Usiendeshe lori likiwa tupu. Pakua Loadly sasa upate mzigo wako ujao papo hapo!
 

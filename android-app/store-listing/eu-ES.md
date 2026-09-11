@@ -13,7 +13,7 @@ Loadly-k kamioi gidariak, garraiolariak eta furgoneta jabeak zuzenean kargen jab
 ✓ Txat zuzena: Hitz egin prezioaz bitartekaririk gabe zama-jabearekin
 ✓ Ibilbide eta pisu iragazkiak: Bilatu kargak jatorriaren, helmugaren eta pisuaren arabera
 ✓ Zuzeneko jakinarazpenak: Jaso mezua zure ibilbidean zama berri bat argitaratzean
-✓ Garraio gida 55 hizkuntzatan: Bidesariak, atseden arauak eta bide araudia
+✓ Garraio gida 54 hizkuntzatan: Bidesariak, atseden arauak eta bide araudia
 
 Ez ibili kamioia hutsik duzula. Deskargatu Loadly orain eta lortu karga berriak!
 

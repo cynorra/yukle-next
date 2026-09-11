@@ -13,7 +13,7 @@ Loadly menghubungkan pemandu lori, pemilik kenderaan dan syarikat pengangkutan s
 ✓ Mesej terus tanpa orang tengah: Bincang kadar tambang dan jadual terus dengan pengirim
 ✓ Penapis laluan & muatan: Tapis mengikut lokasi ambil, hantar dan had berat muatan
 ✓ Pemberitahuan langsung: Terima notifikasi segera apabila ada tempahan kargo baru di laluan anda
-✓ Panduan logistik 55 bahasa: Info had muatan timbang, undang-undang jalan dan permit
+✓ Panduan logistik 54 bahasa: Info had muatan timbang, undang-undang jalan dan permit
 
 Jangan biar lori anda bergerak kosong. Muat turun Loadly sekarang dan tempah muatan seterusnya!
 

@@ -13,7 +13,7 @@ Loadly forbinder lastbilchauffører, vognmænd og transportører direkte med afs
 ✓ Direkte kontakt: Aftal fragtpriser og vilkår direkte med vareejeren i appen
 ✓ Rute- og vægtfiltre: Vælg afgangssted, destination, vægtgrænser og biltype
 ✓ Live alarmer: Få besked med det samme, når der er gods på din strækning
-✓ Transportguide på 55 sprog: Køre-hviletid, vejafgifter og internationale regler
+✓ Transportguide på 54 sprog: Køre-hviletid, vejafgifter og internationale regler
 
 Kør ikke tomhændet hjem. Hent Loadly nu, og find din næste fragt med det samme!
 

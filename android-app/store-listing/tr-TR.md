@@ -12,7 +12,7 @@ Loadly, yük sahiplerini ve nakliyecileri buluşturan canlı bir nakliye borsas�
 ✓ Canlı yük borsası - binlerce güncel ilan
 ✓ Güzergah, araç tipi (TIR, kamyon, dorse, tanker) ve ağırlığa göre arama
 ✓ Yük sahibi - nakliyeci arasında doğrudan mesajlaşma
-✓ 55 dilde nakliye rehberleri, güzergah ve mevzuat bilgisi
+✓ 54 dilde nakliye rehberleri, güzergah ve mevzuat bilgisi
 ✓ Bireysel nakliyeciler, filo sahipleri ve lojistik firmaları için
 
 İster boş dönmemek için yük arayan bir nakliyeci olun, ister acil araç arayan bir yük sahibi olun - Loadly gerçek ilanları gerçek şoförlerle buluşturur, aracı yok.

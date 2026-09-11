@@ -13,7 +13,7 @@ Loadly spája vodičov kamiónov, súkromných autodopravcov a špeditérov pria
 ✓ Priamy čet: Dohodnite si cenu a podmienky prepravy priamo s majiteľom nákladu
 ✓ Trasy a tonáž: Filtrujte podľa miesta nakládky, vykládky, hmotnosti a typu auta
 ✓ Okamžité notifikácie: Dostaňte správu v momente, keď pribudne náklad na vašej trase
-✓ Sprievodca dopravou v 55 jazykoch: Predpisy, hraničné kontroly a mýtne systémy
+✓ Sprievodca dopravou v 54 jazykoch: Predpisy, hraničné kontroly a mýtne systémy
 
 Nejazdite naprázdno. Stiahnite si aplikáciu Loadly a naložte svoj kamión hneď teraz!
 

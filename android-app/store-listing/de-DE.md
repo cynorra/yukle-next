@@ -12,7 +12,7 @@ Loadly ist eine Live-Frachtbörse, die Verlader und Frachtführer weltweit verbi
 ✓ Live-Frachtbörse - tausende aktuelle Ladungen
 ✓ Suche nach Start, Ziel, Fahrzeugtyp und Gewicht
 ✓ Direkte Nachrichten zwischen Verladern und Frachtführern
-✓ Frachtratgeber, Routen und Vorschriften in 55 Sprachen
+✓ Frachtratgeber, Routen und Vorschriften in 54 Sprachen
 ✓ Für Einzelfahrer, Speditionen und Logistikunternehmen
 
 Ob Sie als Frachtführer die nächste Ladung suchen oder als Verlader schnell einen LKW brauchen - Loadly bringt echte Ladungen zu echten Fahrern, ganz ohne Mittelsmann.

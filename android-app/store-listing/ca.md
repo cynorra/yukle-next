@@ -13,7 +13,7 @@ Loadly connecta directament camioners, transportistes autònoms i empreses de lo
 ✓ Xat directe: Negocia el preu del transport directament amb l'emissor de la càrrega
 ✓ Filtres per ruta i pes: Troba càrregues segons el teu trajecte i capacitat en tones
 ✓ Alertes a l'instant: Rep notificacions quan aparegui una nova càrrega a la teva ruta
-✓ Guia del transportista en 55 idiomes: Normatives de trànsit, bàscules i descansos
+✓ Guia del transportista en 54 idiomes: Normatives de trànsit, bàscules i descansos
 
 No tornis de buit. Descarrega Loadly ara i troba la teva propera càrrega ràpidament!
 

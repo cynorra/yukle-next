@@ -13,7 +13,7 @@ Loadly savieno tālbraucējus šoferus, pārvadātājus un transporta uzņēmumu
 ✓ Tiešā saziņa: Vienojieties par cenu un detaļām tērzētavā bez starpniekiem
 ✓ Maršruta un svara filtri: Meklējiet pēc iekraušanas vietas, svara un mašīnas tipa
 ✓ Paziņojumi tālrunī: Saņemiet ziņu uzreiz, tiklīdz jūsu maršrutā parādās jauna krava
-✓ Loģistikas ceļvedis 55 valodās: Robežkontroles, braukšanas laiki un ceļu nodevas
+✓ Loģistikas ceļvedis 54 valodās: Robežkontroles, braukšanas laiki un ceļu nodevas
 
 Neļaujiet mašīnai stāvēt tukšai. Lejupielādējiet Loadly un atrodiet kravu savam auto!
 

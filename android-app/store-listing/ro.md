@@ -12,7 +12,7 @@ Loadly este o bursă de transport live care conectează expeditori și transport
 ✓ Bursă de transport live - mii de curse active
 ✓ Căutare după origine, destinație, tip de vehicul și greutate
 ✓ Mesagerie directă între expeditori și transportatori
-✓ Ghiduri de transport, rute și reglementări în 55 de limbi
+✓ Ghiduri de transport, rute și reglementări în 54 de limbi
 ✓ Pentru transportatori individuali, flote și firme de logistică
 
 Fie că ești transportator în căutarea următoarei curse, fie expeditor care are nevoie urgentă de camion - Loadly pune curse reale în fața șoferilor reali, fără intermediari.

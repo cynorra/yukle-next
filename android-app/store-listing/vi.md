@@ -13,7 +13,7 @@ Loadly kết nối trực tiếp các bác tài xe tải, chủ xe container và
 ✓ Chat trực tiếp với chủ hàng: Thương lượng giá cước và thời gian xếp dỡ ngay trên app
 ✓ Lọc theo tuyến đường và tải trọng: Chọn điểm đi, điểm đến và khối lượng mong muốn
 ✓ Thông báo chuyến mới: Nhận cảnh báo ngay lập tức khi có hàng trên cung đường của bạn
-✓ Cẩm nang vận tải 55 ngôn ngữ: Tra cứu quy định tải trọng, trạm cân và luật giao thông
+✓ Cẩm nang vận tải 54 ngôn ngữ: Tra cứu quy định tải trọng, trạm cân và luật giao thông
 
 Đừng để xe chạy không chuyến về. Tải ngay ứng dụng Loadly để nhận chuyến hàng mới ngay hôm nay!
 

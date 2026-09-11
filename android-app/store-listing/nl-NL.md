@@ -13,7 +13,7 @@ Loadly verbindt vrachtwagenchauffeurs, eigenrijders en transportbedrijven direct
 ✓ Directe berichten: Onderhandel tarieven direct met de opdrachtgever
 ✓ Route- en gewichtsfilters: Zoek ladingen op basis van postcode, ton en traject
 ✓ Realtime meldingen: Krijg direct bericht als er een nieuwe vracht op jouw route is
-✓ Gids in 55 talen: Rij- en rusttijden, toltarieven en internationale transportregels
+✓ Gids in 54 talen: Rij- en rusttijden, toltarieven en internationale transportregels
 
 Rijd niet langer leeg rond. Download Loadly nu en laad je vrachtwagen vol!
 

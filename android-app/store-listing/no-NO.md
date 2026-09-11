@@ -13,7 +13,7 @@ Loadly kobler yrkessjåfører, bileiere og transportselskaper direkte sammen med
 ✓ Direkteprat: Bli enig om fraktrater og detaljer direkte med varekunden
 ✓ Rute- og vektfiltre: Søk etter hente- og leveringssted, tonnasje og biltype
 ✓ Varsler i sanntid: Få beskjed på mobilen med en gang en ny last registreres
-✓ Sjåførguide på 55 språk: Vegavgifter, fjelloverganger og kjøretidsbestemmelser
+✓ Sjåførguide på 54 språk: Vegavgifter, fjelloverganger og kjøretidsbestemmelser
 
 Ikke kjør med tomt lasterom. Last ned Loadly nå og finn godstransport på 1-2-3!
 

@@ -13,7 +13,7 @@ Loadly propojuje řidiče kamionů, autodopravce a majitele dodávek přímo se 
 ✓ Přímá komunikace: Domluvte si cenu a nakládku v chatu přímo se zadavatelem
 ✓ Filtry podle trasy a tun: Zadejte odkud-kam, povolenou hmotnost a typ vozidla
 ✓ Upozornění na nové zakázky: Získejte echo hned, jak se objeví náklad na vaší trase
-✓ Průvodce přepravou v 55 jazycích: Mýtné, zákazy jízd a předpisy v zahraničí
+✓ Průvodce přepravou v 54 jazycích: Mýtné, zákazy jízd a předpisy v zahraničí
 
 Nenechávejte auto stát. Stáhněte si aplikaci Loadly a vezměte další náklad ještě dnes!
 

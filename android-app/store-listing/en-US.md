@@ -12,7 +12,7 @@ Loadly is a live load board connecting shippers and carriers worldwide. Browse a
 ✓ Live load board - thousands of active loads updated daily
 ✓ Search by origin, destination, truck type, and weight
 ✓ Direct messaging between shippers and carriers
-✓ Freight guides, rates, and route insights in 55 languages
+✓ Freight guides, rates, and route insights in 54 languages
 ✓ Built for owner-operators, carriers, and freight brokers
 
 Whether you're a carrier looking for your next load or a shipper who needs a truck fast, Loadly's load board puts real freight in front of real drivers - no middleman required.

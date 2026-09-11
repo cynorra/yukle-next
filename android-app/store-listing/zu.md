@@ -13,7 +13,7 @@ I-Loadly ihlanganisa abashayeli bamaloli, abanikazi bezimoto ezithwala impahla k
 ✓ Xoxa ngqo nomthumeli: Vumelana ngentengo ngaphandle kwabalamuli
 ✓ Izihlungi zomzila nesisindo: Sesha ngendawo osuka kuyo, lapho uya khona nesisindo
 ✓ Izaziso ezisheshayo: Thola umlayezo uma kukhona impahla entsha emzileni wakho
-✓ Umhlahlandlela ngokusakazwa ngezilimi ezingu-55: Imithetho yemigwaqo nezikali zesisindo
+✓ Umhlahlandlela ngokusakazwa ngezilimi ezingu-54: Imithetho yemigwaqo nezikali zesisindo
 
 Ungahambi nge-loli elingenalutho. Landa i-Loadly manje uthole impahla ozoyithwala!
 

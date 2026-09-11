@@ -13,7 +13,7 @@ Loadly connects Canadian truckers, owner-operators, and dispatchers directly wit
 ✓ In-app messaging: Chat directly with verified brokers and shippers
 ✓ Accurate route filters: Filter loads by origin, destination, weight, and distance
 ✓ Instant load alerts: Get pinged the moment new loads match your lanes
-✓ Multi-lingual logistics hub: Cross-border rules, winter roads, and DOT guide in 55 languages
+✓ Multi-lingual logistics hub: Cross-border rules, winter roads, and DOT guide in 54 languages
 
 Keep your rig moving across Canada. Download Loadly and secure your next profitable load today!
 

@@ -13,7 +13,7 @@ Loadly viib veoautojuhid, autovedajad ja kaubikujuhid otse kokku kauba saatjateg
 ✓ Otsesõnumid: Räägi veohind ja laadimistingimused läbi otse kliendiga
 ✓ Teekonna ja kaalu filtrid: Vali sihtkoht, kaalutonnid ja haagisetüüp
 ✓ Reaalaja teavitused: Ole esimene, kes saab teada sobivast koormast oma suunal
-✓ Juhi teatmik 55 keeles: Sõiduajad, teemaksud ja piiriületusreeglid
+✓ Juhi teatmik 54 keeles: Sõiduajad, teemaksud ja piiriületusreeglid
 
 Ära sõida tühjalt. Laadi Loadly rakendus alla kohe ja leia oma veokile tulutoov koorem!
 

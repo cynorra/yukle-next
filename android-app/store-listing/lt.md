@@ -13,7 +13,7 @@ Loadly sujungia tolimųjų reisų vairuotojus, vežėjus ir transporto įmones t
 ✓ Tiesioginis pokalbis: Derėkitės dėl frachto kainos tiesiai su krovinio savininku
 ✓ Filtravimas pagal maršrutą: Rinkitės krovinius pagal pakrovimo vietą, svorį ir tipą
 ✓ Momentiniai pranešimai: Sužinokite iškart, kai jūsų kryptimi atsiranda laisvas krovinys
-✓ Vairuotojo gidas 55 kalbomis: Sienos kirtimo taisyklės, kelių mokesčiai ir normos
+✓ Vairuotojo gidas 54 kalbomis: Sienos kirtimo taisyklės, kelių mokesčiai ir normos
 
 Nevažiuokite tuščiomis. Atsisiųskite Loadly dabar ir pasikraukite vilkiką be prastovų!
 

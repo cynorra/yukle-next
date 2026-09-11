@@ -12,7 +12,7 @@ Loadly è una borsa carichi in tempo reale che collega committenti e trasportato
 ✓ Borsa carichi live - migliaia di carichi attivi
 ✓ Ricerca per origine, destinazione, tipo di veicolo e peso
 ✓ Messaggistica diretta tra committenti e trasportatori
-✓ Guide sui trasporti, tratte e normative in 55 lingue
+✓ Guide sui trasporti, tratte e normative in 54 lingue
 ✓ Per padroncini, flotte e aziende di logistica
 
 Che tu sia un trasportatore alla ricerca del prossimo carico o un committente che ha bisogno urgente di un camion, Loadly mette in contatto carichi reali con autisti reali, senza intermediari.

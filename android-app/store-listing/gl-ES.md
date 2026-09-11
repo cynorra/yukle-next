@@ -13,7 +13,7 @@ Loadly conecta directamente condutores de camión, transportistas e profesionais
 ✓ Contacto directo: Negocia tarifas directamente co dono da carga a través do chat
 ✓ Filtros de traxecto e peso: Elixe por orixe, destino e tonelaxe do vehículo
 ✓ Avisos ao instante: Recibe unha alerta cando se publique carga na túa ruta
-✓ Guía de transporte en 55 linguas: Normativa de trânsito, básculas e áreas de servizo
+✓ Guía de transporte en 54 linguas: Normativa de trânsito, básculas e áreas de servizo
 
 Non viaxes en baleiro. Descarga Loadly hoxe mesmo e colle a túa seguinte carga!
 

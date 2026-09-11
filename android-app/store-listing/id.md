@@ -13,7 +13,7 @@ Loadly menghubungkan sopir truk, pemilik armada, dan ekspedisi langsung dengan p
 ✓ Chat langsung tanpa perantara: Negosiasikan ongkos angkut langsung di dalam aplikasi
 ✓ Filter rute & tonase: Cari barang berdasarkan rute kota asal, tujuan, dan kapasitas muat
 ✓ Notifikasi muatan baru: Dapatkan pemberitahuan langsung saat ada muatan di jalur Anda
-✓ Panduan logistik 55 bahasa: Info jembatan timbang, aturan muatan, dan regulasi jalan
+✓ Panduan logistik 54 bahasa: Info jembatan timbang, aturan muatan, dan regulasi jalan
 
 Jangan biarkan truk Anda pulang kosongan. Unduh Loadly sekarang dan dapatkan muatan terbaik hari ini!
 
