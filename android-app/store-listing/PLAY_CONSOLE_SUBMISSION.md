@@ -101,11 +101,12 @@ Fill in Play Console → App content → Data safety based on what the app
 | Messages | No | — | — | Contact-shipper flow hands off to the website via Custom Tabs; the app itself doesn't store or transmit message content |
 
 Declare **data is encrypted in transit** (all API calls are HTTPS to
-Supabase/loadlyapp.com). Declare a **data deletion request path** — point to
-the account-deletion flow on the website (same Supabase Auth account as
-web), or add one if it doesn't exist yet; check before submitting since
-recent Play policy requires this even for account data collected only
-in-app.
+Supabase/loadlyapp.com). Declare a **data deletion request path** — use
+`https://loadlyapp.com/en/delete-account` (dedicated page added
+2026-09-11: signed-in users get an instant delete button reusing the same
+`delete_user_account` RPC as `/profile`; signed-out visitors see an email
+fallback to kvkk@loadlyapp.com). Update the Data Safety form's declared URL
+to this exact page if it currently points anywhere else.
 
 ## 6. Permissions declared (from `AndroidManifest.xml`)
 
@@ -157,8 +158,13 @@ transmitted as raw coordinates."*
 - Category selection — not chosen in Play Console yet
 - First AAB upload + Play App Signing enrollment → then update
   `assetlinks.json` with the resulting fingerprint
-- Data deletion request path — confirm one exists or add it before the Data
-  Safety form is submitted
+
+**Done, verified 2026-09-11 (later session):**
+- Native debug symbols enabled in the release build type (though the app's
+  only native lib ships pre-stripped upstream, so Play's warning about it
+  may persist regardless)
+- Data deletion request path — `/[locale]/delete-account` page added,
+  7-language content (en/tr/es/pt/fr/it/ja, others fall back to English)
 
 ---
 *Generated 2026-09-11. Cross-reference: [[android-app-build]],

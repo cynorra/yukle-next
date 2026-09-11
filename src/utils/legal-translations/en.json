@@ -186,5 +186,20 @@
     "disputeDesc": "In any dispute arising from these terms of use, a friendly resolution will be sought first. If the dispute cannot be resolved amicably, the laws of the Republic of Turkey will apply, and Istanbul Courts and Execution Offices will have exclusive jurisdiction. Loadly has no liability in disputes between users.",
     "contactTitle": "10. Contact",
     "contactDesc": "For questions or feedback about the terms of use, you can contact us through the following channel:"
+  },
+  "accountDeletion": {
+    "title": "Delete Your Account",
+    "description": "How to permanently delete your Loadly account and personal data, from the website or the Android app.",
+    "intro": "You can permanently delete your Loadly account and its data at any time — the same account works on both the website and the Android app.",
+    "signedInPrompt": "Sign in below, then go to Profile → Delete My Account to remove your account instantly.",
+    "loginCta": "Sign In",
+    "notSignedInNote": "No longer have access to your account? Email {email} from the address registered on the account and we'll delete it for you within 30 days.",
+    "whatGetsDeletedTitle": "What gets deleted",
+    "whatGetsDeletedL1": "Your profile: name, email, phone number, company name",
+    "whatGetsDeletedL2": "Your load listings",
+    "whatGetsDeletedL3": "Your messages and conversation history",
+    "whatGetsDeletedL4": "Your points/rewards balance",
+    "retainedNote": "Some data may be retained for a limited period where required by law (e.g. fraud prevention, tax/legal record-keeping) — see our Privacy Policy.",
+    "privacyLinkText": "Read the full Privacy Policy"
   }
 }

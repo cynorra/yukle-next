@@ -186,5 +186,20 @@
     "disputeDesc": "In qualsiasi controversia derivante da questi termini di utilizzo, si cercherà prima una risoluzione amichevole. Se la controversia non può essere risolta amichevolmente, si applicheranno le leggi della Repubblica di Turchia, e i Tribunali e gli Uffici di Esecuzione di Istanbul avranno giurisdizione esclusiva. Loadly non ha alcuna responsabilità nelle controversie tra gli utenti.",
     "contactTitle": "10. Contatti",
     "contactDesc": "Per domande o feedback sui termini di utilizzo, puoi contattarci tramite il seguente canale:"
+  },
+  "accountDeletion": {
+    "title": "Elimina il tuo account",
+    "description": "Come eliminare definitivamente il tuo account Loadly e i tuoi dati personali, dal sito web o dall'app Android.",
+    "intro": "Puoi eliminare definitivamente il tuo account Loadly e i suoi dati in qualsiasi momento — lo stesso account funziona sia sul sito web che sull'app Android.",
+    "signedInPrompt": "Accedi qui sotto, poi vai su Profilo → Elimina il mio account per rimuovere il tuo account all'istante.",
+    "loginCta": "Accedi",
+    "notSignedInNote": "Non hai più accesso al tuo account? Invia un'email a {email} dall'indirizzo registrato sull'account e lo elimineremo per te entro 30 giorni.",
+    "whatGetsDeletedTitle": "Cosa viene eliminato",
+    "whatGetsDeletedL1": "Il tuo profilo: nome, email, numero di telefono, nome dell'azienda",
+    "whatGetsDeletedL2": "I tuoi annunci di carico",
+    "whatGetsDeletedL3": "I tuoi messaggi e la cronologia delle conversazioni",
+    "whatGetsDeletedL4": "Il tuo saldo punti/premi",
+    "retainedNote": "Alcuni dati potrebbero essere conservati per un periodo limitato quando richiesto dalla legge (ad es. prevenzione delle frodi, conservazione di registri fiscali/legali) — consulta la nostra Informativa sulla Privacy.",
+    "privacyLinkText": "Leggi l'Informativa sulla Privacy completa"
   }
 }

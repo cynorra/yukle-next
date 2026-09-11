@@ -186,5 +186,20 @@
     "disputeDesc": "En cas de litige découlant des présentes conditions d'utilisation, une résolution amiable sera recherchée en premier lieu. Si le litige ne peut être résolu à l'amiable, les lois de la République de Turquie s'appliqueront, et les tribunaux et bureaux d'exécution d'Istanbul auront compétence exclusive. Loadly n'a aucune responsabilité dans les litiges entre utilisateurs.",
     "contactTitle": "10. Contact",
     "contactDesc": "Pour toute question ou commentaire concernant les conditions d'utilisation, vous pouvez nous contacter via le canal suivant :"
+  },
+  "accountDeletion": {
+    "title": "Supprimer votre compte",
+    "description": "Comment supprimer définitivement votre compte Loadly et vos données personnelles, depuis le site web ou l'application Android.",
+    "intro": "Vous pouvez supprimer définitivement votre compte Loadly et ses données à tout moment — le même compte fonctionne à la fois sur le site web et sur l'application Android.",
+    "signedInPrompt": "Connectez-vous ci-dessous, puis allez dans Profil → Supprimer mon compte pour supprimer votre compte instantanément.",
+    "loginCta": "Se connecter",
+    "notSignedInNote": "Vous n'avez plus accès à votre compte ? Envoyez un e-mail à {email} depuis l'adresse enregistrée sur le compte et nous le supprimerons pour vous sous 30 jours.",
+    "whatGetsDeletedTitle": "Ce qui est supprimé",
+    "whatGetsDeletedL1": "Votre profil : nom, e-mail, numéro de téléphone, nom de l'entreprise",
+    "whatGetsDeletedL2": "Vos annonces de fret",
+    "whatGetsDeletedL3": "Vos messages et l'historique des conversations",
+    "whatGetsDeletedL4": "Votre solde de points/récompenses",
+    "retainedNote": "Certaines données peuvent être conservées pendant une période limitée lorsque la loi l'exige (par exemple, prévention de la fraude, tenue de registres fiscaux/légaux) — consultez notre Politique de confidentialité.",
+    "privacyLinkText": "Lire l'intégralité de la Politique de confidentialité"
   }
 }

@@ -186,5 +186,20 @@
     "disputeDesc": "Bu kullanım şartlarından doğan herhangi bir anlaşmazlıkta öncelikle dostane bir çözüm aranacaktır. Anlaşmazlığın dostane yollarla çözülememesi durumunda Türkiye Cumhuriyeti yasaları uygulanacak olup, İstanbul Mahkemeleri ve İcra Daireleri münhasır yetkili olacaktır. Kullanıcılar arasındaki anlaşmazlıklarda Loadly'nin hiçbir sorumluluğu yoktur.",
     "contactTitle": "10. İletişim",
     "contactDesc": "Kullanım şartları hakkında sorularınız veya geri bildirimleriniz için aşağıdaki kanal aracılığıyla bizimle iletişime geçebilirsiniz:"
+  },
+  "accountDeletion": {
+    "title": "Hesabınızı Silin",
+    "description": "Loadly hesabınızı ve kişisel verilerinizi web sitesinden veya Android uygulamasından kalıcı olarak nasıl silersiniz.",
+    "intro": "Loadly hesabınızı ve verilerinizi dilediğiniz zaman kalıcı olarak silebilirsiniz — aynı hesap hem web sitesinde hem de Android uygulamasında çalışır.",
+    "signedInPrompt": "Aşağıdan giriş yapın, ardından Profil → Hesabımı Sil yolunu izleyerek hesabınızı anında kaldırın.",
+    "loginCta": "Giriş Yap",
+    "notSignedInNote": "Hesabınıza artık erişiminiz yok mu? Hesaba kayıtlı adresten {email} adresine e-posta gönderin, 30 gün içinde sizin adınıza silelim.",
+    "whatGetsDeletedTitle": "Neler silinir",
+    "whatGetsDeletedL1": "Profiliniz: ad, e-posta, telefon numarası, şirket adı",
+    "whatGetsDeletedL2": "Yük ilanlarınız",
+    "whatGetsDeletedL3": "Mesajlarınız ve konuşma geçmişiniz",
+    "whatGetsDeletedL4": "Puan/ödül bakiyeniz",
+    "retainedNote": "Yasaların gerektirdiği durumlarda (ör. dolandırıcılık önleme, vergi/yasal kayıt tutma) bazı veriler sınırlı bir süre saklanabilir — ayrıntılar için Gizlilik Politikamıza bakın.",
+    "privacyLinkText": "Gizlilik Politikasının tamamını okuyun"
   }
 }
