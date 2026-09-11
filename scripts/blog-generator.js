@@ -1213,6 +1213,53 @@ function findFabricatedTestingClaim(...texts) {
   return null;
 }
 
+// The generation prompt (see the sourcing rule near "When citing a source in
+// <blockquote> format") already tells the model to attribute statistics only
+// to real, well-known, publicly verifiable bodies — but a live test run
+// (2026-09-11) published a blockquote attributed to "International Cargo
+// Insurance Underwriters Association (ICIUA)", an organization that doesn't
+// exist. Same pattern as findFabricatedTestingClaim: the prompt is an
+// instruction, not an enforcement, so this is the code-level backstop. A
+// blockquote with NO attribution (an unattributed general statement) always
+// passes — only an attributed one citing an org/body not on this allowlist
+// is flagged. Expand the list as legitimate sources come up in real runs.
+const KNOWN_REAL_CITATION_SOURCES = [
+  'FMCSA', 'IRU', 'ATA', 'American Trucking Association', 'Eurostat',
+  'Carmack Amendment', 'DOT', 'U.S. DOT', 'USDOT', 'BTS',
+  'Bureau of Transportation Statistics', 'Census Bureau', 'IATA', 'IMO',
+  'International Maritime Organization', 'ICC', 'International Chamber of Commerce',
+  'WTO', 'World Trade Organization', 'OECD', 'World Bank', 'FMC',
+  'Federal Maritime Commission', 'EIA', 'Energy Information Administration',
+  'BLS', 'Bureau of Labor Statistics', 'CBP', 'Customs and Border Protection',
+  'UNCTAD', 'International Road Transport Union', 'Incoterms', 'ICS',
+  'International Chamber of Shipping', 'FTR', 'ACT Research', 'DAT Freight',
+  'DAT Solutions', 'Freightos', 'Freightos Baltic Index', 'SONAR', 'Logistics Managers’ Index',
+];
+
+function findFabricatedCitation(content) {
+  if (!content) return null;
+  const blockquotes = [...content.matchAll(/<blockquote>(.*?)<\/blockquote>/gis)].map(m => m[1]);
+  for (const bq of blockquotes) {
+    const attributionMatch = bq.match(/—\s*([A-Z][A-Za-z0-9.,'&() ]{3,90})\s*$/);
+    if (!attributionMatch) continue;
+    const org = attributionMatch[1].replace(/,?\s*\d{4}$/, '').trim();
+    const orgLower = org.toLowerCase();
+    // Short acronyms (ATA, ICS, DOT...) need a word-boundary match — a plain
+    // substring check false-positived on "analytics" containing "ics".
+    // Full org names are still matched by substring either direction, since
+    // the model may add/drop a "the"/"the ... of" prefix.
+    const isKnown = KNOWN_REAL_CITATION_SOURCES.some(known => {
+      const knownLower = known.toLowerCase();
+      if (known.length <= 5) {
+        return new RegExp(`\\b${known.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(org);
+      }
+      return orgLower.includes(knownLower) || knownLower.includes(orgLower);
+    });
+    if (!isKnown) return org;
+  }
+  return null;
+}
+
 // Fetch recent post titles from DB to provide uniqueness context to Gemini
 async function getRecentTopics(limit = 150) {
   try {
@@ -1583,6 +1630,16 @@ async function runBlogGenerator() {
   const fabricatedClaim = findFabricatedTestingClaim(basePost.title, basePost.excerpt, basePost.content);
   if (fabricatedClaim) {
     console.warn(`[QualityGate] "${basePost.title}" contains an unverifiable hands-on-testing claim ("${fabricatedClaim}") — Loadly has no real testing methodology, skipping this run instead of publishing a fabricated claim.`);
+    return null;
+  }
+
+  // Code-level backstop for invented blockquote sources (see
+  // findFabricatedCitation) — same rationale as the hands-on-testing gate
+  // above, added after a live test run published a citation to a
+  // nonexistent trade association.
+  const fabricatedCitation = findFabricatedCitation(basePost.content);
+  if (fabricatedCitation) {
+    console.warn(`[QualityGate] "${basePost.title}" cites an unrecognized source in a blockquote ("${fabricatedCitation}") — likely fabricated, skipping this run instead of publishing an invented citation.`);
     return null;
   }
 
