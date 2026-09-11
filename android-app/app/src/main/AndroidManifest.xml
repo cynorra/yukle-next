@@ -30,8 +30,7 @@
         android:label="Loadly"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Loadly"
-        android:usesCleartextTraffic="true">
+        android:theme="@style/Theme.Loadly">
 
         <!-- Google AdMob Application ID -->
         <meta-data

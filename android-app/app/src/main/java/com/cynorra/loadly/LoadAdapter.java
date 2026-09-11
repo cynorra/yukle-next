@@ -147,7 +147,7 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
         }
 
         private static String formatPrice(double price, String originCountry) {
-            String currency = "TR".equalsIgnoreCase(originCountry) || "Türkiye".equalsIgnoreCase(originCountry) ? "₺" : "$";
+            String currency = "TR".equalsIgnoreCase(originCountry) || "Türkiye".equalsIgnoreCase(originCountry) || "Turkey".equalsIgnoreCase(originCountry) ? "₺" : "$";
             return currency + String.format(Locale.getDefault(), "%,.0f", price);
         }
 

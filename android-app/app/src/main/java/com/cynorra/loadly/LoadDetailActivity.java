@@ -97,7 +97,7 @@ public class LoadDetailActivity extends AppCompatActivity {
 
         TextView priceText = findViewById(R.id.priceText);
         if (load.price != null) {
-            String currency = "TR".equalsIgnoreCase(load.originCountry) || "Türkiye".equalsIgnoreCase(load.originCountry) ? "₺" : "$";
+            String currency = "TR".equalsIgnoreCase(load.originCountry) || "Türkiye".equalsIgnoreCase(load.originCountry) || "Turkey".equalsIgnoreCase(load.originCountry) ? "₺" : "$";
             priceText.setText(getString(R.string.price_format, currency, String.format(Locale.getDefault(), "%,.0f", load.price)));
         } else {
             priceText.setText(R.string.negotiable);
