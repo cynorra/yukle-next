@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import '../globals.css';
 import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import CookieConsent from '@/components/CookieConsent';
 import AdSenseScript from '@/components/AdSenseScript';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
@@ -271,6 +272,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
           <Navbar />
 
           <main>{children}</main>
+          <Footer locale={locale} />
           <CookieConsent />
         </Providers>
       </body>

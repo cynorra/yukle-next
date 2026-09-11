@@ -445,10 +445,8 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
           </h1>
 
           <div className="flex items-center justify-center gap-6 py-8 border-y border-border-light dark:border-border-dark mb-12">
-            <a
-              href="https://www.linkedin.com/in/ernsmsr/"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={`/${locale}/author/eren-simsir`}
               className="flex items-center gap-3 group"
             >
               <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent border border-accent/20">
@@ -458,7 +456,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
                 <div className={`text-sm font-bold ${t.heading} group-hover:text-accent transition-colors`}>{post.author?.full_name || 'Eren Şimşir'}</div>
                 <div className={`text-xs ${t.muted}`}>{tr.authorRole}</div>
               </div>
-            </a>
+            </Link>
 
             <div className="h-10 w-[1px] bg-border-light dark:bg-border-dark hidden md:block" />
 

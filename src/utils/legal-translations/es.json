@@ -132,12 +132,12 @@
     "changesDesc": "Loadly se reserva el derecho de actualizar esta política de privacidad de acuerdo con los requisitos legales o los cambios en las características de la plataforma. Los cambios de política se publicarán en la plataforma y la fecha de actualización se revisará. Se recomienda que revise esta página regularmente para mantenerse informado de los cambios. Al continuar utilizando la plataforma, usted acepta la política actualizada.",
     "contactTitle": "10. Contacto",
     "contactDesc": "Si tiene preguntas o inquietudes sobre la política de privacidad, puede contactarnos a través de los siguientes canales:",
-    "ccpaTitle": "9. California Residents (CCPA/CPRA)",
-    "ccpaDesc": "If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA) and the California Privacy Rights Act (CPRA):",
-    "ccpaL1": "The right to know what personal information we collect and how it is used",
-    "ccpaL2": "The right to request deletion of your personal information",
-    "ccpaL3": "The right to opt out of the \"sale\" or \"sharing\" of your personal information — a term that, under CCPA, can include allowing third-party ad providers like Google AdSense to use identifiers for personalized advertising",
-    "ccpaNote": "To exercise any of these rights, email kvkk@loadlyapp.com with the subject \"California Privacy Request\". You can also opt out of personalized advertising directly via the Google Ads Settings link above."
+    "ccpaTitle": "9. Residentes de California (CCPA/CPRA)",
+    "ccpaDesc": "Si usted es residente de California, tiene derechos adicionales bajo la Ley de Privacidad del Consumidor de California (CCPA) y la Ley de Derechos de Privacidad de California (CPRA):",
+    "ccpaL1": "El derecho a saber qué información personal recopilamos y cómo se utiliza",
+    "ccpaL2": "El derecho a solicitar la eliminación de su información personal",
+    "ccpaL3": "El derecho a optar por no participar en la \"venta\" o el \"intercambio\" de su información personal, un término que, según la CCPA, puede incluir permitir que proveedores de publicidad externos como Google AdSense utilicen identificadores para publicidad personalizada",
+    "ccpaNote": "Para ejercer cualquiera de estos derechos, envíe un correo electrónico a kvkk@loadlyapp.com con el asunto \"California Privacy Request\". También puede optar por no recibir publicidad personalizada directamente a través del enlace de Configuración de Anuncios de Google indicado arriba."
   },
   "terms": {
     "title": "Términos de Servicio",
