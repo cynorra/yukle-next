@@ -6,6 +6,7 @@
     <string name="back">Înapoi</string>
     <string name="load_detail_title">Detalii cursă</string>
     <string name="load_not_found">Cursă negăsită.</string>
+    <string name="contact_shipper">Contactează expeditorul pe Loadly</string>
     <string name="negotiable">Negociabil</string>
     <string name="marketplace_load_error">Cursele nu au putut fi încărcate. Verifică conexiunea și încearcă din nou.</string>
     <string name="load_detail_load_error">Cursa nu a putut fi încărcată. Verifică conexiunea și încearcă din nou.</string>

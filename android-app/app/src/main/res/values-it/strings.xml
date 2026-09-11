@@ -6,6 +6,7 @@
     <string name="back">Indietro</string>
     <string name="load_detail_title">Dettagli carico</string>
     <string name="load_not_found">Carico non trovato.</string>
+    <string name="contact_shipper">Contatta il committente su Loadly</string>
     <string name="negotiable">Trattabile</string>
     <string name="marketplace_load_error">Impossibile caricare i carichi. Controlla la connessione e riprova.</string>
     <string name="load_detail_load_error">Impossibile caricare il carico. Controlla la connessione e riprova.</string>

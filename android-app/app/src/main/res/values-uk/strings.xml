@@ -6,6 +6,7 @@
     <string name="back">Назад</string>
     <string name="load_detail_title">Деталі вантажу</string>
     <string name="load_not_found">Вантаж не знайдено.</string>
+    <string name="contact_shipper">Зв\'язатися з вантажовласником на Loadly</string>
     <string name="negotiable">Договірна</string>
     <string name="marketplace_load_error">Не вдалося завантажити вантажі. Перевірте з\'єднання і спробуйте ще раз.</string>
     <string name="load_detail_load_error">Не вдалося завантажити вантаж. Перевірте з\'єднання і спробуйте ще раз.</string>

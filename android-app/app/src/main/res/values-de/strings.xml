@@ -6,6 +6,7 @@
     <string name="back">Zurück</string>
     <string name="load_detail_title">Ladungsdetails</string>
     <string name="load_not_found">Ladung nicht gefunden.</string>
+    <string name="contact_shipper">Verlader auf Loadly kontaktieren</string>
     <string name="negotiable">Verhandelbar</string>
     <string name="marketplace_load_error">Ladungen konnten nicht geladen werden. Verbindung prüfen und erneut versuchen.</string>
     <string name="load_detail_load_error">Ladung konnte nicht geladen werden. Verbindung prüfen und erneut versuchen.</string>
