@@ -1741,8 +1741,18 @@ async function runBlogGenerator() {
 
   await runWithConcurrency(tasks, 5);
 
-  // 3. Pick and validate unique cover image
-  const coverImage = await getUniqueCoverImage(activeTopicCluster);
+  // 3. Pick a small pool of unique cover images and cycle them across this
+  // article's locale variants. One identical image across every one of ~54
+  // language versions is a visible scaled-content signal to a manual
+  // reviewer, even though the copy itself is genuinely polished per locale
+  // (see universal-adsense-site-standard.md 1.4). Pool size stays small so
+  // this doesn't multiply Pexels API usage by the language count.
+  const totalVariants = 1 + translatedPosts.length;
+  const imagePoolSize = Math.min(5, totalVariants);
+  const coverImagePool = [];
+  for (let i = 0; i < imagePoolSize; i++) {
+    coverImagePool.push(await getUniqueCoverImage(activeTopicCluster));
+  }
 
   // 4. Build bulk insert list
   const postsToInsert = [];
@@ -1752,7 +1762,7 @@ async function runBlogGenerator() {
     slug: `${baseSlug}-${baseLanguage}`,
     excerpt: basePost.excerpt,
     content: basePost.content,
-    cover_image: coverImage,
+    cover_image: coverImagePool[0],
     author_id: activeAuthorId,
     published: true,
     language: baseLanguage,
@@ -1760,20 +1770,20 @@ async function runBlogGenerator() {
     meta_description: basePost.meta_description
   });
 
-  for (const trans of translatedPosts) {
+  translatedPosts.forEach((trans, i) => {
     postsToInsert.push({
       title: trans.title,
       slug: `${baseSlug}-${trans.langCode}`,
       excerpt: trans.excerpt,
       content: trans.content,
-      cover_image: coverImage,
+      cover_image: coverImagePool[(i + 1) % imagePoolSize],
       author_id: activeAuthorId,
       published: true,
       language: trans.langCode,
       meta_title: trans.meta_title,
       meta_description: trans.meta_description
     });
-  }
+  });
 
   // 5. Bulk insert
   console.log(`Publishing ${postsToInsert.length} multilingual posts to database...`);
