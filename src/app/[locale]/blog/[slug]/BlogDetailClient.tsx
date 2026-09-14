@@ -36,6 +36,20 @@ const RELATED_ARTICLES_LABEL: Record<string, string> = {
   vi: 'Bài Viết Liên Quan', id: 'Artikel Terkait',
 };
 
+// Separate, visible "last updated" line (distinct from the publish date badge)
+// — a real E-E-A-T/freshness signal per universal-adsense-site-standard.md
+// 3.12.3. Only rendered when updated_at is a genuinely later day than
+// created_at, so it never claims a review that didn't happen (section 0's
+// anti-fabrication rule: no fake freshness).
+const LAST_UPDATED_LABEL: Record<string, string> = {
+  en: 'Last updated', tr: 'Son güncelleme', es: 'Última actualización',
+  fr: 'Dernière mise à jour', de: 'Zuletzt aktualisiert', pt: 'Última atualização',
+  it: 'Ultimo aggiornamento', pl: 'Ostatnia aktualizacja', nl: 'Laatst bijgewerkt',
+  ru: 'Последнее обновление', uk: 'Останнє оновлення', zh: '最后更新', ja: '最終更新',
+  hi: 'अंतिम अद्यतन', ar: 'آخر تحديث', fa: 'آخرین بروزرسانی', ko: '마지막 업데이트',
+  vi: 'Cập nhật lần cuối', id: 'Terakhir diperbarui',
+};
+
 export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { post: BlogPost; locale: string; slug: string; relatedPosts?: RelatedPost[] }) {
   const t = useT();
   const activeLocale = (locale in BLOG_TRANSLATIONS) ? (locale as Locale) : 'en';
@@ -124,6 +138,22 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
       year: 'numeric'
     });
   }, [post?.created_at, locale]);
+
+  // Only show a "last updated" line when the content was genuinely revised
+  // on a later day than it was published — showing it unconditionally would
+  // just restate the publish date as fake freshness.
+  const formattedUpdatedDate = useMemo(() => {
+    if (!post?.updated_at || !post?.created_at) return '';
+    const updated = new Date(post.updated_at);
+    const created = new Date(post.created_at);
+    if (updated.toDateString() === created.toDateString()) return '';
+    const formatLocale = locale === 'tr' ? 'tr-TR' : (locale === 'en' ? 'en-US' : locale);
+    return updated.toLocaleDateString(formatLocale, {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  }, [post?.updated_at, post?.created_at, locale]);
 
   // Enhanced Markdown Parser with Link Support
   const renderedContent = useMemo(() => {
@@ -455,6 +485,11 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
               <div className="text-left">
                 <div className={`text-sm font-bold ${t.heading} group-hover:text-accent transition-colors`}>{post.author?.full_name || 'Eren Şimşir'}</div>
                 <div className={`text-xs ${t.muted}`}>{tr.authorRole}</div>
+                {formattedUpdatedDate && (
+                  <div className={`text-xs ${t.muted}`} suppressHydrationWarning>
+                    {LAST_UPDATED_LABEL[locale] || LAST_UPDATED_LABEL.en}: {formattedUpdatedDate}
+                  </div>
+                )}
               </div>
             </Link>
 
