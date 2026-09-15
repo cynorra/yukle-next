@@ -52,6 +52,10 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private static final String APP_HOST = "loadlyapp.com";
+    // Not a real URL - a sentinel both notification senders (this class and
+    // src/app/api/webhooks/fcm-batch/route.ts) use in target_url to mean
+    // "open the native marketplace screen" instead of loading a web page.
+    static final String MARKETPLACE_SENTINEL = "app://marketplace";
 
     private WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -112,12 +116,34 @@ public class MainActivity extends AppCompatActivity {
         // Request Location and Notification Permissions
         requestAppPermissions();
 
-        webView.loadUrl(resolveStartUrl(getIntent()));
+        if (!launchIfMarketplaceIntent(getIntent())) {
+            webView.loadUrl(resolveStartUrl(getIntent()));
+        }
 
         findViewById(R.id.retryButton).setOnClickListener(v -> {
             errorLayout.setVisibility(View.GONE);
             webView.reload();
         });
+    }
+
+    // Both the local "location updated" notification and the server-sent
+    // "new loads in your area" push used to send target_url = the website's
+    // /marketplace list page - but that page was intentionally killed
+    // 2026-08-29 (marketplace dropped from the site's public/indexed
+    // surface), so tapping either notification loaded a dead 404. The real
+    // "browse nearby loads" destination on this app is the native
+    // MarketplaceActivity, which isn't a real https:// URL at all - MARKETPLACE_SENTINEL
+    // is what both senders (this class's own sendNativeNotification call and
+    // src/app/api/webhooks/fcm-batch/route.ts on the website) now send
+    // instead, so this launches the native screen rather than trying to load
+    // it as a web page. Returns true if it handled (and consumed) the intent.
+    private boolean launchIfMarketplaceIntent(Intent intent) {
+        if (intent == null) return false;
+        String targetUrl = intent.getStringExtra("target_url");
+        if (!MARKETPLACE_SENTINEL.equals(targetUrl)) return false;
+        startActivity(new Intent(this, MarketplaceActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        return true;
     }
 
     private void requestAppPermissions() {
@@ -206,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             sendNativeNotification(
                     getString(R.string.location_updated_title, city),
                     getString(R.string.location_updated_body),
-                    "https://loadlyapp.com/marketplace"
+                    MARKETPLACE_SENTINEL
             );
         }
     }
@@ -447,6 +473,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        if (launchIfMarketplaceIntent(intent)) return;
         if (webView != null) {
             webView.loadUrl(resolveStartUrl(intent));
         }

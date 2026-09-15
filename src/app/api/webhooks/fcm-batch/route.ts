@@ -85,7 +85,12 @@ export async function POST(request: Request) {
             title: 'Yeni ilanlar',
             body: `${count} yeni ilan eklendi`,
           },
-          data: { target_url: 'https://loadlyapp.com/marketplace' },
+          // Not a real URL - the Android client (MainActivity.MARKETPLACE_SENTINEL)
+          // special-cases this to open the native marketplace screen instead of
+          // loading it as a web page. The website's own /marketplace list page was
+          // intentionally dropped from the public surface (see robots.txt), so a
+          // real URL here would just 404.
+          data: { target_url: 'app://marketplace' },
           android: { priority: 'high' },
         });
         results[iso2] = id;
