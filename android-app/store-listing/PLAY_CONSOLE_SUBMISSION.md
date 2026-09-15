@@ -4,10 +4,13 @@ Everything needed to actually submit the app on Google Play Console, beyond the
 per-locale title/description copy already written in `store-listing/*.md` (73
 locale files + `en-US.md` as the default/fallback listing).
 
-Status as of 2026-09-11: **app is signed-build-ready, submission assets are
-NOT yet ready.** The gaps below (graphics, Data Safety answers, content
-rating) are things only a human can finish in the Play Console UI — this file
-is the checklist for that, not something Claude can complete unattended.
+Status as of 2026-09-15: **app is signed-build-ready AND all graphic assets
+are done.** Feature graphic, icon, and phone/tablet screenshots were
+generated in CI from the real running app (`.github/workflows/android-build.yml`
+`screenshots` job) and committed to `store-listing/graphics/`. The remaining
+gaps (Data Safety answers, content rating, category, first upload) are things
+only a human can finish in the Play Console UI — this file is the checklist
+for that, not something Claude can complete unattended.
 
 ---
 
@@ -50,33 +53,25 @@ CCPA section and the `dataL6` mobile-app data disclosure added 2026-09-10/11) |
   fingerprint **cannot be known before the first upload** — it's a hard
   sequencing dependency, not optional cleanup.
 
-## 3. Graphic assets — NOT YET CREATED
+## 3. Graphic assets — DONE
 
-Searched the whole repo (`android-app/` and `public/`) for existing Play
-Store graphics. Found:
-- App icon: exists, full mipmap set (`mipmap-*dpi/ic_launcher*.png` +
-  adaptive icon `ic_launcher_foreground`/`ic_launcher_background` +
-  monochrome) — **this one is done**, Play Console pulls it from the AAB
-  automatically, no separate upload needed.
-- Feature graphic (1024×500 PNG/JPG, required): **does not exist anywhere in
-  the repo.**
-- Phone screenshots (min 2, recommend 4-8, PNG/JPG, 16:9 or 9:16, min
-  320px/max 3840px on the long edge): **do not exist.**
-- 7" / 10" tablet screenshots: not required (app is phone-only per manifest,
-  no tablet layout), skip.
-- Promo video (optional, YouTube URL): none, optional — skip unless wanted.
+All required graphics exist in `store-listing/graphics/`, generated for real
+(not mockups) — the CI `screenshots` job installs the just-built APK on a
+booted emulator, launches each real screen, and screencaps it:
+- App icon: full mipmap set (`mipmap-*dpi/ic_launcher*.png` + adaptive icon
+  + monochrome) — Play Console pulls it from the AAB automatically, no
+  separate upload needed. A standalone `icon_512x512.png` also exists for
+  the Play Console listing's dedicated icon upload field.
+- Feature graphic: `graphics/feature_graphic_1024x500.png` — done.
+- Phone screenshots: `graphics/screenshots/phone/01_main_webview.png`,
+  `02_marketplace_list.png`, `03_load_detail.png` (3, min 2 required) — done.
+- Tablet screenshots: `graphics/screenshots/tablet/` — same 3 screens,
+  captured too even though not strictly required for a phone-only app —
+  done.
+- Promo video (optional, YouTube URL): none — optional, skip unless wanted.
 
-`public/logo.png` / `public/logobgli.png` exist on the website and can be
-reused as a starting point for the feature graphic's branding, but the
-feature graphic itself (1024×500 canvas with app name + a visual, not just a
-logo) still needs to be designed — this wasn't in scope for the code session
-and needs actual design work (Canva/Figma or similar), not something to
-generate from code. Screenshots need to be taken from the running app on a
-device/emulator, e.g. the marketplace list, load detail with the Contact
-Shipper button, and the sign-in screen.
-
-**This is the actual blocker to submitting** — Play Console will not accept
-the listing without a feature graphic and at least 2 screenshots.
+Upload these directly to Play Console → Store presence → Main store listing
+→ Graphics. Nothing left to design here.
 
 ## 4. Content rating questionnaire
 
@@ -99,7 +94,7 @@ Fill in Play Console → App content → Data safety based on what the app
 |---|---|---|---|---|
 | Account info (email) | Yes | App functionality (sign-in) | No | Via Supabase Auth, same backend as the website |
 | Approximate/precise location | Yes | App functionality | No | `ACCESS_FINE_LOCATION` + `ACCESS_COARSE_LOCATION`; used on-device via Android `Geocoder` (`LoadlyApplication.java`, `MainActivity.java`) to resolve the device's country for FCM topic subscription — **not sent to any server as raw coordinates**, only the resolved country code is used to subscribe to an FCM topic |
-| Device/other IDs | Yes | Advertising | Yes (Google/AdMob) | Advertising ID, used by AdMob for the one banner ad unit (`ca-app-pub-4674211063760769/8775943135` in `activity_main.xml`) |
+| Device/other IDs | Yes | Advertising | Yes (Google/AdMob) | Advertising ID, used by AdMob for banner ad units on the main WebView, Marketplace, and Load Detail screens (dedicated ad unit IDs per screen). GDPR/UK consent gate (Google UMP SDK) added 2026-09-15 before any ad request. |
 | App activity / crash logs | Likely (Firebase default telemetry) | Analytics | No | Standard Firebase SDK behavior — confirm against actual Firebase project config in Play Console, don't guess further than this |
 | Messages | No | — | — | Contact-shipper flow hands off to the website via Custom Tabs; the app itself doesn't store or transmit message content |
 
@@ -143,7 +138,7 @@ transmitted as raw coordinates."*
 
 ## 8. What's genuinely done vs. still open
 
-**Done, verified this session:**
+**Done, verified 2026-09-11 session:**
 - Signed release AAB builds successfully
 - Store listing copy for 73 locales + en-US default (all "55→54" language-count
   fixed to match reality after Telugu was dropped)
@@ -152,23 +147,37 @@ transmitted as raw coordinates."*
 - Currency and truck-type display bugs fixed (would have shown wrong info to
   real Play Store users)
 - Contact Shipper flow wired end-to-end (Custom Tabs → website)
-
-**Still open, needs a human (not code):**
-- Feature graphic (1024×500) — not designed
-- Phone screenshots (min 2) — not captured
-- Content rating questionnaire — not filled out (Play Console UI)
-- Data Safety form — not filled out (Play Console UI, use §5 above as the answer key)
-- Category selection — not chosen in Play Console yet
-- First AAB upload + Play App Signing enrollment → then update
-  `assetlinks.json` with the resulting fingerprint
-
-**Done, verified 2026-09-11 (later session):**
 - Native debug symbols enabled in the release build type (though the app's
   only native lib ships pre-stripped upstream, so Play's warning about it
   may persist regardless)
 - Data deletion request path — `/[locale]/delete-account` page added,
   7-language content (en/tr/es/pt/fr/it/ja, others fall back to English)
 
+**Done, verified 2026-09-15 session:**
+- GitHub Actions CI (`android-build.yml`) builds + signs the release AAB/APK
+  on every push, since the local machine's C: drive is too low on space to
+  build safely — verified signing cert matches the Play-Console-registered
+  fingerprint on every run.
+- Feature graphic (1024×500) — designed and committed.
+- Phone + tablet screenshots (3 each) — captured for real from a booted CI
+  emulator running the actual app, not mockups.
+- 512×512 store icon — committed.
+- Fixed a real live bug found in this pass: two push-notification paths sent
+  users to a dead `/marketplace` URL (404) instead of the native
+  `MarketplaceActivity`.
+- Added GDPR/UK AdMob consent gate (Google UMP SDK) — was completely missing
+  before.
+- Added banner ads (dedicated ad unit IDs) to Marketplace and Load Detail
+  screens.
+
+**Still open, needs a human (not code):**
+- Content rating questionnaire — not filled out (Play Console UI)
+- Data Safety form — not filled out (Play Console UI, use §5 above as the answer key)
+- Category selection — not chosen in Play Console yet
+- First AAB upload + Play App Signing enrollment → then update
+  `assetlinks.json` with the resulting fingerprint
+
 ---
-*Generated 2026-09-11. Cross-reference: [[android-app-build]],
-[[play-store-listing-2026-09-05]] in project memory.*
+*Generated 2026-09-11, updated 2026-09-15. Cross-reference: [[android-app-build]],
+[[play-store-listing-2026-09-05]], [[android-app-graphify-audit-2026-09-15]]
+in project memory.*
