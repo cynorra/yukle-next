@@ -35,9 +35,12 @@ CCPA section and the `dataL6` mobile-app data disclosure added 2026-09-10/11) |
   (produced by `./gradlew bundleRelease`, confirmed building successfully as
   of this session — `BUILD SUCCESSFUL in 2m 41s`).
 - Signing config reads `android-app/keystore/keystore.properties` (gitignored,
-  points at `D:\keystores\loadly_key.jks`, outside the repo). Confirm this
-  file exists locally before running `bundleRelease` — see
-  `android-app/keystore/README.md` for setup if it's missing.
+  points at `D:\keystores\yukbul_key.jks` — the real, Play-Console-registered
+  upload key; `loadly_key.jks` was a mistaken duplicate generated before that
+  history was known and must NOT be used, see the signing-key saga in
+  `keystore/README.md`). Confirm this file exists locally before running
+  `bundleRelease` — see `android-app/keystore/README.md` for setup if it's
+  missing.
 - **Enroll in Play App Signing** on first upload (Play Console will prompt
   for this automatically). After the first successful upload, Google
   generates its own signing certificate — copy that certificate's SHA-256
