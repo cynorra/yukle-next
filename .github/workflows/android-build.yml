@@ -1,0 +1,89 @@
+name: Android Build (Signed AAB)
+
+# Builds android-app/ on a GitHub-hosted runner instead of the local dev
+# machine — the local machine's C: drive is chronically low on free space
+# (repeatedly OOM'd/ran out of disk mid Android build, see the 2026-09
+# project memory), which made it unsafe to actually compile-verify any
+# Android change there. Runs on every push touching android-app/ so every
+# future change gets a real signed build, not just a code review.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'android-app/**'
+      - '.github/workflows/android-build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android-app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # The real signing key never lives in the repo (see keystore/README.md)
+      # - decoded here from a GitHub secret straight into the exact path
+      # keystore.properties will point at, then deleted again in the final
+      # cleanup step. app/build.gradle.kts already falls back to an unsigned
+      # build when keystore.properties is absent, so a fork/PR without these
+      # secrets still builds (just unsigned) instead of failing outright.
+      - name: Decode signing key and write keystore.properties
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "No ANDROID_KEYSTORE_BASE64 secret - building unsigned (expected on forks/PRs)."
+            exit 0
+          fi
+          mkdir -p keystore
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > keystore/ci-release.jks
+          cat > keystore/keystore.properties <<EOF
+          storeFile=keystore/ci-release.jks
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyAlias=yukbul
+          keyPassword=$ANDROID_KEY_PASSWORD
+          EOF
+
+      - name: Build signed release AAB + APK
+        run: ./gradlew :app:bundleRelease :app:assembleRelease --stacktrace
+
+      - name: Verify signing certificate
+        if: hashFiles('android-app/keystore/keystore.properties') != ''
+        run: |
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -1)
+          "$APKSIGNER" verify --print-certs app/build/outputs/apk/release/app-release.apk
+
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: android-app/app/build/outputs/bundle/release/app-release.aab
+          retention-days: 30
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: android-app/app/build/outputs/apk/release/app-release.apk
+          retention-days: 30
+
+      - name: Clean up decoded signing key
+        if: always()
+        run: rm -f keystore/ci-release.jks keystore/keystore.properties
