@@ -141,11 +141,16 @@ jobs:
             # any activity, without changing anything about the app itself.
             adb root
             adb wait-for-device
+            # The system launcher itself (not our app) tends to ANR
+            # ("Pixel Launcher isn't responding") if we start installing/
+            # launching immediately after boot on this CPU-constrained
+            # runner - give it time to finish its own boot-time work first.
+            sleep 20
             adb install -r -g apk/app-release.apk
             mkdir -p screenshots
 
             adb shell am start -n app.yukbul.android/com.cynorra.loadly.MainActivity
-            sleep 10
+            sleep 12
             adb exec-out screencap -p > screenshots/01_main_webview.png
 
             adb shell am start -n app.yukbul.android/com.cynorra.loadly.MarketplaceActivity
