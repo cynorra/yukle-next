@@ -75,6 +75,9 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.recyclerview)
     implementation(libs.play.services.ads)
+    // GDPR/UK consent (Google's User Messaging Platform) - required before
+    // requesting ads for EEA/UK users, see MainActivity.requestConsentThenLoadAds
+    implementation(libs.user.messaging.platform)
 
     // Firebase Cloud Messaging (push notifications, incl. while the app is closed)
     implementation(platform(libs.firebase.bom))

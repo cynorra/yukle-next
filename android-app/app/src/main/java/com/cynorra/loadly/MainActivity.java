@@ -44,6 +44,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.UserMessagingPlatform;
 
 import java.io.IOException;
 import java.util.List;
@@ -89,20 +92,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize Google AdMob SDK
-        MobileAds.initialize(this, initializationStatus -> {});
-
         webView = findViewById(R.id.webView);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         progressBar = findViewById(R.id.progressBar);
         errorLayout = findViewById(R.id.errorLayout);
         adView = findViewById(R.id.adView);
 
-        // Load AdMob Banner Ad
-        AdRequest adRequest = new AdRequest.Builder().build();
-        if (adView != null) {
-            adView.loadAd(adRequest);
-        }
+        requestConsentThenLoadAds();
 
         setupSwipeRefresh();
         setupWebView();
@@ -264,6 +260,52 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+    }
+
+    // GDPR/UK Age-Appropriate-Design-Code compliance: AdMob policy requires
+    // asking EEA/UK users for consent before requesting personalized ads (a
+    // consent message must also be configured in the AdMob console's
+    // Privacy & messaging section - this code alone does nothing for users
+    // outside a region where a message applies, canRequestAds() is simply
+    // already true for them and this resolves immediately). Previously the
+    // app called MobileAds.initialize()/loadAd() unconditionally in
+    // onCreate() with zero consent gate - a real AdMob policy violation risk
+    // for EEA/UK installs, not just a missing feature.
+    private void requestConsentThenLoadAds() {
+        ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(this);
+        ConsentRequestParameters params = new ConsentRequestParameters.Builder().build();
+
+        consentInformation.requestConsentInfoUpdate(this, params, () ->
+                UserMessagingPlatform.loadAndShowConsentFormIfRequired(this, formError -> {
+                    if (consentInformation.canRequestAds()) {
+                        initializeAdsAndLoadBanner();
+                    }
+                }), formError -> {
+            // Consent info update failed (e.g. no network) - don't block the
+            // rest of the app over an ad SDK hiccup; canRequestAds() reflects
+            // whatever was already known from a previous session, if any.
+            if (consentInformation.canRequestAds()) {
+                initializeAdsAndLoadBanner();
+            }
+        });
+
+        // A returning user whose consent status is already known resolves
+        // canRequestAds() synchronously, before the async update above even
+        // finishes - don't make them wait on a network round-trip every launch.
+        if (consentInformation.canRequestAds()) {
+            initializeAdsAndLoadBanner();
+        }
+    }
+
+    private boolean adsInitialized = false;
+
+    private void initializeAdsAndLoadBanner() {
+        if (adsInitialized) return;
+        adsInitialized = true;
+        MobileAds.initialize(this, initializationStatus -> {});
+        if (adView != null) {
+            adView.loadAd(new AdRequest.Builder().build());
+        }
     }
 
     private void setupSwipeRefresh() {
