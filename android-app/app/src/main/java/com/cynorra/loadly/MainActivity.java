@@ -20,7 +20,6 @@ import android.os.Message;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
-import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -282,9 +281,6 @@ public class MainActivity extends AppCompatActivity {
         cookieManager.setAcceptCookie(true);
         cookieManager.setAcceptThirdPartyCookies(webView, true);
 
-        // Add JavaScript Bridge for Web-to-Native notification & location interaction
-        webView.addJavascriptInterface(new AndroidBridge(), "AndroidBridge");
-
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -368,18 +364,6 @@ public class MainActivity extends AppCompatActivity {
         // External handling for downloadable files
         webView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength) ->
                 openExternally(Uri.parse(url)));
-    }
-
-    public class AndroidBridge {
-        @JavascriptInterface
-        public void showNotification(String title, String message, String targetUrl) {
-            runOnUiThread(() -> sendNativeNotification(title, message, targetUrl));
-        }
-
-        @JavascriptInterface
-        public void triggerLocationCheck(String city) {
-            runOnUiThread(() -> handleCityDetected(city));
-        }
     }
 
     private boolean handleUrl(Uri uri) {

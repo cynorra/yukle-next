@@ -7,6 +7,17 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Without this, Android implies android.hardware.location as a REQUIRED
+         feature just from requesting the two permissions above, which silently
+         drops every device with no location hardware (some tablets, TVs,
+         budget phones) from the Play Store catalog. Location here is only used
+         for on-device city detection (Geocoder) to pick an FCM country topic -
+         the app works fine with no location at all, it just won't tailor push
+         notifications by country. -->
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.location.network" android:required="false" />
+
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
