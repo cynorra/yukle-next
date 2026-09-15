@@ -39,6 +39,18 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <!-- Hidden until a load actually loads (see LoadDetailActivity.bind) - sharing
+             an empty/loading screen makes no sense. -->
+        <ImageButton
+            android:id="@+id/shareButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/share_load"
+            android:src="@drawable/ic_share"
+            android:visibility="gone"
+            app:tint="@color/white" />
     </LinearLayout>
 
     <!-- Google AdMob Banner Ad (Publisher ID: pub-4674211063760769) -->

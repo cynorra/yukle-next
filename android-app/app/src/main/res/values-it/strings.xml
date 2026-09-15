@@ -36,4 +36,7 @@
     <string name="filter_search">Cerca carichi</string>
     <string name="filter_clear">Cancella filtri</string>
     <string name="filter_empty_results">Nessun carico corrisponde ai tuoi filtri.</string>
+
+    <string name="share_load">Condividi carico</string>
+    <string name="share_load_text">Carico da %1$s a %2$s su Loadly: %3$s</string>
 </resources>

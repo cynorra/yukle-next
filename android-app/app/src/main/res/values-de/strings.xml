@@ -36,4 +36,7 @@
     <string name="filter_search">Ladungen durchsuchen</string>
     <string name="filter_clear">Filter zurücksetzen</string>
     <string name="filter_empty_results">Keine Ladungen entsprechen Ihren Filtern.</string>
+
+    <string name="share_load">Ladung teilen</string>
+    <string name="share_load_text">Ladung von %1$s nach %2$s auf Loadly: %3$s</string>
 </resources>

@@ -36,4 +36,7 @@
     <string name="filter_search">ابحث عن الشحنات</string>
     <string name="filter_clear">مسح الفلاتر</string>
     <string name="filter_empty_results">لا توجد شحنات مطابقة لفلاترك.</string>
+
+    <string name="share_load">مشاركة الشحنة</string>
+    <string name="share_load_text">شحنة من %1$s إلى %2$s على Loadly: %3$s</string>
 </resources>

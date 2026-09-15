@@ -36,4 +36,7 @@
     <string name="filter_search">Caută curse</string>
     <string name="filter_clear">Șterge filtrele</string>
     <string name="filter_empty_results">Nicio cursă nu corespunde filtrelor tale.</string>
+
+    <string name="share_load">Distribuie cursa</string>
+    <string name="share_load_text">Cursă de la %1$s la %2$s pe Loadly: %3$s</string>
 </resources>

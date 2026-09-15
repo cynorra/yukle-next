@@ -1,5 +1,6 @@
 package com.cynorra.loadly;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -35,6 +36,8 @@ public class LoadDetailActivity extends AppCompatActivity {
     private String loadId;
     private final SupabaseClient client = new SupabaseClient();
     private AdView adView;
+    private ImageButton shareButton;
+    private Load currentLoad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class LoadDetailActivity extends AppCompatActivity {
 
         adView = findViewById(R.id.adView);
         AdsHelper.requestConsentThenLoadBanner(this, adView, null);
+
+        shareButton = findViewById(R.id.shareButton);
+        shareButton.setOnClickListener(v -> shareCurrentLoad());
 
         loadId = getIntent().getStringExtra(EXTRA_LOAD_ID);
         if (loadId == null || loadId.isEmpty()) {
@@ -102,13 +108,33 @@ public class LoadDetailActivity extends AppCompatActivity {
     private void showError(boolean canRetry) {
         hideShimmer();
         contentScroll.setVisibility(View.GONE);
+        shareButton.setVisibility(View.GONE);
+        currentLoad = null;
         errorText.setText(canRetry ? R.string.load_detail_load_error : R.string.load_not_found);
         retryButton.setVisibility(canRetry ? View.VISIBLE : View.GONE);
         errorLayout.setVisibility(View.VISIBLE);
     }
 
+    // Shares a link to this load's real page on the website (not a native deep link -
+    // the recipient may not have the app installed) so anyone can open it in a
+    // browser, see the listing, and discover Loadly - the app itself had no share
+    // path anywhere before this; the website's own marketplace/[id] page already has
+    // one via navigator.share().
+    private void shareCurrentLoad() {
+        if (currentLoad == null) return;
+        String text = getString(R.string.share_load_text,
+                currentLoad.originCity, currentLoad.destinationCity,
+                "https://loadlyapp.com/marketplace/" + currentLoad.id);
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType("text/plain");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        startActivity(Intent.createChooser(sendIntent, getString(R.string.share_load)));
+    }
+
     private void bind(Load load) {
         contentScroll.setVisibility(View.VISIBLE);
+        currentLoad = load;
+        shareButton.setVisibility(View.VISIBLE);
 
         ((TextView) findViewById(R.id.routeText)).setText(getString(R.string.route_format, load.originCity, load.destinationCity));
 

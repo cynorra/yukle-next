@@ -39,4 +39,7 @@
     <string name="filter_search">Search listings</string>
     <string name="filter_clear">Clear filters</string>
     <string name="filter_empty_results">No listings match your filters.</string>
+
+    <string name="share_load">Share listing</string>
+    <string name="share_load_text">Load from %1$s to %2$s on Loadly: %3$s</string>
 </resources>

@@ -36,4 +36,7 @@
     <string name="filter_search">Искать грузы</string>
     <string name="filter_clear">Сбросить фильтры</string>
     <string name="filter_empty_results">Нет грузов по вашим фильтрам.</string>
+
+    <string name="share_load">Поделиться грузом</string>
+    <string name="share_load_text">Груз из %1$s в %2$s на Loadly: %3$s</string>
 </resources>

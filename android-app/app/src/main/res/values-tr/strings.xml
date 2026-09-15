@@ -36,4 +36,7 @@
     <string name="filter_search">İlanlarda ara</string>
     <string name="filter_clear">Filtreleri temizle</string>
     <string name="filter_empty_results">Filtrelerinize uyan ilan yok.</string>
+
+    <string name="share_load">İlanı paylaş</string>
+    <string name="share_load_text">Loadly\'de %1$s - %2$s arası yük ilanı: %3$s</string>
 </resources>
