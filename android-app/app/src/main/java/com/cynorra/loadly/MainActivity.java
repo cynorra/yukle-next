@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private ValueCallback<Uri[]> pendingFileCallback;
 
     private LocationManager locationManager;
+    private LocationListener locationListener;
     private String lastDetectedCity = "";
 
     private final ActivityResultLauncher<String> fileChooserLauncher =
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isNetEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-            LocationListener locationListener = new LocationListener() {
+            locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(@NonNull Location location) {
                     processUserLocation(location.getLatitude(), location.getLongitude());
@@ -493,6 +494,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         if (adView != null) adView.pause();
+        // requestLocationUpdates was previously never matched with removeUpdates -
+        // GPS/network location polling (every 300s or 1000m) kept running forever in
+        // the background, draining battery and holding this Activity via the
+        // listener's implicit reference for as long as the process stayed alive.
+        if (locationManager != null && locationListener != null) {
+            locationManager.removeUpdates(locationListener);
+        }
         super.onPause();
     }
 
@@ -500,11 +508,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (adView != null) adView.resume();
+        resumeLocationTrackingIfActive();
+    }
+
+    // Re-subscribes only if tracking was already active before this pause/resume
+    // cycle - the very first permission grant is handled directly by
+    // requestAppPermissions' callback calling initLocationTracking(), which always
+    // runs after this Activity's first onResume, so locationManager/locationListener
+    // are still null then and this correctly no-ops instead of double-subscribing.
+    @SuppressLint("MissingPermission")
+    private void resumeLocationTrackingIfActive() {
+        if (locationManager == null || locationListener == null) return;
+        boolean hasFine = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        boolean hasCoarse = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        if (!hasFine && !hasCoarse) return;
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 1000, locationListener);
+        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 300000, 1000, locationListener);
+        }
     }
 
     @Override
     protected void onDestroy() {
         if (adView != null) adView.destroy();
+        if (locationManager != null && locationListener != null) {
+            locationManager.removeUpdates(locationListener);
+        }
         super.onDestroy();
     }
 }
