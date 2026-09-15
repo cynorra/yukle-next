@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
                             String city = addresses.get(0).getAdminArea();
                             if (city == null || city.isEmpty()) city = addresses.get(0).getLocality();
                             handleCityDetected(city);
+                            LoadlyApplication.updateLastCity(MainActivity.this, city);
                             LoadlyApplication.updateCountryTopic(MainActivity.this, addresses.get(0).getCountryCode());
                         }
                     }
@@ -206,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     String city = addresses.get(0).getAdminArea();
                     if (city == null || city.isEmpty()) city = addresses.get(0).getLocality();
                     handleCityDetected(city);
+                    LoadlyApplication.updateLastCity(MainActivity.this, city);
                     LoadlyApplication.updateCountryTopic(MainActivity.this, addresses.get(0).getCountryCode());
                 }
             }

@@ -222,7 +222,9 @@ public class MarketplaceActivity extends AppCompatActivity {
             public void onSuccess(List<Load> result) {
                 hideShimmer();
                 swipeRefreshLayout.setRefreshing(false);
-                adapter.submitList(result);
+                // Only reorder the unfiltered "browse everything" view - once the user has
+                // typed their own origin/destination, that explicit intent must win as-is.
+                adapter.submitList(filtered ? result : prioritizeByDetectedCity(result));
                 // A successful (non-error) fetch with zero rows is a genuine "no listings"
                 // state, distinct from a failed fetch below - never conflate the two texts.
                 // Also distinct from a plain empty marketplace: zero rows because of the
@@ -245,6 +247,29 @@ public class MarketplaceActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // Loads only carry origin_city/origin_country text, not coordinates, so this can't
+    // be a real distance sort - it's a stable partition: loads whose origin_city matches
+    // the device's last geocoded city (MainActivity's location flow, persisted in
+    // LoadlyApplication) move to the front, everything else keeps its original
+    // (recency) order behind them. A no-op whenever location was never resolved.
+    private List<Load> prioritizeByDetectedCity(List<Load> loads) {
+        String city = LoadlyApplication.getLastCity(this);
+        if (city == null || city.isEmpty()) return loads;
+
+        List<Load> nearby = new ArrayList<>();
+        List<Load> rest = new ArrayList<>();
+        for (Load load : loads) {
+            if (load.originCity != null && load.originCity.equalsIgnoreCase(city)) {
+                nearby.add(load);
+            } else {
+                rest.add(load);
+            }
+        }
+        if (nearby.isEmpty()) return loads;
+        nearby.addAll(rest);
+        return nearby;
     }
 
     private void hideShimmer() {

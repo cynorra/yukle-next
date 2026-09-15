@@ -33,6 +33,7 @@ public class LoadlyApplication extends Application {
     private static final String PREFS_NAME = "loadly_prefs";
     private static final String KEY_PUSH_ENABLED = "push_enabled";
     private static final String KEY_SUBSCRIBED_COUNTRY = "subscribed_country_iso2";
+    private static final String KEY_LAST_CITY = "last_detected_city";
     private static final String TOPIC_PREFIX = "new_loads_";
 
     @Override
@@ -88,6 +89,21 @@ public class LoadlyApplication extends Application {
             subscribeToTopic(context, normalized);
         }
         prefs(context).edit().putString(KEY_SUBSCRIBED_COUNTRY, normalized).apply();
+    }
+
+    /**
+     * Persists the device's last geocoded city (MainActivity's GPS+Geocoder flow) so
+     * MarketplaceActivity can prioritize loads originating from it without needing its
+     * own location fix - the city name is the only signal available for this, since
+     * loads only carry origin_city/origin_country text, not coordinates.
+     */
+    public static void updateLastCity(Context context, String city) {
+        if (city == null || city.isEmpty()) return;
+        prefs(context).edit().putString(KEY_LAST_CITY, city).apply();
+    }
+
+    public static String getLastCity(Context context) {
+        return prefs(context).getString(KEY_LAST_CITY, null);
     }
 
     /**
