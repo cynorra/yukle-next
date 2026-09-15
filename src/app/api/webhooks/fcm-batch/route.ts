@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { notificationStringsForCountry } from '../../../../lib/push-notification-i18n';
 // Plain CommonJS data module shared with scripts/scraper.js and
 // scripts/freightfinder-serverless.js - see that file for provenance.
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -79,11 +80,14 @@ export async function POST(request: Request) {
     const results: Record<string, string> = {};
     for (const [iso2, count] of countsByCountry) {
       try {
+        // Each country topic gets its own push in its own language - was previously
+        // a single hardcoded Turkish title/body sent to every country worldwide.
+        const strings = notificationStringsForCountry(iso2);
         const id = await messaging.send({
           topic: TOPIC_PREFIX + iso2,
           notification: {
-            title: 'Yeni ilanlar',
-            body: `${count} yeni ilan eklendi`,
+            title: strings.batchTitle,
+            body: strings.batchBody(count),
           },
           // Not a real URL - the Android client (MainActivity.MARKETPLACE_SENTINEL)
           // special-cases this to open the native marketplace screen instead of

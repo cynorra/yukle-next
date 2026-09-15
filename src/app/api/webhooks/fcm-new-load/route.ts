@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { notificationStringsForCountry } from '../../../../lib/push-notification-i18n';
 // Plain CommonJS data module shared with scripts/scraper.js and the fcm-batch route.
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { COUNTRY_TO_ISO2 } = require('../../../../../scripts/lib-country-to-iso2.js');
@@ -69,11 +70,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ skipped: 'no mapped country for this load' });
     }
 
+    // Each country topic gets its own push in its own language - was previously a
+    // single hardcoded Turkish title sent to every country regardless of language.
     await Promise.all(countries.map((iso2) =>
       messaging.send({
         topic: TOPIC_PREFIX + iso2,
         notification: {
-          title: 'Yeni ilan',
+          title: notificationStringsForCountry(iso2).newLoadTitle,
           body: `${load.origin_city} → ${load.destination_city}: ${load.title}`,
         },
         data: {
