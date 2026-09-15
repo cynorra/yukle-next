@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 // Release signing lives in keystore/keystore.properties (gitignored, not committed -
@@ -82,6 +83,9 @@ dependencies {
     // Firebase Cloud Messaging (push notifications, incl. while the app is closed)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
+    // Crash reporting - without this, a release-build crash on a real user's device
+    // was invisible until they complained or left a bad review, with no report at all.
+    implementation(libs.firebase.crashlytics)
 
     // Test
     testImplementation(libs.junit)
