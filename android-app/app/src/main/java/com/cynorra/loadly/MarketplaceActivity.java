@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.cynorra.loadly.model.Load;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.cynorra.loadly.network.SupabaseClient;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class MarketplaceActivity extends AppCompatActivity {
     private TextView emptyText;
     private final SupabaseClient client = new SupabaseClient();
     private LoadAdapter adapter;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,28 @@ public class MarketplaceActivity extends AppCompatActivity {
         Button retryButton = findViewById(R.id.retryButton);
         retryButton.setOnClickListener(v -> fetchLoads());
 
+        adView = findViewById(R.id.adView);
+        AdsHelper.requestConsentThenLoadBanner(this, adView, null);
+
         fetchLoads();
+    }
+
+    @Override
+    protected void onPause() {
+        if (adView != null) adView.pause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adView != null) adView.resume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (adView != null) adView.destroy();
+        super.onDestroy();
     }
 
     private void updateNotificationToggleIcon(ImageButton button) {

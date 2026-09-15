@@ -16,6 +16,7 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import com.cynorra.loadly.model.Load;
 import com.cynorra.loadly.network.SupabaseClient;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.gms.ads.AdView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +34,7 @@ public class LoadDetailActivity extends AppCompatActivity {
     private Button retryButton;
     private String loadId;
     private final SupabaseClient client = new SupabaseClient();
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class LoadDetailActivity extends AppCompatActivity {
         errorText = findViewById(R.id.errorText);
         retryButton = findViewById(R.id.retryButton);
         retryButton.setOnClickListener(v -> fetchLoad(loadId));
+
+        adView = findViewById(R.id.adView);
+        AdsHelper.requestConsentThenLoadBanner(this, adView, null);
 
         loadId = getIntent().getStringExtra(EXTRA_LOAD_ID);
         if (loadId == null || loadId.isEmpty()) {
@@ -167,6 +172,24 @@ public class LoadDetailActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onPause() {
+        if (adView != null) adView.pause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adView != null) adView.resume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (adView != null) adView.destroy();
+        super.onDestroy();
     }
 
     private String formatDate(String isoDate) {
