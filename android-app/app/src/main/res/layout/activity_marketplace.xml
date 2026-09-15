@@ -23,7 +23,7 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/back"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:src="@drawable/ic_back"
             app:tint="@color/white" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/notification_toggle"
-            android:src="@android:drawable/ic_popup_reminder"
+            android:src="@drawable/ic_bell"
             app:tint="@color/white" />
     </LinearLayout>
 
@@ -142,7 +142,7 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/filter_search"
-                android:src="@android:drawable/ic_menu_search"
+                android:src="@drawable/ic_search"
                 app:tint="@color/primary_accent" />
 
             <ImageButton
@@ -151,7 +151,7 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/filter_clear"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@drawable/ic_close"
                 app:tint="@color/text_muted" />
         </LinearLayout>
     </LinearLayout>

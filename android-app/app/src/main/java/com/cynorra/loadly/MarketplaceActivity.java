@@ -192,9 +192,7 @@ public class MarketplaceActivity extends AppCompatActivity {
 
     private void updateNotificationToggleIcon(ImageButton button) {
         boolean enabled = LoadlyApplication.isPushEnabled(this);
-        button.setImageResource(enabled
-                ? android.R.drawable.ic_popup_reminder
-                : android.R.drawable.ic_lock_silent_mode);
+        button.setImageResource(enabled ? R.drawable.ic_bell : R.drawable.ic_bell_off);
     }
 
     private void openDetail(Load load) {
