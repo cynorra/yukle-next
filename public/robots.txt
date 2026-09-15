@@ -7,6 +7,18 @@
 # ─── PRIVATE PATHS (blocked for all bots) ─────────────────────
 # These paths are user-specific, auth-gated, or not indexable.
 
+# ─── GOOGLE ADSENSE ────────────────────────────────────────────
+# Mediapartners-Google is Google's ad-serving/content-review crawler, treated
+# by Google as separate from Googlebot — it does NOT inherit Googlebot's
+# rules below, so it needs its own explicit block. Marketplace listings are
+# scraper-imported freight postings (real third-party contact info in the
+# description, no original editorial value) — they must never be crawled for
+# ad placement or AdSense policy review. The mobile app's own "Contact
+# Shipper" flow still works for real users (it's a direct link, not a crawl).
+User-agent: Mediapartners-Google
+Allow: /
+Disallow: /*/marketplace
+
 # ─── GLOBAL SEARCH ENGINE CRAWLERS ────────────────────────────
 
 # Google (Search, Images, Video, News, Shopping)
@@ -17,6 +29,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -48,6 +61,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -70,6 +84,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -96,6 +111,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -116,6 +132,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Crawl-delay: 2
 
 # 360 / Qihoo / So.com (China – 3rd largest)
@@ -126,6 +143,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Crawl-delay: 2
 
 # Naver (South Korea – dominant)
@@ -136,6 +154,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -154,6 +173,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -168,6 +188,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -182,6 +203,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -196,6 +218,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Mail.ru (Russia)
 User-agent: Mail.RU_Bot
@@ -205,6 +228,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Crawl-delay: 1
 
 # Qwant (France / EU)
@@ -215,6 +239,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Ecosia (Germany, eco-search)
 User-agent: Ecosia
@@ -228,6 +253,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Crawl-delay: 2
 
 # Huawei Petal Search
@@ -238,6 +264,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Mojeek (UK – independent)
 User-agent: MojeekBot
@@ -254,6 +281,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Internet Archive / Wayback Machine
 User-agent: ia_archiver
@@ -261,6 +289,7 @@ Allow: /
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 User-agent: archive.org_bot
 Allow: /
@@ -284,6 +313,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -297,6 +327,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 User-agent: OAI-SearchBot
 Allow: /
@@ -305,6 +336,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Google Gemini / Bard AI
 User-agent: Google-Extended
@@ -314,6 +346,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -331,6 +364,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -351,6 +385,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
@@ -365,6 +400,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 User-agent: FacebookBot
 Allow: /
@@ -377,6 +413,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # ByteDance (TikTok AI, Doubao)
 User-agent: Bytespider
@@ -386,6 +423,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Crawl-delay: 2
 
 # You.com AI
@@ -396,6 +434,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Cohere AI
 User-agent: cohere-ai
@@ -405,6 +444,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Common Crawl (AI training data source)
 User-agent: CCBot
@@ -414,6 +454,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Diffbot (AI data extraction)
 User-agent: Diffbot
@@ -423,6 +464,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 
 # Timpi (decentralized AI search)
 User-agent: Timpibot
@@ -483,6 +525,7 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
+Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
