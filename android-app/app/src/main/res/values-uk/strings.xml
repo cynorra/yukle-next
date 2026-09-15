@@ -24,4 +24,8 @@
     <string name="notification_channel_desc">Сповіщення про вантажі поблизу та повідомлення</string>
     <string name="location_updated_title">📍 Місцезнаходження оновлено: %1$s</string>
     <string name="location_updated_body">Торкніться, щоб побачити активні вантажі у вашому регіоні.</string>
+
+    <string name="notification_toggle">Увімкнути/вимкнути сповіщення про нові вантажі</string>
+    <string name="notifications_enabled_toast">Сповіщення про нові вантажі увімкнено</string>
+    <string name="notifications_disabled_toast">Сповіщення про нові вантажі вимкнено</string>
 </resources>

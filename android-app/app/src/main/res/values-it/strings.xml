@@ -24,4 +24,8 @@
     <string name="notification_channel_desc">Notifiche su carichi nelle vicinanze e messaggi</string>
     <string name="location_updated_title">📍 Posizione aggiornata a %1$s</string>
     <string name="location_updated_body">Tocca per vedere i carichi attivi nella tua zona.</string>
+
+    <string name="notification_toggle">Attiva/disattiva notifiche nuovi carichi</string>
+    <string name="notifications_enabled_toast">Notifiche nuovi carichi attivate</string>
+    <string name="notifications_disabled_toast">Notifiche nuovi carichi disattivate</string>
 </resources>

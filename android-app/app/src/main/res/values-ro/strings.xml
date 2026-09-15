@@ -24,4 +24,8 @@
     <string name="notification_channel_desc">Notificări despre curse din apropiere și mesaje</string>
     <string name="location_updated_title">📍 Locație actualizată la %1$s</string>
     <string name="location_updated_body">Atinge pentru a vedea cursele active din zona ta.</string>
+
+    <string name="notification_toggle">Activează/dezactivează notificările pentru curse noi</string>
+    <string name="notifications_enabled_toast">Notificări pentru curse noi activate</string>
+    <string name="notifications_disabled_toast">Notificări pentru curse noi dezactivate</string>
 </resources>

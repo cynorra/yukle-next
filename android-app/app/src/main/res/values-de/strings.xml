@@ -24,4 +24,8 @@
     <string name="notification_channel_desc">Benachrichtigungen zu Ladungen in der Nähe und Nachrichten</string>
     <string name="location_updated_title">📍 Standort aktualisiert auf %1$s</string>
     <string name="location_updated_body">Tippen, um aktuelle Ladungen in Ihrer Nähe zu sehen.</string>
+
+    <string name="notification_toggle">Benachrichtigungen für neue Ladungen umschalten</string>
+    <string name="notifications_enabled_toast">Benachrichtigungen für neue Ladungen aktiviert</string>
+    <string name="notifications_disabled_toast">Benachrichtigungen für neue Ladungen deaktiviert</string>
 </resources>

@@ -24,4 +24,8 @@
     <string name="notification_channel_desc">Уведомления о грузах поблизости и сообщениях</string>
     <string name="location_updated_title">📍 Местоположение обновлено: %1$s</string>
     <string name="location_updated_body">Нажмите, чтобы увидеть актуальные грузы в вашем регионе.</string>
+
+    <string name="notification_toggle">Включить/выключить уведомления о новых грузах</string>
+    <string name="notifications_enabled_toast">Уведомления о новых грузах включены</string>
+    <string name="notifications_disabled_toast">Уведомления о новых грузах выключены</string>
 </resources>

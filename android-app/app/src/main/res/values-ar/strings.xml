@@ -24,4 +24,8 @@
     <string name="notification_channel_desc">إشعارات عن الشحنات القريبة والرسائل</string>
     <string name="location_updated_title">📍 تم تحديث الموقع إلى %1$s</string>
     <string name="location_updated_body">اضغط لعرض الشحنات النشطة في منطقتك.</string>
+
+    <string name="notification_toggle">تبديل إشعارات الشحنات الجديدة</string>
+    <string name="notifications_enabled_toast">تم تفعيل إشعارات الشحنات الجديدة</string>
+    <string name="notifications_disabled_toast">تم إيقاف إشعارات الشحنات الجديدة</string>
 </resources>

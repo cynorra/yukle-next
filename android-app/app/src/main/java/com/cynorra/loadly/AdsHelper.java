@@ -9,6 +9,8 @@ import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.UserMessagingPlatform;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 // Shared GDPR/UK consent gate for every AdMob banner in the app (MainActivity,
 // MarketplaceActivity, LoadDetailActivity) - each screen calls its own consent
 // info update rather than trusting an earlier screen already resolved it, since
@@ -29,19 +31,24 @@ final class AdsHelper {
     static void requestConsentThenLoadBanner(Activity activity, AdView adView, OnAdsReady onAdsReady) {
         ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(activity);
         ConsentRequestParameters params = new ConsentRequestParameters.Builder().build();
+        // requestConsentInfoUpdate's success callback always fires, even when
+        // canRequestAds() was already true before the call (common case after
+        // the first launch) - without this guard the immediate fast-path check
+        // below and the async callback both pass and the banner loads twice.
+        AtomicBoolean bannerLoaded = new AtomicBoolean(false);
 
         consentInformation.requestConsentInfoUpdate(activity, params, () ->
                 UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity, formError -> {
-                    if (consentInformation.canRequestAds()) {
+                    if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
                         loadBanner(activity, adView, onAdsReady);
                     }
                 }), formError -> {
-            if (consentInformation.canRequestAds()) {
+            if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
                 loadBanner(activity, adView, onAdsReady);
             }
         });
 
-        if (consentInformation.canRequestAds()) {
+        if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
             loadBanner(activity, adView, onAdsReady);
         }
     }
