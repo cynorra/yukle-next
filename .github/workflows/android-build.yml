@@ -87,3 +87,70 @@ jobs:
       - name: Clean up decoded signing key
         if: always()
         run: rm -f keystore/ci-release.jks keystore/keystore.properties
+
+  # Real Play Store screenshots need real app UI - this machine has no
+  # emulator (see project memory), so capture them on the runner instead:
+  # boot an actual Android emulator, install the just-built APK, launch each
+  # real screen, screencap it. Not mockups - literally what a user sees.
+  screenshots:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - form_factor: phone
+            profile: pixel_6
+          - form_factor: tablet
+            profile: Nexus 9
+    steps:
+      - name: Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: app-release-apk
+          path: apk
+
+      - name: Fetch a real active load id (for the LoadDetail screenshot)
+        id: load
+        run: |
+          RESPONSE=$(curl -s "https://dxpbvxokjowueksxapee.supabase.co/rest/v1/loads?status=eq.active&select=id&limit=1" \
+            -H "apikey: sb_publishable_rLZye89uE70HhiS1juLa2A_79UcWVB1")
+          LOAD_ID=$(echo "$RESPONSE" | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4)
+          echo "id=$LOAD_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run emulator, install app, capture screenshots
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: ${{ matrix.profile }}
+          disable-animations: true
+          script: |
+            adb install -r -g apk/app-release.apk
+            mkdir -p screenshots
+
+            adb shell am start -n app.yukbul.android/com.cynorra.loadly.MainActivity
+            sleep 10
+            adb exec-out screencap -p > screenshots/01_main_webview.png
+
+            adb shell am start -n app.yukbul.android/com.cynorra.loadly.MarketplaceActivity
+            sleep 6
+            adb exec-out screencap -p > screenshots/02_marketplace_list.png
+
+            adb shell am start -n app.yukbul.android/com.cynorra.loadly.LoadDetailActivity --es load_id "${{ steps.load.outputs.id }}"
+            sleep 6
+            adb exec-out screencap -p > screenshots/03_load_detail.png
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ matrix.form_factor }}
+          path: screenshots/
+          retention-days: 30
