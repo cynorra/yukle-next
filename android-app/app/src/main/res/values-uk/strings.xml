@@ -28,4 +28,12 @@
     <string name="notification_toggle">Увімкнути/вимкнути сповіщення про нові вантажі</string>
     <string name="notifications_enabled_toast">Сповіщення про нові вантажі увімкнено</string>
     <string name="notifications_disabled_toast">Сповіщення про нові вантажі вимкнено</string>
+
+    <string name="filter_origin_hint">Звідки</string>
+    <string name="filter_destination_hint">Куди</string>
+    <string name="filter_truck_type_all">Усі типи транспорту</string>
+    <string name="filter_max_weight_hint">Макс. вага (т)</string>
+    <string name="filter_search">Шукати вантажі</string>
+    <string name="filter_clear">Скинути фільтри</string>
+    <string name="filter_empty_results">Немає вантажів за вашими фільтрами.</string>
 </resources>

@@ -28,4 +28,12 @@
     <string name="notification_toggle">Attiva/disattiva notifiche nuovi carichi</string>
     <string name="notifications_enabled_toast">Notifiche nuovi carichi attivate</string>
     <string name="notifications_disabled_toast">Notifiche nuovi carichi disattivate</string>
+
+    <string name="filter_origin_hint">Da città</string>
+    <string name="filter_destination_hint">A città</string>
+    <string name="filter_truck_type_all">Tutti i tipi di veicolo</string>
+    <string name="filter_max_weight_hint">Peso max (t)</string>
+    <string name="filter_search">Cerca carichi</string>
+    <string name="filter_clear">Cancella filtri</string>
+    <string name="filter_empty_results">Nessun carico corrisponde ai tuoi filtri.</string>
 </resources>

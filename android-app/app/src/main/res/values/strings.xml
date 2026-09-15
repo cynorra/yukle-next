@@ -31,4 +31,12 @@
     <string name="notification_toggle">Toggle new-listing notifications</string>
     <string name="notifications_enabled_toast">New listing notifications on</string>
     <string name="notifications_disabled_toast">New listing notifications off</string>
+
+    <string name="filter_origin_hint">From city</string>
+    <string name="filter_destination_hint">To city</string>
+    <string name="filter_truck_type_all">All vehicle types</string>
+    <string name="filter_max_weight_hint">Max weight (t)</string>
+    <string name="filter_search">Search listings</string>
+    <string name="filter_clear">Clear filters</string>
+    <string name="filter_empty_results">No listings match your filters.</string>
 </resources>

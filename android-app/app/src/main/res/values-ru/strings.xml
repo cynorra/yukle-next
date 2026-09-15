@@ -28,4 +28,12 @@
     <string name="notification_toggle">Включить/выключить уведомления о новых грузах</string>
     <string name="notifications_enabled_toast">Уведомления о новых грузах включены</string>
     <string name="notifications_disabled_toast">Уведомления о новых грузах выключены</string>
+
+    <string name="filter_origin_hint">Откуда</string>
+    <string name="filter_destination_hint">Куда</string>
+    <string name="filter_truck_type_all">Все типы транспорта</string>
+    <string name="filter_max_weight_hint">Макс. вес (т)</string>
+    <string name="filter_search">Искать грузы</string>
+    <string name="filter_clear">Сбросить фильтры</string>
+    <string name="filter_empty_results">Нет грузов по вашим фильтрам.</string>
 </resources>

@@ -28,4 +28,12 @@
     <string name="notification_toggle">تبديل إشعارات الشحنات الجديدة</string>
     <string name="notifications_enabled_toast">تم تفعيل إشعارات الشحنات الجديدة</string>
     <string name="notifications_disabled_toast">تم إيقاف إشعارات الشحنات الجديدة</string>
+
+    <string name="filter_origin_hint">من مدينة</string>
+    <string name="filter_destination_hint">إلى مدينة</string>
+    <string name="filter_truck_type_all">جميع أنواع المركبات</string>
+    <string name="filter_max_weight_hint">أقصى وزن (طن)</string>
+    <string name="filter_search">ابحث عن الشحنات</string>
+    <string name="filter_clear">مسح الفلاتر</string>
+    <string name="filter_empty_results">لا توجد شحنات مطابقة لفلاترك.</string>
 </resources>

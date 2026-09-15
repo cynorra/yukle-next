@@ -28,4 +28,12 @@
     <string name="notification_toggle">Benachrichtigungen für neue Ladungen umschalten</string>
     <string name="notifications_enabled_toast">Benachrichtigungen für neue Ladungen aktiviert</string>
     <string name="notifications_disabled_toast">Benachrichtigungen für neue Ladungen deaktiviert</string>
+
+    <string name="filter_origin_hint">Von Stadt</string>
+    <string name="filter_destination_hint">Nach Stadt</string>
+    <string name="filter_truck_type_all">Alle Fahrzeugtypen</string>
+    <string name="filter_max_weight_hint">Max. Gewicht (t)</string>
+    <string name="filter_search">Ladungen durchsuchen</string>
+    <string name="filter_clear">Filter zurücksetzen</string>
+    <string name="filter_empty_results">Keine Ladungen entsprechen Ihren Filtern.</string>
 </resources>

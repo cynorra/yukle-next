@@ -28,4 +28,12 @@
     <string name="notification_toggle">Activează/dezactivează notificările pentru curse noi</string>
     <string name="notifications_enabled_toast">Notificări pentru curse noi activate</string>
     <string name="notifications_disabled_toast">Notificări pentru curse noi dezactivate</string>
+
+    <string name="filter_origin_hint">Din oraș</string>
+    <string name="filter_destination_hint">Către oraș</string>
+    <string name="filter_truck_type_all">Toate tipurile de vehicule</string>
+    <string name="filter_max_weight_hint">Greutate max. (t)</string>
+    <string name="filter_search">Caută curse</string>
+    <string name="filter_clear">Șterge filtrele</string>
+    <string name="filter_empty_results">Nicio cursă nu corespunde filtrelor tale.</string>
 </resources>

@@ -28,4 +28,12 @@
     <string name="notification_toggle">Yeni ilan bildirimlerini aç/kapat</string>
     <string name="notifications_enabled_toast">Yeni ilan bildirimleri açık</string>
     <string name="notifications_disabled_toast">Yeni ilan bildirimleri kapalı</string>
+
+    <string name="filter_origin_hint">Nereden</string>
+    <string name="filter_destination_hint">Nereye</string>
+    <string name="filter_truck_type_all">Tüm araç tipleri</string>
+    <string name="filter_max_weight_hint">Azami ağırlık (t)</string>
+    <string name="filter_search">İlanlarda ara</string>
+    <string name="filter_clear">Filtreleri temizle</string>
+    <string name="filter_empty_results">Filtrelerinize uyan ilan yok.</string>
 </resources>

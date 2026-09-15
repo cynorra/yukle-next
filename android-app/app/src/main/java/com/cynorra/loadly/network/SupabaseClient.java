@@ -40,19 +40,44 @@ public class SupabaseClient {
         void onError(String message);
     }
 
+    // Mirrors the same origin_city/destination_city ilike + required_truck_type eq
+    // filter semantics MarketClient.tsx uses on the website's own marketplace query,
+    // plus a maxWeightTon (weight_ton=lte) filter the store listing also advertises
+    // that the website itself doesn't offer. Any field left null/empty is omitted.
+    public static final class Filter {
+        public String originCity;
+        public String destinationCity;
+        public String truckType;
+        public Double maxWeightTon;
+    }
+
     private static final String SHIPPER_SELECT =
             "shipper:public_profiles!loads_shipper_id_fkey(full_name,company_name,is_verified,rating)";
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    public void fetchActiveLoads(int limit, ListCallback callback) {
+    public void fetchActiveLoads(int limit, Filter filter, ListCallback callback) {
         executor.execute(() -> {
             try {
                 String select = URLEncoder.encode("id,title,origin_city,origin_country,destination_city,destination_country,weight_ton,price,required_truck_type,load_type,created_at," + SHIPPER_SELECT, "UTF-8");
-                String url = SupabaseConfig.URL + "/rest/v1/loads?select=" + select
-                        + "&status=eq.active&order=created_at.desc&limit=" + limit;
-                String body = get(url);
+                StringBuilder url = new StringBuilder(SupabaseConfig.URL + "/rest/v1/loads?select=" + select
+                        + "&status=eq.active&order=created_at.desc&limit=" + limit);
+                if (filter != null) {
+                    if (filter.originCity != null && !filter.originCity.trim().isEmpty()) {
+                        url.append("&origin_city=ilike.").append(URLEncoder.encode("*" + filter.originCity.trim() + "*", "UTF-8"));
+                    }
+                    if (filter.destinationCity != null && !filter.destinationCity.trim().isEmpty()) {
+                        url.append("&destination_city=ilike.").append(URLEncoder.encode("*" + filter.destinationCity.trim() + "*", "UTF-8"));
+                    }
+                    if (filter.truckType != null && !filter.truckType.isEmpty()) {
+                        url.append("&required_truck_type=eq.").append(URLEncoder.encode(filter.truckType, "UTF-8"));
+                    }
+                    if (filter.maxWeightTon != null) {
+                        url.append("&weight_ton=lte.").append(filter.maxWeightTon);
+                    }
+                }
+                String body = get(url.toString());
                 JSONArray arr = new JSONArray(body);
                 List<Load> loads = new ArrayList<>();
                 for (int i = 0; i < arr.length(); i++) {

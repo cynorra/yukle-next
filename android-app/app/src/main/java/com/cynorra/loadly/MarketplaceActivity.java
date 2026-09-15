@@ -3,9 +3,13 @@ package com.cynorra.loadly;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +23,9 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.cynorra.loadly.network.SupabaseClient;
 import com.google.android.gms.ads.AdView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Native listings screen, independent of the web app's WebView content.
@@ -39,6 +45,14 @@ public class MarketplaceActivity extends AppCompatActivity {
     private final SupabaseClient client = new SupabaseClient();
     private LoadAdapter adapter;
     private AdView adView;
+
+    private EditText originFilterInput;
+    private EditText destinationFilterInput;
+    private Spinner truckTypeFilterSpinner;
+    private EditText maxWeightFilterInput;
+    // Ordered truck-type keys backing the spinner, index-aligned with its display
+    // labels; index 0 is always the synthetic "all types" entry (null key = no filter).
+    private final List<String> truckTypeKeys = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +92,84 @@ public class MarketplaceActivity extends AppCompatActivity {
         adView = findViewById(R.id.adView);
         AdsHelper.requestConsentThenLoadBanner(this, adView, null);
 
+        setupFilterBar();
         fetchLoads();
+    }
+
+    private void setupFilterBar() {
+        originFilterInput = findViewById(R.id.originFilterInput);
+        destinationFilterInput = findViewById(R.id.destinationFilterInput);
+        truckTypeFilterSpinner = findViewById(R.id.truckTypeFilterSpinner);
+        maxWeightFilterInput = findViewById(R.id.maxWeightFilterInput);
+
+        Map<String, String> labels = TruckTypes.loadLabels(this);
+        List<String> spinnerLabels = new ArrayList<>();
+        spinnerLabels.add(getString(R.string.filter_truck_type_all));
+        truckTypeKeys.add(null);
+        for (Map.Entry<String, String> entry : labels.entrySet()) {
+            truckTypeKeys.add(entry.getKey());
+            spinnerLabels.add(entry.getValue());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerLabels);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        truckTypeFilterSpinner.setAdapter(spinnerAdapter);
+
+        View.OnClickListener applyFilters = v -> fetchLoads();
+        findViewById(R.id.applyFilterButton).setOnClickListener(applyFilters);
+        maxWeightFilterInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                fetchLoads();
+                return true;
+            }
+            return false;
+        });
+        originFilterInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                fetchLoads();
+                return true;
+            }
+            return false;
+        });
+        destinationFilterInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                fetchLoads();
+                return true;
+            }
+            return false;
+        });
+
+        findViewById(R.id.clearFilterButton).setOnClickListener(v -> {
+            originFilterInput.setText("");
+            destinationFilterInput.setText("");
+            maxWeightFilterInput.setText("");
+            truckTypeFilterSpinner.setSelection(0);
+            fetchLoads();
+        });
+    }
+
+    private SupabaseClient.Filter currentFilter() {
+        SupabaseClient.Filter filter = new SupabaseClient.Filter();
+        filter.originCity = originFilterInput.getText().toString();
+        filter.destinationCity = destinationFilterInput.getText().toString();
+        filter.truckType = truckTypeKeys.get(truckTypeFilterSpinner.getSelectedItemPosition());
+        String weightText = maxWeightFilterInput.getText().toString().trim();
+        if (!weightText.isEmpty()) {
+            try {
+                filter.maxWeightTon = Double.parseDouble(weightText);
+            } catch (NumberFormatException ignored) {
+                // Leave maxWeightTon unset rather than reject the input - a stray
+                // non-numeric character just means "no weight filter applied".
+            }
+        }
+        return filter;
+    }
+
+    private boolean hasActiveFilter() {
+        SupabaseClient.Filter filter = currentFilter();
+        return (filter.originCity != null && !filter.originCity.trim().isEmpty())
+                || (filter.destinationCity != null && !filter.destinationCity.trim().isEmpty())
+                || filter.truckType != null
+                || filter.maxWeightTon != null;
     }
 
     @Override
@@ -125,7 +216,8 @@ public class MarketplaceActivity extends AppCompatActivity {
             shimmerLayout.setVisibility(View.VISIBLE);
             shimmerLayout.startShimmer();
         }
-        client.fetchActiveLoads(PAGE_SIZE, new SupabaseClient.ListCallback() {
+        boolean filtered = hasActiveFilter();
+        client.fetchActiveLoads(PAGE_SIZE, currentFilter(), new SupabaseClient.ListCallback() {
             @Override
             public void onSuccess(List<Load> result) {
                 hideShimmer();
@@ -133,7 +225,9 @@ public class MarketplaceActivity extends AppCompatActivity {
                 adapter.submitList(result);
                 // A successful (non-error) fetch with zero rows is a genuine "no listings"
                 // state, distinct from a failed fetch below - never conflate the two texts.
-                emptyText.setText(R.string.marketplace_empty);
+                // Also distinct from a plain empty marketplace: zero rows because of the
+                // user's own filters needs its own wording, not "no listings right now".
+                emptyText.setText(filtered ? R.string.filter_empty_results : R.string.marketplace_empty);
                 emptyLayout.setVisibility(adapter.isEmpty() ? View.VISIBLE : View.GONE);
                 recyclerView.setVisibility(adapter.isEmpty() ? View.GONE : View.VISIBLE);
             }
