@@ -32,7 +32,7 @@ export function KVKKPageClient() {
         <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>1. Veri Sorumlusu</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, kişisel verileriniz veri sorumlusu sıfatıyla Loadly tarafından aşağıda açıklanan kapsamda işlenebilecektir. Veri sorumlusu olarak Loadly, kişisel verilerinizin hukuka uygun, güvenli ve şeffaf bir şekilde işlenmesini sağlamak için gerekli tüm teknik ve idari tedbirleri almaktadır.
+            6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, kişisel verileriniz veri sorumlusu sıfatıyla, Loadly platformunu kuran ve işleten <strong>Eren Şimşir</strong> tarafından aşağıda açıklanan kapsamda işlenebilecektir. Loadly, tüzel bir şirket yapısı olmaksızın tek kişilik bir operasyon olarak yürütülmektedir (bkz. <a href="/tr/author/eren-simsir" className="text-[#A66700] hover:underline">Yazar sayfası</a>). Veri sorumlusuna, bu metnin 7. maddesinde belirtilen e-posta adresi üzerinden ulaşılabilir. Veri sorumlusu, kişisel verilerinizin hukuka uygun, güvenli ve şeffaf bir şekilde işlenmesini sağlamak için gerekli tüm teknik ve idari tedbirleri almaktadır.
           </p>
         </div>
 
