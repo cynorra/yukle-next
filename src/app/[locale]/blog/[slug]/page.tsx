@@ -62,34 +62,69 @@ const getPost = cache(async (slug: string) => {
 });
 
 // Internal-linking backstop (universal-adsense-site-standard.md 3.8): every
-// article - old or new - renders this, pulling from the same recent-posts
-// pool. A brand-new post enters that pool immediately, so it starts getting
-// surfaced (and linked to) from older articles' pages on the very next
-// render, without editing any already-published row. The pick is seeded off
-// the current slug so it's deterministic per-article (stable across ISR
-// re-renders) but varies from article to article, instead of every page on
-// the site linking to the exact same "latest 4".
-async function getRelatedPosts(language: string, excludeSlug: string, count = 4) {
-  const supabase = createPublicClient();
-  const { data } = await supabase
-    .from('blog_posts')
-    .select('slug, title, excerpt, cover_image')
-    .eq('language', language)
-    .eq('published', true)
-    .neq('slug', excludeSlug)
-    .order('created_at', { ascending: false })
-    .limit(40);
-  if (!data || data.length === 0) return [];
-
+// article - old or new - renders this. Prefers posts sharing this post's
+// topic_cluster (e.g. two "Load Board Tactics" articles) so "related" means
+// actually related, not just recent — a topic-tagged pool tends to be small,
+// so the pick is seeded off the current slug for a stable-but-varied order
+// per article rather than always showing the same top few. Tops up with the
+// old recency pool (also seeded/shuffled) whenever the cluster alone can't
+// fill `count`, so untagged or thin clusters never render an empty section.
+function seededShuffle<T>(arr: T[], seedKey: string): T[] {
   let seed = 0;
-  for (let i = 0; i < excludeSlug.length; i++) seed = (seed * 31 + excludeSlug.charCodeAt(i)) >>> 0;
-  const pool = [...data];
+  for (let i = 0; i < seedKey.length; i++) seed = (seed * 31 + seedKey.charCodeAt(i)) >>> 0;
+  const pool = [...arr];
   for (let i = pool.length - 1; i > 0; i--) {
     seed = (seed * 1103515245 + 12345) >>> 0;
     const j = seed % (i + 1);
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
-  return pool.slice(0, count);
+  return pool;
+}
+
+async function getRelatedPosts(language: string, excludeSlug: string, topicCluster: string | null, count = 4) {
+  const supabase = createPublicClient();
+  const seenSlugs = new Set<string>([excludeSlug]);
+  const related: Array<{ slug: string; title: string; excerpt: string; cover_image: string | null }> = [];
+
+  if (topicCluster) {
+    const { data: clusterData } = await supabase
+      .from('blog_posts')
+      .select('slug, title, excerpt, cover_image')
+      .eq('language', language)
+      .eq('published', true)
+      .eq('topic_cluster', topicCluster)
+      .neq('slug', excludeSlug)
+      .order('created_at', { ascending: false })
+      .limit(20);
+    if (clusterData && clusterData.length > 0) {
+      for (const p of seededShuffle(clusterData, excludeSlug)) {
+        if (seenSlugs.has(p.slug)) continue;
+        seenSlugs.add(p.slug);
+        related.push(p);
+      }
+    }
+  }
+
+  if (related.length < count) {
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('slug, title, excerpt, cover_image')
+      .eq('language', language)
+      .eq('published', true)
+      .neq('slug', excludeSlug)
+      .order('created_at', { ascending: false })
+      .limit(40);
+    if (data && data.length > 0) {
+      for (const p of seededShuffle(data, excludeSlug)) {
+        if (related.length >= count) break;
+        if (seenSlugs.has(p.slug)) continue;
+        seenSlugs.add(p.slug);
+        related.push(p);
+      }
+    }
+  }
+
+  return related.slice(0, count);
 }
 
 export async function generateStaticParams() {
@@ -242,7 +277,7 @@ export default async function BlogSlugPage({
   };
 
   const faqSchema = extractFaqSchema(post.content || '');
-  const relatedPosts = await getRelatedPosts(post.language || locale, slug);
+  const relatedPosts = await getRelatedPosts(post.language || locale, slug, post.topic_cluster || null);
 
   return (
     <>

@@ -1100,24 +1100,57 @@ Return ONLY a valid JSON array of exactly ${BANK_BATCH_SIZE} objects. No markdow
   await sleep(65000);
 }
 
-// Fetch a small pool of recently published (English) posts so a new article can
-// link to one of them — without this, every article only links to /register,
-// and older posts become orphan pages with zero inbound links
-// as the archive grows (see universal-adsense-site-standard.md §3.8). Returns
-// {title, baseSlug} pairs; baseSlug has the "-en" language suffix stripped so
-// the caller can rebuild a same-language href per translation.
-async function getRecentPostsForLinking(poolSize = 12) {
+// Fetch a small pool of published (English) posts so a new article can link
+// to one of them — without this, every article only links to /register, and
+// older posts become orphan pages with zero inbound links as the archive
+// grows (see universal-adsense-site-standard.md §3.8). Prefers posts tagged
+// with the SAME topic_cluster as the article being written — a genuinely
+// relevant older post (e.g. two "Load Board Tactics" articles) should surface
+// regardless of how long ago it was published, not just whatever happens to
+// be in the last N. Falls back to / tops up with recent posts when the
+// cluster has too few (or zero) other entries. Returns {title, baseSlug,
+// excerpt, sameCluster} pairs; baseSlug has the "-en" suffix stripped so the
+// caller can rebuild a same-language href per translation.
+async function getRecentPostsForLinking(poolSize = 12, clusterName = '') {
   try {
-    const { data, error } = await supabase
-      .from('blog_posts')
-      .select('title, slug, excerpt')
-      .eq('language', 'en')
-      .order('created_at', { ascending: false })
-      .limit(poolSize);
-    if (error || !data || data.length === 0) return [];
-    return data
-      .filter(p => p.slug && p.slug.endsWith('-en'))
-      .map(p => ({ title: p.title, baseSlug: p.slug.slice(0, -3), excerpt: p.excerpt }));
+    const seen = new Set();
+    const results = [];
+
+    if (clusterName) {
+      const { data: clusterData, error: clusterErr } = await supabase
+        .from('blog_posts')
+        .select('title, slug, excerpt')
+        .eq('language', 'en')
+        .eq('topic_cluster', clusterName)
+        .order('created_at', { ascending: false })
+        .limit(poolSize);
+      if (!clusterErr && clusterData) {
+        for (const p of clusterData) {
+          if (!p.slug || !p.slug.endsWith('-en') || seen.has(p.slug)) continue;
+          seen.add(p.slug);
+          results.push({ title: p.title, baseSlug: p.slug.slice(0, -3), excerpt: p.excerpt, sameCluster: true });
+        }
+      }
+    }
+
+    if (results.length < poolSize) {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('title, slug, excerpt')
+        .eq('language', 'en')
+        .order('created_at', { ascending: false })
+        .limit(poolSize + seen.size);
+      if (!error && data) {
+        for (const p of data) {
+          if (results.length >= poolSize) break;
+          if (!p.slug || !p.slug.endsWith('-en') || seen.has(p.slug)) continue;
+          seen.add(p.slug);
+          results.push({ title: p.title, baseSlug: p.slug.slice(0, -3), excerpt: p.excerpt, sameCluster: false });
+        }
+      }
+    }
+
+    return results;
   } catch (err) {
     console.warn('getRecentPostsForLinking error:', err.message);
     return [];
@@ -1347,14 +1380,20 @@ async function generateBasePost(topicData) {
   const minWords = formatSpec?.minWords || 2000;
   const formatDesc = formatSpec?.description || 'comprehensive expert guide';
 
-  // Offer a few real, recently-published posts as an optional 2nd internal
-  // link so articles stop being islands that only point at /register —
+  // Offer a few real, published posts as a 2nd internal link (strongly
+  // preferred when one shares this article's topic_cluster, optional
+  // otherwise) so articles stop being islands that only point at /register —
   // without this every older post becomes an orphan page with
   // zero inbound links as the archive grows (universal-adsense-site-standard.md §3.8).
-  const linkPool = await getRecentPostsForLinking(12);
+  const linkPool = await getRecentPostsForLinking(12, topicCluster);
+  const sameClusterPool = linkPool.filter(p => p.sameCluster);
+  const otherPool = linkPool.filter(p => !p.sameCluster);
   const relatedLinksBlock = linkPool.length === 0
     ? ''
-    : `\n- OPTIONAL 2nd link: if — and only if — one of these already-published posts is genuinely relevant to a point you're making, you may add ONE more <a> link to it using EXACTLY the href shown (do not alter the slug), with natural anchor text. Skip this entirely if none of them genuinely fit the topic — never force it.\n${linkPool.map(p => `  · "${p.title}" → <a href="/en/blog/${p.baseSlug}-en">`).join('\n')}`;
+    : `\n- 2nd internal link — same-topic posts get priority: ${sameClusterPool.length > 0
+        ? `the posts marked [SAME TOPIC CLUSTER] below cover the same subject area as this article ("${topicCluster}"). Add ONE more <a> link to whichever of them best fits a point you're making — this is expected whenever one is a reasonable fit, not just when it's a perfect match, because this is exactly the kind of cross-linking within a topic that builds a real internal link network. Only skip it if genuinely none of them relate.`
+        : `none of the recently published posts share this article's topic cluster ("${topicCluster}"), so this is OPTIONAL: if one of the posts below is still genuinely relevant to a point you're making, add ONE more <a> link to it. Skip entirely if none of them genuinely fit — never force it.`
+      } Use EXACTLY the href shown (do not alter the slug), with natural anchor text.\n${sameClusterPool.map(p => `  · [SAME TOPIC CLUSTER] "${p.title}" → <a href="/en/blog/${p.baseSlug}-en">`).join('\n')}${sameClusterPool.length > 0 && otherPool.length > 0 ? '\n' : ''}${otherPool.map(p => `  · "${p.title}" → <a href="/en/blog/${p.baseSlug}-en">`).join('\n')}`;
 
   // The similarity guard (isTooSimilarToRecent, 70% Jaccard on 5-word
   // shingles) was rejecting ~half of runs even across genuinely different
@@ -1767,7 +1806,8 @@ async function runBlogGenerator() {
     published: true,
     language: baseLanguage,
     meta_title: basePost.meta_title,
-    meta_description: basePost.meta_description
+    meta_description: basePost.meta_description,
+    topic_cluster: activeTopicCluster || null
   });
 
   translatedPosts.forEach((trans, i) => {
@@ -1781,7 +1821,8 @@ async function runBlogGenerator() {
       published: true,
       language: trans.langCode,
       meta_title: trans.meta_title,
-      meta_description: trans.meta_description
+      meta_description: trans.meta_description,
+      topic_cluster: activeTopicCluster || null
     });
   });
 
@@ -1880,4 +1921,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { runBlogGenerator };
+module.exports = { runBlogGenerator, topicClusters };

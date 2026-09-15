@@ -23,6 +23,7 @@ export interface BlogPost {
   language: string;
   meta_title: string | null;
   meta_description: string | null;
+  topic_cluster: string | null;
   created_at: string;
   updated_at: string;
   author?: Profile;

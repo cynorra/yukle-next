@@ -173,3 +173,11 @@ CREATE TABLE IF NOT EXISTS used_blog_images (
   photo_id TEXT PRIMARY KEY,
   used_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- 9. Topic cluster tag per post (matches the topicClusters taxonomy in
+-- scripts/blog-generator.js). Lets "related posts" and in-content internal
+-- links be chosen by real topical relevance instead of pure recency —
+-- previously every article's related/linking pool was just "N most recent
+-- posts", so a new article never surfaced an older, genuinely relevant one.
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS topic_cluster VARCHAR(120);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_topic_cluster ON blog_posts (topic_cluster);
