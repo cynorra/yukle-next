@@ -1,23 +1,21 @@
 # Play Store Listing — Română [ro]
 
-## Titlu (28/30 caractere)
-Loadly - Bursă de Transport
+## Titlu (29/30 caractere)
+Loadly: Curse și Marfă Camion
 
-## Descriere scurtă (58/80 caractere)
-Găsește curse, publică marfă - bursă de transport live.
+## Descriere scurtă (65/80 caractere)
+Găsește curse și marfă retur pentru camion. Evită kilometrii goi.
 
 ## Descriere completă
-Loadly este o bursă de transport live care conectează expeditori și transportatori din întreaga lume. Răsfoiți curse active după rută, greutate și tip de vehicul, publicați propria marfă și trimiteți mesaje direct transportatorilor.
+Loadly conectează direct șoferii de camion, transportatorii independenți și firmele de transport cu expeditorii de marfă. Găsește rapid curse și marfă de retur, umple camionul la întoarcere și evită kilometrii goi pe rutele din România și UE.
 
-✓ Bursă de transport live - mii de curse active
-✓ Căutare după origine, destinație, tip de vehicul și greutate
-✓ Mesagerie directă între expeditori și transportatori
-✓ Ghiduri de transport, rute și reglementări în 54 de limbi
-✓ Pentru transportatori individuali, flote și firme de logistică
+✓ Căutare rapidă de marfă: Pentru prelate, frigorifice, camioane cu remorcă și dube
+✓ Mesagerie directă: Negociază prețul și condițiile direct cu expeditorul
+✓ Filtre după rută și tonaj: Caută curse după punct de plecare, destinație și greutate
+✓ Notificări în timp real: Fii anunțat imediat ce apare marfă nouă pe ruta ta
+✓ Ghid de transport în 54 de limbi: Reglementări, taxe de drum și puncte de vamă
 
-Fie că ești transportator în căutarea următoarei curse, fie expeditor care are nevoie urgentă de camion - Loadly pune curse reale în fața șoferilor reali, fără intermediari.
-
-Descarcă Loadly și găsește curse chiar acum.
+Nu mai circula gol. Descarcă Loadly acum și găsește marfă profitabilă pentru camionul tău!
 
 ## Motivația cuvintelor-cheie
-Termen principal: **"bursă de transport"** — termenul folosit efectiv de transportatorii români (piață mare de forță de muncă în transport în UE), nu o traducere literală de tip "piață de marfă".
+Șoferii români caută în primul rând "curse", "marfă retur", "marfă camion" și "kilometri goi" — termeni de zi cu zi, nu jargonul corporativ "bursă de transport" (folosit de Trans.eu etc., dar mai rar tastat de un șofer care caută rapid o cursă). Aliniat cu strategia din celelalte piețe din regiune (bg, hr, sk, hu-HU) care evită deliberat termenul de tip "bursă/burza/börze".
