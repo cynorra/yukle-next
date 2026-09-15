@@ -133,6 +133,14 @@ jobs:
           profile: ${{ matrix.profile }}
           disable-animations: true
           script: |
+            # MarketplaceActivity/LoadDetailActivity are correctly NOT exported
+            # (a real security property of the release manifest, not touching
+            # that just for CI) - `adb shell am start -n` as the plain shell
+            # user gets a SecurityException on them. `adb root` works on this
+            # google_apis (non-Play-Store) system image and lets shell launch
+            # any activity, without changing anything about the app itself.
+            adb root
+            adb wait-for-device
             adb install -r -g apk/app-release.apk
             mkdir -p screenshots
 
