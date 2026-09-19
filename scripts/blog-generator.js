@@ -43,6 +43,34 @@ const cfApiToken = process.env.CF_WORKERS_AI_TOKEN;
 const cfAccountId = process.env.CF_WORKERS_AI_ACCOUNT_ID;
 const defaultAuthorId = process.env.SCRAPER_SHIPPER_ID || '3c9d15c1-ce40-42c4-b5bc-f2de51a747d5';
 
+// The prompts used to hardcode "2025" in title formulas, example keywords and
+// the "relevant to 2025" rule, so once the calendar rolled over the model kept
+// publishing "... in 2025" articles dated 2026. Everything year-related now
+// derives from the run date, and the model is told the date explicitly (it has
+// no clock of its own).
+const NOW = new Date();
+const CURRENT_YEAR = NOW.getUTCFullYear();
+const TODAY_ISO = NOW.toISOString().slice(0, 10);
+const STALE_YEAR_RE = /\b(20[12]\d)\b/g;
+
+// Topic-bank rows (and older prompts' output) can still carry a previous year
+// in the title/keyword. Bump 2023-(CURRENT_YEAR-1) to the current year for
+// those pre-generated inputs only - never applied to finished article text,
+// where an old year may be a legitimate historical reference.
+function freshenYear(text) {
+  if (!text) return text;
+  return String(text).replace(STALE_YEAR_RE, (m, y) => {
+    const n = Number(y);
+    return n >= 2023 && n < CURRENT_YEAR ? String(CURRENT_YEAR) : m;
+  });
+}
+
+// Shared block for every prompt that produces year-sensitive text.
+const DATE_CONTEXT_BLOCK = `TODAY'S DATE: ${TODAY_ISO}. The current year is ${CURRENT_YEAR}.
+- Write as of ${CURRENT_YEAR}. Never present ${CURRENT_YEAR - 1} or any earlier year as "now", "this year" or "current" - in titles, headings, slugs, meta text or body copy.
+- If a title or heading uses a year, it must be ${CURRENT_YEAR}. Do not put ${CURRENT_YEAR - 1} in a title/slug/meta unless the article is explicitly a historical look back.
+- Your knowledge of the newest ${CURRENT_YEAR} figures may lag. Do not invent ${CURRENT_YEAR} statistics: describe the trend, use ranges, or cite a well-established earlier year plainly as past data ("in ${CURRENT_YEAR - 1}, ...").`;
+
 if (!supabaseUrl || (!anonKey && !serviceKey)) {
   console.error('Supabase URL or Key is missing from .env.local!');
   process.exit(1);
@@ -87,13 +115,13 @@ const audienceProfiles = [
     name: 'E-commerce & Retail Businesses',
     searchIntent: 'fulfillment cost reduction, last-mile delivery optimization, returns management, carrier comparison',
     painPoints: 'high fulfillment costs squeezing margins, delivery delays causing refunds, holiday surge capacity, high return rates',
-    keywords: ['ecommerce shipping solutions', 'last mile delivery optimization', 'reduce fulfillment costs', 'ecommerce logistics strategy', 'shipping carrier comparison 2025']
+    keywords: ['ecommerce shipping solutions', 'last mile delivery optimization', 'reduce fulfillment costs', 'ecommerce logistics strategy', `shipping carrier comparison ${CURRENT_YEAR}`]
   },
   {
     name: 'Freight Brokers & Forwarders',
     searchIntent: 'market intelligence, carrier relationship building, margin optimization, fraud prevention, tech adoption',
     painPoints: 'rate volatility destroying margins, capacity shortages, double-brokering fraud, customer churn, carrier onboarding time',
-    keywords: ['freight broker tips', 'freight market rates 2025', 'find carriers as broker', 'freight forwarding guide', 'broker carrier relationships', 'freight brokerage technology']
+    keywords: ['freight broker tips', `freight market rates ${CURRENT_YEAR}`, 'find carriers as broker', 'freight forwarding guide', 'broker carrier relationships', 'freight brokerage technology']
   },
   {
     name: 'Importers, Exporters & Manufacturers',
@@ -117,7 +145,7 @@ const audienceProfiles = [
     name: 'Fleet Managers & Transportation Directors',
     searchIntent: 'fleet cost reduction, driver management, compliance tracking, asset utilization, maintenance scheduling',
     painPoints: 'driver turnover, rising insurance premiums, compliance violations, fuel cost unpredictability, aging fleet maintenance costs',
-    keywords: ['fleet management tips', 'reduce fleet operating costs', 'driver retention strategies', 'fleet compliance management', 'transportation KPIs', 'fleet fuel management 2025']
+    keywords: ['fleet management tips', 'reduce fleet operating costs', 'driver retention strategies', 'fleet compliance management', 'transportation KPIs', `fleet fuel management ${CURRENT_YEAR}`]
   },
   {
     name: 'Cold Chain & Refrigerated Cargo Specialists',
@@ -240,7 +268,7 @@ const fallbackArticles = [
 </ul>
 
 <h2>2. Use Real-Time Load Boards to Your Advantage</h2>
-<p>Digital freight marketplaces have transformed how owner-operators find loads. Platforms like Loadly give you access to thousands of verified loads in real time, with transparent rates so you know you're not being lowballed. Drivers using digital platforms commonly report noticeably fewer empty miles compared to those relying solely on dispatchers or phone calls.</p>
+<p>Digital freight marketplaces have transformed how owner-operators find loads. Load boards show rates and lanes in real time, so you can sanity-check an offer instead of guessing whether you're being lowballed. Drivers using digital platforms commonly report noticeably fewer empty miles compared to those relying solely on dispatchers or phone calls.</p>
 <blockquote>Carriers who actively use digital freight-matching platforms consistently report meaningfully fewer deadhead miles within their first few months, according to industry observation — though results vary by lane and equipment type.</blockquote>
 
 <h2>3. Build a Portfolio of Direct Shipper Relationships</h2>
@@ -282,16 +310,19 @@ const fallbackArticles = [
 <p>Most reputable platforms complete carrier verification — including MC/DOT check, insurance verification, and background screening — within 24-72 hours. Have your insurance certificate and operating authority documents ready to accelerate the process.</p>
 
 <h2>Start Eliminating Empty Miles Today</h2>
-<p>Loadly connects owner-operators directly with verified shippers across thousands of lanes, providing real-time load matching, transparent rates, and the tools you need to keep your truck loaded and your income growing. Join thousands of drivers who have already cut their empty miles using Loadly's intelligent freight matching platform.</p>`,
+<p>Empty miles are one of the few costs an owner-operator can shrink through planning alone: line up the return load before you accept the outbound one, track your loaded-mile percentage every week, and treat every deadhead leg as money you are choosing to spend. Start with one lane, measure it for a month, and adjust from there.</p>`,
     meta_title: 'Eliminate Empty Miles: 7 Owner-Operator Strategies',
     meta_description: 'Empty miles cost owner-operators $15,000+ per year. Discover 7 proven strategies to maximize loaded miles and boost revenue with digital freight platforms.'
   },
   {
-    title: 'The Complete Freight Cost Reduction Playbook for E-commerce Businesses in 2025',
-    slug: 'freight-cost-reduction-playbook-ecommerce-2025',
+    title: 'The Complete Freight Cost Reduction Playbook for E-commerce Businesses',
+    // Published copies of this canned article carried "in 2025" in the title;
+    // they still count toward its reuse cap (see pickFallbackArticle).
+    legacyTitles: ['The Complete Freight Cost Reduction Playbook for E-commerce Businesses in 2025'],
+    slug: 'freight-cost-reduction-playbook-ecommerce',
     excerpt: 'Shipping costs are now the #1 margin killer for e-commerce businesses, averaging 12-18% of revenue. This complete playbook reveals the exact strategies top online retailers use to cut freight spending by up to 35% without sacrificing delivery speed.',
     content: `<h2>Why Shipping Costs Are Destroying E-commerce Margins</h2>
-<p>In 2025, shipping costs represent <strong>12-18% of total revenue</strong> for the average e-commerce business — and that number has climbed every year since 2020. Meanwhile, customer expectations for free or next-day delivery have never been higher. The e-commerce brands winning this battle aren't just negotiating better carrier rates — they're fundamentally rethinking how they approach freight from the ground up.</p>
+<p>For many online sellers, shipping costs represent <strong>roughly 12-18% of total revenue</strong> for the average e-commerce business — and that number has climbed every year since 2020. Meanwhile, customer expectations for free or next-day delivery have never been higher. The e-commerce brands winning this battle aren't just negotiating better carrier rates — they're fundamentally rethinking how they approach freight from the ground up.</p>
 
 <h2>Step 1: Audit Your Shipping Spend Before Optimizing Anything</h2>
 <p>Most e-commerce businesses have no idea where their shipping money is actually going. Before making any changes, pull 90 days of shipping invoices and break down costs by: carrier, service level (ground vs. express), destination zone, package weight class, and surcharge category. You'll typically find <strong>2-3 areas where you're massively overpaying</strong>.</p>
@@ -339,12 +370,12 @@ const fallbackArticles = [
 <p>Volume discounts are primarily negotiated, not automatically applied. Contact your carrier's account management team when you're consistently shipping 50+ packages per day, or use a third-party shipping consultant who negotiates on your behalf and typically shares a portion of the savings.</p>
 
 <h3>Is it worth switching to a freight marketplace for my e-commerce shipping?</h3>
-<p>For businesses shipping palletized freight or large/heavy items, a freight marketplace like Loadly offers instant rate comparison from multiple carriers, eliminating broker markups and ensuring you always get competitive market rates. The savings typically justify the switch for any business shipping more than 5-10 freight shipments per month.</p>
+<p>For businesses shipping palletized freight or large/heavy items, comparing quotes from several carriers or a freight marketplace usually beats a single fixed contract, because LTL and FTL rates move with lane and season. The effort typically pays off for any business shipping more than 5-10 freight shipments per month.</p>
 
 <h2>Transform Your E-commerce Shipping Economics</h2>
-<p>Loadly's freight marketplace gives e-commerce businesses instant access to competitive LTL and FTL rates from hundreds of verified carriers. Compare rates in seconds, book with confidence, and track your shipments in real time. Start shipping smarter — and profitably — with Loadly.</p>`,
-    meta_title: 'E-commerce Freight Cost Reduction Playbook 2025',
-    meta_description: 'Cut e-commerce shipping costs by up to 35% in 2025. Complete playbook: carrier negotiation, LTL freight, DIM weight optimization, and multi-carrier strategy.'
+<p>Start with the audit: 90 days of invoices, broken down by carrier, zone, weight class and surcharge. Fix the biggest leak first, re-quote your heaviest lanes, and re-run the numbers each quarter so savings don't quietly erode.</p>`,
+    meta_title: 'E-commerce Freight Cost Reduction Playbook',
+    meta_description: 'Cut e-commerce shipping costs by up to 35%. Complete playbook: carrier negotiation, LTL freight, DIM weight optimization, and multi-carrier strategy.'
   },
   {
     title: 'International Road Freight Documentation Masterclass: CMR, TIR Carnet, and Customs Compliance',
@@ -407,7 +438,7 @@ const fallbackArticles = [
 <p>The IRU (International Road Transport Union) maintains an updated list of e-CMR ratifying countries at their official website. Always verify before your first e-CMR shipment to a new country, as ratification status can change.</p>
 
 <h2>Simplify Your International Freight Operations</h2>
-<p>Loadly connects international carriers with verified cross-border freight opportunities and provides documentation checklists for every major trade corridor. Stop losing money to preventable border delays — find your next international load on Loadly and access the compliance resources that keep your trucks moving.</p>`,
+<p>Border delays are mostly preventable paperwork problems. Build a per-corridor checklist (CMR, TIR carnet, permits, customs declarations), verify every document before the truck leaves, and keep digital copies with the driver so a single missing page never grounds a load.</p>`,
     meta_title: 'International Freight Docs: CMR, TIR & Customs Guide',
     meta_description: 'Avoid $3,000+ border delays with expert CMR, TIR Carnet, Dozvola, and customs compliance guidance for international road freight carriers.'
   }
@@ -764,7 +795,7 @@ async function polishTranslatedPost(post, langName, langCode) {
 
 Rules:
 - Preserve every HTML tag in "content" exactly as structured (h2/h3/p/ul/li/table/a href/strong/blockquote etc.) — only edit the text inside them. Do not add, remove, or reorder tags or sections.
-- Preserve the <a href="/register"> link (and any other <a href> already present) exactly as it is, including its anchor text unless a keyword fits naturally into that anchor text.
+- Preserve every <a href> already present (e.g. the <a href="/en/blog"> link) exactly as it is, including its anchor text unless a keyword fits naturally into that anchor text.
 - meta_title must stay under 60 characters, meta_description under 155 characters.
 - Keep edits minimal and surgical.
 
@@ -953,12 +984,16 @@ const MAX_FALLBACK_USES_PER_ARTICLE = 2;
 
 async function pickFallbackArticle() {
   const counts = await Promise.all(fallbackArticles.map(async (article) => {
-    const { count } = await supabase
-      .from('blog_posts')
-      .select('*', { count: 'exact', head: true })
-      .eq('language', 'en')
-      .ilike('title', article.title);
-    return count || 0;
+    const titles = [article.title, ...(article.legacyTitles || [])];
+    const perTitle = await Promise.all(titles.map(async (title) => {
+      const { count } = await supabase
+        .from('blog_posts')
+        .select('*', { count: 'exact', head: true })
+        .eq('language', 'en')
+        .ilike('title', title);
+      return count || 0;
+    }));
+    return perTitle.reduce((a, b) => a + b, 0);
   }));
 
   let bestIndex = 0;
@@ -993,6 +1028,10 @@ async function popTopicFromBank() {
     .maybeSingle();
   if (error || !data) return null;
   await supabase.from('topic_bank').update({ is_used: true }).eq('id', data.id);
+  // Rows queued before the year fix can still say "2025".
+  data.topic = freshenYear(data.topic);
+  data.primary_keyword = freshenYear(data.primary_keyword);
+  data.viral_angle = freshenYear(data.viral_angle);
   return data;
 }
 
@@ -1016,6 +1055,8 @@ async function refillTopicBank(recentTitles) {
     contents: [{
       parts: [{
         text: `You are the chief content strategist at Loadly, a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals.
+
+${DATE_CONTEXT_BLOCK}
 
 Generate exactly ${BANK_BATCH_SIZE} completely unique, diverse, high-traffic blog topic ideas for our content calendar.
 
@@ -1041,7 +1082,7 @@ TRAFFIC QUALITY REQUIREMENTS for each topic:
 1. Must address a real, painful problem the audience actively searches for
 2. Primary keyword must be something people type verbatim into Google or AI assistants
 3. Specific compelling angle — NOT "shipping tips", YES "Why 73% of LTL Claims Get Denied (And the Fix)"
-4. Relevant to 2025 freight industry realities
+4. Relevant to ${CURRENT_YEAR} freight industry realities (any year in a topic title must be ${CURRENT_YEAR})
 5. Viral potential: data insight, counterintuitive finding, urgent problem, or insider knowledge
 
 For each topic return:
@@ -1101,7 +1142,7 @@ Return ONLY a valid JSON array of exactly ${BANK_BATCH_SIZE} objects. No markdow
 }
 
 // Fetch a small pool of published (English) posts so a new article can link
-// to one of them — without this, every article only links to /register, and
+// to one of them — without this, every article only links to the blog index, and
 // older posts become orphan pages with zero inbound links as the archive
 // grows (see universal-adsense-site-standard.md §3.8). Prefers posts tagged
 // with the SAME topic_cluster as the article being written — a genuinely
@@ -1382,7 +1423,7 @@ async function generateBasePost(topicData) {
 
   // Offer a few real, published posts as a 2nd internal link (strongly
   // preferred when one shares this article's topic_cluster, optional
-  // otherwise) so articles stop being islands that only point at /register —
+  // otherwise) so articles stop being islands that only point at the blog index —
   // without this every older post becomes an orphan page with
   // zero inbound links as the archive grows (universal-adsense-site-standard.md §3.8).
   const linkPool = await getRecentPostsForLinking(12, topicCluster);
@@ -1418,6 +1459,8 @@ THE READER COMES FIRST. Before writing any sentence, ask: "Does this help the re
 
 Write the article below with these specifications:
 
+${DATE_CONTEXT_BLOCK}
+
 TOPIC: "${topic}"
 PRIMARY KEYWORD: "${primaryKeyword}"
 TARGET AUDIENCE: ${audience}
@@ -1426,7 +1469,7 @@ SEARCH INTENT: ${searchIntent}
 VIRAL ANGLE: ${viralAngle}
 CONTENT FORMAT: ${contentFormat || formatSpec?.type} — ${formatDesc}
 TOPIC CLUSTER: ${topicCluster}
-PLATFORM: Loadly (logistics and freight content platform — free practical guides and industry analysis for shippers, carriers, and logistics professionals, no signup required to read)
+PLATFORM: Loadly (an independent logistics and freight publication — practical guides and industry analysis for shippers, carriers, and logistics professionals)
 ${recentAnglesBlock}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 AUDIENCE-FIRST WRITING RULES (non-negotiable)
@@ -1442,13 +1485,13 @@ AUDIENCE-FIRST WRITING RULES (non-negotiable)
 TITLE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Choose the formula that best fits the topic and content format — but check the recently published titles listed above first, and do NOT pick the same formula (especially "[Year] [Topic] Playbook") two articles in a row:
-• "[Number] [Power Word] [Topic] Every [Audience] Needs in 2025"
+• "[Number] [Power Word] [Topic] Every [Audience] Needs in ${CURRENT_YEAR}"
 • "The [Format]: How to [Achieve Benefit] Without [Pain Point]"
-• "Why [Common Belief] Is [Wrong/Outdated/Costing You] in 2025"
+• "Why [Common Belief] Is [Wrong/Outdated/Costing You] in ${CURRENT_YEAR}"
 • "[Specific Problem]: Causes, Real Costs & the Expert Fix"
 • "What [Trend/Change] Means for [Audience] Right Now"
 • "The [Year] [Topic] Playbook: [Specific Outcome Promised]"
-• A direct question a reader would type verbatim (e.g., "How Much Does It Really Cost to X in 2025?")
+• A direct question a reader would type verbatim (e.g., "How Much Does It Really Cost to X in ${CURRENT_YEAR}?")
 • A blunt, non-formulaic statement of the finding itself, no template at all
 
 Rules: primary keyword included naturally, max 70 chars, creates urgency or promises specific value.
@@ -1467,11 +1510,11 @@ MINIMUM ${minWords} words of substantive expert content. No filler. Every senten
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 INTERNAL LINKING (mandatory — do not skip)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-This article is currently published with ZERO links back to the product, so it drives SEO traffic that never converts. Fix this in every article:
-- Include exactly 1 mandatory <a> link, using ONLY this href (relative, no locale prefix, no domain): <a href="/register">
-- Never use any other href for it — no other public route exists for it to point to, and no third-party/external links
-- Anchor text must be natural and specific to the topic, never "click here" or "this link" (e.g. <a href="/register">start finding loads on Loadly</a>, not <a href="/register">register</a>)
-- Placement: in the CTA CONCLUSION section
+Loadly is an editorial publication; it does not currently offer a load board, rate comparison, carrier network or booking tool on the website. Never claim or imply that it does.
+- Include exactly 1 mandatory <a> link to the blog archive, using ONLY this href (relative, no locale prefix, no domain): <a href="/en/blog">
+- Never use any other href for it — no third-party/external links, and never link to /register, /login or a marketplace
+- Anchor text must be natural and specific to the topic, never "click here" or "this link" (e.g. <a href="/en/blog">browse more guides on freight rate negotiation</a>)
+- Placement: in the CONCLUSION / NEXT STEPS section
 - This counts toward the article but must read as genuinely helpful signposting, not ad copy${relatedLinksBlock}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1502,12 +1545,12 @@ Use <table> to compare options, tools, or approaches across 3-5 criteria.
 
 **7. FAQ SECTION** — AEO CRITICAL. The <h2> heading MUST literally contain the word "FAQ" or the phrase "Frequently Asked" (schema extraction depends on this substring) but vary the rest: <h2>Frequently Asked Questions</h2>, <h2>Frequently Asked Questions About [Topic]</h2>, <h2>[Topic] FAQ</h2>, <h2>FAQ: [Topic]</h2>.
 Minimum 5 Q&A pairs structured for voice search and People Also Ask:
-- <h3> questions: Write as exact natural-language queries (e.g., "How much does LTL freight cost per mile in 2025?")
+- <h3> questions: Write as exact natural-language queries (e.g., "How much does LTL freight cost per mile in ${CURRENT_YEAR}?")
 - <p> answers: Start with a direct 1-sentence answer, then 2-3 sentences of supporting detail. Must be self-contained — AI assistants extract these verbatim.
 - Cover: what is X, how to X, how much does X cost, when should I X, what is the difference between X and Y
 
-**8. CTA CONCLUSION** (<h2> with keyword in heading)
-Don't pitch Loadly — show how Loadly solves the specific problem the reader just read about. Write it like a trusted colleague saying "by the way, this tool helped me with exactly that." End with one <a href="/register"> link as the call to action (see INTERNAL LINKING above for exact rules).
+**8. CONCLUSION / NEXT STEPS** (<h2> with keyword in heading)
+Close with a short, concrete action plan: the 2-3 things the reader should do first, in order. Do NOT pitch Loadly or any product, and make no claims about Loadly's features, users, carriers or volume. End with one <a href="/en/blog"> link inviting the reader to keep learning (see INTERNAL LINKING above for exact rules).
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 QUALITY ANTI-PATTERNS (these will get the article rejected)
@@ -1544,7 +1587,7 @@ AI assistants cite content that looks authoritative and structured. To get cited
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 E-E-A-T SIGNALS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- Name specific regulations: 49 CFR Part 395, ELD mandate, Carmack Amendment, FMCSA SMS, ADR 2025
+- Name specific regulations: 49 CFR Part 395, ELD mandate, Carmack Amendment, FMCSA SMS, ADR (current edition)
 - Reference industry bodies: ATA, TIA, FMCSA, OOIDA, IRU, IATA, NRF, CSCMP
 - Include "what most professionals miss" moments — insider knowledge that signals real experience
 - Contradict a common mistake the target audience makes — this builds trust faster than agreeing with them
@@ -1553,7 +1596,7 @@ E-E-A-T SIGNALS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 METADATA
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- slug: primary-keyword-first, lowercase, hyphens only (e.g., "ltl-freight-cost-guide-2025")
+- slug: primary-keyword-first, lowercase, hyphens only (e.g., "ltl-freight-cost-guide-${CURRENT_YEAR}")
 - meta_title: primary keyword first, max 60 chars. Do NOT append "| Loadly" or any site name — the page template adds that automatically, and doing it twice breaks the title.
 - meta_description: primary keyword + specific measurable benefit + soft CTA, max 155 chars
 - excerpt: 2 punchy sentences — first names the problem with a specific number, second states exactly what the reader will learn. Include primary keyword.
