@@ -39,6 +39,7 @@ export async function GET(request: Request, { params }: Props) {
   const supabase = createPublicClient();
 
   let allPosts: any[] = [];
+  let queryFailed = false;
   let from = startOffset;
   const step = 1000;
 
@@ -58,6 +59,7 @@ export async function GET(request: Request, { params }: Props) {
 
     if (error) {
       console.error(`[sitemap-blogs-${pageNum}.xml] Supabase query failed:`, error);
+      queryFailed = true;
       break;
     }
 
@@ -68,6 +70,15 @@ export async function GET(request: Request, { params }: Props) {
     } else {
       break;
     }
+  }
+
+  // A chunk number past the last real one (the index never lists it) has no
+  // rows. Answer 404 instead of the single-URL placeholder below, which would
+  // present a phantom "valid" chunk to anything probing sitemap-blogs-N.xml.
+  // Only page 1 keeps the placeholder, for the empty-blog edge case. Skipped
+  // on a query error so a transient DB failure isn't cached as a 404.
+  if (allPosts.length === 0 && pageNum > 1 && !queryFailed) {
+    return new Response('Not Found', { status: 404 });
   }
 
   let xml = URLSET_HEADER;
