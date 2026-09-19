@@ -9,12 +9,11 @@
 ### Core Value Proposition
 - Guides on freight costs, shipping routes, and industry regulation, published under written editorial rules and automated quality checks
 - Published regularly in English
-- Free to read, no registration or subscription required
 
 ### Technology Stack
-- **Frontend**: Next.js 15 (App Router), React 19, TypeScript
+- **Frontend**: Next.js 15 (App Router), React 18, TypeScript
 - **Backend**: Supabase (PostgreSQL + Auth + Realtime)
-- **Hosting**: Cloudflare Workers (via OpenNext)
+- **Hosting**: Self-hosted on Oracle Cloud (Next.js standalone build behind a Caddy reverse proxy)
 - **SEO**: Server-side rendering, ISR, structured data, chunked sitemap index
 
 ---
@@ -22,18 +21,22 @@
 ## 2. Complete URL Structure
 
 ### Public Pages (Indexable)
-All URLs follow the pattern: `https://loadlyapp.com/{locale}/{page}`
+All URLs follow the pattern `https://loadlyapp.com/en/{page}` (English only; `{locale}` in the tables below is always `en`).
 
 | Page | Path | Description |
 |------|------|-------------|
-| Homepage | `/{locale}` | Editorial front page — hero, latest articles, FAQ |
+| Homepage | `/{locale}` | Editorial front page — featured article and latest articles |
 | Blog List | `/{locale}/blog` | Logistics industry articles |
 | Blog Article | `/{locale}/blog/{slug}` | Individual blog post |
 | About | `/{locale}/about` | Mission, editorial process, team |
 | Contact | `/{locale}/contact` | Contact information |
 | Advertise | `/{locale}/advertise` | Advertising information |
-| Privacy Policy | `/{locale}/privacy-policy` | KVKK / GDPR compliance |
+| Privacy Policy | `/{locale}/privacy` | Privacy policy (`/privacy-policy` redirects here) |
 | Terms | `/{locale}/terms` | Terms of service |
+| Cookie Policy | `/{locale}/cookie-policy` | Cookie usage and consent |
+| Editorial Policy | `/{locale}/editorial-policy` | How articles are written and checked |
+| Accessibility | `/{locale}/accessibility` | Accessibility statement |
+| Author | `/{locale}/author/eren-simsir` | Editor profile |
 
 ### Legacy Pages (Not Indexed — `noindex, nofollow`)
 These still function for existing accounts but are deliberately excluded from search indexing, sitemaps, and IndexNow/Baidu/Google-ping submissions.
@@ -42,7 +45,6 @@ These still function for existing accounts but are deliberately excluded from se
 |------|------|-------------|
 | Marketplace | `/{locale}/marketplace` | Legacy freight listings board |
 | Load Detail | `/{locale}/marketplace/{id}` | Individual legacy freight listing |
-| Find Loads | `/{locale}/find-loads` | Legacy load search tool |
 
 ### Private Pages (Auth-Gated, Not Indexable)
 | Page | Path | Description |
@@ -77,7 +79,7 @@ Loadly is published in **English only** (`/en/...`). Requests under any other la
 
 ## 4. Structured Data Schemas
 
-### Homepage (per locale)
+### Homepage
 ```json
 {
   "@type": "WebSite",
@@ -95,10 +97,6 @@ Loadly is published in **English only** (`/en/...`). Requests under any other la
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web, iOS, Android",
   "offers": { "price": "0", "priceCurrency": "USD" }
-}
-{
-  "@type": "FAQPage",
-  "mainEntity": ["..."]
 }
 ```
 
@@ -129,8 +127,8 @@ Loadly is published in **English only** (`/en/...`). Requests under any other la
 **Q: What is Loadly?**
 A: Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector.
 
-**Q: Is Loadly free to use?**
-A: Yes. All articles and guides on Loadly are completely free to read, with no registration or subscription required.
+**Q: Do I need an account to read the articles?**
+A: No. The articles and guides are open to read without registering or subscribing.
 
 **Q: What topics does Loadly cover?**
 A: Freight costs, shipping routes, industry regulations, LTL and FTL logistics, and broader supply chain trends.
@@ -145,4 +143,4 @@ A: Loadly is a single-person editorial operation run by Eren Şimşir. Every art
 A: A legacy marketplace exists for a small number of pre-existing accounts, but it is not part of the site's public-facing or indexed content — the blog is the platform's primary public surface.
 
 **Q: Is my data safe?**
-A: Yes. Loadly uses Supabase with row-level security, and is GDPR / KVKK compliant.
+A: Account data is stored in Supabase with row-level security. The Privacy Policy and Cookie Policy describe what is collected and how it is used.

@@ -1,29 +1,23 @@
 # ═══════════════════════════════════════════════════════════════
 # Loadly – robots.txt
-# Global Logistics & Freight Content Platform · https://loadlyapp.com
-# English-only
+# Logistics & Freight Content Platform · https://loadlyapp.com
+# English-only: /en/... is the only indexable surface.
 # ═══════════════════════════════════════════════════════════════
-
-# ─── PRIVATE PATHS (blocked for all bots) ─────────────────────
-# These paths are user-specific, auth-gated, or not indexable.
+#
+# A crawler that matches a named group here IGNORES the "User-agent: *" group
+# entirely (robots.txt has no inheritance). Every named group below therefore
+# repeats the full private-path list — a named group with only "Allow: /"
+# would silently un-block /marketplace (scraped third-party contact data),
+# /api and the account pages for that crawler.
 
 # ─── GOOGLE ADSENSE ────────────────────────────────────────────
-# Mediapartners-Google is Google's ad-serving/content-review crawler, treated
-# by Google as separate from Googlebot — it does NOT inherit Googlebot's
-# rules below, so it needs its own explicit block. Marketplace listings are
-# scraper-imported freight postings (real third-party contact info in the
-# description, no original editorial value) — they must never be crawled for
-# ad placement or AdSense policy review. The mobile app's own "Contact
-# Shipper" flow still works for real users (it's a direct link, not a crawl).
+# Mediapartners-Google is Google's ad-serving/content-review crawler. It does
+# NOT follow the Googlebot/* rules, so it needs its own block. Marketplace
+# listings are scraper-imported freight postings (real third-party contact
+# info, no editorial value) and must never be crawled for ad placement or
+# AdSense policy review. The mobile app's "Contact Shipper" flow is a direct
+# link, not a crawl, so it is unaffected.
 User-agent: Mediapartners-Google
-Allow: /
-Disallow: /*/marketplace
-
-# ─── GLOBAL SEARCH ENGINE CRAWLERS ────────────────────────────
-
-# Google (Search, Images, Video, News, Shopping)
-User-agent: Googlebot
-Allow: /
 Disallow: /api/
 Disallow: /auth/
 Disallow: /*/dashboard
@@ -37,487 +31,95 @@ Disallow: /*/routes
 Disallow: /*/reset-password
 Disallow: /*/login
 Disallow: /*/register
+Disallow: /*/user/
 
-User-agent: Googlebot-Image
-Allow: /
+# ─── CRAWLERS THAT GET A CRAWL-DELAY ──────────────────────────
+# Crawl-delay is honored by Bing/Yandex-family and most Asian engines (Google
+# ignores it). Keeps aggressive crawlers from overloading the small origin.
 
-User-agent: Googlebot-Video
-Allow: /
-
-User-agent: Googlebot-News
-Allow: /*/blog
-
-User-agent: Google-InspectionTool
-Allow: /
-
-User-agent: Storebot-Google
-Allow: /
-
-# Microsoft Bing & MSN
-User-agent: Bingbot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-Disallow: /*/login
-Disallow: /*/register
-
-User-agent: msnbot
-Allow: /
-
-User-agent: BingPreview
-Allow: /
-
-# Yandex (Russia, CIS countries)
+# Delay 1s: Yandex, Mail.ru
 User-agent: YandexBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-Disallow: /*/login
-Disallow: /*/register
-Crawl-delay: 1
-
-User-agent: YandexImages
-Allow: /
-
-User-agent: YandexMedia
-Allow: /
-
-User-agent: YandexMobileBot
-Allow: /
-
-# Baidu (China)
-User-agent: Baiduspider
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-Disallow: /*/login
-Disallow: /*/register
-Crawl-delay: 2
-
-User-agent: Baiduspider-image
-Allow: /
-
-# Sogou (China – 2nd largest)
-User-agent: Sogou
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Crawl-delay: 2
-
-# 360 / Qihoo / So.com (China – 3rd largest)
-User-agent: 360Spider
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Crawl-delay: 2
-
-# Naver (South Korea – dominant)
-User-agent: Yeti
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
-# Daum / Kakao (South Korea)
-User-agent: Daum
-Allow: /
-
-# DuckDuckGo
-User-agent: DuckDuckBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
-# Yahoo
-User-agent: Slurp
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
-# Apple (Siri, Spotlight, Safari suggestions)
-User-agent: Applebot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
-# Seznam (Czech Republic)
-User-agent: SeznamBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# Mail.ru (Russia)
 User-agent: Mail.RU_Bot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
 Crawl-delay: 1
-
-# Qwant (France / EU)
-User-agent: Qwantify
-Allow: /
 Disallow: /api/
 Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
 Disallow: /*/marketplace
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+Disallow: /*/login
+Disallow: /*/register
+Disallow: /*/user/
 
-# Ecosia (Germany, eco-search)
-User-agent: Ecosia
-Allow: /
-
-# CocCoc (Vietnam)
+# Delay 2s: Baidu, Sogou, 360, CocCoc, ByteDance, Rambler
+User-agent: Baiduspider
+User-agent: Sogou
+User-agent: 360Spider
 User-agent: CocCocBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Crawl-delay: 2
-
-# Huawei Petal Search
-User-agent: PetalBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# Mojeek (UK – independent)
-User-agent: MojeekBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-
-# Brave Search
-User-agent: BraveBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# Internet Archive / Wayback Machine
-User-agent: ia_archiver
-Allow: /
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-User-agent: archive.org_bot
-Allow: /
-
-# Exalead (France)
-User-agent: Exabot
-Allow: /
-
-# Rambler (Russia)
-User-agent: Rambler
-Allow: /
-Crawl-delay: 2
-
-# ─── AI PLATFORM CRAWLERS ────────────────────────────────────
-
-# OpenAI (ChatGPT, GPT-4, GPT-4o)
-User-agent: GPTBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
-User-agent: ChatGPT-User
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-User-agent: OAI-SearchBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# Google Gemini / Bard AI
-User-agent: Google-Extended
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
-User-agent: GoogleOther
-Allow: /
-
-# Anthropic Claude
-User-agent: ClaudeBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
-User-agent: Claude-Web
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-# Perplexity AI
-User-agent: PerplexityBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-Disallow: /*/favorites
-Disallow: /*/create-load
-Disallow: /*/edit-load
-Disallow: /*/routes
-Disallow: /*/reset-password
-
-# Meta AI (Facebook, Instagram, WhatsApp AI)
-User-agent: Meta-ExternalAgent
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-User-agent: FacebookBot
-Allow: /
-
-# Amazon Alexa / AI
-User-agent: Amazonbot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# ByteDance (TikTok AI, Doubao)
 User-agent: Bytespider
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
+User-agent: Rambler
 Crawl-delay: 2
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/marketplace
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+Disallow: /*/login
+Disallow: /*/register
+Disallow: /*/user/
 
-# You.com AI
+# ─── AI PLATFORM CRAWLERS ─────────────────────────────────────
+# Explicitly welcome to read the public articles (same private-path list).
+# OpenAI, Google (Gemini/Bard control token + GoogleOther), Anthropic,
+# Perplexity, Meta, Amazon, You.com, Cohere, Common Crawl, Diffbot, Timpi,
+# Webz.io, Microsoft Copilot.
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: Google-Extended
+User-agent: GoogleOther
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Meta-ExternalAgent
+User-agent: Amazonbot
 User-agent: YouBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# Cohere AI
 User-agent: cohere-ai
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# Common Crawl (AI training data source)
 User-agent: CCBot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# Diffbot (AI data extraction)
 User-agent: Diffbot
-Allow: /
-Disallow: /api/
-Disallow: /auth/
-Disallow: /*/dashboard
-Disallow: /*/profile
-Disallow: /*/messages
-Disallow: /*/marketplace
-
-# Timpi (decentralized AI search)
 User-agent: Timpibot
-Allow: /
-
-# Webz.io AI
 User-agent: Webzio-Extended
-Allow: /
-
-# Microsoft Copilot
 User-agent: Copilot
 Allow: /
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*/dashboard
+Disallow: /*/profile
+Disallow: /*/messages
+Disallow: /*/marketplace
+Disallow: /*/favorites
+Disallow: /*/create-load
+Disallow: /*/edit-load
+Disallow: /*/routes
+Disallow: /*/reset-password
+Disallow: /*/login
+Disallow: /*/register
+Disallow: /*/user/
 
-# ─── SOCIAL MEDIA / LINK PREVIEW BOTS ────────────────────────
-
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
-
-User-agent: WhatsApp
-Allow: /
-
-User-agent: TelegramBot
-Allow: /
-
-User-agent: Slackbot-LinkExpanding
-Allow: /
-
-User-agent: Slackbot
-Allow: /
-
-User-agent: Discordbot
-Allow: /
-
-User-agent: Pinterest
-Allow: /
-
-User-agent: Snapchat
-Allow: /
-
-User-agent: vkShare
-Allow: /
-
-User-agent: W3C_Validator
-Allow: /
-
-# ─── DEFAULT CATCH-ALL ────────────────────────────────────────
-
+# ─── EVERYONE ELSE (Googlebot, Bingbot, DuckDuckBot, Applebot, Naver, ───
+# ─── Seznam, Qwant, Brave, Yahoo, link-preview bots, ...) ───────────────
 User-agent: *
 Allow: /
 Disallow: /api/
@@ -533,18 +135,12 @@ Disallow: /*/routes
 Disallow: /*/reset-password
 Disallow: /*/login
 Disallow: /*/register
+Disallow: /*/user/
 
-# ─── SITEMAPS ─────────────────────────────────────────────────
-
+# ─── SITEMAP ──────────────────────────────────────────────────
+# One index; it lists sitemap-static.xml and the chunked sitemap-blogs-N.xml.
 Sitemap: https://loadlyapp.com/sitemap.xml
 
-# ─── RSS FEEDS ────────────────────────────────────────────────
-# Not a standard robots.txt directive (crawlers only act on "Sitemap:"),
-# listed here for feed-reader/aggregator discovery.
-#
-# Blog (per locale, paginated, e.g. https://loadlyapp.com/tr/feed.xml):
-# https://loadlyapp.com/{locale}/feed.xml
-
-# ─── HOST ─────────────────────────────────────────────────────
-
-Host: https://loadlyapp.com
+# ─── RSS ──────────────────────────────────────────────────────
+# Not a robots.txt directive (crawlers only act on "Sitemap:"); listed for
+# feed-reader discovery: https://loadlyapp.com/en/feed.xml

@@ -44,6 +44,12 @@ function getAllStaticPaths(): string[] {
     // other locale — on the English-only site that's a redirect, not a page, so
     // list the real one (a redirecting URL in a sitemap is a Search Console warning).
     '/privacy',
-    '/terms'
+    '/terms',
+    '/cookie-policy',
+    // Trust/E-E-A-T pages: all 200, index/follow, self-canonical (verified live
+    // 2026-09-20) and linked from the site-wide footer, so they belong here.
+    '/editorial-policy',
+    '/accessibility',
+    '/author/eren-simsir',
   ];
 }

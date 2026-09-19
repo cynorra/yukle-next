@@ -50,6 +50,10 @@ export async function GET(request: Request, { params }: Props) {
       .eq('published', true)
       .eq('language', 'en')
       .order('created_at', { ascending: false })
+      // Tie-breaker: posts inserted in one run share a created_at, and offset
+      // pagination over a non-unique sort can repeat a row in two chunks (or
+      // skip one) between requests.
+      .order('id', { ascending: true })
       .range(from, to);
 
     if (error) {
