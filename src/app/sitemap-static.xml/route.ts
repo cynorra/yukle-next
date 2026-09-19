@@ -40,7 +40,10 @@ function getAllStaticPaths(): string[] {
     '/contact',
     '/advertise',
     '/blog',
-    '/privacy-policy',
+    // /privacy-policy is the Turkey-only KVKK page and 307s to /privacy for every
+    // other locale — on the English-only site that's a redirect, not a page, so
+    // list the real one (a redirecting URL in a sitemap is a Search Console warning).
+    '/privacy',
     '/terms'
   ];
 }
