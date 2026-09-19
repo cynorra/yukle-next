@@ -5,14 +5,11 @@
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
-export const ALL_LOCALES = [
-  'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl',
-  'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-  'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-  'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl', 'kn', 'te', 'pa', 'gu', 'ml', 'sw', 'ne', 'si'
-] as const;
+// English-only site since 2026-09-19: every other locale prefix 301s to /en
+// in middleware.ts, so only /en URLs belong in sitemaps (listing a URL that
+// redirects is a Search Console warning). Restore the full list here (and the
+// ACTIVE_LOCALE gate in middleware.ts) to bring other languages back.
+export const ALL_LOCALES = ['en'] as const;
 
 export type SitemapLocale = typeof ALL_LOCALES[number];
 

@@ -59,7 +59,7 @@ export async function generateMetadata({
     // locale renders the English copy verbatim, so self-canonicalizing all 47
     // just creates near-duplicate profile URLs. Same fix as the shipping-routes
     // hub pages and marketplace/[id]: canonicalize untranslated locales to /en.
-    const translatedLocales = ['en', 'tr'];
+    const translatedLocales = ['en'];  // English-only site: /tr etc. 301 to /en (middleware.ts)
     const canonicalLocale = translatedLocales.includes(locale) ? locale : 'en';
     const languagesAlternates: Record<string, string> = {};
     translatedLocales.forEach((loc) => {

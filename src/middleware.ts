@@ -28,6 +28,29 @@ const AUTH_REQUIRED_SEGMENTS = new Set([
 // which shows up in Search Console as crawl errors and can suppress indexing.
 const CRAWLER_UA_PATTERN = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|duckduck|applebot|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot|discordbot|pinterest|semrush|ahrefs|gptbot|chatgpt-user|claudebot|claude-web|anthropic-ai|perplexitybot|amazonbot|bytespider|ccbot|diffbot|petalbot|mojeekbot|seznambot|coccocbot/i;
 
+// The only locale served. Everything else redirects here (see step 2 below).
+const ACTIVE_LOCALE = 'en';
+
+/**
+ * Maps a translated blog slug ("foo-bar-de") to the English sibling
+ * ("foo-bar-en"), which is how every English post is minted. Returns null for
+ * slugs with no recognisable locale suffix (older native-language posts).
+ */
+function englishBlogSlug(slug: string): string | null {
+  const parts = slug.split('-');
+  const last = parts[parts.length - 1];
+  if (parts.length < 2 || !SUPPORTED_LOCALES.includes(last)) return null;
+  return last === ACTIVE_LOCALE ? slug : `${parts.slice(0, -1).join('-')}-${ACTIVE_LOCALE}`;
+}
+
+/** Path after the locale prefix, rewritten for the English site. */
+function legacyLocalePath(rest: string): string {
+  const m = rest.match(/^\/blog\/([^/]+)$/);
+  if (!m) return rest;
+  // No English sibling derivable (older native-language slug) → blog index.
+  return `/blog/${englishBlogSlug(m[1]) ?? ''}`.replace(/\/$/, '');
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
@@ -86,70 +109,36 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 2. Check if path starts with a supported locale
-  const pathnameHasLocale = SUPPORTED_LOCALES.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
+  // 2. English-only site (since 2026-09-19). Every non-English locale prefix
+  // is a permanent redirect to its English equivalent, so previously indexed
+  // /de/..., /tr/... etc. URLs consolidate onto /en instead of 404ing, and no
+  // locale other than 'en' ever reaches a page/ISR entry. The locale-aware
+  // routing/dictionaries stay in the codebase (only the redirect gates them),
+  // so re-enabling a language later is a one-line change, not a rebuild.
+  const localeMatch = pathname.match(/^\/([a-z]{2})(\/.*)?$/);
+  const urlLocale = localeMatch && SUPPORTED_LOCALES.includes(localeMatch[1]) ? localeMatch[1] : null;
 
-  if (!pathnameHasLocale) {
-    // Determine language preference
-    let locale = 'en';
-
-    // A. Check cookie first
-    const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
-    if (cookieLocale && SUPPORTED_LOCALES.includes(cookieLocale)) {
-      locale = cookieLocale;
-    } else {
-      // B. Parse Accept-Language header
-      const acceptLang = request.headers.get('accept-language');
-      if (acceptLang) {
-        const preferred = acceptLang
-          .split(',')
-          .map((lang) => lang.split(';')[0].trim().substring(0, 2))
-          .find((lang) => SUPPORTED_LOCALES.includes(lang));
-        if (preferred) {
-          locale = preferred;
-        }
-      }
-    }
-
-    // Redirect to the URL prefixed with the detected locale
+  if (!urlLocale) {
+    // Bare path (e.g. "/", "/blog", "/marketplace/123") — always English.
     // (avoid appending a trailing slash for the root path so we don't trigger
     // a second trailing-slash-normalization redirect on the hosting platform)
     const suffix = pathname === '/' ? '' : pathname;
-    const redirectUrl = new URL(`/${locale}${suffix}${search}`, origin);
-    const response = NextResponse.redirect(redirectUrl);
-    
-    // Set cookie for future visits
-    response.cookies.set('NEXT_LOCALE', locale, { path: '/' });
-    return response;
+    return NextResponse.redirect(new URL(`/${ACTIVE_LOCALE}${suffix}${search}`, origin), 301);
   }
 
-  // 3. Blog slugs are minted as "{base-slug}-{language}" (see
-  // sitemap-blogs/[page]/route.ts and blog/[slug]/page.tsx), so the correct
-  // locale for a slug is recoverable from the URL alone — no DB call needed.
-  // /blog/[slug] previously only checked this locale/slug match *inside* the
-  // page component, after fetching the post — Next.js still treats a
-  // locale-mismatched hit as a distinct ISR cache entry (even though it's
-  // just a redirect), so all 55 locale prefixes × 5,900+ posts were each an
-  // independently billable ISR write once crawled — same combinatorial-fanout
-  // shape as an unbounded generateStaticParams over locale × content-id.
-  // Catching the mismatch here, before the request ever reaches the page/ISR
-  // layer, means only the canonical (post's actual language) URL is ever
-  // rendered and cached; the other 54 prefixes just 308 through middleware
-  // and never touch the ISR write budget.
-  const blogSlugMatch = pathname.match(/^\/([a-z]{2})\/blog\/([^/]+)$/);
+  if (urlLocale !== ACTIVE_LOCALE) {
+    const rest = localeMatch![2] || '';
+    return NextResponse.redirect(new URL(`/${ACTIVE_LOCALE}${legacyLocalePath(rest)}${search}`, origin), 301);
+  }
+
+  // 3. Blog slugs are minted as "{base-slug}-{language}", so a translated
+  // slug under /en/blog/ (e.g. /en/blog/foo-de) maps to its English sibling
+  // "foo-en" from the URL alone — no DB call.
+  const blogSlugMatch = pathname.match(/^\/en\/blog\/([^/]+)$/);
   if (blogSlugMatch) {
-    const [, urlLocale, slug] = blogSlugMatch;
-    const slugParts = slug.split('-');
-    const slugLocale = slugParts[slugParts.length - 1];
-    if (
-      slugLocale !== urlLocale &&
-      SUPPORTED_LOCALES.includes(slugLocale) &&
-      SUPPORTED_LOCALES.includes(urlLocale)
-    ) {
-      const redirectUrl = new URL(`/${slugLocale}/blog/${slug}${search}`, origin);
-      return NextResponse.redirect(redirectUrl, 308);
+    const mapped = englishBlogSlug(blogSlugMatch[1]);
+    if (mapped && mapped !== blogSlugMatch[1]) {
+      return NextResponse.redirect(new URL(`/en/blog/${mapped}${search}`, origin), 301);
     }
   }
 

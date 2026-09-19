@@ -20,14 +20,8 @@ export async function POST(request: Request) {
       urls = body.urls;
     } else if (body.path) {
       // Auto-generate all locale URLs for this path
-      const ALL_LOCALES = [
-        'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl',
-        'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-        'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-        'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-        'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-        'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl', 'kn', 'te', 'pa', 'gu', 'ml', 'sw', 'ne', 'si'
-      ];
+      // English-only site (2026-09-19): other locales 301 to /en, so only /en is worth pinging.
+      const ALL_LOCALES = ['en'];
       urls = ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}${body.path}`);
     }
 

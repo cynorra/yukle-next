@@ -41,12 +41,6 @@ function extractFaqSchema(html: string) {
 
 export const revalidate = 3600;
 
-const LOCALE_CODES = new Set([
-  'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-  'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl', 'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-  'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz', 'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl', 'kn', 'te', 'pa', 'gu', 'ml', 'sw', 'ne', 'si'
-]);
-
 // cache() dedupes this within a single request — generateMetadata and the
 // page body both need the post, and without this they'd each pay their own
 // DB round-trip on every render.
@@ -151,44 +145,13 @@ export async function generateMetadata({
   const brandedTitle = `${title} | Loadly`;
   const description = post.meta_description || post.excerpt || post.title;
 
-  const parts = slug.split('-');
-  const lastPart = parts[parts.length - 1];
-  const baseSlug = (parts.length > 1 && LOCALE_CODES.has(lastPart))
-    ? parts.slice(0, -1).join('-')
-    : slug;
-
-  const supabase = createPublicClient();
-  const { data: siblings } = await supabase
-    .from('blog_posts')
-    .select('slug, language')
-    .eq('published', true)
-    .ilike('slug', `${baseSlug}-%`);
-
-  const languagesAlternates: Record<string, string> = {};
-  if (siblings && siblings.length > 0) {
-    siblings.forEach((sib) => {
-      if (sib.language) {
-        languagesAlternates[sib.language] = `${SITE_URL}/${sib.language}/blog/${sib.slug}`;
-      }
-    });
-  } else {
-    // Fallback if query returns empty
-    const SUPPORTED_LOCALES = [
-      'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
-      'nl', 'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-      'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-      'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-      'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-      'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl', 'kn', 'te', 'pa', 'gu', 'ml', 'sw', 'ne', 'si'
-    ];
-    SUPPORTED_LOCALES.forEach((loc) => {
-      languagesAlternates[loc] = `${SITE_URL}/${loc}/blog/${baseSlug}-${loc}`;
-    });
-  }
-
-  // Set English or default as x-default
-  const englishSlug = siblings?.find(s => s.language === 'en')?.slug || `${baseSlug}-en`;
-  languagesAlternates['x-default'] = `${SITE_URL}/en/blog/${englishSlug}`;
+  // English-only site (2026-09-19): translated siblings 301 to the English post
+  // (middleware.ts), so there are no hreflang alternates to advertise — and no
+  // sibling lookup to pay for on every render.
+  const languagesAlternates: Record<string, string> = {
+    en: `${SITE_URL}/en/blog/${slug}`,
+    'x-default': `${SITE_URL}/en/blog/${slug}`,
+  };
 
   return {
     title,

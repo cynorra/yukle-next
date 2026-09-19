@@ -1746,7 +1746,13 @@ async function runBlogGenerator() {
   basePost.title = baseTitle;
 
   // 2. Translate into all target languages via Cloudflare Workers AI
-  const targetLanguages = Object.entries(blogLanguagesMapping).filter(([, code]) => code !== baseLanguage);
+  // English-only site (2026-09-19): every non-English locale 301s to /en in
+  // src/middleware.ts, so translated variants would be unreachable rows that
+  // still cost translation-model calls and sitemap/IndexNow work. Set
+  // BLOG_TRANSLATE_ALL=1 to bring the multi-language fan-out back.
+  const targetLanguages = process.env.BLOG_TRANSLATE_ALL === '1'
+    ? Object.entries(blogLanguagesMapping).filter(([, code]) => code !== baseLanguage)
+    : [];
   const translatedPosts = [];
 
   // Find any optional related-post link(s) the model actually used (see the

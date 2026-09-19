@@ -90,7 +90,7 @@ const EXTRA: Record<string, {
     ],
     missionTitle: 'Our Mission',
     missionText:
-      'To make reliable, up-to-date, and practical logistics knowledge available to everyone, in 54 languages. Through regularly published content on freight costs, route guides, and regulatory changes, we help industry professionals and businesses make better decisions.',
+      'To make reliable, up-to-date, and practical logistics knowledge available to everyone. Through regularly published content on freight costs, route guides, and regulatory changes, we help industry professionals and businesses make better decisions.',
     teamTitle: 'Who Builds Loadly',
     teamName: 'Eren Şimşir',
     teamRole: 'Chief Technical Editor',
@@ -98,7 +98,7 @@ const EXTRA: Record<string, {
     teamLinkedInLabel: 'View on LinkedIn',
     whyTitle: 'Why Follow Loadly?',
     whyItems: [
-      'Expert content published regularly in 54 languages',
+      'Expert content published regularly',
       'Researched, fact-checked articles',
       'Freight cost, route, and regulation guides',
       'Up-to-date industry trends and analysis',

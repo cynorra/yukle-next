@@ -51,14 +51,8 @@ export async function submitToIndexNow(urls: string[]): Promise<void> {
  * e.g. path="/marketplace/123" → submits /en/marketplace/123, /tr/marketplace/123, etc.
  */
 export async function indexNowAllLocales(path: string): Promise<void> {
-  const ALL_LOCALES = [
-    'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl', 'nl',
-    'ru', 'uk', 'zh', 'ja', 'hi', 'ar', 'fa',
-    'ko', 'vi', 'id', 'bn', 'ur', 'th', 'ms', 'tl',
-    'ro', 'sv', 'cs', 'hu', 'el', 'az', 'kk', 'he',
-    'bg', 'hr', 'sr', 'sk', 'da', 'fi', 'no', 'uz',
-    'ta', 'mr', 'ka', 'lt', 'lv', 'et', 'sl', 'kn', 'te', 'pa', 'gu', 'ml', 'sw', 'ne', 'si'
-  ];
+  // English-only site (2026-09-19): other locales 301 to /en, so only /en is worth pinging.
+  const ALL_LOCALES = ['en'];
 
   const urls = ALL_LOCALES.map((locale) => `${SITE_URL}/${locale}${path}`);
   await submitToIndexNow(urls);

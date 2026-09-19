@@ -29,7 +29,7 @@ const content: Record<string, Record<'home' | 'marketplace', { title: string; pa
     "home": {
       "title": "Loadly: Global Logistics & Freight Insights Platform",
       "paragraphs": [
-        "Loadly is a logistics and freight content platform, publishing practical guides, route insights, and industry analysis in 54 languages for shippers, carriers, and logistics professionals worldwide.",
+        "Loadly is a logistics and freight content platform, publishing practical guides, route insights, and industry analysis for shippers, carriers, and logistics professionals worldwide.",
         "Whether you're researching Less Than Truckload (LTL) or Full Truckload (FTL) shipping, freight costs, or regulatory requirements, our regularly published articles are written and reviewed to help you make informed logistics decisions."
       ]
     },

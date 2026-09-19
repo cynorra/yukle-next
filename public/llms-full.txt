@@ -4,11 +4,11 @@
 
 ## 1. Platform Overview
 
-**Loadly** (https://loadlyapp.com) is a logistics and freight **content platform** — it publishes practical guides, route insights, and industry analysis in **54 languages** for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace (shipper-carrier load matching) still exists for a small number of pre-existing accounts, but it is not part of the site's public or indexed surface — it carries `noindex, nofollow` and is excluded from sitemaps and indexing pushes.
+**Loadly** (https://loadlyapp.com) is a logistics and freight **content platform** — it publishes practical guides, route insights, and industry analysis for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace (shipper-carrier load matching) still exists for a small number of pre-existing accounts, but it is not part of the site's public or indexed surface — it carries `noindex, nofollow` and is excluded from sitemaps and indexing pushes.
 
 ### Core Value Proposition
 - Researched, editorially-reviewed guides on freight costs, shipping routes, and industry regulation
-- Published regularly across all 54 languages
+- Published regularly in English
 - Free to read, no registration or subscription required
 
 ### Technology Stack
@@ -62,71 +62,16 @@ These still function for existing accounts but are deliberately excluded from se
 | `/sitemap.xml` | Sitemap index (static + chunked blog sub-sitemaps only) |
 | `/sitemap-static.xml` | Static pages sitemap |
 | `/sitemap-blogs.xml` → `/sitemap-blogs-{n}.xml` | Chunked blog posts sitemap |
-| `/{locale}/feed.xml` | Per-locale blog RSS feed |
+| `/{locale}/feed.xml` | Blog RSS feed |
 | `/robots.txt` | Crawler directives |
 | `/llms.txt` | AI platform summary |
 | `/llms-full.txt` | This file |
 
 ---
 
-## 3. Supported Languages (54)
+## 3. Language
 
-| Code | Language | Script Direction |
-|------|----------|-----------------|
-| en | English | LTR |
-| tr | Türkçe | LTR |
-| es | Español | LTR |
-| pt | Português | LTR |
-| fr | Français | LTR |
-| de | Deutsch | LTR |
-| it | Italiano | LTR |
-| pl | Polski | LTR |
-| nl | Nederlands | LTR |
-| ru | Русский | LTR |
-| uk | Українська | LTR |
-| zh | 中文 | LTR |
-| ja | 日本語 | LTR |
-| hi | हिन्दी | LTR |
-| ar | العربية | RTL |
-| fa | فارسی | RTL |
-| ko | 한국어 | LTR |
-| vi | Tiếng Việt | LTR |
-| id | Bahasa Indonesia | LTR |
-| bn | বাংলা | LTR |
-| ur | اردو | RTL |
-| th | ไทย | LTR |
-| ms | Bahasa Melayu | LTR |
-| tl | Filipino | LTR |
-| ro | Română | LTR |
-| sv | Svenska | LTR |
-| cs | Čeština | LTR |
-| hu | Magyar | LTR |
-| el | Ελληνικά | LTR |
-| az | Azərbaycan dili | LTR |
-| kk | Қазақша | LTR |
-| he | עברית | RTL |
-| bg | Български | LTR |
-| hr | Hrvatski | LTR |
-| sr | Srpski | LTR |
-| sk | Slovenčina | LTR |
-| da | Dansk | LTR |
-| fi | Suomi | LTR |
-| no | Norsk | LTR |
-| uz | Oʻzbekcha | LTR |
-| ta | தமிழ் | LTR |
-| mr | मराठी | LTR |
-| ka | ქართული | LTR |
-| lt | Lietuvių | LTR |
-| lv | Latviešu | LTR |
-| et | Eesti | LTR |
-| sl | Slovenščina | LTR |
-| kn | ಕನ್ನಡ | LTR |
-| pa | ਪੰਜਾਬੀ | LTR |
-| gu | ગુજરાતી | LTR |
-| ml | മലയാളം | LTR |
-| sw | Kiswahili | LTR |
-| ne | नेपाली | LTR |
-| si | සිංහල | LTR |
+Loadly is published in **English only** (`/en/...`). Requests under any other language prefix (`/tr/...`, `/de/...`, etc.) permanently redirect (301) to the English equivalent; translated blog slugs redirect to their English sibling where one exists.
 
 ---
 
@@ -182,7 +127,7 @@ These still function for existing accounts but are deliberately excluded from se
 ## 5. Frequently Asked Questions
 
 **Q: What is Loadly?**
-A: Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector, available in 54 languages.
+A: Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector.
 
 **Q: Is Loadly free to use?**
 A: Yes. All articles and guides on Loadly are completely free to read, with no registration or subscription required.

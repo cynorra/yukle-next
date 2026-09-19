@@ -47,12 +47,11 @@ const HOME_FAQS: Record<string, { title: string; items: { q: string; a: string }
   en: {
     title: 'Frequently Asked Questions',
     items: [
-      { q: 'What is Loadly?', a: 'Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector, available in 54 languages.' },
+      { q: 'What is Loadly?', a: 'Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector.' },
       { q: 'Is Loadly free to use?', a: 'Yes. All articles and guides on Loadly are completely free to read, with no registration or subscription required.' },
       { q: 'What topics does Loadly cover?', a: 'We cover freight costs, shipping routes, industry regulations, LTL and FTL logistics, and broader supply chain trends.' },
       { q: 'How often is new content published?', a: 'New articles are published regularly, covering the latest developments across the freight and logistics industry.' },
       { q: 'Who writes the content?', a: 'Articles are researched and edited for accuracy before publishing, drawing on established industry sources and data.' },
-      { q: 'Which languages is Loadly available in?', a: 'Loadly publishes content in 54 languages, so you can read guides and industry news in your own language.' },
       { q: 'Which regions do you cover?', a: 'Our content covers logistics and freight trends primarily in Turkey, Europe, the Middle East, and worldwide.' },
       { q: 'Can I suggest a topic?', a: 'Yes! Email us at info@loadlyapp.com with topic suggestions or questions — we read every message.' },
       { q: 'How do I contact support?', a: 'You can reach us by sending an email to info@loadlyapp.com. We respond within 24 hours at the latest.' },

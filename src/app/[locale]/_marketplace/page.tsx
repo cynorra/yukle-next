@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale: Locale = (rawLocale in TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = TRANSLATIONS[locale];
 
-  const languages = Object.keys(TRANSLATIONS).reduce((acc, code) => {
+  const languages = ['en'].reduce((acc, code) => {  // English-only site (2026-09-19)
     acc[code] = `/${code}/marketplace`;
     return acc;
   }, { 'x-default': '/en/marketplace' } as Record<string, string>);

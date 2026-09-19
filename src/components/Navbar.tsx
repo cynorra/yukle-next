@@ -24,6 +24,11 @@ function cn(...inputs: ClassValue[]) {
 // used to list only 16 of the 47 supported locales, so most non-English
 // visitors landing on their own locale URL had no way to find it in the
 // switcher (even though hreflang/sitemap/translations already covered all 47).
+// English-only site (2026-09-19): every other locale prefix 301s to /en in
+// middleware.ts, so picking a language here would just bounce back. Flip this
+// (and the ACTIVE_LOCALE gate in middleware.ts) to bring the switcher back.
+const SHOW_LANGUAGE_SWITCHER = false;
+
 const LANGUAGES = [
   { code: 'en', label: 'English', flag: '🇺🇸' },
   { code: 'tr', label: 'Türkçe', flag: '🇹🇷' },
@@ -144,6 +149,7 @@ export default function Navbar() {
 
           <div className="hidden lg:flex items-center space-x-2 lg:space-x-4">
             {/* Language Selector Dropdown */}
+            {SHOW_LANGUAGE_SWITCHER && (
             <div className="relative" ref={langRef}>
               <button
                 onClick={() => setLangOpen(!langOpen)}
@@ -186,6 +192,7 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
+            )}
 
             {user ? (
               <>
@@ -236,6 +243,7 @@ export default function Navbar() {
 
           <div className="lg:hidden flex items-center gap-2">
             {/* Mobile Lang Button */}
+            {SHOW_LANGUAGE_SWITCHER && (
             <div className="relative" ref={langRef}>
               <button
                 onClick={() => setLangOpen(!langOpen)}
@@ -277,6 +285,7 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
+            )}
 
             {user && <NotificationBell />}
             <button

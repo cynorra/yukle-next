@@ -19,7 +19,8 @@ export async function generateStaticParams() {
   const { count } = await supabase
     .from('blog_posts')
     .select('id', { count: 'exact', head: true })
-    .eq('published', true);
+    .eq('published', true)
+    .eq('language', 'en');
   const pages = Math.max(1, Math.ceil((count || 0) / BLOGS_PAGE_SIZE));
   return Array.from({ length: pages }, (_, i) => ({ page: String(i + 1) }));
 }
@@ -47,6 +48,7 @@ export async function GET(request: Request, { params }: Props) {
       .from('blog_posts')
       .select('slug, created_at, updated_at, language, cover_image')
       .eq('published', true)
+      .eq('language', 'en')
       .order('created_at', { ascending: false })
       .range(from, to);
 

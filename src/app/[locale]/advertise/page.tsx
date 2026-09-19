@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = descs[rawLocale] ?? descs.en;
 
   const languagesAlternates: Record<string, string> = { 'x-default': `${SITE_URL}/en/advertise` };
-  (Object.keys(TRANSLATIONS) as string[]).forEach((loc) => {
+  (['en'] as string[]).forEach((loc) => {  // English-only site (2026-09-19): other locales 301 to /en
     languagesAlternates[loc] = `${SITE_URL}/${loc}/advertise`;
   });
 

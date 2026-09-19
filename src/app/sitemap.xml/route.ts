@@ -17,7 +17,7 @@ export async function GET() {
   const supabase = createPublicClient();
 
   const { count: blogsCount } = await supabase
-    .from('blog_posts').select('id', { count: 'exact', head: true }).eq('published', true);
+    .from('blog_posts').select('id', { count: 'exact', head: true }).eq('published', true).eq('language', 'en');
 
   const blogPages = Math.max(1, Math.ceil((blogsCount || 0) / BLOGS_PAGE_SIZE));
 

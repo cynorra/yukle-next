@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     authors: [{ name: 'Loadly' }],
     alternates: {
       canonical: `/${locale}`,
-      languages: Object.keys(TRANSLATIONS).reduce((acc, code) => {
+      languages: ['en'].reduce((acc, code) => {  // English-only site (2026-09-19): other locales 301 to /en
         acc[code] = `/${code}`;
         return acc;
       }, { 'x-default': '/en' } as Record<string, string>),
