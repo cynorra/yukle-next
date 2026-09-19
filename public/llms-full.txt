@@ -7,7 +7,7 @@
 **Loadly** (https://loadlyapp.com) is a logistics and freight **content platform** — it publishes practical guides, route insights, and industry analysis for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace (shipper-carrier load matching) still exists for a small number of pre-existing accounts, but it is not part of the site's public or indexed surface — it carries `noindex, nofollow` and is excluded from sitemaps and indexing pushes.
 
 ### Core Value Proposition
-- Researched, editorially-reviewed guides on freight costs, shipping routes, and industry regulation
+- Guides on freight costs, shipping routes, and industry regulation, published under written editorial rules and automated quality checks
 - Published regularly in English
 - Free to read, no registration or subscription required
 
@@ -139,7 +139,7 @@ A: Freight costs, shipping routes, industry regulations, LTL and FTL logistics, 
 A: New articles are published regularly, covering the latest developments across the freight and logistics industry.
 
 **Q: Who writes the content?**
-A: Articles are researched and edited for accuracy before publishing, drawing on established industry sources and data.
+A: Loadly is a single-person editorial operation run by Eren Şimşir. Every article follows written editorial rules and passes automated checks (similarity and sourcing) before it is published.
 
 **Q: Does Loadly still operate a freight marketplace?**
 A: A legacy marketplace exists for a small number of pre-existing accounts, but it is not part of the site's public-facing or indexed content — the blog is the platform's primary public surface.

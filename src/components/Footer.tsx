@@ -24,9 +24,8 @@ export default function Footer({ locale }: { locale: Locale }) {
           <Link000 href={`/${locale}/contact`} className="hover:text-accent transition-colors">
             {t.nav.contact}
           </Link000>
-          <Link000 href={`/${locale}/privacy-policy`} className="hover:text-accent transition-colors">
-            {t.nav.kvkk}
-          </Link000>
+          {/* The separate KVKK/GDPR link (/privacy-policy) is dropped: on the English-only
+              site it just 307s to /privacy, so it was a duplicate of the link below. */}
           <Link000 href={`/${locale}/privacy`} className="hover:text-accent transition-colors">
             {t.nav.privacy}
           </Link000>

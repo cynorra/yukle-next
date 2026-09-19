@@ -154,7 +154,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
       step1Title: 'Search a Topic',
       step1Desc: 'Look up freight costs, routes, regulations, or industry trends relevant to your business.',
       step2Title: 'Read Expert Guides',
-      step2Desc: 'Every article is researched and edited for accuracy, available in your language.',
+      step2Desc: 'Every article follows written editorial rules and passes automated quality checks before it is published.',
       step3Title: 'Apply What You Learn',
       step3Desc: 'Use what you learn to negotiate better rates, plan routes, and make smarter logistics decisions.',
       ctaTitle: 'Stay Ahead in Freight & Logistics',

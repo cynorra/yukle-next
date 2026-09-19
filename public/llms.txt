@@ -19,7 +19,7 @@ Loadly is published in **English only**. Requests for other language prefixes (e
 
 ## What Loadly Is
 
-Loadly is a content platform, not a transaction platform. It publishes researched, edited guides and analysis on:
+Loadly is a content platform, not a transaction platform. It publishes guides and analysis, under written editorial rules and automated quality checks, on:
 - Freight costs and rate benchmarking
 - Shipping routes and lane guides
 - Industry regulation and compliance

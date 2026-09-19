@@ -98,8 +98,8 @@ const EXTRA: Record<string, {
     teamLinkedInLabel: 'View on LinkedIn',
     whyTitle: 'Why Follow Loadly?',
     whyItems: [
-      'Expert content published regularly',
-      'Researched, fact-checked articles',
+      'New guides published regularly',
+      'Articles held to written editorial rules and automated quality checks',
       'Freight cost, route, and regulation guides',
       'Up-to-date industry trends and analysis',
       'Completely free, no registration required',
@@ -108,11 +108,11 @@ const EXTRA: Record<string, {
     ],
     commitTitle: 'Our Editorial Commitment',
     commitText:
-      'We work carefully to ensure every article is accurate, current, and practical. Our content is researched and reviewed before publishing. Loadly believes in being a trustworthy source of information for the logistics industry — helping our readers make better decisions with the right information.',
+      'We aim for every article to be accurate, current, and practical, and every article is published under written editorial rules and automated quality checks (see our Editorial Policy). Loadly believes in being a trustworthy source of information for the logistics industry — helping our readers make better decisions with the right information.',
     howTitle: 'How to Use Loadly',
     howSteps: [
       { title: 'Search a Topic', desc: 'Look up freight costs, routes, or regulations relevant to your business.' },
-      { title: 'Read the Guide', desc: 'Read the researched, editorially-reviewed article in your language.' },
+      { title: 'Read the Guide', desc: 'Read the full article. It is free and needs no registration.' },
       { title: 'Make Informed Decisions', desc: 'Use what you learn to make better decisions in your business.' },
     ],
   },
