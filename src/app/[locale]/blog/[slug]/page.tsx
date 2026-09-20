@@ -141,7 +141,9 @@ export async function generateMetadata({
     };
   }
 
-  const title = post.meta_title || post.title;
+  // Most stored meta_titles already end in "| Loadly" and the layout title template
+  // appends the brand again, so strip it here or every <title>/OG title reads "… | Loadly | Loadly".
+  const title = (post.meta_title || post.title).replace(/\s*\|\s*Loadly\s*$/i, '').trim();
   const brandedTitle = `${title} | Loadly`;
   const description = post.meta_description || post.excerpt || post.title;
 
