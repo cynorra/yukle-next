@@ -573,7 +573,11 @@ ${description}`
     const options = {
       hostname: 'generativelanguage.googleapis.com',
       port: 443,
-      path: `/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
+      // Deliberately NOT gemini-2.5-flash: free-tier quota is per model (20 req/day for
+      // 2.5-flash) and this cron fires every 5 minutes, so it used to burn the whole day's
+      // quota before scripts/blog-generator.js (also 2.5-flash) ran, and no articles got
+      // published on those days. flash-lite has its own quota bucket.
+      path: `/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${geminiApiKey}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
