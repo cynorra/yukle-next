@@ -3,6 +3,7 @@ const path = require('path');
 const https = require('https');
 const { createClient } = require('@supabase/supabase-js');
 const { submitToIndexNow, submitToBaidu, pingBaiduBlogPost } = require('./lib/indexnow');
+const ArticleQuality = require('./lib/article-quality');
 
 // Load env variables from .env.local
 const envLocalPath = path.join(__dirname, '..', '.env.local');
@@ -1448,7 +1449,8 @@ async function generateBasePost(topicData) {
     ? ''
     : `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nSTRUCTURAL DIVERSITY — MANDATORY\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nHere are the ${linkPool.length} most recently published articles (title + opening angle):\n${linkPool.map(p => `  · "${p.title}" — ${p.excerpt || '(no excerpt on file)'}`).join('\n')}\n\nYour article must feel unmistakably different from every one of these in more than just topic:\n- Pick a HOOK PARAGRAPH scenario, statistic, or framing device none of them used (don't default to the same "picture a driver at a truck stop" or "X% of companies" opener style twice in a row).\n- Vary sentence rhythm and paragraph opening patterns — do not start consecutive articles' Quick Answer or Hook the same grammatical way.\n- If your instinct is to open with something close to one of the excerpts above, choose a different angle entirely before writing a single word.`;
 
-  const payload = JSON.stringify({
+  // Built per attempt so a rejected draft's specific problems can be fed back (see the retry loop).
+  const buildPayload = (feedback = '') => JSON.stringify({
     contents: [{
       parts: [{
         text: `You are a veteran freight industry expert and editorial director at Loadly — a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals. You have spent 15+ years in the field: as a dispatcher, a freight broker, an owner-operator, and a logistics manager. You write from real experience, not theory. Your readers are working professionals who can instantly detect generic AI content and click away. They stay only when they learn something specific, surprising, or immediately actionable that they couldn't find anywhere else.
@@ -1479,22 +1481,33 @@ AUDIENCE-FIRST WRITING RULES (non-negotiable)
 3. INCLUDE INSIDER KNOWLEDGE: Every section must contain at least one insight that a reader would only know if they'd actually worked in this industry — something that makes them think "I never thought of it that way."
 4. USE CONCRETE NUMBERS, HONESTLY FRAMED: Not "significant savings" — say "commonly $1,500-2,500 per truck per year" or "often in the low-to-mid four figures." A number can be specific without being falsely precise — never invent a single decimal-precision figure (e.g. "$1,847", "2.3 days", "14.3%") and present it as a discovered fact with no source; that reads as fabricated data even when the underlying direction is true. Use realistic ranges or "typically"/"commonly" framing for anything not tied to one of the real, verifiable sources named in the sourcing rule below.
 5. CONTROVERSIAL WHEN WARRANTED: If the conventional wisdom is wrong or incomplete, say so directly. Readers share content that challenges what they thought they knew.
-6. NARRATIVE PULL: Open with a scenario, problem, or statistic so specific that the reader immediately thinks "this is about me." End each section making them want to read the next one.
+6. NARRATIVE PULL: Open with a scenario or problem so specific that the reader immediately thinks "this is about me." End each section making them want to read the next one.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT LOADLY IS — AND WHAT YOU MAY NEVER CLAIM (articles are auto-REJECTED for this)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Loadly is an independent editorial publication. It has NO clients, customers, members, users, carriers, shipment or claims data, analysts, research team, platform or marketplace. Therefore:
+✗ Never write "our data", "our analysis", "our research", "our clients/customers/members/carriers/drivers", "our platform/network/marketplace", "Loadly's data/experts/platform/marketplace", "the Loadly marketplace", "a client of ours".
+✗ Never write "we analyzed / we found / we've seen / we tracked / we worked with / we consulted / we surveyed" — nothing was analyzed, tracked or consulted. Write about what the industry, regulators or professionals do, in third person.
+✗ Never describe a specific past event at an unnamed company as fact ("Last quarter, a mid-sized Ohio distributor lost $12,500…"). It cannot be verified and is treated as invented.
+✓ If you want an example, label it plainly as hypothetical: "Imagine a 10-truck fleet that…", "Suppose a shipper moving 20 pallets a week…" and use round, illustrative assumptions.
+✓ Facts come from real, named public bodies (FMCSA, BTS, EIA, CBP, IRU, Eurostat…) or from stated regulation text — or are presented as general industry knowledge with honest ranges.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TITLE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Choose the formula that best fits the topic and content format — but check the recently published titles listed above first, and do NOT pick the same formula (especially "[Year] [Topic] Playbook") two articles in a row:
-• "[Number] [Power Word] [Topic] Every [Audience] Needs in ${CURRENT_YEAR}"
+Choose the formula that best fits the topic and content format — but check the recently published titles listed above first, and do NOT pick the same formula (especially "The [Topic] Playbook: …") two articles in a row:
+• "[Number] [Power Word] [Topic] Every [Audience] Needs"
 • "The [Format]: How to [Achieve Benefit] Without [Pain Point]"
-• "Why [Common Belief] Is [Wrong/Outdated/Costing You] in ${CURRENT_YEAR}"
+• "Why [Common Belief] Is [Wrong/Outdated/Costing You Money]"
 • "[Specific Problem]: Causes, Real Costs & the Expert Fix"
-• "What [Trend/Change] Means for [Audience] Right Now"
-• "The [Year] [Topic] Playbook: [Specific Outcome Promised]"
-• A direct question a reader would type verbatim (e.g., "How Much Does It Really Cost to X in ${CURRENT_YEAR}?")
+• "What [Trend/Change] Means for [Audience]"
+• "The [Topic] Playbook: [Specific Outcome Promised]"
+• A direct question a reader would type verbatim (e.g., "How Much Does It Really Cost to X?")
 • A blunt, non-formulaic statement of the finding itself, no template at all
 
 Rules: primary keyword included naturally, max 70 chars, creates urgency or promises specific value.
+EVERGREEN TITLES: never put a year (2024, 2025, ${CURRENT_YEAR}…) in the title or meta_title — year-stamped titles look stale within months. And no percentages, dollar amounts or "3x" claims in the title, meta_title, meta_description or excerpt (they are invented numbers in search results); describe the benefit in words.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 HTML STRUCTURE (strict)
@@ -1525,7 +1538,7 @@ MANDATORY SECTIONS (in this order)
 Open with a <p> starting with a bolded lead-in — vary it instead of always writing "Quick Answer:" (e.g. <strong>Quick Answer:</strong>, <strong>Short Answer:</strong>, <strong>The Bottom Line:</strong>, <strong>In Short:</strong>) — followed by a 40-60 word direct answer to the primary question this article addresses. This is what Google's AI Overview and ChatGPT will pull. Make it complete enough to stand alone.
 
 **2. HOOK PARAGRAPH**
-Immediately after Quick Answer, one <p> with a shocking specific statistic OR a concrete scenario that makes the reader feel "this is my exact problem." Must create urgency in the first 2 sentences.
+Immediately after Quick Answer, one <p> with a concrete, clearly hypothetical scenario ("Imagine a 10-truck fleet that…") OR a finding from a real, named public body — never an invented statistic or an unnamed real-sounding company. It must make the reader feel "this is my exact problem" and create urgency in the first 2 sentences.
 
 **3. PROBLEM DEEP-DIVE** (1-2 <h2> sections)
 Authoritative analysis: root causes, quantified costs, why most people fail here. Show expertise. Use specific numbers where you can back them with something real. This sourcing rule applies EVERYWHERE in the article, not just <blockquote> — the Quick Answer, Hook, and every other section too: when citing a source, name ONLY real, well-known, publicly verifiable bodies or regulations (e.g. FMCSA, IRU, ATA, Eurostat, Carmack Amendment) for genuinely well-established facts — never invent a specific report, study, org, or finding and attribute it to a source. If you don't have a real citation for a number, present it as a realistic range or general industry knowledge with no source attribution rather than inventing a precise, uncited figure — a specific-looking unsourced number (e.g. "$50,000 per delayed shipment") is just as much a fabrication as a fake attributed quote.
@@ -1534,7 +1547,7 @@ Authoritative analysis: root causes, quantified costs, why most people fail here
 Deep, implementable advice — not generic tips. Each section must:
 - Open with a clear, expert claim
 - Include specific numbered steps or criteria where relevant
-- Contain at least one data point or case example
+- Contain at least one concrete example: a clearly labelled hypothetical scenario, a worked calculation with stated round assumptions, a named real regulation, or a finding from a real named public body
 - Target a related long-tail keyword in the heading
 
 **5. COMPARISON TABLE** (if format is Comparison/Checklist/Decision Guide)
@@ -1591,17 +1604,17 @@ E-E-A-T SIGNALS
 - Reference industry bodies: ATA, TIA, FMCSA, OOIDA, IRU, IATA, NRF, CSCMP
 - Include "what most professionals miss" moments — insider knowledge that signals real experience
 - Contradict a common mistake the target audience makes — this builds trust faster than agreeing with them
-- No hedging: write "you must," "carriers that do X earn 23% more," not "you might want to consider possibly"
+- No filler hedging: write "you must" or "carriers that do X typically earn more", not "you might want to consider possibly". Do not attach an exact percentage to a claim unless a real named public source gives it.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 METADATA
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- slug: primary-keyword-first, lowercase, hyphens only (e.g., "ltl-freight-cost-guide-${CURRENT_YEAR}")
-- meta_title: primary keyword first, max 60 chars. Do NOT append "| Loadly" or any site name — the page template adds that automatically, and doing it twice breaks the title.
-- meta_description: primary keyword + specific measurable benefit + soft CTA, max 155 chars
-- excerpt: 2 punchy sentences — first names the problem with a specific number, second states exactly what the reader will learn. Include primary keyword.
+- slug: primary-keyword-first, lowercase, hyphens only, no year (e.g., "ltl-freight-cost-guide")
+- meta_title: primary keyword first, max 60 chars, no year, no numbers-with-%/$. Do NOT append "| Loadly" or any site name — the page template adds that automatically, and doing it twice breaks the title.
+- meta_description: primary keyword + the concrete benefit described in words + soft CTA, max 155 chars. NO percentages, dollar amounts or multipliers.
+- excerpt: 2 punchy sentences — first names the concrete problem in words (no invented numbers), second states exactly what the reader will learn. Include primary keyword.
 
-Return ONLY valid JSON with no additional text or markdown wrappers.`
+Return ONLY valid JSON with no additional text or markdown wrappers.${feedback}`
       }]
     }],
     generationConfig: {
@@ -1630,16 +1643,39 @@ Return ONLY valid JSON with no additional text or markdown wrappers.`
   // land well under their required minimum and force a fresh generation.
   const MIN_WORD_RATIO = 0.7;
   const minAcceptableWords = Math.floor(minWords * MIN_WORD_RATIO);
-  let lastPost;
-  for (let attempt = 1; attempt <= 2; attempt++) {
-    lastPost = await callGeminiWithRetry(payload);
-    const wordCount = (lastPost.content || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
-    if (wordCount >= minAcceptableWords) {
-      return lastPost;
+  // Each attempt is one Gemini request and the free tier allows 20/day for this model, so 3 is the
+  // ceiling: enough for the model to fix what a gate flagged, cheap enough to never starve tomorrow.
+  const MAX_ATTEMPTS = 3;
+  let feedback = '';
+  let lastIssues = [];
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const draft = await callGeminiWithRetry(buildPayload(feedback));
+    const wordCount = (draft.content || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+
+    const issues = [];
+    if (wordCount < minAcceptableWords) {
+      issues.push(`THIN CONTENT (${wordCount} words; the minimum is ${minAcceptableWords}+) — write the complete article, every required section, at full depth.`);
     }
-    console.warn(`[Thin Content] Generated article "${lastPost.title}" has only ${wordCount} words (need ${minAcceptableWords}+). ${attempt < 2 ? 'Retrying...' : 'Giving up after 2 attempts.'}`);
+    // Same gates that used to only skip the whole run after the fact (see runBlogGenerator) now run here so
+    // the model gets a chance to fix them instead of the day's article being lost.
+    const testing = findFabricatedTestingClaim(draft.title, draft.excerpt, draft.content);
+    if (testing) issues.push(`UNVERIFIABLE TESTING/EXPERIENCE CLAIM ("${testing}") — Loadly does no hands-on testing and the article has no named personal author; write in third person.`);
+    const citation = findFabricatedCitation(draft.content);
+    if (citation) issues.push(`UNRECOGNIZED SOURCE IN A BLOCKQUOTE ("${citation}") — attribute only to real, well-known public bodies or drop the attribution.`);
+    issues.push(...ArticleQuality.validateArticle(draft));
+
+    if (issues.length === 0) {
+      // Real, stable primary-source pages for the topic (FMCSA, BTS, CBP, EIA…) — the archive previously
+      // linked to no outside sources at all. Appended by code, so the links are known-good, never model-invented.
+      draft.content = `${draft.content}\n${ArticleQuality.officialResourcesHtml(topicCluster)}`;
+      if (attempt > 1) console.log(`[QualityGate] "${draft.title}" passed all gates on attempt ${attempt}/${MAX_ATTEMPTS}.`);
+      return draft;
+    }
+    lastIssues = issues;
+    console.warn(`[QualityGate] Attempt ${attempt}/${MAX_ATTEMPTS} for "${draft.title}" rejected (${wordCount} words):\n  - ${issues.join('\n  - ')}`);
+    feedback = `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nYOUR PREVIOUS DRAFT WAS REJECTED — FIX EVERY ONE OF THESE\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n${issues.map(i => `- ${i}`).join('\n')}\nWrite a fresh, complete article on the same topic that has none of these problems. Do not mention this feedback.`;
   }
-  throw new Error(`Article generation kept producing thin/truncated content (< ${minAcceptableWords} words) after 2 attempts`);
+  throw new Error(`Article failed the quality gates after ${MAX_ATTEMPTS} attempts: ${lastIssues.map(i => i.split(' — ')[0]).join('; ')}`);
 }
 
 async function runBlogGenerator() {
@@ -1970,4 +2006,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { runBlogGenerator, topicClusters };
+module.exports = { runBlogGenerator, topicClusters, generateBasePost };
