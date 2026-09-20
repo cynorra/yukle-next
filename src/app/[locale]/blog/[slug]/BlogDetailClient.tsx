@@ -340,39 +340,6 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
         );
       }
 
-      // Inject CTA after first 2-3 paragraphs
-      if (paragraphCount === 3) {
-        let ctaText = '';
-        const ctaLink = '/register';
-        let anchorText = '';
-
-        if (slug === 'sehirler-arasi-nakliye-maliyet-dusurme') {
-          ctaText = 'Nakliye maliyetlerinizi düşürmek için Loadly pazarını kullanın.';
-          anchorText = 'şehirler arası nakliye için yük ilanları';
-        } else if (slug === 'kamyon-tir-soforleri-yuk-bulma-rehberi') {
-          ctaText = 'Hemen yük bulmak ve kazancınızı artırmak için pazar sayfamızı ziyaret edin.';
-          anchorText = 'güzergah bazlı yük ilanları';
-        } else if (slug === 'evden-eve-nakliyat-yasal-mevzuat-belgeler') {
-          ctaText = 'Yasal mevzuata uygun güvenilir taşıyıcıları Loadly platformunda bulun.';
-          anchorText = 'nakliye ilanları ve taşıyıcı bulma';
-        }
-
-        if (ctaText) {
-          elements.push(
-            <div key="cta-block" className="my-10 p-8 rounded-3xl bg-accent/5 border border-accent/20">
-              <p className="text-lg font-bold mb-4">{ctaText}</p>
-              <div className="flex flex-wrap gap-4">
-                <Link href={ctaLink} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-bold hover:shadow-lg hover:shadow-accent/20 transition-all">
-                  {anchorText}
-                </Link>
-                <Link href="/register" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white dark:bg-surface-dark border border-accent/20 text-accent font-bold hover:bg-accent/5 transition-all">
-                  ücretsiz kayıt
-                </Link>
-              </div>
-            </div>
-          );
-        }
-      }
     });
 
     // Inject FAQ section at the end
