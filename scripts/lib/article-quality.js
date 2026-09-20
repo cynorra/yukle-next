@@ -22,6 +22,12 @@ const FIRST_PARTY_PATTERNS = [
   // "Loadly's data / Loadly analysts / the Loadly marketplace / Loadly clients …"
   /\bLoadly(?:['’]s)?\s+(?:own\s+|internal\s+|proprietary\s+|carrier\s+|shipment\s+)*(?:data|research|analys[ie]s|analysts?|experts?|team|clients?|customers?|members?|users?|network|marketplace|platform|carriers?|shippers?|benchmarks?|survey|study|findings|insights?|index|forecast)\b/i,
   /\bthe Loadly (?:marketplace|platform|network|load board|community)\b/i,
+  // Product pitch for a service that does not exist: "Loadly helps you connect…", "join the Loadly network",
+  // "at Loadly", "we built Loadly", "for Loadly users". (A 2026-09-20 probe found these in 60 of the 160 posts
+  // the patterns above considered clean.)
+  /\bLoadly\s+(?:helps?|offers?|provides?|connects?|lets?|allows?|enables?|gives?|makes?|delivers?|powers?|matches|verifies|vets|users?|members?|uses|built|can)\b/i,
+  /\b(?:at|join(?:ing)?|we built|we['’]ve built) (?:the )?Loadly\b/i,
+  /\b(?:for|to) Loadly (?:users|members|shippers|carriers|drivers)\b/i,
   // "a client of ours"
   /\b(?:a|one|another) (?:client|customer|member|user|carrier|shipper|driver)s? of ours\b/i,
   // "we analyzed / we found / we've seen / we worked with …" — first-person authority about own data/work

@@ -10,6 +10,11 @@ const flagged = [
   ['first-party: Loadly platform', "Loadly's platform allows shippers to upload documents."],
   ['first-party: we consulted', 'One fleet we consulted extended its tire lifespan.'],
   ['first-party: client of ours', 'A client of ours saved money last year.'],
+  ['product pitch: Loadly helps', 'Loadly helps you instantly connect with a vast network of shippers across Europe.'],
+  ['product pitch: at Loadly', 'In our experience at Loadly, carriers who prioritize compliance win more freight.'],
+  ['product pitch: we built', 'We built Loadly for owner-operators just like you.'],
+  ['product pitch: join', 'Join the Loadly network now and find trusted partners.'],
+  ['product pitch: for Loadly users', 'Advanced AI Load Board Hacks for Loadly Users'],
 ];
 for (const [name, text] of flagged) assert.ok(Q.findFirstPartyClaim(text), `should flag: ${name}`);
 
