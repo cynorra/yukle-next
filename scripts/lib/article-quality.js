@@ -28,6 +28,19 @@ const FIRST_PARTY_PATTERNS = [
   /\bLoadly\s+(?:helps?|offers?|provides?|connects?|lets?|allows?|enables?|gives?|makes?|delivers?|powers?|matches|verifies|vets|users?|members?|uses|built|can)\b/i,
   /\b(?:at|join(?:ing)?|we built|we['’]ve built) (?:the )?Loadly\b/i,
   /\b(?:for|to) Loadly (?:users|members|shippers|carriers|drivers)\b/i,
+  // Second probe (2026-09-21) — claims the patterns above missed even after the old-post cleanup:
+  // "data from thousands of Loadly shipments", "a 2024 Loadly Logistics Report", "Loadly's proprietary rate index",
+  // "Loadly's integrated route optimization", "Loadly's system identified $210 …", "Loadly assists/identified/optimizes …".
+  /\b(?:thousands|hundreds|millions) of Loadly\b|\bLoadly (?:shipments|loads)\b/i,
+  /\bLoadly (?:Logistics |Freight |Market |Rate )?(?:Reports?|Index|Data|Insights?|Survey|Study|Analysis|Benchmark)\b/,
+  /\bLoadly['’]s\s+(?:[a-z-]+\s+){0,3}(?:index|reports?|systems?|integrated|analytics|algorithms?|software|tools?|route|routing|technology|dashboard|engine|ledger|insights?|estimates?)\b/i,
+  /\bLoadly\s+(?:assists?|identified|optimi[sz]es|streamlines?|integrates|flags|automates|tracks|monitors|analy[sz]es|calculates|suggests|recommends|highlights|reduces|saves|aggregates|commands|is\s+(?:built|designed|not just)|was\s+(?:built|designed|created|founded)|isn['’]t\s+(?:just|only))\b/i,
+  // "platforms like Loadly", "e.g., Loadly", "(or a marketplace like Loadly)" — presents Loadly as a service in use
+  /\b(?:platforms?|marketplaces?|tools?|services?|providers?|load boards?)\s*(?:like|such as|including|e\.g\.,?)\s+Loadly\b|\be\.g\.,?\s+(?:via\s+)?Loadly\b/i,
+  // calls to action for a product that does not exist
+  /\b(?:sign up|register|explore|get started|discover|browse|start)\b[^.!?]{0,60}\bLoadly\b/i,
+  // invented first-person experience
+  /\b(?:when I was running my own|my own \d+\+? years|I['’]ve spent (?:\d+\+? |many |years )?years?|in my \d+\+? years|my (?:own )?freight brokerage)\b/i,
   // "a client of ours"
   /\b(?:a|one|another) (?:client|customer|member|user|carrier|shipper|driver)s? of ours\b/i,
   // "we analyzed / we found / we've seen / we worked with …" — first-person authority about own data/work

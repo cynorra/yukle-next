@@ -15,6 +15,19 @@ const flagged = [
   ['product pitch: we built', 'We built Loadly for owner-operators just like you.'],
   ['product pitch: join', 'Join the Loadly network now and find trusted partners.'],
   ['product pitch: for Loadly users', 'Advanced AI Load Board Hacks for Loadly Users'],
+  // 2026-09-21: found in old posts that the patterns above had passed
+  ['data from Loadly shipments', 'Based on data from thousands of Loadly shipments, shippers cut LTL costs by 14%.'],
+  ['Loadly report', 'According to a 2024 Loadly Logistics Report, 78% of shippers overpay.'],
+  ['proprietary rate index', "Use Loadly's proprietary rate index, built from live lanes, to benchmark."],
+  ['system identified', "Loadly’s system identified an average of $210 in overcharges."],
+  ['integrated route optimization', "Tools like Loadly's integrated route optimization can save $350 per route."],
+  ['Loadly assists', 'Loadly assists with freight class optimization by suggesting NMFC codes.'],
+  ['Loadly was built', "That's why Loadly was built."],
+  ['platforms like Loadly', 'Automate this with platforms like Loadly to compare rates.'],
+  ['e.g., Loadly', 'A digital freight marketplace (e.g., Loadly) can flag discrepancies.'],
+  ['CTA: sign up', 'Sign up for Loadly today and connect with quality freight.'],
+  ['CTA: explore', 'Explore Loadly today and find compliant loads that pay.'],
+  ['invented experience', 'When I was running my own freight brokerage, the biggest headaches were customs.'],
 ];
 for (const [name, text] of flagged) assert.ok(Q.findFirstPartyClaim(text), `should flag: ${name}`);
 
@@ -24,6 +37,9 @@ const clean = [
   'Carriers and shippers should compare quotes. Veteran dispatchers know the pattern.',
   'We recommend documenting every delay in writing.',
   'Read more in the Loadly blog archive.',
+  'Explore the FMCSA website for current hours-of-service rules.', // "explore" without Loadly
+  'Register your truck with the state before hauling oversize loads.', // "register" without Loadly
+  'Shippers can start by comparing quotes from three carriers.',
 ];
 for (const text of clean) assert.strictEqual(Q.findFirstPartyClaim(text), null, `should NOT flag: ${text}`);
 
