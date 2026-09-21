@@ -1,0 +1,66 @@
+name: LinkedIn Post Drafts
+
+# Writes LinkedIn post DRAFTS into linkedin-drafts/ and commits them. It never posts anything:
+# a person reads a draft, edits it and publishes it by hand (see linkedin-drafts/README.md).
+# Three drafts a week is a realistic pace for a single person to review and post.
+
+on:
+  schedule:
+    - cron: '0 6 * * 1,3,5' # Monday, Wednesday, Friday, 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'How many drafts to generate'
+        required: false
+        default: '1'
+
+concurrency:
+  group: linkedin-drafts
+  cancel-in-progress: false
+
+permissions:
+  contents: write # only to commit the generated markdown files
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+        run: npm ci
+
+      - name: Quality-gate tests
+        run: |
+          node scripts/lib/article-quality.test.js
+          node scripts/lib/linkedin-quality.test.js
+
+      - name: Generate drafts
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          COUNT: ${{ github.event.inputs.count || '1' }}
+        run: node scripts/linkedin-drafts.js --count "$COUNT"
+
+      - name: Commit new drafts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add linkedin-drafts
+          if git diff --cached --quiet; then
+            echo "No new drafts."
+            exit 0
+          fi
+          git commit -m "chore(linkedin): add generated post draft(s)"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

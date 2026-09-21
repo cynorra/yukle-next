@@ -1,0 +1,22 @@
+{
+  "drafts": [
+    {
+      "kind": "tool",
+      "ref": "dimensional-weight-calculator",
+      "file": "2026-09-21-tool-dimensional-weight-calculator.md",
+      "createdAt": "2026-09-21T15:03:41.730Z"
+    },
+    {
+      "kind": "tool",
+      "ref": "fuel-cost-calculator",
+      "file": "2026-09-21-tool-fuel-cost-calculator.md",
+      "createdAt": "2026-09-21T15:04:30.737Z"
+    },
+    {
+      "kind": "tool",
+      "ref": "detention-fee-calculator",
+      "file": "2026-09-21-tool-detention-fee-calculator.md",
+      "createdAt": "2026-09-21T15:08:01.879Z"
+    }
+  ]
+}
