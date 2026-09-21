@@ -115,6 +115,13 @@ export async function middleware(request: NextRequest) {
   // locale other than 'en' ever reaches a page/ISR entry. The locale-aware
   // routing/dictionaries stay in the codebase (only the redirect gates them),
   // so re-enabling a language later is a one-line change, not a rebuild.
+  // Sole exception: the Turkish KVKK disclosure (Law No. 6698 art. 10 requires the
+  // data-subject notice in a language Turkish users understand). It is served
+  // noindex, is not in any sitemap and is only linked from /en/privacy.
+  if (pathname === '/tr/privacy-policy') {
+    return NextResponse.next();
+  }
+
   const localeMatch = pathname.match(/^\/([a-z]{2})(\/.*)?$/);
   const urlLocale = localeMatch && SUPPORTED_LOCALES.includes(localeMatch[1]) ? localeMatch[1] : null;
 

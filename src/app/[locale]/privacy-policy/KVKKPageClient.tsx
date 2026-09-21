@@ -124,7 +124,7 @@ export function KVKKPageClient() {
         <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>8. Dış Kaynaklı İlanlar ve Veri Silme Talepleri</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            Sitemizde yer alan dış kaynaklı ilanlar, ilgili platformlarda sahipleri tarafından alenileştirilmiş ticari iletişim bilgilerini içermektedir. İlan sahipleri, verilerinin kaldırılmasını veya güncellenmesini istemeleri halinde <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline">info@loadlyapp.com</a> adresi üzerinden bizimle iletişime geçebilirler. Talepler derhal işleme alınmaktadır.
+            Mobil uygulamamızda yer alan dış kaynaklı ilanlar, ilgili platformlarda sahipleri tarafından alenileştirilmiş ticari iletişim bilgilerini içermektedir. İlan sahipleri, verilerinin kaldırılmasını veya güncellenmesini istemeleri halinde <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline">info@loadlyapp.com</a> adresi üzerinden bizimle iletişime geçebilirler. Talepler derhal işleme alınmaktadır.
           </p>
         </div>
 

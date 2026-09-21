@@ -21,6 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: 'KVKK Aydınlatma Metni',
     description: 'Loadly platformu KVKK kişisel verilerin korunması aydınlatma metni. 6698 sayılı Kanun kapsamında haklarınız ve veri işleme politikamız.',
+    // Legal notice for Turkish data subjects only: reachable, but kept out of
+    // search indexes so the indexed site stays a single-language (English) one.
+    robots: { index: false, follow: true },
     alternates: {
       canonical: `${SITE_URL}/tr/privacy-policy`,
     },

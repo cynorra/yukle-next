@@ -214,6 +214,12 @@ export function PrivacyPageClient({ data }: Props) {
           </p>
           <ul className={`list-none space-y-2 text-sm ${t.sub} mt-3`}>
             <li>Email: <a href="mailto:kvkk@loadlyapp.com" className="text-[#A66700] hover:underline">kvkk@loadlyapp.com</a></li>
+            <li>
+              <a href="/tr/privacy-policy" hrefLang="tr" className="text-[#A66700] hover:underline">
+                KVKK Aydınlatma Metni (Türkçe)
+              </a>
+              {' '}— Turkish-language data protection notice under Law No. 6698.
+            </li>
           </ul>
         </div>
       </div>

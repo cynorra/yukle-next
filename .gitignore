@@ -22,3 +22,6 @@ oracle
 # writes these to whatever the current working directory was, not just android-app/
 hs_err_pid*.log
 replay_pid*.log
+
+# Local signed build output (CI produces the release artifacts)
+android-app/release-output/
