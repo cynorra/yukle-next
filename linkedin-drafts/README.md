@@ -7,8 +7,10 @@ and publish it yourself. Each file is one post plus its first comment.
 
 1. Open a `*.md` file whose header says `status: draft`.
 2. Read the post. It goes out under your name, so change or delete anything you would not stand behind.
-   Drafts marked **Sensitive topic** (health, legal, tax, customs, regulation) must be checked against the
-   official source before you post, or skipped.
+   Even a draft that passed every automatic check can repeat a claim from the article that is wrong; the
+   script cannot tell. Health, legal, tax, customs, border and regulation topics are **skipped by default** for
+   that reason (an early draft on CMR paperwork got the copies wrong). `--include-sensitive` drafts them anyway,
+   with a warning to check every statement against the official source.
 3. Copy the block under **Post** into LinkedIn and publish it.
 4. Immediately add the block under **First comment** as your first comment. The link lives there on purpose:
    LinkedIn tends to show posts with links in the body to fewer people, and the `utm_` parameters let Google
@@ -20,7 +22,9 @@ and publish it yourself. Each file is one post plus its first comment.
 
 - `node scripts/linkedin-drafts.js` writes one draft (the three calculators first, then the newest article
   that has no draft yet, avoiding the topic of the last two drafts).
-  Options: `--count 3`, `--tools`, `--slug <article-slug>`, `--dry` (print only).
+  Options: `--count 3`, `--tools`, `--slug <article-slug>`, `--dry` (print only), `--include-sensitive`.
+  An article the model cannot summarise within the rules after 4 attempts is recorded in `index.json` with
+  `"failed": true` and skipped from then on, so one bad article never blocks the schedule.
 - `.github/workflows/linkedin-drafts.yml` runs it Monday, Wednesday and Friday and commits the result, so
   `git pull` gives you new drafts. Run it by hand from the Actions tab (input: how many).
 - `index.json` remembers which article or calculator already has a draft. Delete an entry (and its file) to
@@ -34,6 +38,8 @@ A draft is rejected and regenerated (up to 4 attempts) unless it:
   the posts are written in a neutral editorial voice;
 - contains only figures that appear in the source. **Article posts contain no statistics at all**, because the
   articles' own statistics are not independently verified; calculator posts may use their worked examples;
+- (article posts) has no quantities written out in words ("ninety days") and no unsourced authority or
+  superlatives ("studies show", "the leading cause of", "top-earning drivers", "most carriers", "biggest");
 - has no invented anecdotes or first-party claims, no URL or brand name in the body, no engagement bait
   ("comment below", "tag someone"), no hype words, at most one emoji and three hashtags;
 - has a hook of at most 150 characters and a total length of 500 to 1,400 characters.

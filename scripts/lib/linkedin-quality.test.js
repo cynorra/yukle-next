@@ -47,6 +47,15 @@ assert.ok(!has(issuesOf(GOOD + '\nThere are 3 habits to build.'), 'UNSUPPORTED N
 // strict mode (article posts): even a sourced figure is rejected
 assert.ok(validatePost(GOOD, SOURCE, { strictNumbers: true }).some((i) => i.startsWith('NO FIGURES ALLOWED')), 'strict mode should reject figures');
 assert.deepStrictEqual(validatePost(GOOD.replace('A box of 24 x 18 x 12 in is 5,184 in3. Divided by 139, it counts as 37.29 lb, even if the packed box is much lighter.', 'A bulky box can count as far heavier than it is on the scale.'), SOURCE, { strictNumbers: true }), [], 'a figure-free post should pass strict mode');
+const FIGURE_FREE = GOOD.replace('A box of 24 x 18 x 12 in is 5,184 in3. Divided by 139, it counts as 37.29 lb, even if the packed box is much lighter.', 'A bulky box can count as far heavier than it is on the scale.');
+const strictIssues = (extra) => validatePost(FIGURE_FREE + '\n' + extra, SOURCE, { strictNumbers: true });
+assert.ok(strictIssues('Pull ninety days of invoices first.').some((i) => i.startsWith('NO FIGURES ALLOWED')), 'spelled-out number not caught');
+assert.ok(strictIssues('Use LTL above one hundred fifty pounds.').some((i) => i.startsWith('NO FIGURES ALLOWED')), 'spelled-out number not caught');
+for (const claim of ['Permit complexity is the single biggest money pit in this business.', 'Minor errors routinely flag trucks.', 'Documentation errors are the leading cause of border delays.', 'Top-earning owner-operators plan ahead.', 'Studies show carriers save money.', 'Most carriers overpay.', 'According to industry experts, this helps.']) {
+  assert.ok(strictIssues(claim).some((i) => i.startsWith('UNSOURCED CLAIM')), 'unsourced claim not caught: ' + claim);
+}
+assert.deepStrictEqual(strictIssues('Measure the packed box and ask which divisor applies.'), [], 'plain advice should pass strict mode');
+assert.ok(!validatePost(GOOD + '\nThere are dozens of options.', SOURCE).some((i) => i.startsWith('UNSOURCED')), 'authority gate must not run for tool posts');
 assert.deepStrictEqual(numbersNeedingSupport('3 tips, 5,184 in3, 37.29 lb, $307.69, 12%').sort(), ['12', '307.69', '37.29', '5184'].sort());
 
 // length, hook, bait, cliche, emoji

@@ -6,6 +6,7 @@
 //   node scripts/linkedin-drafts.js --tools      # all calculator drafts that do not exist yet
 //   node scripts/linkedin-drafts.js --slug some-article-slug-en
 //   node scripts/linkedin-drafts.js --dry        # print, write nothing
+//   node scripts/linkedin-drafts.js --include-sensitive   # also draft health/legal/tax/customs/regulation articles
 //
 // Needs GEMINI_API_KEY and NEXT_PUBLIC_SUPABASE_URL (+ SUPABASE_SERVICE_ROLE_KEY or the anon key),
 // read from the environment or .env.local. Quality gates live in scripts/lib/linkedin-quality.js:
@@ -149,7 +150,7 @@ STYLE (this is what makes it worth reading):
 function buildPrompt(kind, item, feedback) {
   const head = kind === 'tool'
     ? `Write ONE LinkedIn post announcing and explaining a free calculator, for ${item.audience}. Line 1 (the hook) must state the RESULT of the worked example from the SOURCE as one plain sentence, for example what a specific input turns into. Then explain the rule and who it helps.`
-    : `Write ONE LinkedIn post that shares the most useful takeaways of the article below with logistics professionals, so a reader learns something real even without clicking. Do NOT use any statistic, percentage, currency amount or year from the article (they are not independently verified): state each takeaway in words. Small counts such as "three habits" are fine.`;
+    : `Write ONE LinkedIn post that shares the most useful takeaways of the article below with logistics professionals, so a reader learns something real even without clicking. Do NOT use any statistic, percentage, currency amount or year from the article (they are not independently verified): state each takeaway in words. Small counts such as "three habits" are fine. Do not write quantities out in words either (no "ninety days", "one hundred fifty pounds"). Do not claim who does something most or what causes something most ("the leading cause of", "top-earning drivers", "most carriers", "studies show"): the article's claims are unverified, so give practical steps and plain definitions instead.`;
   const source = kind === 'tool'
     ? `CALCULATOR: ${item.name}\n${item.facts}`
     : `ARTICLE TITLE: ${item.title}\nARTICLE SUMMARY: ${item.excerpt || ''}\nARTICLE TEXT:\n${item.text.slice(0, 7000)}`;
@@ -196,7 +197,11 @@ async function pickArticle(index, slugArg) {
   const { data, error } = await sb.from('blog_posts').select(cols).eq('language', 'en').eq('published', true)
     .order('created_at', { ascending: false }).limit(80);
   if (error) throw new Error(`could not read articles: ${error.message}`);
-  const fresh = (data || []).filter((p) => !drafted.has(p.slug));
+  // Health, legal, tax, customs and regulatory articles are skipped by default: the model cannot judge whether
+  // their claims are right (a draft on CMR paperwork got the three copies wrong), and a wrong claim about the
+  // law or someone's health posted under a real name is the costliest kind of mistake.
+  // Pass --include-sensitive to draft them anyway; the draft then carries a verify-first warning.
+  const fresh = (data || []).filter((p) => !drafted.has(p.slug) && (flag('include-sensitive') || !SENSITIVE.test(`${p.title} ${p.topic_cluster || ''}`)));
   // Prefer a topic the last two drafts did not cover, so the feed does not repeat itself.
   return fresh.find((p) => !recentClusters.includes(p.topic_cluster)) || fresh[0] || null;
 }
@@ -208,7 +213,7 @@ function utm(url, campaign) {
 
 // Health, legal, tax, customs and regulatory topics: the model can repeat an article's claim confidently
 // without being able to tell whether it is right, so those drafts carry an explicit verify-first warning.
-const SENSITIVE = /(?:sleep apnea|medical|health|drug|alcohol|clearinghouse|fmcsa|dot|osha|hazmat|hazardous|customs|tariff|duty|duties|tax|irs|ifta|insurance|liabilitw+|legal|law|lawsuit|regulation|regulatory|compliance|cdl|hours[- ]of[- ]service|eld)/i;
+const SENSITIVE = /\b(?:sleep apnea|medical|health|drugs?|alcohol|clearinghouse|fmcsa|dot|osha|hazmat|hazardous|customs|tariffs?|dut(?:y|ies)|tax(?:es)?|irs|ifta|insurance|liabilit\w+|legal|laws?|lawsuits?|regulat\w+|compliance|cdl|hours[- ]of[- ]service|eld|permits?|carnet|tir|borders?|cross-border|import(?:s|ing|ers?)?|export(?:s|ing|ers?)?|incoterms?|sanctions?|embargo\w*|visas?)\b/i;
 
 function writeDraft({ kind, ref, title, url, campaign, result, cluster, sourceText }) {
   fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -279,7 +284,19 @@ async function makeOne(index, mode) {
   console.log(`Drafting article post: ${article.title}`);
   const text = Quality.stripTags(article.content);
   const url = `${SITE_URL}/en/blog/${article.slug}`;
-  const result = await draftFor('article', { ...article, text }, `${article.title} ${article.excerpt || ''} ${text}`);
+  let result;
+  try {
+    result = await draftFor('article', { ...article, text }, `${article.title} ${article.excerpt || ''} ${text}`);
+  } catch (err) {
+    // An article the model cannot summarise within the rules is remembered and skipped, so one bad article
+    // never blocks the schedule. API/quota errors are NOT remembered: those should simply be retried later.
+    if (!/^no draft passed the checks/.test(err.message) || slugArg) throw err;
+    console.log(`  skipping this article: ${err.message.slice(0, 160)}`);
+    if (!flag('dry')) {
+      index.drafts.push({ kind: 'article', ref: article.slug, cluster: article.topic_cluster || null, failed: true, reason: err.message.slice(0, 300), createdAt: new Date().toISOString() });
+    }
+    return 'skipped';
+  }
   if (flag('dry')) {
     console.log('\n' + result.post + '\n' + result.hashtags.join(' ') + '\n');
     index.drafts.push({ kind: 'article', ref: article.slug, cluster: article.topic_cluster || null });
@@ -299,9 +316,11 @@ async function makeOne(index, mode) {
   const mode = flag('tools') ? 'tools' : 'auto';
   const count = flag('tools') ? TOOLS.length : parseInt(opt('count') || '1', 10);
   let made = 0;
-  for (let i = 0; i < count; i++) {
+  let skipped = 0;
+  while (made < count && skipped < 5) {
     const ok = await makeOne(index, mode);
     if (!ok) break;
+    if (ok === 'skipped') { skipped++; if (!flag('dry')) writeIndex(index); continue; }
     made++;
     if (!flag('dry')) writeIndex(index);
   }

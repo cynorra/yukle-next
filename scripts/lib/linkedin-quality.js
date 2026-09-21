@@ -21,6 +21,12 @@ const FIRST_PERSON_LOWER_I = /\b(?:my|mine|me|myself|we|our|ours|ourselves|we['�
 const BAIT = /\b(?:comment\s+(?:["“”']?\w+["“”']?\s+)?(?:below|to get|and i|and we)|tag (?:a|someone|your)|like (?:and|if)|repost (?:if|this)|follow (?:me|for)|agree\?|thoughts\?)/i;
 const CLICHES = /\b(?:game[- ]?chang\w+|unlock(?:s|ing)?|revolutioni[sz]\w+|delve\w*|deep dive|fast[- ]paced|ever[- ]evolving|supercharge\w*|elevate\w*|in today['’]s)\b/i;
 
+// Article posts only. Numbers written out in words ("ninety days", "one hundred fifty pounds") slip past the
+// digit check, and vague authority ("studies show", "the leading cause of", "top-earning owner-operators",
+// "most carriers") is a statistic in disguise: the article's own claims are unverified model output.
+const SPELLED_NUMBER = /\b(?:eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundreds?|thousands?|millions?|billions?|dozens?)\b/i;
+const UNSOURCED_AUTHORITY = /\b(?:studies|research|surveys?|reports?|data|analysis|experts?|analysts?)\s+(?:show|shows|showed|suggest|suggests|indicate|indicates|confirm|confirms|found|finds|reveal|reveals)\b|\baccording to\b|\b(?:leading|number one|most common|biggest|main|primary|top) (?:cause|reason|source|driver|factor)s?\b|\btop[- ]earning\b|\bbest[- ]performing\b|\b(?:most|majority of|many|few) (?:carriers|shippers|brokers|drivers|owner-operators|companies|fleets|businesses)\b|\bthe (?:only|best|fastest|cheapest)\b|\b(?:single )?(?:biggest|largest|greatest|number one|#1)\b|\broutinely\b/i;
+
 /** Numbers that must be traceable to the source: money, percentages, decimals and anything above ten. */
 function numbersNeedingSupport(text) {
   const found = new Set();
@@ -82,6 +88,10 @@ function validatePost(post, sourceText, opts = {}) {
   const figures = numbersNeedingSupport(text);
   if (opts.strictNumbers) {
     if (figures.length) issues.push(`NO FIGURES ALLOWED: remove ${figures.join(', ')} — statistics in articles are not independently verified, so write the takeaway in words instead (small counts like "three habits" are fine)`);
+    const spelled = text.match(SPELLED_NUMBER);
+    if (spelled) issues.push(`NO FIGURES ALLOWED: "${spelled[0]}" is a number written out in words — do not use quantities from the article, only small counts up to ten`);
+    const authority = text.match(UNSOURCED_AUTHORITY);
+    if (authority) issues.push(`UNSOURCED CLAIM: "${authority[0]}" states an authority or superlative that cannot be verified — describe what to do or what a term means instead of who does it most or what causes it most`);
   } else {
     const unsupported = figures.filter((n) => !source.includes(n));
     if (unsupported.length) issues.push(`UNSUPPORTED NUMBERS: ${unsupported.join(', ')} do not appear in the source — remove them or use only figures from the source`);
