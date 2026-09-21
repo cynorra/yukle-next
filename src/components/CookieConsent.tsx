@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Cookie, X, Check } from 'lucide-react';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -47,10 +47,30 @@ export default function CookieConsent() {
   const { locale } = useTranslation();
   const copy = TEXT[locale] ?? TEXT.en;
   const [show, setShow] = useState(false);
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!getStoredCookieConsent()) setTimeout(() => setShow(true), 1500);
   }, []);
+
+  // The banner is fixed to the bottom of the viewport, so on a first visit it sits on
+  // top of the footer links (Terms, Cookie Policy, ...) even at the very end of the
+  // page. Reserve its height as bottom padding while it is showing so every footer
+  // link stays reachable without having to dismiss it first.
+  useEffect(() => {
+    const el = bannerRef.current;
+    if (!show || !el) return;
+    const apply = () => {
+      document.body.style.paddingBottom = `${el.offsetHeight + 32}px`;
+    };
+    apply();
+    const observer = new ResizeObserver(apply);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      document.body.style.paddingBottom = '';
+    };
+  }, [show]);
 
   function accept() {
     setStoredCookieConsent('accepted');
@@ -65,7 +85,7 @@ export default function CookieConsent() {
   if (!show) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50">
+    <div ref={bannerRef} className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50">
       <div className={`p-4 rounded-2xl shadow-2xl ${t.card}`}>
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-2">
