@@ -20,31 +20,39 @@
     },
     {
       "kind": "article",
-      "ref": "freight-cost-reduction-playbook-ecommerce-2025-en",
-      "cluster": "LTL Freight Optimization & Freight Class",
-      "file": "2026-09-21-article-freight-cost-reduction-playbook-ecommerce-2025-en.md",
-      "createdAt": "2026-09-21T15:18:46.714Z"
-    },
-    {
-      "kind": "article",
       "ref": "owner-operators-eliminate-empty-miles-maximize-revenue-en",
       "cluster": "Freight Marketplace Technology & Platform Comparison",
       "file": "2026-09-21-article-owner-operators-eliminate-empty-miles-maximize-revenue-en.md",
-      "createdAt": "2026-09-21T15:18:53.153Z"
+      "createdAt": "2026-09-21T15:44:33.787Z"
     },
     {
       "kind": "article",
-      "ref": "trans-caspian-corridor-2025-asia-europe-trade-en",
-      "cluster": "Drayage, Port & Terminal Operations",
-      "file": "2026-09-21-article-trans-caspian-corridor-2025-asia-europe-trade-en.md",
-      "createdAt": "2026-09-21T15:18:59.632Z"
+      "ref": "spot-market-negotiation-guide-high-capacity-en",
+      "cluster": "Load Board Tactics & Spot Market Strategy",
+      "failed": true,
+      "reason": "no draft passed the checks after 4 attempts: HOOK TOO LONG: the first line is 261 characters (maximum 150); LinkedIn cuts the post off after roughly the first two lines",
+      "createdAt": "2026-09-21T15:45:51.043Z"
     },
     {
       "kind": "article",
-      "ref": "2025-dropshipping-logistics-playbook-master-global-shipping-en",
-      "cluster": "LTL Freight Optimization & Freight Class",
-      "file": "2026-09-21-article-2025-dropshipping-logistics-playbook-master-global-shipping-en.md",
-      "createdAt": "2026-09-21T15:21:36.705Z"
+      "ref": "store-to-store-transfer-optimization-playbook-en",
+      "cluster": "Freight Marketplace Technology & Platform Comparison",
+      "file": "2026-09-21-article-store-to-store-transfer-optimization-playbook-en.md",
+      "createdAt": "2026-09-21T15:46:26.367Z"
+    },
+    {
+      "kind": "article",
+      "ref": "food-waste-in-transit-iot-fix-en",
+      "cluster": "Cold Chain & Refrigerated Transport",
+      "file": "2026-09-21-article-food-waste-in-transit-iot-fix-en.md",
+      "createdAt": "2026-09-21T15:47:25.647Z"
+    },
+    {
+      "kind": "article",
+      "ref": "transload-vs-intermodal-decision-framework-en",
+      "cluster": "Intermodal Freight & Rail-Truck Strategy",
+      "file": "2026-09-21-article-transload-vs-intermodal-decision-framework-en.md",
+      "createdAt": "2026-09-21T15:48:13.234Z"
     }
   ]
 }

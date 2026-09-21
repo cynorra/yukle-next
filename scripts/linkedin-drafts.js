@@ -194,9 +194,38 @@ async function pickArticle(index, slugArg) {
   }
   const drafted = new Set(index.drafts.filter((d) => d.kind === 'article').map((d) => d.ref));
   const recentClusters = index.drafts.filter((d) => d.kind === 'article').slice(-2).map((d) => d.cluster).filter(Boolean);
-  const { data, error } = await sb.from('blog_posts').select(cols).eq('language', 'en').eq('published', true)
-    .order('created_at', { ascending: false }).limit(80);
+  // Metadata first (cheap); the article body is only fetched for candidates that survive the cheap filters.
+  const { data: meta, error } = await sb.from('blog_posts')
+    .select('slug,title,meta_title,excerpt,topic_cluster,created_at')
+    .eq('language', 'en').eq('published', true).order('created_at', { ascending: false }).limit(1000);
   if (error) throw new Error(`could not read articles: ${error.message}`);
+  // Dated content is skipped: many older articles still carry a past year in the URL and body ("... 2025 ...")
+  // and would look stale on LinkedIn. A post is stale if a past year appears in its slug/title/meta/excerpt,
+  // or twice or more in the body (a single mention can be a legitimate historical reference).
+  // Pass --include-stale to draft them anyway.
+  const currentYear = new Date().getFullYear();
+  const pastYears = (text) => (String(text || '').match(/\b20[12]\d\b/g) || []).filter((y) => Number(y) < currentYear);
+  const headStale = (p) => pastYears(`${p.slug.replace(/-/g, ' ')} ${p.title} ${p.meta_title || ''} ${p.excerpt || ''}`).length > 0;
+  const data = [];
+  for (const p of meta || []) {
+    if (drafted.has(p.slug) || (!flag('include-sensitive') && SENSITIVE.test(`${p.title} ${p.topic_cluster || ''}`))) continue;
+    // A title/meta title with a percentage or amount ("Why 73% of Claims Get Denied") is an unverified statistic that
+    // LinkedIn would show in the link preview under the poster's name, so those articles are skipped as well.
+    if (/\d+(?:\.\d+)?\s?%|[$€£]\s?\d/.test(`${p.title} ${p.meta_title || ''}`)) continue;
+    if (!flag('include-stale')) {
+      if (headStale(p)) continue;
+      const { data: body } = await sb.from('blog_posts').select('content').eq('slug', p.slug).single();
+      if (pastYears(Quality.stripTags(body?.content)).length >= 2) continue;
+    }
+    data.push(p);
+    if (data.length >= 12) break; // enough candidates to pick a fresh topic from
+  }
+  if (data.length) {
+    // fetch the full record only for the ones we might actually use
+    const { data: full } = await sb.from('blog_posts').select(cols).in('slug', data.map((p) => p.slug));
+    const bySlug = new Map((full || []).map((r) => [r.slug, r]));
+    data.forEach((p, i) => { data[i] = bySlug.get(p.slug) || p; });
+  }
   // Health, legal, tax, customs and regulatory articles are skipped by default: the model cannot judge whether
   // their claims are right (a draft on CMR paperwork got the three copies wrong), and a wrong claim about the
   // law or someone's health posted under a real name is the costliest kind of mistake.
