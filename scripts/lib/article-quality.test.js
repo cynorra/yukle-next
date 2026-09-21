@@ -42,6 +42,17 @@ const clean = [
   'Shippers can start by comparing quotes from three carriers.',
 ];
 for (const text of clean) assert.strictEqual(Q.findFirstPartyClaim(text), null, `should NOT flag: ${text}`);
+// Fields are checked separately: a brand suffix at the end of one must not merge with the start of the next
+assert.strictEqual(Q.findFirstPartyClaim('Power Only Freight: Unlock Capacity | Loadly', 'Power only freight is reshaping capacity.'), null, 'must not match across fields');
+assert.ok(Q.findFirstPartyClaim('A neutral title', 'Loadly helps you connect with carriers.'), 'still flags a claim in a later field');
+
+// Brand mention: any "Loadly" in article text is rejected, the " | Loadly" site suffix is not
+assert.ok(Q.findBrandMention('<p>Loadly’s "Capacity Heatmap" feature shows tightening lanes.</p>'));
+assert.ok(Q.findBrandMention('<h2>Optimize Your Pipeline Logistics with Loadly</h2>'));
+assert.ok(Q.findBrandMention('Visit Loadly.com/offshore-logistics to get started.'));
+assert.strictEqual(Q.findBrandMention('Direct Shipper Contracts: Winning Beyond Load Boards | Loadly'), null, 'site suffix is allowed');
+assert.strictEqual(Q.findBrandMention('<p>Carriers should compare quotes from three brokers.</p>'), null);
+assert.ok(Q.validateArticle({ title: 'Detention Charges', excerpt: 'A guide.', meta_title: 'Detention Charges', meta_description: 'Learn how.', content: '<p>Read on Loadly.</p>' }).some((i) => i.startsWith('BRAND MENTION')));
 
 // Invented case study vs. labelled hypothetical
 assert.ok(Q.findFabricatedAnecdote('<p>Last quarter, a mid-sized electronics distributor in Ohio paid extra on LTL shipments.</p>'));

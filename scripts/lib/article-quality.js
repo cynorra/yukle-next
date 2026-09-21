@@ -48,13 +48,35 @@ const FIRST_PARTY_PATTERNS = [
 ];
 
 function findFirstPartyClaim(...texts) {
-  const combined = texts.filter(Boolean).map(stripTags).join('\n');
-  for (const re of FIRST_PARTY_PATTERNS) {
-    const m = combined.match(re);
-    if (m) {
-      const i = m.index;
-      return combined.slice(Math.max(0, i - 25), i + m[0].length + 45).trim();
+  // Each text on its own: joining them lets a pattern match ACROSS fields ("… | Loadly" + "Power only freight …"
+  // matched `Loadly powers?`), a false positive that blocked a clean article.
+  for (const text of texts.filter(Boolean)) {
+    const combined = stripTags(text);
+    for (const re of FIRST_PARTY_PATTERNS) {
+      const m = combined.match(re);
+      if (m) {
+        const i = m.index;
+        return combined.slice(Math.max(0, i - 25), i + m[0].length + 45).trim();
+      }
     }
+  }
+  return null;
+}
+
+// ── 1b. Brand mention ─────────────────────────────────────────────────────────
+// The website is a blog only (no load board, marketplace, platform or accounts — the app is separate).
+// A 2026-09-21 sweep of the already-cleaned archive still found 446/802 posts naming "Loadly" in the body,
+// including invented features ("Capacity Heatmap", "rate prediction feature"), invented studies ("internal
+// analysis by Loadly of 700,000 shipments") and a nonexistent "Loadly Emissions Calculator" — none of which
+// the pattern list above caught, because every new phrasing slipped past a regex. A brand name in article
+// text can only be a pitch or an invented claim, so the rule is simple: the name must not appear.
+// A trailing " | Loadly" site suffix in a title/meta_title is not article text and is ignored.
+const BRAND_SUFFIX = /\s*[|–—-]\s*Loadly\s*$/i;
+function findBrandMention(...texts) {
+  for (const text of texts.filter(Boolean)) {
+    const plain = stripTags(text).replace(BRAND_SUFFIX, '');
+    const m = plain.match(/\bLoadly(?:app)?\b/i);
+    if (m) return plain.slice(Math.max(0, m.index - 30), m.index + m[0].length + 45).trim();
   }
   return null;
 }
@@ -131,6 +153,8 @@ function validateArticle(post) {
   const issues = [];
   const firstParty = findFirstPartyClaim(post.title, post.excerpt, post.meta_description, post.content);
   if (firstParty) issues.push(`FIRST-PARTY CLAIM ("${firstParty}") — Loadly has no clients, customers, members, shipment data, analysts, platform or marketplace. Never write "our data/clients/analysis/platform/network", "Loadly's data/experts", or "we found/analyzed/saw/worked with…". Attribute facts to real public bodies or present them as general industry knowledge.`);
+  const brand = findBrandMention(post.title, post.excerpt, post.meta_title, post.meta_description, post.content);
+  if (brand) issues.push(`BRAND MENTION ("${brand}") — do not write the name "Loadly" anywhere: not in the title, excerpt, meta fields, headings or body. The website is a blog only; any sentence that names Loadly is a pitch or an invented feature/study/partner. Write about the topic itself.`);
   const anecdote = findFabricatedAnecdote(post.content);
   if (anecdote) issues.push(`INVENTED CASE STUDY ("${anecdote}") — do not describe a specific past event involving an unnamed company as fact. Use a clearly labelled hypothetical ("Imagine a 10-truck fleet…") or a real, named public source.`);
   const fp = countFalsePrecision(post.content);
@@ -239,6 +263,7 @@ function officialResourcesHtml(topicCluster) {
 module.exports = {
   stripTags,
   findFirstPartyClaim,
+  findBrandMention,
   findFabricatedAnecdote,
   countFalsePrecision,
   findInventedNumberInMeta,
