@@ -35,6 +35,9 @@ export default function Footer({ locale }: { locale: Locale }) {
           <Link000 href={`/${locale}/advertise`} className="hover:text-accent transition-colors">
             {t.nav.reklam}
           </Link000>
+          <Link000 href={`/${locale}/tools`} className="hover:text-accent transition-colors">
+            {isTr ? 'Araçlar' : 'Free Tools'}
+          </Link000>
           <Link000 href={`/${locale}/editorial-policy`} className="hover:text-accent transition-colors">
             {isTr ? 'Editoryal Politika' : 'Editorial Policy'}
           </Link000>

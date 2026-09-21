@@ -40,6 +40,11 @@ function getAllStaticPaths(): string[] {
     '/contact',
     '/advertise',
     '/blog',
+    // Free calculators (real, client-side tools with their own guide text).
+    '/tools',
+    '/tools/dimensional-weight-calculator',
+    '/tools/fuel-cost-calculator',
+    '/tools/detention-fee-calculator',
     // /privacy-policy is the Turkey-only KVKK page and 307s to /privacy for every
     // other locale — on the English-only site that's a redirect, not a page, so
     // list the real one (a redirecting URL in a sitemap is a Search Console warning).

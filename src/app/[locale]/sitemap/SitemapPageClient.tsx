@@ -16,6 +16,10 @@ const CONTENT: Record<string, { pageTitle: string; description: string; groups: 
         title: 'Content',
         links: [
           { href: '/blog', label: 'Blog — all articles' },
+          { href: '/tools', label: 'Free freight calculators' },
+          { href: '/tools/dimensional-weight-calculator', label: 'Dimensional Weight Calculator' },
+          { href: '/tools/fuel-cost-calculator', label: 'Fuel Cost Calculator' },
+          { href: '/tools/detention-fee-calculator', label: 'Detention Fee Calculator' },
           { href: '/author/eren-simsir', label: 'About the author' },
         ],
       },

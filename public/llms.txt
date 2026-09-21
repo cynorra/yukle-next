@@ -11,6 +11,7 @@
   - Blog Articles (chunked): https://loadlyapp.com/sitemap-blogs-1.xml, sitemap-blogs-2.xml, … (the sitemap index lists every chunk)
 - **Logistics Blog & Industry Resources**: https://loadlyapp.com/en/blog
 - **Blog RSS**: https://loadlyapp.com/en/feed.xml
+- **Free calculators**: https://loadlyapp.com/en/tools (dimensional weight, fuel cost, detention fee; each with a written guide)
 - **LLMs Full Context**: https://loadlyapp.com/llms-full.txt
 
 ## Language
@@ -46,7 +47,7 @@ Articles are published regularly.
 
 ## Crawling Guidelines
 
-- Public content pages (home, blog, about, contact, advertise, privacy, terms, cookie policy, editorial policy, accessibility, author page) are indexable with `robots: index, follow`
+- Public content pages (home, blog, free calculators, about, contact, advertise, privacy, terms, cookie policy, editorial policy, accessibility, author page) are indexable with `robots: index, follow`
 - The legacy marketplace and its listing pages are `noindex, nofollow` — not part of the indexed surface, and deliberately excluded from sitemaps and indexing pushes
 - Private pages (dashboard, profile, messages, create-load, etc.) are blocked via robots.txt and meta robots
 - **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam
