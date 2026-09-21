@@ -27,6 +27,9 @@ export function TermsPageClient({ data }: Props) {
           <p className={`text-sm ${t.muted} mt-1`}>
             {content.description}
           </p>
+          {content.lastUpdated && (
+            <p className={`text-xs ${t.muted} mt-1`}>{content.lastUpdated}</p>
+          )}
         </div>
 
         {/* Red disclaimer box */}
@@ -138,6 +141,13 @@ export function TermsPageClient({ data }: Props) {
             {content.disputeDesc}
           </p>
         </div>
+
+        {content.changesTitle && (
+          <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+            <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.changesTitle}</h2>
+            <p className={`text-sm ${t.sub} leading-relaxed`}>{content.changesDesc}</p>
+          </div>
+        )}
 
         {/* Section 10: İletişim */}
         <div className={`p-6 rounded-2xl ${t.card} mb-4`}>

@@ -22,6 +22,9 @@ function setStoredCookieConsent(value: 'accepted' | 'rejected') {
     ad_storage: granted ? 'granted' : 'denied',
     ad_user_data: granted ? 'granted' : 'denied',
     ad_personalization: granted ? 'granted' : 'denied',
+    // The root layout's default sets analytics_storage too; without updating it here,
+    // GA4 stayed denied for the rest of the visit after clicking Accept.
+    analytics_storage: granted ? 'granted' : 'denied',
   });
   window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_EVENT, { detail: { accepted: value === 'accepted' } }));
 }

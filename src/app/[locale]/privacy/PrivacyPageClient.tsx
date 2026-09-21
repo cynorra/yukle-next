@@ -31,6 +31,9 @@ export function PrivacyPageClient({ data }: Props) {
           <p className={`text-sm ${t.muted} mt-1`}>
             {content.description}
           </p>
+          {content.lastUpdated && (
+            <p className={`text-xs ${t.muted} mt-1`}>{content.lastUpdated}</p>
+          )}
         </div>
 
         {/* Red disclaimer box */}
@@ -58,12 +61,9 @@ export function PrivacyPageClient({ data }: Props) {
             {content.dataDesc}
           </p>
           <ul className={`list-disc list-inside space-y-2 text-sm ${t.sub}`}>
-            <li>{content.dataL1}</li>
-            <li>{content.dataL2}</li>
-            <li>{content.dataL3}</li>
-            <li>{content.dataL4}</li>
-            <li>{content.dataL5}</li>
-            {content.dataL6 && <li>{content.dataL6}</li>}
+            {['dataL1', 'dataL2', 'dataL3', 'dataL4', 'dataL5', 'dataL6', 'dataL7'].map(
+              (key) => content[key] && <li key={key}>{content[key]}</li>
+            )}
           </ul>
           <p className={`text-sm ${t.muted} mt-3 italic`}>
             {content.dataNote}
@@ -121,6 +121,11 @@ export function PrivacyPageClient({ data }: Props) {
                   </a>
                 </li>
                 <li>
+                  <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" className="text-[#A66700] hover:underline">
+                    How Google uses information from sites or apps that use its services
+                  </a>
+                </li>
+                <li>
                   <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="text-[#A66700] hover:underline">
                     Digital Advertising Alliance (aboutads.info)
                   </a>
@@ -153,6 +158,27 @@ export function PrivacyPageClient({ data }: Props) {
           </p>
         </div>
 
+        {content.transfersTitle && (
+          <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+            <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.transfersTitle}</h2>
+            <p className={`text-sm ${t.sub} leading-relaxed`}>{content.transfersDesc}</p>
+          </div>
+        )}
+
+        {content.retentionTitle && (
+          <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+            <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.retentionTitle}</h2>
+            <p className={`text-sm ${t.sub} leading-relaxed`}>{content.retentionDesc}</p>
+            {content.retentionLinkText && (
+              <p className={`text-sm ${t.sub} leading-relaxed mt-3`}>
+                <Link href={`/${locale}/delete-account`} className="text-[#A66700] hover:underline">
+                  {content.retentionLinkText}
+                </Link>
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Section 6: Veri Güvenliği */}
         <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.securityTitle}</h2>
@@ -160,6 +186,13 @@ export function PrivacyPageClient({ data }: Props) {
             {content.securityDesc}
           </p>
         </div>
+
+        {content.childrenTitle && (
+          <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
+            <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{content.childrenTitle}</h2>
+            <p className={`text-sm ${t.sub} leading-relaxed`}>{content.childrenDesc}</p>
+          </div>
+        )}
 
         {/* Section 7: Kullanıcı Hakları */}
         <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
