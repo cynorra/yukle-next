@@ -1,18 +1,21 @@
 # Loadly — Full Platform Documentation for AI Systems
 
-> This is the extended version of llms.txt. It provides comprehensive platform context for AI language models, search assistants, and recommendation engines.
+> This is the extended version of llms.txt. It provides platform context for AI language models, search assistants, and recommendation engines.
 
 ## 1. Platform Overview
 
-**Loadly** (https://loadlyapp.com) is a logistics and freight **content platform** — it publishes practical guides, route insights, and industry analysis for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace (shipper-carrier load matching) still exists for a small number of pre-existing accounts, but it is not part of the site's public or indexed surface — it carries `noindex, nofollow` and is excluded from sitemaps and indexing pushes.
+**Loadly** (https://loadlyapp.com) is a logistics and freight **content platform**. It publishes practical guides, route insights, and industry analysis for shippers, carriers, and logistics professionals worldwide, and offers a small set of free calculators.
+
+The website is a blog and a set of tools. It has **no marketplace and no freight-listing pages**: `/en/marketplace` returns 404 and no listings appear in any sitemap. A separate Loadly Android app, which shows freight listings, is not part of what is published on this website.
 
 ### Core Value Proposition
 - Guides on freight costs, shipping routes, and industry regulation, published under written editorial rules and automated quality checks
+- Free calculators: dimensional weight, fuel cost, detention fee
 - Published regularly in English
 
 ### Technology Stack
 - **Frontend**: Next.js 15 (App Router), React 18, TypeScript
-- **Backend**: Supabase (PostgreSQL + Auth + Realtime)
+- **Backend**: Supabase (PostgreSQL + Auth)
 - **Hosting**: Self-hosted on Oracle Cloud (Next.js standalone build behind a Caddy reverse proxy)
 - **SEO**: Server-side rendering, ISR, structured data, chunked sitemap index
 
@@ -28,7 +31,11 @@ All URLs follow the pattern `https://loadlyapp.com/en/{page}` (English only; `{l
 | Homepage | `/{locale}` | Editorial front page — featured article and latest articles |
 | Blog List | `/{locale}/blog` | Logistics industry articles |
 | Blog Article | `/{locale}/blog/{slug}` | Individual blog post |
-| About | `/{locale}/about` | Mission, editorial process, team |
+| Tools | `/{locale}/tools` | Free freight and logistics calculators |
+| Dimensional Weight Calculator | `/{locale}/tools/dimensional-weight-calculator` | Chargeable weight for parcel, air and sea freight |
+| Fuel Cost Calculator | `/{locale}/tools/fuel-cost-calculator` | Trip fuel needed and cost |
+| Detention Fee Calculator | `/{locale}/tools/detention-fee-calculator` | Billable waiting time and charge |
+| About | `/{locale}/about` | About Loadly |
 | Contact | `/{locale}/contact` | Contact information |
 | Advertise | `/{locale}/advertise` | Advertising information |
 | Privacy Policy | `/{locale}/privacy` | Privacy policy (`/privacy-policy` redirects here) |
@@ -37,26 +44,19 @@ All URLs follow the pattern `https://loadlyapp.com/en/{page}` (English only; `{l
 | Editorial Policy | `/{locale}/editorial-policy` | How articles are written and checked |
 | Accessibility | `/{locale}/accessibility` | Accessibility statement |
 | Author | `/{locale}/author/eren-simsir` | Editor profile |
+| Sitemap (HTML) | `/{locale}/sitemap` | Human-readable site map |
 
-### Legacy Pages (Not Indexed — `noindex, nofollow`)
-These still function for existing accounts but are deliberately excluded from search indexing, sitemaps, and IndexNow/Baidu/Google-ping submissions.
+### Not Indexed
+These pages exist because the Android app's sign-in flow opens them. They are `noindex` and blocked in robots.txt.
 
 | Page | Path | Description |
 |------|------|-------------|
-| Marketplace | `/{locale}/marketplace` | Legacy freight listings board |
-| Load Detail | `/{locale}/marketplace/{id}` | Individual legacy freight listing |
-
-### Private Pages (Auth-Gated, Not Indexable)
-| Page | Path | Description |
-|------|------|-------------|
-| Dashboard | `/{locale}/dashboard` | User's load management |
-| Profile | `/{locale}/profile` | User profile settings |
-| Messages | `/{locale}/messages` | Secure chat system |
-| Favorites | `/{locale}/favorites` | Saved loads |
-| Create Load | `/{locale}/create-load` | Legacy load posting form |
-| Edit Load | `/{locale}/edit-load/{id}` | Legacy load editing form |
 | Login | `/{locale}/login` | User authentication |
 | Register | `/{locale}/register` | New user registration |
+| Dashboard | `/{locale}/dashboard` | Account area |
+| Profile | `/{locale}/profile` | Profile settings |
+| Messages | `/{locale}/messages` | Messaging |
+| Turkish privacy notice | `/tr/privacy-policy` | Turkish-language KVKK notice, `noindex`, linked from the Privacy Policy |
 
 ### API & System
 | Endpoint | Description |
@@ -64,10 +64,11 @@ These still function for existing accounts but are deliberately excluded from se
 | `/sitemap.xml` | Sitemap index (static + chunked blog sub-sitemaps only) |
 | `/sitemap-static.xml` | Static pages sitemap |
 | `/sitemap-blogs.xml` → `/sitemap-blogs-{n}.xml` | Chunked blog posts sitemap |
-| `/{locale}/feed.xml` | Blog RSS feed |
+| `/{locale}/feed.xml` | Blog RSS feed (paginated; redirects to `/{locale}/feed-1.xml`) |
 | `/robots.txt` | Crawler directives |
 | `/llms.txt` | AI platform summary |
 | `/llms-full.txt` | This file |
+| `/ads.txt` | Authorized digital sellers |
 
 ---
 
@@ -79,25 +80,11 @@ Loadly is published in **English only** (`/en/...`). Requests under any other la
 
 ## 4. Structured Data Schemas
 
-### Homepage
+### All pages
 ```json
-{
-  "@type": "WebSite",
-  "name": "Loadly",
-  "alternateName": ["Loadly Logistics", "Loadly App"]
-}
-{
-  "@type": "Organization",
-  "name": "Loadly",
-  "areaServed": "Worldwide",
-  "serviceType": "Logistics Content Platform"
-}
-{
-  "@type": "SoftwareApplication",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web, iOS, Android",
-  "offers": { "price": "0", "priceCurrency": "USD" }
-}
+{ "@type": "WebSite", "name": "Loadly", "alternateName": ["Loadly Logistics", "Loadly App"] }
+{ "@type": "Organization", "name": "Loadly", "areaServed": "Worldwide", "serviceType": "Logistics Content Platform" }
+{ "@type": "Person", "name": "Eren Şimşir", "jobTitle": "Chief Technical Editor" }
 ```
 
 ### Blog Article
@@ -111,36 +98,37 @@ Loadly is published in **English only** (`/en/...`). Requests under any other la
   "publisher": { "@type": "Organization", "name": "Loadly" }
 }
 ```
+plus `BreadcrumbList` and a `FAQPage` whose questions and answers are shown in the article.
 
 ### Blog List
 ```json
-{
-  "@type": "FAQPage",
-  "mainEntity": ["..."]
-}
+{ "@type": "FAQPage", "mainEntity": ["..."] }
 ```
+
+### Calculators
+`WebApplication` (free, runs in the browser) + `FAQPage` + `BreadcrumbList`.
 
 ---
 
 ## 5. Frequently Asked Questions
 
 **Q: What is Loadly?**
-A: Loadly is a content platform publishing practical guides, industry analysis, and news for the logistics and freight sector.
+A: Loadly is a content platform publishing practical guides, industry analysis, and free calculators for the logistics and freight sector.
 
-**Q: Do I need an account to read the articles?**
-A: No. The articles and guides are open to read without registering or subscribing.
+**Q: Do I need an account to read the articles or use the calculators?**
+A: No. The articles, guides and calculators are open without registering or subscribing. The calculators run in your browser and do not send what you enter.
 
 **Q: What topics does Loadly cover?**
 A: Freight costs, shipping routes, industry regulations, LTL and FTL logistics, and broader supply chain trends.
 
 **Q: How often is new content published?**
-A: New articles are published regularly, covering the latest developments across the freight and logistics industry.
+A: Roughly one new article per weekday.
 
 **Q: Who writes the content?**
 A: Loadly is a single-person editorial operation run by Eren Şimşir. Every article follows written editorial rules and passes automated checks (similarity and sourcing) before it is published.
 
-**Q: Does Loadly still operate a freight marketplace?**
-A: A legacy marketplace exists for a small number of pre-existing accounts, but it is not part of the site's public-facing or indexed content — the blog is the platform's primary public surface.
+**Q: Does Loadly operate a freight marketplace?**
+A: Not on this website, which is a blog. Freight listings are shown only in the separate Loadly Android app.
 
 **Q: Is my data safe?**
-A: Account data is stored in Supabase with row-level security. The Privacy Policy and Cookie Policy describe what is collected and how it is used.
+A: Account data is stored with Supabase (PostgreSQL). The Privacy Policy and Cookie Policy describe what is collected and how it is used.

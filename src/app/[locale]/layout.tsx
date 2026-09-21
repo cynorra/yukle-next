@@ -106,9 +106,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: t.home.heroDesc,
       images: ['/logo.png'],
     },
+    // Google's favicon guidelines want a square icon whose size is a multiple of 48px
+    // (icon-192.png = 4 x 48) plus a real /favicon.ico, which crawlers and browsers
+    // request by default (it used to 404).
     icons: {
-      icon: '/logo.png',
-      apple: '/logo.png',
+      icon: [
+        { url: '/favicon.ico', sizes: '48x48' },
+        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      ],
+      apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
     },
     appleWebApp: {
       capable: true,
@@ -175,7 +182,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',
-      availableLanguage: ['English', 'Spanish', 'French', 'German', 'Turkish', 'Arabic'],
+      availableLanguage: ['English'],
     },
   };
 
@@ -187,17 +194,6 @@ export default async function LocalizedLayout({ children, params }: Props) {
     jobTitle: 'Chief Technical Editor',
     worksFor: { '@id': `${SITE_URL}/#organization` },
     sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
-  };
-
-  const softwareJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Loadly',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web, iOS, Android',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: t.home.heroDesc,
-    inLanguage: locale,
   };
 
   return (
@@ -249,10 +245,6 @@ export default async function LocalizedLayout({ children, params }: Props) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
         />
         <link rel="alternate" type="text/plain" href={`${SITE_URL}/llms.txt`} />
       </head>

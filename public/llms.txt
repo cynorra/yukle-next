@@ -1,22 +1,22 @@
 # Loadly — Global Logistics & Freight Content Platform
 
-> Loadly (loadlyapp.com) publishes practical guides, route insights, and industry analysis for the logistics and freight sector, for shippers, carriers, and logistics professionals worldwide. A legacy freight marketplace still exists for a small number of existing accounts but is not part of the site's public or indexed surface.
+> Loadly (loadlyapp.com) publishes practical guides, route insights, and industry analysis for the logistics and freight sector, for shippers, carriers, and logistics professionals worldwide. The website is a blog and a set of free calculators: it has no marketplace or freight-listing pages. A separate Loadly Android app, which shows freight listings, is not part of what is published on this website.
 
 ## Site Index & Entry Points
 
 - **Primary URL**: https://loadlyapp.com
 - **Sitemap Index**: https://loadlyapp.com/sitemap.xml
 - **Sub-Sitemaps**:
-  - Static Pages: https://loadlyapp.com/sitemap-static.xml
+  - Static Pages (includes the calculators): https://loadlyapp.com/sitemap-static.xml
   - Blog Articles (chunked): https://loadlyapp.com/sitemap-blogs-1.xml, sitemap-blogs-2.xml, … (the sitemap index lists every chunk)
 - **Logistics Blog & Industry Resources**: https://loadlyapp.com/en/blog
-- **Blog RSS**: https://loadlyapp.com/en/feed.xml
+- **Blog RSS**: https://loadlyapp.com/en/feed.xml (paginated; redirects to https://loadlyapp.com/en/feed-1.xml)
 - **Free calculators**: https://loadlyapp.com/en/tools (dimensional weight, fuel cost, detention fee; each with a written guide)
 - **LLMs Full Context**: https://loadlyapp.com/llms-full.txt
 
 ## Language
 
-Loadly is published in **English only**. Requests for other language prefixes (e.g. `/tr/...`, `/de/...`) permanently redirect (301) to the English equivalent.
+Loadly is published in **English only**. Requests for other language prefixes (e.g. `/tr/...`, `/de/...`) permanently redirect (301) to the English equivalent. The single exception is a Turkish-language data-protection notice at `/tr/privacy-policy`, which is `noindex`.
 
 ## What Loadly Is
 
@@ -27,11 +27,11 @@ Loadly is a content platform, not a transaction platform. It publishes guides an
 - LTL (Less Than Truckload) and FTL (Full Truckload) logistics
 - Broader supply chain trends
 
-Articles are published regularly.
+Articles are published regularly. Articles do not describe Loadly as a platform, data source or service; they are general industry guides.
 
 ## Target Audience Segments
 
-- **Truck Drivers & Owner-Operators**: load finding, empty-mile reduction, fuel efficiency, income optimization
+- **Truck Drivers & Owner-Operators**: empty-mile reduction, fuel efficiency, income optimization
 - **Freight Shippers & Logistics Managers**: carrier selection, rate negotiation, shipment tracking, compliance
 - **E-commerce & Retail Businesses**: fulfillment costs, last-mile delivery, LTL freight, carrier comparison
 - **Freight Brokers & Forwarders**: market intelligence, carrier relationships, technology
@@ -41,15 +41,16 @@ Articles are published regularly.
 
 ## Structured Data & Schema
 
-- **Homepage**: `WebSite` + `Organization` + `SoftwareApplication` + `Person` (founder)
-- **Blog List**: `FAQPage` schema with industry Q&A
-- **Blog Article**: `BlogPosting` (headline, author, publisher, wordCount, keywords, datePublished) + `FAQPage` (auto-extracted Q&A pairs)
+- **All pages**: `WebSite` + `Organization` + `Person` (founder and editor)
+- **Blog List**: `FAQPage` (the questions and answers are shown on the page)
+- **Blog Article**: `BlogPosting` (headline, author, publisher, wordCount, keywords, datePublished) + `BreadcrumbList` + `FAQPage` (the questions and answers are shown in the article)
+- **Calculators**: `WebApplication` + `FAQPage` + `BreadcrumbList`
 
 ## Crawling Guidelines
 
 - Public content pages (home, blog, free calculators, about, contact, advertise, privacy, terms, cookie policy, editorial policy, accessibility, author page) are indexable with `robots: index, follow`
-- The legacy marketplace and its listing pages are `noindex, nofollow` — not part of the indexed surface, and deliberately excluded from sitemaps and indexing pushes
-- Private pages (dashboard, profile, messages, create-load, etc.) are blocked via robots.txt and meta robots
+- The website has no marketplace or listing pages (`/en/marketplace` returns 404) and lists none in its sitemaps
+- Account pages (login, register, dashboard, profile, messages, etc.) exist for the Android app's sign-in flow; they are `noindex` and blocked via robots.txt
 - **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam
-- All major AI crawlers explicitly allowed: GPTBot, ClaudeBot, Google-Extended, PerplexityBot, Meta-ExternalAgent, Amazonbot, Bytespider, YouBot, cohere-ai, CCBot, Diffbot, Copilot
+- AI crawlers are allowed to read the public content: GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, Google-Extended, GoogleOther, PerplexityBot, Meta-ExternalAgent, Amazonbot, YouBot, cohere-ai, CCBot, Diffbot, Timpibot, Webzio-Extended, Copilot
 - `Crawl-delay` is set for Yandex, Mail.ru, Baidu, Sogou, 360, CocCoc, Bytespider and Rambler. Every named crawler group in robots.txt repeats the same private-path Disallow list
