@@ -67,6 +67,13 @@
       "cluster": "Warehouse Automation, Robotics & WMS",
       "file": "2026-09-25-article-asrs-roi-blueprint-en.md",
       "createdAt": "2026-09-25T11:09:51.699Z"
+    },
+    {
+      "kind": "article",
+      "ref": "blockchain-pharma-anti-counterfeiting-en",
+      "cluster": "Blockchain, Visibility & Supply Chain Transparency",
+      "file": "2026-09-28-article-blockchain-pharma-anti-counterfeiting-en.md",
+      "createdAt": "2026-09-28T12:58:09.907Z"
     }
   ]
 }
