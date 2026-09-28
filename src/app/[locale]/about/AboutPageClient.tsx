@@ -1,10 +1,7 @@
 'use client';
 
 import { useT } from '@/hooks/useT';
-import {
-  Info, Truck, Shield, Globe, CheckCircle,
-  Users, Package, Star, Leaf,
-} from 'lucide-react';
+import { Info, Users, Leaf } from 'lucide-react';
 
 interface AboutData {
   about: {
@@ -138,39 +135,6 @@ export function AboutPageClient({ data, locale }: Props) {
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {[
-            { ...extra.stats[0], Icon: Users },
-            { ...extra.stats[1], Icon: Globe },
-            { ...extra.stats[2], Icon: Package },
-            { ...extra.stats[3], Icon: Star },
-          ].map(({ value, label, Icon }, idx) => (
-            <div key={idx} className="p-4 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-center">
-              <Icon size={24} className="text-[#A66700] mx-auto mb-2" />
-              <div className="text-2xl font-black text-fg">{value}</div>
-              <div className="text-xs text-muted mt-1">{label}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Feature Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {[
-            { Icon: Truck, title: content.fastEasyTitle, desc: content.fastEasyDesc },
-            { Icon: Shield, title: content.reliableTitle, desc: content.reliableDesc },
-            { Icon: Globe, title: content.wideTitle, desc: content.wideDesc },
-          ].map(({ Icon, title, desc }, idx) => (
-            <div key={idx} className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-[#A66700]/20 flex items-center justify-center mb-4">
-                <Icon size={32} className="text-[#A66700]" />
-              </div>
-              <h3 className={`text-xl font-bold ${t.heading} mb-2`}>{title}</h3>
-              <p className={`text-sm ${t.muted}`}>{desc}</p>
-            </div>
-          ))}
-        </div>
-
         {/* Mission */}
         <div className="p-8 rounded-3xl bg-surface-light/50 dark:bg-surface-dark/50 border border-border-light dark:border-border-dark mb-12">
           <h2 className={`text-2xl font-bold ${t.heading} mb-4`}>{extra.missionTitle}</h2>
@@ -196,44 +160,6 @@ export function AboutPageClient({ data, locale }: Props) {
               <span className="inline-block mt-2 text-xs font-bold text-accent">{extra.teamLinkedInLabel} →</span>
             </div>
           </a>
-        </div>
-
-        {/* How It Works */}
-        <div className="mb-12">
-          <h2 className={`text-2xl font-bold ${t.heading} mb-8`}>{extra.howTitle}</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {extra.howSteps.map((step, idx) => (
-              <div key={idx} className="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                <div className="w-10 h-10 rounded-xl bg-[#A66700]/20 flex items-center justify-center mb-4 text-[#A66700] font-black text-lg">
-                  {idx + 1}
-                </div>
-                <h3 className={`text-lg font-bold ${t.heading} mb-2`}>{step.title}</h3>
-                <p className={`text-sm ${t.muted} leading-relaxed`}>{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Vision */}
-        <div className="p-8 rounded-3xl bg-surface-light/50 dark:bg-surface-dark/50 border border-border-light dark:border-border-dark mb-12">
-          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>{content.visionTitle}</h2>
-          <div className="space-y-4">
-            <p className={`text-base ${t.muted} leading-relaxed`}>{content.visionP1}</p>
-            <p className={`text-base ${t.muted} leading-relaxed`}>{content.visionP2}</p>
-          </div>
-        </div>
-
-        {/* Why Choose */}
-        <div className="mb-12">
-          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>{extra.whyTitle}</h2>
-          <ul className="space-y-3">
-            {extra.whyItems.map((item, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <CheckCircle size={20} className="text-green-500 shrink-0 mt-0.5" />
-                <span className={`${t.muted} text-base`}>{item}</span>
-              </li>
-            ))}
-          </ul>
         </div>
 
         {/* Sustainability */}
