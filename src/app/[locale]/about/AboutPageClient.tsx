@@ -83,7 +83,7 @@ const EXTRA: Record<string, {
   en: {
     statsTitle: 'What Loadly Offers',
     stats: [
-      { value: '54', label: 'Languages Supported' },
+      { value: 'English', label: 'Publication Language' },
       { value: 'Daily', label: 'Fresh Content' },
       { value: 'Free', label: 'Unlimited Reading' },
       { value: 'Founder-Led', label: 'Transparent Team' },

@@ -44,7 +44,14 @@ function englishBlogSlug(slug: string): string | null {
 }
 
 /** Path after the locale prefix, rewritten for the English site. */
+const LEGACY_PAGE_SLUGS: Record<string, string> = {
+  '/iletisim': '/contact',
+  '/gizlilik-politikasi': '/privacy',
+  '/hakkimizda': '/about',
+};
+
 function legacyLocalePath(rest: string): string {
+  if (LEGACY_PAGE_SLUGS[rest]) return LEGACY_PAGE_SLUGS[rest];
   const m = rest.match(/^\/blog\/([^/]+)$/);
   if (!m) return rest;
   // No English sibling derivable (older native-language slug) → blog index.
