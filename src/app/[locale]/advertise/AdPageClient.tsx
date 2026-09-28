@@ -1,36 +1,31 @@
 'use client';
 
 import { useT } from '@/hooks/useT';
-import { Megaphone, Mail, Users, TrendingUp, Globe, CheckCircle, BarChart3, Target } from 'lucide-react';
+import { Megaphone, Mail, CheckCircle, Target, TrendingUp } from 'lucide-react';
+
+const CONTACT_EMAIL = 'info@loadlyapp.com';
 
 export function AdPageClient() {
   const t = useT();
 
-  const packages = [
+  const options = [
     {
       icon: Target,
-      title: 'Banner Reklamı',
-      desc: 'Ana sayfa ve blog sayfalarında görünür banner alanları. Lojistik sektörüne özel hedef kitleye doğrudan ulaşın.',
-      features: ['Masaüstü ve mobil uyumlu', 'Yüksek trafikli sayfalarda', 'Haftalık rapor'],
+      title: 'Display Advertising',
+      desc: 'Ad placements alongside our freight and logistics guides, shown to readers who are researching the industry.',
     },
     {
       icon: TrendingUp,
-      title: 'Sponsorlu İçerik',
-      desc: 'Firmanızın blog yazılarımızda konuk içerik veya marka mesajıyla öne çıkması. Daha fazla görünürlük, daha fazla erişim.',
-      features: ['Firma tanıtım yazısı', 'Blogda öne çıkan yerleşim', 'Performans takibi'],
-    },
-    {
-      icon: Globe,
-      title: 'Marka Ortaklığı',
-      desc: 'Blog, sosyal medya ve e-posta bülteni üzerinden geniş çaplı marka görünürlüğü kampanyaları.',
-      features: ['Blog yazısı & sosyal paylaşım', 'E-posta bülteni', 'Özel içerik üretimi'],
+      title: 'Sponsored Content',
+      desc: 'A clearly labelled sponsored article or brand mention. Sponsored content is always marked as such and goes through the same editorial review as our other articles.',
     },
   ];
 
-  const stats = [
-    { value: '54', label: 'Dil', icon: Globe },
-    { value: 'Günlük', label: 'Yeni İçerik', icon: Users },
-    { value: 'Editoryal', label: 'İçerik Kalitesi', icon: BarChart3 },
+  const audiences = [
+    { title: 'Freight and Logistics Companies', desc: 'Put your services in front of readers researching shipping costs, routes and regulations.' },
+    { title: 'Vehicle and Equipment Suppliers', desc: 'Reach readers interested in trucking and logistics equipment.' },
+    { title: 'Insurance and Finance Providers', desc: 'Present cargo insurance and trade-finance products to industry readers.' },
+    { title: 'Software and Technology Companies', desc: 'Introduce logistics software and technology to the people who use it.' },
   ];
 
   return (
@@ -41,36 +36,39 @@ export function AdPageClient() {
         <div className="mb-12 text-center">
           <h1 className={`text-4xl font-bold ${t.heading} flex items-center justify-center gap-4 mb-4`}>
             <Megaphone size={40} className="text-[#A66700]" />
-            Loadly&apos;de Reklam Verin
+            Advertise on Loadly
           </h1>
           <p className={`text-lg ${t.muted} max-w-2xl mx-auto leading-relaxed`}>
-            Türkiye ve dünya genelinde lojistik ve nakliye sektörü profesyonellerine ulaşmanın en etkili yolu.
-            54 dilde yayınlanan içeriklerimiz aracılığıyla markanızı sektöre özel okuyucu kitlemize tanıtın.
+            Loadly publishes practical guides on freight costs, routes and regulations for shippers, carriers and
+            logistics professionals. If your business serves that audience, we would be glad to hear from you.
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-12">
-          {stats.map(({ value, label, icon: Icon }, i) => (
-            <div key={i} className={`p-5 rounded-2xl ${t.card} text-center`}>
-              <Icon size={24} className="text-[#A66700] mx-auto mb-2" />
-              <div className="text-2xl font-black text-fg">{value}</div>
-              <div className="text-xs text-muted mt-1">{label}</div>
-            </div>
-          ))}
+        {/* Options */}
+        <div className="mb-12">
+          <h2 className={`text-2xl font-bold ${t.heading} mb-8`}>Advertising Options</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {options.map(({ icon: Icon, title, desc }, i) => (
+              <div key={i} className={`p-6 rounded-2xl ${t.card} flex flex-col`}>
+                <div className="w-12 h-12 rounded-xl bg-[#A66700]/10 flex items-center justify-center mb-4">
+                  <Icon size={24} className="text-[#A66700]" />
+                </div>
+                <h3 className={`text-lg font-bold ${t.heading} mb-2`}>{title}</h3>
+                <p className={`text-sm ${t.muted} leading-relaxed`}>{desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Why Advertise */}
+        {/* Standards */}
         <div className={`p-8 rounded-3xl ${t.card} mb-12`}>
-          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>Neden Loadly&apos;de Reklam Vermelisiniz?</h2>
+          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>Our Advertising Standards</h2>
           <div className="space-y-3">
             {[
-              'Lojistik ve nakliye sektörüne özgü, yüksek kaliteli hedef kitle',
-              '54 dilde yayınlanan, sektöre özel editoryal içerik',
-              'Düzenli olarak güncellenen, güncel makale akışı',
-              'Mobil uyumlu, her cihazdan kolay erişilebilir tasarım',
-              'Nakliye, lojistik ve tedarik zinciri okuyucularına ulaşım',
-              'Uygun fiyatlı ve ölçülebilir reklam paketleri',
+              'Advertising is kept separate from editorial content and clearly identifiable as advertising.',
+              'Advertisers cannot influence, pay for or edit our articles.',
+              'We only accept advertising relevant to logistics, freight and related services.',
+              'We reserve the right to decline any advertiser or creative.',
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-3">
                 <CheckCircle size={18} className="text-green-500 shrink-0 mt-0.5" />
@@ -80,40 +78,11 @@ export function AdPageClient() {
           </div>
         </div>
 
-        {/* Packages */}
-        <div className="mb-12">
-          <h2 className={`text-2xl font-bold ${t.heading} mb-8`}>Reklam Paketleri</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {packages.map(({ icon: Icon, title, desc, features }, i) => (
-              <div key={i} className={`p-6 rounded-2xl ${t.card} flex flex-col`}>
-                <div className="w-12 h-12 rounded-xl bg-[#A66700]/10 flex items-center justify-center mb-4">
-                  <Icon size={24} className="text-[#A66700]" />
-                </div>
-                <h3 className={`text-lg font-bold ${t.heading} mb-2`}>{title}</h3>
-                <p className={`text-sm ${t.muted} leading-relaxed mb-4 flex-1`}>{desc}</p>
-                <ul className="space-y-2">
-                  {features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2 text-xs text-muted">
-                      <CheckCircle size={14} className="text-green-500 shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Who Should Advertise */}
         <div className={`p-8 rounded-3xl ${t.card} mb-12`}>
-          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>Kimler Reklam Verebilir?</h2>
+          <h2 className={`text-2xl font-bold ${t.heading} mb-6`}>Who Can Advertise?</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            {[
-              { title: 'Nakliye ve Lojistik Firmalar', desc: 'Şirket profilinizi öne çıkarın, sektöre özel okuyucu kitlemize ulaşın.' },
-              { title: 'Araç ve Ekipman Satıcıları', desc: 'Tır, kamyon ve lojistik ekipman markaları için hedefli erişim.' },
-              { title: 'Sigorta ve Finans Şirketleri', desc: 'Lojistik sektöründeki okuyucularımıza hizmetlerinizi tanıtın.' },
-              { title: 'Yazılım ve Teknoloji Şirketleri', desc: 'Lojistik sektörüne yönelik SaaS ve teknoloji çözümlerini duyurun.' },
-            ].map(({ title, desc }, i) => (
+            {audiences.map(({ title, desc }, i) => (
               <div key={i} className="p-4 rounded-xl bg-surface-light/50 dark:bg-surface-dark/50 border border-border-light dark:border-border-dark">
                 <h3 className={`text-sm font-bold ${t.heading} mb-1`}>{title}</h3>
                 <p className={`text-xs ${t.muted}`}>{desc}</p>
@@ -124,17 +93,17 @@ export function AdPageClient() {
 
         {/* CTA */}
         <div className="p-8 rounded-3xl bg-[#A66700]/10 border border-[#A66700]/20 text-center">
-          <h2 className={`text-2xl font-bold ${t.heading} mb-3`}>İletişime Geçin</h2>
+          <h2 className={`text-2xl font-bold ${t.heading} mb-3`}>Get in Touch</h2>
           <p className={`text-sm ${t.muted} mb-6 max-w-lg mx-auto leading-relaxed`}>
-            Reklam paketleri, fiyatlandırma ve özel kampanya teklifleri için aşağıdaki e-posta adresine yazın.
-            Ekibimiz en kısa sürede size özel bir teklif hazırlayacaktır.
+            Email us with a short description of your business and what you would like to promote,
+            and we will get back to you.
           </p>
           <a
-            href="mailto:reklam@loadlyapp.com?subject=Loadly Reklam Talebi"
+            href={`mailto:${CONTACT_EMAIL}?subject=Loadly advertising enquiry`}
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#A66700] text-white font-bold rounded-2xl hover:bg-orange-500 transition-colors shadow-lg shadow-[#A66700]/20"
           >
             <Mail size={20} />
-            reklam@loadlyapp.com
+            {CONTACT_EMAIL}
           </a>
         </div>
 
