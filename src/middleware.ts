@@ -26,7 +26,7 @@ const AUTH_REQUIRED_SEGMENTS = new Set([
 // Known search/AI crawler user-agents — never rate-limit these, or deep crawls
 // (47 locales × static pages + listings) will trip the limit and get 429'd,
 // which shows up in Search Console as crawl errors and can suppress indexing.
-const CRAWLER_UA_PATTERN = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|duckduck|applebot|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot|discordbot|pinterest|semrush|ahrefs|gptbot|chatgpt-user|claudebot|claude-web|anthropic-ai|perplexitybot|amazonbot|bytespider|ccbot|diffbot|petalbot|mojeekbot|seznambot|coccocbot/i;
+const CRAWLER_UA_PATTERN = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|duckduck|applebot|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot|discordbot|pinterest|semrush|ahrefs|gptbot|chatgpt-user|claudebot|claude-web|anthropic-ai|perplexitybot|amazonbot|bytespider|ccbot|diffbot|petalbot|mojeekbot|seznambot|coccocbot|google|mediapartners|lighthouse|inspectiontool|pagespeed|bing|msnbot/i;
 
 // The only locale served. Everything else redirects here (see step 2 below).
 const ACTIVE_LOCALE = 'en';
@@ -73,7 +73,10 @@ export async function middleware(request: NextRequest) {
   // Basic Rate Limiting
   const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
   const userAgent = request.headers.get('user-agent') || '';
-  const isCrawler = CRAWLER_UA_PATTERN.test(userAgent);
+  // Next.js <Link> prefetches and RSC navigations fire many background requests per page
+  // (a blog index has 60 links); they are not abusive traffic and must not count toward the limit.
+  const isPrefetch = request.headers.has('next-router-prefetch') || request.headers.has('rsc');
+  const isCrawler = CRAWLER_UA_PATTERN.test(userAgent) || isPrefetch;
   const now = Date.now();
 
   if (ip !== 'unknown' && !isCrawler) {
@@ -87,7 +90,7 @@ export async function middleware(request: NextRequest) {
         record.lastReset = now;
       } else {
         record.count++;
-        if (record.count > 150) { // 150 req / min limit
+        if (record.count > 300) { // 300 req / min limit
           return new NextResponse('Too Many Requests - Rate Limit Exceeded', { status: 429 });
         }
       }

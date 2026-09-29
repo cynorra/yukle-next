@@ -37,7 +37,7 @@ const FAQ_LABELS: Record<string, { faqTitle: string; items: { q: string; a: stri
     items: [
       { q: 'Is Loadly free to use?', a: 'Yes! All content and guides on Loadly are completely free, no registration required.' },
       { q: 'How fast do you respond to support requests?', a: 'We respond to email inquiries within 24 hours at the latest.' },
-      { q: 'Which regions do you cover?', a: 'Our content covers logistics trends primarily in Turkey, Europe, the Middle East, and worldwide.' },
+      { q: 'Which regions do you cover?', a: 'Our content focuses first on the United States, then on the other largest English-speaking markets (including the United Kingdom, Canada, Australia, India, Nigeria and the Philippines), and also covers global logistics trends.' },
     ],
   },
 };
