@@ -27,6 +27,9 @@ export async function POST(request: NextRequest) {
   for (const locale of locales) {
     revalidatePath(`/${locale}`, 'page');
     revalidatePath(`/${locale}/blog`, 'page');
+    // A new post shifts every paginated archive page and every RSS page by one item.
+    revalidatePath(`/${locale}/blog/archive/[page]`, 'page');
+    revalidatePath(`/${locale}/feed/[page]`, 'page');
   }
 
   return NextResponse.json({ revalidated: true, locales: [...locales], posts: posts?.length || 0 });
