@@ -5,6 +5,8 @@ import { BookOpen, ArrowRight } from 'lucide-react';
 import { BlogListClient } from './BlogListClient';
 import { BLOG_TRANSLATIONS } from '@/utils/blogTranslations';
 import type { Locale } from '@/utils/translations';
+import { BLOG_ARCHIVE_PAGE_SIZE } from '@/lib/blog-archive';
+import { BlogArchivePager } from '@/components/BlogArchivePager';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -41,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const BLOG_LIST_COLUMNS = 'id, title, slug, excerpt, cover_image, author_id, published, language, created_at, updated_at, author:profiles(full_name)';
-const BLOG_LIST_LIMIT = 60;
+const BLOG_LIST_LIMIT = BLOG_ARCHIVE_PAGE_SIZE;
 
 async function fetchBlogPosts(locale: string) {
   const supabase = createPublicClient();
@@ -57,12 +59,22 @@ async function fetchBlogPosts(locale: string) {
   return posts || [];
 }
 
+async function countBlogPosts(locale: string) {
+  const { count } = await createPublicClient()
+    .from('blog_posts')
+    .select('id', { count: 'exact', head: true })
+    .eq('published', true)
+    .eq('language', locale);
+  return count ?? 0;
+}
+
 export default async function BlogListPage({ params }: Props) {
   const { locale: rawLocale } = await params;
   const locale = (rawLocale in BLOG_TRANSLATIONS) ? (rawLocale as Locale) : 'en';
   const t = BLOG_TRANSLATIONS[locale];
 
-  const allPosts = await fetchBlogPosts(locale);
+  const [allPosts, totalPosts] = await Promise.all([fetchBlogPosts(locale), countBlogPosts(locale)]);
+  const totalPages = Math.max(1, Math.ceil(totalPosts / BLOG_ARCHIVE_PAGE_SIZE));
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -113,6 +125,8 @@ export default async function BlogListPage({ params }: Props) {
 
           {/* Search + grid client */}
           <BlogListClient posts={allPosts as any} />
+
+          <BlogArchivePager locale={locale} current={1} total={totalPages} />
 
           <div className="mt-24 pt-16 border-t border-border-light dark:border-border-dark">
             <h2 className="text-3xl font-black text-fg mb-12 text-center">
