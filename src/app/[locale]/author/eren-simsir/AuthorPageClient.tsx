@@ -15,7 +15,7 @@ const COPY: Record<string, Copy> = {
   en: {
     role: 'Founder & Chief Technical Editor, Loadly',
     bioP1: "Eren Şimşir founded and runs Loadly, a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals. Loadly's editorial standards are described in detail on the Editorial Policy page — articles follow a set of written editorial rules and automated quality checks, and the process is maintained by Eren as a single-person operation.",
-    bioP2: "Eren also builds and maintains Loadly's technical infrastructure end to end — the marketplace platform, the content pipeline, and the site's SEO/accessibility work.",
+    bioP2: "Eren also builds and maintains Loadly's technical infrastructure end to end — the content pipeline and the site's SEO and accessibility work.",
     linkedin: 'LinkedIn',
     contact: 'Contact',
   },

@@ -26,7 +26,7 @@ const COPY: Record<string, Copy> = {
     s2L3: 'Every page declares its language via <html lang>, and core navigation is reachable by keyboard.',
     s2L4: 'Meaningful images carry alt text; purely decorative images are marked so screen readers skip them.',
     s3Title: 'Known limitations',
-    s3Body: "Some interactive marketplace components have not been individually audited for keyboard/screen-reader edge cases. We have not deployed an automated \"accessibility overlay\" widget — these are known to be unreliable, so gaps are fixed in code instead.",
+    s3Body: "Some interactive components (such as the article search and the calculators) have not been individually audited for keyboard/screen-reader edge cases. We have not deployed an automated \"accessibility overlay\" widget — these are known to be unreliable, so gaps are fixed in code instead.",
     contactTitle: 'Reporting an issue',
     contactBody: 'If you run into an accessibility barrier anywhere on Loadly, please tell us what page and what happened — we will fix it:',
   },

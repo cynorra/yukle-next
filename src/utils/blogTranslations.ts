@@ -25,15 +25,15 @@ export interface BlogTranslationDict {
 export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
   en: {
     title: 'Freight, Trucking & Truck Load Guide | Loadly',
-    description: 'Digital logistics platform. Access articles about posting shipping ads, finding truck loads, and logistics cost reduction methods.',
-    tagline: 'Logistics & Shipping Marketplace Guide',
+    description: 'Practical guides on freight costs, trucking, routes and regulations for shippers, carriers and logistics professionals.',
+    tagline: 'Freight & Logistics Guides',
     header1: 'Digitizing the',
     headerAccent: 'Logistics World',
     header2: '',
-    introText: 'Find the most up-to-date guides on shipping ads, load matching, and supply chain optimization using the Loadly marketplace.',
+    introText: 'Read practical, up-to-date guides on freight costs, trucking, routes, regulations and supply chain optimization.',
     searchPlaceholder: 'Search articles...',
     noArticles: 'No articles found matching your search.',
-    faqTitle: 'Frequently Asked Questions About Logistics Marketplace',
+    faqTitle: 'Frequently Asked Questions About Freight & Logistics',
     backToBlog: 'Back to Blog',
     readingTime: 'Reading time:',
     readingTimeSuffix: 'min read',
@@ -47,10 +47,11 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
       { label: 'Regulations', slug: 'evden-eve-nakliyat-yasal-mevzuat-belgeler' },
     ],
     faqs: [
-      { q: 'What is a logistics marketplace?', a: 'A logistics marketplace is a digital ecosystem where shippers and carriers meet directly to post loads and submit freight bids.' },
-      { q: 'What are the benefits of a load board?', a: 'It saves time, improves price transparency, and helps carriers avoid empty backhauls, reducing transportation costs.' },
-      { q: 'How is security maintained?', a: 'All users verify credentials, and past transport histories are rated through a review system.' }
+      { q: 'What is a freight load board?', a: 'A load board is an online listing service where shippers post freight that needs moving and carriers search for loads to haul.' },
+      { q: 'Why do carriers try to avoid empty backhauls?', a: 'A truck returning without cargo earns nothing on the return leg while still burning fuel, so finding a load for the way back directly improves the carrier margin.' },
+      { q: 'What does Loadly publish?', a: 'Loadly publishes practical guides on freight costs, routes and regulations for shippers, carriers and logistics professionals, written under our published editorial rules.' }
     ]
+
   },
   tr: {
     title: 'Nakliye, Taşımacılık & Tır Yükü Rehberi | Loadly',
