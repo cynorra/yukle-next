@@ -1931,7 +1931,8 @@ async function runBlogGenerator() {
   const blogUrls = postsWithUrls.map((p) => `${siteUrl}/${p.language}/blog/${p.slug}`);
   if (blogUrls.length > 0) {
     console.log(`Submitting ${blogUrls.length} blog URLs to IndexNow...`);
-    await submitToIndexNow(blogUrls);
+    // Also tell IndexNow that the listing pages changed (new post appears on them).
+    await submitToIndexNow([...blogUrls, `${siteUrl}/en/blog`, `${siteUrl}/en/feed-1.xml`]);
     await submitToBaidu(blogUrls);
     await Promise.allSettled(
       postsWithUrls.map((p) => pingBaiduBlogPost(p.title || p.slug, `${siteUrl}/${p.language}/blog/${p.slug}`))
