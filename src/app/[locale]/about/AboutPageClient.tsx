@@ -55,7 +55,7 @@ const EXTRA: Record<string, {
     teamTitle: 'Kimler Yapıyor',
     teamName: 'Eren Şimşir',
     teamRole: 'Baş Teknik Editör',
-    teamBio: 'Bilgisayar Mühendisliği ve Endüstri Mühendisliği (Çift Anadal) mezunu, Yapay Zeka alanında doktora adayı. Loadly\'nin teknik geliştirmesinden ve içerik kalitesinden sorumlu.',
+    teamBio: 'Bilgisayar Mühendisliği ve Endüstri Mühendisliği (Çift Anadal) mezunu. Loadly\'nin teknik geliştirmesinden ve içerik kalitesinden sorumlu.',
     teamLinkedInLabel: "LinkedIn'de görüntüle",
     whyTitle: "Neden Loadly'yi Takip Etmelisiniz?",
     whyItems: [
@@ -91,12 +91,12 @@ const EXTRA: Record<string, {
     teamTitle: 'Who Builds Loadly',
     teamName: 'Eren Şimşir',
     teamRole: 'Chief Technical Editor',
-    teamBio: 'Computer Engineer & Industrial Engineer (Double Major), PhD Candidate in AI. Responsible for Loadly\'s technical development and content quality.',
+    teamBio: 'Computer Engineer & Industrial Engineer (Double Major). Responsible for Loadly\'s technical development and content quality.',
     teamLinkedInLabel: 'View on LinkedIn',
     whyTitle: 'Why Follow Loadly?',
     whyItems: [
       'New guides published regularly',
-      'Articles held to written editorial rules and automated quality checks',
+      'Articles held to written editorial rules and pre-publication quality checks',
       'Freight cost, route, and regulation guides',
       'Up-to-date industry trends and analysis',
       'Completely free, no registration required',
@@ -105,7 +105,7 @@ const EXTRA: Record<string, {
     ],
     commitTitle: 'Our Editorial Commitment',
     commitText:
-      'We aim for every article to be accurate, current, and practical, and every article is published under written editorial rules and automated quality checks (see our Editorial Policy). Loadly believes in being a trustworthy source of information for the logistics industry — helping our readers make better decisions with the right information.',
+      'We aim for every article to be accurate, current, and practical, and every article is published under written editorial rules and pre-publication quality checks (see our Editorial Policy). Loadly believes in being a trustworthy source of information for the logistics industry — helping our readers make better decisions with the right information.',
     howTitle: 'How to Use Loadly',
     howSteps: [
       { title: 'Search a Topic', desc: 'Look up freight costs, routes, or regulations relevant to your business.' },

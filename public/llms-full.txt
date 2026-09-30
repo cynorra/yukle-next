@@ -9,7 +9,7 @@
 The website is a blog and a set of tools. It has **no marketplace and no freight-listing pages**: `/en/marketplace` returns 404 and no listings appear in any sitemap. A separate Loadly Android app, which shows freight listings, is not part of what is published on this website.
 
 ### Core Value Proposition
-- Guides on freight costs, shipping routes, and industry regulation, published under written editorial rules and automated quality checks
+- Guides on freight costs, shipping routes, and industry regulation, published under written editorial rules and pre-publication quality checks
 - Free calculators: dimensional weight, fuel cost, detention fee
 - Published regularly in English
 
@@ -125,7 +125,7 @@ A: Freight costs, shipping routes, industry regulations, LTL and FTL logistics, 
 A: Roughly one new article per weekday.
 
 **Q: Who writes the content?**
-A: Loadly is a single-person editorial operation run by Eren Şimşir. Every article follows written editorial rules and passes automated checks (similarity and sourcing) before it is published.
+A: Loadly is a single-person editorial operation run by Eren Şimşir. Every article follows written editorial rules and passes pre-publication checks (similarity and sourcing) before it is published.
 
 **Q: Does Loadly operate a freight marketplace?**
 A: Not on this website, which is a blog. Freight listings are shown only in the separate Loadly Android app.
