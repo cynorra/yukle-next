@@ -149,7 +149,12 @@ function findFabricatedAnecdote(content) {
 // Figures inside a <blockquote> are exempt here — those are checked by findFabricatedCitation().
 function countFalsePrecision(content) {
   const outsideQuotes = String(content || '').replace(/<blockquote>[\s\S]*?<\/blockquote>/gi, ' ');
-  const text = stripTags(outsideQuotes);
+  // Statutory penalty amounts are real, oddly precise legal figures ("$99,756 per violation" under 49 CFR): sentences that
+  // cite a regulation's civil penalty are not invented precision.
+  const text = stripTags(outsideQuotes)
+    .split(/(?<=[.!?])\s+/)
+    .filter((s) => !/\b(?:CFR|civil penalt\w+|statutory|maximum penalt\w+)\b/i.test(s))
+    .join(' ');
   // A figure inside a range ("€80-€120", "2.5-3.5 hours") is an honest range, not a single invented precise value.
   const inRange = (start, end) => /[-–—]\s*[$€£]?\s*$|\d\s+to\s+[$€£]?\s*$/i.test(text.slice(Math.max(0, start - 8), start))
     || /^\s*(?:%|days?|hours?|hrs?|weeks?|minutes?)?\s*[-–—]\s*[$€£]?\d/i.test(text.slice(end, end + 14));
@@ -239,7 +244,10 @@ function countYmylBody(content) {
 // Bodies that keep saying "in 2025 ..." / "for 2026 ..." age badly (663 of 802 archive posts read as stale a
 // year later and needed a cleanup pass). A real dated fact ("Q3 2025 report", "effective January 2026") is fine;
 // generic framing is not. Tolerate a couple of dated references, reject habitual framing.
-const YEAR_FRAMING = /\b(?:in|for|during|throughout|of|by)\s+20[2-3]\d\b(?![\s\S]{0,20}(?:report|survey|study|edition|update|rule|regulation|standard|amendment))/gi;
+// Only the CURRENT and the PREVIOUS year count as framing ("in 2025", "for 2026" written in 2026). A past year attached
+// to a data point ("retail shrink reached $112B in 2022") and a forecast horizon ("by 2030") are ordinary dated facts.
+const FRAMING_YEARS = (() => { const y = new Date().getUTCFullYear(); return [y - 1, y].join('|'); })(); // future years are planned dates ("ETS II launches in 2027"), not framing
+const YEAR_FRAMING = new RegExp('\\b(?:in|for|during|throughout|of)\\s+(?:' + FRAMING_YEARS + ')\\b(?![\\s\\S]{0,20}(?:report|survey|study|edition|update|rule|regulation|standard|amendment))', 'gi');
 const MAX_YEAR_FRAMING = 2;
 function countYearFraming(content) {
   return (stripTags(content).match(YEAR_FRAMING) || []).length;

@@ -122,3 +122,14 @@ console.log('article-quality: all assertions passed');
   assert.ok(issues.some((i) => i.startsWith('YMYL')), 'validateArticle must report YMYL');
   console.log('ymyl/indirect/year-framing gate tests passed');
 }
+
+// ── calibration guards (2026-09-30) ──
+{
+  const q = require('./article-quality');
+  const y = new Date().getUTCFullYear();
+  assert.equal(q.countYearFraming('<p>Retail shrink reached $112B in 2022. Volumes grow by 2030. ETS II launches in ' + (y + 1) + '.</p>'), 0, 'dated facts and future milestones are not framing');
+  assert.ok(q.countYearFraming(`<p>In ${y}, rates move. For ${y}, plan. During ${y - 1}, prices rose. In ${y}, again.</p>`) >= 3, 'current/previous year framing counts');
+  assert.equal(q.countFalsePrecision('<p>Under 49 CFR civil penalties reach $99,756 per violation and $232,044 for deaths or injuries. Fines hit $18,900 under the statutory schedule.</p>').total, 0, 'statutory penalties are real figures');
+  assert.ok(q.countFalsePrecision('<p>Fees rose 14.7%, then 12.3%, then 9.4% and $1,847, $2,113.</p>').total >= 4, 'invented precision still counted');
+  console.log('calibration guard tests passed');
+}

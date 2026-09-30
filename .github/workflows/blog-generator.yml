@@ -34,6 +34,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # The quality gates are the only thing standing between the model and the live site. If a refactor ever breaks
+      # one, fail here (before anything is generated or published) instead of finding out from an AdSense review.
+      - name: Quality gate self-test
+        run: npm run blog:test
+
       # universal-adsense-site-standard.md 2.2: publishing at the exact same
       # second every single weekday is a pattern a human editorial process
       # never produces. This is a real random delay (not a spoofed
@@ -57,3 +62,14 @@ jobs:
           REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
           ARTICLES_PER_RUN: '1'
         run: node scripts/blog-generator.js
+
+      # After publishing, audit the WHOLE archive with the same gates. Blocking categories (first-person claims, hype,
+      # YMYL topics, repeated fabricated figures, numeric titles...) turn this run red, so a regression is seen the day it
+      # happens. Warnings (year framing, decimal precision) do not fail the run.
+      - name: Audit published archive
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/audit-blog.js
+

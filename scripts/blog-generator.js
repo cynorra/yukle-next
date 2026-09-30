@@ -1512,6 +1512,13 @@ Choose the formula that best fits the topic and content format — but check the
 • A blunt, non-formulaic statement of the finding itself, no template at all
 
 Rules: primary keyword included naturally, max 70 chars, creates urgency or promises specific value.
+HARD RULES — every article is machine-checked and REJECTED (then regenerated) if it breaks any of these:
+1. Third person only. No "I", "my", "we found/predict/estimate/forecast"; no claimed career ("years in the trenches", "decades on the road", "as a dispatcher…", "hard-won lessons", "forged from…").
+2. No hype or promises: never "guarantee(d)", "insider secret", "battle-tested", "foolproof", "slash", "eliminate", "what if I told you".
+3. Numbers: no invented statistics. Use only round figures or ranges ("roughly $1,500-$2,500", "about 15-20%"); never decimal precision ("14.7%", "$1,847", "2.3 days"). Never attribute a figure to a survey, report, association or agency unless you are certain the report exists.
+4. Topics we never write: driver health/medical/mental-health/nutrition/sleep advice, personal tax deductions, explosives/radioactive/firearms/controlled-substance transport, legal-settlement or investment advice.
+5. No year in titles, headings or body framing ("in ${CURRENT_YEAR}", "${CURRENT_YEAR} playbook"). Evergreen prose; a year only for a real dated fact.
+6. Never mention "Loadly", clients, customers, a network, a platform or proprietary data.
 EVERGREEN TITLES: never put a year (2024, 2025, ${CURRENT_YEAR}…) in the title or meta_title — year-stamped titles look stale within months. And no percentages, dollar amounts or "3x" claims in the title, meta_title, meta_description or excerpt (they are invented numbers in search results); describe the benefit in words.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1520,7 +1527,7 @@ HTML STRUCTURE (strict)
 Use ONLY these HTML tags. No markdown, no code fences, no html/head/body wrappers:
 <h2> main sections (6-8 total) | <h3> subsections | <p> paragraphs (3-5 sentences)
 <ul><li> bullet lists | <ol><li> numbered steps | <strong> key data/terms
-<blockquote> cited statistics and expert quotes | <table><tr><th><td> for comparisons
+<blockquote> ONLY verbatim rule/regulation text from a named public body (FMCSA, CBP, EU regulations…) — never statistics, survey results or expert quotes (those get invented) | <table><tr><th><td> for comparisons
 <a href="..."> internal links — see INTERNAL LINKING below for exactly which URLs are allowed
 
 MINIMUM ${minWords} words of substantive expert content. No filler. Every sentence earns its place.
@@ -1794,6 +1801,31 @@ async function runBlogGenerator() {
   const fabricatedCitation = findFabricatedCitation(basePost.content);
   if (fabricatedCitation) {
     console.warn(`[QualityGate] "${basePost.title}" cites an unrecognized source in a blockquote ("${fabricatedCitation}") — likely fabricated, skipping this run instead of publishing an invented citation.`);
+    return null;
+  }
+
+  // UNIVERSAL FINAL GATE (2026-09-30). Whatever path produced this article (Gemini, retry loop, or the curated
+  // fallback library), it must pass the SAME full rule set before it can be published. The AdSense "low value
+  // content" rejection came from posts that slipped past narrower per-path checks (fabricated first-person
+  // credentials, hype, unsourced numbers, YMYL topics, year-stamped titles). No article is better than a bad one.
+  basePost.content = FalsePrecision.hedgeArticle(basePost.content);
+  // A meta description outside 90-185 chars is repaired, not rejected: cut at a word boundary / fall back to the excerpt.
+  if (typeof basePost.meta_description === 'string') {
+    const md = basePost.meta_description.replace(/\s+/g, ' ').trim();
+    if (md.length > 185) {
+      const cut = md.slice(0, 155);
+      basePost.meta_description = cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:\-–—]+$/, '') + '.';
+    } else if (md.length < 90 && basePost.excerpt) {
+      const ex = String(basePost.excerpt).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      basePost.meta_description = ex.length > 155 ? ex.slice(0, ex.slice(0, 155).lastIndexOf(' ')) + '.' : ex;
+    }
+  }
+  const finalIssues = ArticleQuality.validateArticle(basePost);
+  const finalWords = ArticleQuality.stripTags(basePost.content).split(/\s+/).filter(Boolean).length;
+  if (finalWords < 900) finalIssues.push(`THIN CONTENT (${finalWords} words; minimum 900)`);
+  if (finalIssues.length > 0) {
+    console.warn(`[FinalGate] "${basePost.title}" rejected — ${finalIssues.length} issue(s):`);
+    finalIssues.forEach((i) => console.warn('   - ' + i.slice(0, 220)));
     return null;
   }
 
