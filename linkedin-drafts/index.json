@@ -74,6 +74,13 @@
       "cluster": "Blockchain, Visibility & Supply Chain Transparency",
       "file": "2026-09-28-article-blockchain-pharma-anti-counterfeiting-en.md",
       "createdAt": "2026-09-28T12:58:09.907Z"
+    },
+    {
+      "kind": "article",
+      "ref": "dynamic-dispatching-optimize-routes-deadhead-en",
+      "cluster": "Dispatch Operations, Load Planning & Efficiency",
+      "file": "2026-09-30-article-dynamic-dispatching-optimize-routes-deadhead-en.md",
+      "createdAt": "2026-09-30T11:56:17.414Z"
     }
   ]
 }
