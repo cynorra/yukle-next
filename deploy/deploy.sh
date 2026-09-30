@@ -19,6 +19,9 @@ echo "==> npm ci"
 # Skip its Chrome download here — the VM lacks unzip/tar in a form it accepts anyway.
 PUPPETEER_SKIP_DOWNLOAD=true npm ci
 
+echo "==> clearing stale fetch cache (prerendered sitemaps/pages must read fresh DB rows, not the previous build's cached responses)"
+rm -rf .next/cache/fetch-cache
+
 echo "==> next build"
 npm run build
 
