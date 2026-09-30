@@ -85,6 +85,18 @@ const CHECKS = [
     }
     mentions2025 += (Q.stripTags(p.content).match(/\b2025\b/g) || []).length;
   }
+  // The same non-round figure in many unrelated posts ("$1,840 per truck" in 94 posts, "14.3%" in 46) is the clearest
+  // fingerprint of fabricated statistics. Round amounts and x.5 percentages are naturally common and ignored.
+  const figureCount = new Map();
+  for (const p of posts) {
+    const text = Q.stripTags(p.content);
+    const seen = new Set();
+    for (const m of text.matchAll(/\b\d{1,2}\.\d{1,2}%/g)) { const v = parseFloat(m[0]); if (v >= 2 && v < 90 && !/\.50?%$/.test(m[0])) seen.add(m[0]); }
+    for (const m of text.matchAll(/[$€£]\s?\d{1,3}(?:,\d{3})+(?![\d,])/g)) { const n = parseFloat(m[0].replace(/[^\d.]/g, '')); if (n % 100 !== 0) seen.add(m[0].replace(/\s/g, '')); }
+    for (const f of seen) figureCount.set(f, (figureCount.get(f) || 0) + 1);
+  }
+  const repeated = [...figureCount.entries()].filter(([, n]) => n >= 6).sort((a, b) => b[1] - a[1]);
+  if (repeated.length) report.checks.repeated_figures = { blocking: true, desc: 'same non-round figure in 6+ posts (fabricated-statistic fingerprint)', offenders: repeated.map(([f, n]) => ({ slug: f, hit: `${n} posts` })) };
   if (deadLinks) report.checks.dead_internal_links = { blocking: true, desc: 'internal links to unpublished posts', offenders: deadList.map((x) => ({ slug: x, hit: '' })) };
   report.extra = { mentions_of_2025_in_bodies: mentions2025 };
 

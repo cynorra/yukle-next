@@ -25,7 +25,29 @@ const fmtMoney = (n) => n.toLocaleString('en-US');
 // of 806 posts, "14.3%" in 46, for claims about claims, port waits and packaging alike). Identical odd numbers in
 // dozens of articles are the clearest fingerprint of fabricated statistics, so these few are replaced by plain
 // language instead of being rounded to yet another repeated number.
+// Figures that recur across unrelated posts (found by the archive audit). Attribution to a named body does not make a
+// figure that appears in dozens of different "reports" real, so sentences/blockquotes carrying them are also purged
+// (scripts/purge-signature-figures.js) and the plain occurrences are turned into words here.
+const SIGNATURE_PCT = ['14.3', '18.7', '12.3', '12.7', '8.7'];
+const SIGNATURE_USD = '1,?8(?:40|47|50)|3,?750';
+const SIG_PCT_RE = '(?:' + SIGNATURE_PCT.map((x) => x.replace('.', '\\.')).join('|') + ')';
+const SIG_ANY = new RegExp('(?:\\b' + SIG_PCT_RE + '%|\\$(?:' + SIGNATURE_USD + ')\\b)');
+
 function neutraliseSignatures(s) {
+  let out = s;
+  const hedge = '(?:(?:an? )?(?:average|estimated) (?:of )?|averaging |roughly |about |approximately |nearly |over |up to |an extra |an additional )?';
+  out = out.replace(new RegExp(hedge + '\\$(?:' + SIGNATURE_USD + ')\\b', 'gi'), 'thousands of dollars');
+  out = out.replace(new RegExp('\\b(an? )?' + SIG_PCT_RE + '% (reduction|increase|improvement|drop|decrease|gain|rise|saving|savings|higher|lower|faster|slower|jump|decline)\\b', 'gi'), (m, art, w) => {
+    const word = w.toLowerCase();
+    const article = art ? (/^[aeiou]/.test(word) ? 'an ' : 'a ') : '';
+    return (/^A/.test(m) ? article.toUpperCase().slice(0, 1) + article.slice(1) : article) + word;
+  });
+  out = out.replace(new RegExp('\\bby (?:an average of )?' + SIG_PCT_RE + '%', 'gi'), 'significantly');
+  out = out.replace(new RegExp('\\b' + SIG_PCT_RE + '% of\\b', 'gi'), (m, offset, whole) => (offset === 0 || /[.!?:]\\s+$/.test(whole.slice(0, offset)) ? 'A notable share of' : 'a notable share of'));
+  return out;
+}
+
+function neutraliseSignaturesLegacy(s) {
   let out = s;
   const hedge = '(?:(?:an? )?(?:average|estimated) (?:of )?|averaging |roughly |about |approximately |nearly |over |up to |an extra |an additional )?';
   out = out.replace(new RegExp(hedge + '\\$1,?84[07]\\b', 'gi'), 'thousands of dollars');
@@ -103,4 +125,4 @@ function hedgeArticle(content) {
   return edited.replace(/\u0000Q(\d+)\u0000/g, (m, i) => quotes[Number(i)]);
 }
 
-module.exports = { hedgeSentence, hedgeHtml, hedgeArticle };
+module.exports = { hedgeSentence, hedgeHtml, hedgeArticle, neutraliseSignatures, SIG_ANY, SIGNATURE_PCT, SIGNATURE_USD };
