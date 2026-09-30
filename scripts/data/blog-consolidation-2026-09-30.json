@@ -1,0 +1,2423 @@
+[
+ {
+  "id": "04657e0c-60fd-405a-9e91-3b0216b68940",
+  "slug": "digital-freight-marketplaces-playbook-2025-en",
+  "title": "Digital Freight Marketplaces Playbook: Maximize Owner-Operator Revenue",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 25.4,
+  "to": "digital-freight-brokerage-playbook-2025-en",
+  "sim": 0.18
+ },
+ {
+  "id": "054806d3-316d-47de-88fb-ad0225d830a3",
+  "slug": "retail-store-replenishment-jit-strategies-en",
+  "title": "Just-In-Time Strategies for Retail Store Replenishment",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 19.8,
+  "to": "just-in-time-carrier-strategy-doubles-warehouse-labor-costs-en",
+  "sim": 0.17
+ },
+ {
+  "id": "0bfbdf9e-3a6c-4fc4-946e-c8db02988e72",
+  "slug": "why-reliable-carriers-cost-millions-carrier-performance-management-en",
+  "title": "Why Your 'Reliable' Carriers Cost Millions: Essential Carrier Performance Management",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 20.4,
+  "to": "hidden-warehouse-labor-costs-unpredictable-carriers-cost-en",
+  "sim": 0.3
+ },
+ {
+  "id": "1834538d-c91b-44a9-8f3a-8b6d7bf2094f",
+  "slug": "freight-brokerage-technology-unbreakable-trust-eliminate-fraud-en",
+  "title": "How to Build Unbreakable Carrier Trust & Eliminate Fraud with Freight Brokerage Technology",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 26,
+  "to": "digital-freight-brokerage-playbook-2025-en",
+  "sim": 0.14
+ },
+ {
+  "id": "30956cd4-3a43-4541-a296-a83d954510e1",
+  "slug": "logistics-cost-optimization-2025-flawed-budget-en",
+  "title": "Why Your Freight Budget Is Flawed: Critical Logistics Cost Optimization",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 27.8,
+  "to": "logistics-cost-optimization-proactive-compliance-guide-2024-en",
+  "sim": 0.25
+ },
+ {
+  "id": "31022565-7e8d-4a60-bcda-2ee567306605",
+  "slug": "2025-seasonal-product-logistics-playbook-en",
+  "title": "Seasonal Product Logistics Playbook: Master Holiday Rollouts & Avoid Stockouts",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 28.1,
+  "to": "logistics-cost-optimization-proactive-compliance-guide-2024-en",
+  "sim": 0.11
+ },
+ {
+  "id": "441c155f-7fe1-4409-b084-efc18e20b099",
+  "slug": "nearshoring-supplier-audit-customs-delays-en",
+  "title": "The Nearshoring Supplier Audit: How to Cut Customs Delays by 18% | Loadly",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 23.1,
+  "to": "2025-tms-integration-strategy-playbook-en",
+  "sim": 0.13
+ },
+ {
+  "id": "4af8fe4f-0f8f-4b48-b1fe-862e5d70bce2",
+  "slug": "owner-operators-eliminate-empty-miles-maximize-revenue-en",
+  "title": "7 Proven Strategies Owner-Operators Use to Eliminate Empty Miles and Maximize Revenue",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 17.8,
+  "to": "2025-tms-integration-strategy-playbook-en",
+  "sim": 0
+ },
+ {
+  "id": "5aae0559-4698-4255-af9b-6f7261ca321f",
+  "slug": "warehouse-labor-costs-pick-pack-optimization-2025-en",
+  "title": "Warehouse Labor Crisis: Stop Pick-Pack Bleeding Profit & Boost Efficiency",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 23,
+  "to": "hidden-warehouse-labor-costs-unpredictable-carriers-cost-en",
+  "sim": 0.23
+ },
+ {
+  "id": "7639e4d0-63b9-4128-85f1-67592f3efef5",
+  "slug": "pooled-freight-small-business-discounts-without-volume-en",
+  "title": "How to Get 30%+ Pooled Freight Small Business Discounts Without Volume",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 27.7,
+  "to": "freight-damage-claims-your-fault-fix-it-en",
+  "sim": 0.08
+ },
+ {
+  "id": "7c3c9d4a-b69b-48da-b82f-8a04a8cf7857",
+  "slug": "carrier-performance-management-eliminate-no-shows-en",
+  "title": "Eliminate 80% of Carrier No-Shows: Agile Carrier Performance Management",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 24.6,
+  "to": "construction-waste-management-logistics-2025-cost-reduction-en",
+  "sim": 0.08
+ },
+ {
+  "id": "7d7126b6-121b-4bf4-b647-94bdf0f9a42f",
+  "slug": "pharma-last-mile-delivery-playbook-2025-en",
+  "title": "The Pharma Last-Mile Delivery Playbook: Unlocking Speed & Patient Safety",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 24.2,
+  "to": "micro-hub-logistics-playbook-2025-en",
+  "sim": 0.25
+ },
+ {
+  "id": "8a7598c8-54eb-4078-b8c3-aa6aca3c0169",
+  "slug": "digital-freight-marketplaces-comparison-2025-en",
+  "title": "Digital Freight Marketplaces Playbook: Unbiased Platform Guide",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 24.2,
+  "to": "digital-freight-marketplace-comparison-2025-en",
+  "sim": 0.27
+ },
+ {
+  "id": "91ff6c6b-e54a-45c6-9bdf-9e334f27e907",
+  "slug": "remote-energy-site-logistics-cut-mobilization-costs-2025-en",
+  "title": "The Remote Energy Site Logistics Playbook: Cut Mobilization Costs 20%",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 27.6,
+  "to": "logistics-cost-optimization-proactive-compliance-guide-2024-en",
+  "sim": 0.25
+ },
+ {
+  "id": "98989e3d-bdb5-4a72-bbee-9db0040bdb45",
+  "slug": "retail-inventory-management-optimization-en",
+  "title": "Retail Inventory Management: Cut 18% Holding Costs & Boost Shelf Availability | Loadly",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 13.3,
+  "to": "construction-waste-management-logistics-2025-cost-reduction-en",
+  "sim": 0.15
+ },
+ {
+  "id": "b3e775cf-59a2-4d1d-b84b-6c003ee44a5f",
+  "slug": "hidden-carrier-vetting-metrics-prevent-lawsuits-2025-en",
+  "title": "Why DOT Vetting Fails: Urgent Hidden Carrier Vetting Metrics",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 22.6,
+  "to": "hidden-warehouse-labor-costs-unpredictable-carriers-cost-en",
+  "sim": 0.14
+ },
+ {
+  "id": "baf39553-3313-4729-8024-bc6c5113daea",
+  "slug": "retail-inventory-visibility-2025-playbook-en",
+  "title": "Retail Inventory Visibility: The 3-Day Black Hole & Your Playbook",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 24.4,
+  "to": "omni-channel-distribution-2025-seamless-inventory-flow-en",
+  "sim": 0.09
+ },
+ {
+  "id": "bc5414c0-4298-4b52-8160-cef2e47eb266",
+  "slug": "why-load-boards-fail-digital-freight-platforms-en",
+  "title": "Why Load Boards Are Failing Small Businesses: Digital Freight Platforms",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 26.4,
+  "to": "digital-freight-brokerage-playbook-2025-en",
+  "sim": 0.15
+ },
+ {
+  "id": "c08c209a-16f6-474a-811d-09c0737adbc4",
+  "slug": "digital-freight-matching-playbook-2025-en",
+  "title": "The Digital Freight Matching Playbook: Secure Best Rates, Faster",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 21.5,
+  "to": "digital-freight-brokerage-playbook-2025-en",
+  "sim": 0.18
+ },
+ {
+  "id": "c0c8f7f6-5c3d-4804-9d0b-2abfcfbd429a",
+  "slug": "post-brexit-eu-logistics-2025-navigate-customs-minimize-delays-en",
+  "title": "Post-Brexit EU Logistics: Navigate Customs & Minimize Delays | Loadly",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 26.8,
+  "to": "2025-tms-integration-strategy-playbook-en",
+  "sim": 0.1
+ },
+ {
+  "id": "c326d753-79fd-44fd-b173-ebe38e377ab1",
+  "slug": "freight-market-rates-2025-predict-capacity-lock-stable-rates-en",
+  "title": "How to Predict Capacity Shifts & Lock Stable Rates Without Flawed Forecasts",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 20.1,
+  "to": "carrier-financial-health-freight-broker-risk-assessment-2025-risks-en",
+  "sim": 0.1
+ },
+ {
+  "id": "ca27c787-53bc-4e70-8628-2375a03ec523",
+  "slug": "return-resale-channels-playbook-2025-en",
+  "title": "The Return Resale Channels Playbook: Unlock 15% New Revenue",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 21.3,
+  "to": "omni-channel-distribution-2025-seamless-inventory-flow-en",
+  "sim": 0.11
+ },
+ {
+  "id": "cb513ef8-0eda-4616-a967-ba5c93dbd083",
+  "slug": "beverage-distribution-strategy-playbook-2025-en",
+  "title": "The Beverage Distribution Strategy Playbook: Cut Breakage 10%",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 20.3,
+  "to": "omni-channel-distribution-2025-seamless-inventory-flow-en",
+  "sim": 0.13
+ },
+ {
+  "id": "d60bddd6-4b78-4ace-b82b-9ccb33b268fb",
+  "slug": "european-customs-procedures-2025-playbook-en",
+  "title": "The European Customs Playbook: Master Post-Brexit Trade | Loadly",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 24.9,
+  "to": "2025-tms-integration-strategy-playbook-en",
+  "sim": 0.11
+ },
+ {
+  "id": "dfa33e24-69ac-4bfb-aa68-91f241f61c8d",
+  "slug": "russia-ukraine-logistics-playbook-2025-en",
+  "title": "Russia Ukraine Logistics Playbook: Navigating European Supply Chains | Loadly",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 26.8,
+  "to": "blockchain-supply-chain-visibility-fraud-prevention-en",
+  "sim": 0.21
+ },
+ {
+  "id": "eb38fc99-80b5-49b8-91ec-fdf42f65a022",
+  "slug": "digital-freight-marketplaces-comparison-2025-9175-en",
+  "title": "Digital Freight Marketplaces Comparison: Maximize ROI",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 23.8,
+  "to": "digital-freight-marketplace-comparison-2025-en",
+  "sim": 0.3
+ },
+ {
+  "id": "ef713588-1ddf-4b2b-8e8a-a82dddeaf183",
+  "slug": "used-car-transport-logistics-damage-costs-fix-en",
+  "title": "Used Car Transport Logistics: Damage, Costs & Logistics Solutions",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 27.5,
+  "to": "logistics-cost-optimization-proactive-compliance-guide-2024-en",
+  "sim": 0.2
+ },
+ {
+  "id": "f278c481-3e69-411f-a9ce-d786cf2054c3",
+  "slug": "ai-adoption-logistics-playbook-2025-en",
+  "title": "AI Adoption Logistics: A Practical 7-Step Implementation Playbook",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 20.9,
+  "to": "logistics-cost-optimization-proactive-compliance-guide-2024-en",
+  "sim": 0.17
+ },
+ {
+  "id": "f58ab75c-07cd-49b8-9128-788eade923c1",
+  "slug": "recourse-vs-non-recourse-factoring-2025-en",
+  "title": "Recourse vs Non-Recourse Factoring: Protect Your Owner-Operator Cash Flow",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 19.6,
+  "to": "omni-channel-distribution-2025-seamless-inventory-flow-en",
+  "sim": 0.08
+ },
+ {
+  "id": "f5f0d38b-421d-4d38-afa0-a0b7538f6189",
+  "slug": "double-brokering-fraud-trusted-carriers-prevention-en",
+  "title": "Why Your Trusted Carriers Double-Broker: Stop Double-Brokering Fraud Now",
+  "cluster": "Freight Marketplace Technology & Platform Comparison",
+  "score": 18.8,
+  "to": "find-carriers-as-broker-ai-capacity-2025-en",
+  "sim": 0.17
+ },
+ {
+  "id": "23006a46-c312-4639-89ca-e5c43f243aa2",
+  "slug": "international-road-freight-documentation-cmr-tir-customs-masterclass-en",
+  "title": "International Road Freight Documentation Masterclass: CMR, TIR Carnet, and Customs Compliance",
+  "cluster": "Cargo Security, Seals & Anti-Theft Technology",
+  "score": 16.9,
+  "to": "high-security-freight-seals-playbook-2025-en",
+  "sim": 0.06
+ },
+ {
+  "id": "0339d010-02f0-4151-83fb-36b8a6695086",
+  "slug": "eld-selection-guide-2025-en",
+  "title": "ELD Selection Guide: Improve Uptime and HOS Compliance",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 23.1,
+  "to": "eld-data-efficiency-fleet-boost-2025-en",
+  "sim": 0.38
+ },
+ {
+  "id": "066e7b15-b7a3-4a58-933d-46f31a186175",
+  "slug": "cross-border-e-commerce-shipping-guide-en",
+  "title": "Cross-Border E-commerce Shipping: Managing Hidden Costs",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 9.4,
+  "to": "oilfield-logistics-challenges-2025-en",
+  "sim": 0.07
+ },
+ {
+  "id": "079c2850-137d-422c-ae1e-b06433c346b5",
+  "slug": "ai-route-optimization-playbook-2025-en",
+  "title": "AI Route Optimization: Reduce Miles and Increase Deliveries",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 25.2,
+  "to": "hos-team-driving-playbook-2025-en",
+  "sim": 0.13
+ },
+ {
+  "id": "0d733ba0-7d87-4606-9152-e2df1a1abe05",
+  "slug": "finished-vehicle-logistics-speed-damage-reduction-2025-en",
+  "title": "Finished Vehicle Logistics: Improving Speed and Reducing Damage",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 24,
+  "to": "ai-freight-damage-claims-prevention-2025-en",
+  "sim": 0.08
+ },
+ {
+  "id": "164c8533-a389-4524-966d-61530732b1c0",
+  "slug": "eld-data-analysis-boost-hos-productivity-en",
+  "title": "ELD Data Analysis: Boost HOS & Driver Productivity | Loadly",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 23.8,
+  "to": "eld-data-efficiency-fleet-boost-2025-en",
+  "sim": 0.3
+ },
+ {
+  "id": "304e8461-9f4a-460f-86b6-3c86b8caff08",
+  "slug": "eld-data-management-playbook-avoid-violation-traps-en",
+  "title": "ELD Data Management: Prevent HOS Violation Traps",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 27.4,
+  "to": "eld-data-efficiency-fleet-boost-2025-en",
+  "sim": 0.3
+ },
+ {
+  "id": "347d4f08-5e9d-4519-99cd-eb4ace9e68ab",
+  "slug": "grain-hauling-optimization-2025-en",
+  "title": "The Grain Hauling Playbook: Maximize Yields, Minimize Spoilage",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 21.9,
+  "to": "hos-exemptions-2025-maximize-driving-hours-en",
+  "sim": 0
+ },
+ {
+  "id": "350ea672-c5ce-4749-9b1a-ad5e4e489a40",
+  "slug": "2025-retail-vendor-compliance-chargebacks-en",
+  "title": "Retail Vendor Compliance Playbook: Avoid 7-Figure Chargebacks",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 27.9,
+  "to": "hos-team-driving-playbook-2025-en",
+  "sim": 0.11
+ },
+ {
+  "id": "3d563aac-8a6c-4606-b8da-b1d45f6bd573",
+  "slug": "eld-device-comparison-2025-boost-productivity-en",
+  "title": "The ELD Device Comparison Playbook: Boost Driver Productivity",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 12.7,
+  "to": "hos-waivers-2025-playbook-maximize-driver-hours-en",
+  "sim": 0.11
+ },
+ {
+  "id": "3d8f3af5-dd08-41a9-9863-c4e2bbd5702b",
+  "slug": "livestock-transport-regulations-playbook-2025-en",
+  "title": "The Livestock Transport Regulations Playbook: Avoid Fines & Protect Your Brand",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 25.3,
+  "to": "livestock-transport-regulations-playbook-2025-5965-en",
+  "sim": 0.5
+ },
+ {
+  "id": "421c8665-0882-4fc1-a968-e7318cd704ea",
+  "slug": "hos-exemptions-playbook-2025-en",
+  "title": "The HOS Exemptions Playbook: Extend Hours & Boost Earnings",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 34.9,
+  "to": "agricultural-exemption-hos-maximize-driving-hours-2025-en",
+  "sim": 0.5
+ },
+ {
+  "id": "4be59cca-c0df-4f0b-af0e-df5fe4446857",
+  "slug": "hos-personal-conveyance-rules-maximize-off-duty-en",
+  "title": "The HOS Personal Conveyance Playbook: Maximize Off-Duty Legally",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 29.4,
+  "to": "personal-conveyance-rules-playbook-2025-en",
+  "sim": 0.5
+ },
+ {
+  "id": "53c0a8f4-371f-490c-9509-cfcc0b99db0e",
+  "slug": "finished-vehicle-logistics-2025-slash-transit-times-en",
+  "title": "Finished Vehicle Logistics: Slash Transit Times & Prevent Damage by 15%",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 26.1,
+  "to": "ata-carnet-compliance-playbook-2025-en",
+  "sim": 0.13
+ },
+ {
+  "id": "559bbbc6-9887-4594-96eb-3531046ff687",
+  "slug": "bulk-commodity-transportation-yield-playbook-en",
+  "title": "Bulk Commodity Transportation Playbook: Maximize Yield",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 7.3,
+  "to": "hos-exemptions-2025-maximize-driving-hours-en",
+  "sim": 0
+ },
+ {
+  "id": "820dcb0d-6994-40b3-88c7-97085d28e786",
+  "slug": "fuel-efficiency-trucking-habits-cost-thousands-2025-en",
+  "title": "Why Your 'Fuel-Efficient' Trucking Habits Cost Thousands",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 25.2,
+  "to": "truck-driver-nutrition-guide-2025-en",
+  "sim": 0.17
+ },
+ {
+  "id": "8b6e40f0-b9de-452b-bd44-41d7fc90eac5",
+  "slug": "load-matching-algorithm-playbook-2025-en",
+  "title": "The Load Matching Algorithm Playbook: Unlock Optimal Routes, Boost Profits",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 19,
+  "to": "urban-congestion-pricing-2025-last-mile-playbook-en",
+  "sim": 0.08
+ },
+ {
+  "id": "932f505f-8e9d-4e95-99e8-d7b41d7768a7",
+  "slug": "owner-operator-business-structure-tax-savings-2025-en",
+  "title": "The Owner-Operator Business Structure Playbook: Max Tax Savings",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 13.9,
+  "to": "owner-operator-vs-company-driver-maximize-income-2025-en",
+  "sim": 0.15
+ },
+ {
+  "id": "bddad7a1-0e74-4d64-a2e0-228c68695595",
+  "slug": "warehouse-dwell-time-costs-draining-millions-en",
+  "title": "Why Unmeasured Dwell Time Is Costing Your Warehouse Millions",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 27.6,
+  "to": "hos-exemptions-2025-maximize-driving-hours-en",
+  "sim": 0.08
+ },
+ {
+  "id": "db18fd26-6bea-4d11-9f70-040d3c6ad22a",
+  "slug": "hos-audit-checklist-2025-fmcsa-compliance-en",
+  "title": "The HOS Audit Checklist Playbook: Pass Every FMCSA Inspection",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 20.6,
+  "to": "hos-team-driving-playbook-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "fb9c9b27-1070-4c31-b964-e6b7f7555c29",
+  "slug": "driver-fatigue-management-2025-maximize-hos-safely-en",
+  "title": "The Driver Fatigue Management Playbook: Maximize HOS Safely",
+  "cluster": "HOS Rules, ELD Mandate & Driver Compliance",
+  "score": 5.6,
+  "to": "hos-waivers-2025-playbook-maximize-driver-hours-en",
+  "sim": 0.25
+ },
+ {
+  "id": "025b5b1e-7422-4917-bd8e-c6fd31312397",
+  "slug": "power-only-freight-2025-capacity-margins-en",
+  "title": "Power Only Freight: Capacity and Margins for Logistics",
+  "cluster": "FTL Brokerage & Truckload Market",
+  "score": 27.8,
+  "to": "refurbishment-logistics-playbook-2025-asset-recovery-en",
+  "sim": 0.11
+ },
+ {
+  "id": "55c2ddbc-2fdb-4cdd-956f-a50b713fbf50",
+  "slug": "ecommerce-logistics-strategy-single-carrier-mistake-2025-en",
+  "title": "Why Your Single-Carrier Ecommerce Logistics Strategy Is a Multi-Million Dollar Mistake",
+  "cluster": "FTL Brokerage & Truckload Market",
+  "score": 19.4,
+  "to": "refurbishment-logistics-playbook-2025-asset-recovery-en",
+  "sim": 0.09
+ },
+ {
+  "id": "5e553b6a-d393-4569-b321-d5466ea9509e",
+  "slug": "spot-vs-contract-ftl-strategy-2025-en",
+  "title": "The Spot vs. Contract FTL Playbook: Maximize Profit in Volatile Markets",
+  "cluster": "FTL Brokerage & Truckload Market",
+  "score": 15.3,
+  "to": "ftl-spot-vs-contract-broker-strategy-2025-en",
+  "sim": 0.57
+ },
+ {
+  "id": "651a672b-e719-4e13-9c0c-944492a2b53a",
+  "slug": "ftl-carrier-vetting-criteria-2025-en",
+  "title": "7 Essential FTL Carrier Vetting Criteria Every Shipper Needs",
+  "cluster": "FTL Brokerage & Truckload Market",
+  "score": 25.7,
+  "to": "vetting-ftl-carriers-guide-2025-en",
+  "sim": 0.3
+ },
+ {
+  "id": "cb708822-7298-4c1d-a855-abe271e3b4c3",
+  "slug": "crowd-sourced-last-mile-playbook-2025-en",
+  "title": "The Crowd-Sourced Last-Mile Playbook: Slash Costs & Boost Deliveries",
+  "cluster": "FTL Brokerage & Truckload Market",
+  "score": 22.4,
+  "to": "pharma-last-mile-temperature-excursions-2025-en",
+  "sim": 0.17
+ },
+ {
+  "id": "d2bc6655-0881-4058-92d7-60744d093d53",
+  "slug": "truckload-market-analysis-2025-volatility-margins-en",
+  "title": "Truckload Market Analysis: Navigate Volatility, Boost Margins",
+  "cluster": "FTL Brokerage & Truckload Market",
+  "score": 28.3,
+  "to": "ftl-brokerage-profit-playbook-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "dcd1056d-cd0b-4258-a69c-8d2fbdcf3ec7",
+  "slug": "produce-packaging-innovations-2025-en",
+  "title": "Produce Packaging Playbook: Maximize Freshness, Minimize Spoilage",
+  "cluster": "FTL Brokerage & Truckload Market",
+  "score": 26.9,
+  "to": "vetting-ftl-carriers-guide-2025-en",
+  "sim": 0.09
+ },
+ {
+  "id": "fef2fb12-cd08-4418-930c-af55e4e5f01a",
+  "slug": "ai-ftl-brokerage-playbook-double-margins-en",
+  "title": "The AI FTL Brokerage Playbook: Double Your Margins",
+  "cluster": "FTL Brokerage & Truckload Market",
+  "score": 16.2,
+  "to": "ftl-brokerage-profit-playbook-2025-en",
+  "sim": 0.43
+ },
+ {
+  "id": "92850eda-ea00-4ec6-83de-44cabcd8c7fc",
+  "slug": "telematics-predictive-maintenance-fleet-breakdowns-2025-en",
+  "title": "Telematics Predictive Maintenance Playbook: Slash Breakdowns 20%",
+  "cluster": "Telematics, ELD & GPS Fleet Tracking Technology",
+  "score": 17.9,
+  "to": "advanced-telematics-predictive-maintenance-2025-en",
+  "sim": 0.38
+ },
+ {
+  "id": "0207d963-89d0-450e-96ad-b05a2e4891a5",
+  "slug": "intermodal-network-optimization-2025-faster-transit-en",
+  "title": "Intermodal Network Optimization: Faster Transit, Lower Emissions",
+  "cluster": "Intermodal Freight & Rail-Truck Strategy",
+  "score": 25.2,
+  "to": "intermodal-network-strategy-2025-playbook-en",
+  "sim": 0.29
+ },
+ {
+  "id": "232def18-d092-45b6-a75a-30d6964a76e3",
+  "slug": "intermodal-drayage-costs-2025-expert-fixes-en",
+  "title": "Intermodal Drayage Costs: Hidden Surcharges & Expert Fixes",
+  "cluster": "Intermodal Freight & Rail-Truck Strategy",
+  "score": 16,
+  "to": "intermodal-network-strategy-2025-playbook-en",
+  "sim": 0.22
+ },
+ {
+  "id": "3888bb7d-c4ef-4998-91d4-3d78654eb65a",
+  "slug": "intermodal-drayage-optimization-2025-delays-throughput-en",
+  "title": "Intermodal Drayage Optimization: Cut Delays & Boost Throughput",
+  "cluster": "Intermodal Freight & Rail-Truck Strategy",
+  "score": 24.1,
+  "to": "intermodal-drayage-optimization-playbook-2025-en",
+  "sim": 0.33
+ },
+ {
+  "id": "4cd4f304-f915-40c8-835c-d4c0425764eb",
+  "slug": "intermodal-equipment-availability-crisis-2025-en",
+  "title": "Intermodal Equipment Crisis: Causes, Real Costs & The Expert Fix",
+  "cluster": "Intermodal Freight & Rail-Truck Strategy",
+  "score": 14,
+  "to": "2025-intermodal-equipment-pooling-playbook-en",
+  "sim": 0.25
+ },
+ {
+  "id": "64b190ee-8315-4b43-b221-bf47e269a698",
+  "slug": "rail-freight-tariffs-2025-minimize-surcharges-en",
+  "title": "The Rail Freight Tariffs Playbook: Avoid Hidden Surcharges",
+  "cluster": "Intermodal Freight & Rail-Truck Strategy",
+  "score": 22.4,
+  "to": "middle-corridor-rail-freight-cost-transit-analysis-en",
+  "sim": 0.17
+ },
+ {
+  "id": "96e8a3a3-4b31-4859-8bcb-5f682174852d",
+  "slug": "transload-vs-intermodal-decision-framework-en",
+  "title": "The Decision Framework: How to Master Transload vs. Intermodal for Cost Savings",
+  "cluster": "Intermodal Freight & Rail-Truck Strategy",
+  "score": 21.2,
+  "to": "intermodal-network-strategy-2025-playbook-en",
+  "sim": 0.25
+ },
+ {
+  "id": "f83893cd-e047-429c-a903-8943e2adf736",
+  "slug": "intermodal-cost-savings-2025-otr-shift-en",
+  "title": "Why OTR-First Thinking Costs You 15%: Intermodal Cost Savings",
+  "cluster": "Intermodal Freight & Rail-Truck Strategy",
+  "score": 20.3,
+  "to": "intermodal-network-strategy-2025-playbook-en",
+  "sim": 0.22
+ },
+ {
+  "id": "023a231c-3a6e-43fa-b9ed-2bcce91edfc8",
+  "slug": "new-vehicle-delivery-playbook-2025-en",
+  "title": "New Vehicle Delivery: Improving Dealership Transit Times",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 14.7,
+  "to": "crowdsourced-last-mile-delivery-playbook-2025-en",
+  "sim": 0.08
+ },
+ {
+  "id": "027b0ebf-6fe6-4cb4-b861-6a7ad8dd8da3",
+  "slug": "high-paying-load-board-playbook-2025-en",
+  "title": "High Paying Load Boards: Finding Better Freight Opportunities",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 27.7,
+  "to": "exclusive-freight-lanes-2025-playbook-en",
+  "sim": 0.4
+ },
+ {
+  "id": "06dd5df5-6dfa-4ef1-8821-47ce16cea71d",
+  "slug": "owner-operator-tax-deductions-2025-3938-en",
+  "title": "Owner-Operator Tax Deductions: Maximize Savings",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 34.9,
+  "to": "owner-operator-tax-deductions-playbook-2025-en",
+  "sim": 0.5
+ },
+ {
+  "id": "2936308f-c29b-4585-a80d-232d2bce0036",
+  "slug": "spot-market-rate-volatility-playbook-2025-en",
+  "title": "Spot Market Rate Volatility: Hedging Against Price Spikes",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 6.7,
+  "to": "spot-market-rate-negotiation-2025-en",
+  "sim": 0.25
+ },
+ {
+  "id": "575d35e9-431e-4e81-8e1c-dc429c521d77",
+  "slug": "shipper-contract-negotiation-mastery-2025-en",
+  "title": "The Shipper Contract Negotiation Playbook: Win Direct Freight & Boost Margins",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 25.1,
+  "to": "shipper-direct-freight-playbook-2025-en",
+  "sim": 0.33
+ },
+ {
+  "id": "62bd091a-b288-4b90-87bd-c56bec195e88",
+  "slug": "blockchain-supply-chain-visibility-playbook-2025-en",
+  "title": "The Blockchain Supply Chain Visibility Playbook: Immutable Data, Unbreakable Trust",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 27,
+  "to": "carrier-performance-management-data-imperative-2025-en",
+  "sim": 0.08
+ },
+ {
+  "id": "682e724c-0b71-4cc5-b3fd-c60229dd6c9d",
+  "slug": "ai-spot-rate-prediction-playbook-2025-en",
+  "title": "The AI Spot Rate Prediction Playbook: Lock in Loads, Maximize Profits",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 25,
+  "to": "spot-market-rate-negotiation-2025-en",
+  "sim": 0.18
+ },
+ {
+  "id": "69502934-75f8-4cdd-a9f0-94abeba279f3",
+  "slug": "rail-transit-time-reliability-2025-en",
+  "title": "Rail Transit Time Reliability: Data-Driven Benchmarks",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 9.8,
+  "to": "carrier-performance-management-data-imperative-2025-en",
+  "sim": 0.08
+ },
+ {
+  "id": "761f48cb-2689-474a-8f8f-4ddd715b708a",
+  "slug": "dynamic-pricing-load-boards-2025-peak-rates-en",
+  "title": "The Dynamic Pricing Load Boards Playbook: Consistently Earn 15% More",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 27.9,
+  "to": "load-board-negotiation-playbook-2025-4743-en",
+  "sim": 0.25
+ },
+ {
+  "id": "8dc8321e-e8fb-47db-8fb0-9e485badde33",
+  "slug": "telematics-for-driver-safety-reduce-accidents-2025-en",
+  "title": "Telematics for Driver Safety: Cut Accidents 20% with Data Insights",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 15.2,
+  "to": "carrier-performance-management-data-imperative-2025-en",
+  "sim": 0.09
+ },
+ {
+  "id": "92480467-a434-459e-8e1d-733ee3288b44",
+  "slug": "load-board-negotiation-playbook-2025-en",
+  "title": "The Load Board Negotiation Playbook: Secure Top Rates",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 28.2,
+  "to": "load-board-negotiation-playbook-2025-4743-en",
+  "sim": 0.5
+ },
+ {
+  "id": "98c9efda-c5b9-454e-9134-e9a874e54951",
+  "slug": "3pl-contract-negotiation-2025-en",
+  "title": "3PL Contract Negotiation Playbook: Slash Outsourcing Costs by 12% with Data",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 18.5,
+  "to": "crowdsourced-last-mile-delivery-playbook-2025-en",
+  "sim": 0.17
+ },
+ {
+  "id": "a28c9a4b-7f50-4a4d-90f2-204476167009",
+  "slug": "freight-rate-forecasting-playbook-2025-en",
+  "title": "The Freight Rate Forecasting Playbook: Predict Swings with Data",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 27.1,
+  "to": "freight-budgeting-forecasting-playbook-2025-en",
+  "sim": 0.4
+ },
+ {
+  "id": "a52d6dd6-eb36-4c50-a796-aa0fa2c40234",
+  "slug": "freight-identity-theft-playbook-2025-en",
+  "title": "Freight Identity Theft Playbook: Protect Your Brokerage from Fraud",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 12.6,
+  "to": "freight-brokerage-startup-playbook-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "b189a8e2-1b83-4495-b218-78010bc370d6",
+  "slug": "ai-load-board-hacks-2025-en",
+  "title": "AI Load Board Hacks: Predict Lanes & Beat Competitors",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 27.4,
+  "to": "load-board-negotiation-playbook-2025-4743-en",
+  "sim": 0.18
+ },
+ {
+  "id": "be077e5e-3a01-42dc-b15a-c21758cd9546",
+  "slug": "dynamic-freight-pricing-playbook-2025-en",
+  "title": "Dynamic Freight Pricing Playbook: Maximizing Profit in Volatility",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 28.3,
+  "to": "dynamic-freight-pricing-playbook-2025-5403-en",
+  "sim": 0.5
+ },
+ {
+  "id": "cac604b8-8abe-4d15-8267-a1098a306da7",
+  "slug": "direct-shipper-contracts-playbook-2025-en",
+  "title": "Direct Shipper Contracts Playbook: High-Margin Deals Without Load Boards",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 23.8,
+  "to": "direct-shipper-contracts-winning-beyond-load-boards-2025-en",
+  "sim": 0.45
+ },
+ {
+  "id": "cf37f11b-45f7-4c14-8497-eccb0202601e",
+  "slug": "freight-broker-margins-2025-negotiation-erosion-fix-en",
+  "title": "Why Your Freight Negotiations Are Secretly Eroding 15% of Your Broker Margins",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 26.9,
+  "to": "dynamic-freight-pricing-playbook-2025-5403-en",
+  "sim": 0.17
+ },
+ {
+  "id": "d14a3c9f-644d-45cb-b05c-caed47097fbc",
+  "slug": "enterprise-freight-accounts-playbook-2025-en",
+  "title": "Enterprise Freight Accounts Playbook: Secure Multi-Million Contracts",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 21.5,
+  "to": "shipper-direct-freight-playbook-2025-en",
+  "sim": 0.1
+ },
+ {
+  "id": "dd3ef63f-49b5-4726-8012-8f278cc59463",
+  "slug": "backhaul-optimization-playbook-empty-miles-en",
+  "title": "The Backhaul Optimization Playbook: Fill 90% of Empty Miles",
+  "cluster": "Load Board Tactics & Spot Market Strategy",
+  "score": 14.7,
+  "to": "backhaul-optimization-playbook-2025-en",
+  "sim": 0.43
+ },
+ {
+  "id": "04e69957-6326-4ab2-83ef-1068cab0a7ca",
+  "slug": "returns-data-analytics-playbook-2025-en",
+  "title": "Returns Data Analytics: Improve E-commerce Profitability",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 14.8,
+  "to": "2025-returns-reduction-e-commerce-playbook-en",
+  "sim": 0.22
+ },
+ {
+  "id": "0c942c40-7031-4e1d-a879-8f4397561216",
+  "slug": "recommerce-logistics-2025-profit-en",
+  "title": "Recommerce Logistics: Managing Returns for Value",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 24.6,
+  "to": "reverse-logistics-best-practices-2025-profit-centers-en",
+  "sim": 0.3
+ },
+ {
+  "id": "4e37b698-aade-425a-8813-db9e7858a241",
+  "slug": "2025-apparel-returns-logistics-playbook-en",
+  "title": "The Apparel Returns Logistics Playbook: Boost Recovery & Cut Processing Costs",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 22.3,
+  "to": "returns-processing-automation-2025-playbook-en",
+  "sim": 0.38
+ },
+ {
+  "id": "51fe1a55-d5ff-4b3a-ad89-ce03e7eb6c1d",
+  "slug": "profit-center-reverse-logistics-2025-en",
+  "title": "Profit-Center Reverse Logistics: Turn Returns Into Revenue",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 33.3,
+  "to": "reverse-logistics-best-practices-2025-profit-centers-en",
+  "sim": 0.75
+ },
+ {
+  "id": "6cd63bb9-b56d-4473-b17c-8f87c58d65a0",
+  "slug": "excess-inventory-liquidation-playbook-2025-en",
+  "title": "Excess Inventory Liquidation Playbook: Turn Returns into Revenue",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 23.4,
+  "to": "reverse-logistics-best-practices-2025-profit-centers-en",
+  "sim": 0.18
+ },
+ {
+  "id": "75f536f7-8837-4584-a706-185accca9939",
+  "slug": "sustainable-returns-ecommerce-profit-en",
+  "title": "Cost & ROI Breakdown: Sustainable Returns to Cut Waste & Boost Profit",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 21,
+  "to": "ecommerce-returns-logistics-2025-smart-hubs-en",
+  "sim": 0.36
+ },
+ {
+  "id": "86a67a0c-5516-4300-bb30-7edd806c6b6f",
+  "slug": "reverse-logistics-strategy-costs-millions-profit-en",
+  "title": "Why Your Reverse Logistics Strategy Costs Millions (Turn Returns to Profit)",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 25.8,
+  "to": "reverse-logistics-best-practices-2025-profit-centers-en",
+  "sim": 0.56
+ },
+ {
+  "id": "8965e95b-471c-40fb-9d5a-bd5315279bff",
+  "slug": "customer-returns-logistics-playbook-2025-en",
+  "title": "Customer Returns Logistics Playbook: Boost NPS, Cut Costs 15%",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 21.5,
+  "to": "return-packaging-optimization-2025-playbook-en",
+  "sim": 0.33
+ },
+ {
+  "id": "89b03ffe-bb46-4ef3-bccc-340f59e0a050",
+  "slug": "agv-warehouse-roi-2025-efficiency-transformation-en",
+  "title": "AGV Warehouse ROI: 18-Month Returns & Bottleneck Busting",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 24.4,
+  "to": "2025-returns-as-a-service-playbook-en",
+  "sim": 0.08
+ },
+ {
+  "id": "95773f5f-ba2f-43cb-806e-f5bef92e787b",
+  "slug": "reverse-logistics-strategy-2025-playbook-en",
+  "title": "The Reverse Logistics Playbook: Turn Returns into Revenue",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 27.4,
+  "to": "reverse-logistics-best-practices-2025-profit-centers-en",
+  "sim": 0.5
+ },
+ {
+  "id": "99aa21da-25df-4d28-b872-8160d5cfd1f1",
+  "slug": "product-recall-logistics-playbook-2025-en",
+  "title": "The Product Recall Logistics Playbook: Minimize Costs & Protect Brand",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 17.3,
+  "to": "food-recall-logistics-playbook-2025-en",
+  "sim": 0.27
+ },
+ {
+  "id": "e8625c14-0ba9-4de0-80b7-63070abb2284",
+  "slug": "electronics-returns-refurbishment-2025-asset-recovery-en",
+  "title": "Electronics Returns Refurbishment Playbook: Boost Asset Recovery 30%",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 24.6,
+  "to": "repair-refurbishment-logistics-playbook-2025-en",
+  "sim": 0.25
+ },
+ {
+  "id": "f2748741-0217-4c8b-9d52-853ab74fd8f6",
+  "slug": "e-commerce-returns-automation-2025-profit-playbook-en",
+  "title": "E-commerce Returns Automation: Your Playbook for Profit",
+  "cluster": "Reverse Logistics & Returns Management",
+  "score": 24.9,
+  "to": "e-commerce-returns-processing-2025-profit-centers-en",
+  "sim": 0.38
+ },
+ {
+  "id": "029d6d4e-99ed-4417-bba8-ee7e898a0b9b",
+  "slug": "customs-clearance-tips-audit-proof-2025-playbook-en",
+  "title": "Customs Audit-Proof International Shipments: Avoid 6-Figure Fines (Playbook)",
+  "cluster": "Import/Export Customs Brokerage & Documentation",
+  "score": 26.9,
+  "to": "customs-valuation-playbook-2025-en",
+  "sim": 0.17
+ },
+ {
+  "id": "0f9664c7-9cb1-4a28-8ee2-6e2d80b371ef",
+  "slug": "mexico-customs-clearance-2025-shipment-speedup-en",
+  "title": "Mexico Customs Clearance: Improve Shipments, Reduce Fines",
+  "cluster": "Import/Export Customs Brokerage & Documentation",
+  "score": 26.4,
+  "to": "customs-clearance-tips-importer-mistakes-avoid-en",
+  "sim": 0.18
+ },
+ {
+  "id": "14c1eacf-6444-474e-964f-8d748c7ab5d8",
+  "slug": "usmca-compliance-motor-carriers-playbook-2025-en",
+  "title": "USMCA Compliance for Motor Carriers: Avoiding Border Delays",
+  "cluster": "Import/Export Customs Brokerage & Documentation",
+  "score": 24.3,
+  "to": "customs-broker-selection-2025-guide-en",
+  "sim": 0.18
+ },
+ {
+  "id": "1f17f239-7b76-45e2-8a23-00eccd9eebd4",
+  "slug": "ai-customs-declarations-2025-slash-errors-speed-global-shipments-en",
+  "title": "AI Customs Declarations: Reduce Errors, Speed Shipments",
+  "cluster": "Import/Export Customs Brokerage & Documentation",
+  "score": 21.8,
+  "to": "customs-valuation-playbook-2025-en",
+  "sim": 0.08
+ },
+ {
+  "id": "a30bc938-db84-472f-92dc-f5b4031f473e",
+  "slug": "cross-border-ecommerce-logistics-playbook-2025-en",
+  "title": "The Cross-Border E-commerce Logistics Playbook: Conquer Global Shipping",
+  "cluster": "Import/Export Customs Brokerage & Documentation",
+  "score": 26.9,
+  "to": "us-mexico-border-tech-digitalizing-freight-en",
+  "sim": 0.07
+ },
+ {
+  "id": "abf04e8a-f5b6-4715-9fe6-edc6e0180e7d",
+  "slug": "blockchain-freight-payments-fraud-fix-2025-en",
+  "title": "Blockchain Freight Payments: Fraud, Delays & the Expert Fix",
+  "cluster": "Import/Export Customs Brokerage & Documentation",
+  "score": 28,
+  "to": "blockchain-freight-payments-2025-end-delays-disputes-en",
+  "sim": 0.44
+ },
+ {
+  "id": "ef6feece-c411-4b93-a162-03a14d226013",
+  "slug": "border-crossing-optimization-us-mx-delays-en",
+  "title": "Border Crossing Optimization Playbook: Cut US-MX Delays by 40%",
+  "cluster": "Import/Export Customs Brokerage & Documentation",
+  "score": 24.2,
+  "to": "us-mexico-border-tech-digitalizing-freight-en",
+  "sim": 0.22
+ },
+ {
+  "id": "fba9b857-0675-4066-8991-d5a53f50a875",
+  "slug": "customs-broker-selection-playbook-2025-en",
+  "title": "The Customs Broker Selection Playbook: Avoid $20,000 in Import Fines",
+  "cluster": "Import/Export Customs Brokerage & Documentation",
+  "score": 30.1,
+  "to": "customs-broker-selection-2025-guide-en",
+  "sim": 0.57
+ },
+ {
+  "id": "0395d0f7-c5ac-4651-a675-822d9ff1e983",
+  "slug": "container-triangulation-2025-cut-drayage-detention-en",
+  "title": "Container Triangulation: Reduce Drayage and Detention Costs",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 10.7,
+  "to": "container-drayage-checklist-cut-detention-demurrage-en",
+  "sim": 0.43
+ },
+ {
+  "id": "0a9c1d9b-3ec8-4599-9a40-2325a5817250",
+  "slug": "drayage-capacity-crunch-2025-playbook-en",
+  "title": "Drayage Capacity Crunch: Manage Delays and Avoid Penalties",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 25.9,
+  "to": "2025-chassis-management-playbook-cut-drayage-delays-en",
+  "sim": 0.2
+ },
+ {
+  "id": "0f58164c-505d-47ff-8325-985b427f6c6b",
+  "slug": "chassis-management-playbook-cut-costs-delays-2025-en",
+  "title": "Chassis Management: Reduce Costs and Prevent Port Delays",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 24.5,
+  "to": "2025-chassis-management-playbook-cut-drayage-delays-en",
+  "sim": 0.33
+ },
+ {
+  "id": "19ef356a-2cd1-4c10-953b-4df0a2696dad",
+  "slug": "automotive-parts-logistics-2025-prevent-stoppages-en",
+  "title": "Automotive Parts Logistics: The Playbook to Prevent Production Stoppages",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 27.6,
+  "to": "auto-parts-logistics-delays-costs-2025-fix-en",
+  "sim": 0.18
+ },
+ {
+  "id": "2494a8b9-7ac9-4fd2-aea8-bdd0a8fdfeaf",
+  "slug": "truck-appointment-scheduling-playbook-2025-en",
+  "title": "Truck Appointment Scheduling: Improve Efficiency",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 26.7,
+  "to": "inbound-logistics-optimization-2025-en",
+  "sim": 0.14
+ },
+ {
+  "id": "2bbe1578-4033-49f0-8d14-f6aa3ba25960",
+  "slug": "chassis-management-playbook-2025-en",
+  "title": "Chassis Management: Prevent Rollovers and Reduce Costs",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 25.5,
+  "to": "2025-chassis-management-playbook-cut-drayage-delays-en",
+  "sim": 0.22
+ },
+ {
+  "id": "31b73059-d855-4d2e-be98-ee67309a47d6",
+  "slug": "customs-valuation-methods-playbook-2025-en",
+  "title": "The Customs Valuation Playbook: Slash Import Duties by 10% Legally",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 27.3,
+  "to": "predictive-port-congestion-2025-playbook-en",
+  "sim": 0.09
+ },
+ {
+  "id": "38f16c9e-3a06-4822-99ea-fe6f40dc6c4b",
+  "slug": "nft-cargo-tracking-secure-ownership-counterfeit-combat-2025-en",
+  "title": "NFT Cargo Tracking: Secure Ownership & Counterfeit Combat",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 26.2,
+  "to": "ai-demand-forecasting-freight-2025-en",
+  "sim": 0
+ },
+ {
+  "id": "3ffbd55a-6e6b-4e5e-8e1e-b94813525b33",
+  "slug": "port-throughput-optimization-2025-cut-turn-times-30-en",
+  "title": "Port Throughput Optimization: Cut Turn Times by 30%",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 19.3,
+  "to": "port-gate-automation-playbook-2025-en",
+  "sim": 0.43
+ },
+ {
+  "id": "49951b9c-e434-405f-bf9c-d648fd409706",
+  "slug": "port-congestion-forecast-2025-mitigation-en",
+  "title": "Port Congestion: Forecast, Hidden Costs & Your Expert Mitigation Plan",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 13,
+  "to": "port-congestion-prediction-ai-fix-en",
+  "sim": 0.23
+ },
+ {
+  "id": "4b6a76b4-87a9-495a-89c5-db433cc8525d",
+  "slug": "drayage-optimization-2025-port-congestion-en",
+  "title": "The Drayage Optimization Playbook: Cut Port Congestion & Boost Turn Times",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 23.3,
+  "to": "port-gate-automation-playbook-2025-en",
+  "sim": 0.57
+ },
+ {
+  "id": "4cc14dd6-3399-477d-9935-f310861a10f0",
+  "slug": "trans-caspian-corridor-2025-asia-europe-trade-en",
+  "title": "Trans-Caspian Corridor: What it Means for Asia-Europe Trade",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 26.4,
+  "to": "balkan-logistics-hubs-2025-en",
+  "sim": 0.15
+ },
+ {
+  "id": "55e5fd31-5209-498b-8c0f-9a8a93252863",
+  "slug": "dock-scheduling-software-roi-driver-detention-fix-en",
+  "title": "Driver Detention's Silent Drain: Real Costs & Dock Scheduling ROI Fix",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 27.3,
+  "to": "port-congestion-prediction-ai-fix-en",
+  "sim": 0.19
+ },
+ {
+  "id": "5dea36e5-00d6-4482-bfdf-ce4bd0420e91",
+  "slug": "container-demurrage-detention-fees-2025-en",
+  "title": "Container Demurrage & Detention: Avoid $1000s in Hidden Fees",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 28.9,
+  "to": "reduce-demurrage-and-detention-hidden-costs-strategies-en",
+  "sim": 0.5
+ },
+ {
+  "id": "7cec01b8-eacd-4e5c-b5cb-48f9e9ed8d23",
+  "slug": "produce-export-logistics-2025-spoilage-prevention-en",
+  "title": "The Produce Export Logistics Playbook: Cut Spoilage by 25%",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 27.7,
+  "to": "inbound-logistics-optimization-2025-en",
+  "sim": 0.13
+ },
+ {
+  "id": "beb91ad7-53c1-4215-940c-ef1a23c6a1b5",
+  "slug": "port-congestion-prediction-slash-delays-drayage-costs-en",
+  "title": "The Port Congestion Playbook: Slash Delays & Drayage Costs",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 24.6,
+  "to": "port-congestion-prediction-ai-fix-en",
+  "sim": 0.36
+ },
+ {
+  "id": "bfc5230d-1fec-4797-b89e-e267a7f7f573",
+  "slug": "port-gate-automation-2025-cut-turn-times-en",
+  "title": "Port Gate Automation: Cut Turn Times 40% & Boost Security",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 25.2,
+  "to": "port-gate-automation-playbook-2025-en",
+  "sim": 0.71
+ },
+ {
+  "id": "c14dee4e-a6ee-45f9-8dbc-30fd0d490b25",
+  "slug": "port-performance-metrics-playbook-slash-drayage-costs-en",
+  "title": "The Port Performance Metrics Playbook: Benchmark & Slash Drayage Costs",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 17.1,
+  "to": "port-efficiency-metrics-playbook-2025-en",
+  "sim": 0.44
+ },
+ {
+  "id": "d17ea24e-06e0-43fb-8e3d-73abf67a2f5a",
+  "slug": "port-gate-automation-2025-turn-times-fees-en",
+  "title": "Port Gate Automation: Speed Up Turn Times, Cut Fees",
+  "cluster": "Drayage, Port & Terminal Operations",
+  "score": 25.3,
+  "to": "port-gate-automation-playbook-2025-en",
+  "sim": 0.63
+ },
+ {
+  "id": "57e86365-a826-42b1-a235-0d2ffbcfe1b3",
+  "slug": "ev-truck-battery-degradation-2025-en",
+  "title": "EV Truck Battery Degradation: Causes, Real Costs & the Expert Fix",
+  "cluster": "EV Trucks & Alternative Fuel Adoption",
+  "score": 19.9,
+  "to": "electric-truck-charging-guide-2025-en",
+  "sim": 0.17
+ },
+ {
+  "id": "5d76af37-c1f3-4b2a-8c0a-620e0f23e2e5",
+  "slug": "ev-charging-infrastructure-planning-playbook-2025-en",
+  "title": "EV Charging Infrastructure Playbook: EV Charging Planning",
+  "cluster": "EV Trucks & Alternative Fuel Adoption",
+  "score": 35,
+  "to": "ev-truck-charging-infrastructure-2025-playbook-en",
+  "sim": 0.5
+ },
+ {
+  "id": "da24d937-4540-4e02-a259-3ebe1ea00d70",
+  "slug": "hydrogen-fuel-cell-trucks-2025-en",
+  "title": "Hydrogen Fuel Cell Trucks: Infrastructure, Costs & Range Reality",
+  "cluster": "EV Trucks & Alternative Fuel Adoption",
+  "score": 27.4,
+  "to": "hydrogen-fuel-cell-trucks-tco-roi-2025-en",
+  "sim": 0.6
+ },
+ {
+  "id": "dec69566-662f-4739-b171-cfa2f71f4e3e",
+  "slug": "ev-charging-infrastructure-logistics-playbook-2025-en",
+  "title": "The EV Charging Infrastructure Logistics Playbook: Accelerate Network Rollout",
+  "cluster": "EV Trucks & Alternative Fuel Adoption",
+  "score": 20.9,
+  "to": "electric-charging-infrastructure-2025-maximize-fleet-uptime-en",
+  "sim": 0.22
+ },
+ {
+  "id": "df9134f8-5f20-4d39-b985-5a0ca7ba6dd4",
+  "slug": "electric-truck-tco-2025-hidden-battery-costs-en",
+  "title": "The Electric Truck TCO Playbook: Navigating Hidden Battery & Resale Traps",
+  "cluster": "EV Trucks & Alternative Fuel Adoption",
+  "score": 18.5,
+  "to": "electric-truck-charging-guide-2025-en",
+  "sim": 0.25
+ },
+ {
+  "id": "ead23062-3831-4103-b037-8119ebbca7e3",
+  "slug": "fleet-microgrid-charging-playbook-2025-en",
+  "title": "Fleet Microgrid Charging Playbook: EV Uptime & Cost Savings",
+  "cluster": "EV Trucks & Alternative Fuel Adoption",
+  "score": 27.7,
+  "to": "electric-charging-infrastructure-2025-maximize-fleet-uptime-en",
+  "sim": 0.38
+ },
+ {
+  "id": "efe4c8a9-3c05-4d29-a526-886319cbac55",
+  "slug": "ev-charging-infrastructure-playbook-2025-en",
+  "title": "EV Charging Infrastructure Playbook: Fleet Electrification Success",
+  "cluster": "EV Trucks & Alternative Fuel Adoption",
+  "score": 22,
+  "to": "electric-charging-infrastructure-2025-maximize-fleet-uptime-en",
+  "sim": 0.43
+ },
+ {
+  "id": "46676eb7-e974-4be9-800f-3e5381bd58f2",
+  "slug": "shipper-cargo-liability-protect-shipments-2025-en",
+  "title": "Shipper's Cargo Liability: Protect Shipments Beyond Carrier Limits",
+  "cluster": "FMCSA Safety Ratings, CSA Scores & DOT Audits",
+  "score": 30.5,
+  "to": "carrier-vetting-process-masterclass-en",
+  "sim": 0.15
+ },
+ {
+  "id": "a02ca679-da9c-4a8e-9d1e-03afb2199f8e",
+  "slug": "fmcsa-safety-management-systems-2025-csa-en",
+  "title": "The FMCSA Safety Management Systems Playbook: Boost Your CSA Rating",
+  "cluster": "FMCSA Safety Ratings, CSA Scores & DOT Audits",
+  "score": 27.1,
+  "to": "fmcsa-safety-rating-playbook-2025-en",
+  "sim": 0.38
+ },
+ {
+  "id": "a55a8ef1-604b-4a2f-a436-cac3358f5c57",
+  "slug": "csa-score-improvement-2025-en",
+  "title": "The CSA Score Improvement Playbook: Boost Your Rating & Win Freight",
+  "cluster": "FMCSA Safety Ratings, CSA Scores & DOT Audits",
+  "score": 26.7,
+  "to": "csa-score-improvement-strategies-2025-en",
+  "sim": 0.5
+ },
+ {
+  "id": "a82ade06-06bb-4016-9628-8a458540fac0",
+  "slug": "fmcsa-data-quality-impact-false-violations-en",
+  "title": "FMCSA Data Quality: Causes, Costs & Your Expert Fix | Loadly",
+  "cluster": "FMCSA Safety Ratings, CSA Scores & DOT Audits",
+  "score": 29.7,
+  "to": "fmcsa-safety-rating-playbook-2025-en",
+  "sim": 0.14
+ },
+ {
+  "id": "c98d15f2-4129-4856-8810-85eb097e7350",
+  "slug": "fmcsa-clearinghouse-playbook-2025-en",
+  "title": "FMCSA Clearinghouse Playbook: Avoid Hiring Delays & Compliance Fines",
+  "cluster": "FMCSA Safety Ratings, CSA Scores & DOT Audits",
+  "score": 23.8,
+  "to": "fmcsa-safety-rating-playbook-2025-en",
+  "sim": 0.22
+ },
+ {
+  "id": "e95be877-e021-485d-9c89-d37655918f82",
+  "slug": "dot-new-entrant-audit-playbook-2025-en",
+  "title": "The DOT New Entrant Audit Playbook: Pass Flawlessly",
+  "cluster": "FMCSA Safety Ratings, CSA Scores & DOT Audits",
+  "score": 30.5,
+  "to": "fmcsa-new-entrant-audit-survival-guide-2025-en",
+  "sim": 0.44
+ },
+ {
+  "id": "052b2b08-cd8d-421d-ace8-22f67b6194ae",
+  "slug": "e-commerce-2-day-delivery-playbook-2025-en",
+  "title": "E-commerce 2-Day Delivery: Strategies for Fast Shipping",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 9.7,
+  "to": "e-commerce-shipping-integrations-2025-guide-en",
+  "sim": 0.38
+ },
+ {
+  "id": "12c01740-6d0f-4206-b3a0-0938b883f249",
+  "slug": "ltl-freight-class-errors-claims-denied-fix-en",
+  "title": "LTL Freight Class Errors: Why 73% of Claims Get Denied (And The Fix)",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 25.6,
+  "to": "freight-class-optimization-2025-ltl-costs-en",
+  "sim": 0.3
+ },
+ {
+  "id": "19cba60d-9f44-44c5-a8dd-37c053994928",
+  "slug": "ltl-dimensional-weight-2025-rebills-formula-en",
+  "title": "LTL Dimensional Weight: Avoid 30% Re-bills with This Formula",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 23.7,
+  "to": "ltl-dimensional-weight-overcharges-2025-en",
+  "sim": 0.3
+ },
+ {
+  "id": "223f657b-8f94-47dc-bf19-093cc8e0c943",
+  "slug": "sustainable-packaging-logistics-playbook-2025-en",
+  "title": "The Sustainable Packaging Logistics Playbook: Slash Costs & Boost Brand",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 25.1,
+  "to": "2025-dropshipping-logistics-playbook-master-global-shipping-en",
+  "sim": 0.23
+ },
+ {
+  "id": "37a26218-4e14-4da6-bcac-4d222882a415",
+  "slug": "ltl-hidden-shipping-costs-small-business-affordable-quote-en",
+  "title": "Why Your 'Affordable' LTL Quote Is Doubling Your LTL Hidden Shipping Costs",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 25,
+  "to": "small-business-ltl-shipping-cost-secrets-en",
+  "sim": 0.45
+ },
+ {
+  "id": "464b3cc6-2ba6-484f-af5a-cb65d5e100e2",
+  "slug": "parcel-vs-ltl-small-business-hidden-costs-explained-en",
+  "title": "Why Your Parcel Shipping Secretly Costs More: Parcel vs LTL for Small Business",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 23.8,
+  "to": "small-business-ltl-shipping-cost-secrets-en",
+  "sim": 0.42
+ },
+ {
+  "id": "4ba7f1ca-71c3-46c7-b67b-2d97e6646e8f",
+  "slug": "understanding-freight-class-2025-ltl-savings-rebills-en",
+  "title": "The Freight Class Playbook: Maximize LTL Savings & Avoid Re-Bills",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 21.3,
+  "to": "freight-class-optimization-2025-ltl-costs-en",
+  "sim": 0.33
+ },
+ {
+  "id": "51d7ff51-0107-4739-91d3-6d9ad3c34bf3",
+  "slug": "audit-freight-invoices-2025-uncover-overcharges-en",
+  "title": "The Freight Invoice Audit Playbook: Uncover Hidden Fees",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 17.7,
+  "to": "ltl-freight-class-overcharges-guide-2025-en",
+  "sim": 0.36
+ },
+ {
+  "id": "53ac272f-f6b0-425f-9565-c9916d95cca6",
+  "slug": "ltl-density-calculator-2025-cost-cutting-en",
+  "title": "LTL Density Calculator Playbook: Cut Costs 15% with Packaging & Class",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 25.5,
+  "to": "freight-class-optimization-2025-ltl-costs-en",
+  "sim": 0.33
+ },
+ {
+  "id": "7125152c-41c7-4318-94a6-2288198d268b",
+  "slug": "affordable-freight-for-small-business-unlock-enterprise-rates-en",
+  "title": "Unlock Enterprise Freight Rates: Essential Affordable Freight for Small Business",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 29.8,
+  "to": "affordable-freight-for-small-business-automate-shipping-enterprise-rates-en",
+  "sim": 0.67
+ },
+ {
+  "id": "8fafef94-7e98-4ff7-9416-d6902d1e9d69",
+  "slug": "ltl-consolidation-strategy-playbook-2025-en",
+  "title": "The LTL Consolidation Strategy Playbook: Cut Costs 12%, Boost Speed",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 19.6,
+  "to": "freight-class-optimization-2025-ltl-costs-en",
+  "sim": 0.29
+ },
+ {
+  "id": "acfdb0c0-3146-46d5-8ccf-2e059b062bf1",
+  "slug": "ltl-carrier-consolidation-2025-cost-cut-en",
+  "title": "LTL Carrier Consolidation Playbook: Cut 15% Costs & Boost Reliability",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 14.7,
+  "to": "2025-ltl-carrier-selection-playbook-en",
+  "sim": 0.43
+ },
+ {
+  "id": "dca053d5-9fb1-4c38-8242-daa99b95bcc3",
+  "slug": "ai-demand-forecasting-logistics-playbook-2025-en",
+  "title": "The AI Demand Forecasting Playbook: Prevent Stockouts & Optimize Inventory",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 19.4,
+  "to": "craft-beer-logistics-playbook-prevent-spoilage-en",
+  "sim": 0.18
+ },
+ {
+  "id": "e2c78b94-c0f6-49dd-9091-fcb33d310fd2",
+  "slug": "ltl-freight-class-optimization-2025-strategy-en",
+  "title": "LTL Freight Class Optimization: Your Reclassification Strategy to Cut Costs",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 21.4,
+  "to": "freight-class-optimization-2025-ltl-costs-en",
+  "sim": 0.67
+ },
+ {
+  "id": "ebdb2bfd-5e60-41bb-aff8-d88bac32bc88",
+  "slug": "ltl-accessorial-charges-playbook-2025-en",
+  "title": "The LTL Accessorial Charges Playbook: Cut Hidden Fees & Avoid Re-Bills",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 18.7,
+  "to": "ltl-accessorial-charges-2025-playbook-en",
+  "sim": 0.63
+ },
+ {
+  "id": "ee30f05d-7bdd-4b84-809d-4eef05f4e28a",
+  "slug": "ltl-damage-prevention-2025-claim-cutting-playbook-en",
+  "title": "LTL Damage Prevention: Causes, Costs & Your 30% Claim-Cut Playbook",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 21.5,
+  "to": "palletization-best-practices-2025-en",
+  "sim": 0.33
+ },
+ {
+  "id": "f613c276-6b75-44d4-9c91-3910ef6cdd39",
+  "slug": "freight-cost-reduction-playbook-ecommerce-2025-en",
+  "title": "The Complete Freight Cost Reduction Playbook for E-commerce Businesses",
+  "cluster": "LTL Freight Optimization & Freight Class",
+  "score": 18.6,
+  "to": "freight-class-optimization-2025-ltl-costs-en",
+  "sim": 0.22
+ },
+ {
+  "id": "052bf1a6-261b-4237-9217-588fd6b6be4c",
+  "slug": "heavy-construction-equipment-rental-logistics-2025-cost-cut-en",
+  "title": "Heavy Equipment Rental Logistics: Reduce Project Costs",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 27.4,
+  "to": "heavy-equipment-relocation-2025-downtime-costs-en",
+  "sim": 0.44
+ },
+ {
+  "id": "2803b81e-514b-4485-b67e-6454d63a3f47",
+  "slug": "offshore-wind-logistics-playbook-2025-en",
+  "title": "Offshore Wind Logistics: Managing Complex Component Delivery",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 27.4,
+  "to": "wind-turbine-logistics-playbook-2025-en",
+  "sim": 0.27
+ },
+ {
+  "id": "37796003-7937-4411-864b-5dd1e890b670",
+  "slug": "construction-site-logistics-prevent-delays-overruns-2025-en",
+  "title": "The Construction Site Logistics Playbook: Prevent Delays & Overruns",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 11.8,
+  "to": "construction-equipment-logistics-2025-guide-en",
+  "sim": 0.56
+ },
+ {
+  "id": "446fa60c-c436-438e-8a5c-df67a34309e6",
+  "slug": "wind-turbine-project-logistics-playbook-2025-en",
+  "title": "The Wind Turbine Project Logistics Playbook: Speed Installation, Cut Risks",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 29.8,
+  "to": "wind-turbine-logistics-playbook-2025-en",
+  "sim": 0.27
+ },
+ {
+  "id": "4b78dfcf-8c7c-4adc-b7d4-fc187e30b492",
+  "slug": "oversize-load-escort-rules-2025-en",
+  "title": "The Oversize Load Escort Rules Playbook: Avoid Fines & Secure Routes",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 22.7,
+  "to": "over-dimensional-load-escort-regulations-2025-playbook-en",
+  "sim": 0.25
+ },
+ {
+  "id": "a9c229e8-8822-4940-b9c2-2d01bd2573cf",
+  "slug": "offshore-wind-logistics-north-sea-2025-en",
+  "title": "The Offshore Wind Logistics Playbook: North Sea Project Delivery",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 17.4,
+  "to": "2025-jit-construction-delivery-playbook-cut-project-delays-en",
+  "sim": 0.2
+ },
+ {
+  "id": "bbd00373-ba6d-4ed4-9b40-c8804d8e9072",
+  "slug": "construction-site-logistics-playbook-2025-en",
+  "title": "Construction Site Logistics Playbook: Cut Delays 20% & Boost Safety",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 28.6,
+  "to": "construction-equipment-logistics-2025-guide-en",
+  "sim": 0.44
+ },
+ {
+  "id": "cedcef39-56b7-4be2-a692-1a0c484ae756",
+  "slug": "renewable-energy-logistics-oversize-costs-expert-fix-en",
+  "title": "Renewable Energy Logistics: Oversize Costs & Expert Fix",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 25.1,
+  "to": "construction-waste-logistics-playbook-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "d7d7d55f-a2f5-480c-8649-b912db8da327",
+  "slug": "oversize-permit-acquisition-2025-playbook-en",
+  "title": "The Oversize Permit Acquisition Playbook: Expedite Shipments",
+  "cluster": "Oversized, Heavy Haul & Out-of-Gauge Cargo",
+  "score": 29.7,
+  "to": "oversize-load-permit-playbook-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "05501cd0-285a-47a8-ac20-d9b8fa90d2e9",
+  "slug": "ai-trade-compliance-eliminates-fines-no-manual-audits-en",
+  "title": "AI for Trade Compliance: Reduce Fines and Audits",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 24.4,
+  "to": "brexit-customs-declarations-audit-en",
+  "sim": 0.18
+ },
+ {
+  "id": "074032f3-6ded-4cab-9ea0-cdd44e9be803",
+  "slug": "warehouse-slotting-strategy-2025-efficiency-en",
+  "title": "Warehouse Slotting Strategy: Improve Picking and Throughput",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 24.5,
+  "to": "automated-forklifts-warehouse-roi-2025-en",
+  "sim": 0.22
+ },
+ {
+  "id": "16e58583-6302-4ba2-87a1-db4b290d3e08",
+  "slug": "letter-of-credit-freight-playbook-2025-en",
+  "title": "The Letter of Credit Freight Playbook: Secure Payments, Minimize Risk",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 27.9,
+  "to": "standby-letter-of-credit-playbook-2025-en",
+  "sim": 0.36
+ },
+ {
+  "id": "17521aba-3754-431a-91d0-bfc54d63441f",
+  "slug": "2025-trade-finance-for-importers-playbook-en",
+  "title": "The Trade Finance for Importers Playbook: Unlock Capital & Manage Risk",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 20.6,
+  "to": "incoterms-2025-masterclass-cut-costs-risk-en",
+  "sim": 0.2
+ },
+ {
+  "id": "412acc29-01b3-4270-8b56-4d12a7af722e",
+  "slug": "incoterms-dpu-vs-dap-2025-en",
+  "title": "Incoterms DPU vs DAP: Which One Saves You Money & Headaches?",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 27.6,
+  "to": "incoterms-ddp-dap-ecommerce-guide-en",
+  "sim": 0.17
+ },
+ {
+  "id": "5099fe00-c283-439f-96c5-b5b9462fd552",
+  "slug": "letters-of-credit-secure-international-shipments-en",
+  "title": "The Letters of Credit Tutorial: Secure Shipments, Avoid Payment Defaults",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 14.1,
+  "to": "standby-letter-of-credit-playbook-2025-en",
+  "sim": 0.23
+ },
+ {
+  "id": "6747d5b7-cc96-4404-b53b-b2e0aa360afc",
+  "slug": "georgia-azerbaijan-trade-routes-2025-en",
+  "title": "Georgia Azerbaijan Trade Playbook: Unlock Caucasus Logistics",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 27.8,
+  "to": "trans-caspian-corridor-logistics-asia-europe-trade-2025-en",
+  "sim": 0.18
+ },
+ {
+  "id": "6cdf0603-bbe7-4a15-b727-2e32fde11c2d",
+  "slug": "trans-caspian-routes-unlock-markets-bypass-congestion-en",
+  "title": "Trans-Caspian Routes: Unlock Markets, Bypass Congestion",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 25.5,
+  "to": "trans-caspian-corridor-expansion-importers-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "7597e8e8-c6d4-4ab8-8e78-7b3af5ac04a5",
+  "slug": "china-europe-rail-turkey-unlock-speed-cost-en",
+  "title": "China Europe Rail Turkey: Unlock Speed & Cost Advantages",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 19.2,
+  "to": "incoterms-2025-masterclass-cut-costs-risk-en",
+  "sim": 0.08
+ },
+ {
+  "id": "88cde307-1c09-4fcd-9bdd-37f7ec67458f",
+  "slug": "balkans-freight-corridor-2025-playbook-en",
+  "title": "Balkans Freight Corridor: Your Playbook for 18% Faster Trade",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 27.8,
+  "to": "trans-caspian-corridor-logistics-asia-europe-trade-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "89783b1f-365f-412d-aab2-a9499847bddc",
+  "slug": "supply-chain-resilience-manufacturing-without-massive-capital-en",
+  "title": "How to Achieve Supply Chain Resilience Manufacturing Without Massive Capital Investment",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 26.1,
+  "to": "supply-chain-finance-global-playbook-2025-en",
+  "sim": 0.23
+ },
+ {
+  "id": "99014ed2-e7a6-4d1d-9ffc-b58046ced508",
+  "slug": "import-customs-declarations-guide-2025-en",
+  "title": "The Import Customs Declaration Playbook: Avoid Fines & Delays",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 23.6,
+  "to": "brexit-customs-declarations-audit-en",
+  "sim": 0.5
+ },
+ {
+  "id": "a802f724-cee4-47e5-8aaa-ae6418abdee1",
+  "slug": "trade-finance-explained-2025-global-payments-cash-flow-en",
+  "title": "The Trade Finance Playbook: Secure Global Payments & Optimize Cash Flow",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 13.1,
+  "to": "supply-chain-finance-global-playbook-2025-en",
+  "sim": 0.36
+ },
+ {
+  "id": "b601609a-6265-4ddb-a800-c42acac33561",
+  "slug": "incoterms-2020-explained-slash-delays-boost-global-profit-en",
+  "title": "The Ultimate Incoterms 2020 Explained: Slash Delays, Boost Global Profit",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 24.5,
+  "to": "incoterms-2025-masterclass-cut-costs-risk-en",
+  "sim": 0.2
+ },
+ {
+  "id": "bc0038fb-58fb-41bc-a322-52a82c5993cb",
+  "slug": "export-customs-declarations-playbook-2025-en",
+  "title": "Export Customs Declarations Playbook: Avoid 90% of Penalties",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 24.8,
+  "to": "customs-valuation-playbook-cut-duties-penalties-en",
+  "sim": 0.29
+ },
+ {
+  "id": "ebf9ad11-02a6-4aef-bb0f-de9b0329fa9e",
+  "slug": "trade-credit-insurance-playbook-2025-en",
+  "title": "The Trade Credit Insurance Playbook: Protect Your Global Sales & Cash Flow",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 0.2,
+  "to": "supply-chain-finance-global-playbook-2025-en",
+  "sim": 0.25
+ },
+ {
+  "id": "ed3c917f-0975-4af0-8542-827b13ce32f7",
+  "slug": "incoterms-2025-cif-fob-avoid-delays-en",
+  "title": "Incoterms: CIF vs. FOB Demystified – Avoid $15,000 Delays",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 27.8,
+  "to": "cif-vs-fob-incoterms-2025-en",
+  "sim": 0.38
+ },
+ {
+  "id": "eed5d0ec-599e-460f-b160-cd1f0fa19bf0",
+  "slug": "trade-finance-options-playbook-2025-en",
+  "title": "The Trade Finance Options Playbook: Unlock Global Growth",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 15.9,
+  "to": "incoterms-2025-masterclass-cut-costs-risk-en",
+  "sim": 0.22
+ },
+ {
+  "id": "f1e03513-b053-47ce-9bff-a0f7ade9db2c",
+  "slug": "customs-audit-survival-playbook-2025-en",
+  "title": "Customs Audit Survival: Avoid Penalties & Reclaim Duties",
+  "cluster": "Incoterms, Trade Finance & Letter of Credit",
+  "score": 27.1,
+  "to": "customs-valuation-playbook-cut-duties-penalties-en",
+  "sim": 0.38
+ },
+ {
+  "id": "058e9768-65a7-457e-b762-9d45702911fc",
+  "slug": "global-ecommerce-shipping-master-customs-cross-border-en",
+  "title": "Global Ecommerce Shipping: Customs and Cross-Border Delivery",
+  "cluster": "E-commerce Fulfillment & Shipping Strategy",
+  "score": 27.3,
+  "to": "smart-packaging-ecommerce-innovations-2025-en",
+  "sim": 0.1
+ },
+ {
+  "id": "d399cfb9-30dd-4138-981c-5ce48eac829b",
+  "slug": "ecommerce-fulfillment-models-2025-guide-en",
+  "title": "The E-commerce Fulfillment Playbook: Cut Costs 15%, Boost Speed",
+  "cluster": "E-commerce Fulfillment & Shipping Strategy",
+  "score": 29.3,
+  "to": "e-commerce-order-batching-2025-fulfillment-cost-cuts-en",
+  "sim": 0.4
+ },
+ {
+  "id": "efc06132-56f3-455f-8161-df259beeda4c",
+  "slug": "cross-border-ecommerce-fulfillment-playbook-2025-en",
+  "title": "The Cross-Border E-commerce Fulfillment Playbook: Expand Globally Profitably",
+  "cluster": "E-commerce Fulfillment & Shipping Strategy",
+  "score": 30.6,
+  "to": "e-commerce-order-batching-2025-fulfillment-cost-cuts-en",
+  "sim": 0.14
+ },
+ {
+  "id": "0bc8aa8d-ad30-48bc-836f-0f555c6edd23",
+  "slug": "2025-direct-shipper-contract-negotiation-playbook-en",
+  "title": "Direct Shipper Contract Negotiation: Secure Favorable Terms",
+  "cluster": "Direct Shipper Relationships & Dedicated Lanes",
+  "score": 23.3,
+  "to": "direct-shipper-prospecting-playbook-2025-en",
+  "sim": 0.44
+ },
+ {
+  "id": "345793ee-3e5e-4db1-9565-b89e06284213",
+  "slug": "building-shipper-relationships-dedicated-lane-playbook-2025-en",
+  "title": "Building Shipper Relationships: Dedicated Lane Playbook",
+  "cluster": "Direct Shipper Relationships & Dedicated Lanes",
+  "score": 22,
+  "to": "dedicated-lane-contract-playbook-2025-en",
+  "sim": 0.22
+ },
+ {
+  "id": "57dedbf0-0c11-4343-817a-90e5df6b65bb",
+  "slug": "freight-cold-email-playbook-2025-en",
+  "title": "Freight Cold Email Playbook: Win Direct Shipper Contracts",
+  "cluster": "Direct Shipper Relationships & Dedicated Lanes",
+  "score": 21,
+  "to": "direct-shipper-prospecting-playbook-2025-en",
+  "sim": 0.3
+ },
+ {
+  "id": "3d18e8a3-9b0e-4b2e-a2e1-35abaaa0f2d7",
+  "slug": "cargo-tracking-devices-2025-deter-theft-recover-stolen-goods-faster-en",
+  "title": "Cargo Tracking Devices: Deter Theft & Recover Stolen Goods Faster",
+  "cluster": "Dispatch Operations, Load Planning & Efficiency",
+  "score": 15.4,
+  "to": "dynamic-dispatching-optimize-routes-deadhead-en",
+  "sim": 0
+ },
+ {
+  "id": "9ac42e3e-e3cf-40b4-a82f-567bf27d24da",
+  "slug": "automated-dispatch-playbook-hos-optimization-2025-en",
+  "title": "Automated Dispatch Playbook: Cut Admin Time 40% & Boost Driver HOS",
+  "cluster": "Dispatch Operations, Load Planning & Efficiency",
+  "score": 13.3,
+  "to": "dispatch-optimization-strategies-2025-en",
+  "sim": 0.22
+ },
+ {
+  "id": "262147dd-1462-4757-9f28-9e4bdcc4b1be",
+  "slug": "package-locker-network-playbook-2025-en",
+  "title": "Package Locker Networks: Reduce Last-Mile Delivery Costs",
+  "cluster": "Last-Mile Delivery & Urban Logistics",
+  "score": 23.3,
+  "to": "drone-delivery-regulations-faa-2025-guide-en",
+  "sim": 0.31
+ },
+ {
+  "id": "3b249976-71b9-43a9-b105-e49875e229a9",
+  "slug": "urban-congestion-pricing-logistics-2025-playbook-en",
+  "title": "Urban Congestion Pricing Logistics: Last-Mile Cost Reduction Playbook",
+  "cluster": "Last-Mile Delivery & Urban Logistics",
+  "score": 18.5,
+  "to": "urban-micro-fulfillment-centers-playbook-2025-en",
+  "sim": 0.36
+ },
+ {
+  "id": "ad808338-dda9-450a-8960-1c3d902e95d7",
+  "slug": "drone-delivery-logistics-2025-playbook-en",
+  "title": "The Drone Delivery Logistics Playbook: Slash Last-Mile Costs 30%",
+  "cluster": "Last-Mile Delivery & Urban Logistics",
+  "score": 14.5,
+  "to": "drone-delivery-regulations-faa-2025-guide-en",
+  "sim": 0.55
+ },
+ {
+  "id": "ec0ef15f-c7de-4323-9c1c-c80e6fe1d91f",
+  "slug": "driver-retention-strategies-2025-8528-en",
+  "title": "The Driver Retention Playbook: Slash Turnover, Boost Profits",
+  "cluster": "Driver Recruitment, Retention & Compensation Structures",
+  "score": 30.2,
+  "to": "driver-retention-strategies-2025-en",
+  "sim": 0.67
+ },
+ {
+  "id": "57e8feba-d1e8-4ee5-9b7a-0fcb7fe9aac4",
+  "slug": "freight-factoring-for-owner-operators-en",
+  "title": "Freight Factoring for Owner Operators: Why 'Cheap' Costs You Thousands",
+  "cluster": "Freight Factoring, Cash Flow & Invoice Financing",
+  "score": 12.1,
+  "to": "freight-factoring-vs-quick-pay-2025-owner-operator-en",
+  "sim": 0.4
+ },
+ {
+  "id": "58776b4e-3042-4916-a50e-ecb7997b29fe",
+  "slug": "freight-factoring-scams-2025-checklist-en",
+  "title": "The Owner-Operator's Checklist: How to Avoid Freight Factoring Scams",
+  "cluster": "Freight Factoring, Cash Flow & Invoice Financing",
+  "score": 20.2,
+  "to": "freight-factoring-vs-quick-pay-2025-owner-operator-en",
+  "sim": 0.5
+ },
+ {
+  "id": "11d6df45-815b-4c8c-abd7-749f99f8d762",
+  "slug": "ev-battery-recycling-logistics-2025-playbook-en",
+  "title": "EV Battery Recycling Logistics: Managing Costs",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 12.2,
+  "to": "ev-battery-logistics-2025-compliance-safety-en",
+  "sim": 0.38
+ },
+ {
+  "id": "65933e70-1860-4db0-a4c9-c4f15d6f81de",
+  "slug": "bulk-liquid-transport-permits-2025-en",
+  "title": "The Bulk Liquid Transport Permits Playbook: Cut Fines, Boost Compliance",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 24.6,
+  "to": "explosives-transport-playbook-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "86028d21-3583-4593-be4f-bd772bf7b434",
+  "slug": "lithium-battery-shipping-un383-air-cargo-guide-2025-en",
+  "title": "The Lithium Battery Shipping Playbook: Master UN38.3 & Air Cargo Bans",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 23.4,
+  "to": "lithium-battery-shipping-regulations-2025-compliance-audit-en",
+  "sim": 0.27
+ },
+ {
+  "id": "9bf0f5e2-93cf-4c16-a6f1-4177f1c84562",
+  "slug": "hazmat-employee-training-audit-2025-en",
+  "title": "The Hazmat Employee Training Audit: Avoid Catastrophic Fines & Accidents",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 15.4,
+  "to": "class-9-hazmat-shipping-2025-playbook-en",
+  "sim": 0.2
+ },
+ {
+  "id": "9ede7793-8652-41cb-adae-06d7ee1f93d3",
+  "slug": "medical-equipment-logistics-downtime-2025-en",
+  "title": "The Medical Equipment Logistics Playbook: Reduce Downtime 20%",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 24.9,
+  "to": "ev-battery-logistics-2025-compliance-safety-en",
+  "sim": 0.11
+ },
+ {
+  "id": "a85ede24-f44f-42aa-b9b0-3ee9d997f2f3",
+  "slug": "lithium-battery-shipping-regulations-2025-6733-en",
+  "title": "Lithium Battery Shipping Regulations: Avoid Fines & Secure Global Transport",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 21.3,
+  "to": "lithium-battery-shipping-regulations-2025-compliance-audit-en",
+  "sim": 0.4
+ },
+ {
+  "id": "b858f4d8-c610-417f-8056-fc29bc3f1112",
+  "slug": "hazmat-training-requirements-2025-compliance-checklist-en",
+  "title": "The Hazmat Training Checklist: Avoid $50,000 Fines",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 13,
+  "to": "class-9-hazmat-shipping-2025-playbook-en",
+  "sim": 0.25
+ },
+ {
+  "id": "c4750877-8430-4815-9645-ca6cfa479c77",
+  "slug": "fertilizer-logistics-playbook-2025-en",
+  "title": "Fertilizer Logistics Playbook: Secure Capacity & Prevent Spills",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 22.7,
+  "to": "explosives-transport-playbook-2025-en",
+  "sim": 0.09
+ },
+ {
+  "id": "eb963281-ad68-4db9-9532-4bbd81ef777a",
+  "slug": "class-9-hazmat-lithium-batteries-cost-you-en",
+  "title": "Class 9 Hazmat Lithium Batteries: Causes, Real Costs & the Expert Fix",
+  "cluster": "Hazmat & Dangerous Goods Compliance",
+  "score": 28.8,
+  "to": "hazmat-shipping-regulations-2025-fines-en",
+  "sim": 0.5
+ },
+ {
+  "id": "0c39f6cd-31e8-4373-bf20-5f8e31918e2c",
+  "slug": "tpms-playbook-cut-fuel-costs-prevent-blowouts-2025-en",
+  "title": "TPMS: Manage Tire Pressure, Reduce Fuel Costs and Risks",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 25,
+  "to": "tire-pressure-monitoring-systems-fuel-savings-tire-life-2025-en",
+  "sim": 0.29
+ },
+ {
+  "id": "109ef0ec-878c-4324-93bd-7c72c513000c",
+  "slug": "fuel-hedging-strategies-2025-en",
+  "title": "Fuel Hedging Strategies: Lock In Diesel Prices, Boost Profit",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 30.4,
+  "to": "diesel-hedging-strategies-2025-en",
+  "sim": 0.83
+ },
+ {
+  "id": "14818f50-f647-4065-b8a9-9330557424e3",
+  "slug": "maximize-fuel-card-benefits-2025-en",
+  "title": "Maximize Fuel Card Benefits: Save 10% on Every Fill-Up",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 26.2,
+  "to": "fuel-card-programs-2025-guide-en",
+  "sim": 0.22
+ },
+ {
+  "id": "15eddb16-372e-4080-a6cc-e04831fff06d",
+  "slug": "owner-operator-tax-deductions-2025-guide-en",
+  "title": "The Ultimate Guide to Owner-Operator Tax Deductions: Maximize Your Savings",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 27.8,
+  "to": "2025-on-road-diesel-tax-exemptions-en",
+  "sim": 0.2
+ },
+ {
+  "id": "16bca007-4dbd-4a74-88a6-45eb9507a6ea",
+  "slug": "aerodynamic-trucking-innovations-2025-en",
+  "title": "Aerodynamic Trucking Innovations: Cut Fuel Costs 10% & Emissions",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 16.8,
+  "to": "fuel-surcharge-optimization-2025-hidden-costs-en",
+  "sim": 0.22
+ },
+ {
+  "id": "2ba8a001-a649-42d4-8dfb-176fce7776d3",
+  "slug": "fuel-efficiency-tech-diesel-costs-2025-en",
+  "title": "Fuel Efficiency Tech: Your 20% Diesel Cost-Slash Playbook",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 22.7,
+  "to": "diesel-fuel-hedging-playbook-2025-en",
+  "sim": 0.3
+ },
+ {
+  "id": "34acceb7-f599-4c65-b98a-8a8044c595af",
+  "slug": "diesel-tax-credits-reclaim-fuel-efficiency-2025-en",
+  "title": "Diesel Tax Credits: Reclaim Thousands for Fuel Efficiency",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 23,
+  "to": "diesel-hedging-strategies-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "496b7d55-1842-4f54-994c-6eb9371dab4b",
+  "slug": "fuel-card-fraud-prevention-2025-expert-fix-en",
+  "title": "Fuel Card Fraud: Real Cases, Costs & The Expert Fix",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 21.4,
+  "to": "fuel-surcharge-optimization-2025-hidden-costs-en",
+  "sim": 0.17
+ },
+ {
+  "id": "4d6066b5-3c2d-4636-a58a-a4043d4aa431",
+  "slug": "owner-operator-vs-company-driver-2025-earnings-guide-en",
+  "title": "The Owner-Operator vs Company Driver Playbook: Maximize Earnings & Lifestyle",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 11.1,
+  "to": "owner-operator-vs-company-driver-playbook-2025-en",
+  "sim": 0.63
+ },
+ {
+  "id": "50014b79-2a9a-4bd0-8927-826e582dce15",
+  "slug": "ai-route-optimization-playbook-fuel-costs-15-percent-en",
+  "title": "The AI Route Optimization Playbook: Slash Fuel Costs 15%",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 26.5,
+  "to": "multi-stop-route-optimization-playbook-2025-en",
+  "sim": 0.5
+ },
+ {
+  "id": "60a8add0-5adf-4808-a993-239fd0391d8a",
+  "slug": "owner-operator-vs-company-driver-2025-earnings-lifestyle-en",
+  "title": "Owner-Operator vs Company Driver Playbook: Maximize Earnings & Lifestyle",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 26.3,
+  "to": "owner-operator-vs-company-driver-playbook-2025-en",
+  "sim": 0.63
+ },
+ {
+  "id": "67351aa5-1dd1-4377-a863-a89fa63d1a58",
+  "slug": "fuel-surcharge-audit-stop-overpaying-diesel-en",
+  "title": "The Fuel Surcharge Audit: How to Stop Overpaying for Diesel",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 5,
+  "to": "diesel-hedging-strategies-2025-en",
+  "sim": 0.25
+ },
+ {
+  "id": "6f1f2127-4906-41c0-87a9-3121a57b9ae6",
+  "slug": "ifta-audit-playbook-2025-en",
+  "title": "The IFTA Audit Playbook: Avoid Penalties, Maximize Tax Credits",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 33,
+  "to": "ifta-audit-survival-guide-2025-en",
+  "sim": 0.5
+ },
+ {
+  "id": "b733fac8-8199-489d-be70-0e27d84ed7ed",
+  "slug": "ifta-audit-proofing-2025-checklist-en",
+  "title": "IFTA Audit Proofing: Your Checklist to Slash Fines & Save Thousands",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 8.6,
+  "to": "ifta-audit-guide-2025-survival-en",
+  "sim": 0.3
+ },
+ {
+  "id": "b8c639cf-c7ea-4559-95b4-bd60b49f11fa",
+  "slug": "predictive-fleet-maintenance-playbook-2025-en",
+  "title": "The Predictive Fleet Maintenance Playbook: Cut Downtime 30%, Boost Uptime",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 26.8,
+  "to": "dpf-maintenance-playbook-avoid-costly-derates-en",
+  "sim": 0.1
+ },
+ {
+  "id": "c0d8a82a-48a6-41fc-8353-dc053fc218a7",
+  "slug": "owner-operator-tax-deductions-2025-1291-en",
+  "title": "The Owner-Operator Tax Playbook: Maximize Deductions & Boost Profit",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 24.4,
+  "to": "owner-operator-vs-company-driver-playbook-2025-en",
+  "sim": 0.2
+ },
+ {
+  "id": "c4067f54-e408-499b-9219-027835bb18fb",
+  "slug": "diesel-fuel-tax-loopholes-owner-operator-audit-checklist-2025-en",
+  "title": "Diesel Fuel Tax Playbook: Slash Your IFTA Costs by Thousands",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 21.2,
+  "to": "ifta-audit-guide-2025-survival-en",
+  "sim": 0.29
+ },
+ {
+  "id": "ce28b3f9-3de1-470f-92ab-3a862a930de8",
+  "slug": "ifta-audit-survival-playbook-2025-en",
+  "title": "IFTA Audit Survival Playbook: Avoid Penalties & Reclaim Fuel Taxes",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 34.4,
+  "to": "ifta-audit-survival-guide-2025-en",
+  "sim": 0.56
+ },
+ {
+  "id": "f4edce8c-df92-4290-b31f-f3539cfcfb6e",
+  "slug": "ifta-compliance-playbook-2025-en",
+  "title": "The IFTA Compliance Playbook: Slash Tax Errors & Maximize Fuel Savings",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 23.2,
+  "to": "ifta-audit-guide-2025-survival-en",
+  "sim": 0.4
+ },
+ {
+  "id": "fd0d49f2-98e1-4e94-baf2-b2bf85d53a16",
+  "slug": "biodiesel-blends-2025-fuel-cost-savings-en",
+  "title": "Biodiesel Blends Playbook: Cut Fuel Costs 8% & Stay Compliant",
+  "cluster": "Diesel Fuel Cost & IFTA Tax Management",
+  "score": 23,
+  "to": "2025-on-road-diesel-tax-exemptions-en",
+  "sim": 0.27
+ },
+ {
+  "id": "71faa7a9-835b-4d2c-9f38-5c49083eafa5",
+  "slug": "iot-cold-chain-sensors-playbook-2025-en",
+  "title": "The IoT Cold Chain Sensors Playbook: Zero Spoilage & Full Compliance",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 20.2,
+  "to": "cold-chain-iot-sensors-spoilage-fines-expert-fix-en",
+  "sim": 0.45
+ },
+ {
+  "id": "749f52e5-c5af-45ae-8a5e-6603f15be7cd",
+  "slug": "medical-device-logistics-2025-playbook-en",
+  "title": "Medical Device Logistics Playbook: Avoid Fines & Delays",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 16.1,
+  "to": "global-produce-logistics-playbook-2025-en",
+  "sim": 0.09
+ },
+ {
+  "id": "91ef55a7-7fef-47d3-82a8-8f45ec2c8c17",
+  "slug": "iot-cold-chain-monitoring-playbook-2025-en",
+  "title": "The IoT Cold Chain Monitoring Playbook: Prevent Spoilage & Fines",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 29.5,
+  "to": "cold-chain-monitoring-devices-guide-2025-en",
+  "sim": 0.75
+ },
+ {
+  "id": "9c08d1f7-4582-4fd4-a18c-ca40a95200c1",
+  "slug": "iot-cold-chain-monitoring-guide-2025-en",
+  "title": "The IoT Cold Chain Monitoring Playbook: Prevent Spoilage & Fines",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 28.5,
+  "to": "cold-chain-monitoring-devices-guide-2025-en",
+  "sim": 0.75
+ },
+ {
+  "id": "9c2d8f54-f9bf-4a49-9e3e-45474e08601a",
+  "slug": "2025-dairy-product-logistics-playbook-en",
+  "title": "Dairy Product Logistics Playbook: Prevent Spoilage, Maximize Shelf Life",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 24.6,
+  "to": "global-produce-logistics-playbook-2025-en",
+  "sim": 0.27
+ },
+ {
+  "id": "9d03f736-5d85-42d6-a208-d9f4ee41646c",
+  "slug": "cold-chain-packaging-innovations-2025-spoilage-costs-en",
+  "title": "Cold Chain Packaging Innovations Playbook: Cut Spoilage & Costs",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 31.9,
+  "to": "pharma-cold-chain-packaging-2025-innovations-en",
+  "sim": 0.5
+ },
+ {
+  "id": "bd48534e-cff8-43aa-94a9-ec2588c73c01",
+  "slug": "cold-chain-cross-docking-playbook-2025-en",
+  "title": "The Cold Chain Cross-Docking Playbook: Cut Perishable Spoilage 10%",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 17.1,
+  "to": "iot-cold-chain-monitoring-playbook-2025-7397-en",
+  "sim": 0.33
+ },
+ {
+  "id": "d413501a-4dc9-4489-838f-9d8ff8dd376f",
+  "slug": "cold-chain-packaging-playbook-2025-en",
+  "title": "The Cold Chain Packaging Playbook: Cut Spoilage by 18% | Loadly",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 20.2,
+  "to": "iot-cold-chain-monitoring-playbook-2025-7397-en",
+  "sim": 0.38
+ },
+ {
+  "id": "eb44a34d-cc34-4139-916e-b0cdb1dce4ef",
+  "slug": "reefer-breakdown-prevention-expert-fix-en",
+  "title": "Reefer Breakdown Prevention: Causes, Real Costs & the Expert Fix",
+  "cluster": "Cold Chain & Refrigerated Transport",
+  "score": 24.3,
+  "to": "cold-chain-temperature-excursions-causes-costs-fix-en",
+  "sim": 0.42
+ },
+ {
+  "id": "be1f2070-70a8-47ef-9112-2b405de590cd",
+  "slug": "seasonal-retail-logistics-peak-planning-2025-en",
+  "title": "Seasonal Retail Logistics Checklist: Cut Costs & Prevent Holiday Delays",
+  "cluster": "Retail & FMCG Distribution",
+  "score": 13.6,
+  "to": "omnichannel-retail-logistics-playbook-2025-en",
+  "sim": 0.25
+ },
+ {
+  "id": "cb94cf0d-6028-4d4a-a994-f85584602ab6",
+  "slug": "store-replenishment-strategies-2025-en",
+  "title": "The Store Replenishment Playbook: Boost Sales & Eliminate Stockouts",
+  "cluster": "Retail & FMCG Distribution",
+  "score": 28.8,
+  "to": "2025-retail-store-replenishment-playbook-en",
+  "sim": 0.57
+ },
+ {
+  "id": "0e94f944-68e6-4e11-84a6-fe27c811749a",
+  "slug": "cdl-endorsement-guide-boost-your-2025-earnings-by-25-en",
+  "title": "CDL Endorsement Guide: Boost Your Earnings by 25%",
+  "cluster": "CDL Requirements, Endorsements & Driver Licensing",
+  "score": 29.4,
+  "to": "tanker-endorsement-guide-2025-en",
+  "sim": 0.75
+ },
+ {
+  "id": "2deaa1d5-fb24-4f96-b039-6b6905bf9f88",
+  "slug": "cdl-endorsements-guide-2025-en",
+  "title": "CDL Endorsements: Boost Your Career and Freight Pay",
+  "cluster": "CDL Requirements, Endorsements & Driver Licensing",
+  "score": 36.2,
+  "to": "cdl-endorsement-guide-2025-en",
+  "sim": 0.57
+ },
+ {
+  "id": "9d777c08-3839-4bd4-bace-643267766279",
+  "slug": "hazmat-endorsement-guide-2025-en",
+  "title": "Hazmat Endorsement Playbook: Boost Your CDL Earnings by 22%",
+  "cluster": "CDL Requirements, Endorsements & Driver Licensing",
+  "score": 12.9,
+  "to": "tanker-endorsement-guide-2025-en",
+  "sim": 0.6
+ },
+ {
+  "id": "cd0c89f1-12ab-49ef-a5c4-7ab59893bfe6",
+  "slug": "cdl-medical-card-requirements-2025-en",
+  "title": "The CDL Medical Card Playbook: Stay Compliant, Avoid $5,000 Fines",
+  "cluster": "CDL Requirements, Endorsements & Driver Licensing",
+  "score": 15.2,
+  "to": "cdl-medical-card-2025-avoid-suspension-en",
+  "sim": 0.5
+ },
+ {
+  "id": "ed9f940c-3431-49b9-808c-9032c98395d4",
+  "slug": "subscription-box-logistics-playbook-2025-en",
+  "title": "The Subscription Box Logistics Playbook: Cut Costs, Boost Retention",
+  "cluster": "Freight Rate Negotiation & Contract Pricing",
+  "score": 14.5,
+  "to": "spot-vs-contract-rates-2025-overpaying-freight-en",
+  "sim": 0.08
+ },
+ {
+  "id": "79eb4463-d4c6-41e5-9751-8c3acc6d7e29",
+  "slug": "scope-3-emissions-freight-reporting-2025-compliance-guide-en",
+  "title": "Scope 3 Emissions Freight Playbook: Cut Costs, Boost Compliance",
+  "cluster": "Carbon Emissions, ESG Reporting & Green Freight",
+  "score": 30.2,
+  "to": "scope-3-emissions-reporting-2025-green-freight-compliance-en",
+  "sim": 0.71
+ },
+ {
+  "id": "1aa22a51-9827-4a54-866e-02e0cd4b88e6",
+  "slug": "truck-tire-management-playbook-2025-en",
+  "title": "The Truck Tire Management Playbook: Slash Costs, Boost ROI",
+  "cluster": "Tire Management, Tread Depth & Cost Optimization",
+  "score": 29.4,
+  "to": "truck-tire-retreading-roi-playbook-2025-en",
+  "sim": 0.71
+ },
+ {
+  "id": "9d3b73f1-6721-49f6-9750-5bceccd2cd4a",
+  "slug": "truck-tire-retreading-roi-2025-en",
+  "title": "The Truck Tire Retreading Playbook: Cut Costs 50% Safely",
+  "cluster": "Tire Management, Tread Depth & Cost Optimization",
+  "score": 24.6,
+  "to": "truck-tire-retreading-roi-playbook-2025-en",
+  "sim": 0.71
+ },
+ {
+  "id": "cdb8d725-7a9e-4c3e-acb3-c2f20eec6f11",
+  "slug": "truck-tire-management-guide-cost-savings-en",
+  "title": "The Ultimate Guide to Truck Tire Management: Extend Life, Cut Costs",
+  "cluster": "Tire Management, Tread Depth & Cost Optimization",
+  "score": 12.8,
+  "to": "2025-smart-tire-technology-playbook-en",
+  "sim": 0.3
+ },
+ {
+  "id": "31c63e7e-f5f4-4685-94df-e662bc330ffd",
+  "slug": "truck-financing-options-2025-owner-operator-en",
+  "title": "The Truck Financing Options Playbook: Maximize Your Owner-Operator Profit",
+  "cluster": "Truck Financing, Leasing & Purchase Strategy",
+  "score": 27.8,
+  "to": "truck-financing-vs-leasing-2025-owner-operator-profit-en",
+  "sim": 0.71
+ },
+ {
+  "id": "7664c66b-4836-4944-9ec0-27820da55c34",
+  "slug": "maquiladora-logistics-optimize-supply-chains-2025-en",
+  "title": "The Maquiladora Logistics Playbook: Cut Transit Times by 25%",
+  "cluster": "Cross-Border US-Mexico Trucking",
+  "score": 17.4,
+  "to": "maquiladora-logistics-playbook-2025-en",
+  "sim": 0.57
+ },
+ {
+  "id": "3adb8c09-d102-4abc-9501-29e305c1143d",
+  "slug": "rpa-in-warehousing-admin-efficiency-2025-en",
+  "title": "RPA in Warehousing Playbook: Boost Admin Efficiency 50%",
+  "cluster": "Warehouse Automation, Robotics & WMS",
+  "score": 15.1,
+  "to": "automated-guided-vehicles-warehouse-efficiency-2025-en",
+  "sim": 0.11
+ },
+ {
+  "id": "43bea024-4601-4082-9944-257576b12e8a",
+  "slug": "robotic-picking-systems-2025-warehouse-throughput-en",
+  "title": "Robotic Picking Systems Playbook: Boost Throughput 30%, Cut Costs",
+  "cluster": "Warehouse Automation, Robotics & WMS",
+  "score": 18.7,
+  "to": "warehouse-robotics-implementation-2025-en",
+  "sim": 0.5
+ },
+ {
+  "id": "7fd5700c-a26a-4f25-80c2-2b90bad14e11",
+  "slug": "warehouse-robotics-implementation-playbook-2025-en",
+  "title": "The Warehouse Robotics Implementation Playbook: High ROI Deployment",
+  "cluster": "Warehouse Automation, Robotics & WMS",
+  "score": 23.4,
+  "to": "warehouse-robotics-implementation-2025-en",
+  "sim": 0.33
+ },
+ {
+  "id": "e4940740-8335-4cec-a396-e5c00f6159e2",
+  "slug": "silk-road-logistics-playbook-2025-en",
+  "title": "Silk Road Logistics Playbook: Unlocking Eurasia's Trade Potential",
+  "cluster": "Turkey, Balkans & Central Asia Trade Routes",
+  "score": 14,
+  "to": "silk-road-logistics-playbook-2025-3642-en",
+  "sim": 0.36
+ },
+ {
+  "id": "5626b332-3664-43f1-9431-449017db24ab",
+  "slug": "grain-transportation-logistics-spoilage-costs-expert-fix-en",
+  "title": "Grain Transportation Logistics: Spoilage, Costs & The Expert Fix",
+  "cluster": "Agricultural, Grain & Bulk Commodity Transport",
+  "score": 28.5,
+  "to": "2025-grain-transport-logistics-en",
+  "sim": 0.56
+ },
+ {
+  "id": "5c416780-fa13-4297-9e58-d741a0a32ba7",
+  "slug": "remote-site-logistics-causes-costs-expert-fix-2025-en",
+  "title": "Remote Site Logistics: Causes, Real Costs & the Expert Fix",
+  "cluster": "Construction, Project Cargo & Site Logistics",
+  "score": 21.6,
+  "to": "remote-construction-logistics-expert-fix-en",
+  "sim": 0.78
+ },
+ {
+  "id": "313845c5-36bf-4304-bb44-dada359879a1",
+  "slug": "predictive-maintenance-trucks-2025-fleet-fix-en",
+  "title": "Predictive Maintenance Trucks: Root Causes, Real Costs & The Fleet Manager's Fix",
+  "cluster": "Truck Maintenance, Breakdowns & Preventive Schedules",
+  "score": 27.2,
+  "to": "engine-diagnostics-truck-breakdowns-expert-fix-2025-en",
+  "sim": 0.29
+ },
+ {
+  "id": "6839fcd3-bee7-4941-943a-517f11735fb2",
+  "slug": "heavy-duty-engine-maintenance-playbook-2025-en",
+  "title": "The Heavy-Duty Engine Maintenance Playbook: Extend Life & Cut Costs",
+  "cluster": "Truck Maintenance, Breakdowns & Preventive Schedules",
+  "score": 18.4,
+  "to": "truck-brake-maintenance-playbook-2025-en",
+  "sim": 0.18
+ },
+ {
+  "id": "b8c3f464-70b2-4dca-95ea-5eb64d4a27a2",
+  "slug": "truck-maintenance-schedule-2025-breakdowns-uptime-en",
+  "title": "The Truck Maintenance Schedule Playbook: Cut Breakdowns 30%, Boost Uptime",
+  "cluster": "Truck Maintenance, Breakdowns & Preventive Schedules",
+  "score": 24.9,
+  "to": "alternative-truck-fuel-roi-breakdown-en",
+  "sim": 0.22
+ },
+ {
+  "id": "570fb461-8b5a-48ec-af30-130c1cc87ab4",
+  "slug": "mc-authority-guide-2025-freight-broker-en",
+  "title": "The MC Authority Playbook: Launch Your Freight Brokerage Fast",
+  "cluster": "Freight Brokerage Startup, MC Authority & Licensing",
+  "score": 15.7,
+  "to": "freight-broker-mc-authority-playbook-2025-en",
+  "sim": 0.57
+ },
+ {
+  "id": "349d578c-fecf-4722-abfe-68852fa0c355",
+  "slug": "driver-fatigue-management-2025-blueprint-en",
+  "title": "Driver Fatigue Management Playbook: Prevent Accidents & Boost Compliance",
+  "cluster": "Driver Health, Wellness & Mental Health on the Road",
+  "score": 11.3,
+  "to": "driver-fatigue-management-proactive-safety-playbook-en",
+  "sim": 0.27
+ },
+ {
+  "id": "7ed8bfe5-a53d-4d81-a247-3369df7ae80e",
+  "slug": "truck-driver-mental-health-causes-costs-fix-en",
+  "title": "Truck Driver Mental Health: Causes, Costs & The Expert Fix",
+  "cluster": "Driver Health, Wellness & Mental Health on the Road",
+  "score": 30.6,
+  "to": "driver-mental-health-crisis-fleet-fix-2025-en",
+  "sim": 0.55
+ },
+ {
+  "id": "3b29042b-6661-4f87-883c-7d192d728d2f",
+  "slug": "freight-market-intelligence-playbook-2025-en",
+  "title": "The Freight Market Intelligence Playbook: Predict Rates & Secure Deals",
+  "cluster": "Freight Market Intelligence, Rate Forecasting & Cycles",
+  "score": 12.9,
+  "to": "freight-market-recession-prep-2025-en",
+  "sim": 0.36
+ },
+ {
+  "id": "f20c8eff-37a9-48e7-be73-6b849b0e5c5d",
+  "slug": "freight-market-downturn-negotiation-playbook-2025-en",
+  "title": "The Freight Market Downturn Playbook: Negotiate Rates That Pay",
+  "cluster": "Freight Market Intelligence, Rate Forecasting & Cycles",
+  "score": 13.7,
+  "to": "2025-freight-market-downturn-playbook-en",
+  "sim": 0.27
+ },
+ {
+  "id": "7219cd8b-3480-4239-8565-bc993bade181",
+  "slug": "peak-season-logistics-strategy-2025-en",
+  "title": "The Peak Season Playbook: Secure Capacity, Avoid 30% Holiday Surcharges",
+  "cluster": "Peak Season Planning, Holiday Surge & Capacity Management",
+  "score": 27.3,
+  "to": "peak-season-capacity-strategy-2025-en",
+  "sim": 0.63
+ },
+ {
+  "id": "7b41fdc2-c0c8-4212-acfe-aec0fe016d6b",
+  "slug": "peak-season-freight-strategy-2025-1997-en",
+  "title": "The Peak Season Freight Playbook: Secure Capacity, Avoid Surcharges",
+  "cluster": "Peak Season Planning, Holiday Surge & Capacity Management",
+  "score": 25.4,
+  "to": "peak-season-capacity-strategy-2025-en",
+  "sim": 0.71
+ },
+ {
+  "id": "e9780d8a-6ddf-491c-9f3a-b90e80c8a964",
+  "slug": "small-business-freight-costs-hidden-traps-fixes-en",
+  "title": "Small Business Freight Costs: 7 Hidden Traps & Expert Fixes",
+  "cluster": "Small Business Freight Strategy & Cost Reduction",
+  "score": 14,
+  "to": "small-business-shipping-secrets-2025-en",
+  "sim": 0.4
+ },
+ {
+  "id": "ecf61303-fe0b-4257-b3e4-6eefc936d85d",
+  "slug": "small-business-freight-shipping-strategy-2025-en",
+  "title": "The Small Business Freight Shipping Playbook: Cut Costs 25%",
+  "cluster": "Small Business Freight Strategy & Cost Reduction",
+  "score": 28.1,
+  "to": "small-business-shipping-secrets-2025-en",
+  "sim": 0.83
+ },
+ {
+  "id": "934f6a64-db90-4043-9e49-e67040ead006",
+  "slug": "digital-twin-supply-chain-playbook-2025-en",
+  "title": "Digital Twin Supply Chain Playbook: Cut Costs & Boost Visibility",
+  "cluster": "Blockchain, Visibility & Supply Chain Transparency",
+  "score": 25.9,
+  "to": "supply-chain-digital-twins-playbook-2025-en",
+  "sim": 0.56
+ }
+]

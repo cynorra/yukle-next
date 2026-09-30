@@ -1,3 +1,9 @@
+import { readFileSync } from 'node:fs';
+
+// Posts retired in the 2026-09-30 consolidation (scaled-content cleanup): old slug -> closest kept article.
+// Unpublished posts with no close match are deliberately absent so they return a plain 404, never a homepage redirect.
+const BLOG_MERGES = JSON.parse(readFileSync(new URL('./src/data/blog-merges.json', import.meta.url), 'utf8'));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -46,6 +52,11 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      ...Object.entries(BLOG_MERGES).map(([from, to]) => ({
+        source: `/:locale/blog/${from}`,
+        destination: `/:locale/blog/${to}`,
+        permanent: true,
+      })),
       {
         // Legacy pre-rebrand page (Turkish-only, dead CTAs, broken canonical) — retire in favor of marketplace.
         source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl|kn|te|pa|gu|ml|sw|ne|si)/load',
