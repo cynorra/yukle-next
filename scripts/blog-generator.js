@@ -4,6 +4,7 @@ const https = require('https');
 const { createClient } = require('@supabase/supabase-js');
 const { submitToIndexNow, submitToBaidu, pingBaiduBlogPost } = require('./lib/indexnow');
 const ArticleQuality = require('./lib/article-quality');
+const FalsePrecision = require('./lib/false-precision');
 
 // Load env variables from .env.local
 const envLocalPath = path.join(__dirname, '..', '.env.local');
@@ -1654,6 +1655,9 @@ Return ONLY valid JSON with no additional text or markdown wrappers.${feedback}`
   let lastIssues = [];
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     const draft = await callGeminiWithRetry(buildPayload(feedback));
+    // Invented-looking precision ("14.7%", "$1,847", "2.3 days") is turned into an honest estimate ("roughly 15%")
+    // before the quality gates run, so it never reaches the archive (see scripts/lib/false-precision.js).
+    if (draft && typeof draft.content === 'string') draft.content = FalsePrecision.hedgeArticle(draft.content);
     const wordCount = (draft.content || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
 
     const issues = [];

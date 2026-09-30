@@ -18,6 +18,7 @@ const PROTECT_AFTER = /^(?:\s*(?:iteration|edition|version|update|updates|revisi
 const FORECAST_SENTENCE = /\b(?:we|our team|our analysts?)\s+(?:predict|foresee|forecast|project|anticipate|expect|estimate)\b/i;
 const HEAD_NOUN = /(?:Rates|Regulations|Compliance|Playbook|Guide|Costs|Cost|Strategy|Strategies|Checklist|Requirements|Rules|Trends|Practices|Market|Outlook|Forecast|Tips|Options|Audit|Standards|Logistics|Freight|Planning|Management|Optimization|Solutions|Insights|Updates|Changes|Blueprint|Handbook|Roadmap|Software|Technology)$/;
 const NOT_NOUN_START = /^(?:and|or|but|is|are|was|were|will|would|can|could|should|must|may|might|has|have|had|saw|brought|marked|won['’]t|isn['’]t|the|a|an|to|for|in|of|on|at|as|with|when|while|if)$/;
+const VERB_AFTER = /^(?:include|includes|involve|involves|require|requires|demand|demands|hinge|hinges|mean|means|offer|offers|bring|brings|show|shows|see|sees|look|looks|remain|remains|pose|poses|present|presents|change|changes|reshape|reshapes|transform|transforms|create|creates|drive|drives|push|pushes|force|forces|make|makes|take|takes|leave|leaves|raise|raises|hold|holds|call|calls|put|puts|set|sets|get|gets|keep|keeps)$/;
 const PAST_MARKER = /\b(?:rose|fell|grew|increased|decreased|declined|dropped|jumped|surged|spiked|hit|reached|totaled|totalled|lost|paid|reported|saw|was|were|had|according|survey|study|report|Q[1-4]|January|February|March|April|May|June|July|August|September|October|November|December)\b/;
 const PRESENT_VERB = '(?:typically|generally|usually|commonly|averages?|ranges?|costs?|varies|vary|is|are|remains?|can|will|often|tends?)';
 
@@ -30,7 +31,9 @@ function dropAdjectiveYear(text) {
     if (PROTECT_AFTER.test(' ' + after)) return m;
     const next = (after.match(/^[A-Za-z][\w'’-]*/) || [''])[0].toLowerCase();
     if (NOT_NOUN_START.test(next)) return m;
-    if (/(?:\bin|\bof|\bfor|\bduring|\bthroughout)\s*$/i.test(before)) return m; // "in 2025 compliance" is the first layer's job
+    // "in/during/throughout 2025 <word>" is a point in time; "for/of 2025 <noun phrase>" uses the year as a stale adjective
+    if (/(?:\bin|\bduring|\bthroughout|\bby)\s*$/i.test(before)) return m;
+    if (/(?:\bof|\bfor)\s*$/i.test(before) && VERB_AFTER.test(next)) return m;
     return pre;
   });
 }

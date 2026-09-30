@@ -11,7 +11,7 @@
     "linkedin:draft": "node scripts/linkedin-drafts.js",
     "linkedin:test": "node scripts/lib/linkedin-quality.test.js",
     "blog:audit": "node scripts/audit-blog.js",
-    "blog:test": "node scripts/lib/article-quality.test.js && node scripts/lib/year-refresh.test.js && node scripts/lib/year-refresh-extra.test.js"
+    "blog:test": "node scripts/lib/article-quality.test.js && node scripts/lib/year-refresh.test.js && node scripts/lib/year-refresh-extra.test.js && node scripts/lib/false-precision.test.js"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.3.0",

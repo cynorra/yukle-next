@@ -150,13 +150,21 @@ function findFabricatedAnecdote(content) {
 function countFalsePrecision(content) {
   const outsideQuotes = String(content || '').replace(/<blockquote>[\s\S]*?<\/blockquote>/gi, ' ');
   const text = stripTags(outsideQuotes);
-  const decimalPct = (text.match(/\b\d{1,3}\.\d{1,2}\s?%/g) || []).length;
-  const oddDollars = (text.match(/[$€£]\s?\d{1,3}(?:,\d{3})*(?:\.\d+)?(?![\d,])/g) || [])
-    .filter((m) => {
-      const n = parseFloat(m.replace(/[^\d.]/g, ''));
-      return n >= 100 && n % 50 !== 0; // "$1,847" yes; "$1,500"/"$8,900"/"$12,000" no
+  // A figure inside a range ("€80-€120", "2.5-3.5 hours") is an honest range, not a single invented precise value.
+  const inRange = (start, end) => /[-–—]\s*[$€£]?\s*$|\d\s+to\s+[$€£]?\s*$/i.test(text.slice(Math.max(0, start - 8), start))
+    || /^\s*(?:%|days?|hours?|hrs?|weeks?|minutes?)?\s*[-–—]\s*[$€£]?\d/i.test(text.slice(end, end + 14));
+  const all = (re) => { const out = []; let m; while ((m = re.exec(text))) out.push({ m: m[0], i: m.index }); return out; };
+  // percentages: <1% (0.05%), x.5 (2.5%) and >=90% (99.8% uptime) read as natural, not as invented precision
+  const decimalPct = all(/\b\d{1,3}\.\d{1,2}\s?%/g).filter((x) => {
+    const v = parseFloat(x.m);
+    return v >= 1 && v < 90 && !/\.50?\s?%$/.test(x.m) && !inRange(x.i, x.i + x.m.length);
+  }).length;
+  const oddDollars = all(/[$€£]\s?\d{1,3}(?:,\d{3})*(?:\.\d+)?(?![\d,])/g)
+    .filter((x) => {
+      const n = parseFloat(x.m.replace(/[^\d.]/g, ''));
+      return n >= 100 && n % 50 !== 0 && !inRange(x.i, x.i + x.m.length); // "$1,847" yes; "$1,500"/"$8,900"/"$12,000" no
     }).length;
-  const fractionalUnits = (text.match(/\b\d+\.\d+\s?(?:days?|hours?|hrs?|weeks?|miles|mpg|cents|minutes?)\b/gi) || []).length;
+  const fractionalUnits = all(/\b\d+\.\d+\s?(?:days?|hours?|hrs?|weeks?|minutes?)\b/gi).filter((x) => !inRange(x.i, x.i + x.m.length)).length;
   return { decimalPct, oddDollars, fractionalUnits, total: decimalPct + oddDollars + fractionalUnits };
 }
 
