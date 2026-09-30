@@ -81,6 +81,42 @@ function findBrandMention(...texts) {
   return null;
 }
 
+// ── 1c. Invented first-person experience ─────────────────────────────────────
+// A 2026-09-30 sweep found 549/806 published posts with fabricated credentials ("As a dispatcher, broker,
+// and owner-operator for over 15 years, I've seen firsthand…") — 1635 sentences. The site's Editorial Policy
+// forbids exactly this. The article has no narrator with a trucking career, so any sentence written in the
+// first person singular ("I", "my") or claiming a professional background is fiction. Sentences inside
+// quotation marks are exempt from the bare-"I" rule (illustrative dialogue), never from the credential rule.
+const FP_I = /(?<!(?:Class|Type|Phase|Part|Level|Tier|Group|Category|Chapter|War|Title|Form|Annex|Schedule|Step|Stage|Tab)\s)(?<![A-Za-z])I(?:['’](?:ve|m|d|ll))?(?=\s+[a-z]|['’](?:ve|m|d|ll)b)/;
+const FP_CRED = /\b(as (?:a|an) (?:former |veteran |seasoned |longtime |long-time |retired )?(?:dispatcher|broker|owner-operator|driver|logistics manager|industry veteran|trucker)|(?:industry|logistics|freight|trucking) veteran|veterans? like me|former (?:dispatcher|broker|driver|carrier)|veteran of (?:this|the) (?:industry|trade)|my (?:own )?(?:\d+\+? )?(?:years|experience|career|clients?|time in)|in the dispatcher.s chair)\b/i;
+// FAQ headings are written in the reader's voice ("How can I reduce onboarding time?") — that is not the author claiming experience.
+const FP_READER_QUESTION = /\b(?:how|what|can|should|do|does|is|are|when|why|where|which|will|could|would|am)\b[^.!]*\bI\b[^.!]*\?\s*$/i;
+function findFirstPersonExperience(...texts) {
+  for (const text of texts.filter(Boolean)) {
+    const plain = stripTags(text);
+    for (const sentence of plain.split(/(?<=[.!?])\s+/)) {
+      if (FP_READER_QUESTION.test(sentence)) continue;
+      if (FP_CRED.test(sentence) || /^My\s/.test(sentence.trim()) || /I(?:['’]ve| have) (?:personally|witnessed|guided|helped|worked)/.test(sentence) || (FP_I.test(sentence) && !/["“”]/.test(sentence))) return sentence.slice(0, 160);
+    }
+  }
+  return null;
+}
+
+// ── 1d. Guarantee / hype language ─────────────────────────────────────────────
+// Unprovable promises ("guaranteed 20% savings", "slash costs", "eliminate risk", "battle-tested",
+// "insider secrets") read as clickbait and are a low-value-content signal. Titles and search/share text
+// may not use them at all; in the body only promise-style uses are rejected.
+const HYPE_META = /\b(guarantee[sd]?|slash(?:es|ed|ing)?|eliminat(?:e|es|ed|ing)|battle-tested|insider|secrets?|skyrocket\w*|explod\w+|crush(?:es|ed|ing)?|dominate|foolproof|never fail\w*|100%)\b/i;
+const HYPE_BODY = /\b(guaranteed\s+(?:\d|savings?|results?|profit|roi|success|to\b)|guarantees?\s+(?:a\s+|an\s+)?(?:\d|savings?|results?|profit|roi|success)|what if I told you|battle-tested|insider secrets?|foolproof)/i;
+function findHypeClaim(post) {
+  for (const [label, v] of [['title', post.title], ['meta_title', post.meta_title], ['meta_description', post.meta_description], ['excerpt', post.excerpt]]) {
+    const m = stripTags(v).match(HYPE_META);
+    if (m) return `${label}: "${m[0]}"`;
+  }
+  const m = stripTags(post.content).match(HYPE_BODY);
+  return m ? `body: "${m[0]}"` : null;
+}
+
 // ── 2. Invented case studies ("Last quarter, a mid-sized carrier lost $8,900…") ──
 // An illustrative scenario is fine ("Imagine a 10-truck fleet…", "hypothetical") — presenting a
 // specific past event with no source as if it happened is not.
@@ -155,6 +191,10 @@ function validateArticle(post) {
   if (firstParty) issues.push(`FIRST-PARTY CLAIM ("${firstParty}") — Loadly has no clients, customers, members, shipment data, analysts, platform or marketplace. Never write "our data/clients/analysis/platform/network", "Loadly's data/experts", or "we found/analyzed/saw/worked with…". Attribute facts to real public bodies or present them as general industry knowledge.`);
   const brand = findBrandMention(post.title, post.excerpt, post.meta_title, post.meta_description, post.content);
   if (brand) issues.push(`BRAND MENTION ("${brand}") — do not write the name "Loadly" anywhere: not in the title, excerpt, meta fields, headings or body. The website is a blog only; any sentence that names Loadly is a pitch or an invented feature/study/partner. Write about the topic itself.`);
+  const fpe = findFirstPersonExperience(post.title, post.excerpt, post.meta_description, post.content);
+  if (fpe) issues.push(`INVENTED FIRST-PERSON EXPERIENCE ("${fpe}") — the article has no narrator with a dispatcher/broker/driver career. Never write "I", "my", "I've seen", "as a veteran/dispatcher…", "in my years…". Write in third person about the industry ("dispatchers often find…").`);
+  const hype = findHypeClaim(post);
+  if (hype) issues.push(`HYPE / GUARANTEE LANGUAGE (${hype}) — no "guarantee", "slash", "eliminate", "secret", "insider", "battle-tested" or "what if I told you". Describe outcomes in measured words ("can reduce", "may lower") without promising results.`);
   const anecdote = findFabricatedAnecdote(post.content);
   if (anecdote) issues.push(`INVENTED CASE STUDY ("${anecdote}") — do not describe a specific past event involving an unnamed company as fact. Use a clearly labelled hypothetical ("Imagine a 10-truck fleet…") or a real, named public source.`);
   const fp = countFalsePrecision(post.content);
@@ -264,6 +304,8 @@ module.exports = {
   stripTags,
   findFirstPartyClaim,
   findBrandMention,
+  findFirstPersonExperience,
+  findHypeClaim,
   findFabricatedAnecdote,
   countFalsePrecision,
   findInventedNumberInMeta,

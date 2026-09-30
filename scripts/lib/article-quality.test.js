@@ -88,3 +88,18 @@ assert.ok(Q.resourcesForCluster('Something unknown').length >= 3);
 assert.ok(Q.officialResourcesHtml('Hazmat & Dangerous Goods Compliance').includes('phmsa.dot.gov'));
 
 console.log('article-quality: all assertions passed');
+
+// ── first-person experience + hype gates (2026-09-30) ──
+{
+  const q = require('./article-quality');
+  assert.ok(q.findFirstPersonExperience("<p>As a dispatcher, broker, and owner-operator for over 15 years, I've seen firsthand how ELDs fail.</p>"), 'credential not caught');
+  assert.ok(q.findFirstPersonExperience('<p>The biggest mistake I see managers make is skipping audits.</p>'), 'bare I not caught');
+  assert.ok(!q.findFirstPersonExperience('<p>Dispatchers often find that detention builds up. Class I railroads publish tariffs. Phase I reviews apply.</p>'), 'false positive');
+  assert.ok(!q.findFirstPersonExperience('<p>A driver might ask, "Can I take a 30-minute break now?"</p>'), 'quoted dialogue flagged');
+  assert.ok(q.findHypeClaim({ title: 'Slash Costs Fast', content: '' }), 'title hype not caught');
+  assert.ok(q.findHypeClaim({ title: 'Fuel Card Guide', content: '<p>This gives you guaranteed 10% savings.</p>' }), 'body promise not caught');
+  assert.ok(!q.findHypeClaim({ title: 'Fuel Card Guide', excerpt: 'How fuel cards work.', content: '<p>Pricing is not guaranteed and varies by network.</p>' }), 'hype false positive');
+  assert.ok(!q.findFirstPersonExperience('<h3>How can I reduce carrier onboarding time?</h3><h3>Can I use my smartphone as an ELD?</h3>'), 'FAQ question flagged');
+  assert.ok(q.findFirstPersonExperience("<p>The common mistake I have seen over 15 years? Skipping audits.</p><p>I've seen this often.</p>"), 'statement missed');
+  console.log('first-person/hype gate tests passed');
+}

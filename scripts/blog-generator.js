@@ -254,7 +254,7 @@ const contentFormats = [
 // High-quality fallback articles (only used when Gemini API is completely unavailable)
 const fallbackArticles = [
   {
-    title: '7 Proven Strategies Owner-Operators Use to Eliminate Empty Miles and Maximize Revenue',
+    title: '7 Proven Strategies Owner-Operators Use to Reduce Empty Miles and Improve Revenue',
     slug: 'owner-operators-eliminate-empty-miles-maximize-revenue',
     excerpt: 'Empty miles are silently destroying owner-operator profits — costing the average driver over $15,000 per year. Discover the exact strategies top-earning owner-operators use to keep their trucks loaded and their income growing.',
     content: `<h2>The Empty Mile Problem Is Bigger Than You Think</h2>
@@ -265,7 +265,7 @@ const fallbackArticles = [
 <ul>
   <li><strong>Check backhaul availability</strong> at your delivery destination before accepting the outbound load</li>
   <li><strong>Prioritize triangular routes</strong> — A to B to C back to A — over simple round trips</li>
-  <li><strong>Build shipper relationships in key cities</strong> where you frequently deliver to guarantee return freight</li>
+  <li><strong>Build shipper relationships in key cities</strong> where you frequently deliver to help secure return freight</li>
 </ul>
 
 <h2>2. Use Real-Time Load Boards to Your Advantage</h2>
@@ -289,7 +289,7 @@ const fallbackArticles = [
 
 <h2>Key Takeaways</h2>
 <ul>
-  <li>Plan return loads before accepting outbound freight to eliminate reactive deadheading</li>
+  <li>Plan return loads before accepting outbound freight to reduce reactive deadheading</li>
   <li>Digital freight platforms help active users cut empty miles noticeably compared to phone/dispatcher-only booking</li>
   <li>3-5 direct shipper relationships can fill 40-60% of your schedule reliably</li>
   <li>High platform ratings unlock premium-rate loads unavailable to lower-rated carriers</li>
@@ -312,7 +312,7 @@ const fallbackArticles = [
 
 <h2>Start Eliminating Empty Miles Today</h2>
 <p>Empty miles are one of the few costs an owner-operator can shrink through planning alone: line up the return load before you accept the outbound one, track your loaded-mile percentage every week, and treat every deadhead leg as money you are choosing to spend. Start with one lane, measure it for a month, and adjust from there.</p>`,
-    meta_title: 'Eliminate Empty Miles: 7 Owner-Operator Strategies',
+    meta_title: 'Reduce Empty Miles: 7 Owner-Operator Strategies',
     meta_description: 'Empty miles cost owner-operators $15,000+ per year. Discover 7 proven strategies to maximize loaded miles and boost revenue with digital freight platforms.'
   },
   {
@@ -1082,9 +1082,9 @@ ${formatNames}
 TRAFFIC QUALITY REQUIREMENTS for each topic:
 1. Must address a real, painful problem the audience actively searches for
 2. Primary keyword must be something people type verbatim into Google or AI assistants
-3. Specific compelling angle — NOT "shipping tips", YES "Why 73% of LTL Claims Get Denied (And the Fix)"
+3. Specific compelling angle — NOT "shipping tips", YES "Why LTL Freight Claims Get Denied and How to Document Them"
 4. Relevant to ${CURRENT_YEAR} freight industry realities (any year in a topic title must be ${CURRENT_YEAR})
-5. Viral potential: data insight, counterintuitive finding, urgent problem, or insider knowledge
+5. Usefulness: a clear practical question, a common mistake, or a rule people misunderstand — no clickbait, no promised results
 
 For each topic return:
 - topic: Compelling title (keyword-rich, max 80 chars)
@@ -1453,7 +1453,7 @@ async function generateBasePost(topicData) {
   const buildPayload = (feedback = '') => JSON.stringify({
     contents: [{
       parts: [{
-        text: `You are a veteran freight industry expert and editorial director at Loadly — a logistics and freight content platform publishing practical guides for shippers, carriers, and logistics professionals. You have spent 15+ years in the field: as a dispatcher, a freight broker, an owner-operator, and a logistics manager. You write from real experience, not theory. Your readers are working professionals who can instantly detect generic AI content and click away. They stay only when they learn something specific, surprising, or immediately actionable that they couldn't find anywhere else.
+        text: `You are a careful freight-industry research editor writing practical guides for shippers, carriers, and logistics professionals. You write in the third person and stay strictly factual: you explain how the industry works, cite real public bodies, and label every example as hypothetical. You have no personal work history to draw on and never imply one. Your readers are working professionals who can instantly detect generic AI content and click away. They stay only when they learn something specific, surprising, or immediately actionable that they couldn't find anywhere else.
 
 IMPORTANT: this background is YOUR writing voice/depth of knowledge only — it shapes how well-informed and specific your writing sounds. It is NOT something the published article is allowed to claim about itself. Loadly's articles are not bylined by a specific veteran driver/broker/dispatcher with this personal history, so the article text must NEVER say "As a dispatcher for 15 years, I've seen...", "In my years as a logistics manager...", "I've seen firsthand...", or any other first-person claim that the writer personally lived this experience — that is a fabricated credential. Write with the depth that expertise gives you, but stay in third person about the industry ("veteran dispatchers know...", "carriers who run this lane often find...") rather than first person about yourself.
 
@@ -1478,7 +1478,7 @@ AUDIENCE-FIRST WRITING RULES (non-negotiable)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 1. WRITE FOR ONE PERSON: Picture a specific reader — e.g., a 42-year-old owner-operator sitting in a truck stop at 10pm, worried about cash flow after a slow week. Write to solve HIS exact problem.
 2. NO GENERIC ADVICE: "Plan ahead," "communicate clearly," "track your metrics" are filler. Replace every vague tip with a specific, implementable action: what exactly to do, what tool to use, what number to aim for.
-3. INCLUDE INSIDER KNOWLEDGE: Every section must contain at least one insight that a reader would only know if they'd actually worked in this industry — something that makes them think "I never thought of it that way."
+3. INCLUDE PRACTICAL DEPTH: Every section must contain at least one concrete, verifiable, actionable detail (a rule, a threshold from a named public body, a step-by-step check, a common pitfall) — never a claim of personal experience, never "insider" framing.
 4. USE CONCRETE NUMBERS, HONESTLY FRAMED: Not "significant savings" — say "commonly $1,500-2,500 per truck per year" or "often in the low-to-mid four figures." A number can be specific without being falsely precise — never invent a single decimal-precision figure (e.g. "$1,847", "2.3 days", "14.3%") and present it as a discovered fact with no source; that reads as fabricated data even when the underlying direction is true. Use realistic ranges or "typically"/"commonly" framing for anything not tied to one of the real, verifiable sources named in the sourcing rule below.
 5. CONTROVERSIAL WHEN WARRANTED: If the conventional wisdom is wrong or incomplete, say so directly. Readers share content that challenges what they thought they knew.
 6. NARRATIVE PULL: Open with a scenario or problem so specific that the reader immediately thinks "this is about me." End each section making them want to read the next one.
@@ -1603,7 +1603,7 @@ E-E-A-T SIGNALS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 - Name specific regulations: 49 CFR Part 395, ELD mandate, Carmack Amendment, FMCSA SMS, ADR (current edition)
 - Reference industry bodies: ATA, TIA, FMCSA, OOIDA, IRU, IATA, NRF, CSCMP
-- Include "what most professionals miss" moments — insider knowledge that signals real experience
+- Include "common pitfalls" moments — specific, checkable mistakes stated in the third person, never as personal observation
 - Contradict a common mistake the target audience makes — this builds trust faster than agreeing with them
 - No filler hedging: write "you must" or "carriers that do X typically earn more", not "you might want to consider possibly". Do not attach an exact percentage to a claim unless a real named public source gives it.
 
