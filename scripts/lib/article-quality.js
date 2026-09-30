@@ -88,15 +88,18 @@ function findBrandMention(...texts) {
 // first person singular ("I", "my") or claiming a professional background is fiction. Sentences inside
 // quotation marks are exempt from the bare-"I" rule (illustrative dialogue), never from the credential rule.
 const FP_I = /(?<!(?:Class|Type|Phase|Part|Level|Tier|Group|Category|Chapter|War|Title|Form|Annex|Schedule|Step|Stage|Tab)\s)(?<![A-Za-z])I(?:['’](?:ve|m|d|ll))?(?=\s+[a-z]|['’](?:ve|m|d|ll)b)/;
-const FP_CRED = /\b(as (?:a|an) (?:former |veteran |seasoned |longtime |long-time |retired )?(?:dispatcher|broker|owner-operator|driver|logistics manager|industry veteran|trucker)|(?:industry|logistics|freight|trucking) veteran|veterans? like me|former (?:dispatcher|broker|driver|carrier)|veteran of (?:this|the) (?:industry|trade)|my (?:own )?(?:\d+\+? )?(?:years|experience|career|clients?|time in)|in the dispatcher.s chair)\b/i;
+// "As a dispatcher, …" opens a sentence with a capital A; lowercase "…manage margins as a broker" is ordinary third person.
+const FP_CRED_START = /\b(?:As|Being) (?:a|an) (?:former |veteran |seasoned |longtime |long-time |retired )?(?:dispatcher|broker|owner-operator|driver|logistics manager|industry veteran|trucker|fleet manager|carrier owner)\b(?:,| turned| for| with)/;
+const FP_CRED = /\b((?:industry|logistics|freight|trucking) veteran|veterans? like me|former (?:dispatcher|broker|driver|carrier)|veteran of (?:this|the) (?:industry|trade)|my (?:own )?(?:\d+\+? )?(?:years|experience|career|clients?|time in)|in the dispatcher.s chair)\b/i;
 // FAQ headings are written in the reader's voice ("How can I reduce onboarding time?") — that is not the author claiming experience.
-const FP_READER_QUESTION = /\b(?:how|what|can|should|do|does|is|are|when|why|where|which|will|could|would|am)\b[^.!]*\bI\b[^.!]*\?\s*$/i;
+const FP_READER_QUESTION = /\b(?:how|what|can|should|do|does|is|are|when|why|where|which|will|could|would|am)\b[^!]*\?\s*$/i;
 function findFirstPersonExperience(...texts) {
   for (const text of texts.filter(Boolean)) {
     const plain = stripTags(text);
-    for (const sentence of plain.split(/(?<=[.!?])\s+/)) {
+    // do not split after abbreviations ("active vs. passive", "U.S. carriers", "e.g. …")
+    for (const sentence of plain.split(/(?<=[.!?])(?<!\bvs\.)(?<!\bU\.S\.)(?<!\be\.g\.)(?<!\bi\.e\.)(?<!\betc\.)(?<!\bNo\.)\s+/)) {
       if (FP_READER_QUESTION.test(sentence)) continue;
-      if (FP_CRED.test(sentence) || /^My\s/.test(sentence.trim()) || /I(?:['’]ve| have) (?:personally|witnessed|guided|helped|worked)/.test(sentence) || (FP_I.test(sentence) && !/["“”]/.test(sentence))) return sentence.slice(0, 160);
+      if (FP_CRED.test(sentence) || FP_CRED_START.test(sentence) || /^My\s/.test(sentence.trim()) || /\bI(?:['’]ve| have) (?:personally|witnessed|guided|helped|worked)\b/.test(sentence) || (FP_I.test(sentence) && !/["“”]/.test(sentence))) return sentence.slice(0, 160);
     }
   }
   return null;
@@ -185,6 +188,68 @@ function titleHasYear(...titles) {
 // 2026-09-20 measurement): tolerate a couple of borderline figures, reject clear fabrication.
 const MAX_FALSE_PRECISION = 3;
 
+// ── 6. YMYL / sensitive topics ────────────────────────────────────────────────
+// A 2026-09-30 AdSense "low value content" rejection review flagged health, tax and dangerous-materials advice
+// written without a qualified author as the riskiest category on the site. Loadly is a single-person freight
+// publication with no medical, tax-advisory or hazmat-engineering credentials, so these topics are not published:
+// 11 posts were retired and the matching clusters were removed from the generator. This is the backstop that
+// keeps the model (or a topic-bank row) from bringing them back. Freight-compliance topics that merely touch
+// regulation (hazmat classification/placarding, IFTA filing, HOS rules, cargo insurance) stay allowed.
+const YMYL_PATTERNS = [
+  // health / medical advice
+  /\b(?:sleep apnea|CDL medical (?:card|exam|certificate)|DOT physical|medical examiner|driver(?:s['’])? (?:mental health|nutrition|diet|wellness|fatigue)|(?:mental health|burnout|depress\w+|anxiety|loneliness|suicid\w+)\b.{0,40}\b(?:driver|trucker)s?|truck(?:er|ing)? (?:health|diet|nutrition|weight loss|exercise|sleep)|blood pressure|diabetes|obesity|hypertension|heart disease|prescription|medication|dietary supplements?)\b/i,
+  // personal tax advice
+  /\b(?:tax (?:deduction|write-?off)s?|(?:deduct|write[- ]off)\w*\b.{0,30}\btax|per diem (?:deduction|tax)|self-employment tax|IRS (?:audit|form|schedule)|Schedule C|quarterly (?:estimated )?taxes)\b/i,
+  // explosives, radioactive and weapons cargo
+  /\b(?:explosives?|detonat\w+|blasting (?:agent|cap)s?|radioactive|nuclear material|fissile|firearms?|ammunition|(?<!secret )(?<!competitive )(?<!strategic )weapons?|munitions?)\b/i,
+  // controlled / illicit substances
+  /\b(?:controlled substances?|narcotics?|opioids?|cannabis|marijuana|hemp-derived|psychoactive)\b/i,
+  // legal / financial advice framed as a guaranteed outcome
+  /\b(?:win your (?:settlement|case|claim)|guaranteed (?:payout|settlement|approval)|legal advice|investment advice)\b/i,
+];
+
+function findYmylTopic(...texts) {
+  for (const text of texts.filter(Boolean)) {
+    const plain = stripTags(text);
+    for (const re of YMYL_PATTERNS) {
+      const m = plain.match(re);
+      if (m) return plain.slice(Math.max(0, m.index - 20), m.index + m[0].length + 30).trim();
+    }
+  }
+  return null;
+}
+
+// Body text: a passing mention ("reduces driver fatigue", "controlled substances screening") is normal freight
+// vocabulary, so the body is only judged on STRONG advice-topic terms and only when they repeat.
+const YMYL_BODY = /\b(?:sleep apnea|CDL medical (?:card|exam|certificate)|DOT physical|mental health|nutrition|tax deductions?|write-?offs?|explosives?|radioactive|firearms?|controlled substances?|cannabis|marijuana|narcotics?|prescription|medication|diabetes)\b/gi;
+const MAX_YMYL_BODY = 5;
+function countYmylBody(content) {
+  return (stripTags(content).match(YMYL_BODY) || []).length;
+}
+
+// ── 7. Year framing in the body ───────────────────────────────────────────────
+// Bodies that keep saying "in 2025 ..." / "for 2026 ..." age badly (663 of 802 archive posts read as stale a
+// year later and needed a cleanup pass). A real dated fact ("Q3 2025 report", "effective January 2026") is fine;
+// generic framing is not. Tolerate a couple of dated references, reject habitual framing.
+const YEAR_FRAMING = /\b(?:in|for|during|throughout|of|by)\s+20[2-3]\d\b(?![\s\S]{0,20}(?:report|survey|study|edition|update|rule|regulation|standard|amendment))/gi;
+const MAX_YEAR_FRAMING = 2;
+function countYearFraming(content) {
+  return (stripTags(content).match(YEAR_FRAMING) || []).length;
+}
+
+// ── 8. Indirect experience claims ─────────────────────────────────────────────
+// "forged from decades on the road", "as someone who has spent years in dispatch", "we predict …" – the
+// same fabricated authority as "I've seen firsthand", just without the word "I".
+const INDIRECT_EXPERIENCE = /\b(?:(?:decades|years) (?:on the road|in the (?:industry|trenches|dispatch|cab|seat)|behind the wheel|of (?:hands-on|firsthand) experience)|in the (?:trenches|dispatcher['’]s chair)|forged (?:from|in|by) (?:decades|years|the road)|as (?:someone|a person) who(?:['’]s| has|['’]ve| have)? ?(?:spent|worked|lived|driven|hauled|logged|moved)|hard-won (?:lessons|experience)|from (?:the|my|our) (?:dispatch (?:desk|office)|front lines)|(?:we|our team|our analysts?) (?:predict|foresee|forecast|anticipate|project|estimate)s?)\b/i;
+function findIndirectExperience(...texts) {
+  for (const text of texts.filter(Boolean)) {
+    const plain = stripTags(text);
+    const m = plain.match(INDIRECT_EXPERIENCE);
+    if (m) return plain.slice(Math.max(0, m.index - 30), m.index + m[0].length + 40).trim();
+  }
+  return null;
+}
+
 function validateArticle(post) {
   const issues = [];
   const firstParty = findFirstPartyClaim(post.title, post.excerpt, post.meta_description, post.content);
@@ -195,6 +260,13 @@ function validateArticle(post) {
   if (fpe) issues.push(`INVENTED FIRST-PERSON EXPERIENCE ("${fpe}") — the article has no narrator with a dispatcher/broker/driver career. Never write "I", "my", "I've seen", "as a veteran/dispatcher…", "in my years…". Write in third person about the industry ("dispatchers often find…").`);
   const hype = findHypeClaim(post);
   if (hype) issues.push(`HYPE / GUARANTEE LANGUAGE (${hype}) — no "guarantee", "slash", "eliminate", "secret", "insider", "battle-tested" or "what if I told you". Describe outcomes in measured words ("can reduce", "may lower") without promising results.`);
+  const ymylBody = countYmylBody(post.content);
+  const ymyl = findYmylTopic(post.title, post.meta_title, post.excerpt, post.meta_description, post.slug) || (ymylBody > MAX_YMYL_BODY ? `${ymylBody} mentions of advice-topic terms in the body` : null);
+  if (ymyl) issues.push(`YMYL / SENSITIVE TOPIC ("${ymyl}") — Loadly does not publish health, personal-tax, explosives/radioactive or controlled-substance advice (no qualified author). Choose a different, freight-operations topic.`);
+  const indirect = findIndirectExperience(post.title, post.excerpt, post.meta_description, post.content);
+  if (indirect) issues.push(`INDIRECT EXPERIENCE CLAIM ("${indirect}") — no "decades on the road", "forged from years in dispatch", "as someone who has spent…" or "we predict/forecast". Stay in the third person and attribute forecasts to real public bodies.`);
+  const yf = countYearFraming(post.content);
+  if (yf > MAX_YEAR_FRAMING) issues.push(`YEAR FRAMING (${yf} phrases like "in 2026"/"for 2026") — do not frame the article around the current year; write evergreen prose and keep a year only for a real dated fact.`);
   const anecdote = findFabricatedAnecdote(post.content);
   if (anecdote) issues.push(`INVENTED CASE STUDY ("${anecdote}") — do not describe a specific past event involving an unnamed company as fact. Use a clearly labelled hypothetical ("Imagine a 10-truck fleet…") or a real, named public source.`);
   const fp = countFalsePrecision(post.content);
@@ -304,6 +376,12 @@ module.exports = {
   stripTags,
   findFirstPartyClaim,
   findBrandMention,
+  findYmylTopic,
+  countYmylBody,
+  MAX_YMYL_BODY,
+  countYearFraming,
+  findIndirectExperience,
+  MAX_YEAR_FRAMING,
   findFirstPersonExperience,
   findHypeClaim,
   findFabricatedAnecdote,

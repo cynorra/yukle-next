@@ -103,3 +103,22 @@ console.log('article-quality: all assertions passed');
   assert.ok(q.findFirstPersonExperience("<p>The common mistake I have seen over 15 years? Skipping audits.</p><p>I've seen this often.</p>"), 'statement missed');
   console.log('first-person/hype gate tests passed');
 }
+
+// ── YMYL, indirect experience, year framing (2026-09-30) ──
+{
+  const q = require('./article-quality');
+  for (const bad of ['Sleep apnea and your CDL medical card', 'Owner-operator tax deductions playbook', 'Explosives transport regulations', 'Radioactive material shipping', 'Driver mental health on the road', 'Driver fatigue management', 'Controlled substances logistics']) {
+    assert.ok(q.findYmylTopic(bad), 'YMYL not caught: ' + bad);
+  }
+  for (const ok of ['Hazmat placarding checklist', 'IFTA fuel tax filing guide', 'HOS 34-hour restart rule', 'Cargo insurance exclusions', 'Reefer trailer maintenance', 'EV truck tax credit incentives']) {
+    assert.ok(!q.findYmylTopic(ok), 'YMYL false positive: ' + ok);
+  }
+  assert.ok(q.findIndirectExperience('These insights are forged from decades on the road.'), 'decades on the road');
+  assert.ok(q.findIndirectExperience('We predict a dip in rates.'), 'we predict');
+  assert.ok(!q.findIndirectExperience('Dispatchers often find that detention builds up.'), 'indirect false positive');
+  assert.ok(q.countYearFraming('<p>In 2026 rates rise. For 2026 plan. During 2026 hours change.</p>') > q.MAX_YEAR_FRAMING - 1, 'year framing');
+  assert.equal(q.countYearFraming('<p>The Q3 2025 report shows growth.</p>'), 0);
+  const issues = q.validateArticle({ title: 'Sleep Apnea Rules for Drivers', content: '<p>Text.</p>' });
+  assert.ok(issues.some((i) => i.startsWith('YMYL')), 'validateArticle must report YMYL');
+  console.log('ymyl/indirect/year-framing gate tests passed');
+}

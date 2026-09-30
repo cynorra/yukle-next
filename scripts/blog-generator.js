@@ -69,7 +69,7 @@ function freshenYear(text) {
 // Shared block for every prompt that produces year-sensitive text.
 const DATE_CONTEXT_BLOCK = `TODAY'S DATE: ${TODAY_ISO}. The current year is ${CURRENT_YEAR}.
 - Write as of ${CURRENT_YEAR}. Never present ${CURRENT_YEAR - 1} or any earlier year as "now", "this year" or "current" - in titles, headings, slugs, meta text or body copy.
-- If a title or heading uses a year, it must be ${CURRENT_YEAR}. Do not put ${CURRENT_YEAR - 1} in a title/slug/meta unless the article is explicitly a historical look back.
+- Never put ANY year in a title, heading, slug or meta text (evergreen titles only). In the body, do not frame the article around the current year ("in ${CURRENT_YEAR}", "for ${CURRENT_YEAR}", "${CURRENT_YEAR} playbook"); write evergreen prose and use a year only for a real, dated fact.
 - Your knowledge of the newest ${CURRENT_YEAR} figures may lag. Do not invent ${CURRENT_YEAR} statistics: describe the trend, use ranges, or cite a well-established earlier year plainly as past data ("in ${CURRENT_YEAR - 1}, ...").`;
 
 if (!supabaseUrl || (!anonKey && !serviceKey)) {
@@ -209,7 +209,6 @@ const topicClusters = [
   { name: 'CDL Requirements, Endorsements & Driver Licensing', keywords: ['cdl', 'commercial driver license', 'hazmat endorsement', 'tanker endorsement', 'cdl test', 'cdl school'] },
   { name: 'Cargo Insurance, Claims & Freight Liability', keywords: ['cargo insurance', 'freight claim', 'cargo claim', 'released value', 'cargo coverage', 'insurance certificate'] },
   { name: 'Freight Contract Law, BOL Terms & Liability Limits', keywords: ['freight contract', 'liability limit', 'cargo loss', 'bill of lading terms', 'carrier liability', 'carmack amendment'] },
-  { name: 'Owner-Operator Business Finance & Tax Strategy', keywords: ['owner operator tax', 'per diem', 'tax deduction trucking', 'quarterly tax', 'self employed trucker', 'schedule c trucking'] },
   { name: 'Truck Financing, Leasing & Purchase Strategy', keywords: ['truck financing', 'truck lease', 'equipment financing', 'semi truck loan', 'lease purchase', 'truck payment'] },
   { name: 'Truck Maintenance, Breakdowns & Preventive Schedules', keywords: ['truck maintenance', 'breakdown', 'pm schedule', 'oil change', 'dot inspection', 'repair cost', 'dot violation'] },
   { name: 'Tire Management, Tread Depth & Cost Optimization', keywords: ['tire', 'tread depth', 'retreads', 'tire blow out', 'tire cost', 'alignment', 'tire program'] },
@@ -219,7 +218,6 @@ const topicClusters = [
   { name: 'Blockchain, Visibility & Supply Chain Transparency', keywords: ['blockchain logistics', 'supply chain visibility', 'track and trace', 'freight visibility', 'digital twin', 'smart contract freight'] },
   { name: 'Warehouse Automation, Robotics & WMS', keywords: ['warehouse automation', 'robotics', 'wms', 'warehouse management', 'pick and pack', 'conveyor', 'automated warehouse'] },
   { name: 'Dock Scheduling, Appointment Systems & Yard Management', keywords: ['dock scheduling', 'appointment system', 'yard management', 'dock door', 'lumper', 'live unload', 'drop and hook'] },
-  { name: 'Driver Health, Wellness & Mental Health on the Road', keywords: ['driver health', 'driver wellness', 'truck driver diet', 'sleep apnea', 'driver fatigue', 'driver mental health'] },
   { name: 'Driver Recruitment, Retention & Compensation Structures', keywords: ['driver recruitment', 'driver retention', 'driver pay', 'driver shortage', 'sign on bonus', 'driver turnover'] },
   { name: 'Dispatch Operations, Load Planning & Efficiency', keywords: ['dispatcher', 'dispatch', 'load planning', 'freight dispatch', 'trip planning', 'relay trucking'] },
   { name: 'Freight Brokerage Startup, MC Authority & Licensing', keywords: ['freight broker license', 'mc number', 'broker authority', 'surety bond', 'broker startup', 'broker registration'] },
@@ -237,7 +235,6 @@ const topicClusters = [
   { name: 'Lumper Services, Driver Assist & Unloading Costs', keywords: ['lumper', 'driver assist', 'unloading fee', 'loading labor', 'lumper service', 'detention pay', 'unload time'] },
   { name: 'Permit Management, Overweight Loads & State Regulations', keywords: ['overweight permit', 'trip permit', 'state permit', 'superload permit', 'permit routing', 'axle weight', 'bridge law'] },
   { name: 'Owner-Operator vs Company Driver: Financial Comparison', keywords: ['owner operator vs company driver', 'independent contractor trucking', 'lease operator', 'w2 vs 1099 driver', 'company driver income'] },
-  { name: 'Freight Marketplace Technology & Platform Comparison', keywords: ['freight marketplace', 'digital freight', 'uber freight', 'convoy', 'freight platform', 'digital broker', 'loadly'] }
 ];
 
 // 7 content formats rotate to prevent structural repetition
@@ -1029,6 +1026,11 @@ async function popTopicFromBank() {
     .maybeSingle();
   if (error || !data) return null;
   await supabase.from('topic_bank').update({ is_used: true }).eq('id', data.id);
+  // YMYL / sensitive topics (health, personal tax, explosives...) are never written: burn the row and take the next one.
+  if (ArticleQuality.findYmylTopic(data.topic, data.primary_keyword, data.cluster, data.viral_angle)) {
+    console.log(`[Bank] Skipping YMYL/sensitive topic: "${data.topic}"`);
+    return popTopicFromBank();
+  }
   // Rows queued before the year fix can still say "2025".
   data.topic = freshenYear(data.topic);
   data.primary_keyword = freshenYear(data.primary_keyword);
@@ -1083,7 +1085,8 @@ TRAFFIC QUALITY REQUIREMENTS for each topic:
 1. Must address a real, painful problem the audience actively searches for
 2. Primary keyword must be something people type verbatim into Google or AI assistants
 3. Specific compelling angle — NOT "shipping tips", YES "Why LTL Freight Claims Get Denied and How to Document Them"
-4. Relevant to ${CURRENT_YEAR} freight industry realities (any year in a topic title must be ${CURRENT_YEAR})
+4. Relevant to today's freight industry realities. NEVER put a year in a topic title, and never write a topic that promises a number ("cut costs 20%").
+   FORBIDDEN TOPICS (do not propose, we do not publish them): driver health/medical/mental-health/nutrition/sleep/fatigue advice, CDL medical card, personal tax deductions or tax strategy, explosives / radioactive / firearms / weapons transport, controlled substances or cannabis, legal-settlement or investment advice, and comparisons of freight marketplaces/load-board platforms.
 5. Usefulness: a clear practical question, a common mistake, or a rule people misunderstand — no clickbait, no promised results
 
 For each topic return:
@@ -1559,7 +1562,7 @@ Use <table> to compare options, tools, or approaches across 3-5 criteria.
 
 **7. FAQ SECTION** — AEO CRITICAL. The <h2> heading MUST literally contain the word "FAQ" or the phrase "Frequently Asked" (schema extraction depends on this substring) but vary the rest: <h2>Frequently Asked Questions</h2>, <h2>Frequently Asked Questions About [Topic]</h2>, <h2>[Topic] FAQ</h2>, <h2>FAQ: [Topic]</h2>.
 Minimum 5 Q&A pairs structured for voice search and People Also Ask:
-- <h3> questions: Write as exact natural-language queries (e.g., "How much does LTL freight cost per mile in ${CURRENT_YEAR}?")
+- <h3> questions: Write as exact natural-language queries (e.g., "How much does LTL freight cost per mile?")
 - <p> answers: Start with a direct 1-sentence answer, then 2-3 sentences of supporting detail. Must be self-contained — AI assistants extract these verbatim.
 - Cover: what is X, how to X, how much does X cost, when should I X, what is the difference between X and Y
 

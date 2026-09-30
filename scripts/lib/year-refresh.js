@@ -19,11 +19,14 @@ const KEEP_AFTER = /^(?:iteration|edition|version|update|revision|amendment|refo
 
 // A lowercase word after "in/for 2025" that starts a new clause (verb, conjunction, preposition) - here the whole
 // "in 2025" phrase is a time adverbial and can be dropped; a noun after it means the year is an adjective instead.
-const FUNCTION_AFTER = /^(?:and|or|but|nor|yet|without|with|within|isn['’]t|doesn['’]t|don['’]t|won['’]t|can['’]t|aren['’]t|demands|requires|means|is|are|was|were|will|would|can|could|should|must|may|might|has|have|had|calls|needs|brings|comes|remains|looks|feels|sees|shows|makes|involves|takes|does|do|yields|offers|provides|delivers|creates|allows|helps|ensures|gives|drives|continues|presents|poses|holds|starts|begins|ends|depends|relies|works|matters|counts|becomes|represents|reflects|marks|signals|opens|raises|changes|affects|impacts|leads|forces|pushes|puts|sets|adds|keeps|gets|goes|runs|stays|turns|tends|appears|seems|proves|that|which|who|when|while|as|if|because|so|then|than|to|from|by|at|on|the|a|an|these|those|this|it|they|we|you|not|no)\b/i;
+const FUNCTION_AFTER = /^(?:and|or|but|nor|yet|without|with|within|isn['’]t|doesn['’]t|don['’]t|won['’]t|can['’]t|aren['’]t|include|includes|involves|involve|hinges|hinge|typically|often|still|significantly|heavily|fundamentally|leverages|leverage|varies|vary|refers|allow|lies|focus|focuses|stems|continue|moves|mean|empower|necessitates|mandates|integrate|integrates|exposes|acts|enables|depend|depends|ensure|conduct|emphasize|recognize|affect|revolve|face|demand|demands|requires|means|is|are|was|were|will|would|can|could|should|must|may|might|has|have|had|calls|needs|brings|comes|remains|looks|feels|sees|shows|makes|involves|takes|does|do|yields|offers|provides|delivers|creates|allows|helps|ensures|gives|drives|continues|presents|poses|holds|starts|begins|ends|depends|relies|works|matters|counts|becomes|represents|reflects|marks|signals|opens|raises|changes|affects|impacts|leads|forces|pushes|puts|sets|adds|keeps|gets|goes|runs|stays|turns|tends|appears|seems|proves|that|which|who|when|while|as|if|because|so|then|than|to|from|by|at|on|the|a|an|these|those|this|it|they|we|you|not|no)\b/i;
 
 // The year is an adjective ("the 2025 market", "Your 2025 Strategy", "Optimizing 2025 Costs") only after one of these,
 // or at the very start of the text. After anything else (notably "in") it is a point in time and is left alone.
 const ALLOW_BEFORE = new RegExp(String.raw`(?:^|[:;(—–-]\s*|\b(?:the|a|an|your|our|this|these|that|its|their|for|of|under|with|across|on|about|plus|new|best|top|complete|ultimate|full|every|each|all|any|following)\s+|\b\w+ing\s+)$`, 'i');
+
+// a figure within a few characters of the year: the year is probably the time of that figure
+const YEAR_NEXT_TO_FIGURE = /(?:[\d%$€£]\s*\S{0,25}2025|2025\s*\S{0,25}[\d%$€£])/;
 
 const hasOtherFigures = (text) => /\d/.test(text.replace(/2025/g, '')) || /[$€£%]/.test(text);
 
@@ -41,6 +44,9 @@ function tidy(s) {
 function refreshText(text, figures) {
   if (!text.includes(STALE)) return text;
   let s = text;
+
+  // There is no "Incoterms 2025": the edition in force is Incoterms 2020.
+  s = s.replace(/\bIncoterms(?:®)?\s+2025\b/g, (m) => m.replace('2025', '2020'));
 
   // "(2025)" and "in 2025 and beyond" style tails
   s = s.replace(/\s*\(\s*2025\s*\)/g, '');
@@ -88,12 +94,19 @@ function refreshText(text, figures) {
 }
 
 /** Refresh a fragment of HTML: only text between tags is edited, attributes and hrefs are never touched. */
-function refreshHtml(html) {
+function refreshHtml(html, opts = {}) {
   const plain = html.replace(/<[^>]+>/g, ' ');
   if (!plain.includes(STALE)) return html;
   const figures = hasOtherFigures(plain);
   const parts = html.split(/(<[^>]+>)/);
-  const out = parts.map((p, i) => (i % 2 === 1 ? p : refreshText(p, figures)));
+  // perSentence: decide "does this sentence carry other figures?" per sentence instead of per paragraph, so a stale
+  // "in 2025" in a figure-free sentence is dropped even when a neighbouring sentence has numbers. A year that sits
+  // right next to a figure ("rose 8% in 2025") or names a source ("a 2025 report") is never touched.
+  const perSentence = (text) => text.split(/(?<=[.!?])(\s+)/).map((seg) => {
+    if (!seg.includes(STALE)) return seg;
+    return refreshText(seg, hasOtherFigures(seg) || YEAR_NEXT_TO_FIGURE.test(seg));
+  }).join('');
+  const out = parts.map((p, i) => (i % 2 === 1 ? p : (opts.perSentence ? perSentence(p) : refreshText(p, figures))));
   let res = out.join('');
   // keep the first letter capitalised if the fragment started with a capital before
   const firstText = res.match(/^(\s*(?:<[^>]+>\s*)*)([a-z])/);
