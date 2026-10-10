@@ -1,0 +1,32 @@
+name: Prune Old Loads
+
+# Daily retention for the scraped `loads` table (see scripts/prune-old-loads.js for why).
+# 03:30 UTC is well clear of the blog generator (09:00 UTC) so they never compete for the free-tier database.
+on:
+  schedule:
+    - cron: '30 3 * * *' # 03:30 UTC daily
+  workflow_dispatch:
+
+concurrency:
+  group: prune-old-loads
+  cancel-in-progress: false
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Delete loads older than 14 days
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/prune-old-loads.js
