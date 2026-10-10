@@ -7,7 +7,7 @@ on:
   # to a file that's never been toggled, to get it registered cleanly.
   # If this fires reliably, scraper.yml's schedule can stay removed for good.
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch: # Required so the REST API dispatch (external-trigger fallback) can target this file
 
 concurrency:

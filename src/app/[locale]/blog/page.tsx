@@ -55,16 +55,20 @@ async function fetchBlogPosts(locale: string) {
     .order('created_at', { ascending: false })
     .limit(BLOG_LIST_LIMIT);
 
-  if (error) console.error(`[blog] Supabase error (${locale}):`, error);
+  // Throw instead of rendering an empty list: a thrown error during ISR revalidation keeps
+  // serving the last good page, whereas "No articles found" would be cached for a day
+  // (a DB outage on 2026-10-10 left the whole blog looking empty that way).
+  if (error) throw new Error(`[blog] Supabase error (${locale}): ${error.message || error.code}`);
   return posts || [];
 }
 
 async function countBlogPosts(locale: string) {
-  const { count } = await createPublicClient()
+  const { count, error } = await createPublicClient()
     .from('blog_posts')
     .select('id', { count: 'exact', head: true })
     .eq('published', true)
     .eq('language', locale);
+  if (error) throw new Error(`[blog] Supabase count error (${locale}): ${error.message || error.code}`);
   return count ?? 0;
 }
 

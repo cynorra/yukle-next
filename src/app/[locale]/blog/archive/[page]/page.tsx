@@ -40,7 +40,7 @@ export default async function BlogArchivePage({ params }: Props) {
 
   const supabase = createPublicClient();
   const from = (page - 1) * BLOG_ARCHIVE_PAGE_SIZE;
-  const { data: posts, count } = await supabase
+  const { data: posts, count, error } = await supabase
     .from('blog_posts')
     .select('title, slug, excerpt, created_at', { count: 'exact' })
     .eq('published', true)
@@ -48,6 +48,8 @@ export default async function BlogArchivePage({ params }: Props) {
     .order('created_at', { ascending: false })
     .range(from, from + BLOG_ARCHIVE_PAGE_SIZE - 1);
 
+  // Don't cache a 404 for an archive page just because the query failed.
+  if (error) throw new Error(`[blog/archive/${page}] Supabase error: ${error.message || error.code}`);
   const totalPages = Math.max(1, Math.ceil((count ?? 0) / BLOG_ARCHIVE_PAGE_SIZE));
   if (!posts || posts.length === 0 || page > totalPages) notFound();
 

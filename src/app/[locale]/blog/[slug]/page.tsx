@@ -46,12 +46,15 @@ export const revalidate = 3600;
 // DB round-trip on every render.
 const getPost = cache(async (slug: string) => {
   const supabase = createPublicClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('blog_posts')
     .select('*, author:profiles(full_name)')
     .eq('slug', slug)
     .eq('published', true)
     .maybeSingle();
+  // A query error is not "post missing": throwing keeps the last good page instead of
+  // caching notFound() (the stuck-404 quirk) while the database is struggling.
+  if (error) throw new Error(`[blog/${slug}] Supabase error: ${error.message || error.code}`);
   return data;
 });
 

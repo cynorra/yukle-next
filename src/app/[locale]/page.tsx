@@ -50,7 +50,7 @@ function initials(name: string | undefined | null): string {
 // when a locale's translation queue hasn't caught up yet, so it's never empty.
 async function fetchLatestPosts(locale: string): Promise<BlogPost[]> {
   const supabase = createPublicClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('blog_posts')
     .select(HOME_POST_COLUMNS)
     .eq('published', true)
@@ -58,10 +58,12 @@ async function fetchLatestPosts(locale: string): Promise<BlogPost[]> {
     .order('created_at', { ascending: false })
     .limit(HOME_POST_LIMIT);
 
+  // Throw on a DB error so ISR keeps the last good page instead of caching an empty homepage.
+  if (error) throw new Error(`[home] Supabase error (${locale}): ${error.message || error.code}`);
   if (data && data.length > 0) return data as unknown as BlogPost[];
   if (locale === 'en') return [];
 
-  const { data: fallback } = await supabase
+  const { data: fallback, error: fallbackError } = await supabase
     .from('blog_posts')
     .select(HOME_POST_COLUMNS)
     .eq('published', true)
@@ -69,6 +71,7 @@ async function fetchLatestPosts(locale: string): Promise<BlogPost[]> {
     .order('created_at', { ascending: false })
     .limit(HOME_POST_LIMIT);
 
+  if (fallbackError) throw new Error(`[home] Supabase fallback error: ${fallbackError.message || fallbackError.code}`);
   return (fallback as unknown as BlogPost[]) || [];
 }
 
