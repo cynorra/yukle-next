@@ -14,7 +14,7 @@ function checkSecret(request: NextRequest) {
 // runs (114 of the last 120 were cancelled on 2026-10-10) and kept the free-tier database
 // busy around the clock. Whatever the pinger's interval is, dispatch at most once per
 // window. Module state is per process, which is fine for the single PM2 instance.
-const MIN_DISPATCH_INTERVAL_MS = 30 * 60 * 1000;
+const MIN_DISPATCH_INTERVAL_MS = 55 * 60 * 1000;
 let lastDispatchAt = 0;
 
 // Called by an external pinger (e.g. cron-job.org) every 5 minutes, since
