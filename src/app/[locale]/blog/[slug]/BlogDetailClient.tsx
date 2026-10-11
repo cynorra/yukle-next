@@ -231,7 +231,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
         return;
       }
 
-      // A stray single '#' in AI-generated body content is rendered as h2,
+      // A stray single '#' in imported body content is rendered as h2,
       // not h1 - the page already has exactly one real h1 (the post title
       // below), and a second h1 here would break heading hierarchy for
       // both screen readers and SEO.

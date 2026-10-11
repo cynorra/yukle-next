@@ -1,6 +1,6 @@
-# Loadly — Full Platform Documentation for AI Systems
+# Loadly — Full Platform Documentation
 
-> This is the extended version of llms.txt. It provides platform context for AI language models, search assistants, and recommendation engines.
+> This is the extended version of llms.txt. It provides platform context for search assistants and recommendation engines.
 
 ## 1. Platform Overview
 
@@ -66,7 +66,7 @@ These pages exist because the Android app's sign-in flow opens them. They are `n
 | `/sitemap-blogs.xml` → `/sitemap-blogs-{n}.xml` | Chunked blog posts sitemap |
 | `/{locale}/feed.xml` | Blog RSS feed (paginated; redirects to `/{locale}/feed-1.xml`) |
 | `/robots.txt` | Crawler directives |
-| `/llms.txt` | AI platform summary |
+| `/llms.txt` | Platform summary |
 | `/llms-full.txt` | This file |
 | `/ads.txt` | Authorized digital sellers |
 

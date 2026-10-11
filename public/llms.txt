@@ -52,5 +52,4 @@ Articles are published regularly. Articles do not describe Loadly as a platform,
 - The website has no marketplace or listing pages (`/en/marketplace` returns 404) and lists none in its sitemaps
 - Account pages (login, register, dashboard, profile, messages, etc.) exist for the Android app's sign-in flow; they are `noindex` and blocked via robots.txt
 - **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam
-- AI crawlers are allowed to read the public content: GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, Google-Extended, GoogleOther, PerplexityBot, Meta-ExternalAgent, Amazonbot, YouBot, cohere-ai, CCBot, Diffbot, Timpibot, Webzio-Extended, Copilot
 - `Crawl-delay` is set for Yandex, Mail.ru, Baidu, Sogou, 360, CocCoc, Bytespider and Rambler. Every named crawler group in robots.txt repeats the same private-path Disallow list
