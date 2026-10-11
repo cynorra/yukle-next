@@ -24,7 +24,7 @@ export interface BlogTranslationDict {
 
 export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
   en: {
-    title: 'Freight, Trucking & Truck Load Guide | Loadly',
+    title: 'Trucking & Freight Guides | Loadly',
     description: 'Sourced guides on US trucking and freight rules: hours of service, weight limits, brokers, LTL shipping, claims and more.',
     tagline: 'Freight & Logistics Guides',
     header1: 'Trucking and Freight',

@@ -68,6 +68,10 @@ export async function GET(_req: Request, { params }: RouteParams) {
   const { posts, count } = await fetchFeedPage(locale, from, to);
   const totalPages = count ? Math.max(1, Math.ceil(count / PAGE_SIZE)) : pageNum;
 
+  if (pageNum > 1 && posts.length === 0) {
+    return new Response('Not found', { status: 404 });
+  }
+
   const items = posts.map((post: any) => {
     const url = `${SITE_URL}/${locale}/blog/${post.slug}`;
     const pubDate = new Date(post.created_at).toUTCString();
@@ -111,7 +115,9 @@ export async function GET(_req: Request, { params }: RouteParams) {
     ? `\n    <atom:link href="${SITE_URL}/${locale}/feed-${pageNum - 1}.xml" rel="prev" type="application/rss+xml"/>`
     : '';
 
-  const channelTitle = `${escapeXml(t.title)} (Page ${pageNum} of ${totalPages})`;
+  const channelTitle = totalPages > 1
+    ? `${escapeXml(t.title)} (Page ${pageNum} of ${totalPages})`
+    : escapeXml(t.title);
   const channelLink = `${SITE_URL}/${locale}/blog`;
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
