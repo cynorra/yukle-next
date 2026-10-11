@@ -501,7 +501,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
               src={post.cover_image || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'} 
               alt={post.title}
               fill
-              sizes="100vw"
+              sizes="(max-width: 900px) 100vw, 896px"
               priority
               className="object-cover transform hover:scale-105 transition-transform duration-700"
             />

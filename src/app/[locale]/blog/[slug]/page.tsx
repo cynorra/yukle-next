@@ -164,6 +164,7 @@ export async function generateMetadata({
     alternates: {
       canonical: `${SITE_URL}/${locale}/blog/${slug}`,
       languages: languagesAlternates,
+      types: { 'application/rss+xml': [{ url: `${SITE_URL}/${locale}/feed-1.xml`, title: 'Loadly Blog RSS' }] },
     },
     openGraph: {
       type: 'article',
