@@ -13,8 +13,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const canonicalLocale = SUPPORTED.has(rawLocale) ? rawLocale : 'en';
   return {
-    title: 'Eren Şimşir',
-    description: 'Founder and Chief Technical Editor of Loadly.',
+    title: 'Eren Şimşir, Founder and Editor of Loadly',
+    description: 'Eren Şimşir founded and edits Loadly: his background, how the freight and trucking guides are written from primary sources, and where to start.',
     alternates: {
       canonical: `${SITE_URL}/${canonicalLocale}/author/eren-simsir`,
     },
@@ -29,7 +29,7 @@ export default async function Page({ params }: Props) {
     '@type': 'Person',
     '@id': `${SITE_URL}/${locale}/author/eren-simsir#person`,
     name: 'Eren Şimşir',
-    jobTitle: 'Chief Technical Editor',
+    jobTitle: 'Founder and Editor',
     url: `${SITE_URL}/${locale}/author/eren-simsir`,
     worksFor: { '@id': `${SITE_URL}/#organization` },
     sameAs: ['https://www.linkedin.com/in/ernsmsr/'],

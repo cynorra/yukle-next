@@ -88,7 +88,6 @@ const faq: ToolFaq[] = [
 ];
 
 const sources: ToolLink[] = [
-  { label: 'UPS — Dimensional weight (carrier’s own explanation)', href: 'https://www.ups.com/us/en/support/shipping-support/shipping-special-care-regulated-items/dimensional-weight' },
   { label: 'IATA — Cargo', href: 'https://www.iata.org/en/programs/cargo/' },
 ];
 

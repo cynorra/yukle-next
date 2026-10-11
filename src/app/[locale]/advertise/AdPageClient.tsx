@@ -17,7 +17,7 @@ export function AdPageClient() {
     {
       icon: TrendingUp,
       title: 'Sponsored Content',
-      desc: 'A clearly labelled sponsored article or brand mention. Sponsored content is always marked as such and goes through the same editorial review as our other articles.',
+      desc: 'A clearly labelled sponsored article or brand mention. Sponsored content is always marked as such and kept separate from the editorial guides.',
     },
   ];
 

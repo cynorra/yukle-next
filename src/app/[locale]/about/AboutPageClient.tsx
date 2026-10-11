@@ -87,11 +87,11 @@ const EXTRA: Record<string, {
     ],
     missionTitle: 'Our Mission',
     missionText:
-      'To make reliable, up-to-date, and practical logistics knowledge available to everyone. Through regularly published content on freight costs, route guides, and regulatory changes, we help industry professionals and businesses make better decisions.',
+      'Loadly explains how trucking and freight rules work, starting in the United States. Each guide starts from the regulation, statute or industry standard itself, says in plain language what it requires, and works the arithmetic through when numbers are involved. The aim is a reference you can check against its source, not a collection of opinions about freight.',
     teamTitle: 'Who Builds Loadly',
     teamName: 'Eren Şimşir',
-    teamRole: 'Chief Technical Editor',
-    teamBio: 'Computer Engineer & Industrial Engineer (Double Major). Responsible for Loadly\'s technical development and content quality.',
+    teamRole: 'Founder and Editor',
+    teamBio: 'A software developer with computer engineering and industrial engineering degrees (double major) and a PhD candidate in computer science. He founded Loadly, edits every guide, and builds the site and its calculators.',
     teamLinkedInLabel: 'View on LinkedIn',
     whyTitle: 'Why Follow Loadly?',
     whyItems: [
@@ -105,7 +105,7 @@ const EXTRA: Record<string, {
     ],
     commitTitle: 'Our Editorial Commitment',
     commitText:
-      'We aim for every article to be accurate, current, and practical. Articles are based on primary sources such as regulation text and agency guidance, list those sources, and say what they do not cover (see our Editorial Policy).',
+      'Every guide aims to be accurate, current and useful. It lists its sources, says what it leaves out, and is corrected when a reader points to a source that shows it is wrong (see our Editorial Policy).',
     howTitle: 'How to Use Loadly',
     howSteps: [
       { title: 'Search a Topic', desc: 'Look up freight costs, routes, or regulations relevant to your business.' },
@@ -165,15 +165,19 @@ export function AboutPageClient({ data, locale }: Props) {
         {/* How content is made */}
         {locale !== 'tr' && (
           <div className="mb-12">
-            <h2 className={`text-2xl font-bold ${t.heading} mb-4`}>How Our Articles Are Made</h2>
+            <h2 className={`text-2xl font-bold ${t.heading} mb-4`}>What You Will Find Here</h2>
             <p className={`text-base ${t.muted} leading-relaxed mb-3`}>
-              Loadly is an independent, single-editor publication about freight, trucking and logistics. It is not a hands-on product-testing site, and we do not present general industry context as original research.
+              The guides cover the rules that govern drivers and vehicles (hours of service, CDL classes, roadside inspections, weight limits, cargo securement, insurance, hazmat placarding) and how freight is bought and sold (brokers and their bonds, carriers, load boards, LTL shipping, claims, factoring). Alongside them is a set of <a className="text-accent font-semibold" href={`/${locale}/tools`}>free calculators</a> for density, axle weight, rate per mile, dimensional weight, fuel and detention. Everything is free to read and needs no sign-up.
+            </p>
+            <h2 className={`text-2xl font-bold ${t.heading} mt-8 mb-4`}>What These Guides Are, and Are Not</h2>
+            <p className={`text-base ${t.muted} leading-relaxed mb-3`}>
+              Loadly is an independent publication run by one editor. The guides rely on primary sources, such as the text of a regulation, a statute or a published industry standard, and list them at the end. A figure is stated only when a source gives it, and a number invented to show how a calculation works is labelled as an example. Loadly does not test products and does not present general context as original research.
             </p>
             <p className={`text-base ${t.muted} leading-relaxed mb-3`}>
-              Our content is general educational information, not legal, financial or compliance advice. Regulations, rates and carrier rules vary by country and change often, so check the official source (for example FMCSA, IRU, or your customs authority) before acting on anything you read here.
+              The content is general educational information, not legal, financial or compliance advice. Rules change and differ by State and country, so check the official source before acting on anything here.
             </p>
             <p className={`text-base ${t.muted} leading-relaxed`}>
-              Found a mistake or an outdated figure? Email <a className="text-accent font-semibold" href="mailto:info@loadlyapp.com">info@loadlyapp.com</a> and we will review and correct it. Read the full <a className="text-accent font-semibold" href={`/${locale}/editorial-policy`}>Editorial Policy</a>.
+              Found a mistake or an outdated figure? Email <a className="text-accent font-semibold" href="mailto:info@loadlyapp.com">info@loadlyapp.com</a> with the guide and the passage. Read the full <a className="text-accent font-semibold" href={`/${locale}/editorial-policy`}>Editorial Policy</a>.
             </p>
           </div>
         )}

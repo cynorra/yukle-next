@@ -37,7 +37,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     backToBlog: 'Back to Blog',
     readingTime: 'Reading time:',
     readingTimeSuffix: 'min read',
-    authorRole: 'Chief Technical Editor',
+    authorRole: 'Founder and Editor',
     shareTitle: 'Do Not Forget to Share!',
     shareDesc: 'If you found this content useful, share it with your friends in the transport sector.',
     loading: 'Loading article...',

@@ -14,17 +14,17 @@
   },
   "contact": {
     "title": "Contact Us",
-    "description": "You can always contact us for your questions, comments, or suggestions. We will get back to you as soon as we can.",
+    "description": "Questions, corrections, topic suggestions or advertising enquiries are all welcome by email. Loadly is edited by one person, so please include the guide and passage you are writing about.",
     "getInTouch": "Get in Touch",
     "emailTitle": "Email",
-    "emailDesc": "For general inquiries and support.",
+    "emailDesc": "For corrections, questions about a guide, and general enquiries.",
     "phoneTitle": "Phone",
     "phoneDesc": "Business hours only (Mon-Fri, 09:00 - 18:00).",
     "phoneNotAvailable": "Not available yet",
     "addressTitle": "Address",
-    "addressDesc": "Turkey",
+    "addressDesc": "Loadly is published from Turkey. All enquiries are handled by email.",
     "quickSupport": "Quick Support",
-    "quickSupportDesc": "We recommend using our email channel for your urgent support needs regarding advertising opportunities, collaborations, or account management. We return within 24 hours at the latest.",
+    "quickSupportDesc": "Write to us about a correction, a topic you would like covered, advertising or a collaboration. We read every message and aim to reply within a few business days.",
     "advCollab": "Advertising & Collaboration:"
   },
   "cookiePolicy": {

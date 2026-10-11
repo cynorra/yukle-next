@@ -177,7 +177,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
       '@type': 'Person',
       '@id': `${SITE_URL}/#founder`,
       name: 'Eren Şimşir',
-      jobTitle: 'Chief Technical Editor',
+      jobTitle: 'Founder and Editor',
       sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
     },
     contactPoint: {
@@ -192,7 +192,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
     '@type': 'Person',
     '@id': `${SITE_URL}/#founder`,
     name: 'Eren Şimşir',
-    jobTitle: 'Chief Technical Editor',
+    jobTitle: 'Founder and Editor',
     worksFor: { '@id': `${SITE_URL}/#organization` },
     sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
   };
