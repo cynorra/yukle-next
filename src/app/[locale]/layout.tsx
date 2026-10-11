@@ -33,17 +33,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       template: `%s | Loadly`,
     },
     description: t.home.heroDesc,
-    keywords: [
-      'logistics',
-      'shipping',
-      'freight blog',
-      'logistics guides',
-      'truck load',
-      'trucking industry news',
-      'transport matching',
-      'delivery cargo',
-      'trucker network',
-    ],
     authors: [{ name: 'Loadly' }],
     alternates: {
       canonical: `/${locale}`,
@@ -55,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         // Loads RSS (marketplace-backed) was removed along with the
         // marketplace's public surface — don't advertise a feed that 404s.
         'application/rss+xml': [
-          { url: `${SITE_URL}/${locale}/feed.xml`, title: 'Loadly Blog RSS' },
+          { url: `${SITE_URL}/${locale}/feed-1.xml`, title: 'Loadly Blog RSS' },
         ],
       },
     },
@@ -164,14 +153,14 @@ export default async function LocalizedLayout({ children, params }: Props) {
     url: `${SITE_URL}/${locale}/`,
     logo: `${SITE_URL}/logo.png`,
     description: t.home.heroDesc,
-    areaServed: { '@type': 'Country', name: 'Worldwide' },
+    areaServed: { '@type': 'Country', name: 'United States' },
     serviceType: 'Logistics Content Platform',
     knowsAbout: [
-      'Freight Transportation',
-      'Logistics',
-      'Trucking',
-      'Supply Chain Management',
-      'Cargo Shipping',
+      'Trucking regulation',
+      'Freight brokerage',
+      'LTL shipping',
+      'Hours of service',
+      'Cargo securement',
     ],
     founder: {
       '@type': 'Person',
@@ -193,6 +182,8 @@ export default async function LocalizedLayout({ children, params }: Props) {
     '@id': `${SITE_URL}/#founder`,
     name: 'Eren Şimşir',
     jobTitle: 'Founder and Editor',
+    description: 'Software developer with computer engineering and industrial engineering degrees and a PhD candidate in computer science. Founder and editor of Loadly.',
+    knowsAbout: ['Software engineering', 'Industrial engineering', 'Freight and trucking regulation (from primary sources)'],
     worksFor: { '@id': `${SITE_URL}/#organization` },
     sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
   };

@@ -343,7 +343,7 @@ export default async function HomePage({ params }: PageProps) {
                   Read the blog <ArrowRight size={18} />
                 </Link>
                 <a
-                  href={`/${locale}/feed.xml`}
+                  href={`/${locale}/feed-1.xml`}
                   className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/20 px-9 py-4 text-base font-extrabold text-white transition-colors hover:bg-white/10 sm:w-auto"
                 >
                   <Rss size={18} /> RSS feed

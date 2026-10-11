@@ -170,7 +170,7 @@ export async function generateMetadata({
       title: brandedTitle,
       description,
       url: `${SITE_URL}/${locale}/blog/${slug}`,
-      images: post.cover_image ? [{ url: post.cover_image }] : undefined,
+      images: post.cover_image ? [{ url: post.cover_image, width: 1200, height: 630, alt: title }] : undefined,
       publishedTime: post.created_at,
       modifiedTime: post.updated_at,
     },
@@ -181,6 +181,21 @@ export async function generateMetadata({
       images: post.cover_image ? [post.cover_image] : undefined,
     },
   };
+}
+
+
+// Primary sources listed under the article's "Sources" heading, exposed as schema.org citations.
+function extractCitations(html: string): { '@type': 'CreativeWork'; name: string; url: string }[] {
+  const m = html.match(/<h2[^>]*>\s*Sources\s*<\/h2>([\s\S]*)$/i);
+  if (!m) return [];
+  const out: { '@type': 'CreativeWork'; name: string; url: string }[] = [];
+  const re = /<a [^>]*href="(https?:[^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+  let a: RegExpExecArray | null;
+  while ((a = re.exec(m[1])) !== null) {
+    const name = a[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    if (name) out.push({ '@type': 'CreativeWork', name, url: a[1] });
+  }
+  return out;
 }
 
 export default async function BlogSlugPage({
@@ -206,11 +221,13 @@ export default async function BlogSlugPage({
     headline: post.title,
     inLanguage: locale,
     description: post.excerpt || post.meta_description,
-    image: post.cover_image,
+    image: post.cover_image ? { '@type': 'ImageObject', url: post.cover_image, width: 1200, height: 630 } : undefined,
+    isAccessibleForFree: true,
+    citation: extractCitations(post.content || ''),
     datePublished: post.created_at,
     dateModified: post.updated_at || post.created_at,
     wordCount,
-    articleSection: 'Logistics & Freight',
+    articleSection: post.topic_cluster || 'Logistics & Freight',
     keywords: post.meta_title
       ? post.meta_title.replace(/\s*\|\s*Loadly\s*$/i, '').trim()
       : post.title,

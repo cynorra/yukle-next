@@ -6,6 +6,7 @@ const BLOG_MERGES = JSON.parse(readFileSync(new URL('./src/data/blog-merges.json
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  poweredByHeader: false,
   reactStrictMode: true,
   output: 'standalone',
   experimental: {
@@ -70,6 +71,7 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: [
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },

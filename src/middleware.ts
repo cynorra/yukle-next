@@ -133,6 +133,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // "/EN", "/En/blog" and similar: normalise the language prefix to lowercase in one hop
+  // instead of treating it as a bare path and prefixing "/en" (which produced /en/EN, a 404).
+  const upperMatch = pathname.match(/^\/([A-Za-z]{2})(\/.*)?$/);
+  if (upperMatch && upperMatch[1] !== upperMatch[1].toLowerCase() && SUPPORTED_LOCALES.includes(upperMatch[1].toLowerCase())) {
+    return NextResponse.redirect(new URL(`/${upperMatch[1].toLowerCase()}${upperMatch[2] || ''}${search}`, origin), 301);
+  }
+
   const localeMatch = pathname.match(/^\/([a-z]{2})(\/.*)?$/);
   const urlLocale = localeMatch && SUPPORTED_LOCALES.includes(localeMatch[1]) ? localeMatch[1] : null;
 

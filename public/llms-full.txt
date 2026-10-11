@@ -4,20 +4,21 @@
 
 ## 1. Platform Overview
 
-**Loadly** (https://loadlyapp.com) is a logistics and freight **content platform**. It publishes practical guides, route insights, and industry analysis for shippers, carriers, and logistics professionals worldwide, and offers a small set of free calculators.
+**Loadly** (https://loadlyapp.com) is an independent publication of freight and trucking guides, starting with United States rules. Each guide starts from a primary source (the Code of Federal Regulations, a statute, or a published industry standard), says in plain language what it requires, works the arithmetic through where numbers are involved, and lists its sources at the end. The site also offers a set of free calculators.
 
-The website is a blog and a set of tools. It has **no marketplace and no freight-listing pages**: `/en/marketplace` returns 404 and no listings appear in any sitemap. A separate Loadly Android app, which shows freight listings, is not part of what is published on this website.
+The website is guides and tools. It has **no marketplace and no freight-listing pages**: `/en/marketplace` returns 404 and no listings appear in any sitemap. A separate Loadly Android app, which shows freight listings, is not part of what is published on this website.
 
-### Core Value Proposition
-- Guides on freight costs, shipping routes, and industry regulation, published under written editorial rules and pre-publication quality checks
-- Free calculators: dimensional weight, fuel cost, detention fee
-- Published regularly in English
+### What Sets the Guides Apart
+- Primary sources named and linked at the end of each guide
+- A figure appears only where a source gives it; numbers invented to show how a calculation works are labelled as examples
+- Each guide says what it leaves out
+- Free calculators that use the same formulas the guides explain: LTL density, Federal Bridge Formula, rate per mile, dimensional weight, fuel cost, detention fee
 
 ### Technology Stack
 - **Frontend**: Next.js 15 (App Router), React 18, TypeScript
 - **Backend**: Supabase (PostgreSQL + Auth)
 - **Hosting**: Self-hosted on Oracle Cloud (Next.js standalone build behind a Caddy reverse proxy)
-- **SEO**: Server-side rendering, ISR, structured data, chunked sitemap index
+- **Rendering**: Server-side rendering with incremental static regeneration, so the full article text is in the HTML
 
 ---
 
@@ -28,20 +29,23 @@ All URLs follow the pattern `https://loadlyapp.com/en/{page}` (English only; `{l
 
 | Page | Path | Description |
 |------|------|-------------|
-| Homepage | `/{locale}` | Editorial front page — featured article and latest articles |
-| Blog List | `/{locale}/blog` | Logistics industry articles |
-| Blog Article | `/{locale}/blog/{slug}` | Individual blog post |
-| Tools | `/{locale}/tools` | Free freight and logistics calculators |
+| Homepage | `/{locale}` | Front page with the latest guides |
+| Guides | `/{locale}/blog` | All guides |
+| Guide | `/{locale}/blog/{slug}` | Individual guide |
+| Tools | `/{locale}/tools` | Free freight and trucking calculators |
+| LTL Density Calculator | `/{locale}/tools/ltl-density-calculator` | Pounds per cubic foot for a pallet |
+| Federal Bridge Formula Calculator | `/{locale}/tools/bridge-formula-calculator` | Maximum weight for an axle group |
+| Rate Per Mile Calculator | `/{locale}/tools/rate-per-mile-calculator` | Loaded versus total miles |
 | Dimensional Weight Calculator | `/{locale}/tools/dimensional-weight-calculator` | Chargeable weight for parcel, air and sea freight |
 | Fuel Cost Calculator | `/{locale}/tools/fuel-cost-calculator` | Trip fuel needed and cost |
 | Detention Fee Calculator | `/{locale}/tools/detention-fee-calculator` | Billable waiting time and charge |
 | About | `/{locale}/about` | About Loadly |
 | Contact | `/{locale}/contact` | Contact information |
-| Advertise | `/{locale}/advertise` | Advertising information |
+| Advertise | `/{locale}/advertise` | Sponsorship information |
 | Privacy Policy | `/{locale}/privacy` | Privacy policy (`/privacy-policy` redirects here) |
 | Terms | `/{locale}/terms` | Terms of service |
 | Cookie Policy | `/{locale}/cookie-policy` | Cookie usage and consent |
-| Editorial Policy | `/{locale}/editorial-policy` | How articles are written and checked |
+| Editorial Policy | `/{locale}/editorial-policy` | How guides are sourced and corrected |
 | Accessibility | `/{locale}/accessibility` | Accessibility statement |
 | Author | `/{locale}/author/eren-simsir` | Editor profile |
 | Sitemap (HTML) | `/{locale}/sitemap` | Human-readable site map |
@@ -56,15 +60,15 @@ These pages exist because the Android app's sign-in flow opens them. They are `n
 | Dashboard | `/{locale}/dashboard` | Account area |
 | Profile | `/{locale}/profile` | Profile settings |
 | Messages | `/{locale}/messages` | Messaging |
-| Turkish privacy notice | `/tr/privacy-policy` | Turkish-language KVKK notice, `noindex`, linked from the Privacy Policy |
+| Turkish privacy notice | `/tr/privacy-policy` | Turkish-language data-protection notice, `noindex`, linked from the Privacy Policy |
 
-### API & System
+### System
 | Endpoint | Description |
 |----------|-------------|
-| `/sitemap.xml` | Sitemap index (static + chunked blog sub-sitemaps only) |
+| `/sitemap.xml` | Sitemap index (static + chunked guide sub-sitemaps only) |
 | `/sitemap-static.xml` | Static pages sitemap |
-| `/sitemap-blogs.xml` → `/sitemap-blogs-{n}.xml` | Chunked blog posts sitemap |
-| `/{locale}/feed.xml` | Blog RSS feed (paginated; redirects to `/{locale}/feed-1.xml`) |
+| `/sitemap-blogs-{n}.xml` | Chunked guides sitemap (`/sitemap-blogs.xml` redirects to the first chunk) |
+| `/{locale}/feed-1.xml` | RSS feed (`/{locale}/feed.xml` redirects here) |
 | `/robots.txt` | Crawler directives |
 | `/llms.txt` | Platform summary |
 | `/llms-full.txt` | This file |
@@ -74,7 +78,7 @@ These pages exist because the Android app's sign-in flow opens them. They are `n
 
 ## 3. Language
 
-Loadly is published in **English only** (`/en/...`). Requests under any other language prefix (`/tr/...`, `/de/...`, etc.) permanently redirect (301) to the English equivalent; translated blog slugs redirect to their English sibling where one exists.
+Loadly is published in **English only** (`/en/...`). Requests under any other language prefix (`/tr/...`, `/de/...`, etc.) permanently redirect (301) to the English equivalent; translated guide slugs redirect to their English sibling where one exists. The single exception is the Turkish data-protection notice at `/tr/privacy-policy`, which is `noindex`.
 
 ---
 
@@ -82,25 +86,28 @@ Loadly is published in **English only** (`/en/...`). Requests under any other la
 
 ### All pages
 ```json
-{ "@type": "WebSite", "name": "Loadly", "alternateName": ["Loadly Logistics", "Loadly App"] }
-{ "@type": "Organization", "name": "Loadly", "areaServed": "Worldwide", "serviceType": "Logistics Content Platform" }
-{ "@type": "Person", "name": "Eren Şimşir", "jobTitle": "Chief Technical Editor" }
+{ "@type": "WebSite", "name": "Loadly" }
+{ "@type": "Organization", "name": "Loadly", "areaServed": "United States" }
+{ "@type": "Person", "name": "Eren Şimşir", "jobTitle": "Founder and Editor" }
 ```
 
-### Blog Article
+### Guides
 ```json
 {
   "@type": "BlogPosting",
   "headline": "...",
   "inLanguage": "en",
-  "wordCount": 1500,
+  "wordCount": 1000,
+  "datePublished": "...",
+  "dateModified": "...",
   "author": { "@type": "Person" },
-  "publisher": { "@type": "Organization", "name": "Loadly" }
+  "publisher": { "@type": "Organization", "name": "Loadly" },
+  "citation": [{ "@type": "CreativeWork", "name": "...", "url": "..." }]
 }
 ```
-plus `BreadcrumbList` and a `FAQPage` whose questions and answers are shown in the article.
+plus `BreadcrumbList`, and a `FAQPage` whose questions and answers are shown in the guide when it has a question-and-answer section.
 
-### Blog List
+### Guide list
 ```json
 { "@type": "FAQPage", "mainEntity": ["..."] }
 ```
@@ -113,22 +120,25 @@ plus `BreadcrumbList` and a `FAQPage` whose questions and answers are shown in t
 ## 5. Frequently Asked Questions
 
 **Q: What is Loadly?**
-A: Loadly is a content platform publishing practical guides, industry analysis, and free calculators for the logistics and freight sector.
+A: An independent publication of freight and trucking guides built from primary sources, with free calculators.
 
-**Q: Do I need an account to read the articles or use the calculators?**
-A: No. The articles, guides and calculators are open without registering or subscribing. The calculators run in your browser and do not send what you enter.
+**Q: Do I need an account to read the guides or use the calculators?**
+A: No. The guides and calculators are open without registering or subscribing. The calculators run in your browser and do not send what you enter.
 
 **Q: What topics does Loadly cover?**
-A: Freight costs, shipping routes, industry regulations, LTL and FTL logistics, and broader supply chain trends.
+A: Driver and vehicle rules (hours of service, CDL classes, inspections, weight limits, cargo securement, hazardous materials placarding), how freight is bought and sold (brokers, carriers, load boards, LTL shipping, claims, factoring, insurance), and importing documentation such as the Importer Security Filing.
 
 **Q: How often is new content published?**
-A: Roughly one new article per weekday.
+A: New guides are added over time, not on a fixed daily schedule.
 
-**Q: Who writes the content?**
-A: Loadly is a single-person editorial operation run by Eren Şimşir. Every article follows written editorial rules and passes pre-publication checks (similarity and sourcing) before it is published.
+**Q: Who runs Loadly?**
+A: Loadly is published and edited by one person, Eren Şimşir, a software developer and PhD candidate in computer science who does not claim first-hand freight industry experience. The Editorial Policy explains how guides are sourced and corrected.
 
 **Q: Does Loadly operate a freight marketplace?**
-A: Not on this website, which is a blog. Freight listings are shown only in the separate Loadly Android app.
+A: Not on this website. Freight listings are shown only in the separate Loadly Android app.
+
+**Q: Is this legal or compliance advice?**
+A: No. The guides are general educational information drawn from public sources. Rules change and differ by State and country, so check the official source before acting.
 
 **Q: Is my data safe?**
 A: Account data is stored with Supabase (PostgreSQL). The Privacy Policy and Cookie Policy describe what is collected and how it is used.

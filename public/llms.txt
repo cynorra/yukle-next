@@ -1,55 +1,47 @@
-# Loadly — Global Logistics & Freight Content Platform
+# Loadly — Freight and Trucking Guides
 
-> Loadly (loadlyapp.com) publishes practical guides, route insights, and industry analysis for the logistics and freight sector, for shippers, carriers, and logistics professionals worldwide. The website is a blog and a set of free calculators: it has no marketplace or freight-listing pages. A separate Loadly Android app, which shows freight listings, is not part of what is published on this website.
+> Loadly (loadlyapp.com) is an independent publication that explains how trucking and freight rules work, starting in the United States. Each guide is built from primary sources such as the Code of Federal Regulations, statutes and published industry standards, works the arithmetic through where numbers are involved, and lists its sources at the end. The website is a set of guides and free calculators. It has no marketplace or freight-listing pages.
 
 ## Site Index & Entry Points
 
 - **Primary URL**: https://loadlyapp.com
-- **Sitemap Index**: https://loadlyapp.com/sitemap.xml
-- **Sub-Sitemaps**:
-  - Static Pages (includes the calculators): https://loadlyapp.com/sitemap-static.xml
-  - Blog Articles (chunked): https://loadlyapp.com/sitemap-blogs-1.xml, sitemap-blogs-2.xml, … (the sitemap index lists every chunk)
-- **Logistics Blog & Industry Resources**: https://loadlyapp.com/en/blog
-- **Blog RSS**: https://loadlyapp.com/en/feed.xml (paginated; redirects to https://loadlyapp.com/en/feed-1.xml)
-- **Free calculators**: https://loadlyapp.com/en/tools (dimensional weight, fuel cost, detention fee; each with a written guide)
-- **LLMs Full Context**: https://loadlyapp.com/llms-full.txt
+- **Guides**: https://loadlyapp.com/en/blog
+- **Free calculators**: https://loadlyapp.com/en/tools
+- **Sitemap Index**: https://loadlyapp.com/sitemap.xml (static pages: https://loadlyapp.com/sitemap-static.xml; guides: https://loadlyapp.com/sitemap-blogs-1.xml)
+- **RSS**: https://loadlyapp.com/en/feed-1.xml
+- **Editor**: https://loadlyapp.com/en/author/eren-simsir
+- **Editorial Policy**: https://loadlyapp.com/en/editorial-policy
+- **Full context**: https://loadlyapp.com/llms-full.txt
 
 ## Language
 
-Loadly is published in **English only**. Requests for other language prefixes (e.g. `/tr/...`, `/de/...`) permanently redirect (301) to the English equivalent. The single exception is a Turkish-language data-protection notice at `/tr/privacy-policy`, which is `noindex`.
+Loadly is published in **English only**. Requests under another language prefix (for example `/tr/...` or `/de/...`) permanently redirect (301) to the English equivalent. The only exception is a Turkish-language data-protection notice at `/tr/privacy-policy`, which is `noindex`.
 
-## What Loadly Is
+## What the Guides Cover
 
-Loadly is a content platform, not a transaction platform. It publishes guides and analysis, under written editorial rules and pre-publication quality checks, on:
-- Freight costs and rate benchmarking
-- Shipping routes and lane guides
-- Industry regulation and compliance
-- LTL (Less Than Truckload) and FTL (Full Truckload) logistics
-- Broader supply chain trends
+- **Drivers and vehicles**: hours of service, CDL classes and endorsements, roadside inspections, driver qualification files, axle and gross weight limits, cargo securement, hazardous materials placarding, box trucks, cargo vans and pickups by weight class
+- **Brokers, carriers and shippers**: what a freight broker is, broker bonds and trust funds, how to check a trucking company, shipper, carrier and consignee roles and the bill of lading, load boards, freight claims, factoring, minimum liability insurance, dispatching
+- **LTL shipping**: LTL versus parcel and full truckload, freight class and density
+- **Pay and terms**: truck driver pay from federal wage data, a glossary of freight terms with the source of each definition
+- **Importing**: the Importer Security Filing (ISF 10+2)
 
-Articles are published regularly. Articles do not describe Loadly as a platform, data source or service; they are general industry guides.
+Each guide separates what a rule says from industry usage, uses invented numbers only as clearly labelled examples, and says what it leaves out.
 
-## Target Audience Segments
+## Free Calculators
 
-- **Truck Drivers & Owner-Operators**: empty-mile reduction, fuel efficiency, income optimization
-- **Freight Shippers & Logistics Managers**: carrier selection, rate negotiation, shipment tracking, compliance
-- **E-commerce & Retail Businesses**: fulfillment costs, last-mile delivery, LTL freight, carrier comparison
-- **Freight Brokers & Forwarders**: market intelligence, carrier relationships, technology
-- **Importers, Exporters & Manufacturers**: customs clearance, international freight, Incoterms, supply chain
-- **Small Businesses & Startups**: affordable shipping, LTL guides
-- **Warehouse & Distribution Managers**: operational efficiency, carrier performance, KPIs
+LTL density, Federal Bridge Formula, rate per mile, dimensional weight, fuel cost and detention fee. Each has a written guide, a worked example and sources, and runs in the browser without sending what you enter.
 
 ## Structured Data & Schema
 
 - **All pages**: `WebSite` + `Organization` + `Person` (founder and editor)
 - **Blog List**: `FAQPage` (the questions and answers are shown on the page)
-- **Blog Article**: `BlogPosting` (headline, author, publisher, wordCount, keywords, datePublished) + `BreadcrumbList` + `FAQPage` (the questions and answers are shown in the article)
+- **Guides**: `BlogPosting` (headline, author, publisher, wordCount, dates, image, `citation` for the listed sources) + `BreadcrumbList`, plus `FAQPage` where the guide has a question-and-answer section
 - **Calculators**: `WebApplication` + `FAQPage` + `BreadcrumbList`
 
 ## Crawling Guidelines
 
-- Public content pages (home, blog, free calculators, about, contact, advertise, privacy, terms, cookie policy, editorial policy, accessibility, author page) are indexable with `robots: index, follow`
+- Public content pages (home, guides, calculators, about, contact, advertise, privacy, terms, cookie policy, editorial policy, accessibility, author page) are indexable with `robots: index, follow`
 - The website has no marketplace or listing pages (`/en/marketplace` returns 404) and lists none in its sitemaps
-- Account pages (login, register, dashboard, profile, messages, etc.) exist for the Android app's sign-in flow; they are `noindex` and blocked via robots.txt
-- **IndexNow** is triggered automatically after every new blog publication — instant notification to Bing, Yandex, Naver, and Seznam
+- Account pages (login, register, dashboard, profile, messages) exist for the Android app's sign-in flow; they are `noindex` and blocked in robots.txt
+- Pages are rendered on the server, so the full text is in the HTML without running JavaScript
 - `Crawl-delay` is set for Yandex, Mail.ru, Baidu, Sogou, 360, CocCoc, Bytespider and Rambler. Every named crawler group in robots.txt repeats the same private-path Disallow list
