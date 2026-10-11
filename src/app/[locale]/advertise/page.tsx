@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const descs: Record<string, string> = {
     tr: 'Loadly\'de reklam verin. Türkiye ve dünya genelinde lojistik ve nakliye sektörü profesyonellerine ulaşın.',
-    en: 'Advertise on Loadly and reach thousands of logistics and freight professionals worldwide.',
+    en: 'Advertise on Loadly and reach readers researching US trucking and freight rules.',
     de: 'Werben Sie auf Loadly und erreichen Sie Tausende von Logistikfachleuten weltweit.',
     fr: 'Annoncez sur Loadly et atteignez des milliers de professionnels de la logistique dans le monde entier.',
     es: 'Anúnciate en Loadly y llega a miles de profesionales de logística en todo el mundo.',

@@ -301,8 +301,7 @@ export default async function HomePage({ params }: PageProps) {
                 Independent freight &amp; logistics writing
               </h2>
               <p className="mb-6 max-w-2xl leading-relaxed text-[color:var(--muted)]">
-                Loadly is a one-person editorial operation run by Eren Şimşir. It publishes practical guides on freight
-                costs, shipping routes and industry regulations for shippers, carriers and logistics professionals.
+                Loadly is a one-person editorial operation run by Eren Şimşir. It publishes sourced guides on US trucking and freight rules. Each guide starts from a primary source such as the Code of Federal Regulations and lists its sources at the end.
               </p>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-extrabold">
                 <Link href={`/${locale}/author/eren-simsir`} className="inline-flex items-center gap-1.5 text-accent hover:underline">
@@ -333,7 +332,7 @@ export default async function HomePage({ params }: PageProps) {
                 Stay ahead in freight &amp; logistics
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">
-                New guides on costs, routes and regulations, published regularly. Read them here or follow along by RSS.
+                New guides on trucking and freight rules, added over time. Read them here or follow along by RSS.
               </p>
               <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link

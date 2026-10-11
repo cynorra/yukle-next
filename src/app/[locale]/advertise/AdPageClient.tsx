@@ -17,7 +17,7 @@ export function AdPageClient() {
   ];
 
   const audiences = [
-    { title: 'Freight and Logistics Companies', desc: 'Put your services in front of readers researching shipping costs, routes and regulations.' },
+    { title: 'Freight and Logistics Companies', desc: 'Put your services in front of readers researching trucking and freight rules.' },
     { title: 'Vehicle and Equipment Suppliers', desc: 'Reach readers interested in trucking and logistics equipment.' },
     { title: 'Software and Technology Companies', desc: 'Introduce logistics software and technology to the people who use it.' },
   ];
@@ -33,7 +33,7 @@ export function AdPageClient() {
             Advertise on Loadly
           </h1>
           <p className={`text-lg ${t.muted} max-w-2xl mx-auto leading-relaxed`}>
-            Loadly publishes practical guides on freight costs, routes and regulations for shippers, carriers and
+            Loadly publishes sourced guides on US trucking and freight rules for shippers, carriers and
             logistics professionals. If your business serves that audience, we would be glad to hear from you.
           </p>
         </div>
