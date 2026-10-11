@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { toolUrl } from '@/lib/tools/seo';
 
 const DESCRIPTION =
-  'Free freight and logistics calculators: dimensional weight, fuel cost and detention fees. No sign-up, and nothing you enter leaves your browser.';
+  'Free freight and logistics calculators: LTL density, Federal Bridge Formula, rate per mile, dimensional weight, fuel cost and detention fees. No sign-up, and nothing you enter leaves your browser.';
 
 export const metadata: Metadata = {
   title: 'Free Freight and Logistics Calculators',
@@ -13,6 +13,21 @@ export const metadata: Metadata = {
 };
 
 const TOOLS = [
+  {
+    href: '/en/tools/ltl-density-calculator',
+    name: 'LTL Density Calculator',
+    text: 'Turn a pallet’s size and weight into cubic feet and pounds per cubic foot, using the method NMFTA publishes.',
+  },
+  {
+    href: '/en/tools/bridge-formula-calculator',
+    name: 'Federal Bridge Formula Calculator',
+    text: 'Find the maximum legal weight for a group of axles from the number of axles and the distance between the outer ones.',
+  },
+  {
+    href: '/en/tools/rate-per-mile-calculator',
+    name: 'Rate Per Mile Calculator',
+    text: 'Compare a load’s pay per loaded mile with its pay per total mile, and see what is left after your running costs.',
+  },
   {
     href: '/en/tools/dimensional-weight-calculator',
     name: 'Dimensional Weight Calculator',

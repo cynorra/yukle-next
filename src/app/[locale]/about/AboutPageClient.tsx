@@ -96,7 +96,7 @@ const EXTRA: Record<string, {
     whyTitle: 'Why Follow Loadly?',
     whyItems: [
       'New guides published regularly',
-      'Articles held to written editorial rules and pre-publication quality checks',
+      'Articles based on primary sources, with the sources listed at the end',
       'Freight cost, route, and regulation guides',
       'Up-to-date industry trends and analysis',
       'Completely free, no registration required',
@@ -105,7 +105,7 @@ const EXTRA: Record<string, {
     ],
     commitTitle: 'Our Editorial Commitment',
     commitText:
-      'We aim for every article to be accurate, current, and practical, and every article is published under written editorial rules and pre-publication quality checks (see our Editorial Policy). Loadly believes in being a trustworthy source of information for the logistics industry — helping our readers make better decisions with the right information.',
+      'We aim for every article to be accurate, current, and practical. Articles are based on primary sources such as regulation text and agency guidance, list those sources, and say what they do not cover (see our Editorial Policy).',
     howTitle: 'How to Use Loadly',
     howSteps: [
       { title: 'Search a Topic', desc: 'Look up freight costs, routes, or regulations relevant to your business.' },
@@ -161,6 +161,22 @@ export function AboutPageClient({ data, locale }: Props) {
             </div>
           </a>
         </div>
+
+        {/* How content is made */}
+        {locale !== 'tr' && (
+          <div className="mb-12">
+            <h2 className={`text-2xl font-bold ${t.heading} mb-4`}>How Our Articles Are Made</h2>
+            <p className={`text-base ${t.muted} leading-relaxed mb-3`}>
+              Loadly is an independent, single-editor publication about freight, trucking and logistics. It is not a hands-on product-testing site, and we do not present general industry context as original research.
+            </p>
+            <p className={`text-base ${t.muted} leading-relaxed mb-3`}>
+              Our content is general educational information, not legal, financial or compliance advice. Regulations, rates and carrier rules vary by country and change often, so check the official source (for example FMCSA, IRU, or your customs authority) before acting on anything you read here.
+            </p>
+            <p className={`text-base ${t.muted} leading-relaxed`}>
+              Found a mistake or an outdated figure? Email <a className="text-accent font-semibold" href="mailto:info@loadlyapp.com">info@loadlyapp.com</a> and we will review and correct it. Read the full <a className="text-accent font-semibold" href={`/${locale}/editorial-policy`}>Editorial Policy</a>.
+            </p>
+          </div>
+        )}
 
         {/* Sustainability */}
         <div className="p-8 rounded-3xl bg-green-500/5 border border-green-500/20">

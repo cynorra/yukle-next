@@ -166,3 +166,83 @@ export function fmtMinutes(total: number): string {
   const m = Math.round(total - h * 60);
   return `${h} h ${m} min`;
 }
+
+// ---------------------------------------------------------------------------
+// Federal Bridge Formula (23 CFR 658.17; FHWA "Bridge Formula Weights")
+// ---------------------------------------------------------------------------
+
+export interface BridgeFormulaResult {
+  /** W before rounding: 500 * (L*N/(N-1) + 12N + 36) */
+  rawWeight: number;
+  /** W rounded to the nearest 500 lb, as FHWA states. */
+  formulaWeight: number;
+  /** The formula weight limited by the 80,000 lb gross limit. */
+  limit: number;
+  cappedAtGross: boolean;
+}
+
+/** W = 500 x [ (L x N / (N - 1)) + 12N + 36 ]; N axles in the group, L feet between the outer axles. */
+export function bridgeFormula(axles: number, spanFeet: number): BridgeFormulaResult | null {
+  if (!Number.isFinite(axles) || !Number.isFinite(spanFeet)) return null;
+  if (!Number.isInteger(axles) || axles < 2 || spanFeet <= 0) return null;
+  const rawWeight = 500 * ((spanFeet * axles) / (axles - 1) + 12 * axles + 36);
+  const formulaWeight = Math.round(rawWeight / 500) * 500;
+  const limit = Math.min(formulaWeight, 80000);
+  return { rawWeight, formulaWeight, limit, cappedAtGross: formulaWeight > 80000 };
+}
+
+// ---------------------------------------------------------------------------
+// LTL density (NMFTA: cubic inches / 1,728 = cubic feet; pounds / cubic feet = pcf)
+// ---------------------------------------------------------------------------
+
+export interface LtlDensityResult {
+  cubicInches: number;
+  cubicFeet: number;
+  densityPcf: number;
+  totalWeight: number;
+  totalCubicFeet: number;
+}
+
+export function ltlDensity(i: { length: number; width: number; height: number; weight: number; units: number }): LtlDensityResult | null {
+  const vals = [i.length, i.width, i.height, i.weight, i.units];
+  if (vals.some((v) => !Number.isFinite(v)) || i.length <= 0 || i.width <= 0 || i.height <= 0 || i.weight <= 0 || i.units < 1) return null;
+  const cubicInches = i.length * i.width * i.height;
+  const cubicFeet = cubicInches / 1728;
+  return {
+    cubicInches,
+    cubicFeet,
+    densityPcf: i.weight / cubicFeet,
+    totalWeight: i.weight * i.units,
+    totalCubicFeet: cubicFeet * i.units,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Rate per mile: loaded miles vs total miles
+// ---------------------------------------------------------------------------
+
+export interface LoadRateResult {
+  totalMiles: number;
+  perLoadedMile: number;
+  perTotalMile: number;
+  /** Only when a cost per mile is supplied. */
+  costTotal: number | null;
+  margin: number | null;
+  marginPerTotalMile: number | null;
+}
+
+export function loadRate(i: { rate: number; loadedMiles: number; emptyMiles: number; costPerMile: number | null }): LoadRateResult | null {
+  if (![i.rate, i.loadedMiles, i.emptyMiles].every(Number.isFinite) || i.rate < 0 || i.loadedMiles <= 0 || i.emptyMiles < 0) return null;
+  const totalMiles = i.loadedMiles + i.emptyMiles;
+  const hasCost = i.costPerMile != null && Number.isFinite(i.costPerMile) && i.costPerMile >= 0;
+  const costTotal = hasCost ? totalMiles * (i.costPerMile as number) : null;
+  const margin = costTotal != null ? i.rate - costTotal : null;
+  return {
+    totalMiles,
+    perLoadedMile: i.rate / i.loadedMiles,
+    perTotalMile: i.rate / totalMiles,
+    costTotal,
+    margin,
+    marginPerTotalMile: margin != null ? margin / totalMiles : null,
+  };
+}

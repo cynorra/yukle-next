@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
+import { BLOG_REDIRECTS } from '@/lib/blog-redirects';
 
 const SUPPORTED_LOCALES = [
   'en', 'tr', 'es', 'pt', 'fr', 'de', 'it', 'pl',
@@ -154,6 +155,11 @@ export async function middleware(request: NextRequest) {
   const blogSlugMatch = pathname.match(/^\/en\/blog\/([^/]+)$/);
   if (blogSlugMatch) {
     const mapped = englishBlogSlug(blogSlugMatch[1]);
+    // One hop: a retired slug (or its translated sibling) goes straight to the rewritten guide.
+    const target = BLOG_REDIRECTS[mapped ?? blogSlugMatch[1]];
+    if (target) {
+      return NextResponse.redirect(new URL(`/en/blog/${target}${search}`, origin), 301);
+    }
     if (mapped && mapped !== blogSlugMatch[1]) {
       return NextResponse.redirect(new URL(`/en/blog/${mapped}${search}`, origin), 301);
     }

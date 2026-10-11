@@ -43,6 +43,9 @@ function getAllStaticPaths(): string[] {
     // Free calculators (real, client-side tools with their own guide text).
     '/tools',
     '/tools/dimensional-weight-calculator',
+    '/tools/ltl-density-calculator',
+    '/tools/bridge-formula-calculator',
+    '/tools/rate-per-mile-calculator',
     '/tools/fuel-cost-calculator',
     '/tools/detention-fee-calculator',
     // /privacy-policy is the Turkey-only KVKK page and 307s to /privacy for every

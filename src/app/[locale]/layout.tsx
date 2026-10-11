@@ -77,6 +77,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       },
     },
     other: {
+      'google-adsense-account': process.env.NEXT_PUBLIC_ADSENSE_CLIENT || 'ca-pub-4674211063760769',
       ...(process.env.GOOGLE_VERIFICATION_CODE ? { 'google-site-verification': process.env.GOOGLE_VERIFICATION_CODE } : {}),
       ...(process.env.BING_VERIFICATION_CODE ? { 'msvalidate.01': process.env.BING_VERIFICATION_CODE } : {}),
       ...(process.env.YANDEX_VERIFICATION_CODE ? { 'yandex-verification': process.env.YANDEX_VERIFICATION_CODE } : {}),
