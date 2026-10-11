@@ -10,21 +10,15 @@ export function AdPageClient() {
 
   const options = [
     {
-      icon: Target,
-      title: 'Display Advertising',
-      desc: 'Ad placements alongside our freight and logistics guides, shown to readers who are researching the industry.',
-    },
-    {
       icon: TrendingUp,
-      title: 'Sponsored Content',
-      desc: 'A clearly labelled sponsored article or brand mention. Sponsored content is always marked as such and kept separate from the editorial guides.',
+      title: 'Sponsored Content and Partnerships',
+      desc: 'A clearly labelled sponsored article, tool listing or brand mention. Sponsored content is always marked as such and kept separate from the editorial guides. Any display ads on the site are served through Google AdSense, not sold directly.',
     },
   ];
 
   const audiences = [
     { title: 'Freight and Logistics Companies', desc: 'Put your services in front of readers researching shipping costs, routes and regulations.' },
     { title: 'Vehicle and Equipment Suppliers', desc: 'Reach readers interested in trucking and logistics equipment.' },
-    { title: 'Insurance and Finance Providers', desc: 'Present cargo insurance and trade-finance products to industry readers.' },
     { title: 'Software and Technology Companies', desc: 'Introduce logistics software and technology to the people who use it.' },
   ];
 
@@ -46,8 +40,8 @@ export function AdPageClient() {
 
         {/* Options */}
         <div className="mb-12">
-          <h2 className={`text-2xl font-bold ${t.heading} mb-8`}>Advertising Options</h2>
-          <div className="grid md:grid-cols-2 gap-6">
+          <h2 className={`text-2xl font-bold ${t.heading} mb-8`}>Sponsorships and Partnerships</h2>
+          <div className="grid gap-6">
             {options.map(({ icon: Icon, title, desc }, i) => (
               <div key={i} className={`p-6 rounded-2xl ${t.card} flex flex-col`}>
                 <div className="w-12 h-12 rounded-xl bg-[#A66700]/10 flex items-center justify-center mb-4">

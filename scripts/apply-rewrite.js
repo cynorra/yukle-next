@@ -46,9 +46,9 @@ console.log('words', words, '| gate failures:', bad.length ? JSON.stringify(bad)
   if (!existing) {
     const { data: src, error: e1 } = await sb.from('blog_posts').select('author_id,cover_image,topic_cluster').eq('slug', meta.replaces).eq('language', 'en').single();
     if (e1) throw e1;
-    const { error: e2 } = await sb.from('blog_posts').insert({ slug, language: 'en', published: true, author_id: src.author_id, cover_image: src.cover_image, topic_cluster: meta.topic_cluster || src.topic_cluster, ...fields });
+    const { error: e2 } = await sb.from('blog_posts').insert({ slug, language: 'en', published: !meta.staged, author_id: src.author_id, cover_image: src.cover_image, topic_cluster: meta.topic_cluster || src.topic_cluster, ...fields });
     if (e2) throw e2;
-    return console.log('inserted', slug);
+    return console.log(meta.staged ? 'inserted (staged, not published)' : 'inserted', slug);
   }
   const { error } = await sb.from('blog_posts').update(fields).eq('slug', slug).eq('language', 'en');
   if (error) throw error;

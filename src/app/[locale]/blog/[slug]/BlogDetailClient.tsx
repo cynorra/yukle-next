@@ -508,12 +508,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
           </div>
         </motion.div>
 
-        {/* AdSense - top of article */}
-        <AdBanner
-          slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_BLOG_TOP}
-          format="horizontal"
-          className="w-full mb-12"
-        />
+        {/* No ad above the article: the guide starts right under the cover. One ad follows the content. */}
 
         {/* Content */}
         <article className={`max-w-none mb-16 ${t.heading}`}>

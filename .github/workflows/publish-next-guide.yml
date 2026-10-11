@@ -1,0 +1,32 @@
+name: Publish Next Guide
+
+# Releases the next hand-written, hand-sourced guide that is staged in content-rewrites/ ("staged": true).
+# It does NOT generate or edit content: it only flips published=true with the real publication time,
+# so new guides appear over weeks instead of all on one day. When nothing is staged it does nothing.
+on:
+  schedule:
+    - cron: '0 10 * * 2' # Tuesdays, 10:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: publish-next-guide
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+      - name: Publish the next staged guide
+        run: node scripts/publish-next-guide.js
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}

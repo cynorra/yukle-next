@@ -1,17 +1,11 @@
 name: Blog Generator Cron Job
 
 on:
-  schedule:
-    # Gunde 1 kez, tek makale x 55 dil, sadece hafta ici. Onceki */5 dakika x 3
-    # makale temposu (gunde 288 tetikleme, teorik tavanda 864 makale/gun)
-    # editoryal degil, otomatik icerik ureten bir "content mill" gibi
-    # goruluyordu -- hem organik siralama hem AdSense'in "scaled content
-    # abuse" / "low value content" tespitleri icin risk. Bu tempo, kucuk bir
-    # editoryal ekibin gercekci cikti hizini yansitiyor (hafta sonu da
-    # yayinlamak bu izlenimi zayiflatiyor, bkz. 2026-09 AdSense denetim
-    # raporu).
-    - cron: '0 9 * * 1-5'
-  workflow_dispatch: # Allows manual triggering
+  # The weekday schedule (cron 0 9 * * 1-5) was DISABLED 2026-10-11: the blog now consists of
+  # hand-sourced guides (see content-rewrites/). An unattended generator publishing into the same
+  # table would recreate the scaled-content pattern behind the AdSense low-value rejection.
+  # Re-enable only with the owner's say-so.
+  workflow_dispatch: # manual trigger only
 
 concurrency:
   group: blog-generator
