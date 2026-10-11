@@ -496,7 +496,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
           className="relative group mb-16"
         >
           <div className="absolute -inset-4 bg-accent/5 rounded-[40px] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="relative rounded-[32px] overflow-hidden shadow-2xl border border-border-light dark:border-border-dark aspect-[21/10]">
+          <div className="relative rounded-[32px] overflow-hidden shadow-2xl border border-border-light dark:border-border-dark aspect-[1200/630]">
             <Image 
               src={post.cover_image || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop'} 
               alt={post.title}

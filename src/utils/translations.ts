@@ -138,9 +138,9 @@ export const TRANSLATIONS: Record<Locale, TranslationDict> = {
     },
     home: {
       tagline: 'Freight & Logistics Guides',
-      heroTitle1: 'Freight Costs, Routes & Regulations —',
+      heroTitle1: 'Trucking & Freight Rules —',
       heroTitle2: 'Explained Simply',
-      heroDesc: 'Practical logistics guides and industry insights for shippers, carriers, and freight professionals worldwide.',
+      heroDesc: 'Sourced guides and free calculators on US trucking and freight rules, for shippers, carriers, brokers and drivers.',
       registerBtn: 'Explore Articles',
       activeUsers: 'Updated regularly',
       stat1Val: '54',

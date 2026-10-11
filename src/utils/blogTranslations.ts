@@ -25,12 +25,12 @@ export interface BlogTranslationDict {
 export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
   en: {
     title: 'Freight, Trucking & Truck Load Guide | Loadly',
-    description: 'Practical guides on freight costs, trucking, routes and regulations for shippers, carriers and logistics professionals.',
+    description: 'Sourced guides on US trucking and freight rules: hours of service, weight limits, brokers, LTL shipping, claims and more.',
     tagline: 'Freight & Logistics Guides',
-    header1: 'Digitizing the',
-    headerAccent: 'Logistics World',
+    header1: 'Trucking and Freight',
+    headerAccent: 'Guides',
     header2: '',
-    introText: 'Read practical, up-to-date guides on freight costs, trucking, routes, regulations and supply chain optimization.',
+    introText: 'Plain-language guides built from primary sources such as the Code of Federal Regulations, with worked examples and a source list at the end.',
     searchPlaceholder: 'Search articles...',
     noArticles: 'No articles found matching your search.',
     faqTitle: 'Frequently Asked Questions About Freight & Logistics',
@@ -49,7 +49,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     faqs: [
       { q: 'What is a freight load board?', a: 'A load board is an online listing service where shippers post freight that needs moving and carriers search for loads to haul.' },
       { q: 'Why do carriers try to avoid empty backhauls?', a: 'A truck returning without cargo earns nothing on the return leg while still burning fuel, so finding a load for the way back directly improves the carrier margin.' },
-      { q: 'What does Loadly publish?', a: 'Loadly publishes practical guides on freight costs, routes and regulations for shippers, carriers and logistics professionals, written under our published editorial rules.' }
+      { q: 'What does Loadly publish?', a: 'Loadly publishes sourced guides on US trucking and freight rules, plus free calculators, for shippers, carriers, brokers and drivers.' }
     ]
 
   },

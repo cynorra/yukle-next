@@ -22,7 +22,7 @@ const HOME_POST_COLUMNS =
 // 1 featured + 6 in the grid.
 const HOME_POST_LIMIT = 7;
 
-const TOPICS = ['Freight costs', 'Shipping routes', 'LTL & FTL', 'Regulations', 'Supply chain'];
+const TOPICS = ['Hours of service', 'LTL shipping', 'Freight brokers', 'Weight limits', 'Free calculators'];
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
@@ -101,7 +101,7 @@ function FeaturedPost({ post, locale }: { post: BlogPost; locale: string }) {
       href={`/${post.language || locale}/blog/${post.slug}`}
       className="group grid overflow-hidden rounded-[2rem] border border-border-light bg-surface-light shadow-[0_20px_60px_-25px_rgba(0,0,0,0.25)] transition-shadow duration-500 hover:shadow-[0_30px_80px_-25px_rgba(166,103,0,0.35)] dark:border-border-dark dark:bg-surface-dark lg:grid-cols-12"
     >
-      <div className="relative aspect-[16/10] overflow-hidden lg:col-span-7 lg:aspect-auto lg:min-h-[460px]">
+      <div className="relative aspect-[1200/630] overflow-hidden lg:col-span-7 lg:self-center">
         <PostImage
           src={post.cover_image}
           alt={post.title}
@@ -145,7 +145,7 @@ function PostCard({ post, locale }: { post: BlogPost; locale: string }) {
       href={`/${post.language || locale}/blog/${post.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border-light bg-surface-light transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_25px_50px_-20px_rgba(0,0,0,0.25)] dark:border-border-dark dark:bg-surface-dark"
     >
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative aspect-[1200/630] overflow-hidden">
         <PostImage
           src={post.cover_image}
           alt={post.title}
