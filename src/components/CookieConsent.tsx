@@ -30,6 +30,29 @@ function setStoredCookieConsent(value: 'accepted' | 'rejected') {
   window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_EVENT, { detail: { accepted: value === 'accepted' } }));
 }
 
+type TcfApi = (cmd: string, version: number, cb: (data: { gdprApplies?: boolean }, ok: boolean) => void) => void;
+
+// True when Google's certified CMP is on the page and applies to this visitor (EEA/UK/CH):
+// its message then replaces our own banner, so a visitor never sees two consent prompts.
+function googleCmpApplies(): Promise<boolean> {
+  return new Promise((resolve) => {
+    let tries = 0;
+    const check = () => {
+      const tcf = (window as unknown as { __tcfapi?: TcfApi }).__tcfapi;
+      if (typeof tcf === 'function') {
+        let done = false;
+        const finish = (v: boolean) => { if (!done) { done = true; resolve(v); } };
+        setTimeout(() => finish(false), 1500);
+        try { tcf('getTCData', 2, (d, ok) => finish(!!ok && d?.gdprApplies === true)); } catch { finish(false); }
+        return;
+      }
+      if (++tries > 10) return resolve(false);
+      setTimeout(check, 200);
+    };
+    check();
+  });
+}
+
 const TEXT: Record<string, { label: string; desc: string; accept: string; reject: string }> = {
   tr: { label: 'Çerezler', desc: 'Deneyiminizi iyileştirmek ve reklamları kişiselleştirmek için çerezler kullanıyoruz. "Kabul Et" seçeneği reklam çerezlerine de izin verir.', accept: 'Kabul Et', reject: 'Reddet' },
   en: { label: 'Cookies', desc: 'We use cookies to improve your experience and personalize ads. Accepting also allows advertising cookies.', accept: 'Accept', reject: 'Reject' },
@@ -54,12 +77,21 @@ export default function CookieConsent() {
   const bannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!getStoredCookieConsent()) setTimeout(() => setShow(true), 1500);
+    if (getStoredCookieConsent()) return;
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      if (!(await googleCmpApplies()) && !cancelled) setShow(true);
+    }, 1500);
+    return () => { cancelled = true; clearTimeout(timer); };
   }, []);
 
   // Footer "Cookie Settings" link: lets a visitor change an earlier Accept/Reject choice.
   useEffect(() => {
-    const open = () => setShow(true);
+    const open = async () => {
+      const w = window as unknown as { googlefc?: { showRevocationMessage?: () => void } };
+      if (await googleCmpApplies() && typeof w.googlefc?.showRevocationMessage === 'function') { w.googlefc.showRevocationMessage(); return; }
+      setShow(true);
+    };
     window.addEventListener(OPEN_COOKIE_SETTINGS_EVENT, open);
     return () => window.removeEventListener(OPEN_COOKIE_SETTINGS_EVENT, open);
   }, []);

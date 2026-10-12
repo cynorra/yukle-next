@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CookieConsent from '@/components/CookieConsent';
 import AdSenseScript from '@/components/AdSenseScript';
+import FundingChoices from '@/components/FundingChoices';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import { TRANSLATIONS, RTL_LOCALES } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
@@ -250,6 +251,7 @@ export default async function LocalizedLayout({ children, params }: Props) {
           </div>
         </noscript>
         <AdSenseScript />
+        <FundingChoices />
         <GoogleAnalytics />
 
         <Providers>
