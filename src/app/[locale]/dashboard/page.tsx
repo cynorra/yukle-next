@@ -5,7 +5,7 @@ import { DashboardPageClient } from './DashboardPageClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Panelim',
+  title: 'My Dashboard',
   description: 'YükLe panelim.',
   robots: { index: false, follow: false },
 };

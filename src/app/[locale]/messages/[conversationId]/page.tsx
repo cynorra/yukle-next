@@ -3,7 +3,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { MessagesPageClient } from '../MessagesPageClient';
 
 export const metadata: Metadata = {
-  title: 'Mesajlar',
+  title: 'Messages',
   description: 'YükLe mesajlaşma.',
   robots: { index: false, follow: false },
 };

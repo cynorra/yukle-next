@@ -3,7 +3,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { DriverRoutesPageClient } from './DriverRoutesPageClient';
 
 export const metadata: Metadata = {
-  title: 'Güzergahlarım',
+  title: 'My Routes',
   description: 'Şoför güzergah ayarları.',
   robots: { index: false, follow: false },
 };

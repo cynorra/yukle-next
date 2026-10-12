@@ -3,7 +3,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { EditLoadPageClient } from './EditLoadPageClient';
 
 export const metadata: Metadata = {
-  title: 'İlanı Düzenle',
+  title: 'Edit Listing',
   description: 'Mevcut yük ilanınızı düzenleyin.',
   robots: { index: false, follow: false },
 };

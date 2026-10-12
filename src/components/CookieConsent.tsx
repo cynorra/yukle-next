@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Cookie, X, Check } from 'lucide-react';
 import { useT } from '@/hooks/useT';
 import { useTranslation } from '@/hooks/useTranslation';
+import { OPEN_COOKIE_SETTINGS_EVENT } from '@/components/CookieSettingsButton';
 
 export const COOKIE_CONSENT_EVENT = 'loadly-cookie-consent';
 const STORAGE_KEY = 'cookie-consent';
@@ -54,6 +55,13 @@ export default function CookieConsent() {
 
   useEffect(() => {
     if (!getStoredCookieConsent()) setTimeout(() => setShow(true), 1500);
+  }, []);
+
+  // Footer "Cookie Settings" link: lets a visitor change an earlier Accept/Reject choice.
+  useEffect(() => {
+    const open = () => setShow(true);
+    window.addEventListener(OPEN_COOKIE_SETTINGS_EVENT, open);
+    return () => window.removeEventListener(OPEN_COOKIE_SETTINGS_EVENT, open);
   }, []);
 
   // The banner is fixed to the bottom of the viewport, so on a first visit it sits on

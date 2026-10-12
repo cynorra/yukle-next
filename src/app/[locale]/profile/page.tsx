@@ -5,7 +5,7 @@ import { ProfilePageClient } from './ProfilePageClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Profilim',
+  title: 'My Profile',
   description: 'YükLe profil ayarları.',
   robots: { index: false, follow: false },
 };

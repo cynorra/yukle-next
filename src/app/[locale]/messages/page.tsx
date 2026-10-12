@@ -5,7 +5,7 @@ import { MessagesPageClient } from './MessagesPageClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Mesajlar',
+  title: 'Messages',
   description: 'YükLe mesajlarınız.',
   robots: { index: false, follow: false },
 };

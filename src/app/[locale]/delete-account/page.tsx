@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalLocale = hasLegalTranslation(rawLocale) ? rawLocale : 'en';
 
   return {
+    robots: { index: false, follow: true },
     title: data.accountDeletion.title,
     description: data.accountDeletion.description,
     alternates: {

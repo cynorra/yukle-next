@@ -1,4 +1,5 @@
 import Logo from '@/components/Logo';
+import CookieSettingsButton from '@/components/CookieSettingsButton';
 import { Link000 } from '@/components/ui/skiper-ui/skiper40';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
@@ -50,6 +51,7 @@ export default function Footer({ locale }: { locale: Locale }) {
           <Link000 href={`/${locale}/sitemap`} className="hover:text-accent transition-colors">
             {isTr ? 'Site Haritası' : 'Sitemap'}
           </Link000>
+          <CookieSettingsButton label={isTr ? 'Çerez Ayarları' : 'Cookie Settings'} />
         </div>
       </div>
     </footer>

@@ -5,7 +5,7 @@ import { FavoritesPageClient } from './FavoritesPageClient';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Favorilerim',
+  title: 'My Favorites',
   description: 'Favori ilanlarınız.',
   robots: { index: false, follow: false },
 };

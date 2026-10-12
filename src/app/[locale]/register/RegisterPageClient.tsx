@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { Mail, Lock, User, Phone, ArrowRight, Truck, Package, CheckCircle2, Loader2, Star } from 'lucide-react';
+import { Mail, Lock, User, Phone, ArrowRight, Truck, Package, CheckCircle2, Loader2 } from 'lucide-react';
 import { useT } from '@/hooks/useT';
 import { motion } from 'framer-motion';
 import { getAppTranslation } from '@/utils/getAppTranslation';
@@ -145,24 +145,9 @@ export function RegisterPageClient() {
               </motion.div>
             ))}
           </div>
-
-          <div className="mt-16 p-5 rounded-2xl bg-white/5 border border-white/10">
-            <div className="flex items-center gap-3 mb-3">
-              {[1,2,3,4,5].map(i => <Star key={i} size={14} className="text-accent fill-accent" />)}
-            </div>
-            <p className="text-white/70 text-sm leading-relaxed italic">
-              {c.auth.testimonial}
-            </p>
-            <div className="mt-3 flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-accent/30 flex items-center justify-center">
-                <Truck size={13} className="text-accent" />
-              </div>
-              <span className="text-white/40 text-xs font-medium">{c.auth.activeCarrierUser}</span>
-            </div>
-          </div>
         </div>
 
-        <div className="relative z-10 pt-10 border-t border-white/10">
+          <div className="relative z-10 pt-10 border-t border-white/10">
           <p className="text-white/30 text-xs font-bold uppercase tracking-widest">
             {c.auth.footerCopyright}
           </p>
