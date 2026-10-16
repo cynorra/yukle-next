@@ -95,6 +95,13 @@
       "cluster": "Freight Fraud, Identity Theft & Double-Brokering",
       "file": "2026-10-14-article-how-to-check-a-trucking-company-before-hiring-en.md",
       "createdAt": "2026-10-14T11:11:59.081Z"
+    },
+    {
+      "kind": "article",
+      "ref": "truck-dispatcher-role-federal-rules-dispatching-en",
+      "cluster": "Dispatch Operations, Load Planning & Efficiency",
+      "file": "2026-10-16-article-truck-dispatcher-role-federal-rules-dispatching-en.md",
+      "createdAt": "2026-10-16T10:43:10.571Z"
     }
   ]
 }
