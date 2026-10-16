@@ -28,16 +28,9 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
     }
   }, [slot]);
 
-  // AdSense aktif değilken placeholder
+  // Slot henüz yapılandırılmamışsa boşluk/çerçeve gösterme (AdSense onayı için temiz görünüm)
   if (!ADSENSE_CLIENT || !slot) {
-    return (
-      <div
-        className={`flex items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.02] text-xs text-gray-600 ${className}`}
-        style={{ minHeight: format === 'rectangle' ? 250 : 90 }}
-      >
-        {/* Reklam alanı — AdSense onayı bekleniyor */}
-      </div>
-    );
+    return null;
   }
 
   return (
