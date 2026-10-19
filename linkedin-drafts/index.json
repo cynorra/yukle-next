@@ -102,6 +102,13 @@
       "cluster": "Dispatch Operations, Load Planning & Efficiency",
       "file": "2026-10-16-article-truck-dispatcher-role-federal-rules-dispatching-en.md",
       "createdAt": "2026-10-16T10:43:10.571Z"
+    },
+    {
+      "kind": "article",
+      "ref": "ltl-shipping-explained-vs-parcel-and-full-truckload-en",
+      "cluster": "LTL Freight Optimization & Freight Class",
+      "file": "2026-10-19-article-ltl-shipping-explained-vs-parcel-and-full-truckload-en.md",
+      "createdAt": "2026-10-19T12:09:01.200Z"
     }
   ]
 }
