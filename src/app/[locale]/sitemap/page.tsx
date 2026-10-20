@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import { SitemapPageClient } from './SitemapPageClient';
+import { createPublicClient } from '@/lib/supabase/public';
+
+export const revalidate = 3600;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
 
@@ -24,5 +27,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const { locale } = await params;
-  return <SitemapPageClient locale={locale} />;
+  // Every published article is listed here so the HTML sitemap gives crawlers
+  // (and visitors) a direct link to each post, not just the /blog index.
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('slug, title')
+    .eq('published', true)
+    .eq('language', 'en')
+    .order('created_at', { ascending: false })
+    .limit(1000);
+  if (error) console.error('[sitemap page] blog query failed:', error);
+  return <SitemapPageClient locale={locale} posts={data || []} />;
 }

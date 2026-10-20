@@ -95,7 +95,7 @@ const CONTENT: Record<string, { pageTitle: string; description: string; groups: 
   },
 };
 
-export function SitemapPageClient({ locale }: { locale: string }) {
+export function SitemapPageClient({ locale, posts = [] }: { locale: string; posts?: { slug: string; title: string }[] }) {
   const t = useT();
   const c = CONTENT[locale] || CONTENT.en;
 
@@ -131,6 +131,26 @@ export function SitemapPageClient({ locale }: { locale: string }) {
             </div>
           ))}
         </div>
+
+        {posts.length > 0 && (
+          <div className={`p-6 rounded-2xl ${t.card} mt-4`}>
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#A66700] mb-4">
+              {locale === 'tr' ? 'Makaleler' : 'Articles'}
+            </h2>
+            <ul className="space-y-2.5">
+              {posts.map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    href={`/en/blog/${post.slug}`}
+                    className={`text-sm ${t.sub} hover:text-[#A66700] transition-colors`}
+                  >
+                    {post.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
