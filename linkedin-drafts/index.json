@@ -109,6 +109,13 @@
       "cluster": "LTL Freight Optimization & Freight Class",
       "file": "2026-10-19-article-ltl-shipping-explained-vs-parcel-and-full-truckload-en.md",
       "createdAt": "2026-10-19T12:09:01.200Z"
+    },
+    {
+      "kind": "article",
+      "ref": "freight-broker-bond-bmc-84-trust-fund-explained-en",
+      "cluster": "Freight Brokerage Startup, MC Authority & Licensing",
+      "file": "2026-10-21-article-freight-broker-bond-bmc-84-trust-fund-explained-en.md",
+      "createdAt": "2026-10-21T11:11:06.484Z"
     }
   ]
 }
