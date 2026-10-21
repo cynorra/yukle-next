@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
                     processUserLocation(location.getLatitude(), location.getLongitude());
                 }
 
+                // Required on API < 30, where this method is abstract
+                @Override public void onStatusChanged(String provider, int status, Bundle extras) {}
                 @Override public void onProviderEnabled(@NonNull String provider) {}
                 @Override public void onProviderDisabled(@NonNull String provider) {}
             };
