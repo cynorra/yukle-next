@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const BLOG_LIST_COLUMNS = 'id, title, slug, excerpt, cover_image, author_id, published, language, created_at, updated_at, author:profiles(full_name)';
+const BLOG_LIST_COLUMNS = 'id, title, slug, excerpt, cover_image, author_id, published, language, topic_cluster, created_at, updated_at, author:profiles(full_name)';
 const BLOG_LIST_LIMIT = BLOG_ARCHIVE_PAGE_SIZE;
 
 async function fetchBlogPosts(locale: string) {

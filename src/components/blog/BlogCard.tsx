@@ -77,10 +77,18 @@ export default function BlogCard({ post }: BlogCardProps) {
           alt={post.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           onError={() => setImgSrc(FALLBACK_IMAGE)}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        
+        {post.topic_cluster && (
+          <div className="absolute top-3 left-3 z-10">
+            <span className="inline-block px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white bg-accent/90 backdrop-blur-md rounded-lg shadow-md border border-white/20">
+              {post.topic_cluster}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Content */}

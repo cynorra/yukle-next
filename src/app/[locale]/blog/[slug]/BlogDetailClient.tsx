@@ -14,7 +14,14 @@ import {
   Clock,
   Facebook,
   Twitter,
-  MessageCircle
+  Linkedin,
+  MessageCircle,
+  ListOrdered,
+  CheckCircle2,
+  Bookmark,
+  Mail,
+  Send,
+  Sparkles
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -154,6 +161,82 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
       year: 'numeric'
     });
   }, [post?.updated_at, post?.created_at, locale]);
+
+  // Extract Table of Contents from HTML / Markdown content
+  const tableOfContents = useMemo(() => {
+    if (!post?.content) return [];
+    const items: Array<{ id: string; text: string; level: number }> = [];
+
+    // Check HTML headings
+    const hRegex = /<h([23])[^>]*>([\s\S]*?)<\/h\1>/gi;
+    let match;
+    while ((match = hRegex.exec(post.content)) !== null) {
+      const level = parseInt(match[1], 10);
+      const text = match[2].replace(/<[^>]+>/g, '').trim();
+      if (text && text.length < 90) {
+        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        items.push({ id, text, level });
+      }
+    }
+
+    // Fallback to markdown headings if no HTML headings matched
+    if (items.length === 0) {
+      const lines = post.content.split('\n');
+      for (const line of lines) {
+        const h2 = line.match(/^##\s+(.*)/);
+        if (h2) {
+          const text = h2[1].replace(/[*_`]/g, '').trim();
+          const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+          items.push({ id, text, level: 2 });
+          continue;
+        }
+        const h3 = line.match(/^###\s+(.*)/);
+        if (h3) {
+          const text = h3[1].replace(/[*_`]/g, '').trim();
+          const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+          items.push({ id, text, level: 3 });
+        }
+      }
+    }
+
+    return items;
+  }, [post?.content]);
+
+  // Process HTML content to inject anchor IDs into <h2> and <h3> tags
+  const processedHtmlContent = useMemo(() => {
+    if (!post?.content) return '';
+    if (!post.content.trim().startsWith('<') && !/<[a-z][\s\S]*>/i.test(post.content)) {
+      return '';
+    }
+
+    return post.content.replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (all, level, attrs, inner) => {
+      const plainText = inner.replace(/<[^>]+>/g, '').trim();
+      const id = plainText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      return `<h${level}${attrs} id="${id}">${inner}</h${level}>`;
+    });
+  }, [post?.content]);
+
+  // Key takeaways bullet points generator based on excerpt & introductory paragraphs
+  const keyTakeaways = useMemo(() => {
+    if (!post?.content && !post?.excerpt) return [];
+    const points: string[] = [];
+    
+    // Look for regulatory CFR mentions, specific metrics, or key summary phrases
+    if (post.excerpt) points.push(post.excerpt);
+
+    // Extract first strong or first 2 sentence takeaways
+    const sentences = (post.content || '').replace(/<[^>]+>/g, ' ').split(/(?<=[.!?])\s+/);
+    for (const s of sentences) {
+      const clean = s.trim();
+      if (clean.length > 50 && clean.length < 180 && !points.includes(clean)) {
+        if (/compliance|safety|standard|carrier|fleet|inspection|requirement|cost|fmcsa|cvsa/i.test(clean)) {
+          points.push(clean);
+          if (points.length >= 3) break;
+        }
+      }
+    }
+    return points.slice(0, 3);
+  }, [post?.content, post?.excerpt]);
 
   // Enhanced Markdown Parser with Link Support
   const renderedContent = useMemo(() => {
@@ -464,16 +547,16 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
 
             <div className="flex items-center gap-2">
               <button
-                onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+                onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
                 className={`p-2.5 rounded-xl ${t.btnSecondary} hover:text-accent transition-all`}
-                aria-label="Share on Facebook"
+                aria-label="Share on LinkedIn"
               >
-                <Facebook size={20} />
+                <Linkedin size={20} />
               </button>
               <button
                 onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`, '_blank')}
                 className={`p-2.5 rounded-xl ${t.btnSecondary} hover:text-accent transition-all`}
-                aria-label="Share on Twitter"
+                aria-label="Share on X"
               >
                 <Twitter size={20} />
               </button>
@@ -484,6 +567,13 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
               >
                 <MessageCircle size={20} />
               </button>
+              <button
+                onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+                className={`p-2.5 rounded-xl ${t.btnSecondary} hover:text-accent transition-all`}
+                aria-label="Share on Facebook"
+              >
+                <Facebook size={20} />
+              </button>
             </div>
           </div>
         </header>
@@ -493,7 +583,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative group mb-16"
+          className="relative group mb-12"
         >
           <div className="absolute -inset-4 bg-accent/5 rounded-[40px] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative rounded-[32px] overflow-hidden shadow-2xl border border-border-light dark:border-border-dark aspect-[1200/630]">
@@ -505,10 +595,60 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
               priority
               className="object-cover transform hover:scale-105 transition-transform duration-700"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            {post.topic_cluster && (
+              <div className="absolute bottom-6 left-6 z-10">
+                <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase tracking-wider text-white bg-accent rounded-xl shadow-xl">
+                  <Sparkles size={14} />
+                  {post.topic_cluster}
+                </span>
+              </div>
+            )}
           </div>
         </motion.div>
 
         {/* No ad above the article: the guide starts right under the cover. One ad follows the content. */}
+
+        {/* Key Takeaways Box (AdSense E-E-A-T & Dwell Time Booster) */}
+        {keyTakeaways.length > 0 && (
+          <div className="mb-12 p-6 md:p-8 rounded-3xl bg-accent/5 border border-accent/20 relative overflow-hidden">
+            <div className="flex items-center gap-3 mb-4 text-accent font-black tracking-wide uppercase text-sm">
+              <CheckCircle2 size={20} />
+              Key Regulatory & Industry Takeaways
+            </div>
+            <ul className="space-y-3">
+              {keyTakeaways.map((point, idx) => (
+                <li key={idx} className="flex items-start gap-3 text-base text-fg leading-relaxed">
+                  <span className="w-2 h-2 rounded-full bg-accent mt-2 shrink-0" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Table of Contents (TOC) */}
+        {tableOfContents.length > 2 && (
+          <div className="mb-14 p-6 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
+            <div className="flex items-center gap-2 mb-4 font-black text-sm uppercase tracking-wider text-fg">
+              <ListOrdered size={18} className="text-accent" />
+              Table of Contents
+            </div>
+            <nav className="space-y-2">
+              {tableOfContents.map((item, idx) => (
+                <a
+                  key={idx}
+                  href={`#${item.id}`}
+                  className={`block text-muted hover:text-accent transition-colors font-medium ${
+                    item.level === 3 ? 'pl-4 text-xs' : 'text-sm'
+                  }`}
+                >
+                  • {item.text}
+                </a>
+              ))}
+            </nav>
+          </div>
+        )}
 
         {/* Content */}
         <article className={`max-w-none mb-16 ${t.heading}`}>
@@ -516,7 +656,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
             {post.content && (post.content.trim().startsWith('<') || /<[a-z][\s\S]*>/i.test(post.content)) ? (
               <div 
                 className="space-y-4 [&>h2]:text-2xl [&>h2]:font-black [&>h2]:mt-12 [&>h2]:mb-6 [&>h2]:border-l-4 [&>h2]:border-accent [&>h2]:pl-4 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mt-8 [&>h3]:mb-4 [&>p]:text-lg [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul>li]:text-lg [&>ul>li]:mb-2 [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol>li]:text-lg [&>ol>li]:mb-2 [&_table]:w-full [&_table]:text-base [&_table]:border-collapse [&_th]:text-left [&_th]:p-3 [&_th]:border-b-2 [&_th]:border-border-light dark:[&_th]:border-border-dark [&_td]:p-3 [&_td]:align-top [&_td]:border-b [&_td]:border-border-light dark:[&_td]:border-border-dark [&>div.table-wrap]:overflow-x-auto [&>div.table-wrap]:mb-6 [&_figure]:my-8 [&_figure_svg]:w-full [&_figure_svg]:max-w-md [&_figure_svg]:mx-auto [&_figcaption]:text-sm [&_figcaption]:mt-3 [&_figcaption]:text-center [&>strong]:text-accent [&>strong]:font-black [&_a]:text-accent [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:opacity-80"
-                dangerouslySetInnerHTML={{ __html: post.content }} 
+                dangerouslySetInnerHTML={{ __html: processedHtmlContent || post.content }} 
               />
             ) : (
               renderedContent
@@ -568,24 +708,90 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
           </div>
         )}
 
+        {/* Author Bio Card (EEAT Boost) */}
+        <div className="p-8 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark mb-12 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+          <div className="w-20 h-20 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0 text-2xl font-black">
+            ES
+          </div>
+          <div>
+            <div className="flex items-center justify-center sm:justify-start gap-3 mb-2">
+              <h3 className={`text-xl font-bold ${t.heading}`}>{post.author?.full_name || 'Eren Şimşir'}</h3>
+              <span className="text-xs px-2.5 py-0.5 rounded-full bg-accent/10 text-accent font-bold border border-accent/20">
+                Author & Operations Editor
+              </span>
+            </div>
+            <p className={`text-sm ${t.sub} leading-relaxed mb-4`}>
+              Writing on federal trucking regulations, commercial vehicle safety, carrier economics, and digital freight technologies. Focused on practical, compliant operations for drivers and fleet managers.
+            </p>
+            <div className="text-xs text-muted flex items-center justify-center sm:justify-start gap-4">
+              <span>Reviewed against FMCSA CFR Part 390-399 Standards</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Newsletter Subscription Card (Audience Building) */}
+        <div className="p-8 md:p-10 rounded-3xl bg-gradient-to-br from-accent/10 via-surface-light dark:via-surface-dark to-surface-light dark:to-surface-dark border border-accent/20 mb-12 text-center relative overflow-hidden">
+          <div className="max-w-xl mx-auto relative z-10">
+            <div className="w-12 h-12 rounded-2xl bg-accent text-white flex items-center justify-center mx-auto mb-4 shadow-lg shadow-accent/30">
+              <Mail size={24} />
+            </div>
+            <h3 className={`text-2xl font-black ${t.heading} mb-2`}>
+              The Weekly Freight Dispatch
+            </h3>
+            <p className={`text-sm ${t.sub} mb-6 leading-relaxed`}>
+              Join fleet directors and owner-operators getting our concise breakdown of FMCSA updates, fuel market analysis, and freight lane insights every Monday.
+            </p>
+            <form onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to The Freight Dispatch!'); }} className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="email"
+                required
+                placeholder="Enter your email address"
+                className="flex-1 px-5 py-3.5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-fg placeholder:text-muted/60 focus:border-accent focus:ring-1 focus:ring-accent text-sm"
+              />
+              <button
+                type="submit"
+                className="px-6 py-3.5 rounded-2xl bg-accent text-white font-extrabold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-lg shadow-accent/20"
+              >
+                <span>Subscribe</span>
+                <Send size={16} />
+              </button>
+            </form>
+            <p className="text-[11px] text-muted mt-3">
+              No spam, ever. Unsubscribe with one click anytime.
+            </p>
+          </div>
+        </div>
+
         {/* Footer Info */}
         <div className="p-8 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark mb-12">
           <h3 className={`text-xl font-bold ${t.heading} mb-4`}>{tr.shareTitle}</h3>
           <p className={`text-sm ${t.sub} mb-6`}>
             {tr.shareDesc}
           </p>
-          <div className="flex gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <button 
-              onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
-              className={`flex-1 py-3 rounded-xl bg-[#1877F2] text-white font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}
+              onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
+              className="py-3 px-4 rounded-xl bg-[#0077B5] text-white font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity text-sm"
             >
-              <Facebook size={20} /> Facebook
+              <Linkedin size={18} /> LinkedIn
             </button>
             <button 
               onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`, '_blank')}
-              className={`flex-1 py-3 rounded-xl bg-[#1DA1F2] text-white font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity`}
+              className="py-3 px-4 rounded-xl bg-black text-white font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity text-sm border border-white/10"
             >
-              <Twitter size={20} /> Twitter
+              <Twitter size={18} /> X
+            </button>
+            <button 
+              onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(post.title + ' ' + window.location.href)}`, '_blank')}
+              className="py-3 px-4 rounded-xl bg-[#25D366] text-white font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity text-sm"
+            >
+              <MessageCircle size={18} /> WhatsApp
+            </button>
+            <button 
+              onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+              className="py-3 px-4 rounded-xl bg-[#1877F2] text-white font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity text-sm"
+            >
+              <Facebook size={18} /> Facebook
             </button>
           </div>
         </div>
