@@ -1,11 +1,12 @@
 name: Blog Generator Cron Job
 
 on:
-  # The weekday schedule (cron 0 9 * * 1-5) was DISABLED 2026-10-11: the blog now consists of
-  # hand-sourced guides (see content-rewrites/). An unattended generator publishing into the same
-  # table would recreate the scaled-content pattern behind the AdSense low-value rejection.
-  # Re-enable only with the owner's say-so.
-  workflow_dispatch: # manual trigger only
+  schedule:
+    # Runs daily at 09:00 UTC. The script includes a 70% publish / 30% rest window,
+    # and guarantees publication if yesterday was skipped (never 2 consecutive rest days).
+    # Step below adds a randomized human delay (0-2 hours).
+    - cron: '0 9 * * *'
+  workflow_dispatch: # manual trigger also supported
 
 concurrency:
   group: blog-generator

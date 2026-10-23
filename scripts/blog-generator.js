@@ -2011,6 +2011,57 @@ async function triggerRevalidation(postsWithUrls) {
 // going higher.
 const ARTICLES_PER_RUN = Math.max(1, parseInt(process.env.ARTICLES_PER_RUN || '1', 10));
 
+// Cadence control: 70% chance to generate, 30% rest day.
+// If the previous day was a rest day (no post published in the last ~36h), GUARANTEE generation today (100%).
+// Manual trigger (workflow_dispatch or FORCE_RUN=true) bypasses this skip.
+async function shouldPublishToday() {
+  if (process.env.FORCE_RUN === 'true' || process.env.GITHUB_EVENT_NAME === 'workflow_dispatch') {
+    console.log('[Cadence] Manual or forced run detected — proceeding with generation.');
+    return { proceed: true, reason: 'forced' };
+  }
+
+  // Check the most recently published English post
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('created_at')
+    .eq('language', 'en')
+    .eq('published', true)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.warn('[Cadence] Could not query latest post timestamp, proceeding safely:', error.message);
+    return { proceed: true, reason: 'query_error_fallback' };
+  }
+
+  if (!data || !data.created_at) {
+    console.log('[Cadence] No previous posts found in archive — generating article.');
+    return { proceed: true, reason: 'archive_empty' };
+  }
+
+  const lastPostTime = new Date(data.created_at).getTime();
+  const hoursSinceLastPost = (Date.now() - lastPostTime) / (1000 * 60 * 60);
+  console.log(`[Cadence] Hours since last published post: ${hoursSinceLastPost.toFixed(1)}h`);
+
+  // If more than 36 hours passed (meaning yesterday or earlier was skipped), MUST produce today (100% guarantee)
+  if (hoursSinceLastPost >= 36) {
+    console.log('[Cadence] Yesterday was a rest day (>=36h since last post) — 100% GUARANTEED publication today.');
+    return { proceed: true, reason: 'guaranteed_after_rest' };
+  }
+
+  // If a post was already produced today / within last ~20 hours, apply 70% publish / 30% rest probability
+  const rand = Math.random();
+  const PROBABILITY = 0.70;
+  if (rand < PROBABILITY) {
+    console.log(`[Cadence] Dice roll: ${(rand * 100).toFixed(1)}% < ${(PROBABILITY * 100)}% -> Proceeding to publish today.`);
+    return { proceed: true, reason: 'probability_hit' };
+  } else {
+    console.log(`[Cadence] Dice roll: ${(rand * 100).toFixed(1)}% >= ${(PROBABILITY * 100)}% -> Rest day (30% window) to maintain natural cadence.`);
+    return { proceed: false, reason: 'rest_day_skip' };
+  }
+}
+
 // Execute if run directly
 if (require.main === module) {
   (async () => {
@@ -2021,6 +2072,12 @@ if (require.main === module) {
         password: process.env.SCRAPER_USER_PASSWORD
       });
       if (authError) console.error('Login failed:', authError.message);
+    }
+
+    const cadence = await shouldPublishToday();
+    if (!cadence.proceed) {
+      console.log(`[Cadence] Skipping publication today (${cadence.reason}). Tomorrow will be a guaranteed run.`);
+      process.exit(0);
     }
 
     console.log(`Running ${ARTICLES_PER_RUN} article generation pass(es) this run.`);

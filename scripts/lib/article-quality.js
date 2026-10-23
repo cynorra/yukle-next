@@ -87,7 +87,7 @@ function findBrandMention(...texts) {
 // forbids exactly this. The article has no narrator with a trucking career, so any sentence written in the
 // first person singular ("I", "my") or claiming a professional background is fiction. Sentences inside
 // quotation marks are exempt from the bare-"I" rule (illustrative dialogue), never from the credential rule.
-const FP_I = /(?<!(?:Class|Type|Phase|Part|Level|Tier|Group|Category|Chapter|War|Title|Form|Annex|Schedule|Step|Stage|Tab)\s)(?<![A-Za-z])I(?:['’](?:ve|m|d|ll))?(?=\s+[a-z]|['’](?:ve|m|d|ll)b)/;
+const FP_I = /(?<!(?:Class|Type|Phase|Part|Subpart|Level|Tier|Group|Category|Chapter|War|Title|Form|Annex|Schedule|Step|Stage|Tab)\s)(?<![A-Za-z])I(?:['’](?:ve|m|d|ll))?(?=\s+[a-z]|['’](?:ve|m|d|ll)b)/;
 // "As a dispatcher, …" opens a sentence with a capital A; lowercase "…manage margins as a broker" is ordinary third person.
 const FP_CRED_START = /\b(?:As|Being) (?:a|an) (?:former |veteran |seasoned |longtime |long-time |retired )?(?:dispatcher|broker|owner-operator|driver|logistics manager|industry veteran|trucker|fleet manager|carrier owner)\b(?:,| turned| for| with)/;
 const FP_CRED = /\b((?:industry|logistics|freight|trucking) veteran|veterans? like me|former (?:dispatcher|broker|driver|carrier)|veteran of (?:this|the) (?:industry|trade)|my (?:own )?(?:\d+\+? )?(?:years|experience|career|clients?|time in)|in the dispatcher.s chair)\b/i;
