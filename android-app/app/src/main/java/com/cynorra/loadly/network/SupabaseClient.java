@@ -71,7 +71,13 @@ public class SupabaseClient {
                         url.append("&destination_city=ilike.").append(URLEncoder.encode("*" + filter.destinationCity.trim() + "*", "UTF-8"));
                     }
                     if (filter.truckType != null && !filter.truckType.isEmpty()) {
-                        url.append("&required_truck_type=eq.").append(URLEncoder.encode(filter.truckType, "UTF-8"));
+                        if ("dorser".equalsIgnoreCase(filter.truckType) || "flatbed".equalsIgnoreCase(filter.truckType)) {
+                            url.append("&required_truck_type=in.(dorser,flatbed)");
+                        } else if ("frigorifik".equalsIgnoreCase(filter.truckType) || "frigo".equalsIgnoreCase(filter.truckType)) {
+                            url.append("&required_truck_type=in.(frigorifik,frigo)");
+                        } else {
+                            url.append("&required_truck_type=eq.").append(URLEncoder.encode(filter.truckType, "UTF-8"));
+                        }
                     }
                     if (filter.maxWeightTon != null) {
                         url.append("&weight_ton=lte.").append(filter.maxWeightTon);

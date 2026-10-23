@@ -107,8 +107,10 @@ public class MarketplaceActivity extends AppCompatActivity {
         spinnerLabels.add(getString(R.string.filter_truck_type_all));
         truckTypeKeys.add(null);
         for (Map.Entry<String, String> entry : labels.entrySet()) {
-            truckTypeKeys.add(entry.getKey());
-            spinnerLabels.add(entry.getValue());
+            if (!spinnerLabels.contains(entry.getValue())) {
+                truckTypeKeys.add(entry.getKey());
+                spinnerLabels.add(entry.getValue());
+            }
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerLabels);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

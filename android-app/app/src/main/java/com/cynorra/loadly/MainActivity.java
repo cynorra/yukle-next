@@ -188,35 +188,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private final java.util.concurrent.ExecutorService backgroundExecutor = java.util.concurrent.Executors.newSingleThreadExecutor();
+
     private void processUserLocation(double lat, double lng) {
-        try {
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                geocoder.getFromLocation(lat, lng, 1, new Geocoder.GeocodeListener() {
-                    @Override
-                    public void onGeocode(@NonNull List<Address> addresses) {
-                        if (!addresses.isEmpty()) {
-                            String city = addresses.get(0).getAdminArea();
-                            if (city == null || city.isEmpty()) city = addresses.get(0).getLocality();
-                            handleCityDetected(city);
-                            LoadlyApplication.updateLastCity(MainActivity.this, city);
-                            LoadlyApplication.updateCountryTopic(MainActivity.this, addresses.get(0).getCountryCode());
+        backgroundExecutor.execute(() -> {
+            try {
+                Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    geocoder.getFromLocation(lat, lng, 1, new Geocoder.GeocodeListener() {
+                        @Override
+                        public void onGeocode(@NonNull List<Address> addresses) {
+                            if (!addresses.isEmpty()) {
+                                handleAddressResult(addresses.get(0));
+                            }
                         }
+                    });
+                } else {
+                    List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+                    if (addresses != null && !addresses.isEmpty()) {
+                        handleAddressResult(addresses.get(0));
                     }
-                });
-            } else {
-                List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-                if (addresses != null && !addresses.isEmpty()) {
-                    String city = addresses.get(0).getAdminArea();
-                    if (city == null || city.isEmpty()) city = addresses.get(0).getLocality();
-                    handleCityDetected(city);
-                    LoadlyApplication.updateLastCity(MainActivity.this, city);
-                    LoadlyApplication.updateCountryTopic(MainActivity.this, addresses.get(0).getCountryCode());
                 }
+            } catch (Exception e) {
+                // Silently ignore or log in debug - Play Services or Geocoder backend
+                // may be unavailable on emulators or offline devices.
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
+    }
+
+    private void handleAddressResult(Address address) {
+        String city = address.getAdminArea();
+        if (city == null || city.isEmpty()) city = address.getLocality();
+        final String detectedCity = city;
+        final String countryCode = address.getCountryCode();
+        runOnUiThread(() -> {
+            if (detectedCity != null && !detectedCity.isEmpty()) {
+                handleCityDetected(detectedCity);
+                LoadlyApplication.updateLastCity(MainActivity.this, detectedCity);
+            }
+            if (countryCode != null && !countryCode.isEmpty()) {
+                LoadlyApplication.updateCountryTopic(MainActivity.this, countryCode);
+            }
+        });
     }
 
     private void handleCityDetected(String city) {
