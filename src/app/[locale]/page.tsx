@@ -203,11 +203,7 @@ export default async function HomePage({ params }: PageProps) {
         />
 
         <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
-          <span className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-accent/25 bg-accent/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.2em] text-accent">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
+          <span className="mb-7 inline-flex items-center gap-2 rounded-full border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-muted">
             The Loadly Journal
           </span>
 

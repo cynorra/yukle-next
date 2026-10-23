@@ -20,8 +20,7 @@ import {
   CheckCircle2,
   Bookmark,
   Mail,
-  Send,
-  Sparkles
+  Send
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -598,8 +597,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             {post.topic_cluster && (
               <div className="absolute bottom-6 left-6 z-10">
-                <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase tracking-wider text-white bg-accent rounded-xl shadow-xl">
-                  <Sparkles size={14} />
+                <span className="inline-flex items-center px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-white bg-black/75 backdrop-blur-sm rounded-lg border border-white/10 shadow-sm">
                   {post.topic_cluster}
                 </span>
               </div>

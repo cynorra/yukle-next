@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, Calendar, User, ArrowRight, Sparkles } from 'lucide-react';
+import { Search, Calendar, User, ArrowRight } from 'lucide-react';
 import BlogCard from '@/components/blog/BlogCard';
 import type { BlogPost } from '@/types/database';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -91,11 +91,11 @@ export function BlogListClient({ posts }: Props) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/30" />
                 <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-white bg-accent rounded-xl shadow-lg">
-                    <Sparkles size={14} /> Featured Analysis
+                  <span className="inline-flex items-center px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-accent rounded-lg shadow-sm">
+                    Featured
                   </span>
                   {featuredPost.topic_cluster && (
-                    <span className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white bg-black/60 backdrop-blur-md rounded-xl border border-white/20">
+                    <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-black/70 backdrop-blur-sm rounded-lg border border-white/10">
                       {featuredPost.topic_cluster}
                     </span>
                   )}
