@@ -597,9 +597,12 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             {post.topic_cluster && (
               <div className="absolute bottom-6 left-6 z-10">
-                <span className="inline-flex items-center px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-white bg-black/75 backdrop-blur-sm rounded-lg border border-white/10 shadow-sm">
+                <Link
+                  href={`/${locale}/blog?topic=${encodeURIComponent(post.topic_cluster)}`}
+                  className="inline-flex items-center px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-white bg-black/75 hover:bg-accent backdrop-blur-sm rounded-lg border border-white/10 shadow-sm transition-colors"
+                >
                   {post.topic_cluster}
-                </span>
+                </Link>
               </div>
             )}
           </div>

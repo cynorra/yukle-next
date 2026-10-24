@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, Calendar, User, ArrowRight } from 'lucide-react';
@@ -29,11 +30,38 @@ const itemVariants: Variants = {
 };
 
 export function BlogListClient({ posts }: Props) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const initialTopic = searchParams.get('topic') || 'All';
+
   const [search, setSearch] = useState('');
-  const [selectedCluster, setSelectedCluster] = useState<string>('All');
+  const [selectedCluster, setSelectedCluster] = useState<string>(initialTopic);
   const { locale } = useTranslation();
   const activeLocale = (locale in BLOG_TRANSLATIONS) ? (locale as Locale) : 'en';
   const t = BLOG_TRANSLATIONS[activeLocale];
+
+  // Sync state if URL searchParams changes
+  useEffect(() => {
+    const topicParam = searchParams.get('topic');
+    if (topicParam) {
+      setSelectedCluster(topicParam);
+    } else {
+      setSelectedCluster('All');
+    }
+  }, [searchParams]);
+
+  const handleSelectCluster = (cluster: string) => {
+    setSelectedCluster(cluster);
+    const params = new URLSearchParams(searchParams.toString());
+    if (cluster === 'All') {
+      params.delete('topic');
+    } else {
+      params.set('topic', cluster);
+    }
+    const query = params.toString() ? `?${params.toString()}` : '';
+    router.push(`${pathname}${query}`, { scroll: false });
+  };
 
   // Extract unique clusters
   const clusters = useMemo(() => {
@@ -95,7 +123,14 @@ export function BlogListClient({ posts }: Props) {
                     Featured
                   </span>
                   {featuredPost.topic_cluster && (
-                    <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-black/70 backdrop-blur-sm rounded-lg border border-white/10">
+                    <span
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleSelectCluster(featuredPost.topic_cluster || 'All');
+                      }}
+                      className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-black/70 hover:bg-accent backdrop-blur-sm rounded-lg border border-white/10 transition-colors cursor-pointer"
+                    >
                       {featuredPost.topic_cluster}
                     </span>
                   )}
@@ -161,7 +196,7 @@ export function BlogListClient({ posts }: Props) {
               return (
                 <button
                   key={cluster}
-                  onClick={() => setSelectedCluster(cluster)}
+                  onClick={() => handleSelectCluster(cluster)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all duration-200 ${
                     isActive
                       ? 'bg-accent text-white shadow-md shadow-accent/20 scale-105'

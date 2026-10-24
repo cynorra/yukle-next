@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createPublicClient } from '@/lib/supabase/public';
@@ -128,7 +129,9 @@ export default async function BlogListPage({ params }: Props) {
           )}
 
           {/* Search + grid client */}
-          <BlogListClient posts={allPosts as any} />
+          <Suspense fallback={<div className="py-12 text-center text-muted">Loading articles...</div>}>
+            <BlogListClient posts={allPosts as any} />
+          </Suspense>
 
           <BlogArchivePager locale={locale} current={1} total={totalPages} />
 

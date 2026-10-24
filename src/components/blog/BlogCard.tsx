@@ -84,7 +84,14 @@ export default function BlogCard({ post }: BlogCardProps) {
         
         {post.topic_cluster && (
           <div className="absolute top-3 left-3 z-10">
-            <span className="inline-block px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white bg-accent/90 backdrop-blur-md rounded-lg shadow-md border border-white/20">
+            <span
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.href = `/${post.language || 'en'}/blog?topic=${encodeURIComponent(post.topic_cluster || '')}`;
+              }}
+              className="inline-block px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white bg-black/75 hover:bg-accent backdrop-blur-sm rounded-lg shadow-md border border-white/10 transition-colors"
+            >
               {post.topic_cluster}
             </span>
           </div>
