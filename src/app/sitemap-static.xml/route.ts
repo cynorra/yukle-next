@@ -59,5 +59,6 @@ function getAllStaticPaths(): string[] {
     '/editorial-policy',
     '/accessibility',
     '/author/eren-simsir',
+    '/sitemap',
   ];
 }
