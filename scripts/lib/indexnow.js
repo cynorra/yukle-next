@@ -29,15 +29,29 @@ async function submitToIndexNow(urls) {
     urlList: urls.slice(0, 10000),
   });
 
-  await Promise.allSettled(
-    INDEXNOW_ENDPOINTS.map((endpoint) =>
-      fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body,
-      }).catch(() => {})
-    )
+  // Log every endpoint's outcome so a rejected key or an outage shows up in the CI log instead of passing silently.
+  // 200/202 = accepted. Never throws: indexing stays best-effort and must not fail a publish.
+  const results = await Promise.allSettled(
+    INDEXNOW_ENDPOINTS.map(async (endpoint) => {
+      const host = new URL(endpoint).host;
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body,
+        });
+        const ok = res.status === 200 || res.status === 202;
+        console.log(`[IndexNow] ${ok ? 'OK  ' : 'FAIL'} ${host} -> HTTP ${res.status} (${urls.length} URL${urls.length === 1 ? '' : 's'})`);
+        return ok;
+      } catch (e) {
+        console.warn(`[IndexNow] FAIL ${host} -> ${e.message}`);
+        return false;
+      }
+    })
   );
+  const accepted = results.filter((r) => r.status === 'fulfilled' && r.value).length;
+  if (accepted === 0) console.warn('[IndexNow] WARNING: no endpoint accepted the submission - check the key file and endpoints.');
+  return { accepted, total: INDEXNOW_ENDPOINTS.length };
 }
 
 async function submitToBaidu(urls) {
