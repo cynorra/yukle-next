@@ -2,10 +2,12 @@ name: Blog Generator Cron Job
 
 on:
   schedule:
-    # Runs daily at 09:00 UTC. The script includes a 70% publish / 30% rest window,
-    # and guarantees publication if yesterday was skipped (never 2 consecutive rest days).
+    # Reduced to 2 posts a week (Tuesday and Friday, 09:00 UTC) until the AdSense review is done: fewer,
+    # source-grounded articles read better to a reviewer than a daily automated stream. Gaps between runs are
+    # always >= 36h, so the script's cadence check publishes every time (the 70/30 rest-day roll only applies
+    # when a post is under 36h old). Restore '0 9 * * *' to go back to daily.
     # Step below adds a randomized human delay (0-2 hours).
-    - cron: '0 9 * * *'
+    - cron: '0 9 * * 2,5'
   workflow_dispatch: # manual trigger also supported
 
 concurrency:

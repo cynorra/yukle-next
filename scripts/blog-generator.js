@@ -5,6 +5,8 @@ const { createClient } = require('@supabase/supabase-js');
 const { submitToIndexNow, submitToBaidu, pingBaiduBlogPost } = require('./lib/indexnow');
 const ArticleQuality = require('./lib/article-quality');
 const FalsePrecision = require('./lib/false-precision');
+const Grounding = require('./lib/source-grounding');
+const Editorial = require('./lib/editorial-quality');
 
 // Load env variables from .env.local
 const envLocalPath = path.join(__dirname, '..', '.env.local');
@@ -1027,6 +1029,11 @@ async function popTopicFromBank() {
     .maybeSingle();
   if (error || !data) return null;
   await supabase.from('topic_bank').update({ is_used: true }).eq('id', data.id);
+  // Topics outside the source-backed clusters are burned and skipped: no primary source, no article.
+  if (!Grounding.isSourceBacked(data.cluster)) {
+    console.log(`[Bank] Skipping topic without primary sources (cluster "${data.cluster}"): "${data.topic}"`);
+    return popTopicFromBank();
+  }
   // YMYL / sensitive topics (health, personal tax, explosives...) are never written: burn the row and take the next one.
   if (ArticleQuality.findYmylTopic(data.topic, data.primary_keyword, data.cluster, data.viral_angle)) {
     console.log(`[Bank] Skipping YMYL/sensitive topic: "${data.topic}"`);
@@ -1051,7 +1058,8 @@ async function refillTopicBank(recentTitles) {
   const allExisting = [...recentTitles, ...pendingTopics];
   const existingList = allExisting.slice(0, 130).map(t => `- ${t}`).join('\n') || '- (none yet)';
 
-  const clusterNames = topicClusters.map(c => c.name).join('\n');
+  // Only clusters with real primary sources (see lib/source-grounding.js) are written by the generator.
+  const clusterNames = topicClusters.filter(c => Grounding.isSourceBacked(c.name)).map(c => c.name).join('\n');
   const audienceNames = audienceProfiles.map(a => a.name).join(', ');
   const formatNames = contentFormats.map(f => f.type).join(', ');
 
@@ -1431,6 +1439,12 @@ async function generateBasePost(topicData) {
   // otherwise) so articles stop being islands that only point at the blog index —
   // without this every older post becomes an orphan page with
   // zero inbound links as the archive grows (universal-adsense-site-standard.md §3.8).
+  // Real source text first: the article is built on it (see lib/source-grounding.js).
+  const grounding = await Grounding.gatherSources(topicCluster);
+  if (grounding.sources.length < 2) {
+    throw new Error(`Only ${grounding.sources.length} primary source(s) could be retrieved for cluster "${topicCluster}" - not writing an ungrounded article.`);
+  }
+  console.log(`[Grounding] ${grounding.sources.length} primary sources loaded for "${topicCluster}": ${grounding.sources.map(x => x.cite).join('; ')}`);
   const linkPool = await getRecentPostsForLinking(12, topicCluster);
   const sameClusterPool = linkPool.filter(p => p.sameCluster);
   const otherPool = linkPool.filter(p => !p.sameCluster);
@@ -1476,6 +1490,18 @@ VIRAL ANGLE: ${viralAngle}
 CONTENT FORMAT: ${contentFormat || formatSpec?.type} — ${formatDesc}
 TOPIC CLUSTER: ${topicCluster}
 PLATFORM: Loadly (an independent logistics and freight publication — practical guides and industry analysis for shippers, carriers, and logistics professionals)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SOURCE MATERIAL — THE ARTICLE IS BUILT ON THIS (non-negotiable)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Below is the CURRENT text of the primary sources for this topic, retrieved today. Write the article from it, like a trade-press editor working from the rulebook:
+- Every rule, threshold, deadline, definition or penalty you state must come from this text. Quote or closely paraphrase it and NAME the source inline using its cite-as label (e.g. "49 CFR § 395.3"). Name at least ${Math.min(3, grounding.sources.length)} different sources in the body.
+- Explain what the text means in practice: who it applies to, the exact numbers, the exceptions, the common misreadings, what a roadside inspection or audit would actually check. This is where the article's depth comes from.
+- Any percentage in the article must be stated in this text. If it is not here, describe the effect in words. Never state a statistic from memory.
+- Where the text does not answer a point, say what it does not cover and who to ask (the agency named in the sources) instead of guessing.
+- Do NOT invent URLs and do NOT add links other than the ones required below; the list of primary sources is appended automatically.
+
+${grounding.promptBlock}
 ${recentAnglesBlock}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 AUDIENCE-FIRST WRITING RULES (non-negotiable)
@@ -1483,7 +1509,7 @@ AUDIENCE-FIRST WRITING RULES (non-negotiable)
 1. WRITE FOR ONE PERSON: Picture a specific reader — e.g., a 42-year-old owner-operator sitting in a truck stop at 10pm, worried about cash flow after a slow week. Write to solve HIS exact problem.
 2. NO GENERIC ADVICE: "Plan ahead," "communicate clearly," "track your metrics" are filler. Replace every vague tip with a specific, implementable action: what exactly to do, what tool to use, what number to aim for.
 3. INCLUDE PRACTICAL DEPTH: Every section must contain at least one concrete, verifiable, actionable detail (a rule, a threshold from a named public body, a step-by-step check, a common pitfall) — never a claim of personal experience, never "insider" framing.
-4. USE CONCRETE NUMBERS, HONESTLY FRAMED: Not "significant savings" — say "commonly $1,500-2,500 per truck per year" or "often in the low-to-mid four figures." A number can be specific without being falsely precise — never invent a single decimal-precision figure (e.g. "$1,847", "2.3 days", "14.3%") and present it as a discovered fact with no source; that reads as fabricated data even when the underlying direction is true. Use realistic ranges or "typically"/"commonly" framing for anything not tied to one of the real, verifiable sources named in the sourcing rule below.
+4. NUMBERS COME FROM THE SOURCE MATERIAL: use the exact thresholds, limits, dates and amounts stated in it (with the cite-as label). Do not add cost estimates, savings ranges or percentages from memory; where the sources give no figure, explain the mechanism in words or use one clearly labelled worked example with round assumptions.
 5. CONTROVERSIAL WHEN WARRANTED: If the conventional wisdom is wrong or incomplete, say so directly. Readers share content that challenges what they thought they knew.
 6. NARRATIVE PULL: Open with a scenario or problem so specific that the reader immediately thinks "this is about me." End each section making them want to read the next one.
 
@@ -1550,7 +1576,7 @@ MANDATORY SECTIONS (in this order)
 Open with a <p> starting with a bolded lead-in — vary it instead of always writing "Quick Answer:" (e.g. <strong>Quick Answer:</strong>, <strong>Short Answer:</strong>, <strong>The Bottom Line:</strong>, <strong>In Short:</strong>) — followed by a 40-60 word direct answer to the primary question this article addresses. This is what Google's AI Overview and ChatGPT will pull. Make it complete enough to stand alone.
 
 **2. HOOK PARAGRAPH**
-Immediately after Quick Answer, one <p> with a concrete, clearly hypothetical scenario ("Imagine a 10-truck fleet that…") OR a finding from a real, named public body — never an invented statistic or an unnamed real-sounding company. It must make the reader feel "this is my exact problem" and create urgency in the first 2 sentences.
+Immediately after Quick Answer, one <p> that opens with the concrete rule, number or decision from the SOURCE MATERIAL that the reader is facing. NEVER an "Imagine…" / "Suppose…" opener and no invented scenario in this paragraph; name the source inline.
 
 **3. PROBLEM DEEP-DIVE** (1-2 <h2> sections)
 Authoritative analysis: root causes, quantified costs, why most people fail here. Show expertise. Use specific numbers where you can back them with something real. This sourcing rule applies EVERYWHERE in the article, not just <blockquote> — the Quick Answer, Hook, and every other section too: when citing a source, name ONLY real, well-known, publicly verifiable bodies or regulations (e.g. FMCSA, IRU, ATA, Eurostat, Carmack Amendment) for genuinely well-established facts — never invent a specific report, study, org, or finding and attribute it to a source. If you don't have a real citation for a number, present it as a realistic range or general industry knowledge with no source attribution rather than inventing a precise, uncited figure — a specific-looking unsourced number (e.g. "$50,000 per delayed shipment") is just as much a fabrication as a fake attributed quote.
@@ -1626,6 +1652,16 @@ METADATA
 - meta_description: primary keyword + the concrete benefit described in words + soft CTA, max 155 chars. NO percentages, dollar amounts or multipliers.
 - excerpt: 2 punchy sentences — first names the concrete problem in words (no invented numbers), second states exactly what the reader will learn. Include primary keyword.
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EDITORIAL VOICE — WHAT SEPARATES THIS FROM GENERIC SEO FILLER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Write like a trade-press editor who has read the rulebook: plain, exact, specific. Short sentences. No throat-clearing.
+- Forbidden stock phrases (articles containing them are rejected): "in today's fast-paced…", "navigate the complexities/landscape", "evolving landscape", "delve into", "game-changer", "unlock the power/potential/savings", "it's important/crucial to note", "holistic", "synergy", "cutting-edge", "robust solution", "whether you're a … or a …", "in conclusion", "hidden costs", "upwards of N".
+- Open with substance, not a scenario. At most ONE clearly labelled worked example in the whole article (round assumptions, show the arithmetic); no "Imagine…" openers. This overrides any earlier instruction that suggests hypothetical scenarios.
+- Include one section on COMMON MISREADINGS OR MISTAKES: what people get wrong about the rule, with the correct reading cited to the source.
+- Include a practical CHECKLIST (an <ol> or <ul>) the reader could actually use, every item tied to a cited rule or source.
+- Every <h2> section must be at least ~120 words and contain at least one specific, citable fact (a section number, a threshold, a defined term, a deadline).
+
 Return ONLY valid JSON with no additional text or markdown wrappers.${feedback}`
       }]
     }],
@@ -1678,11 +1714,12 @@ Return ONLY valid JSON with no additional text or markdown wrappers.${feedback}`
     const citation = findFabricatedCitation(draft.content);
     if (citation) issues.push(`UNRECOGNIZED SOURCE IN A BLOCKQUOTE ("${citation}") — attribute only to real, well-known public bodies or drop the attribution.`);
     issues.push(...ArticleQuality.validateArticle(draft));
+    issues.push(...Editorial.validateEditorial(draft, grounding));
 
     if (issues.length === 0) {
       // Real, stable primary-source pages for the topic (FMCSA, BTS, CBP, EIA…) — the archive previously
       // linked to no outside sources at all. Appended by code, so the links are known-good, never model-invented.
-      draft.content = `${draft.content}\n${ArticleQuality.officialResourcesHtml(topicCluster)}`;
+      draft.content = `${draft.content}\n${Grounding.sourcesHtml(grounding.sources)}`;
       if (attempt > 1) console.log(`[QualityGate] "${draft.title}" passed all gates on attempt ${attempt}/${MAX_ATTEMPTS}.`);
       return draft;
     }
