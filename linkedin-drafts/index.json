@@ -144,6 +144,13 @@
       "cluster": "LTL Freight Optimization & Freight Class",
       "file": "2026-10-30-article-ltl-freight-classes-cost-control-shippers-en.md",
       "createdAt": "2026-10-30T12:09:00.590Z"
+    },
+    {
+      "kind": "article",
+      "ref": "freight-broker-software-essential-features-en",
+      "cluster": "TMS, Freight Software & Digital Operations",
+      "file": "2026-11-02-article-freight-broker-software-essential-features-en.md",
+      "createdAt": "2026-11-02T14:47:29.735Z"
     }
   ]
 }
