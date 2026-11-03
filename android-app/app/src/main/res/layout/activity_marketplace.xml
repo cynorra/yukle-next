@@ -159,6 +159,7 @@
     <!-- Google AdMob Banner Ad (Publisher ID: pub-4674211063760769) -->
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
+        app:adSize="BANNER"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:adUnitId="ca-app-pub-4674211063760769/1521367122"

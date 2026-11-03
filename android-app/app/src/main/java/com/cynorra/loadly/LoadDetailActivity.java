@@ -122,8 +122,22 @@ public class LoadDetailActivity extends AppCompatActivity {
     }
 
     // Scraped listings carry the contact in the description text ("Company: X Phone: N ...").
-    private static final Pattern PHONE = Pattern.compile("Phone:\\s*(\\+?[0-9][0-9 ()./-]{5,}[0-9])");
+    // Listing texts phrase the number many ways ("Phone: 541...", "Telefon: +90 224 ...",
+    // "Call 305...", "reach out at 217..."), so match any digit run that looks like a phone
+    // number and keep the first one with 7-15 digits (skips dates like 10/31/2026 and #ids).
+    private static final Pattern PHONE = Pattern.compile("(\\+?\\d[\\d ()-]{5,}\\d)");
     private static final Pattern EMAIL = Pattern.compile("([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,})");
+
+    private static String firstPhone(String text) {
+        if (text == null) return null;
+        Matcher m = PHONE.matcher(text);
+        while (m.find()) {
+            String candidate = m.group(1).trim();
+            int digits = candidate.replaceAll("\\D", "").length();
+            if (digits >= 7 && digits <= 15) return candidate;
+        }
+        return null;
+    }
 
     private static String firstMatch(Pattern p, String text) {
         if (text == null) return null;
@@ -135,7 +149,7 @@ public class LoadDetailActivity extends AppCompatActivity {
     // neither, the button is hidden rather than leading anywhere broken.
     private void bindContactButton(Load load) {
         Button contact = findViewById(R.id.contactShipperButton);
-        String phone = firstMatch(PHONE, load.description);
+        String phone = firstPhone(load.description);
         String email = firstMatch(EMAIL, load.description);
         if (phone != null) {
             contact.setText(R.string.call_shipper);
