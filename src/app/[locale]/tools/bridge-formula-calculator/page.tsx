@@ -7,10 +7,10 @@ import { toolJsonLd, toolUrl } from '@/lib/tools/seo';
 const SLUG = 'bridge-formula-calculator';
 const NAME = 'Federal Bridge Formula Calculator';
 const DESCRIPTION =
-  'Free Federal Bridge Formula calculator. Enter the number of axles and the distance between the outer axles to see the maximum legal weight for that group, rounded as FHWA describes.';
+  'Free Federal Bridge Formula calculator. Enter the axle count and outer-axle spacing to see the maximum legal weight, rounded as FHWA describes.';
 
 export const metadata: Metadata = {
-  title: 'Federal Bridge Formula Calculator: Maximum Weight for an Axle Group',
+  title: 'Federal Bridge Formula Calculator: Maximum Axle Group Weight',
   description: DESCRIPTION,
   alternates: { canonical: toolUrl(SLUG) },
   openGraph: { title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) },

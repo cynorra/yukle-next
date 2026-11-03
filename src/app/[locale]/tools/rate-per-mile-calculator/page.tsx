@@ -7,7 +7,7 @@ import { toolJsonLd, toolUrl } from '@/lib/tools/seo';
 const SLUG = 'rate-per-mile-calculator';
 const NAME = 'Rate Per Mile Calculator';
 const DESCRIPTION =
-  'Free rate per mile calculator for truckers. Enter the pay, the loaded miles and the empty miles to see the rate per loaded mile and per total mile, and what is left after your running costs.';
+  'Free rate per mile calculator for truckers. Enter pay, loaded miles and empty miles to see the rate per loaded and per total mile, and what is left after costs.';
 
 export const metadata: Metadata = {
   title: 'Rate Per Mile Calculator: Loaded Miles vs Total Miles',

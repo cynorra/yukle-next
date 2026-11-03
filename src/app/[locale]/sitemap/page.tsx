@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isTr = canonicalLocale === 'tr';
   return {
     title: isTr ? 'Site Haritası' : 'Sitemap',
-    description: isTr ? "Loadly'nin her bölümü tek bir yerde." : 'Every section of Loadly, in one place.',
+    description: isTr ? "Loadly'nin her bölümü tek bir yerde." : 'Every Loadly guide, calculator and policy page in one place: articles, free tools, author, legal and contact pages.',
     alternates: {
       canonical: `${SITE_URL}/${canonicalLocale}/sitemap`,
     },

@@ -7,7 +7,7 @@ import { toolJsonLd, toolUrl } from '@/lib/tools/seo';
 const SLUG = 'fuel-cost-calculator';
 const NAME = 'Fuel Cost Calculator';
 const DESCRIPTION =
-  'Free trip fuel cost calculator for trucks and vehicles. Enter distance, fuel economy in mpg or L/100 km and the fuel price to see fuel needed, total cost and cost per mile or km.';
+  'Free trip fuel cost calculator for trucks. Enter distance, fuel economy and fuel price to see fuel needed, total cost and cost per mile or km.';
 
 export const metadata: Metadata = {
   title: 'Fuel Cost Calculator for Trucks and Trips (mpg or L/100 km)',

@@ -28,6 +28,18 @@ const COPY: Record<string, Copy> = {
         title: 'How the guides are written',
         body: 'Each guide starts from a primary source: a section of the Code of Federal Regulations, a statute, or a published industry standard. The text is read directly and compared with what the guide says, calculations are worked through and checked against the figures the source publishes, and the sources are listed at the end of the guide. A point that could not be checked against a source is not stated as fact.',
       },
+      {
+        title: 'What Loadly covers',
+        body: 'The guides focus on the rules that shape trucking and freight in the United States: who may broker or dispatch loads, how hours of service and electronic logging work, what insurance and bonds the regulations require, how cargo, axle weight and hazardous materials are handled, and how LTL freight classes and density are calculated. Each topic is written for a reader who has to make a decision, such as a new owner-operator, a small shipper or a dispatcher checking a requirement, and points to the regulation text so the reader can confirm it.',
+      },
+      {
+        title: 'What a guide does and does not claim',
+        body: 'A guide explains what a rule says and where it comes from. It is not legal, tax or insurance advice, and it does not predict rates or earnings. Where a rule has exceptions, or where practice differs from the text, the guide says so. The regulations change, so each guide lists its sources and, for regulatory topics, the date the regulation text was checked, and readers should confirm the current text with the issuing agency.',
+      },
+      {
+        title: 'Corrections and independence',
+        body: 'If a guide is wrong or out of date, write to info@loadlyapp.com with the guide and the passage in question. Confirmed errors are corrected in the article. Advertising, where it appears, is labelled as advertising and is kept apart from the guides. The Editorial Policy explains how sources are chosen and how corrections are handled.',
+      },
     ],
     readTitle: 'Where to start',
     links: [

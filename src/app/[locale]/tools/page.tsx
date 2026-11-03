@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { toolUrl } from '@/lib/tools/seo';
 
 const DESCRIPTION =
-  'Free freight and logistics calculators: LTL density, Federal Bridge Formula, rate per mile, dimensional weight, fuel cost and detention fees. No sign-up, and nothing you enter leaves your browser.';
+  'Free freight calculators: LTL density, Federal Bridge Formula, rate per mile, dimensional weight, fuel cost and detention fees. No sign-up needed.';
 
 export const metadata: Metadata = {
   title: 'Free Freight and Logistics Calculators',

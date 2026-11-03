@@ -129,7 +129,22 @@ export default async function BlogListPage({ params }: Props) {
           )}
 
           {/* Search + grid client */}
-          <Suspense fallback={<div className="py-12 text-center text-muted">Loading articles...</div>}>
+          {/* The client grid reads the URL (useSearchParams), so it is not in the server HTML. This
+              fallback is rendered on the server and gives crawlers and no-JS readers every article link. */}
+          <Suspense
+            fallback={
+              <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
+                {allPosts.map((post: any) => (
+                  <li key={post.slug} className="p-6 rounded-2xl border border-accent/20">
+                    <Link href={`/${locale}/blog/${post.slug}`} className="text-lg font-bold text-fg hover:text-accent">
+                      {post.title}
+                    </Link>
+                    {post.excerpt && <p className="mt-2 text-sm text-muted line-clamp-3">{post.excerpt}</p>}
+                  </li>
+                ))}
+              </ul>
+            }
+          >
             <BlogListClient posts={allPosts as any} />
           </Suspense>
 

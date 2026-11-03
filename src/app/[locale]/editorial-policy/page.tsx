@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: isTr ? 'Editoryal Politika' : 'Editorial Policy',
     description: isTr
       ? 'Loadly blog içeriğini nasıl üretir, kontrol eder ve yayınlar.'
-      : 'How Loadly produces, checks, and publishes its blog content.',
+      : 'How Loadly chooses sources, writes and checks its guides, handles corrections and separates advertising from editorial content.',
     alternates: {
       canonical: `${SITE_URL}/${canonicalLocale}/editorial-policy`,
     },

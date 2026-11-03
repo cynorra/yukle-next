@@ -47,7 +47,6 @@ const CONTENT: Record<string, { pageTitle: string; description: string; groups: 
         title: 'Legal',
         links: [
           { href: '/privacy', label: 'Privacy Policy' },
-          { href: '/privacy-policy', label: 'KVKK Disclosure' },
           { href: '/cookie-policy', label: 'Cookie Policy' },
           { href: '/terms', label: 'Terms of Service' },
         ],

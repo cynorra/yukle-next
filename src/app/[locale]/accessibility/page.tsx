@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: isTr ? 'Erişilebilirlik Beyanı' : 'Accessibility Statement',
     description: isTr
       ? "Loadly'yi herkes için kullanılabilir kılma yaklaşımımız."
-      : 'Our approach to making Loadly usable for everyone.',
+      : 'How Loadly works to make its guides and calculators usable for everyone, what is supported today, and how to report an accessibility problem.',
     alternates: {
       canonical: `${SITE_URL}/${canonicalLocale}/accessibility`,
     },

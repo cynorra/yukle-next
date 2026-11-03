@@ -7,7 +7,7 @@ import { toolJsonLd, toolUrl } from '@/lib/tools/seo';
 const SLUG = 'detention-fee-calculator';
 const NAME = 'Detention Fee Calculator';
 const DESCRIPTION =
-  'Free detention fee calculator for truckers, brokers and shippers. Enter time on site, free time, hourly rate and billing increment to see the billable time and the detention charge.';
+  'Free detention fee calculator. Enter time on site, free time, hourly rate and billing increment to see billable time and the detention charge.';
 
 export const metadata: Metadata = {
   title: 'Detention Fee Calculator for Truck Drivers and Carriers',
