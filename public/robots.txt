@@ -81,6 +81,8 @@ Disallow: /*/user/
 
 # ─── EVERYONE ELSE (Googlebot, Bingbot, DuckDuckBot, Applebot, Naver, ───
 # ─── Seznam, Qwant, Brave, Yahoo, link-preview bots, ...) ───────────────
+# /marketplace is intentionally NOT disallowed for this group: every old listing URL now returns 404, and
+# a Disallow would stop Google from re-crawling them and dropping the stale index entries.
 User-agent: *
 Allow: /
 Disallow: /api/
@@ -88,7 +90,6 @@ Disallow: /auth/
 Disallow: /*/dashboard
 Disallow: /*/profile
 Disallow: /*/messages
-Disallow: /*/marketplace
 Disallow: /*/favorites
 Disallow: /*/create-load
 Disallow: /*/edit-load
