@@ -7,6 +7,8 @@
     <string name="back">Back</string>
     <string name="load_detail_title">Listing Details</string>
     <string name="load_not_found">Listing not found.</string>
+    <string name="call_shipper">Call shipper</string>
+    <string name="email_shipper">Email shipper</string>
     <string name="contact_shipper">Contact Shipper on Loadly</string>
     <string name="negotiable">Negotiable</string>
     <string name="marketplace_load_error">Couldn\'t load listings. Check your connection and try again.</string>

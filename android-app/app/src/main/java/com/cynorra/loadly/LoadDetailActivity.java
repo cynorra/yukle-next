@@ -12,12 +12,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.cynorra.loadly.model.Load;
 import com.cynorra.loadly.network.SupabaseClient;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.ads.AdView;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,15 +68,6 @@ public class LoadDetailActivity extends AppCompatActivity {
             return;
         }
 
-        // Native screens are anonymous (no in-app sign-in/messaging) - this hands off to
-        // the same load's real page on the website, where signed-in users can actually
-        // message the shipper. No locale prefix: loadlyapp.com's own middleware redirects
-        // to the visitor's detected locale automatically.
-        findViewById(R.id.contactShipperButton).setOnClickListener(v -> {
-            Uri uri = Uri.parse("https://loadlyapp.com/marketplace/" + loadId);
-            new CustomTabsIntent.Builder().build().launchUrl(this, uri);
-        });
-
         fetchLoad(loadId);
     }
 
@@ -115,26 +108,63 @@ public class LoadDetailActivity extends AppCompatActivity {
         errorLayout.setVisibility(View.VISIBLE);
     }
 
-    // Shares a link to this load's real page on the website (not a native deep link -
-    // the recipient may not have the app installed) so anyone can open it in a
-    // browser, see the listing, and discover Loadly - the app itself had no share
-    // path anywhere before this; the website's own marketplace/[id] page already has
-    // one via navigator.share().
+    // Shares the route plus a link to the Loadly site. The website no longer has per-load
+    // pages (/marketplace/<id> is a 404), so the link points at the site itself.
     private void shareCurrentLoad() {
         if (currentLoad == null) return;
         String text = getString(R.string.share_load_text,
                 currentLoad.originCity, currentLoad.destinationCity,
-                "https://loadlyapp.com/marketplace/" + currentLoad.id);
+                "https://loadlyapp.com/en");
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         sendIntent.setType("text/plain");
         sendIntent.putExtra(Intent.EXTRA_TEXT, text);
         startActivity(Intent.createChooser(sendIntent, getString(R.string.share_load)));
     }
 
+    // Scraped listings carry the contact in the description text ("Company: X Phone: N ...").
+    private static final Pattern PHONE = Pattern.compile("Phone:\\s*(\\+?[0-9][0-9 ()./-]{5,}[0-9])");
+    private static final Pattern EMAIL = Pattern.compile("([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,})");
+
+    private static String firstMatch(Pattern p, String text) {
+        if (text == null) return null;
+        Matcher m = p.matcher(text);
+        return m.find() ? m.group(1).trim() : null;
+    }
+
+    // Native hand-off: dial or e-mail the contact found in the listing. If the listing has
+    // neither, the button is hidden rather than leading anywhere broken.
+    private void bindContactButton(Load load) {
+        Button contact = findViewById(R.id.contactShipperButton);
+        String phone = firstMatch(PHONE, load.description);
+        String email = firstMatch(EMAIL, load.description);
+        if (phone != null) {
+            contact.setText(R.string.call_shipper);
+            contact.setVisibility(View.VISIBLE);
+            contact.setOnClickListener(v -> startActivitySafely(
+                    new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone.replaceAll("[^0-9+]", "")))));
+        } else if (email != null) {
+            contact.setText(R.string.email_shipper);
+            contact.setVisibility(View.VISIBLE);
+            contact.setOnClickListener(v -> startActivitySafely(
+                    new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + email))));
+        } else {
+            contact.setVisibility(View.GONE);
+        }
+    }
+
+    private void startActivitySafely(Intent intent) {
+        try {
+            startActivity(intent);
+        } catch (android.content.ActivityNotFoundException ignored) {
+            // No dialer / mail app installed: nothing sensible to open.
+        }
+    }
+
     private void bind(Load load) {
         contentScroll.setVisibility(View.VISIBLE);
         currentLoad = load;
         shareButton.setVisibility(View.VISIBLE);
+        bindContactButton(load);
 
         ((TextView) findViewById(R.id.routeText)).setText(getString(R.string.route_format, load.originCity, load.destinationCity));
 
