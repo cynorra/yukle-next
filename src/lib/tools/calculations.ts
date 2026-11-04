@@ -296,6 +296,56 @@ export function tiedownRequirement(i: TiedownInput): TiedownResult | null {
 }
 
 // ---------------------------------------------------------------------------
+// Federal minimum public liability (49 CFR 387.3 applicability and the 387.9 table)
+// ---------------------------------------------------------------------------
+
+export type InsuranceCargo =
+  | 'general'          // non-hazardous property
+  | 'nonbulk-hazmat'   // oil (172.101) or hazardous waste/materials/substances, not in bulk, not in the highest category
+  | 'bulk-other'       // oil or hazardous materials in bulk (over 3,500 water gallons) not in the $5,000,000 list
+  | 'bulk-5m'          // hazardous substances in bulk in cargo tanks, portable tanks or hopper-type vehicles; bulk Div. 2.1 or 2.2
+  | 'highest-any';     // Div. 1.1-1.3, Div. 2.3 Zone A, Div. 6.1 PG I Zone A, or highway route controlled quantity of Class 7
+
+export interface InsuranceInput {
+  carriage: 'for-hire' | 'private';
+  commerce: 'interstate' | 'intrastate';
+  gvwr10001OrMore: boolean;
+  cargo: InsuranceCargo;
+}
+
+export interface InsuranceResult {
+  /** Dollar minimum, or null when 387.9 sets none for this combination. */
+  amount: number | null;
+  /** Row number in the 387.9 table (1 to 4), or null. */
+  row: 1 | 2 | 3 | 4 | null;
+  note: string;
+}
+
+export function federalLiabilityMinimum(i: InsuranceInput): InsuranceResult {
+  const none = (note: string): InsuranceResult => ({ amount: null, row: null, note });
+  switch (i.cargo) {
+    case 'general':
+      if (i.carriage === 'for-hire' && i.commerce === 'interstate' && i.gvwr10001OrMore) {
+        return { amount: 750000, row: 1, note: 'Row 1: for-hire, interstate or foreign commerce, GVWR 10,001 lb or more, non-hazardous property.' };
+      }
+      return none('387.9 sets no minimum for this combination (it covers for-hire carriers of non-hazardous property in interstate or foreign commerce with GVWR of 10,001 lb or more). State or contract requirements may still apply.');
+    case 'highest-any':
+      if (i.gvwr10001OrMore) return { amount: 5000000, row: 2, note: 'Row 2: GVWR 10,001 lb or more, for-hire or private, interstate, foreign or intrastate.' };
+      if (i.commerce === 'interstate') return { amount: 5000000, row: 4, note: 'Row 4: GVWR under 10,001 lb, interstate or foreign commerce, these materials in any quantity.' };
+      return none('Intrastate and under 10,001 lb GVWR: 387.3(c)(1) excepts vehicles under 10,001 lb, and its exceptions to the exception are written for interstate or foreign commerce. Confirm with FMCSA.');
+    case 'bulk-5m':
+      if (i.gvwr10001OrMore) return { amount: 5000000, row: 2, note: 'Row 2: GVWR 10,001 lb or more, for-hire or private, any commerce.' };
+      return none('Under 10,001 lb GVWR, 387.9 lists only the Row 4 materials; this category is not among them.');
+    case 'bulk-other':
+      if (i.gvwr10001OrMore) return { amount: 1000000, row: 3, note: 'Row 3: GVWR 10,001 lb or more, oil or hazardous materials in bulk (interstate, foreign or intrastate).' };
+      return none('Under 10,001 lb GVWR, 387.3(c)(1) excepts the vehicle for this category.');
+    case 'nonbulk-hazmat':
+      if (i.gvwr10001OrMore && i.commerce === 'interstate') return { amount: 1000000, row: 3, note: 'Row 3: GVWR 10,001 lb or more, in any quantity in interstate or foreign commerce.' };
+      return none('387.3(c)(2) excepts non-bulk oil and hazardous materials in intrastate commerce, and 387.3(c)(1) excepts vehicles under 10,001 lb.');
+  }
+}
+
+// ---------------------------------------------------------------------------
 // LTL density (NMFTA: cubic inches / 1,728 = cubic feet; pounds / cubic feet = pcf)
 // ---------------------------------------------------------------------------
 
