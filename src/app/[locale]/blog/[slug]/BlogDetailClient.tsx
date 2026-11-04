@@ -31,6 +31,7 @@ import { ClaimDatesCalculator } from '@/components/tools/ClaimDatesCalculator';
 import { CdlGroupFinder } from '@/components/tools/CdlGroupFinder';
 import { DqDatesCalculator } from '@/components/tools/DqDatesCalculator';
 import { LoadRateCalculator } from '@/components/tools/LoadRateCalculator';
+import { FactoringCalculator } from '@/components/tools/FactoringCalculator';
 import { HosClockCalculator } from '@/components/tools/HosClockCalculator';
 import { BridgeFormulaCalculator } from '@/components/tools/BridgeFormulaCalculator';
 import { AUTHOR, AUTHOR_EDUCATION, REVIEWER } from '@/lib/editorial';
@@ -48,6 +49,7 @@ const EMBEDS: Record<string, React.ComponentType> = {
   'cdl-group': () => <CdlGroupFinder />,
   'dq-dates': () => <DqDatesCalculator />,
   'rate-per-mile': () => <LoadRateCalculator />,
+  factoring: () => <FactoringCalculator />,
 };
 
 interface RelatedPost {

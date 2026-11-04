@@ -506,6 +506,41 @@ export function dqDates(i: { hired: string; lastAnnual?: string; separated?: str
 }
 
 // ---------------------------------------------------------------------------
+// Factoring: what an invoice actually nets (arithmetic only; the contract sets every term)
+// ---------------------------------------------------------------------------
+
+export interface FactoringResult {
+  advance: number;
+  fee: number;
+  reserveReleased: number;
+  totalReceived: number;
+  /** invoice minus total received */
+  totalCost: number;
+  feeAsPercentOfAdvance: number;
+  /** fee divided by the number of days the cash arrives early, if given */
+  costPerDayEarly: number | null;
+}
+
+export function factoringNet(i: { invoice: number; advancePct: number; feePct: number; daysEarly?: number }): FactoringResult | null {
+  if (![i.invoice, i.advancePct, i.feePct].every(Number.isFinite) || i.invoice <= 0 || i.advancePct <= 0 || i.advancePct > 100 || i.feePct < 0) return null;
+  const round2 = (n: number) => Math.round(n * 100) / 100;
+  const advance = round2((i.invoice * i.advancePct) / 100);
+  const fee = round2((i.invoice * i.feePct) / 100);
+  const reserveReleased = round2(i.invoice - advance - fee);
+  if (reserveReleased < 0) return null; // advance plus fee exceed the invoice: not a valid example
+  const totalReceived = round2(advance + reserveReleased);
+  return {
+    advance,
+    fee,
+    reserveReleased,
+    totalReceived,
+    totalCost: round2(i.invoice - totalReceived),
+    feeAsPercentOfAdvance: round2((fee / advance) * 100),
+    costPerDayEarly: i.daysEarly && i.daysEarly > 0 ? round2(fee / i.daysEarly) : null,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // LTL density (NMFTA: cubic inches / 1,728 = cubic feet; pounds / cubic feet = pcf)
 // ---------------------------------------------------------------------------
 
