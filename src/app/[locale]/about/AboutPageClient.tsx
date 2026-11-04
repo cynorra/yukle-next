@@ -54,7 +54,7 @@ const EXTRA: Record<string, {
       'Lojistik sektörüne dair güvenilir, güncel ve pratik bilgiyi 54 dilde herkese ulaştırmaktır. Nakliye maliyetleri, güzergah rehberleri ve mevzuat değişiklikleri üzerine düzenli yayınladığımız içeriklerle sektör profesyonellerine ve işletmelere karar alma süreçlerinde yardımcı oluyoruz.',
     teamTitle: 'Kimler Yapıyor',
     teamName: 'Eren Şimşir',
-    teamRole: 'Baş Teknik Editör',
+    teamRole: 'Kurucu ve Editör',
     teamBio: 'Bilgisayar Mühendisliği ve Endüstri Mühendisliği (Çift Anadal) mezunu. Loadly\'nin teknik geliştirmesinden ve içerik kalitesinden sorumlu.',
     teamLinkedInLabel: "LinkedIn'de görüntüle",
     whyTitle: "Neden Loadly'yi Takip Etmelisiniz?",
