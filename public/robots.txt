@@ -100,7 +100,7 @@ Disallow: /*/register
 Disallow: /*/user/
 
 # ─── SITEMAP ──────────────────────────────────────────────────
-# One index; it lists sitemap-static.xml and the chunked sitemap-blogs-N.xml.
+# One sitemap: static pages plus every published guide.
 Sitemap: https://loadlyapp.com/sitemap.xml
 
 # ─── RSS ──────────────────────────────────────────────────────

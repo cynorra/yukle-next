@@ -65,9 +65,7 @@ These pages exist because the Android app's sign-in flow opens them. They are `n
 ### System
 | Endpoint | Description |
 |----------|-------------|
-| `/sitemap.xml` | Sitemap index (static + chunked guide sub-sitemaps only) |
-| `/sitemap-static.xml` | Static pages sitemap |
-| `/sitemap-blogs-{n}.xml` | Chunked guides sitemap (`/sitemap-blogs.xml` redirects to the first chunk) |
+| `/sitemap.xml` | Single sitemap (static pages + all published guides) |
 | `/{locale}/feed-1.xml` | RSS feed (`/{locale}/feed.xml` redirects here) |
 | `/robots.txt` | Crawler directives |
 | `/llms.txt` | Platform summary |

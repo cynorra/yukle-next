@@ -81,28 +81,26 @@ const EXTRA: Record<string, {
     statsTitle: 'What Loadly Offers',
     stats: [
       { value: 'English', label: 'Publication Language' },
-      { value: 'Daily', label: 'Fresh Content' },
+      { value: 'Sourced', label: 'Primary Sources Cited' },
       { value: 'Free', label: 'Unlimited Reading' },
-      { value: 'Founder-Led', label: 'Transparent Team' },
+      { value: 'Single Editor', label: 'Named and Accountable' },
     ],
     missionTitle: 'Our Mission',
     missionText:
       'Loadly explains how trucking and freight rules work, starting in the United States. Each guide starts from the regulation, statute or industry standard itself, says in plain language what it requires, and works the arithmetic through when numbers are involved. The aim is a reference you can check against its source, not a collection of opinions about freight.',
-    teamTitle: 'Who Builds Loadly',
+    teamTitle: 'About the Editor',
     teamName: 'Eren Şimşir',
     teamRole: 'Founder and Editor',
     teamBio: 'A software developer with computer engineering and industrial engineering degrees (double major) and a PhD candidate in computer science. He founded Loadly, edits every guide, and builds the site and its calculators.',
     teamLinkedInLabel: 'View on LinkedIn',
     whyTitle: 'Why Follow Loadly?',
     whyItems: [
-      'New guides published regularly',
+      'Guides are revised when the underlying rule or source changes',
       'Articles based on primary sources, with the sources listed at the end',
       'Freight cost, route, and regulation guides',
-      'Up-to-date industry trends and analysis',
-      'Completely free, no registration required',
+            'Completely free, no registration required',
       'Mobile-friendly interface, read on any device',
-      'Regularly updated, trustworthy source of information',
-    ],
+          ],
     commitTitle: 'Our Editorial Commitment',
     commitText:
       'Every guide aims to be accurate, current and useful. It lists its sources, says what it leaves out, and is corrected when a reader points to a source that shows it is wrong (see our Editorial Policy).',
@@ -171,7 +169,7 @@ export function AboutPageClient({ data, locale }: Props) {
             </p>
             <h2 className={`text-2xl font-bold ${t.heading} mt-8 mb-4`}>What These Guides Are, and Are Not</h2>
             <p className={`text-base ${t.muted} leading-relaxed mb-3`}>
-              Loadly is an independent publication run by one editor. The guides rely on primary sources, such as the text of a regulation, a statute or a published industry standard, and list them at the end. A figure is stated only when a source gives it, and a number invented to show how a calculation works is labelled as an example. Loadly does not test products and does not present general context as original research.
+              Loadly is an independent publication run by one editor. The guides rely on primary sources, such as the text of a regulation, a statute or a published industry standard, and list them at the end. A figure is stated only when a source gives it, and a number invented to show how a calculation works is labelled as an example. Loadly does not test products and does not present general context as original research. No guide has been reviewed by an outside compliance professional unless it says so on the page; the site does not display a reviewer name that does not exist.
             </p>
             <p className={`text-base ${t.muted} leading-relaxed mb-3`}>
               The content is general educational information, not legal, financial or compliance advice. Rules change and differ by State and country, so check the official source before acting on anything here.

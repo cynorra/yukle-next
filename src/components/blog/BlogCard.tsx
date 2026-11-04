@@ -24,6 +24,7 @@ function getBlogDateFormatter(locale: string): Intl.DateTimeFormat {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
+      timeZone: 'UTC',
     });
     dateFormatterCache.set(locale, formatter);
   }

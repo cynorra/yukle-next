@@ -58,12 +58,14 @@ export function ContactPageClient({ data, locale }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // No mail backend: open the visitor's mail client with the message prefilled,
+    // instead of pretending the message was sent.
     setFormSending(true);
-    // Simulate swift UX delivery or fallback to mailto while confirming
-    setTimeout(() => {
-      setFormSending(false);
-      setFormSubmitted(true);
-    }, 600);
+    const body = `${formMessage}
+
+— ${formName} (${formEmail})`;
+    window.location.href = `mailto:info@loadlyapp.com?subject=${encodeURIComponent(formSubject || 'Message from loadlyapp.com')}&body=${encodeURIComponent(body)}`;
+    setTimeout(() => { setFormSending(false); setFormSubmitted(true); }, 600);
   };
 
   return (
@@ -139,8 +141,8 @@ export function ContactPageClient({ data, locale }: Props) {
                   <CheckCircle size={20} className="shrink-0" />
                   <span>
                     {locale === 'tr'
-                      ? 'Mesajınız alındı. Editör ekibimiz en kısa sürede dönüş yapacaktır.'
-                      : 'Thank you! Your message has been received. Our editorial team will review it promptly.'}
+                      ? 'E-posta uygulamanız mesajla birlikte açılmış olmalı. Açılmadıysa doğrudan info@loadlyapp.com adresine yazın.'
+                      : 'Your email app should have opened with the message ready to send. If it did not, write to info@loadlyapp.com directly.'}
                   </span>
                 </div>
               ) : (

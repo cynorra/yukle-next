@@ -25,6 +25,7 @@ import {
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import AdBanner from '@/components/AdBanner';
+import { AUTHOR, REVIEWER } from '@/lib/editorial';
 
 interface RelatedPost {
   slug: string;
@@ -208,34 +209,41 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
       return '';
     }
 
-    return post.content.replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (all, level, attrs, inner) => {
+    return post.content.replace(/<aside[^>]*data-takeaways[^>]*>[\s\S]*?<\/aside>/gi, '').replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (all, level, attrs, inner) => {
       const plainText = inner.replace(/<[^>]+>/g, '').trim();
       const id = plainText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       return `<h${level}${attrs} id="${id}">${inner}</h${level}>`;
     });
   }, [post?.content]);
 
-  // Key takeaways bullet points generator based on excerpt & introductory paragraphs
-  const keyTakeaways = useMemo(() => {
-    if (!post?.content && !post?.excerpt) return [];
-    const points: string[] = [];
-    
-    // Look for regulatory CFR mentions, specific metrics, or key summary phrases
-    if (post.excerpt) points.push(post.excerpt);
+  // Key takeaways: authored <aside data-takeaways> block inside the article HTML
+  // (3 full sentences written per article). Falls back to whole sentences pulled from
+  // the body only when no authored block exists; never reuses the excerpt.
+  const authoredTakeaways = useMemo(() => {
+    const m = post?.content?.match(/<aside[^>]*data-takeaways[^>]*>([\s\S]*?)<\/aside>/i);
+    if (!m) return [];
+    return [...m[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)]
+      .map((x) => x[1].replace(/<[^>]+>/g, '').trim())
+      .filter(Boolean);
+  }, [post?.content]);
 
-    // Extract first strong or first 2 sentence takeaways
-    const sentences = (post.content || '').replace(/<[^>]+>/g, ' ').split(/(?<=[.!?])\s+/);
+  const keyTakeaways = useMemo(() => {
+    if (authoredTakeaways.length > 0) return authoredTakeaways.slice(0, 3);
+    if (!post?.content) return [];
+    const body = post.content.replace(/<aside[\s\S]*?<\/aside>/gi, ' ').replace(/<(table|h[1-6])[\s\S]*?<\/>/gi, ' ');
+    const sentences = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/);
+    const intro = sentences.slice(0, 3).join(' ');
+    const points: string[] = [];
     for (const s of sentences) {
       const clean = s.trim();
-      if (clean.length > 50 && clean.length < 180 && !points.includes(clean)) {
-        if (/compliance|safety|standard|carrier|fleet|inspection|requirement|cost|fmcsa|cvsa/i.test(clean)) {
-          points.push(clean);
-          if (points.length >= 3) break;
-        }
+      if (clean.length > 60 && clean.length < 220 && /[.!?]$/.test(clean) && /^[A-Z]/.test(clean) && !intro.includes(clean)
+        && /\d|must|may not|required|limit|deadline|within/i.test(clean)) {
+        points.push(clean);
+        if (points.length >= 3) break;
       }
     }
-    return points.slice(0, 3);
-  }, [post?.content, post?.excerpt]);
+    return points;
+  }, [authoredTakeaways, post?.content]);
 
   // Enhanced Markdown Parser with Link Support
   const renderedContent = useMemo(() => {
@@ -533,7 +541,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
               </div>
               <div className="text-left">
                 <div className={`text-sm font-bold ${t.heading} group-hover:text-accent transition-colors`}>{post.author?.full_name || 'Eren Şimşir'}</div>
-                <div className={`text-xs ${t.muted}`}>{tr.authorRole}</div>
+                <div className={`text-xs ${t.muted}`}>{AUTHOR.title}</div>
                 {formattedUpdatedDate && (
                   <div className={`text-xs ${t.muted}`} suppressHydrationWarning>
                     {LAST_UPDATED_LABEL[locale] || LAST_UPDATED_LABEL.en}: {formattedUpdatedDate}
@@ -718,15 +726,19 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
             <div className="flex items-center justify-center sm:justify-start gap-3 mb-2">
               <h3 className={`text-xl font-bold ${t.heading}`}>{post.author?.full_name || 'Eren Şimşir'}</h3>
               <span className="text-xs px-2.5 py-0.5 rounded-full bg-accent/10 text-accent font-bold border border-accent/20">
-                Author & Operations Editor
+                {AUTHOR.title}
               </span>
             </div>
             <p className={`text-sm ${t.sub} leading-relaxed mb-4`}>
               Writing on federal trucking regulations, commercial vehicle safety, carrier economics, and digital freight technologies. Focused on practical, compliant operations for drivers and fleet managers.
             </p>
-            <div className="text-xs text-muted flex items-center justify-center sm:justify-start gap-4">
-              <span>Reviewed against FMCSA CFR Part 390-399 Standards</span>
-            </div>
+            {REVIEWER && (
+              <div className="text-xs text-muted">
+                Reviewed by{' '}
+                {REVIEWER.url ? <a href={REVIEWER.url} rel="noopener noreferrer" className="underline">{REVIEWER.name}</a> : REVIEWER.name}
+                , {REVIEWER.title} · {REVIEWER.reviewedOn} · {REVIEWER.scope}
+              </div>
+            )}
           </div>
         </div>
 
@@ -740,32 +752,21 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
               The Weekly Freight Dispatch
             </h3>
             <p className={`text-sm ${t.sub} mb-6 leading-relaxed`}>
-              Join fleet directors and owner-operators getting our concise breakdown of FMCSA updates, fuel market analysis, and freight lane insights every Monday.
+              Loadly has no automated mailing list yet. To be told when a new guide is published or an existing one is corrected, send a one-line request and it will be added to a manual notice list.
             </p>
-            <form onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to The Freight Dispatch!'); }} className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                required
-                placeholder="Enter your email address"
-                className="flex-1 px-5 py-3.5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-fg placeholder:text-muted/60 focus:border-accent focus:ring-1 focus:ring-accent text-sm"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3.5 rounded-2xl bg-accent text-white font-extrabold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-lg shadow-accent/20"
-              >
-                <span>Subscribe</span>
-                <Send size={16} />
-              </button>
-            </form>
-            <p className="text-[11px] text-muted mt-3">
-              No spam, ever. Unsubscribe with one click anytime.
-            </p>
+            <a
+              href="mailto:info@loadlyapp.com?subject=Notify%20me%20about%20new%20guides"
+              className="inline-flex px-6 py-3.5 rounded-2xl bg-accent text-white font-extrabold text-sm hover:opacity-90 transition-opacity items-center justify-center gap-2 shadow-lg shadow-accent/20"
+            >
+              <span>Request guide notices</span>
+              <Send size={16} />
+            </a>
           </div>
         </div>
 
         {/* Footer Info */}
         <div className="p-8 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark mb-12">
-          <h3 className={`text-xl font-bold ${t.heading} mb-4`}>{tr.shareTitle}</h3>
+          <h3 className={`text-xl font-bold ${t.heading} mb-4`}>Share this guide</h3>
           <p className={`text-sm ${t.sub} mb-6`}>
             {tr.shareDesc}
           </p>

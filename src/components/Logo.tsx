@@ -29,9 +29,6 @@ export default function Logo({
         <span className={`${s.text} font-black tracking-tighter text-fg`}>
           Load<span className="text-accent">ly</span>
         </span>
-        <span className="text-[10px] font-semibold tracking-widest text-muted uppercase opacity-60">
-          loadlyapp.com
-        </span>
       </div>
     </div>
   );

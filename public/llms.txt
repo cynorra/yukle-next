@@ -7,7 +7,7 @@
 - **Primary URL**: https://loadlyapp.com
 - **Guides**: https://loadlyapp.com/en/blog
 - **Free calculators**: https://loadlyapp.com/en/tools
-- **Sitemap Index**: https://loadlyapp.com/sitemap.xml (static pages: https://loadlyapp.com/sitemap-static.xml; guides: https://loadlyapp.com/sitemap-blogs-1.xml)
+- **Sitemap**: https://loadlyapp.com/sitemap.xml
 - **RSS**: https://loadlyapp.com/en/feed-1.xml
 - **Editor**: https://loadlyapp.com/en/author/eren-simsir
 - **Editorial Policy**: https://loadlyapp.com/en/editorial-policy

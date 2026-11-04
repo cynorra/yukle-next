@@ -34,18 +34,7 @@ const nextConfig = {
         destination: '/llms.txt',
       },
       {
-        // Next.js App Router dynamic segments can't mix static text with
-        // brackets in one folder name (e.g. sitemap-blogs-[page].xml is not
-        // routable — it silently falls through to [locale]). Keep the clean
-        // external URL and rewrite internally to a pure [page] segment.
-        // (The equivalent rewrites for sitemap-loads/sitemap-routes/loads-feed
-        // were removed along with those routes — the marketplace is no longer
-        // part of the site's public/indexed surface.)
-        source: '/sitemap-blogs-:page(\\d+).xml',
-        destination: '/sitemap-blogs/:page',
-      },
-      {
-        // Same reasoning as sitemap-blogs above, applied to the per-locale blog RSS feed chunks.
+        // Next.js App Router dynamic segments can't mix static text with brackets in one folder name, so rewrite the per-locale blog RSS feed chunks.
         source: '/:locale(en|tr|es|pt|fr|de|it|pl|nl|ru|uk|zh|ja|hi|ar|fa|ko|vi|id|bn|ur|th|ms|tl|ro|sv|cs|hu|el|az|kk|he|bg|hr|sr|sk|da|fi|no|uz|ta|mr|ka|lt|lv|et|sl|kn|te|pa|gu|ml|sw|ne|si)/feed-:page(\\d+).xml',
         destination: '/:locale/feed/:page',
       },
@@ -112,7 +101,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/:sitemap(sitemap.xml|sitemap-static.xml|sitemap-loads.xml|sitemap-blogs.xml|sitemap-routes.xml)',
+        source: '/:sitemap(sitemap.xml)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=3600' },
         ],

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { cache } from 'react';
 import { notFound, redirect } from 'next/navigation';
 import { createPublicClient } from '@/lib/supabase/public';
+import { curatedRelatedSlugs } from '@/lib/related-articles';
+import { AUTHOR } from '@/lib/editorial';
 import { BlogDetailClient } from './BlogDetailClient';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://loadlyapp.com';
@@ -82,6 +84,21 @@ async function getRelatedPosts(language: string, excludeSlug: string, topicClust
   const supabase = createPublicClient();
   const seenSlugs = new Set<string>([excludeSlug]);
   const related: Array<{ slug: string; title: string; excerpt: string; cover_image: string | null }> = [];
+
+  const curated = curatedRelatedSlugs(excludeSlug);
+  if (curated.length > 0) {
+    const { data: curatedData } = await supabase
+      .from('blog_posts')
+      .select('slug, title, excerpt, cover_image')
+      .eq('language', language)
+      .eq('published', true)
+      .in('slug', curated);
+    for (const slug of curated) {
+      const p = curatedData?.find((r) => r.slug === slug);
+      if (p && !seenSlugs.has(p.slug)) { seenSlugs.add(p.slug); related.push(p); }
+    }
+    if (related.length >= 3) return related.slice(0, count);
+  }
 
   if (topicCluster) {
     const { data: clusterData } = await supabase
@@ -236,7 +253,7 @@ export default async function BlogSlugPage({
     author: {
       '@type': 'Person',
       name: post.author?.full_name || 'Eren Şimşir',
-      jobTitle: 'Founder and Editor',
+      jobTitle: AUTHOR.title,
       url: `${SITE_URL}/${locale}/author/eren-simsir`,
       sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
     },
