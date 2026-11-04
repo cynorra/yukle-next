@@ -479,6 +479,33 @@ export function cdlGroupFor(i: CdlGroupInput): { group: 'A' | 'B' | 'C' | null; 
 }
 
 // ---------------------------------------------------------------------------
+// Driver qualification file dates (49 CFR 391.23, 391.25, 391.51, 391.53; 382.701)
+// ---------------------------------------------------------------------------
+
+export interface DqDates {
+  /** Hire date + 30 days: motor vehicle record inquiry result and previous-employer investigation records are due in the files (391.23(b), (c)). */
+  hireItemsDue: string;
+  /** No later than 12 months after the last annual inquiry (or after the hire-date inquiry for the first one): 391.25(a), (b). */
+  nextAnnualDue: string | null;
+  /** Keep the file until this date: separation date + 3 years (391.51(c); investigation history 391.53(c)). */
+  keepFileUntil: string | null;
+  /** Annual MVR, review note and medical certificate records execution date + 3 years: may be removed from the file (391.51(d)). */
+  annualRecordRemovableFrom: string | null;
+}
+
+export function dqDates(i: { hired: string; lastAnnual?: string; separated?: string; annualRecordDate?: string }): DqDates | null {
+  const due = addDaysIso(i.hired, 30);
+  if (!due) return null;
+  const base = i.lastAnnual || i.hired;
+  return {
+    hireItemsDue: due,
+    nextAnnualDue: addMonthsIso(base, 12),
+    keepFileUntil: i.separated ? addMonthsIso(i.separated, 36) : null,
+    annualRecordRemovableFrom: i.annualRecordDate ? addMonthsIso(i.annualRecordDate, 36) : null,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // LTL density (NMFTA: cubic inches / 1,728 = cubic feet; pounds / cubic feet = pcf)
 // ---------------------------------------------------------------------------
 
