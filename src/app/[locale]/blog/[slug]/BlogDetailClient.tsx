@@ -27,6 +27,7 @@ import { LtlDensityCalculator } from '@/components/tools/LtlDensityCalculator';
 import { TiedownCalculator } from '@/components/tools/TiedownCalculator';
 import { InsuranceRowSelector } from '@/components/tools/InsuranceRowSelector';
 import { WeightRulesSelector } from '@/components/tools/WeightRulesSelector';
+import { ClaimDatesCalculator } from '@/components/tools/ClaimDatesCalculator';
 import { HosClockCalculator } from '@/components/tools/HosClockCalculator';
 import { BridgeFormulaCalculator } from '@/components/tools/BridgeFormulaCalculator';
 import { AUTHOR, AUTHOR_EDUCATION, REVIEWER } from '@/lib/editorial';
@@ -40,6 +41,7 @@ const EMBEDS: Record<string, React.ComponentType> = {
   tiedown: () => <TiedownCalculator />,
   'insurance-row': () => <InsuranceRowSelector />,
   'weight-rules': () => <WeightRulesSelector />,
+  'claim-dates': () => <ClaimDatesCalculator />,
 };
 
 interface RelatedPost {

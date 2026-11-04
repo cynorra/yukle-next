@@ -399,6 +399,61 @@ export function weightRules(i: WeightRulesInput): WeightRulesResult | null {
 }
 
 // ---------------------------------------------------------------------------
+// Freight claim dates (49 CFR 370.5, 370.9; 49 U.S.C. 14706(e))
+// ---------------------------------------------------------------------------
+
+function parseIsoDate(v: string): Date | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+  if (!m) return null;
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  return d.getUTCFullYear() === +m[1] && d.getUTCMonth() === +m[2] - 1 && d.getUTCDate() === +m[3] ? d : null;
+}
+function isoDate(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+export function addDaysIso(v: string, days: number): string | null {
+  const d = parseIsoDate(v);
+  if (!d) return null;
+  d.setUTCDate(d.getUTCDate() + days);
+  return isoDate(d);
+}
+/** Calendar-month addition; a day that does not exist in the target month moves to that month's last day. */
+export function addMonthsIso(v: string, months: number): string | null {
+  const d = parseIsoDate(v);
+  if (!d) return null;
+  const day = d.getUTCDate();
+  const t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + months, 1));
+  const last = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate();
+  t.setUTCDate(Math.min(day, last));
+  return isoDate(t);
+}
+
+export interface ClaimDates {
+  acknowledgmentDue: string;
+  dispositionDue: string;
+  /** First status letter if still pending is due at day 120, then every 60 days. */
+  statusUpdates: string[];
+  /** Earliest the carrier may set the last day to file, counted from the date the clock starts under the bill of lading. */
+  minFilingDeadline: string | null;
+  /** Earliest the carrier may set the last day to sue, counted from written disallowance. */
+  minSuitDeadline: string | null;
+}
+
+export function claimDates(i: { claimReceived: string; clockStart?: string; disallowed?: string }): ClaimDates | null {
+  const ack = addDaysIso(i.claimReceived, 30);
+  const disp = addDaysIso(i.claimReceived, 120);
+  if (!ack || !disp) return null;
+  const statusUpdates = [120, 180, 240].map((n) => addDaysIso(i.claimReceived, n)!);
+  return {
+    acknowledgmentDue: ack,
+    dispositionDue: disp,
+    statusUpdates,
+    minFilingDeadline: i.clockStart ? addMonthsIso(i.clockStart, 9) : null,
+    minSuitDeadline: i.disallowed ? addMonthsIso(i.disallowed, 24) : null,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // LTL density (NMFTA: cubic inches / 1,728 = cubic feet; pounds / cubic feet = pcf)
 // ---------------------------------------------------------------------------
 
