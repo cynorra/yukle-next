@@ -24,6 +24,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import AdBanner from '@/components/AdBanner';
 import { LtlDensityCalculator } from '@/components/tools/LtlDensityCalculator';
+import { TiedownCalculator } from '@/components/tools/TiedownCalculator';
 import { HosClockCalculator } from '@/components/tools/HosClockCalculator';
 import { BridgeFormulaCalculator } from '@/components/tools/BridgeFormulaCalculator';
 import { AUTHOR, AUTHOR_EDUCATION, REVIEWER } from '@/lib/editorial';
@@ -34,6 +35,7 @@ const EMBEDS: Record<string, React.ComponentType> = {
   'ltl-density': () => <LtlDensityCalculator showScaleClass />,
   'bridge-formula': () => <BridgeFormulaCalculator />,
   'hos-clock': () => <HosClockCalculator />,
+  tiedown: () => <TiedownCalculator />,
 };
 
 interface RelatedPost {

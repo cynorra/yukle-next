@@ -249,6 +249,53 @@ export function hosClocks(i: HosClocksInput): HosClocksResult | null {
 }
 
 // ---------------------------------------------------------------------------
+// Cargo tiedowns: minimum number (49 CFR 393.110) and aggregate working load limit (393.106(d))
+// ---------------------------------------------------------------------------
+
+export interface TiedownInput {
+  /** Weight of the article or group of articles, lb. */
+  weight: number;
+  /** Length of the article, ft. */
+  length: number;
+  /** Blocked against forward movement by a headerboard, bulkhead, other secured cargo or similar. */
+  blocked: boolean;
+  /** Working load limit of one tiedown, lb: the lowest of its components and anchor points (393.108(a)). */
+  wll: number;
+  /**
+   * 'full': goes over the article to an anchor on the other side of the vehicle (counts 100% of its WLL).
+   * 'half': vehicle anchor to an anchor on the article, or a loop back to the same side (counts 50%).
+   */
+  counting: 'full' | 'half';
+}
+
+export interface TiedownResult {
+  minByCount: number;
+  requiredAggregateWll: number;
+  countedWllEach: number;
+  minByStrength: number;
+  required: number;
+  governing: 'count' | 'strength' | 'both';
+}
+
+export function minTiedownsByCount(weight: number, length: number, blocked: boolean): number {
+  if (blocked) return Math.max(1, Math.ceil(length / 10 - 1e-9));
+  if (length <= 5) return weight <= 1100 ? 1 : 2;
+  if (length <= 10) return 2;
+  return 2 + Math.ceil((length - 10) / 10 - 1e-9);
+}
+
+export function tiedownRequirement(i: TiedownInput): TiedownResult | null {
+  if (![i.weight, i.length, i.wll].every((v) => Number.isFinite(v) && v > 0)) return null;
+  const minByCount = minTiedownsByCount(i.weight, i.length, i.blocked);
+  const requiredAggregateWll = i.weight / 2;
+  const countedWllEach = i.counting === 'full' ? i.wll : i.wll / 2;
+  const minByStrength = Math.ceil(requiredAggregateWll / countedWllEach - 1e-9);
+  const required = Math.max(minByCount, minByStrength);
+  const governing = minByCount === minByStrength ? 'both' : minByCount > minByStrength ? 'count' : 'strength';
+  return { minByCount, requiredAggregateWll, countedWllEach, minByStrength, required, governing };
+}
+
+// ---------------------------------------------------------------------------
 // LTL density (NMFTA: cubic inches / 1,728 = cubic feet; pounds / cubic feet = pcf)
 // ---------------------------------------------------------------------------
 
