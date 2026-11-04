@@ -16,6 +16,9 @@ const table = [
 ];
 for (const [n, l, w] of table) assert.equal(W(n, l), w, `N=${n} L=${l}`);
 assert.equal(bridgeFormula(3, 9).rawWeight, 42750);
+assert.equal(bridgeFormula(3, 9).halfwayRoundedDown, true);
+assert.equal(bridgeFormula(4, 23).halfwayRoundedDown, false);
+assert.equal(bridgeFormula(5, 51).halfwayRoundedDown, false);
 // FHWA example: axles 1-4 of the single-unit truck, L=23, N=4 -> 57,500
 assert.equal(W(4, 23), 57500);
 // tandem check: N=2, L=4 -> 34,000

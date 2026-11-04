@@ -179,6 +179,8 @@ export interface BridgeFormulaResult {
   /** The formula weight limited by the 80,000 lb gross limit. */
   limit: number;
   cappedAtGross: boolean;
+  /** True when the formula value falls exactly halfway between two 500 lb steps (FHWA's table rounds those down). */
+  halfwayRoundedDown: boolean;
 }
 
 /** W = 500 x [ (L x N / (N - 1)) + 12N + 36 ]; N axles in the group, L feet between the outer axles. */
@@ -189,7 +191,8 @@ export function bridgeFormula(axles: number, spanFeet: number): BridgeFormulaRes
   // Nearest 500 lb, rounding DOWN when exactly halfway: FHWA's Bridge Table (FHWA-HOP-19-028, footnote 1) states this policy.
   const formulaWeight = Math.ceil(rawWeight / 500 - 0.5 - 1e-9) * 500;
   const limit = Math.min(formulaWeight, 80000);
-  return { rawWeight, formulaWeight, limit, cappedAtGross: formulaWeight > 80000 };
+  const halfwayRoundedDown = Math.abs(rawWeight / 500 - Math.floor(rawWeight / 500) - 0.5) < 1e-9;
+  return { rawWeight, formulaWeight, limit, cappedAtGross: formulaWeight > 80000, halfwayRoundedDown };
 }
 
 // ---------------------------------------------------------------------------

@@ -42,6 +42,11 @@ export function BridgeFormulaCalculator() {
             <ResultRow label="Rounded to the nearest 500 lb" value={`${fmt(result.formulaWeight, 0)} lb`} />
             <div className="border-t border-border-light dark:border-border-dark my-2" />
             <ResultRow strong label="Maximum weight for this group" value={`${fmt(result.limit, 0)} lb`} />
+            {result.halfwayRoundedDown && (
+              <p className={`text-xs ${t.sub} mt-2`}>
+                The formula value ({fmt(result.rawWeight, 0)} lb) is exactly halfway between two 500 lb steps. FHWA&apos;s Bridge Table rounds these down, giving {fmt(result.formulaWeight, 0)} lb; rounding up would give {fmt(result.formulaWeight + 500, 0)} lb.
+              </p>
+            )}
             {result.cappedAtGross && (
               <p className={`text-xs ${t.sub} mt-2`}>The formula allows more than 80,000 lb here, but the gross vehicle limit of 80,000 lb still applies.</p>
             )}

@@ -30,7 +30,7 @@
 <li><strong>L</strong> is the distance in feet between the outer axles of the group.</li>
 <li><strong>N</strong> is the number of axles in the group.</li>
 </ul>
-<p>Rounding has one detail that matters at the edges. When the formula lands exactly halfway between two 500-pound steps, FHWA's Bridge Table rounds down. For three axles spaced 9 feet, the formula gives 42,750 and FHWA's table shows 42,500.</p>
+<p>Rounding has one detail that matters at the edges. FHWA's web page says only "to the nearest 500 pounds". The pamphlet's Bridge Table adds a footnote: its values reflect FHWA's policy of rounding down when calculated weights fall exactly halfway between 500-pound increments (FHWA-HOP-19-028, footnote 1 to the table, printed pages 5 and 6, which is page 4 of the 6-page PDF). For three axles spaced 9 feet, the formula gives 42,750 and the table shows 42,500. The regulation itself does not state a rounding rule for exact halves, so a result of this kind is worth confirming with the enforcing agency. The calculator below shows both numbers when it hits a half.</p>
 <p>The rule carves out one exception. Two consecutive sets of tandem axles may each carry 34,000 pounds if the overall distance from the first axle to the last axle of those sets is 36 feet or more. The total may never exceed 80,000 pounds.</p>
 <h3>Check the Formula With the Tandem Limit</h3>
 <p>Two axles (N = 2) spaced 4 feet apart give W = 500 × [ (4 × 2 ÷ 1) + 24 + 36 ] = 34,000, which is the tandem limit in 658.17(d). The formula and the tandem limit agree where they meet.</p>
@@ -59,6 +59,7 @@
 <tr><td>4 to 5 (tandem)</td><td>2</td><td>4</td><td>33,000</td><td>34,000</td><td>Pass</td></tr>
 </tbody>
 </table></div>
+<p>Three of the formula maximums (groups 1 to 3, 2 to 4 and 3 to 5) fall exactly halfway between 500-pound steps and are rounded down as in FHWA's table. Rounding them up would add 500 pounds to each limit and change no result.</p>
 <p>Group 2 to 5 is the limit. The two tandems are 33 feet apart, short of the 36 feet the tandem exception needs, so the formula applies and allows 64,000 pounds against 66,000 actual. The truck is under 80,000 gross and under every axle limit, and it is still overweight.</p>
 <p>FHWA's guidance names axle combinations 1 to 3, 1 to 5 and 2 to 5 as the critical ones for this vehicle type, and says that if those are satisfactory the others normally will be. The table above checks all ten groups anyway, because that is what the rule requires.</p>
 
@@ -113,12 +114,12 @@
 <ul>
 <li><a href="https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658/subpart-B/section-658.17" target="_blank" rel="noopener noreferrer">23 CFR § 658.17: Weight</a> (eCFR, current to 2 November 2026)</li>
 <li><a href="https://www.ecfr.gov/current/title-23/part-658/subpart-A/section-658.5" target="_blank" rel="noopener noreferrer">23 CFR § 658.5: Definitions</a> (single axle, tandem axle, bridge gross weight formula)</li>
-<li><a href="https://ops.fhwa.dot.gov/freight/publications/brdg_frm_wghts/" target="_blank" rel="noopener noreferrer">FHWA: Bridge Formula Weights</a> (pamphlet FHWA-HOP-19-028, August 2019, with the Bridge Table on pp. 5 and 6; the 51-foot example is Figure 6)</li>
+<li><a href="https://ops.fhwa.dot.gov/freight/publications/brdg_frm_wghts/" target="_blank" rel="noopener noreferrer">FHWA: Bridge Formula Weights</a> (pamphlet FHWA-HOP-19-028, August 2019, with the Bridge Table and its rounding footnote on printed pp. 5 and 6; the 51-foot example is Figure 6). The pamphlet is at <a href="https://ops.fhwa.dot.gov/freight/publications/brdg_frm_wghts/fhwahop19028.pdf" target="_blank" rel="noopener noreferrer">fhwahop19028.pdf</a></li>
 </ul>
 
 <h2>Last Verified and Change Log</h2>
 <p>Last verified: 2026-11-04, against the eCFR text of 23 CFR 658.17 and 658.5 and the FHWA pamphlet. The FHWA pamphlet states that it paraphrases the statute and regulation for illustration and that the statute and regulation control in a dispute. Not checked: State weight laws, permits and fine schedules.</p>
 <ul>
-<li>2026-11-04: Added the single-axle and tandem definitions, the rounding rule, a worked check of all ten axle groups, ways to fix a failing group, a wider table, a calculator, FAQ and the tire-load and steering-axle limits. Corrected the source of the tandem definition (23 CFR 658.5, not the formula page) and the description of 5-axle spacing. Fixed an unclear sentence about what "federal truck weight limit" means.</li>
+<li>2026-11-04: Added the single-axle and tandem definitions, the rounding rule, a worked check of all ten axle groups, ways to fix a failing group, a wider table, a calculator, FAQ and the tire-load and steering-axle limits. Added the rounding footnote with its page reference. Corrected the source of the tandem definition (23 CFR 658.5, not the formula page) and the description of 5-axle spacing. Fixed an unclear sentence about what "federal truck weight limit" means.</li>
 <li>2026-10-11: Original guide published.</li>
 </ul>
