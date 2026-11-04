@@ -346,6 +346,59 @@ export function federalLiabilityMinimum(i: InsuranceInput): InsuranceResult {
 }
 
 // ---------------------------------------------------------------------------
+// Which federal weight rules apply: CMV (49 CFR 390.5) and CDL group (383.5)
+// ---------------------------------------------------------------------------
+
+export interface WeightRulesInput {
+  /** GVWR of the power unit (single vehicle), lb. */
+  powerGvwr: number;
+  /** GVWR of a towed unit, lb; 0 when not towing. */
+  towedGvwr: number;
+  /** Actual gross weight of the vehicle or combination, lb, if known; the greater of rating and actual weight is used. */
+  actualWeight?: number;
+  interstate: boolean;
+  /** Carries hazardous materials in a quantity requiring placards. */
+  placardedHazmat: boolean;
+}
+
+export interface WeightRulesResult {
+  /** Weight used for the 10,001 lb test (combined when towing). */
+  weightForCmv: number;
+  /** Is it a commercial motor vehicle under 390.5 (property carriage)? Requires interstate commerce. */
+  federalCmv: boolean;
+  /** CDL group under 383.5, which applies in interstate and intrastate commerce. */
+  cdlGroup: 'A' | 'B' | 'C' | null;
+  reasons: string[];
+}
+
+export function weightRules(i: WeightRulesInput): WeightRulesResult | null {
+  if (!Number.isFinite(i.powerGvwr) || i.powerGvwr <= 0 || !Number.isFinite(i.towedGvwr) || i.towedGvwr < 0) return null;
+  const actual = i.actualWeight && Number.isFinite(i.actualWeight) && i.actualWeight > 0 ? i.actualWeight : 0;
+  const towing = i.towedGvwr > 0;
+  const ratedCombined = i.powerGvwr + i.towedGvwr;
+  const weightForCmv = Math.max(towing ? ratedCombined : i.powerGvwr, actual);
+  const reasons: string[] = [];
+
+  const byWeight = weightForCmv >= 10001;
+  const federalCmv = i.interstate && (byWeight || i.placardedHazmat);
+  if (!i.interstate) reasons.push('Intrastate only: the 390.5 definition of a commercial motor vehicle requires interstate commerce, so the federal safety rules do not apply on this basis. State rules may.');
+  else if (byWeight) reasons.push(`Interstate and ${weightForCmv.toLocaleString('en-US')} lb is 10,001 lb or more.`);
+  else if (i.placardedHazmat) reasons.push('Interstate and carrying placarded hazardous materials, which makes it a commercial motor vehicle at any weight.');
+  else reasons.push(`${weightForCmv.toLocaleString('en-US')} lb is under 10,001 lb and no placarded hazmat, so it is not a commercial motor vehicle.`);
+
+  let cdlGroup: 'A' | 'B' | 'C' | null = null;
+  const combined = Math.max(ratedCombined, actual);
+  if (towing && combined >= 26001 && i.towedGvwr > 10000) cdlGroup = 'A';
+  else if (Math.max(i.powerGvwr, towing ? 0 : actual) >= 26001) cdlGroup = 'B';
+  else if (i.placardedHazmat) cdlGroup = 'C';
+  if (cdlGroup === 'A') reasons.push('CDL Group A: combination of 26,001 lb or more with a towed unit over 10,000 lb.');
+  if (cdlGroup === 'B') reasons.push('CDL Group B: a single vehicle of 26,001 lb or more.');
+  if (cdlGroup === 'C') reasons.push('CDL Group C: smaller vehicle used to carry placarded hazardous materials.');
+  if (!cdlGroup) reasons.push('No CDL is triggered by weight or hazmat here (383.5).');
+  return { weightForCmv, federalCmv, cdlGroup, reasons };
+}
+
+// ---------------------------------------------------------------------------
 // LTL density (NMFTA: cubic inches / 1,728 = cubic feet; pounds / cubic feet = pcf)
 // ---------------------------------------------------------------------------
 
