@@ -1,55 +1,124 @@
-<p>Federal weight limits on the Interstate System look simple until a load is spread over several axles. The 80,000-pound gross limit is the number everyone remembers. But a truck can be under 80,000 pounds and still be illegal if too much of that weight sits on a short group of axles. This guide explains the three federal limits in 23 CFR 658.17, how the Bridge Formula works, and how to check a configuration by hand. These are the numbers behind what drivers and loaders call the federal truck weight limit, usually shorthand for the 80,000-pound gross limit.</p>
-
-<h2>The Three Limits</h2>
-<p>Section 658.17 applies to the Interstate System and reasonable access to it. It sets:</p>
+<aside data-takeaways>
 <ul>
-<li><strong>Gross vehicle weight:</strong> 80,000 pounds, or less where the Bridge Formula requires a lower figure.</li>
-<li><strong>Single axle:</strong> 20,000 pounds on any one axle, including one axle of a group.</li>
-<li><strong>Tandem axles:</strong> 34,000 pounds. FHWA defines a tandem as two or more consecutive axles whose centers are spaced more than 40 inches and not more than 96 inches apart.</li>
+<li>Interstate weight is checked in layers: 20,000 pounds on a single axle, 34,000 on a tandem and 80,000 gross, then the Bridge Formula caps every group of two or more consecutive axles on top of those.</li>
+<li>On a five-axle tractor-trailer FHWA treats axle groups 1 to 3, 1 to 5 and 2 to 5 as the critical checks, and in the worked example below it is group 2 to 5 that fails, by 2,000 pounds.</li>
+<li>A load can pass every axle weight and still be illegal, because spacing sets the limit as much as weight does; sliding the trailer tandem back or removing weight are the two ways to fix a failing group.</li>
 </ul>
-<p>The rule also says States may not enforce lower limits on the Interstate than 20,000 pounds on a single axle, 34,000 on a tandem, or the weights from the Bridge Formula up to 80,000 pounds. States also may not limit a steering axle to less than 20,000 pounds or the manufacturer's axle rating, whichever is lower. These limits are inclusive of tolerances. The only scale allowance the rule recognizes is for portable scales, and it may not exceed 5 percent. The rule also says that a fine schedule imposing no fine up to a threshold, such as 1,000 pounds, is treated as a tolerance provision that 23 U.S.C. 127 does not authorize.</p>
+</aside>
 
-<h2>What the Bridge Formula Does</h2>
-<p>The Bridge Formula limits the total weight on any group of two or more consecutive axles, based on how many axles there are and how far apart the outer ones sit. Spreading the same load over a longer distance puts less stress on a bridge, so a longer, wider-spaced group is allowed more weight. FHWA gives the formula as:</p>
+<p>The 80,000-pound gross limit is the number everyone remembers, but a truck under 80,000 pounds can still be overweight if too much of that load sits on a short run of axles. The federal rule for the Interstate System has four parts that all have to pass: single axle, tandem, gross, and the Bridge Formula applied to every group of axles. Below are the limits, the formula, a five-axle truck checked group by group, and what to change when one group fails.</p>
+
+<h2>The Limits at a Glance</h2>
+<p>23 CFR 658.17 applies to the Interstate System and reasonable access to it. Off the Interstate, weight limits are set by each State.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Limit</th><th>Weight</th><th>Rule</th></tr></thead>
+<tbody>
+<tr><td>Gross vehicle weight</td><td>80,000 lb, or less where the Bridge Formula requires it</td><td>658.17(b)</td></tr>
+<tr><td>Any one axle, including one axle of a group</td><td>20,000 lb</td><td>658.17(c)</td></tr>
+<tr><td>Tandem axles</td><td>34,000 lb</td><td>658.17(d)</td></tr>
+<tr><td>Any two or more consecutive axles</td><td>The Bridge Formula weight, up to 80,000 lb</td><td>658.17(e)</td></tr>
+</tbody>
+</table></div>
+<p>Two definitions decide which limit applies to a pair of axles. A single axle is the weight carried by wheels whose centers fall within 40 inches of each other. A tandem is two or more consecutive axles whose centers are more than 40 and no more than 96 inches apart (23 CFR 658.5). Axles further apart than 96 inches are governed by the Bridge Formula alone. FHWA's guidance gives an example: at 97 inches apart, two axles may carry 38,000 pounds, not 34,000.</p>
+<p>The rule also tells States what they may not enforce on the Interstate. They may not set limits below 20,000 pounds on a single axle, 34,000 on a tandem or the Bridge Formula weight (up to 80,000 pounds), tolerances included. They may not limit tire load to less than 500 pounds per inch of tire or tread width, except on the steering axle, and may not limit a steering axle below 20,000 pounds or the manufacturer's axle rating, whichever is lower. The listed weights are inclusive of tolerances. The one allowance is for portable scales (wheel-load weighers), which may not exceed 5 percent. A fine schedule that charges nothing up to a set threshold, such as 1,000 pounds, is treated as a tolerance that 23 U.S.C. 127 does not authorize.</p>
+
+<h2>The Bridge Formula</h2>
+<p>The formula caps the weight on any group of two or more consecutive axles by how many axles there are and how far apart the outer two sit. Spreading weight over a longer distance stresses a bridge less, so a longer group may carry more. Congress enacted it in 1975 to limit the weight-to-length ratio of a vehicle crossing a bridge.</p>
 <p><strong>W = 500 × [ (L × N ÷ (N − 1)) + 12N + 36 ]</strong></p>
 <ul>
-<li><strong>W</strong> is the maximum weight, in pounds, on the group, to the nearest 500 pounds.</li>
+<li><strong>W</strong> is the most the group may weigh, to the nearest 500 pounds.</li>
 <li><strong>L</strong> is the distance in feet between the outer axles of the group.</li>
 <li><strong>N</strong> is the number of axles in the group.</li>
 </ul>
-<p>The formula has to be satisfied for every group of consecutive axles on the vehicle, not just the whole truck. The rule also contains one carve-out. Two consecutive sets of tandem axles may each carry 34,000 pounds if the overall distance between the first and last axle of those sets is 36 feet or more. In no case may the total exceed 80,000 pounds.</p>
-<figure><svg viewBox="0 0 360 160" role="img" aria-labelledby="bf-t bf-d" xmlns="http://www.w3.org/2000/svg"><title id="bf-t">Measuring L and N on a five-axle combination</title><desc id="bf-d">A schematic five-axle tractor-trailer. The distance L is measured from the first axle to the last axle, and N is 5.</desc><g stroke="currentColor" fill="none" stroke-width="2"><line x1="25" y1="85" x2="335" y2="85"/><circle cx="50" cy="100" r="10"/><circle cx="150" cy="100" r="10"/><circle cx="175" cy="100" r="10"/><circle cx="285" cy="100" r="10"/><circle cx="310" cy="100" r="10"/><line x1="50" y1="125" x2="310" y2="125"/><line x1="50" y1="118" x2="50" y2="132"/><line x1="310" y1="118" x2="310" y2="132"/></g><g font-family="system-ui,sans-serif" fill="currentColor" font-size="13" text-anchor="middle"><text x="50" y="72">1</text><text x="150" y="72">2</text><text x="175" y="72">3</text><text x="285" y="72">4</text><text x="310" y="72">5</text><text x="180" y="148">L = distance between outer axles</text></g></svg><figcaption>Schematic only, not to scale: with five axles in the group, N = 5, and L runs from the first axle to the last.</figcaption></figure>
+<p>Rounding has one detail that matters at the edges. When the formula lands exactly halfway between two 500-pound steps, FHWA's Bridge Table rounds down. For three axles spaced 9 feet, the formula gives 42,750 and FHWA's table shows 42,500.</p>
+<p>The rule carves out one exception. Two consecutive sets of tandem axles may each carry 34,000 pounds if the overall distance from the first axle to the last axle of those sets is 36 feet or more. The total may never exceed 80,000 pounds.</p>
+<h3>Check the Formula With the Tandem Limit</h3>
+<p>Two axles (N = 2) spaced 4 feet apart give W = 500 × [ (4 × 2 ÷ 1) + 24 + 36 ] = 34,000, which is the tandem limit in 658.17(d). The formula and the tandem limit agree where they meet.</p>
 
-<h2>Checking a Five-Axle Combination</h2>
-<p>For the common five-axle tractor-semitrailer, put N = 5 into the formula and the only variable left is the distance L from the front axle to the rear axle. The results below are calculated from the formula, not read from a published table:</p>
+<h3>Calculator</h3>
+<p>Enter any group below. The pre-filled values are five axles over 51 feet, FHWA's own example.</p>
+<div data-embed="bridge-formula"></div>
+<p><strong>Common mistakes:</strong> measuring L to the wrong axle, using the distance between the king pin and the rear axle instead of axle to axle, counting only the whole truck and skipping the inner groups, and forgetting that the single and tandem limits still apply after the formula passes.</p>
+
+<h2>Worked Example: A Five-Axle Truck, Every Group</h2>
+<p>A five-axle tractor-semitrailer has the steer axle (axle 1), a drive tandem (axles 2 and 3) and a trailer tandem (axles 4 and 5). Measured from axle 1, the axles sit at 0, 15, 19, 44 and 48 feet. The steer axle carries 12,000 pounds and each of the other four carries 16,500, for a gross of 78,000 pounds.</p>
+<figure><svg viewBox="0 0 360 150" role="img" aria-labelledby="bf-t bf-d" xmlns="http://www.w3.org/2000/svg"><title id="bf-t">Five-axle example with axle positions and weights</title><desc id="bf-d">Axle 1 at 0 feet carries 12,000 pounds. Axles 2 and 3 at 15 and 19 feet and axles 4 and 5 at 44 and 48 feet each carry 16,500 pounds. The distance from axle 2 to axle 5 is 33 feet.</desc><g stroke="currentColor" fill="none" stroke-width="2"><line x1="20" y1="70" x2="340" y2="70"/><circle cx="25" cy="85" r="9"/><circle cx="122" cy="85" r="9"/><circle cx="148" cy="85" r="9"/><circle cx="309" cy="85" r="9"/><circle cx="335" cy="85" r="9"/><line x1="122" y1="115" x2="335" y2="115"/><line x1="122" y1="108" x2="122" y2="122"/><line x1="335" y1="108" x2="335" y2="122"/></g><g font-family="system-ui,sans-serif" fill="currentColor" font-size="12" text-anchor="middle"><text x="25" y="52">1</text><text x="25" y="35" font-size="11">12,000</text><text x="122" y="52">2</text><text x="148" y="52">3</text><text x="135" y="35" font-size="11">16,500 each</text><text x="309" y="52">4</text><text x="335" y="52">5</text><text x="322" y="35" font-size="11">16,500 each</text><text x="228" y="140">Axles 2 to 5: L = 33 ft</text></g></svg><figcaption>Axle positions and weights for the worked example (schematic, not to scale).</figcaption></figure>
+<p>First the single, tandem and gross limits. The steer axle at 12,000 pounds is under 20,000. Each tandem is 4 feet (48 inches) apart, inside the 40-to-96-inch range, and carries 33,000, under 34,000. The gross of 78,000 is under 80,000. Those pass. Now the Bridge Formula for every group of consecutive axles:</p>
 <div class="table-wrap"><table>
-<thead><tr><th>Distance between first and last axle (L)</th><th>Maximum gross weight for the 5-axle group</th></tr></thead>
+<thead><tr><th>Axle group</th><th>N</th><th>L (ft)</th><th>Actual (lb)</th><th>Formula maximum (lb)</th><th>Result</th></tr></thead>
 <tbody>
-<tr><td>36 ft</td><td>70,500 lb</td></tr>
-<tr><td>40 ft</td><td>73,000 lb</td></tr>
-<tr><td>44 ft</td><td>75,500 lb</td></tr>
-<tr><td>48 ft</td><td>78,000 lb</td></tr>
-<tr><td>51 ft</td><td>80,000 lb (the formula gives 79,875, which rounds to 80,000)</td></tr>
+<tr><td>1 to 2</td><td>2</td><td>15</td><td>28,500</td><td>45,000</td><td>Pass</td></tr>
+<tr><td>1 to 3</td><td>3</td><td>19</td><td>45,000</td><td>50,000</td><td>Pass</td></tr>
+<tr><td>1 to 4</td><td>4</td><td>44</td><td>61,500</td><td>71,500</td><td>Pass</td></tr>
+<tr><td>1 to 5 (whole truck)</td><td>5</td><td>48</td><td>78,000</td><td>78,000</td><td>Pass, with no margin</td></tr>
+<tr><td>2 to 3 (tandem)</td><td>2</td><td>4</td><td>33,000</td><td>34,000</td><td>Pass</td></tr>
+<tr><td>2 to 4</td><td>3</td><td>29</td><td>49,500</td><td>57,500</td><td>Pass</td></tr>
+<tr><td><strong>2 to 5</strong></td><td>4</td><td>33</td><td><strong>66,000</strong></td><td><strong>64,000</strong></td><td><strong>Fail, 2,000 lb over</strong></td></tr>
+<tr><td>3 to 4</td><td>2</td><td>25</td><td>33,000</td><td>55,000</td><td>Pass</td></tr>
+<tr><td>3 to 5</td><td>3</td><td>29</td><td>49,500</td><td>57,500</td><td>Pass</td></tr>
+<tr><td>4 to 5 (tandem)</td><td>2</td><td>4</td><td>33,000</td><td>34,000</td><td>Pass</td></tr>
 </tbody>
 </table></div>
-<p>The 51-foot, five-axle figure of 80,000 pounds matches the example in FHWA's own bridge formula guidance. That means a five-axle rig with its axles bunched into 40 feet cannot legally carry a full 80,000 pounds even if every individual axle is under its limit. Shifting the trailer's tandem toward the rear, where the design allows it, increases L and therefore the permitted weight. To try other axle counts and spacings, use the <a href="/en/tools/bridge-formula-calculator">Federal Bridge Formula Calculator</a>.</p>
-<p>As a check on the formula, take a two-axle tandem (N = 2) with a spacing of 4 feet. It gives W = 500 × [ (4 × 2 ÷ 1) + 24 + 36 ] = 34,000. That matches the tandem limit in 658.17(d).</p>
-<h3>If every axle is under its limit, is the truck legal?</h3>
-<p>Not necessarily. The Bridge Formula applies to every group of two or more consecutive axles. A short group can be over its limit even when each axle is under 20,000 pounds and the gross is under 80,000.</p>
+<p>Group 2 to 5 is the limit. The two tandems are 33 feet apart, short of the 36 feet the tandem exception needs, so the formula applies and allows 64,000 pounds against 66,000 actual. The truck is under 80,000 gross and under every axle limit, and it is still overweight.</p>
+<p>FHWA's guidance names axle combinations 1 to 3, 1 to 5 and 2 to 5 as the critical ones for this vehicle type, and says that if those are satisfactory the others normally will be. The table above checks all ten groups anyway, because that is what the rule requires.</p>
+
+<h2>Fixing a Failing Group</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Fix</th><th>Effect in the example</th></tr></thead>
+<tbody>
+<tr><td>Slide the trailer tandem back 3 ft, if the trailer's slide rails allow it</td><td>L for axles 2 to 5 becomes 36 ft. The two-tandem exception now applies (each tandem may carry 34,000), and the formula itself gives 66,000 at 36 ft, which equals the actual weight. Axles 1 to 5 then span 51 ft and may carry 80,000, still above the 78,000 actual.</td></tr>
+<tr><td>Remove at least 2,000 lb from the tandems</td><td>The 2 to 5 group drops to 64,000 and passes, as long as the other groups still pass.</td></tr>
+<tr><td>Shift cargo toward the steer axle</td><td>Lowers the tandem weights. The steer axle has room up to 20,000 lb, but check that the drive tandem still carries enough for traction and that the front axle does not exceed its rated capacity.</td></tr>
+<tr><td>Add an axle</td><td>More axles raise the formula weight, but the axle group must still pass every check.</td></tr>
+</tbody>
+</table></div>
+<p>Re-weigh after any change. Moving a trailer tandem or cargo shifts weight between axles, so a fix for one group can break another.</p>
+
+<h2>More of the Table: Three to Six Axles</h2>
+<p>The values below come from the formula, with halves rounded down as FHWA does. Anything above 80,000 is held to the 80,000-pound gross limit.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>L (ft)</th><th>3 axles</th><th>4 axles</th><th>5 axles</th><th>6 axles</th></tr></thead>
+<tbody>
+<tr><td>20</td><td>51,000</td><td>55,500</td><td>60,500</td><td>66,000</td></tr>
+<tr><td>24</td><td>54,000</td><td>58,000</td><td>63,000</td><td>68,500</td></tr>
+<tr><td>30</td><td>58,500</td><td>62,000</td><td>66,500</td><td>72,000</td></tr>
+<tr><td>36</td><td>63,000</td><td>66,000</td><td>70,500</td><td>75,500</td></tr>
+<tr><td>40</td><td>66,000</td><td>68,500</td><td>73,000</td><td>78,000</td></tr>
+<tr><td>50</td><td>73,500</td><td>75,500</td><td>79,000</td><td>80,000 (capped)</td></tr>
+</tbody>
+</table></div>
+<p>Every value here matches FHWA's published Bridge Table where the table lists one. FHWA's table stops listing three-axle groups above 32 feet, so the three-axle values at 36, 40 and 50 feet are straight from the formula. For other values, use the calculator above.</p>
 
 <h2>Exceptions and Special Cases in the Rule</h2>
 <ul>
-<li><strong>Special permits.</strong> States may issue special permits without regard to the axle, gross or Bridge Formula limits for nondivisible vehicles or loads.</li>
-<li><strong>Grandfathered weights.</strong> The single, tandem and gross limits do not apply to weights legally authorized under State law on 1 July 1956. The group-of-axles requirement does not apply to vehicles grandfathered under State tables or formulas on 4 January 1975.</li>
-<li><strong>Idle-reduction equipment.</strong> A vehicle with an auxiliary power or idle-reduction unit may be allowed up to an additional 400 pounds in the gross, axle, tandem or bridge-formula limits. The operator must prove the unit's weight by written certification and meet the rule's other conditions.</li>
-<li><strong>Named locations.</strong> The rule exempts specific operations, for example certain specialized vehicles on a stretch of Interstate 68 in Maryland and vehicles on part of Interstate 99 in Pennsylvania.</li>
+<li><strong>Special permits.</strong> States may issue permits without regard to the axle, gross or Bridge Formula limits for nondivisible vehicles or loads (658.17(h)).</li>
+<li><strong>Grandfathered weights.</strong> The single, tandem and gross limits do not apply to weights legally authorized under State law on 1 July 1956. The group-of-axles requirement does not apply to vehicles grandfathered under State tables or formulas on 4 January 1975. Because of this, some States allow more than the federal figures on their Interstate highways (658.17(i); FHWA guidance).</li>
+<li><strong>Idle-reduction equipment.</strong> A vehicle with an auxiliary power or idle-reduction unit may carry up to an additional 400 pounds in the gross, axle, tandem or bridge-formula limits, or the certified weight of the unit if less. The operator must show the unit's weight by written certification and that the technology is fully functional at all times (658.17(n)).</li>
+<li><strong>Named locations.</strong> The rule exempts certain specialised coal, log and pulpwood vehicles on Interstate 68 in Allegany and Garrett Counties, Maryland, and vehicles that could legally operate on a section of Interstate 99 in Pennsylvania before 29 December 1995 (658.17(j) and (m)).</li>
 </ul>
 
-<p>These limits apply on the Interstate System and reasonable access to it. Permits, routing, escorts and fine amounts for overweight moves are set State by State. Weight is one of several things an inspector can check; <a href="/en/blog/commercial-vehicle-roadside-inspections-preparation-en">Commercial Vehicle Roadside Inspections: What Each Level Covers</a> covers the rest.</p>
+<p>Scope: these are federal limits for the Interstate System. Permits, routing, escorts, fine amounts and State limits on other roads vary by State, and this guide does not list them. Weight is one of several things an inspector can check; <a href="/en/blog/commercial-vehicle-roadside-inspections-preparation-en">Commercial Vehicle Roadside Inspections: What Each Level Covers</a> covers the rest, and <a href="/en/blog/cargo-securement-tiedowns-working-load-limit-en">Cargo Securement</a> covers how the load is held.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Where do I measure L?</h3>
+<p>From the center of the first axle of the group to the center of the last axle. For the whole five-axle truck that is the steer axle to the rear trailer axle, not the king pin to the rear axle.</p>
+<h3>Why does a short truck with many axles still fail?</h3>
+<p>Because the formula weight rises with spacing as well as axle count. Several closely spaced axles are the usual trouble: in FHWA's single-unit truck example, three axles at 15,000 pounds each over 9 feet carry 45,000 against 42,500 allowed.</p>
+<h3>Does the 80,000-pound limit apply on every road?</h3>
+<p>No. This rule governs the Interstate System and reasonable access to it. Other roads follow State limits.</p>
+<h3>Is there a scale tolerance?</h3>
+<p>The rule allows none except for portable scales, where an allowance may not exceed 5 percent. A fine schedule that charges nothing below a threshold counts as an unauthorized tolerance.</p>
 
 <h2>Sources</h2>
-<p>Regulation text: eCFR, 7 October 2026. The formula's variable definitions and the 51-foot example come from FHWA guidance.</p>
 <ul>
-<li><a href="https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658/subpart-B/section-658.17" target="_blank" rel="noopener noreferrer">23 CFR § 658.17 — Weight</a></li>
-<li><a href="https://ops.fhwa.dot.gov/freight/publications/brdg_frm_wghts/" target="_blank" rel="noopener noreferrer">FHWA — Bridge Formula Weights</a></li>
+<li><a href="https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658/subpart-B/section-658.17" target="_blank" rel="noopener noreferrer">23 CFR § 658.17: Weight</a> (eCFR, current to 2 November 2026)</li>
+<li><a href="https://www.ecfr.gov/current/title-23/part-658/subpart-A/section-658.5" target="_blank" rel="noopener noreferrer">23 CFR § 658.5: Definitions</a> (single axle, tandem axle, bridge gross weight formula)</li>
+<li><a href="https://ops.fhwa.dot.gov/freight/publications/brdg_frm_wghts/" target="_blank" rel="noopener noreferrer">FHWA: Bridge Formula Weights</a> (pamphlet FHWA-HOP-19-028, August 2019, with the Bridge Table on pp. 5 and 6; the 51-foot example is Figure 6)</li>
+</ul>
+
+<h2>Last Verified and Change Log</h2>
+<p>Last verified: 2026-11-04, against the eCFR text of 23 CFR 658.17 and 658.5 and the FHWA pamphlet. The FHWA pamphlet states that it paraphrases the statute and regulation for illustration and that the statute and regulation control in a dispute. Not checked: State weight laws, permits and fine schedules.</p>
+<ul>
+<li>2026-11-04: Added the single-axle and tandem definitions, the rounding rule, a worked check of all ten axle groups, ways to fix a failing group, a wider table, a calculator, FAQ and the tire-load and steering-axle limits. Corrected the source of the tandem definition (23 CFR 658.5, not the formula page) and the description of 5-axle spacing. Fixed an unclear sentence about what "federal truck weight limit" means.</li>
+<li>2026-10-11: Original guide published.</li>
 </ul>

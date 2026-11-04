@@ -174,7 +174,7 @@ export function fmtMinutes(total: number): string {
 export interface BridgeFormulaResult {
   /** W before rounding: 500 * (L*N/(N-1) + 12N + 36) */
   rawWeight: number;
-  /** W rounded to the nearest 500 lb, as FHWA states. */
+  /** W rounded to the nearest 500 lb; exact halves round down, as in FHWA's Bridge Table. */
   formulaWeight: number;
   /** The formula weight limited by the 80,000 lb gross limit. */
   limit: number;
@@ -186,9 +186,63 @@ export function bridgeFormula(axles: number, spanFeet: number): BridgeFormulaRes
   if (!Number.isFinite(axles) || !Number.isFinite(spanFeet)) return null;
   if (!Number.isInteger(axles) || axles < 2 || spanFeet <= 0) return null;
   const rawWeight = 500 * ((spanFeet * axles) / (axles - 1) + 12 * axles + 36);
-  const formulaWeight = Math.round(rawWeight / 500) * 500;
+  // Nearest 500 lb, rounding DOWN when exactly halfway: FHWA's Bridge Table (FHWA-HOP-19-028, footnote 1) states this policy.
+  const formulaWeight = Math.ceil(rawWeight / 500 - 0.5 - 1e-9) * 500;
   const limit = Math.min(formulaWeight, 80000);
   return { rawWeight, formulaWeight, limit, cappedAtGross: formulaWeight > 80000 };
+}
+
+// ---------------------------------------------------------------------------
+// Hours of service clocks for property-carrying drivers (49 CFR 395.3(a)-(b))
+// ---------------------------------------------------------------------------
+
+export type HosLimit = 'driving' | 'window' | 'break' | 'cycle';
+
+export interface HosClocksInput {
+  /** Minutes after midnight when the driver came on duty after 10+ consecutive hours off duty. */
+  onDutyStartMin: number;
+  /** Minutes after midnight "now" (same calendar day as the start, or later if the shift crosses midnight; pass minutes since the start day's midnight). */
+  nowMin: number;
+  /** Driving hours so far in this shift. */
+  drivingHours: number;
+  /** Hours of driving since the last interruption of at least 30 consecutive minutes (off duty, sleeper berth or on duty not driving). */
+  drivingSinceBreakHours: number;
+  /** Hours on duty so far in the current 7- or 8-day period, including this shift. */
+  cycleUsedHours: number;
+  /** 60 (7-day) or 70 (8-day) */
+  cycleLimitHours: number;
+}
+
+export interface HosClocksResult {
+  drivingLeftHours: number;
+  /** Minutes after midnight when driving must stop because the 14-hour period ends. */
+  windowEndMin: number;
+  windowLeftHours: number;
+  hoursUntilBreakNeeded: number;
+  cycleLeftHours: number;
+  /** Hours the driver can still drive before the first limit is reached. */
+  maxDrivableHours: number;
+  bindingLimit: HosLimit;
+}
+
+/**
+ * Simple single-shift check; does not model sleeper-berth splits or the short-haul exceptions.
+ * The 30-minute break limits driving to 8 hours between interruptions; once taken, the 11-hour,
+ * 14-hour and cycle limits still apply.
+ */
+export function hosClocks(i: HosClocksInput): HosClocksResult | null {
+  const nums = [i.onDutyStartMin, i.nowMin, i.drivingHours, i.drivingSinceBreakHours, i.cycleUsedHours, i.cycleLimitHours];
+  if (nums.some((n) => !Number.isFinite(n)) || i.drivingHours < 0 || i.drivingSinceBreakHours < 0 || i.cycleUsedHours < 0) return null;
+  if (i.cycleLimitHours !== 60 && i.cycleLimitHours !== 70) return null;
+  if (i.nowMin < i.onDutyStartMin) return null;
+  const drivingLeft = Math.max(0, 11 - i.drivingHours);
+  const windowEndMin = i.onDutyStartMin + 14 * 60;
+  const windowLeft = Math.max(0, (windowEndMin - i.nowMin) / 60);
+  const untilBreak = Math.max(0, 8 - i.drivingSinceBreakHours);
+  const cycleLeft = Math.max(0, i.cycleLimitHours - i.cycleUsedHours);
+  const candidates: Array<[HosLimit, number]> = [['driving', drivingLeft], ['window', windowLeft], ['break', untilBreak], ['cycle', cycleLeft]];
+  const [bindingLimit, maxDrivableHours] = candidates.reduce((a, b) => (b[1] < a[1] ? b : a));
+  return { drivingLeftHours: drivingLeft, windowEndMin, windowLeftHours: windowLeft, hoursUntilBreakNeeded: untilBreak, cycleLeftHours: cycleLeft, maxDrivableHours, bindingLimit };
 }
 
 // ---------------------------------------------------------------------------
