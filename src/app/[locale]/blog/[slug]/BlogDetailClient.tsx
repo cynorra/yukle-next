@@ -241,18 +241,31 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
   const keyTakeaways = useMemo(() => {
     if (authoredTakeaways.length > 0) return authoredTakeaways.slice(0, 3);
     if (!post?.content) return [];
-    const body = post.content.replace(/<aside[\s\S]*?<\/aside>/gi, ' ').replace(/<(table|h[1-6])[\s\S]*?<\/>/gi, ' ');
-    const sentences = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/);
-    const intro = sentences.slice(0, 3).join(' ');
-    const points: string[] = [];
-    for (const s of sentences) {
-      const clean = s.trim();
-      if (clean.length > 60 && clean.length < 220 && /[.!?]$/.test(clean) && /^[A-Z]/.test(clean) && !intro.includes(clean)
-        && /\d|must|may not|required|limit|deadline|within/i.test(clean)) {
-        points.push(clean);
-        if (points.length >= 3) break;
+    // Fallback for articles without an authored block: whole sentences from body paragraphs only
+    // (never headings, tables or captions), skipping the opening paragraph and filler openers.
+    const paragraphs = [...post.content.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
+      .map((m) => m[1].replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim())
+      .slice(1);
+    const filler = /^(this guide|in this guide|furthermore|moreover|crucially|additionally|it is worth noting|whether you)/i;
+    const ABBREVIATIONS = ['U.S.C.', 'C.F.R.', ' No.', ' Sec.', ' Fig.', ' vs.', 'e.g.', 'i.e.'];
+    const endsWithAbbreviation = (x: string) => ABBREVIATIONS.some((a) => x.endsWith(a));
+    const pick = (needsKeyword: boolean) => {
+      const out: string[] = [];
+      for (const p of paragraphs) {
+        for (const sentence of p.split(/(?<=[.!?])\s+/)) {
+          const clean = sentence.trim();
+          if (clean.length >= 60 && clean.length <= 220 && /^[A-Z]/.test(clean) && /[.!?]$/.test(clean) && !filler.test(clean)
+            && !endsWithAbbreviation(clean) && (!needsKeyword || /\d|must|may not|required|limit|deadline|within/i.test(clean))) {
+            out.push(clean);
+            break; // one sentence per paragraph so the three points cover different ground
+          }
+        }
+        if (out.length >= 3) break;
       }
-    }
+      return out;
+    };
+    const points = pick(true);
+    if (points.length < 3) return pick(false);
     return points;
   }, [authoredTakeaways, post?.content]);
 
