@@ -183,8 +183,8 @@ export default async function LocalizedLayout({ children, params }: Props) {
     '@id': `${SITE_URL}/#founder`,
     name: 'Eren Şimşir',
     jobTitle: 'Founder and Editor',
-    description: 'Software developer with computer engineering and industrial engineering degrees and a PhD candidate in computer science. Founder and editor of Loadly.',
-    knowsAbout: ['Software engineering', 'Industrial engineering', 'Freight and trucking regulation (from primary sources)'],
+    description: 'Software developer; B.Sc. Computer Engineering, Düzce University (2025); M.Sc. student in Computer Engineering, Kocaeli University. Founder and editor of Loadly.',
+    knowsAbout: ['Software engineering', 'Computer engineering', 'Freight and trucking regulation (from primary sources)'],
     worksFor: { '@id': `${SITE_URL}/#organization` },
     sameAs: ['https://www.linkedin.com/in/ernsmsr/'],
   };

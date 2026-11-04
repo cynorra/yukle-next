@@ -4,6 +4,7 @@ import { useT } from '@/hooks/useT';
 import { useParams } from 'next/navigation';
 import { FileText } from 'lucide-react';
 
+import { CONTACT_EMAIL } from '@/lib/editorial';
 interface Copy {
   title: string;
   description: string;
@@ -20,7 +21,7 @@ const COPY: Record<string, Copy> = {
     title: 'Editorial Policy',
     description: "How Loadly chooses sources, states what an article covers, and handles corrections.",
     s1Title: "Who edits Loadly",
-    s1Body: "Loadly is edited and published by one person, Eren Şimşir, who is also the site's founder, a software developer with a computer and industrial engineering background and a PhD candidate in computer science. No independent subject-matter reviewer is currently named on any article; if one is added, the article will show their name, role and review date. Articles are published under a named editor, not an anonymous \"content team.\" Loadly is an independent publication: it does not do hands-on product testing and does not claim first-hand industry experience in its articles.",
+    s1Body: "Loadly is edited and published by one person, Eren Şimşir, who is also the site's founder, a software developer, a graduate of Düzce University in Computer Engineering (2025) and a Kocaeli University Computer Engineering M.Sc. student. No independent subject-matter reviewer is currently named on any article; if one is added, the article will show their name, role and review date. Articles are published under a named editor, not an anonymous \"content team.\" Loadly is an independent publication: it does not do hands-on product testing and does not claim first-hand industry experience in its articles.",
     s2Title: "How articles are sourced",
     s2Body: "Each article follows these rules:",
     s2L1: "Regulatory statements are taken from the primary source, in this order of preference: the statute or the current eCFR text, then the issuing agency's own guidance (FMCSA, FHWA, CBP), then published industry standards, and the article lists those sources at the end. and the article lists those sources at the end.",
@@ -110,7 +111,7 @@ export function EditorialPolicyPageClient({ locale }: { locale: string }) {
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{c.contactTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
             {c.contactBody}{' '}
-            <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline">info@loadlyapp.com</a>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#A66700] hover:underline">{CONTACT_EMAIL}</a>
           </p>
         </div>
       </div>

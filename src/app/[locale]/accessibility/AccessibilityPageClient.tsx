@@ -4,6 +4,7 @@ import { useT } from '@/hooks/useT';
 import { useParams } from 'next/navigation';
 import { Accessibility } from 'lucide-react';
 
+import { CONTACT_EMAIL } from '@/lib/editorial';
 interface Copy {
   title: string;
   description: string;
@@ -90,7 +91,7 @@ export function AccessibilityPageClient({ locale }: { locale: string }) {
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>{c.contactTitle}</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
             {c.contactBody}{' '}
-            <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline">info@loadlyapp.com</a>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#A66700] hover:underline">{CONTACT_EMAIL}</a>
           </p>
         </div>
       </div>

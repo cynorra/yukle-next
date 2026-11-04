@@ -19,13 +19,11 @@ import {
   ListOrdered,
   CheckCircle2,
   Bookmark,
-  Mail,
-  Send
-} from 'lucide-react';
+  } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import AdBanner from '@/components/AdBanner';
-import { AUTHOR, REVIEWER } from '@/lib/editorial';
+import { AUTHOR, AUTHOR_EDUCATION, REVIEWER } from '@/lib/editorial';
 
 interface RelatedPost {
   slug: string;
@@ -730,7 +728,7 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
               </span>
             </div>
             <p className={`text-sm ${t.sub} leading-relaxed mb-4`}>
-              Writing on federal trucking regulations, commercial vehicle safety, carrier economics, and digital freight technologies. Focused on practical, compliant operations for drivers and fleet managers.
+              Writes Loadly's guides from primary sources and builds its calculators. {AUTHOR_EDUCATION} Does not claim first-hand freight industry experience.
             </p>
             {REVIEWER && (
               <div className="text-xs text-muted">
@@ -742,27 +740,10 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
           </div>
         </div>
 
-        {/* Newsletter Subscription Card (Audience Building) */}
-        <div className="p-8 md:p-10 rounded-3xl bg-gradient-to-br from-accent/10 via-surface-light dark:via-surface-dark to-surface-light dark:to-surface-dark border border-accent/20 mb-12 text-center relative overflow-hidden">
-          <div className="max-w-xl mx-auto relative z-10">
-            <div className="w-12 h-12 rounded-2xl bg-accent text-white flex items-center justify-center mx-auto mb-4 shadow-lg shadow-accent/30">
-              <Mail size={24} />
-            </div>
-            <h3 className={`text-2xl font-black ${t.heading} mb-2`}>
-              The Weekly Freight Dispatch
-            </h3>
-            <p className={`text-sm ${t.sub} mb-6 leading-relaxed`}>
-              Loadly has no automated mailing list yet. To be told when a new guide is published or an existing one is corrected, send a one-line request and it will be added to a manual notice list.
-            </p>
-            <a
-              href="mailto:info@loadlyapp.com?subject=Notify%20me%20about%20new%20guides"
-              className="inline-flex px-6 py-3.5 rounded-2xl bg-accent text-white font-extrabold text-sm hover:opacity-90 transition-opacity items-center justify-center gap-2 shadow-lg shadow-accent/20"
-            >
-              <span>Request guide notices</span>
-              <Send size={16} />
-            </a>
-          </div>
-        </div>
+        {/* RSS: the only subscription Loadly offers */}
+        <p className={`mb-12 text-sm ${t.sub}`}>
+          New guides are listed in the <a href={`/${locale}/feed.xml`} className="text-accent font-bold underline underline-offset-2">RSS feed</a>.
+        </p>
 
         {/* Footer Info */}
         <div className="p-8 rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark mb-12">

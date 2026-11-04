@@ -3,8 +3,8 @@
 import { useT } from '@/hooks/useT';
 import { Megaphone, Mail, CheckCircle, Target, TrendingUp } from 'lucide-react';
 
-const CONTACT_EMAIL = 'info@loadlyapp.com';
 
+import { CONTACT_EMAIL } from '@/lib/editorial';
 export function AdPageClient() {
   const t = useT();
 

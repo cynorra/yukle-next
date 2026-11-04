@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useT } from '@/hooks/useT';
 import { Mail, MapPin, Phone, MessageSquare, HelpCircle, Send, CheckCircle } from 'lucide-react';
 
+import { CONTACT_EMAIL } from '@/lib/editorial';
 interface ContactData {
   contact: {
     title: string;
@@ -36,7 +37,7 @@ const FAQ_LABELS: Record<string, { faqTitle: string; items: { q: string; a: stri
     faqTitle: 'Frequently Asked Questions',
     items: [
       { q: 'Is Loadly free to use?', a: 'Yes! All content and guides on Loadly are completely free, no registration required.' },
-      { q: 'How do I report an error in a guide?', a: 'Email info@loadlyapp.com with the title of the guide, the passage and, if you have one, the source that shows the correct figure. Corrections are made and the source is cited.' },
+      { q: 'How do I report an error in a guide?', a: 'Email ' + CONTACT_EMAIL + ' with the title of the guide, the passage and, if you have one, the source that shows the correct figure. Corrections are made and the source is cited.' },
       { q: 'Do you give legal, tax or compliance advice?', a: 'No. The guides are general educational information drawn from public sources such as regulations and published standards. For a specific situation, ask a transportation lawyer, an insurance agent or the agency that administers the rule.' },
       { q: 'Can I suggest a topic?', a: 'Yes. Email a short description of the question you want answered. Topics are chosen when a primary source exists that a guide can be checked against.' },
       { q: 'Which regions do you cover?', a: 'The guides focus on United States rules and practice. Where a topic is international, such as customs documents, the guide says which jurisdiction it describes.' },
@@ -64,7 +65,7 @@ export function ContactPageClient({ data, locale }: Props) {
     const body = `${formMessage}
 
 — ${formName} (${formEmail})`;
-    window.location.href = `mailto:info@loadlyapp.com?subject=${encodeURIComponent(formSubject || 'Message from loadlyapp.com')}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(formSubject || 'Message from loadlyapp.com')}&body=${encodeURIComponent(body)}`;
     setTimeout(() => { setFormSending(false); setFormSubmitted(true); }, 600);
   };
 
@@ -95,8 +96,8 @@ export function ContactPageClient({ data, locale }: Props) {
               <div>
                 <h3 className={`text-lg font-bold ${t.heading} mb-1`}>{content.emailTitle}</h3>
                 <p className={`text-sm ${t.muted} mb-2`}>{content.emailDesc}</p>
-                <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline font-medium">
-                  info@loadlyapp.com
+                <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#A66700] hover:underline font-medium">
+                  {CONTACT_EMAIL}
                 </a>
               </div>
             </div>
@@ -141,8 +142,8 @@ export function ContactPageClient({ data, locale }: Props) {
                   <CheckCircle size={20} className="shrink-0" />
                   <span>
                     {locale === 'tr'
-                      ? 'E-posta uygulamanız mesajla birlikte açılmış olmalı. Açılmadıysa doğrudan info@loadlyapp.com adresine yazın.'
-                      : 'Your email app should have opened with the message ready to send. If it did not, write to info@loadlyapp.com directly.'}
+                      ? 'E-posta uygulamanız mesajla birlikte açılmış olmalı. Açılmadıysa doğrudan ' + CONTACT_EMAIL + ' adresine yazın.'
+                      : 'Your email app should have opened with the message ready to send. If it did not, write to ' + CONTACT_EMAIL + ' directly.'}
                   </span>
                 </div>
               ) : (

@@ -3,6 +3,7 @@
 import { useT } from '@/hooks/useT';
 import { FileText, AlertTriangle } from 'lucide-react';
 
+import { CONTACT_EMAIL } from '@/lib/editorial';
 interface TermsData {
   terms: Record<string, string>;
 }
@@ -156,7 +157,7 @@ export function TermsPageClient({ data }: Props) {
             {content.contactDesc}
           </p>
           <ul className={`list-none space-y-2 text-sm ${t.sub} mt-3`}>
-            <li>Email: <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline">info@loadlyapp.com</a></li>
+            <li>Email: <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#A66700] hover:underline">{CONTACT_EMAIL}</a></li>
           </ul>
         </div>
       </div>

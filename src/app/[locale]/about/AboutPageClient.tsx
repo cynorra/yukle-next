@@ -3,6 +3,7 @@
 import { useT } from '@/hooks/useT';
 import { Info, Users, Leaf } from 'lucide-react';
 
+import { CONTACT_EMAIL } from '@/lib/editorial';
 interface AboutData {
   about: {
     title: string;
@@ -91,7 +92,7 @@ const EXTRA: Record<string, {
     teamTitle: 'About the Editor',
     teamName: 'Eren Şimşir',
     teamRole: 'Founder and Editor',
-    teamBio: 'A software developer with computer engineering and industrial engineering degrees (double major) and a PhD candidate in computer science. He founded Loadly, edits every guide, and builds the site and its calculators.',
+    teamBio: 'A software developer, a graduate of Düzce University in Computer Engineering (2025) and a Kocaeli University Computer Engineering M.Sc. student. He founded Loadly, edits every guide, and builds the site and its calculators.',
     teamLinkedInLabel: 'View on LinkedIn',
     whyTitle: 'Why Follow Loadly?',
     whyItems: [
@@ -175,7 +176,7 @@ export function AboutPageClient({ data, locale }: Props) {
               The content is general educational information, not legal, financial or compliance advice. Rules change and differ by State and country, so check the official source before acting on anything here.
             </p>
             <p className={`text-base ${t.muted} leading-relaxed`}>
-              Found a mistake or an outdated figure? Email <a className="text-accent font-semibold" href="mailto:info@loadlyapp.com">info@loadlyapp.com</a> with the guide and the passage. Read the full <a className="text-accent font-semibold" href={`/${locale}/editorial-policy`}>Editorial Policy</a>.
+              Found a mistake or an outdated figure? Email <a className="text-accent font-semibold" href={`mailto:${CONTACT_EMAIL}`}>" + CONTACT_EMAIL + "</a> with the guide and the passage. Read the full <a className="text-accent font-semibold" href={`/${locale}/editorial-policy`}>Editorial Policy</a>.
             </p>
           </div>
         )}

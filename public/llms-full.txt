@@ -130,7 +130,7 @@ A: Driver and vehicle rules (hours of service, CDL classes, inspections, weight 
 A: New guides are added over time, not on a fixed daily schedule.
 
 **Q: Who runs Loadly?**
-A: Loadly is published and edited by one person, Eren Şimşir, a software developer and PhD candidate in computer science who does not claim first-hand freight industry experience. The Editorial Policy explains how guides are sourced and corrected.
+A: Loadly is published and edited by one person, Eren Şimşir, a software developer (Düzce University Computer Engineering graduate, Kocaeli University Computer Engineering M.Sc. student) who does not claim first-hand freight industry experience. The Editorial Policy explains how guides are sourced and corrected.
 
 **Q: Does Loadly operate a freight marketplace?**
 A: Not on this website. Freight listings are shown only in the separate Loadly Android app.

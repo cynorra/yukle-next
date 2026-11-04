@@ -25,7 +25,7 @@
 - **No AI-Slop / Aesthetic Rules**:
   - Never use pulsing dots (`animate-ping`), sparkles (`Sparkles` icons), or generic neon badges that scream automated/AI generation.
   - Keep an editorial, authoritative, Financial Times / FreightWaves aesthetic.
-  - Every article must feature: **Key Regulatory Takeaways box**, auto-generated **Table of Contents**, **Author (Founder and Editor) bio**; reviewer badge only when `REVIEWER` in `src/lib/editorial.ts` is filled with a real, named person (`Eren Şimşir`), and **The Weekly Freight Dispatch** newsletter box.
+  - Every article must feature: **Key Regulatory Takeaways box**, auto-generated **Table of Contents**, **Author (Founder and Editor) bio** (education: B.Sc. Computer Engineering, Düzce University 2025; M.Sc. student, Computer Engineering, Kocaeli University — add nothing beyond this); reviewer badge only when `REVIEWER` in `src/lib/editorial.ts` is filled with a real, named person (`Eren Şimşir`), and **The Weekly Freight Dispatch** newsletter box.
 - **Article Covers & Imagery**:
   - 100% of published articles use high-resolution, topic-relevant, commercially licensed Pexels photography (no dark text-only PNG cards or generic placeholders).
   - All topic cluster badges on cards and detail pages are clickable and sync with the URL parameter (`?topic=...`).

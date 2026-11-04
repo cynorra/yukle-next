@@ -7,6 +7,7 @@ import { createPublicClient } from '@/lib/supabase/public';
 import type { BlogPost } from '@/types/database';
 import { PostImage } from './_home/PostImage';
 
+import { CONTACT_EMAIL } from '@/lib/editorial';
 // 300s (55 locales x up to 288 regens/day = up to ~15.8k ISR writes/day just from
 // this one route) was way tighter than the content actually needs - the blog posts
 // featured here only change once a day (blog-generator cron runs 09:00 daily, see
@@ -346,8 +347,8 @@ export default async function HomePage({ params }: PageProps) {
               </div>
               <p className="mt-8 text-sm text-white/50">
                 Have a topic in mind?{' '}
-                <a href="mailto:info@loadlyapp.com" className="font-bold text-white/80 underline-offset-4 hover:underline">
-                  info@loadlyapp.com
+                <a href={`mailto:${CONTACT_EMAIL}`} className="font-bold text-white/80 underline-offset-4 hover:underline">
+                  {CONTACT_EMAIL}
                 </a>
               </p>
             </div>

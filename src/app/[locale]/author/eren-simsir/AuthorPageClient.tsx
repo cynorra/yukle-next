@@ -3,6 +3,7 @@
 import { useT } from '@/hooks/useT';
 import { Linkedin, Mail } from 'lucide-react';
 
+import { CONTACT_EMAIL } from '@/lib/editorial';
 interface Copy {
   role: string;
   bioP1: string;
@@ -17,12 +18,12 @@ interface Copy {
 const COPY: Record<string, Copy> = {
   en: {
     role: "Founder & Editor, Loadly",
-    bioP1: "Eren Şimşir founded and edits Loadly, an independent publication of freight and logistics guides. He is a software developer with a computer engineering and industrial engineering background, and a PhD candidate in computer science. Loadly articles are based on primary sources such as regulation text and agency guidance, and each one lists its sources. He does not claim first-hand freight industry experience; the Editorial Policy explains how articles are sourced and corrected.",
+    bioP1: "Eren Şimşir founded and edits Loadly, an independent publication of freight and logistics guides. He is a software developer, a graduate of Düzce University in Computer Engineering (2025) and a Kocaeli University Computer Engineering M.Sc. student. Loadly articles are based on primary sources such as regulation text and agency guidance, and each one lists its sources. He does not claim first-hand freight industry experience; the Editorial Policy explains how articles are sourced and corrected.",
     bioP2: "He also builds and maintains the site itself.",
     sections: [
       {
         title: 'Background',
-        body: "Eren's training is in software and engineering: a double major in computer engineering and industrial engineering, and now a PhD in computer science in progress. The engineering background is where the arithmetic in the guides comes from, such as density, cost per mile and weight limits, and the software background is how the calculators and this site are built. He has no first-hand freight industry experience and does not write as if he did.",
+        body: "Eren's training is in software: a B.Sc. in Computer Engineering from Düzce University (2025) and an ongoing M.Sc. in Computer Engineering at Kocaeli University. That background is how the calculators and this site are built; the regulatory content comes from the primary sources each guide lists. He has no first-hand freight industry experience and does not write as if he did.",
       },
       {
         title: 'How the guides are written',
@@ -38,7 +39,7 @@ const COPY: Record<string, Copy> = {
       },
       {
         title: 'Corrections and independence',
-        body: 'If a guide is wrong or out of date, write to info@loadlyapp.com with the guide and the passage in question. Confirmed errors are corrected in the article. Advertising, where it appears, is labelled as advertising and is kept apart from the guides. The Editorial Policy explains how sources are chosen and how corrections are handled.',
+        body: 'If a guide is wrong or out of date, write to ' + CONTACT_EMAIL + ' with the guide and the passage in question. Confirmed errors are corrected in the article. Advertising, where it appears, is labelled as advertising and is kept apart from the guides. The Editorial Policy explains how sources are chosen and how corrections are handled.',
       },
     ],
     readTitle: 'Where to start',
@@ -104,7 +105,7 @@ export function AuthorPageClient({ locale }: { locale: string }) {
               <Linkedin size={16} /> {c.linkedin}
             </a>
             <a
-              href="mailto:info@loadlyapp.com"
+              href={`mailto:${CONTACT_EMAIL}`}
               className="inline-flex items-center gap-2 text-sm font-bold text-[#A66700] hover:underline"
             >
               <Mail size={16} /> {c.contact}
