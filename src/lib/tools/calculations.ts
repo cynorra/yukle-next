@@ -217,6 +217,34 @@ export function ltlDensity(i: { length: number; width: number; height: number; w
   };
 }
 
+/**
+ * NMFC standard 13-step density scale (Docket 2025-1, in effect 19 July 2025).
+ * Applies only to items rated on the standard density scale (no handling, stowability or
+ * liability issues). Lower bound inclusive, upper bound exclusive. Classes 77.5, 110, 200 and 500
+ * are not part of this scale. Always confirm the item and its class in NMFTA's ClassIT+.
+ */
+export const NMFC_STANDARD_DENSITY_SCALE: ReadonlyArray<{ minPcf: number; maxPcf: number; freightClass: number }> = [
+  { minPcf: 0, maxPcf: 1, freightClass: 400 },
+  { minPcf: 1, maxPcf: 2, freightClass: 300 },
+  { minPcf: 2, maxPcf: 4, freightClass: 250 },
+  { minPcf: 4, maxPcf: 6, freightClass: 175 },
+  { minPcf: 6, maxPcf: 8, freightClass: 125 },
+  { minPcf: 8, maxPcf: 10, freightClass: 100 },
+  { minPcf: 10, maxPcf: 12, freightClass: 92.5 },
+  { minPcf: 12, maxPcf: 15, freightClass: 85 },
+  { minPcf: 15, maxPcf: 22.5, freightClass: 70 },
+  { minPcf: 22.5, maxPcf: 30, freightClass: 65 },
+  { minPcf: 30, maxPcf: 35, freightClass: 60 },
+  { minPcf: 35, maxPcf: 50, freightClass: 55 },
+  { minPcf: 50, maxPcf: Infinity, freightClass: 50 },
+];
+
+export function standardScaleClass(densityPcf: number): number | null {
+  if (!Number.isFinite(densityPcf) || densityPcf < 0) return null;
+  const row = NMFC_STANDARD_DENSITY_SCALE.find((r) => densityPcf >= r.minPcf && densityPcf < r.maxPcf);
+  return row ? row.freightClass : null;
+}
+
 // ---------------------------------------------------------------------------
 // Rate per mile: loaded miles vs total miles
 // ---------------------------------------------------------------------------

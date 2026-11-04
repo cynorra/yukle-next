@@ -25,3 +25,6 @@ replay_pid*.log
 
 # Local signed build output (CI produces the release artifacts)
 android-app/release-output/
+
+# DB backups from scripts/apply-rewrite.js
+/backups/

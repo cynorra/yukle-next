@@ -2,10 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import { useT } from '@/hooks/useT';
-import { fmt, ltlDensity } from '@/lib/tools/calculations';
+import { fmt, ltlDensity, standardScaleClass } from '@/lib/tools/calculations';
 import { Field, ResultBox, ResultRow, useInputClass } from './ToolShell';
 
-export function LtlDensityCalculator() {
+export function LtlDensityCalculator({ showScaleClass = false }: { showScaleClass?: boolean } = {}) {
   const t = useT();
   const input = useInputClass();
   const [length, setLength] = useState('48');
@@ -55,8 +55,13 @@ export function LtlDensityCalculator() {
             <ResultRow strong label="Density" value={`${fmt(result.densityPcf)} lb per ft³`} />
             <ResultRow label="Total weight, all units" value={`${fmt(result.totalWeight, 0)} lb`} />
             <ResultRow label="Total cube, all units" value={`${fmt(result.totalCubicFeet)} ft³`} />
+            {showScaleClass && (
+              <ResultRow label="Class on the standard density scale" value={`${standardScaleClass(result.densityPcf) ?? 'n/a'}`} />
+            )}
             <p className={`text-xs ${t.muted} mt-3`}>
-              This gives the density only. The freight class depends on the commodity&apos;s NMFC item number and the current NMFTA tables, which you can look up in NMFTA&apos;s ClassIT+.
+              {showScaleClass
+                ? 'The class shown applies only to a commodity rated on the standard density scale. Items with handling, stowability or liability issues have their own classes. Confirm the NMFC item in ClassIT+.'
+                : "This gives the density only. The freight class depends on the commodity's NMFC item number and the current NMFTA tables, which you can look up in NMFTA's ClassIT+."}
             </p>
           </>
         ) : (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { BlogPost } from '@/types/database';
 import { useT } from '@/hooks/useT';
@@ -23,7 +23,14 @@ import {
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import AdBanner from '@/components/AdBanner';
+import { LtlDensityCalculator } from '@/components/tools/LtlDensityCalculator';
 import { AUTHOR, AUTHOR_EDUCATION, REVIEWER } from '@/lib/editorial';
+
+// Articles can place <div data-embed="ltl-density"></div> where an interactive tool should render.
+const EMBED_SPLIT = /<div data-embed="([a-z-]+)"><\/div>/;
+const EMBEDS: Record<string, React.ComponentType> = {
+  'ltl-density': () => <LtlDensityCalculator showScaleClass />,
+};
 
 interface RelatedPost {
   slug: string;
@@ -661,10 +668,21 @@ export function BlogDetailClient({ post, locale, slug, relatedPosts = [] }: { po
         <article className={`max-w-none mb-16 ${t.heading}`}>
           <div className="leading-relaxed text-lg">
             {post.content && (post.content.trim().startsWith('<') || /<[a-z][\s\S]*>/i.test(post.content)) ? (
-              <div 
-                className="space-y-4 [&>h2]:text-2xl [&>h2]:font-black [&>h2]:mt-12 [&>h2]:mb-6 [&>h2]:border-l-4 [&>h2]:border-accent [&>h2]:pl-4 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mt-8 [&>h3]:mb-4 [&>p]:text-lg [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul>li]:text-lg [&>ul>li]:mb-2 [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol>li]:text-lg [&>ol>li]:mb-2 [&_table]:w-full [&_table]:text-base [&_table]:border-collapse [&_th]:text-left [&_th]:p-3 [&_th]:border-b-2 [&_th]:border-border-light dark:[&_th]:border-border-dark [&_td]:p-3 [&_td]:align-top [&_td]:border-b [&_td]:border-border-light dark:[&_td]:border-border-dark [&>div.table-wrap]:overflow-x-auto [&>div.table-wrap]:mb-6 [&_figure]:my-8 [&_figure_svg]:w-full [&_figure_svg]:max-w-md [&_figure_svg]:mx-auto [&_figcaption]:text-sm [&_figcaption]:mt-3 [&_figcaption]:text-center [&>strong]:text-accent [&>strong]:font-black [&_a]:text-accent [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:opacity-80"
-                dangerouslySetInnerHTML={{ __html: processedHtmlContent || post.content }} 
-              />
+              <>
+                {(processedHtmlContent || post.content).split(EMBED_SPLIT).map((chunk, i) => {
+                  if (i % 2 === 1) {
+                    const Embed = EMBEDS[chunk];
+                    return Embed ? <div key={i} className="not-prose my-10 p-6 rounded-3xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"><Embed /></div> : null;
+                  }
+                  return (
+                    <div
+                      key={i}
+                      className="space-y-4 [&>h2]:text-2xl [&>h2]:font-black [&>h2]:mt-12 [&>h2]:mb-6 [&>h2]:border-l-4 [&>h2]:border-accent [&>h2]:pl-4 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mt-8 [&>h3]:mb-4 [&>p]:text-lg [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul>li]:text-lg [&>ul>li]:mb-2 [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol>li]:text-lg [&>ol>li]:mb-2 [&_table]:w-full [&_table]:text-base [&_table]:border-collapse [&_th]:text-left [&_th]:p-3 [&_th]:border-b-2 [&_th]:border-border-light dark:[&_th]:border-border-dark [&_td]:p-3 [&_td]:align-top [&_td]:border-b [&_td]:border-border-light dark:[&_td]:border-border-dark [&>div.table-wrap]:overflow-x-auto [&>div.table-wrap]:mb-6 [&_figure]:my-8 [&_figure_svg]:w-full [&_figure_svg]:max-w-md [&_figure_svg]:mx-auto [&_figcaption]:text-sm [&_figcaption]:mt-3 [&_figcaption]:text-center [&>strong]:text-accent [&>strong]:font-black [&_a]:text-accent [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:opacity-80"
+                      dangerouslySetInnerHTML={{ __html: chunk }}
+                    />
+                  );
+                })}
+              </>
             ) : (
               renderedContent
             )}
