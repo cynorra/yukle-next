@@ -150,6 +150,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // RSS feeds of retired locales (/tr/feed-1.xml, /de/feed.xml ...) contain a '.', so the asset
+  // bypass below would let them through to the feed route and publish old non-English posts.
+  const feedLocale = pathname.match(/^\/([a-z]{2})\/feed(?:-\d+)?\.xml$/);
+  if (feedLocale && feedLocale[1] !== 'en' && SUPPORTED_LOCALES.includes(feedLocale[1])) return goneResponse();
+
   // 1. Exclude public assets, internal paths, API routes, and OAuth callbacks
   if (
     pathname.startsWith('/_next') ||
