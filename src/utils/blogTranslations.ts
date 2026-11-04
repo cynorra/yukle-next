@@ -38,7 +38,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     readingTime: 'Reading time:',
     readingTimeSuffix: 'min read',
     authorRole: 'Founder and Editor',
-    shareTitle: 'Do Not Forget to Share!',
+    shareTitle: 'Share this guide',
     shareDesc: 'If you found this content useful, share it with your friends in the transport sector.',
     loading: 'Loading article...',
     guides: [
@@ -67,7 +67,7 @@ export const BLOG_TRANSLATIONS: Record<Locale, BlogTranslationDict> = {
     backToBlog: "Blog'a Dön",
     readingTime: '',
     readingTimeSuffix: 'dk okuma',
-    authorRole: 'Baş Teknik Editör',
+    authorRole: 'Kurucu ve Editör',
     shareTitle: 'Paylaşmayı Unutmayın!',
     shareDesc: 'Bu içerik sizin için faydalı olduysa, nakliye sektöründeki arkadaşlarınızla paylaşarak onlara da yardımcı olabilirsiniz.',
     loading: 'Yazı yükleniyor...',
