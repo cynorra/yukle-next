@@ -30,8 +30,11 @@ export async function POST(request: NextRequest) {
     // A new post shifts every paginated archive page and every RSS page by one item.
     revalidatePath(`/${locale}/feed/[page]`, 'page');
   }
+  // The sitemap carries each post's updated_at as <lastmod>, and its own ISR window is an hour,
+  // so refresh it whenever posts change.
+  if (locales.size > 0) revalidatePath('/sitemap.xml');
 
-  return NextResponse.json({ revalidated: true, locales: [...locales], posts: posts?.length || 0 });
+  return NextResponse.json({ revalidated: true, locales: [...locales], posts: posts?.length || 0, sitemap: locales.size > 0 });
 }
 
 // Manual/admin fallback - revalidates the homepage + blog listing for every locale
@@ -47,6 +50,7 @@ export async function GET(request: NextRequest) {
     revalidatePath(`/${locale}`, 'page');
     revalidatePath(`/${locale}/blog`, 'page');
   }
+  revalidatePath('/sitemap.xml');
 
-  return NextResponse.json({ revalidated: true, locales, at: new Date().toISOString() });
+  return NextResponse.json({ revalidated: true, locales, sitemap: true, at: new Date().toISOString() });
 }
