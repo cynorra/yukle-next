@@ -454,6 +454,31 @@ export function claimDates(i: { claimReceived: string; clockStart?: string; disa
 }
 
 // ---------------------------------------------------------------------------
+// CDL vehicle group finder (49 CFR 383.5 and 383.91)
+// ---------------------------------------------------------------------------
+
+export interface CdlGroupInput {
+  powerGvwr: number;
+  towedGvwr: number;
+  actualWeight?: number;
+  /** Seats the vehicle is designed to carry, including the driver. */
+  passengerSeats: number;
+  placardedHazmat: boolean;
+}
+
+export function cdlGroupFor(i: CdlGroupInput): { group: 'A' | 'B' | 'C' | null; reason: string } | null {
+  if (!Number.isFinite(i.powerGvwr) || i.powerGvwr <= 0 || !Number.isFinite(i.towedGvwr) || i.towedGvwr < 0 || !Number.isFinite(i.passengerSeats) || i.passengerSeats < 0) return null;
+  const towing = i.towedGvwr > 0;
+  const actual = i.actualWeight && i.actualWeight > 0 ? i.actualWeight : 0;
+  const combined = Math.max(i.powerGvwr + i.towedGvwr, actual);
+  if (towing && combined >= 26001 && i.towedGvwr > 10000) return { group: 'A', reason: 'Group A: combination of 26,001 lb or more, and the towed unit is rated over 10,000 lb (383.91(a)(1)).' };
+  if (Math.max(i.powerGvwr, towing ? 0 : actual) >= 26001) return { group: 'B', reason: 'Group B: a single vehicle of 26,001 lb or more, including one towing a unit of 10,000 lb or less (383.91(a)(2)).' };
+  if (i.passengerSeats >= 16) return { group: 'C', reason: 'Group C: designed to carry 16 or more passengers including the driver (383.91(a)(3)).' };
+  if (i.placardedHazmat) return { group: 'C', reason: 'Group C: of any size, used to transport hazardous materials that require placards (383.91(a)(3), 383.5).' };
+  return { group: null, reason: 'No CDL group by weight, passenger capacity or placarded hazmat.' };
+}
+
+// ---------------------------------------------------------------------------
 // LTL density (NMFTA: cubic inches / 1,728 = cubic feet; pounds / cubic feet = pcf)
 // ---------------------------------------------------------------------------
 

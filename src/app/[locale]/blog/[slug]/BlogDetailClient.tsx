@@ -28,6 +28,7 @@ import { TiedownCalculator } from '@/components/tools/TiedownCalculator';
 import { InsuranceRowSelector } from '@/components/tools/InsuranceRowSelector';
 import { WeightRulesSelector } from '@/components/tools/WeightRulesSelector';
 import { ClaimDatesCalculator } from '@/components/tools/ClaimDatesCalculator';
+import { CdlGroupFinder } from '@/components/tools/CdlGroupFinder';
 import { HosClockCalculator } from '@/components/tools/HosClockCalculator';
 import { BridgeFormulaCalculator } from '@/components/tools/BridgeFormulaCalculator';
 import { AUTHOR, AUTHOR_EDUCATION, REVIEWER } from '@/lib/editorial';
@@ -42,6 +43,7 @@ const EMBEDS: Record<string, React.ComponentType> = {
   'insurance-row': () => <InsuranceRowSelector />,
   'weight-rules': () => <WeightRulesSelector />,
   'claim-dates': () => <ClaimDatesCalculator />,
+  'cdl-group': () => <CdlGroupFinder />,
 };
 
 interface RelatedPost {
