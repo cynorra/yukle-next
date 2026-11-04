@@ -59,6 +59,48 @@ function legacyLocalePath(rest: string): string {
   return `/blog/${englishBlogSlug(m[1]) ?? ''}`.replace(/\/$/, '');
 }
 
+
+// ── 410 Gone support ─────────────────────────────────────────────────────────
+// Retired URL families (non-English locale prefixes, legacy un-prefixed blog /
+// marketplace paths, blog archive pages, blog slugs that are no longer published)
+// answer 410 instead of 301-ing to a generic page: a redirect to an unrelated page
+// is treated by Google as a soft 404 and keeps the dead URL in "crawled, not indexed".
+const goneResponse = () =>
+  new NextResponse('Gone', {
+    status: 410,
+    headers: { 'content-type': 'text/plain; charset=utf-8', 'x-robots-tag': 'noindex' },
+  });
+
+// Live (published) English slugs, read from the database — never hard-coded, so a
+// newly published guide is not 410'd. Cached per server process.
+const LIVE_SLUGS_TTL_MS = 5 * 60 * 1000;
+const LIVE_SLUGS_MIN_REFRESH_MS = 30 * 1000;
+let liveSlugs: { set: Set<string>; at: number } | null = null;
+
+async function getLiveSlugs(forceRefresh = false): Promise<Set<string> | null> {
+  const now = Date.now();
+  if (liveSlugs) {
+    const age = now - liveSlugs.at;
+    if (age < LIVE_SLUGS_MIN_REFRESH_MS || (!forceRefresh && age < LIVE_SLUGS_TTL_MS)) return liveSlugs.set;
+  }
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return liveSlugs?.set ?? null;
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/blog_posts?select=slug&published=eq.true&language=eq.en&limit=1000`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(4000) }
+    );
+    if (!res.ok) return liveSlugs?.set ?? null;
+    const rows: Array<{ slug: string }> = await res.json();
+    if (!Array.isArray(rows) || rows.length === 0) return liveSlugs?.set ?? null; // never 410 everything on an empty/odd answer
+    liveSlugs = { set: new Set(rows.map((r) => r.slug)), at: now };
+    return liveSlugs.set;
+  } catch {
+    return liveSlugs?.set ?? null; // fail open: let the page decide
+  }
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
@@ -147,29 +189,56 @@ export async function middleware(request: NextRequest) {
     // Bare path (e.g. "/", "/blog", "/marketplace/123") — always English.
     // (avoid appending a trailing slash for the root path so we don't trigger
     // a second trailing-slash-normalization redirect on the hosting platform)
+    if (/^\/(blog|marketplace)\/.+/.test(pathname)) return goneResponse(); // legacy un-prefixed deep URLs
     const suffix = pathname === '/' ? '' : pathname;
     return NextResponse.redirect(new URL(`/${ACTIVE_LOCALE}${suffix}${search}`, origin), 301);
   }
 
   if (urlLocale !== ACTIVE_LOCALE) {
     const rest = localeMatch![2] || '';
-    return NextResponse.redirect(new URL(`/${ACTIVE_LOCALE}${legacyLocalePath(rest)}${search}`, origin), 301);
+    // Locale home and the three legacy Turkish page slugs still have a real English
+    // equivalent -> 301. Every other deep URL (blog, marketplace, routes ...) is gone.
+    if (rest === '' || rest === '/' || LEGACY_PAGE_SLUGS[rest]) {
+      return NextResponse.redirect(new URL(`/${ACTIVE_LOCALE}${LEGACY_PAGE_SLUGS[rest] || ''}${search}`, origin), 301);
+    }
+    return goneResponse();
   }
+
+  // English blog archive pages were removed (the archive route returned 500).
+  if (/^\/en\/blog\/archive(\/|$)/.test(pathname)) return goneResponse();
 
   // 3. Blog slugs are minted as "{base-slug}-{language}", so a translated
   // slug under /en/blog/ (e.g. /en/blog/foo-de) maps to its English sibling
   // "foo-en" from the URL alone — no DB call.
-  const blogSlugMatch = pathname.match(/^\/en\/blog\/([^/]+)$/);
+  const blogSlugMatch = pathname.match(/^\/en\/blog\/([^/]+)\/?$/);
   if (blogSlugMatch) {
-    const mapped = englishBlogSlug(blogSlugMatch[1]);
-    // One hop: a retired slug (or its translated sibling) goes straight to the rewritten guide.
-    const target = BLOG_REDIRECTS[mapped ?? blogSlugMatch[1]];
+    const slug = blogSlugMatch[1];
+    const mapped = englishBlogSlug(slug);
+    let live = await getLiveSlugs();
+    if (live && !live.has(slug)) live = await getLiveSlugs(true); // maybe just published
+    // Explicit one-hop redirects for retired slugs that have a topical replacement.
+    const target = BLOG_REDIRECTS[mapped ?? slug];
     if (target) {
       return NextResponse.redirect(new URL(`/en/blog/${target}${search}`, origin), 301);
     }
-    if (mapped && mapped !== blogSlugMatch[1]) {
-      return NextResponse.redirect(new URL(`/en/blog/${mapped}${search}`, origin), 301);
+    if (live && !live.has(slug)) {
+      // Translated sibling of a live guide ("foo-de" -> "foo-en") keeps its redirect.
+      if (mapped && mapped !== slug && live.has(mapped)) {
+        return NextResponse.redirect(new URL(`/en/blog/${mapped}${search}`, origin), 301);
+      }
+      return goneResponse();
     }
+    if (!live && mapped && mapped !== slug) {
+      return NextResponse.redirect(new URL(`/en/blog/${mapped}${search}`, origin), 301); // DB unreachable: old behaviour
+    }
+  }
+
+  // Marketplace pages are scraped third-party listings: keep them out of the index at
+  // the HTTP level (works without JS).
+  if (/^\/en\/marketplace(\/|$)/.test(pathname)) {
+    const res = NextResponse.next();
+    res.headers.set('x-robots-tag', 'noindex');
+    return res;
   }
 
   // 4. Run Supabase auth session update/refresh — only on routes that
