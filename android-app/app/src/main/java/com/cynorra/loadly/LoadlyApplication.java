@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Locale;
@@ -40,6 +41,10 @@ public class LoadlyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
+        try {
+            MobileAds.initialize(this, status -> {});
+        } catch (Exception ignored) {}
+
     }
 
     private void createNotificationChannel() {

@@ -59,7 +59,9 @@ final class AdsHelper {
         AtomicBoolean bannerLoaded = new AtomicBoolean(false);
 
         consentInformation.requestConsentInfoUpdate(activity, params, () ->
-                UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity, formError -> {
+                if (activity.isFinishing() || activity.isDestroyed()) return;
+            UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity, formError -> {
+                if (activity.isFinishing() || activity.isDestroyed()) return;
                     if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
                         loadBanner(activity, adView, onAdsReady);
                     }
@@ -76,6 +78,9 @@ final class AdsHelper {
 
     private static void applyAdaptiveBannerSize(Activity activity, AdView adView) {
         try {
+            if (adView.getAdSize() != null) {
+                return;
+            }
             int adWidthPixels;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 WindowMetrics windowMetrics = activity.getWindowManager().getCurrentWindowMetrics();
