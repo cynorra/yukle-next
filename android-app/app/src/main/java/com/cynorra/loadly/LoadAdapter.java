@@ -90,7 +90,7 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldLoads.get(oldItemPosition).id.equals(newLoads.get(newItemPosition).id);
+            return java.util.Objects.equals(oldLoads.get(oldItemPosition).id, newLoads.get(newItemPosition).id);
         }
 
         @Override

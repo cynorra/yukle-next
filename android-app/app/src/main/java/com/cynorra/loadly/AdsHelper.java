@@ -58,14 +58,16 @@ final class AdsHelper {
         ConsentRequestParameters params = new ConsentRequestParameters.Builder().build();
         AtomicBoolean bannerLoaded = new AtomicBoolean(false);
 
-        consentInformation.requestConsentInfoUpdate(activity, params, () ->
-                if (activity.isFinishing() || activity.isDestroyed()) return;
+        consentInformation.requestConsentInfoUpdate(activity, params, () -> {
+            if (activity.isFinishing() || activity.isDestroyed()) return;
             UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity, formError -> {
                 if (activity.isFinishing() || activity.isDestroyed()) return;
-                    if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
-                        loadBanner(activity, adView, onAdsReady);
-                    }
-                }), formError -> {
+                if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
+                    loadBanner(activity, adView, onAdsReady);
+                }
+            });
+        }, formError -> {
+            if (activity.isFinishing() || activity.isDestroyed()) return;
             if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
                 loadBanner(activity, adView, onAdsReady);
             }

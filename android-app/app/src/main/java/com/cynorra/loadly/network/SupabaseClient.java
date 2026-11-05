@@ -138,6 +138,7 @@ public class SupabaseClient {
     }
 
     private String readStream(InputStream stream) throws IOException {
+        if (stream == null) return "";
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
             String line;
