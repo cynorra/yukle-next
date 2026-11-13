@@ -63,11 +63,11 @@ booted emulator, launches each real screen, and screencaps it:
   separate upload needed. A standalone `icon_512x512.png` also exists for
   the Play Console listing's dedicated icon upload field.
 - Feature graphic: `graphics/feature_graphic_1024x500.png` — done.
-- Phone screenshots: `graphics/screenshots/phone/01_main_webview.png`,
-  `02_marketplace_list.png`, `03_load_detail.png` (3, min 2 required) — done.
-- Tablet screenshots: `graphics/screenshots/tablet/` — same 3 screens,
-  captured too even though not strictly required for a phone-only app —
-  done.
+- Phone screenshots (4, designed marketing renders of the real screens, English headlines):
+  `graphics/screenshots/phone/01_search_loads.png`, `02_filters.png`,
+  `03_listing_details.png`, `04_freight_guides.png`. Old raw captures removed
+  2026-11-13 (test ads, personal data, website copy claiming 54 languages).
+- Tablet screenshots: not provided (optional for this app).
 - Promo video (optional, YouTube URL): none — optional, skip unless wanted.
 
 Upload these directly to Play Console → Store presence → Main store listing

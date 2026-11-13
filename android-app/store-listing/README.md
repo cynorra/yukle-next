@@ -1,3 +1,5 @@
+> **SUPERSEDED (2026-11-13):** the per-locale `*.md` files and `play_store_listings_all_languages.csv` are the OLD copy and contain claims the app cannot back up (in-app messaging, posting freight, "thousands of loads", local-country listings such as Turkish factory/industrial loads, "54 languages"). Play rejected the app under the Misleading Claims policy. Use ONLY `google_play_translations.csv` (generated from `csv/content.mjs`, US listings + US freight guides) and the corrected `graphics/feature_graphic_1024x500.png`.
+
 # Play Store Listing Content
 
 Per-market copy for the Play Console "Store listing" page (Main store listing + translations).

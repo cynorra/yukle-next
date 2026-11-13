@@ -149,9 +149,8 @@ jobs:
             adb install -r -g apk/app-release.apk
             mkdir -p screenshots
 
-            adb shell am start -n app.yukbul.android/com.cynorra.loadly.MainActivity
-            sleep 12
-            adb exec-out screencap -p > screenshots/01_main_webview.png
+            # 01_main_webview intentionally not captured: it showed website marketing
+            # copy, not an app feature (Play Misleading Claims policy, 2026-11).
 
             adb shell am start -n app.yukbul.android/com.cynorra.loadly.MarketplaceActivity
             sleep 6
