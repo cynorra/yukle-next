@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Rate Per Mile Calculator: Loaded Miles vs Total Miles',
   description: DESCRIPTION,
   alternates: { canonical: toolUrl(SLUG) },
-  openGraph: { title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) },
+  openGraph: { title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) }, twitter: { card: 'summary_large_image', title: `${NAME} | Loadly`, description: DESCRIPTION, images: ['/logo.png'] },
 };
 
 // Same function as the calculator. All numbers here are invented for the arithmetic.

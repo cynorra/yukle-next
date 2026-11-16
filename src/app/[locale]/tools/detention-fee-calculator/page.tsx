@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Detention Fee Calculator for Truck Drivers and Carriers',
   description: DESCRIPTION,
   alternates: { canonical: toolUrl(SLUG) },
-  openGraph: { title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) },
+  openGraph: { title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) }, twitter: { card: 'summary_large_image', title: `${NAME} | Loadly`, description: DESCRIPTION, images: ['/logo.png'] },
 };
 
 // The worked example below is computed with the same function the calculator uses.

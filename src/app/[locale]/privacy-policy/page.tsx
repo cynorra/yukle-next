@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: 'Loadly platformu KVKK kişisel verilerin korunması aydınlatma metni.',
       url: `${SITE_URL}/tr/privacy-policy`,
     },
+    twitter: { card: 'summary_large_image', title: 'KVKK Aydınlatma Metni | Loadly', description: 'Loadly platformu KVKK kişisel verilerin korunması aydınlatma metni.', images: ['/logo.png'] },
   };
 }
 

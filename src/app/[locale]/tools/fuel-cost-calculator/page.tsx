@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Fuel Cost Calculator for Trucks and Trips (mpg or L/100 km)',
   description: DESCRIPTION,
   alternates: { canonical: toolUrl(SLUG) },
-  openGraph: { title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) },
+  openGraph: { title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) }, twitter: { card: 'summary_large_image', title: `${NAME} | Loadly`, description: DESCRIPTION, images: ['/logo.png'] },
 };
 
 // The worked example below is computed with the same function the calculator uses.

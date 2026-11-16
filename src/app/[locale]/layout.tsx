@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       template: `%s | Loadly`,
     },
     description: t.home.heroDesc,
-    authors: [{ name: 'Loadly' }],
+    authors: [{ name: 'Eren Şimşir', url: `${SITE_URL}/en/author/eren-simsir` }],
     alternates: {
       canonical: `/${locale}`,
       languages: ['en'].reduce((acc, code) => {  // English-only site (2026-09-19): other locales 301 to /en
@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     openGraph: {
       type: 'website',
-      locale: locale === 'tr' ? 'tr_TR' : `${locale}_${locale.toUpperCase()}`,
+      locale: locale === 'tr' ? 'tr_TR' : 'en_US',
       siteName: 'Loadly',
       title: `${t.home.heroTitle1} ${t.home.heroTitle2}`,
       description: t.home.heroDesc,

@@ -13,14 +13,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const canonicalLocale = SUPPORTED.has(rawLocale) ? rawLocale : 'en';
   const isTr = canonicalLocale === 'tr';
+  const title = isTr ? 'Erişilebilirlik Beyanı' : 'Accessibility Statement';
+  const description = isTr
+    ? "Loadly'yi herkes için kullanılabilir kılma yaklaşımımız."
+    : 'How Loadly works to make its guides and calculators usable for everyone, what is supported today, and how to report an accessibility problem.';
+  const url = `${SITE_URL}/${canonicalLocale}/accessibility`;
   return {
-    title: isTr ? 'Erişilebilirlik Beyanı' : 'Accessibility Statement',
-    description: isTr
-      ? "Loadly'yi herkes için kullanılabilir kılma yaklaşımımız."
-      : 'How Loadly works to make its guides and calculators usable for everyone, what is supported today, and how to report an accessibility problem.',
+    title,
+    description,
     alternates: {
-      canonical: `${SITE_URL}/${canonicalLocale}/accessibility`,
+      canonical: url,
     },
+    openGraph: { title: `${title} | Loadly`, description, url },
+    twitter: { card: 'summary_large_image', title: `${title} | Loadly`, description, images: ['/logo.png'] },
   };
 }
 

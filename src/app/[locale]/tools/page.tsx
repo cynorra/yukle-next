@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Free Freight and Logistics Calculators',
   description: DESCRIPTION,
   alternates: { canonical: toolUrl() },
-  openGraph: { title: 'Free Freight and Logistics Calculators | Loadly', description: DESCRIPTION, url: toolUrl() },
+  openGraph: { title: 'Free Freight and Logistics Calculators | Loadly', description: DESCRIPTION, url: toolUrl() }, twitter: { card: 'summary_large_image', title: 'Free Freight and Logistics Calculators | Loadly', description: DESCRIPTION, images: ['/logo.png'] },
 };
 
 const TOOLS = [

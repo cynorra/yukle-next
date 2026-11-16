@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: data.cookiePolicy.description,
       url: `${SITE_URL}/${canonicalLocale}/cookie-policy`,
     },
+    twitter: { card: 'summary_large_image', title: `${data.cookiePolicy.title} | Loadly`, description: data.cookiePolicy.description, images: ['/logo.png'] },
   };
 }
 

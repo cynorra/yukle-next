@@ -105,4 +105,4 @@ Sitemap: https://loadlyapp.com/sitemap.xml
 
 # ─── RSS ──────────────────────────────────────────────────────
 # Not a robots.txt directive (crawlers only act on "Sitemap:"); listed for
-# feed-reader discovery: https://loadlyapp.com/en/feed.xml
+# feed-reader discovery: https://loadlyapp.com/en/feed-1.xml
