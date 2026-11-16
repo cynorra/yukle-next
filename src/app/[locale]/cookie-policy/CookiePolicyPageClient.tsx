@@ -135,7 +135,7 @@ export function CookiePolicyPageClient({ data }: Props) {
             {content.contactDesc}
           </p>
           <ul className={`list-none space-y-2 text-sm ${t.sub} mt-3`}>
-            <li>Email: <a href="mailto:kvkk@loadlyapp.com" className="text-[#A66700] hover:underline">kvkk@loadlyapp.com</a></li>
+            <li>Email: <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline">info@loadlyapp.com</a></li>
           </ul>
         </div>
       </div>

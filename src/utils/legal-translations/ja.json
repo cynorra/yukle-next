@@ -127,7 +127,7 @@
     "rightsL4": "データの処理に異議を唱える権利",
     "rightsL5": "データの転送を要求する権利",
     "rightsL6": "第三者へのデータの転送を制限する権利",
-    "rightsNote": "これらの権利を行使するには、kvkk@loadlyapp.com 経由で申請してください。",
+    "rightsNote": "これらの権利を行使するには、info@loadlyapp.com 経由で申請してください。",
     "changesTitle": "8. ポリシーの変更",
     "changesDesc": "Loadlyは、法的要件またはプラットフォーム機能の変更に従って、このプライバシーポリシーを更新する権利を留保します。ポリシーの変更はプラットフォーム上で公開され、更新日が改訂されます。変更について常に最新情報を得るために、このページを定期的に確認することをお勧めします。プラ���トフォームを継続して使用することにより、更新されたポリシーに同意するものとします。",
     "contactTitle": "10. お問い合わせ",
@@ -137,7 +137,7 @@
     "ccpaL1": "当社が収集する個人情報とその利用方法を知る権利",
     "ccpaL2": "お客様の個人情報の削除を要求する権利",
     "ccpaL3": "個人情報の「販売」または「共有」をオプトアウトする権利 — CCPAでは、これにはGoogle AdSenseのようなサードパーティ広告プロバイダーがパーソナライズ広告のために識別子を使用することを許可することも含まれる場合があります",
-    "ccpaNote": "これらの権利を行使するには、件名を「California Privacy Request」としてkvkk@loadlyapp.comまでメールでご連絡ください。上記のGoogle広告設定リンクから直接パーソナライズ広告をオプトアウトすることもできます。",
+    "ccpaNote": "これらの権利を行使するには、件名を「California Privacy Request」としてinfo@loadlyapp.comまでメールでご連絡ください。上記のGoogle広告設定リンクから直接パーソナライズ広告をオプトアウトすることもできます。",
     "dataL6": "Mobile app (Android) data: if you grant location permission, your device location is used on-device (via Android Geocoder) to determine your country and subscribe you to that country's push-notification topic via Firebase Cloud Messaging — raw coordinates are never sent to or stored on Loadly's own servers. The app also holds a Firebase push-notification registration token (needed to deliver notifications to your device) and, if you accept ads, an advertising identifier used by Google AdMob."
   },
   "terms": {

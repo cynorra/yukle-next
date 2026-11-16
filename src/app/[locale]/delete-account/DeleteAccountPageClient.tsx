@@ -15,7 +15,7 @@ interface Props {
   data: ReturnType<typeof getLegalTranslation>;
 }
 
-const CONTACT_EMAIL = 'kvkk@loadlyapp.com';
+const CONTACT_EMAIL = 'info@loadlyapp.com';
 
 export function DeleteAccountPageClient({ data }: Props) {
   const t = useT();

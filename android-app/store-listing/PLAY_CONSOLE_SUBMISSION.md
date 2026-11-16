@@ -103,7 +103,7 @@ Supabase/loadlyapp.com). Declare a **data deletion request path** — use
 `https://loadlyapp.com/en/delete-account` (dedicated page added
 2026-09-11: signed-in users get an instant delete button reusing the same
 `delete_user_account` RPC as `/profile`; signed-out visitors see an email
-fallback to kvkk@loadlyapp.com). Update the Data Safety form's declared URL
+fallback to info@loadlyapp.com). Update the Data Safety form's declared URL
 to this exact page if it currently points anywhere else.
 
 ## 6. Permissions declared (from `AndroidManifest.xml`)

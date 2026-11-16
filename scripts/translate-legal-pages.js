@@ -105,7 +105,7 @@ const sourceText = {
     rightsL4: "Objecting to the processing of your data",
     rightsL5: "Requesting the transfer of your data",
     rightsL6: "Limiting the transfer of your data to third parties",
-    rightsNote: "You can apply via kvkk@loadlyapp.com to exercise these rights.",
+    rightsNote: "You can apply via info@loadlyapp.com to exercise these rights.",
     changesTitle: "8. Policy Changes",
     changesDesc: "Loadly reserves the right to update this privacy policy in accordance with legal requirements or changes in platform features. Policy changes will be published on the platform, and the update date will be revised. It is recommended that you check this page regularly to stay informed of changes. By continuing to use the platform, you agree to the updated policy.",
     contactTitle: "9. Contact",

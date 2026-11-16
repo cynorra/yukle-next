@@ -120,14 +120,6 @@ export function ContactPageClient({ data, locale }: Props) {
               <p className={`text-base ${t.muted} leading-relaxed mb-6`}>
                 {content.quickSupportDesc}
               </p>
-              <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20">
-                <p className="text-sm text-orange-400 font-medium">
-                  {content.advCollab}{' '}
-                  <a href="mailto:reklam@loadlyapp.com" className="hover:underline ml-1 text-[#A66700]">
-                    reklam@loadlyapp.com
-                  </a>
-                </p>
-              </div>
             </div>
 
             {/* Interactive Contact Form */}

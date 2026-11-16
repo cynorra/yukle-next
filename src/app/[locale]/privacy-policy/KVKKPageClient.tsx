@@ -116,7 +116,7 @@ export function KVKKPageClient() {
         <div className={`p-6 rounded-2xl ${t.card} mb-4`}>
           <h2 className={`text-lg font-bold ${t.heading} mb-3`}>7. Başvuru Yöntemi</h2>
           <p className={`text-sm ${t.sub} leading-relaxed`}>
-            Yukarıda belirtilen haklarınızı kullanmak için Loadly'ye başvuruda bulunabilirsiniz. Başvurularınızı <a href="mailto:kvkk@loadlyapp.com" className="text-[#A66700] hover:underline">kvkk@loadlyapp.com</a> e-posta adresi üzerinden veya Loadly resmi iletişim kanalları aracılığıyla iletebilirsiniz. Başvurularınız, KVKK'nın 13. maddesi uyarınca en kısa sürede ve en geç 30 gün içerisinde ücretsiz olarak sonuçlandırılacaktır. İşlemin maliyet gerektirmesi halinde, KVKK'nın 13. maddesinde belirtilen ücret tarifesi uygulanacaktır.
+            Yukarıda belirtilen haklarınızı kullanmak için Loadly'ye başvuruda bulunabilirsiniz. Başvurularınızı <a href="mailto:info@loadlyapp.com" className="text-[#A66700] hover:underline">info@loadlyapp.com</a> e-posta adresi üzerinden veya Loadly resmi iletişim kanalları aracılığıyla iletebilirsiniz. Başvurularınız, KVKK'nın 13. maddesi uyarınca en kısa sürede ve en geç 30 gün içerisinde ücretsiz olarak sonuçlandırılacaktır. İşlemin maliyet gerektirmesi halinde, KVKK'nın 13. maddesinde belirtilen ücret tarifesi uygulanacaktır.
           </p>
         </div>
 
