@@ -29,10 +29,18 @@ async function getLocs(url) {
 }
 
 (async () => {
-  const children = await getLocs(`${SITE_URL}/sitemap.xml`);
+  // sitemap.xml is either a sitemap index (child sitemaps) or a flat urlset (page URLs).
+  const rootXml = await (await fetch(`${SITE_URL}/sitemap.xml`)).text();
+  const rootLocs = [...rootXml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map((m) => m[1]);
+  const isIndex = rootXml.includes('<sitemapindex');
+  const children = isIndex ? rootLocs : [`${SITE_URL}/sitemap.xml`];
   const urls = new Set();
-  for (const child of children) {
-    for (const loc of await getLocs(child)) urls.add(loc);
+  if (isIndex) {
+    for (const child of children) {
+      for (const loc of await getLocs(child)) urls.add(loc);
+    }
+  } else {
+    rootLocs.forEach((l) => urls.add(l));
   }
 
   let list = [...urls];
