@@ -88,7 +88,7 @@ const EXTRA: Record<string, {
     ],
     missionTitle: 'Our Mission',
     missionText:
-      'Loadly explains how trucking and freight rules work, starting in the United States. Each guide starts from the regulation, statute or industry standard itself, says in plain language what it requires, and works the arithmetic through when numbers are involved. The aim is a reference you can check against its source, not a collection of opinions about freight.',
+      'Loadly explains how trucking and freight rules work, starting in the United States. Each guide starts from the regulation, statute or industry standard itself, is checked against the current eCFR and US Code text, says in plain language what it requires, and works the arithmetic through when numbers are involved. Free calculators sit alongside the guides. The aim is a reference you can check against its source, not a collection of opinions about freight.',
     teamTitle: 'About the Editor',
     teamName: 'Eren Şimşir',
     teamRole: 'Founder and Editor',
@@ -176,7 +176,7 @@ export function AboutPageClient({ data, locale }: Props) {
               The content is general educational information, not legal, financial or compliance advice. Rules change and differ by State and country, so check the official source before acting on anything here.
             </p>
             <p className={`text-base ${t.muted} leading-relaxed`}>
-              Found a mistake or an outdated figure? Email <a className="text-accent font-semibold" href={`mailto:${CONTACT_EMAIL}`}>" + CONTACT_EMAIL + "</a> with the guide and the passage. Read the full <a className="text-accent font-semibold" href={`/${locale}/editorial-policy`}>Editorial Policy</a>.
+              Found a mistake or an outdated figure? Email <a className="text-accent font-semibold" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> with the guide and the passage. Read the full <a className="text-accent font-semibold" href={`/${locale}/editorial-policy`}>Editorial Policy</a>.
             </p>
           </div>
         )}

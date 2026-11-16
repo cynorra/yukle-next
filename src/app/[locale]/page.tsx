@@ -326,10 +326,10 @@ export default async function HomePage({ params }: PageProps) {
             />
             <div className="relative mx-auto max-w-2xl">
               <h2 className="font-display text-3xl font-black leading-tight tracking-tight text-white sm:text-5xl">
-                Stay ahead in freight &amp; logistics
+                Federal trucking rules, explained with sources
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">
-                New guides on trucking and freight rules, added over time. Read them here or follow along by RSS.
+                Guides on hours of service, insurance, brokers and claims, each checked against the Code of Federal Regulations, plus free calculators. New guides are added over time; read them here or follow along by RSS.
               </p>
               <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link

@@ -54,7 +54,7 @@ const COPY: Record<string, Copy> = {
   },
   tr: {
     role: "Kurucu & Editör, Loadly",
-    bioP1: "Eren Şimşir, bağımsız bir nakliye ve lojistik rehberi yayını olan Loadly'yi kurdu ve yönetiyor. Bilgisayar ve endüstri mühendisliği geçmişine sahip bir yazılımcı ve bilgisayar bilimi doktora adayıdır. Loadly makaleleri düzenleme metni ve kurum rehberleri gibi birincil kaynaklara dayanır ve her biri kaynaklarını listeler. Nakliye sektöründe birinci elden deneyim iddiasında bulunmaz; makalelerin nasıl kaynaklandığı ve düzeltildiği Editoryal Politika sayfasında açıklanır.",
+    bioP1: "Eren Şimşir, bağımsız bir nakliye ve lojistik rehberi yayını olan Loadly'yi kurdu ve yönetiyor. Bilgisayar ve endüstri mühendisliği geçmişine sahip bir yazılımcı ve bilgisayar mühendisliği yüksek lisans öğrencisidir. Loadly makaleleri düzenleme metni ve kurum rehberleri gibi birincil kaynaklara dayanır ve her biri kaynaklarını listeler. Nakliye sektöründe birinci elden deneyim iddiasında bulunmaz; makalelerin nasıl kaynaklandığı ve düzeltildiği Editoryal Politika sayfasında açıklanır.",
     bioP2: "Siteyi de kendisi geliştirir ve sürdürür.",
     linkedin: 'LinkedIn',
     contact: 'İletişim',

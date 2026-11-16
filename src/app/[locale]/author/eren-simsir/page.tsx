@@ -12,12 +12,17 @@ const SUPPORTED = new Set(['en', 'tr']);
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const canonicalLocale = SUPPORTED.has(rawLocale) ? rawLocale : 'en';
+  const title = 'Eren Şimşir, Founder and Editor of Loadly';
+  const description = 'Eren Şimşir founded and edits Loadly: background, how the freight and trucking guides are written from primary sources, and where to start.';
+  const url = `${SITE_URL}/${canonicalLocale}/author/eren-simsir`;
   return {
-    title: 'Eren Şimşir, Founder and Editor of Loadly',
-    description: 'Eren Şimşir founded and edits Loadly: his background, how the freight and trucking guides are written from primary sources, and where to start.',
+    title,
+    description,
     alternates: {
-      canonical: `${SITE_URL}/${canonicalLocale}/author/eren-simsir`,
+      canonical: url,
     },
+    openGraph: { type: 'profile', title: `${title}`, description, url },
+    twitter: { card: 'summary_large_image', title, description, images: ['/logo.png'] },
   };
 }
 

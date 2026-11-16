@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: data.about.description,
       url: `${SITE_URL}/${canonicalLocale}/about`,
     },
+    twitter: { card: 'summary_large_image', title: `${data.about.title} | Loadly`, description: data.about.description, images: ['/logo.png'] },
   };
 }
 
