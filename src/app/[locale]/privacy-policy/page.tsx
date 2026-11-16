@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: `${SITE_URL}/tr/privacy-policy`,
     },
-    openGraph: {
+    openGraph: { locale: 'en_US', siteName: 'Loadly', images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Loadly' }],
       title: 'KVKK Aydınlatma Metni | Loadly',
       description: 'Loadly platformu KVKK kişisel verilerin korunması aydınlatma metni.',
       url: `${SITE_URL}/tr/privacy-policy`,

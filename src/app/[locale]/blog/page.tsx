@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `${SITE_URL}/${locale}/blog`,
       languages: languagesAlternates,
     },
-    openGraph: {
+    openGraph: { locale: 'en_US', siteName: 'Loadly', images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Loadly' }],
       title: t.title,
       description: t.description,
       url: `${SITE_URL}/${locale}/blog`,

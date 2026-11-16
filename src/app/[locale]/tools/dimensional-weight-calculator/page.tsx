@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Dimensional Weight Calculator: Find Your Chargeable Weight',
   description: DESCRIPTION,
   alternates: { canonical: toolUrl(SLUG) },
-  openGraph: { title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) }, twitter: { card: 'summary_large_image', title: `${NAME} | Loadly`, description: DESCRIPTION, images: ['/logo.png'] },
+  openGraph: { locale: 'en_US', siteName: 'Loadly', images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Loadly' }], title: `${NAME} | Loadly`, description: DESCRIPTION, url: toolUrl(SLUG) }, twitter: { card: 'summary_large_image', title: `${NAME} | Loadly`, description: DESCRIPTION, images: ['/logo.png'] },
 };
 
 // The worked example below is computed with the same function the calculator uses.

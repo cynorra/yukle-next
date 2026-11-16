@@ -183,7 +183,7 @@ export async function generateMetadata({
       languages: languagesAlternates,
       types: { 'application/rss+xml': [{ url: `${SITE_URL}/${locale}/feed-1.xml`, title: 'Loadly Blog RSS' }] },
     },
-    openGraph: {
+    openGraph: { locale: 'en_US', siteName: 'Loadly',
       type: 'article',
       title: brandedTitle,
       description,
