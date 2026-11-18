@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, Rss } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Rss, ShieldCheck, Scale, FileText, Calculator, ChevronRight } from 'lucide-react';
 import { TRANSLATIONS } from '@/utils/translations';
 import type { Locale } from '@/utils/translations';
 import { ScrollReveal } from '@/components/ui/scroll-reveal';
@@ -8,22 +8,190 @@ import type { BlogPost } from '@/types/database';
 import { PostImage } from './_home/PostImage';
 
 import { CONTACT_EMAIL } from '@/lib/editorial';
-// 300s (55 locales x up to 288 regens/day = up to ~15.8k ISR writes/day just from
-// this one route) was way tighter than the content actually needs - the blog posts
-// featured here only change once a day (blog-generator cron runs 09:00 daily, see
-// .github/workflows/blog-generator.yml). Matched to that actual cadence instead of
-// picking an arbitrary shorter number - anything under 24h regenerates for content
-// that hasn't changed since the last regeneration.
+
 export const revalidate = 86400;
 
-// The site is English-only (2026-09-19): every other locale 301s to /en, so this
-// page's copy is plain English rather than a per-locale dictionary.
 const HOME_POST_COLUMNS =
   'id, title, slug, excerpt, cover_image, author_id, published, language, topic_cluster, created_at, updated_at, author:profiles(full_name)';
-// 1 featured + 6 in the grid.
 const HOME_POST_LIMIT = 7;
 
-const TOPICS = ['Hours of service', 'LTL shipping', 'Freight brokers', 'Weight limits', 'Free calculators'];
+const TOPICS = [
+  { label: 'Hours of service', href: '/blog/hours-of-service-limits-property-carrying-drivers-en' },
+  { label: 'LTL shipping', href: '/blog/ltl-shipping-explained-vs-parcel-and-full-truckload-en' },
+  { label: 'Freight brokers', href: '/blog/what-is-a-freight-broker-legal-definition-requirements-en' },
+  { label: 'Weight limits', href: '/blog/federal-axle-weight-limits-bridge-formula-en' },
+  { label: 'Free calculators', href: '/tools' },
+];
+
+const CORE_CLUSTERS = [
+  {
+    title: 'Safety & Driver Compliance',
+    description: 'FMCSA driver rules, duty status limits, roadside inspection levels, and qualification archives.',
+    icon: ShieldCheck,
+    guides: [
+      {
+        title: 'Hours of Service (HOS) Limits for Property-Carrying Drivers',
+        slug: 'hours-of-service-limits-property-carrying-drivers-en',
+        badge: '49 CFR 395',
+      },
+      {
+        title: 'Driver Qualification File (DQF) Contents & Retention Rules',
+        slug: 'driver-qualification-file-391-51-contents-retention-en',
+        badge: '49 CFR 391.51',
+      },
+      {
+        title: 'ELD Mandate Exemptions & Malfunction Operating Procedures',
+        slug: 'eld-mandate-exemptions-malfunction-procedures-en',
+        badge: '49 CFR 395.22',
+      },
+      {
+        title: 'CVSA North American Standard Out-of-Service Criteria & Decals',
+        slug: 'cvsa-out-of-service-criteria-mechanisms-decals-en',
+        badge: 'CVSA Criteria',
+      },
+      {
+        title: 'Commercial Vehicle Roadside Inspections & Driver Preparation',
+        slug: 'commercial-vehicle-roadside-inspections-preparation-en',
+        badge: 'Levels I–VI',
+      },
+    ],
+  },
+  {
+    title: 'Brokerage, Contracts & Vetting',
+    description: 'Statutory rules governing brokers, bona fide dispatchers, surety bonds, and carrier screening.',
+    icon: FileText,
+    guides: [
+      {
+        title: 'What is a Freight Broker? Federal Definition & Registration',
+        slug: 'what-is-a-freight-broker-legal-definition-requirements-en',
+        badge: '49 U.S.C. 13102',
+      },
+      {
+        title: 'Bona Fide Freight Dispatcher vs. Unauthorized Broker Rules',
+        slug: 'bona-fide-freight-dispatcher-vs-unauthorized-broker-en',
+        badge: 'FMCSA Guidance',
+      },
+      {
+        title: 'BMC-84 Freight Broker Bond & Trust Fund Filing Explained',
+        slug: 'freight-broker-bond-bmc-84-trust-fund-explained-en',
+        badge: '$75k Security',
+      },
+      {
+        title: 'How to Check a Trucking Company Safety Record Before Hiring',
+        slug: 'how-to-check-a-trucking-company-before-hiring-en',
+        badge: 'SAFER & SMS',
+      },
+      {
+        title: 'Load Boards: How to Vet Loads & Brokerages Before Booking',
+        slug: 'load-boards-how-to-vet-a-load-before-booking-en',
+        badge: 'Due Diligence',
+      },
+    ],
+  },
+  {
+    title: 'Cargo Security, Weights & Equipment',
+    description: 'Bridge gross weight formulas, cargo securement standards, and freight classification.',
+    icon: Scale,
+    guides: [
+      {
+        title: 'Federal Axle Weight Limits & Bridge Gross Weight Formula',
+        slug: 'federal-axle-weight-limits-bridge-formula-en',
+        badge: '23 U.S.C. 127',
+      },
+      {
+        title: 'LTL Freight Class & Shipment Density Calculation Guide',
+        slug: 'ltl-freight-class-density-calculation-en',
+        badge: 'NMFC Classes',
+      },
+      {
+        title: 'Cargo Securement Tiedowns & Working Load Limit (WLL) Rules',
+        slug: 'cargo-securement-tiedowns-working-load-limit-en',
+        badge: '49 CFR 393',
+      },
+      {
+        title: 'Hazmat Placarding Tables & The 1,001-Pound Aggregate Rule',
+        slug: 'hazmat-placarding-tables-1001-pound-rule-en',
+        badge: '49 CFR 172',
+      },
+      {
+        title: 'Box Trucks, Cargo Vans & Pickups: Federal Rules by Gross Weight',
+        slug: 'box-truck-cargo-van-pickup-federal-rules-by-weight-en',
+        badge: 'Weight Limits',
+      },
+    ],
+  },
+  {
+    title: 'Claims, Factoring & Driver Finance',
+    description: 'Bill of lading duties, Carmack amendment claim deadlines, factoring, and compensation.',
+    icon: Calculator,
+    guides: [
+      {
+        title: 'Shipper, Carrier, and Consignee Legal Roles Under the Bill of Lading',
+        slug: 'shipper-carrier-consignee-roles-bill-of-lading-en',
+        badge: 'Contract Law',
+      },
+      {
+        title: 'Carmack Amendment: Freight Claim Deadlines & Carrier Defenses',
+        slug: 'freight-claims-deadlines-carrier-duties-en',
+        badge: '49 U.S.C. 14706',
+      },
+      {
+        title: 'Freight Factoring Explained: Selling Invoices vs. Direct Billing',
+        slug: 'freight-factoring-explained-selling-invoices-en',
+        badge: 'Cash Flow',
+      },
+      {
+        title: 'Federal Minimum Liability Insurance for Interstate Motor Carriers',
+        slug: 'federal-minimum-liability-insurance-trucks-en',
+        badge: 'Form BMC-91X',
+      },
+      {
+        title: 'Truck Driver Pay Structures & Official BLS Compensation Data',
+        slug: 'truck-driver-pay-bls-data-pay-methods-en',
+        badge: 'BLS Data',
+      },
+    ],
+  },
+];
+
+const TOOLS_SHOWCASE = [
+  {
+    title: 'Bridge Formula Calculator',
+    description: 'Calculate allowable gross vehicle weight across axle groups under 23 U.S.C. 127.',
+    href: '/tools/bridge-formula-calculator',
+    badge: 'Axle Limits',
+  },
+  {
+    title: 'LTL Density & Class Calculator',
+    description: 'Compute pounds per cubic foot (PCF) and determine the estimated NMFC freight class.',
+    href: '/tools/ltl-density-calculator',
+    badge: 'Freight Class',
+  },
+  {
+    title: 'Dimensional Weight Calculator',
+    description: 'Compare actual scale weight against volumetric billable freight dimensions.',
+    href: '/tools/dimensional-weight-calculator',
+    badge: 'DIM Factor',
+  },
+  {
+    title: 'Rate Per Mile Calculator',
+    description: 'Determine gross linehaul revenue per loaded mile and operational break-even targets.',
+    href: '/tools/rate-per-mile-calculator',
+    badge: 'Trip Pricing',
+  },
+  {
+    title: 'Trip Fuel Cost Calculator',
+    description: 'Estimate diesel expenditure based on loaded route mileage and truck fuel efficiency.',
+    href: '/tools/fuel-cost-calculator',
+    badge: 'Fuel Surcharge',
+  },
+  {
+    title: 'Detention Fee Calculator',
+    description: 'Calculate billable shipper/receiver detention charges past standard free time.',
+    href: '/tools/detention-fee-calculator',
+    badge: 'Dock Layover',
+  },
+];
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
@@ -47,8 +215,6 @@ function initials(name: string | undefined | null): string {
     .join('');
 }
 
-// Homepage doubles as the site's editorial front page. Falls back to English
-// when a locale's translation queue hasn't caught up yet, so it's never empty.
 async function fetchLatestPosts(locale: string): Promise<BlogPost[]> {
   const supabase = createPublicClient();
   const { data, error } = await supabase
@@ -59,7 +225,6 @@ async function fetchLatestPosts(locale: string): Promise<BlogPost[]> {
     .order('created_at', { ascending: false })
     .limit(HOME_POST_LIMIT);
 
-  // Throw on a DB error so ISR keeps the last good page instead of caching an empty homepage.
   if (error) throw new Error(`[home] Supabase error (${locale}): ${error.message || error.code}`);
   if (data && data.length > 0) return data as unknown as BlogPost[];
   if (locale === 'en') return [];
@@ -216,14 +381,20 @@ export default async function HomePage({ params }: PageProps) {
             {t.home.heroDesc}
           </p>
 
-          <ul className="mt-9 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm font-bold text-[color:var(--muted)]">
-            {TOPICS.map((topic, i) => (
-              <li key={topic} className="flex items-center gap-3">
-                {i > 0 && <span aria-hidden="true" className="h-1 w-1 rounded-full bg-accent/60" />}
-                {topic}
-              </li>
-            ))}
-          </ul>
+          <nav aria-label="Key freight topics" className="mt-9">
+            <ul className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-sm font-bold">
+              {TOPICS.map((topic) => (
+                <li key={topic.label}>
+                  <Link
+                    href={`/${locale}${topic.href}`}
+                    className="inline-flex items-center rounded-full border border-border-light bg-surface-light/80 px-4 py-1.5 text-xs font-bold text-[color:var(--muted)] transition-all hover:border-accent hover:text-accent hover:shadow-sm dark:border-border-dark dark:bg-surface-dark/80"
+                  >
+                    {topic.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </section>
 
@@ -236,9 +407,9 @@ export default async function HomePage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Latest */}
+      {/* Latest Articles */}
       {rest.length > 0 && (
-        <section className="px-4 pb-24 pt-16">
+        <section className="px-4 pb-20 pt-16">
           <div className="mx-auto max-w-6xl">
             <div className="mb-10 flex flex-col gap-4 border-b border-border-light pb-6 dark:border-border-dark sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -268,7 +439,7 @@ export default async function HomePage({ params }: PageProps) {
 
       {/* Empty state: keeps the page useful if the DB query ever returns nothing */}
       {posts.length === 0 && (
-        <section className="px-4 pb-24 pt-8">
+        <section className="px-4 pb-20 pt-8">
           <div className="mx-auto max-w-2xl rounded-3xl border border-border-light bg-surface-light p-12 text-center dark:border-border-dark dark:bg-surface-dark">
             <h2 className="mb-3 font-display text-2xl font-black text-[color:var(--fg)]">New articles are on the way</h2>
             <p className="mb-6 text-[color:var(--muted)]">Browse the archive while the next guide is being finished.</p>
@@ -282,8 +453,106 @@ export default async function HomePage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Editor */}
-      <section className="px-4 pb-24">
+      {/* Core Regulatory & Operations Hub (Direct Internal Link Mesh) */}
+      <section className="border-t border-border-light bg-surface-light/40 px-4 py-20 dark:border-border-dark dark:bg-surface-dark/40">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <p className="mb-2 text-xs font-extrabold uppercase tracking-[0.2em] text-accent">Primary Reference Guides</p>
+            <h2 className="font-display text-3xl font-black tracking-tight text-[color:var(--fg)] sm:text-4xl">
+              Federal trucking &amp; freight guides by topic
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base text-[color:var(--muted)]">
+              Curated regulatory references verified against the Code of Federal Regulations and federal transport statutes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            {CORE_CLUSTERS.map((cluster) => {
+              const Icon = cluster.icon;
+              return (
+                <div
+                  key={cluster.title}
+                  className="flex flex-col rounded-3xl border border-border-light bg-surface-light p-7 shadow-sm transition-all hover:border-accent/40 dark:border-border-dark dark:bg-surface-dark"
+                >
+                  <div className="mb-5 flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                      <Icon size={20} />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-xl font-bold text-[color:var(--fg)]">{cluster.title}</h3>
+                      <p className="text-xs text-[color:var(--muted)]">{cluster.description}</p>
+                    </div>
+                  </div>
+
+                  <ul className="flex flex-col divide-y divide-border-light/60 dark:divide-border-dark/60">
+                    {cluster.guides.map((g) => (
+                      <li key={g.slug}>
+                        <Link
+                          href={`/${locale}/blog/${g.slug}`}
+                          className="group flex items-center justify-between py-3.5 text-sm transition-colors hover:text-accent"
+                        >
+                          <span className="font-semibold text-[color:var(--fg)] group-hover:text-accent">
+                            {g.title}
+                          </span>
+                          <span className="ml-3 shrink-0 rounded-md bg-border-light/50 px-2 py-0.5 text-[11px] font-bold text-[color:var(--muted)] dark:bg-border-dark/50">
+                            {g.badge}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Free Logistics Calculators */}
+      <section className="px-4 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 flex flex-col gap-4 border-b border-border-light pb-6 dark:border-border-dark sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-2 text-xs font-extrabold uppercase tracking-[0.2em] text-accent">Interactive Operations</p>
+              <h2 className="font-display text-3xl font-black tracking-tight text-[color:var(--fg)] sm:text-4xl">
+                Free freight &amp; trucking calculators
+              </h2>
+            </div>
+            <Link
+              href={`/${locale}/tools`}
+              className="inline-flex shrink-0 items-center gap-2 text-sm font-extrabold text-accent transition-all hover:gap-3"
+            >
+              Explore all tools <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {TOOLS_SHOWCASE.map((tool) => (
+              <Link
+                key={tool.href}
+                href={`/${locale}${tool.href}`}
+                className="group flex flex-col justify-between rounded-2xl border border-border-light bg-surface-light p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-md dark:border-border-dark dark:bg-surface-dark"
+              >
+                <div>
+                  <div className="mb-3 flex items-center justify-between">
+                    <span className="rounded-full bg-accent/10 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wide text-accent">
+                      {tool.badge}
+                    </span>
+                    <ChevronRight size={16} className="text-[color:var(--muted)] transition-transform group-hover:translate-x-1 group-hover:text-accent" />
+                  </div>
+                  <h3 className="mb-2 font-display text-lg font-bold text-[color:var(--fg)] transition-colors group-hover:text-accent">
+                    {tool.title}
+                  </h3>
+                  <p className="text-xs leading-relaxed text-[color:var(--muted)]">{tool.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Editor & Publication */}
+      <section className="px-4 pb-20">
         <ScrollReveal>
           <div className="mx-auto grid max-w-6xl items-center gap-8 rounded-[2rem] border border-border-light bg-surface-light p-8 dark:border-border-dark dark:bg-surface-dark sm:p-12 md:grid-cols-[auto_1fr]">
             <div
