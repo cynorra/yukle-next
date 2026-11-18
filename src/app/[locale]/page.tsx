@@ -491,10 +491,10 @@ export default async function HomePage({ params }: PageProps) {
                           href={`/${locale}/blog/${g.slug}`}
                           className="group flex items-center justify-between py-3.5 text-sm transition-colors hover:text-accent"
                         >
-                          <span className="font-semibold text-[color:var(--fg)] group-hover:text-accent">
+                          <span className="font-semibold text-[color:var(--fg)] transition-colors group-hover:text-accent">
                             {g.title}
                           </span>
-                          <span className="ml-3 shrink-0 rounded-md bg-border-light/50 px-2 py-0.5 text-[11px] font-bold text-[color:var(--muted)] dark:bg-border-dark/50">
+                          <span className="ml-3 inline-flex shrink-0 items-center rounded-full border border-accent/25 bg-accent/10 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-accent whitespace-nowrap transition-all duration-200 group-hover:border-accent group-hover:bg-accent group-hover:text-white">
                             {g.badge}
                           </span>
                         </Link>
