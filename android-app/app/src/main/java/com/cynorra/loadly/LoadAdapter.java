@@ -40,12 +40,25 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
 
     /** Replaces the list and dispatches only the actual insert/remove/change events,
      * instead of a blanket notifyDataSetChanged() that forces every visible row to rebind. */
-    public void submitList(List<Load> newLoads) {
+    public void submitList(List<Load> incoming) {
+        List<Load> newLoads = dedupe(incoming);
         List<Load> oldLoads = new ArrayList<>(loads);
         DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new DiffCallback(oldLoads, newLoads));
         loads.clear();
         loads.addAll(newLoads);
         diff.dispatchUpdatesTo(this);
+    }
+
+    /** The same shipment is sometimes published twice (scraper retries); show it once. */
+    private static List<Load> dedupe(List<Load> source) {
+        java.util.LinkedHashMap<String, Load> unique = new java.util.LinkedHashMap<>();
+        for (Load l : source) {
+            String key = String.valueOf(l.originCity) + '|' + l.originCountry + '|' + l.destinationCity + '|'
+                    + l.destinationCountry + '|' + l.requiredTruckType + '|' + l.weightTon + '|' + l.price + '|'
+                    + l.shipperName + '|' + l.description;
+            if (!unique.containsKey(key)) unique.put(key, l);
+        }
+        return new ArrayList<>(unique.values());
     }
 
     @NonNull
@@ -100,29 +113,42 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
     }
 
     static class LoadViewHolder extends RecyclerView.ViewHolder {
-        private final TextView routeText;
+        private final TextView truckChip;
+        private final TextView timeText;
+        private final TextView originCity;
+        private final TextView originSub;
+        private final TextView destCity;
+        private final TextView destSub;
+        private final TextView weightChip;
         private final TextView priceText;
-        private final TextView titleText;
-        private final TextView metaText;
 
         LoadViewHolder(@NonNull View itemView) {
             super(itemView);
-            routeText = itemView.findViewById(R.id.routeText);
+            truckChip = itemView.findViewById(R.id.truckChip);
+            timeText = itemView.findViewById(R.id.timeText);
+            originCity = itemView.findViewById(R.id.originCity);
+            originSub = itemView.findViewById(R.id.originSub);
+            destCity = itemView.findViewById(R.id.destCity);
+            destSub = itemView.findViewById(R.id.destSub);
+            weightChip = itemView.findViewById(R.id.weightChip);
             priceText = itemView.findViewById(R.id.priceText);
-            titleText = itemView.findViewById(R.id.titleText);
-            metaText = itemView.findViewById(R.id.metaText);
         }
 
         void bind(Load load, OnLoadClickListener listener, Map<String, String> truckLabels) {
-            routeText.setText(itemView.getContext().getString(R.string.route_format, load.originCity, load.destinationCity));
+            android.content.Context ctx = itemView.getContext();
+
+            originCity.setText(orDash(load.originCity));
+            originSub.setText(orDash(load.originCountry));
+            destCity.setText(orDash(load.destinationCity));
+            destSub.setText(orDash(load.destinationCountry));
 
             if (load.price != null) {
                 priceText.setText(formatPrice(load.price, load.originCountry));
+                priceText.setTextColor(ctx.getColor(R.color.primary_accent));
             } else {
-                priceText.setText(itemView.getContext().getString(R.string.negotiable));
+                priceText.setText(ctx.getString(R.string.ask_for_price));
+                priceText.setTextColor(ctx.getColor(R.color.text_muted));
             }
-
-            titleText.setText(load.title);
 
             // Falls back to the raw value instead of hiding it - the loads scraper writes
             // a different required_truck_type vocabulary than this map's known keys cover
@@ -131,18 +157,56 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
             String truckLabel = load.requiredTruckType != null
                     ? truckLabels.getOrDefault(load.requiredTruckType, load.requiredTruckType)
                     : null;
-            StringBuilder meta = new StringBuilder();
-            meta.append(itemView.getContext().getString(R.string.weight_value, formatWeight(load.weightTon)));
-            if (truckLabel != null) {
-                meta.append("  •  ").append(truckLabel);
+            if (truckLabel != null && !truckLabel.isEmpty()) {
+                truckChip.setText(truckLabel);
+                truckChip.setVisibility(View.VISIBLE);
+            } else {
+                truckChip.setVisibility(View.INVISIBLE);
             }
-            String relTime = relativeTime(load.createdAt);
-            if (relTime != null) {
-                meta.append("  •  ").append(relTime);
-            }
-            metaText.setText(meta.toString());
 
+            weightChip.setText(ctx.getString(R.string.weight_value, formatWeight(load.weightTon)));
+
+            String relTime = relativeTime(load.createdAt);
+            timeText.setText(relTime != null ? relTime : "");
+
+            itemView.setContentDescription(ctx.getString(R.string.route_format, load.originCity, load.destinationCity));
+            installSpringPress(itemView);
             itemView.setOnClickListener(v -> listener.onLoadClick(load));
+        }
+
+        /** Cards sink slightly on touch and spring back: feels physical, costs nothing. */
+        private static void installSpringPress(View v) {
+            final androidx.dynamicanimation.animation.SpringForce force = new androidx.dynamicanimation.animation.SpringForce(1f)
+                    .setDampingRatio(androidx.dynamicanimation.animation.SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY)
+                    .setStiffness(androidx.dynamicanimation.animation.SpringForce.STIFFNESS_MEDIUM);
+            final androidx.dynamicanimation.animation.SpringAnimation sx =
+                    new androidx.dynamicanimation.animation.SpringAnimation(v, androidx.dynamicanimation.animation.DynamicAnimation.SCALE_X).setSpring(force);
+            final androidx.dynamicanimation.animation.SpringAnimation sy =
+                    new androidx.dynamicanimation.animation.SpringAnimation(v, androidx.dynamicanimation.animation.DynamicAnimation.SCALE_Y).setSpring(new androidx.dynamicanimation.animation.SpringForce(1f)
+                            .setDampingRatio(androidx.dynamicanimation.animation.SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY)
+                            .setStiffness(androidx.dynamicanimation.animation.SpringForce.STIFFNESS_MEDIUM));
+            v.setOnTouchListener((view, e) -> {
+                switch (e.getActionMasked()) {
+                    case android.view.MotionEvent.ACTION_DOWN:
+                        sx.cancel();
+                        sy.cancel();
+                        view.setScaleX(0.97f);
+                        view.setScaleY(0.97f);
+                        break;
+                    case android.view.MotionEvent.ACTION_UP:
+                    case android.view.MotionEvent.ACTION_CANCEL:
+                        sx.start();
+                        sy.start();
+                        break;
+                    default:
+                        break;
+                }
+                return false; // never swallow the click
+            });
+        }
+
+        private static String orDash(String v) {
+            return (v == null || v.trim().isEmpty()) ? "-" : v.trim();
         }
 
         private static String formatWeight(double weightTon) {

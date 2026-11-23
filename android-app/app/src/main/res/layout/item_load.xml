@@ -6,71 +6,166 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="6dp"
-    app:cardBackgroundColor="@color/surface_dark"
-    app:cardCornerRadius="16dp"
+    android:layout_marginVertical="7dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="#111317"
+    app:cardCornerRadius="20dp"
     app:cardElevation="0dp"
-    app:strokeColor="#22FFFFFF"
+    app:rippleColor="#33FB720A"
+    app:strokeColor="#1FFFFFFF"
     app:strokeWidth="1dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="16dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/truckChip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/routeText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="İstanbul → Berlin" />
-
-            <TextView
-                android:id="@+id/priceText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/primary_accent"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="₺12.500" />
-        </LinearLayout>
+            android:background="@drawable/bg_chip_truck"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:textColor="@color/primary_accent"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Flatbed" />
 
         <TextView
-            android:id="@+id/titleText"
-            android:layout_width="match_parent"
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="@color/text_muted"
-            android:textSize="13sp"
-            tools:text="Genel kargo yükü, standart teslimat" />
-
-        <TextView
-            android:id="@+id/metaText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:maxLines="2"
             android:textColor="@color/text_muted"
             android:textSize="12sp"
-            tools:text="12 Ton  •  TIR  •  2 gün önce" />
+            app:layout_constraintBaseline_toBaselineOf="@id/truckChip"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="6 hours ago" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/dotOrigin"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="16dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/dot_origin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/truckChip" />
+
+        <View
+            android:id="@+id/routeLine"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:background="@drawable/route_line"
+            app:layout_constraintBottom_toTopOf="@id/dotDestination"
+            app:layout_constraintEnd_toEndOf="@id/dotOrigin"
+            app:layout_constraintStart_toStartOf="@id/dotOrigin"
+            app:layout_constraintTop_toBottomOf="@id/dotOrigin" />
+
+        <ImageView
+            android:id="@+id/dotDestination"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/dot_destination"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/destCity" />
+
+        <TextView
+            android:id="@+id/originCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dotOrigin"
+            app:layout_constraintTop_toTopOf="@id/dotOrigin"
+            tools:text="Charlotte" />
+
+        <TextView
+            android:id="@+id/originSub"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dotOrigin"
+            app:layout_constraintTop_toBottomOf="@id/originCity"
+            tools:text="United States" />
+
+        <TextView
+            android:id="@+id/destCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="18dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dotOrigin"
+            app:layout_constraintTop_toBottomOf="@id/originSub"
+            tools:text="Houston" />
+
+        <TextView
+            android:id="@+id/destSub"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dotOrigin"
+            app:layout_constraintTop_toBottomOf="@id/destCity"
+            tools:text="United States" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="14dp"
+            android:background="#14FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/destSub" />
+
+        <TextView
+            android:id="@+id/weightChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_chip_neutral"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            tools:text="20 t" />
+
+        <TextView
+            android:id="@+id/priceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_accent"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/weightChip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/weightChip"
+            tools:text="Ask for price" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

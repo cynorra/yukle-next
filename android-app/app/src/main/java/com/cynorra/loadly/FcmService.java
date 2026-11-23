@@ -63,7 +63,7 @@ public class FcmService extends FirebaseMessagingService {
             }
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MarketplaceActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if (targetUrl != null && !targetUrl.isEmpty()) {
             intent.putExtra("target_url", targetUrl);

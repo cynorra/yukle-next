@@ -44,4 +44,39 @@
 
     <string name="share_load">Share listing</string>
     <string name="share_load_text">Load from %1$s to %2$s on Loadly: %3$s</string>
+
+    <string name="scope_nearby">Nearby</string>
+    <string name="scope_global">Global</string>
+    <string name="scope_country_format">%1$s</string>
+    <string name="scope_pick_country">Choose a country</string>
+
+    <string name="moving_title">Moving</string>
+    <string name="moving_tab_requests">Moving requests</string>
+    <string name="moving_tab_movers">Movers</string>
+    <string name="moving_tab_post">I have a home to move</string>
+    <string name="moving_city_filter_hint">City / region</string>
+    <string name="moving_empty_requests">No moving requests here yet.</string>
+    <string name="moving_empty_movers">No movers listed here yet.</string>
+    <string name="moving_load_error">Couldn\'t load. Check your connection and try again.</string>
+    <string name="moving_contact">Contact</string>
+    <string name="moving_origin_country">From country: %1$s</string>
+    <string name="moving_dest_country">To country: %1$s</string>
+    <string name="moving_origin_city">Current city / region</string>
+    <string name="moving_dest_city">Destination city / region</string>
+    <string name="moving_date">Moving date</string>
+    <string name="moving_home_size">Home size (e.g. number of rooms)</string>
+    <string name="moving_items_note">Notes about your items</string>
+    <string name="moving_contact_hint">Contact (phone or email)</string>
+    <string name="moving_public_notice">Your contact details are shown to movers who browse requests.</string>
+    <string name="moving_submit">Post request</string>
+    <string name="moving_required">Please fill in the cities and your contact.</string>
+    <string name="moving_posted">Your moving request is posted.</string>
+    <string name="moving_post_error">Couldn\'t post your request. Try again.</string>
+    <string name="moving_verified"> ✓ verified</string>
+    <string name="moving_home_size_detail">Home size: %1$s</string>
+    <string name="moving_date_detail">Date: %1$s</string>
+    <string name="moving_serves_detail">Serves: %1$s</string>
+    <string name="moving_place_format" translatable="false">%1$s, %2$s</string>
+    <string name="ask_for_price">Ask for price</string>
+    <string name="marketplace_tagline">Find freight loads and movers, anywhere.</string>
 </resources>

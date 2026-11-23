@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
     private void navigateToMain() {
         if (navigated) return;
         navigated = true;
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        startActivity(new Intent(SplashActivity.this, MarketplaceActivity.class));
         finish();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
@@ -69,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onDestroy() {
         // Neither postDelayed call was ever cancelled - if the user backgrounds the
         // app during the splash's ~0.7-3s window (e.g. taps Home right away), the
-        // pending callback still fired afterwards and relaunched MainActivity out
+        // pending callback still fired afterwards and relaunched MarketplaceActivity out
         // from under them. Setting navigated first blocks a callback already at the
         // front of the message queue too, not just ones still waiting.
         navigated = true;

@@ -4,7 +4,10 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.cynorra.loadly.SupabaseConfig;
+import com.cynorra.loadly.Countries;
 import com.cynorra.loadly.model.Load;
+import com.cynorra.loadly.model.Mover;
+import com.cynorra.loadly.model.MovingRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,6 +52,24 @@ public class SupabaseClient {
         public String destinationCity;
         public String truckType;
         public Double maxWeightTon;
+        // ISO2 code; null = global (no country restriction). Matches origin_country stored
+        // either as the English country name (scraped loads) or the code itself.
+        public String originCountryCode;
+    }
+
+    public interface MovingCallback {
+        void onSuccess(List<MovingRequest> items);
+        void onError(String message);
+    }
+
+    public interface MoversCallback {
+        void onSuccess(List<Mover> items);
+        void onError(String message);
+    }
+
+    public interface PostCallback {
+        void onSuccess();
+        void onError(String message);
     }
 
     private static final String SHIPPER_SELECT =
@@ -79,6 +100,12 @@ public class SupabaseClient {
                             url.append("&required_truck_type=eq.").append(URLEncoder.encode(filter.truckType, "UTF-8"));
                         }
                     }
+                    if (filter.originCountryCode != null && !filter.originCountryCode.isEmpty()) {
+                        String code = filter.originCountryCode;
+                        url.append("&or=").append(URLEncoder.encode("(origin_country.ilike."
+                                + Countries.englishName(code).replace(",", " ").replace("(", "").replace(")", "")
+                                + ",origin_country.eq." + code + ")", "UTF-8"));
+                    }
                     if (filter.maxWeightTon != null) {
                         url.append("&weight_ton=lte.").append(filter.maxWeightTon);
                     }
@@ -92,6 +119,69 @@ public class SupabaseClient {
                 mainHandler.post(() -> callback.onSuccess(loads));
             } catch (Exception e) {
                 mainHandler.post(() -> callback.onError(e.getMessage()));
+            }
+        });
+    }
+
+    /** countryCode null = global. */
+    public void fetchMovingRequests(String countryCode, int limit, MovingCallback callback) {
+        executor.execute(() -> {
+            try {
+                String url = SupabaseConfig.URL + "/rest/v1/moving_requests?select=*&status=eq.active&order=created_at.desc&limit=" + limit
+                        + (countryCode != null ? "&origin_country=eq." + URLEncoder.encode(countryCode, "UTF-8") : "");
+                JSONArray arr = new JSONArray(get(url));
+                List<MovingRequest> items = new ArrayList<>();
+                for (int i = 0; i < arr.length(); i++) items.add(new MovingRequest(arr.getJSONObject(i)));
+                mainHandler.post(() -> callback.onSuccess(items));
+            } catch (Exception e) {
+                mainHandler.post(() -> callback.onError(e.getMessage()));
+            }
+        });
+    }
+
+    /** Movers in a country (null = global), optionally narrowed to a city (ilike). Verified first. */
+    public void fetchMovers(String countryCode, String city, int limit, MoversCallback callback) {
+        executor.execute(() -> {
+            try {
+                StringBuilder url = new StringBuilder(SupabaseConfig.URL
+                        + "/rest/v1/movers?select=*&status=eq.active&order=is_verified.desc,created_at.desc&limit=" + limit);
+                if (countryCode != null) url.append("&country=eq.").append(URLEncoder.encode(countryCode, "UTF-8"));
+                if (city != null && !city.trim().isEmpty()) {
+                    url.append("&city=ilike.").append(URLEncoder.encode("*" + city.trim() + "*", "UTF-8"));
+                }
+                JSONArray arr = new JSONArray(get(url.toString()));
+                List<Mover> items = new ArrayList<>();
+                for (int i = 0; i < arr.length(); i++) items.add(new Mover(arr.getJSONObject(i)));
+                mainHandler.post(() -> callback.onSuccess(items));
+            } catch (Exception e) {
+                mainHandler.post(() -> callback.onError(e.getMessage()));
+            }
+        });
+    }
+
+    public void postMovingRequest(JSONObject body, PostCallback callback) {
+        executor.execute(() -> {
+            HttpURLConnection conn = null;
+            try {
+                conn = (HttpURLConnection) new URL(SupabaseConfig.URL + "/rest/v1/moving_requests").openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("apikey", SupabaseConfig.ANON_KEY);
+                conn.setRequestProperty("Authorization", "Bearer " + SupabaseConfig.ANON_KEY);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Prefer", "return=minimal");
+                conn.setConnectTimeout(15000);
+                conn.setReadTimeout(15000);
+                conn.setDoOutput(true);
+                conn.getOutputStream().write(body.toString().getBytes(StandardCharsets.UTF_8));
+                int code = conn.getResponseCode();
+                if (code < 200 || code >= 300) {
+                    throw new IOException("HTTP " + code + ": " + readStream(conn.getErrorStream()));
+                }
+                mainHandler.post(callback::onSuccess);
+            } catch (Exception e) {
+                mainHandler.post(() -> callback.onError(e.getMessage()));
+            } finally {
+                if (conn != null) conn.disconnect();
             }
         });
     }

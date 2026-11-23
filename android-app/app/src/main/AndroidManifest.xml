@@ -81,18 +81,15 @@
             </intent-filter>
         </activity>
         
+
         <activity
-            android:name=".MainActivity"
+            android:name=".MarketplaceActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
-            <!-- App Links: lets loadlyapp.com URLs (incl. the OAuth redirect after
-                 Google sign-in) open directly in this app instead of the browser.
-                 Only takes effect once the app is installed from a release build
-                 whose signing certificate matches assetlinks.json published at
-                 https://loadlyapp.com/.well-known/assetlinks.json - inert until then,
-                 debug builds keep today's behavior (opens in Custom Tab/browser). -->
+            <!-- App Links: loadlyapp.com/<locale>/marketplace/<id> opens the listing natively. -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -100,14 +97,16 @@
                 <data android:scheme="https" />
                 <data android:host="loadlyapp.com" />
                 <data android:host="www.loadlyapp.com" />
+                <data android:pathPattern=".*marketplace.*" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".MarketplaceActivity"
+            android:name=".MovingActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".LoadDetailActivity"

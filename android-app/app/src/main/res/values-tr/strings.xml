@@ -41,4 +41,38 @@
 
     <string name="share_load">İlanı paylaş</string>
     <string name="share_load_text">Loadly\'de %1$s - %2$s arası yük ilanı: %3$s</string>
+
+    <string name="scope_nearby">Yakınımda</string>
+    <string name="scope_global">Global</string>
+    <string name="scope_country_format">%1$s</string>
+    <string name="scope_pick_country">Ülke seçin</string>
+
+    <string name="moving_title">Taşınma</string>
+    <string name="moving_tab_requests">Taşınma ilanları</string>
+    <string name="moving_tab_movers">Nakliyeciler</string>
+    <string name="moving_tab_post">Taşınacak evim var</string>
+    <string name="moving_city_filter_hint">Şehir / bölge</string>
+    <string name="moving_empty_requests">Burada henüz taşınma ilanı yok.</string>
+    <string name="moving_empty_movers">Burada henüz nakliyeci yok.</string>
+    <string name="moving_load_error">Yüklenemedi. Bağlantınızı kontrol edip tekrar deneyin.</string>
+    <string name="moving_contact">İletişime geç</string>
+    <string name="moving_origin_country">Çıkış ülkesi: %1$s</string>
+    <string name="moving_dest_country">Varış ülkesi: %1$s</string>
+    <string name="moving_origin_city">Bulunduğunuz şehir / bölge</string>
+    <string name="moving_dest_city">Taşınacağınız şehir / bölge</string>
+    <string name="moving_date">Taşınma tarihi</string>
+    <string name="moving_home_size">Ev büyüklüğü (ör. oda sayısı)</string>
+    <string name="moving_items_note">Eşyalarınızla ilgili not</string>
+    <string name="moving_contact_hint">İletişim (telefon veya e-posta)</string>
+    <string name="moving_public_notice">İletişim bilgileriniz ilanlara bakan nakliyecilere gösterilir.</string>
+    <string name="moving_submit">İlanı yayınla</string>
+    <string name="moving_required">Lütfen şehirleri ve iletişim bilginizi doldurun.</string>
+    <string name="moving_posted">Taşınma ilanınız yayınlandı.</string>
+    <string name="moving_post_error">İlan yayınlanamadı. Tekrar deneyin.</string>
+    <string name="moving_verified"> ✓ onaylı</string>
+    <string name="moving_home_size_detail">Ev büyüklüğü: %1$s</string>
+    <string name="moving_date_detail">Tarih: %1$s</string>
+    <string name="moving_serves_detail">Hizmet bölgeleri: %1$s</string>
+    <string name="ask_for_price">Fiyat sor</string>
+    <string name="marketplace_tagline">Yük ve nakliye ilanları, dünya genelinde.</string>
 </resources>

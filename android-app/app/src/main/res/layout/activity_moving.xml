@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="12dp">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_back"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingHorizontal="4dp"
+            android:text="@string/moving_title"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Tabs: requests (movers browse), movers (users browse), post a request -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/tabRequests"
+            style="@style/MovingTab"
+            android:text="@string/moving_tab_requests" />
+
+        <TextView
+            android:id="@+id/tabMovers"
+            style="@style/MovingTab"
+            android:text="@string/moving_tab_movers" />
+
+        <TextView
+            android:id="@+id/tabPost"
+            style="@style/MovingTab"
+            android:text="@string/moving_tab_post" />
+    </LinearLayout>
+
+    <!-- Scope row (lists only) -->
+    <LinearLayout
+        android:id="@+id/scopeBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/tabNearby"
+            style="@style/MovingTab"
+            android:text="@string/scope_nearby" />
+
+        <TextView
+            android:id="@+id/tabGlobal"
+            style="@style/MovingTab"
+            android:text="@string/scope_global" />
+
+        <TextView
+            android:id="@+id/countryChip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:textColor="@color/primary_accent"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/cityFilterInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
+        android:autofillHints=""
+        android:background="@drawable/bg_filter_input"
+        android:hint="@string/moving_city_filter_hint"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/text_muted"
+        android:textSize="14sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
+
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="32dp"
+            android:textColor="@color/text_muted"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:id="@+id/formScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:id="@+id/formOriginCountry"
+                    style="@style/MovingField" />
+
+                <EditText
+                    android:id="@+id/formOriginCity"
+                    style="@style/MovingField"
+                    android:hint="@string/moving_origin_city"
+                    android:inputType="textCapWords" />
+
+                <TextView
+                    android:id="@+id/formDestCountry"
+                    style="@style/MovingField" />
+
+                <EditText
+                    android:id="@+id/formDestCity"
+                    style="@style/MovingField"
+                    android:hint="@string/moving_dest_city"
+                    android:inputType="textCapWords" />
+
+                <TextView
+                    android:id="@+id/formDate"
+                    style="@style/MovingField"
+                    android:hint="@string/moving_date" />
+
+                <EditText
+                    android:id="@+id/formHomeSize"
+                    style="@style/MovingField"
+                    android:hint="@string/moving_home_size"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/formItems"
+                    style="@style/MovingField"
+                    android:gravity="top"
+                    android:hint="@string/moving_items_note"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:minLines="3" />
+
+                <EditText
+                    android:id="@+id/formContact"
+                    style="@style/MovingField"
+                    android:hint="@string/moving_contact_hint"
+                    android:inputType="text" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/moving_public_notice"
+                    android:textColor="@color/text_muted"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/formSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="@color/primary_accent"
+                    android:text="@string/moving_submit"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</LinearLayout>

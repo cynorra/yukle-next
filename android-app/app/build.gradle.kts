@@ -79,6 +79,9 @@ dependencies {
     implementation(libs.androidx.browser)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.recyclerview)
+    // Premium motion: staggered card entrance + spring press feedback
+    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
+    implementation("androidx.dynamicanimation:dynamicanimation:1.0.0")
     implementation(libs.play.services.ads)
     // GDPR/UK consent (Google's User Messaging Platform) - required before
     // requesting ads for EEA/UK users, see MainActivity.requestConsentThenLoadAds

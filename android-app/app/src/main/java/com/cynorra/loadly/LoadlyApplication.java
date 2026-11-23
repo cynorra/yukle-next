@@ -34,6 +34,7 @@ public class LoadlyApplication extends Application {
     private static final String PREFS_NAME = "loadly_prefs";
     private static final String KEY_PUSH_ENABLED = "push_enabled";
     private static final String KEY_SUBSCRIBED_COUNTRY = "subscribed_country_iso2";
+    private static final String KEY_BROWSE_COUNTRY = "browse_country_iso2";
     private static final String KEY_LAST_CITY = "last_detected_city";
     private static final String TOPIC_PREFIX = "new_loads_";
 
@@ -105,6 +106,19 @@ public class LoadlyApplication extends Application {
     public static void updateLastCity(Context context, String city) {
         if (city == null || city.isEmpty()) return;
         prefs(context).edit().putString(KEY_LAST_CITY, city).apply();
+    }
+
+    /** Country (ISO2) the user browses: explicit pick, else last detected, else device locale. */
+    public static String getBrowseCountry(Context context) {
+        String picked = prefs(context).getString(KEY_BROWSE_COUNTRY, null);
+        if (picked != null && !picked.isEmpty()) return picked;
+        String detected = prefs(context).getString(KEY_SUBSCRIBED_COUNTRY, null);
+        if (detected != null && !detected.isEmpty()) return detected;
+        return Locale.getDefault().getCountry().toUpperCase(Locale.US);
+    }
+
+    public static void setBrowseCountry(Context context, String iso2) {
+        prefs(context).edit().putString(KEY_BROWSE_COUNTRY, iso2).apply();
     }
 
     public static String getLastCity(Context context) {
