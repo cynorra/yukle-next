@@ -1,0 +1,261 @@
+<en-US>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</en-US>
+<af>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</af>
+<am>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</am>
+<ar>
+تجربة Loadly الجديدة كليًا: بطاقات خط زمني حديثة للمسار من البداية للوجهة، فئة جديدة لخدمات نقل الأثاث والمنازل، وقوائم حمولات أوضح وأسهل.
+</ar>
+<az-AZ>
+Yenilenen Loadly deneyimi: kalkıştan varışa rota zaman çizelgesi kartları, yeni Evden Eve Nakliyat kategorisi, akıcı dokunma animasyonları ve daha temiz yük ilanları.
+</az-AZ>
+<be>
+Обновленный интерфейс Loadly: современные карточки маршрута от отправления до прибытия, новая категория квартирных переездов и более удобный список грузов.
+</be>
+<bg>
+Изцяло ново преживяване с Loadly: модерни карти с хронология на маршрута, нова категория за преместване на дома и по-чисти обяви за товари.
+</bg>
+<bn-BD>
+সম্পূর্ণ নতুন Loadly অভিজ্ঞতা: যাত্রা থেকে পৌঁছানো পর্যন্ত আধুনিক রুট টাইমলাইন কার্ড, নতুন বাসা বদল পরিষেবা বিভাগ এবং পরিষ্কার লোড তালিকা।
+</bn-BD>
+<ca>
+Nueva experiencia en Loadly: tarjetas modernas de ruta cronológica, nueva categoría de mudanzas y fletes, interacciones táctiles fluidas y listados más claros.
+</ca>
+<cs-CZ>
+Zcela nový zážitek z Loadly: moderní časové karty trasy od odjezdu po příjezd, nová kategorie stěhování a přehlednější nabídky nákladů.
+</cs-CZ>
+<da-DK>
+Helt ny Loadly-oplevelse: moderne rute-tidslinjekort fra afgang til ankomst, ny kategori for flyttetjenester, glidende berøringsinteraktioner og renere fragtlister.
+</da-DK>
+<de-DE>
+Brandneues Loadly-Erlebnis: moderne Routen-Timeline-Karten, neue Umzugsservice-Kategorie, flüssige Touch-Interaktionen und übersichtlichere Frachtangebote.
+</de-DE>
+<el-GR>
+Ολοκαίνουργια εμπειρία Loadly: σύγχρονες κάρτες διαδρομής από την αναχώρηση έως την άφιξη, νέα κατηγορία μετακομίσεων και καθαρότερες καταχωρίσεις φορτίων.
+</el-GR>
+<en-AU>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</en-AU>
+<en-CA>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</en-CA>
+<en-GB>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</en-GB>
+<en-IN>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</en-IN>
+<en-SG>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</en-SG>
+<en-ZA>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</en-ZA>
+<es-419>
+Nueva experiencia en Loadly: tarjetas modernas de ruta cronológica, nueva categoría de mudanzas y fletes, interacciones táctiles fluidas y listados más claros.
+</es-419>
+<es-ES>
+Nueva experiencia en Loadly: tarjetas modernas de ruta cronológica, nueva categoría de mudanzas y fletes, interacciones táctiles fluidas y listados más claros.
+</es-ES>
+<es-US>
+Nueva experiencia en Loadly: tarjetas modernas de ruta cronológica, nueva categoría de mudanzas y fletes, interacciones táctiles fluidas y listados más claros.
+</es-US>
+<et>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</et>
+<eu-ES>
+Nueva experiencia en Loadly: tarjetas modernas de ruta cronológica, nueva categoría de mudanzas y fletes, interacciones táctiles fluidas y listados más claros.
+</eu-ES>
+<fa>
+تجربه جدید Loadly: کارت‌های نوار زمانی مدرن از مبدا تا مقصد، دسته‌بندی جدید خدمات اسباب‌کشی و جابه‌جایی، و فهرست تمیزتر بارها.
+</fa>
+<fa-AE>
+تجربه جدید Loadly: کارت‌های نوار زمانی مدرن از مبدا تا مقصد، دسته‌بندی جدید خدمات اسباب‌کشی و جابه‌جایی، و فهرست تمیزتر بارها.
+</fa-AE>
+<fa-AF>
+تجربه جدید Loadly: کارت‌های نوار زمانی مدرن از مبدا تا مقصد، دسته‌بندی جدید خدمات اسباب‌کشی و جابه‌جایی، و فهرست تمیزتر بارها.
+</fa-AF>
+<fa-IR>
+تجربه جدید Loadly: کارت‌های نوار زمانی مدرن از مبدا تا مقصد، دسته‌بندی جدید خدمات اسباب‌کشی و جابه‌جایی، و فهرست تمیزتر بارها.
+</fa-IR>
+<fi-FI>
+Täysin uusi Loadly-kokemus: modernit reitin aikajanakortit lähdöstä saapumiseen, uusi muutto- ja kuljetuspalvelukategoria ja selkeämmät kuormalistaukset.
+</fi-FI>
+<fil>
+Bagong karanasan sa Loadly: modernong route timeline cards mula simula hanggang destinasyon, bagong kategorya para sa paglipat ng bahay, at mas maayos na listahan ng kargamento.
+</fil>
+<fr-CA>
+Nouvelle expérience Loadly : cartes d'itinéraire modernes du départ à l'arrivée, nouvelle catégorie de déménagement, animations fluides et annonces plus claires.
+</fr-CA>
+<fr-FR>
+Nouvelle expérience Loadly : cartes d'itinéraire modernes du départ à l'arrivée, nouvelle catégorie de déménagement, animations fluides et annonces plus claires.
+</fr-FR>
+<gl-ES>
+Nueva experiencia en Loadly: tarjetas modernas de ruta cronológica, nueva categoría de mudanzas y fletes, interacciones táctiles fluidas y listados más claros.
+</gl-ES>
+<gu>
+बिल्कुल नया Loadly अनुभव: प्रस्थान से आगमन तक आधुनिक रूट टाइमलाइन कार्ड, नई शिफ्टिंग व मूवर्स श्रेणी, और लोड की स्पष्ट लिस्टिंग।
+</gu>
+<hi-IN>
+बिल्कुल नया Loadly अनुभव: प्रस्थान से आगमन तक आधुनिक रूट टाइमलाइन कार्ड, नई शिफ्टिंग व मूवर्स श्रेणी, और लोड की स्पष्ट लिस्टिंग।
+</hi-IN>
+<hr>
+Novo Loadly iskustvo: moderne kartice vremenske crte rute od polaska do dolaska, nova kategorija selidbi i pregledniji popisi tereta.
+</hr>
+<hu-HU>
+Megújult Loadly élmény: modern útvonal-idővonal kártyák az indulástól az érkezésig, új költöztetési kategória és áttekinthetőbb fuvarhirdetések.
+</hu-HU>
+<hy-AM>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</hy-AM>
+<id>
+Pengalaman baru Loadly: kartu linimasa rute modern dari awal hingga tiba, kategori baru jasa pindahan rumah, dan daftar muatan yang lebih bersih.
+</id>
+<is-IS>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</is-IS>
+<it-IT>
+Nuova esperienza Loadly: moderne schede cronologiche dell'itinerario, nuova categoria di traslochi, interazioni touch fluide e annunci di carico più chiari.
+</it-IT>
+<iw-IL>
+חווית Loadly חדשה לגמרי: כרטיסי מסלול מודרניים מנקודת המוצא ועד היעד, קטגוריה חדשה להובלת דירות ורשימת מטענים נקייה יותר.
+</iw-IL>
+<ja-JP>
+新しくなったLoadly体験：出発から到着までの最新ルートタイムラインカード、新しい引越し・移転サービスカテゴリ、見やすくなった貨物リスト。
+</ja-JP>
+<ka-GE>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</ka-GE>
+<kk>
+Обновленный интерфейс Loadly: современные карточки маршрута от отправления до прибытия, новая категория квартирных переездов и более удобный список грузов.
+</kk>
+<km-KH>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</km-KH>
+<kn-IN>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</kn-IN>
+<ko-KR>
+완전히 새로워진 Loadly: 출발부터 도착까지 모던한 경로 타임라인 카드, 새로운 이사 및 운송 서비스 카테고리, 더 깔끔해진 화물 목록.
+</ko-KR>
+<ky-KG>
+Обновленный интерфейс Loadly: современные карточки маршрута от отправления до прибытия, новая категория квартирных переездов и более удобный список грузов.
+</ky-KG>
+<lo-LA>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</lo-LA>
+<lt>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</lt>
+<lv>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</lv>
+<mk-MK>
+Изцяло ново преживяване с Loadly: модерни карти с хронология на маршрута, нова категория за преместване на дома и по-чисти обяви за товари.
+</mk-MK>
+<ml-IN>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</ml-IN>
+<mn-MN>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</mn-MN>
+<mr-IN>
+बिल्कुल नया Loadly अनुभव: प्रस्थान से आगमन तक आधुनिक रूट टाइमलाइन कार्ड, नई शिफ्टिंग व मूवर्स श्रेणी, और लोड की स्पष्ट लिस्टिंग।
+</mr-IN>
+<ms>
+Pengalaman baharu Loadly: kad garis masa laluan moden dari pelepasan ke ketibaan, kategori baharu perpindahan rumah, dan senarai muatan yang lebih kemas.
+</ms>
+<ms-MY>
+Pengalaman baharu Loadly: kad garis masa laluan moden dari pelepasan ke ketibaan, kategori baharu perpindahan rumah, dan senarai muatan yang lebih kemas.
+</ms-MY>
+<my-MM>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</my-MM>
+<ne-NP>
+बिल्कुल नया Loadly अनुभव: प्रस्थान से आगमन तक आधुनिक रूट टाइमलाइन कार्ड, नई शिफ्टिंग व मूवर्स श्रेणी, और लोड की स्पष्ट लिस्टिंग।
+</ne-NP>
+<nl-NL>
+Vernieuwde Loadly-ervaring: moderne route-tijdlijnkaarten van vertrek tot aankomst, nieuwe categorie voor verhuizingen en duidelijkere vrachtoverzichten.
+</nl-NL>
+<no-NO>
+Helt ny Loadly-opplevelse: moderne rute-tidslinjekort fra avreise til ankomst, ny kategori for flyttetjenester og ryddigere lastelister.
+</no-NO>
+<pa>
+बिल्कुल नया Loadly अनुभव: प्रस्थान से आगमन तक आधुनिक रूट टाइमलाइन कार्ड, नई शिफ्टिंग व मूवर्स श्रेणी, और लोड की स्पष्ट लिस्टिंग।
+</pa>
+<pl-PL>
+Nowe doświadczenie z Loadly: nowoczesne karty osi czasu trasy, nowa kategoria przeprowadzek, płynne animacje i przejrzystsza lista ładunków.
+</pl-PL>
+<pt-BR>
+Nova experiência no Loadly: cartões modernos de linha do tempo de rota, nova categoria de mudanças residenciais, interações suaves e anúncios mais claros.
+</pt-BR>
+<pt-PT>
+Nova experiência no Loadly: cartões modernos de linha do tempo de rota, nova categoria de mudanças residenciais, interações suaves e anúncios mais claros.
+</pt-PT>
+<rm>
+Brandneues Loadly-Erlebnis: moderne Routen-Timeline-Karten, neue Umzugsservice-Kategorie, flüssige Touch-Interaktionen und übersichtlichere Frachtangebote.
+</rm>
+<ro>
+O experiență Loadly complet nouă: carduri moderne de traseu de la plecare la sosire, o nouă categorie pentru mutări de locuințe și anunțuri mai clare.
+</ro>
+<ru-RU>
+Обновленный интерфейс Loadly: современные карточки маршрута от отправления до прибытия, новая категория квартирных переездов и более удобный список грузов.
+</ru-RU>
+<si-LK>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</si-LK>
+<sk>
+Zcela nový zážitek z Loadly: moderní časové karty trasy od odjezdu po příjezd, nová kategorie stěhování a přehlednější nabídky nákladů.
+</sk>
+<sl>
+Novo Loadly iskustvo: moderne kartice vremenske crte rute od polaska do dolaska, nova kategorija selidbi i pregledniji popisi tereta.
+</sl>
+<sq>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</sq>
+<sr>
+Novo Loadly iskustvo: moderne kartice vremenske crte rute od polaska do dolaska, nova kategorija selidbi i pregledniji popisi tereta.
+</sr>
+<sv-SE>
+Helt ny Loadly-upplevelse: moderna rutt-tidskort från avgång till ankomst, ny kategori för flyttjänster, mjuka pekinteraktioner och renare lastlistor.
+</sv-SE>
+<sw>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</sw>
+<ta-IN>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</ta-IN>
+<te-IN>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</te-IN>
+<th>
+ประสบการณ์ Loadly รูปแบบใหม่: การ์ดไทม์ไลน์เส้นทางที่ทันสมัยตั้งแต่ต้นทางถึงปลายทาง หมวดหมู่บริการย้ายบ้านใหม่ และรายการขนส่งสินค้าที่ชัดเจนยิ่งขึ้น
+</th>
+<tr-TR>
+Yenilenen Loadly deneyimi: kalkıştan varışa rota zaman çizelgesi kartları, yeni Evden Eve Nakliyat kategorisi, akıcı dokunma animasyonları ve daha temiz yük ilanları.
+</tr-TR>
+<uk>
+Оновлений Loadly: сучасні картки маршруту від відправлення до прибуття, нова категорія переїздів, плавна анімація та зручніший список вантажів.
+</uk>
+<ur>
+بالکل نیا Loadly تجربہ: روانگی سے آمد تک جدید روٹ ٹائم لائن کارڈز، گھر کی شفٹنگ کی نئی کیٹیگری، اور صاف ستھری لوڈ لسٹنگز۔
+</ur>
+<vi>
+Trải nghiệm Loadly hoàn toàn mới: thẻ mốc thời gian lộ trình hiện đại từ điểm xuất phát đến điểm đến, danh mục chuyển nhà mới và danh sách hàng hóa rõ ràng hơn.
+</vi>
+<zh-CN>
+全新Loadly体验：从出发到到达的现代化路线时间线卡片，新增搬家货运服务类别，以及更清晰整洁的货源列表。
+</zh-CN>
+<zh-HK>
+全新Loadly體驗：從出發到抵達的現代化路線時間線卡片，新增搬家貨運服務類別，以及更清晰整潔的貨源列表。
+</zh-HK>
+<zh-TW>
+全新Loadly體驗：從出發到抵達的現代化路線時間線卡片，新增搬家貨運服務類別，以及更清晰整潔的貨源列表。
+</zh-TW>
+<zu>
+Brand new Loadly experience: modern route timeline cards from departure to arrival, new Moving & Relocation service category, spring touch interactions, and cleaner load listings.
+</zu>
