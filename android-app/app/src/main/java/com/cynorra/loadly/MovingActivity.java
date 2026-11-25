@@ -101,6 +101,9 @@ public class MovingActivity extends AppCompatActivity {
             emptyActionButton.setOnClickListener(v -> selectTab(TAB_POST));
         }
 
+        com.google.android.gms.ads.AdView adView = findViewById(R.id.adView);
+        AdsHelper.requestConsentThenLoadBanner(this, adView, null);
+
         setupForm();
         refreshScopeUi();
         selectTab(TAB_REQUESTS);

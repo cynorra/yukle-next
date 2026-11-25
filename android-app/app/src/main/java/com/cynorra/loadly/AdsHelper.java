@@ -2,8 +2,11 @@ package com.cynorra.loadly;
 
 import android.app.Activity;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowMetrics;
 
 import androidx.annotation.NonNull;
@@ -20,10 +23,14 @@ import com.google.android.ump.UserMessagingPlatform;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-// Shared GDPR/UK consent gate for every AdMob banner in the app (MainActivity,
-// MarketplaceActivity, LoadDetailActivity).
-// Uses Universal Anchored Adaptive Banner sizing and silent-fail UI behavior (View.GONE on error).
+// Shared GDPR/UK consent gate for every AdMob banner in the app (MarketplaceActivity,
+// LoadDetailActivity, MovingActivity).
+// Uses Universal Anchored Adaptive Banner sizing and silent-fail UI behavior.
 final class AdsHelper {
+
+    private static final long RETRY_DELAY_MS = 25_000L;
+    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
+    private static volatile boolean adsInitialized = false;
 
     private AdsHelper() {}
 
@@ -31,26 +38,35 @@ final class AdsHelper {
         void onAdsReady();
     }
 
-    static void requestConsentThenLoadBanner(Activity activity, AdView adView, OnAdsReady onAdsReady) {
-        if (adView == null) return;
+    static void requestConsentThenLoadBanner(Activity activity, AdView placeholder, OnAdsReady onAdsReady) {
+        if (placeholder == null || activity == null) return;
 
-        // Start hidden until ad is confirmed loaded - prevents empty box or UI shift (Silent Fail)
-        adView.setVisibility(View.GONE);
+        // Replace XML fixed BANNER with a programmatic Anchored Adaptive AdView.
+        // Calling setAdSize() on an XML-inflated AdView that already has app:adSize="BANNER"
+        // is ignored or throws in Google Mobile Ads SDK.
+        final AdView adView = replaceWithAdaptiveAdView(activity, placeholder);
 
-        applyAdaptiveBannerSize(activity, adView);
+        // Keep the AdView INVISIBLE (not GONE) with 1px height until loaded so the SDK can
+        // measure the view and dispatch the ad request without taking visible layout space.
+        adView.setAlpha(0f);
 
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
+                adView.setAlpha(1f);
                 adView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError error) {
                 super.onAdFailedToLoad(error);
-                // Silent fail: keep View.GONE so no empty space, layout jump or broken box shows
-                adView.setVisibility(View.GONE);
+                adView.setAlpha(0f);
+                MAIN_HANDLER.postDelayed(() -> {
+                    if (!activity.isFinishing() && !activity.isDestroyed()) {
+                        adView.loadAd(new AdRequest.Builder().build());
+                    }
+                }, RETRY_DELAY_MS);
             }
         });
 
@@ -58,64 +74,92 @@ final class AdsHelper {
         ConsentRequestParameters params = new ConsentRequestParameters.Builder().build();
         AtomicBoolean bannerLoaded = new AtomicBoolean(false);
 
-        consentInformation.requestConsentInfoUpdate(activity, params, () -> {
+        Runnable triggerLoad = () -> {
             if (activity.isFinishing() || activity.isDestroyed()) return;
-            UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity, formError -> {
-                if (activity.isFinishing() || activity.isDestroyed()) return;
-                if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
-                    loadBanner(activity, adView, onAdsReady);
-                }
-            });
-        }, formError -> {
-            if (activity.isFinishing() || activity.isDestroyed()) return;
-            if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
+            if (bannerLoaded.compareAndSet(false, true)) {
                 loadBanner(activity, adView, onAdsReady);
             }
-        });
+        };
 
-        if (consentInformation.canRequestAds() && bannerLoaded.compareAndSet(false, true)) {
-            loadBanner(activity, adView, onAdsReady);
+        consentInformation.requestConsentInfoUpdate(activity, params, () -> {
+            if (activity.isFinishing() || activity.isDestroyed()) return;
+            UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity, formError -> triggerLoad.run());
+        }, formError -> triggerLoad.run());
+
+        if (consentInformation.canRequestAds()) {
+            triggerLoad.run();
+        } else {
+            // Fallback timeout in case UMP network request hangs
+            MAIN_HANDLER.postDelayed(triggerLoad, 4000L);
         }
     }
 
-    private static void applyAdaptiveBannerSize(Activity activity, AdView adView) {
+    private static AdView replaceWithAdaptiveAdView(Activity activity, AdView placeholder) {
         try {
-            if (adView.getAdSize() != null) {
-                return;
+            if (!(placeholder.getParent() instanceof ViewGroup)) {
+                return placeholder;
             }
-            int adWidthPixels;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                WindowMetrics windowMetrics = activity.getWindowManager().getCurrentWindowMetrics();
-                adWidthPixels = windowMetrics.getBounds().width();
-            } else {
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                adWidthPixels = displayMetrics.widthPixels;
+            String unitId = placeholder.getAdUnitId();
+            if (unitId == null || unitId.isEmpty()) {
+                return placeholder;
             }
+            ViewGroup parent = (ViewGroup) placeholder.getParent();
+            int index = parent.indexOfChild(placeholder);
+            ViewGroup.LayoutParams params = placeholder.getLayoutParams();
+            int id = placeholder.getId();
 
-            float density = activity.getResources().getDisplayMetrics().density;
-            int adWidth = (int) (adWidthPixels / density);
-            if (adWidth <= 0) adWidth = 320;
+            AdView adaptive = new AdView(activity);
+            adaptive.setId(id);
+            adaptive.setAdUnitId(unitId);
+            adaptive.setAdSize(computeAdaptiveSize(activity));
 
-            AdSize adaptiveSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth);
-            adView.setAdSize(adaptiveSize);
+            parent.removeViewAt(index);
+            placeholder.destroy();
+            parent.addView(adaptive, index, params);
+            return adaptive;
         } catch (Exception ignored) {
-            // Falls back to XML configured size if any error occurs
+            return placeholder;
         }
     }
 
-    private static boolean adsInitialized = false;
+    private static AdSize computeAdaptiveSize(Activity activity) {
+        int adWidthPixels;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowMetrics windowMetrics = activity.getWindowManager().getCurrentWindowMetrics();
+            adWidthPixels = windowMetrics.getBounds().width();
+        } else {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            adWidthPixels = displayMetrics.widthPixels;
+        }
+
+        float density = activity.getResources().getDisplayMetrics().density;
+        int adWidth = (int) (adWidthPixels / density);
+        if (adWidth <= 0) adWidth = 320;
+
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth);
+    }
 
     private static void loadBanner(Activity activity, AdView adView, OnAdsReady onAdsReady) {
         if (!adsInitialized) {
             adsInitialized = true;
-            MobileAds.initialize(activity, initializationStatus -> {});
-        }
-        if (adView != null) {
-            adView.loadAd(new AdRequest.Builder().build());
-        }
-        if (onAdsReady != null) {
-            onAdsReady.onAdsReady();
+            MobileAds.initialize(activity.getApplicationContext(), initializationStatus -> {
+                MAIN_HANDLER.post(() -> {
+                    if (!activity.isFinishing() && !activity.isDestroyed() && adView != null) {
+                        adView.loadAd(new AdRequest.Builder().build());
+                    }
+                    if (onAdsReady != null) {
+                        onAdsReady.onAdsReady();
+                    }
+                });
+            });
+        } else {
+            if (adView != null) {
+                adView.loadAd(new AdRequest.Builder().build());
+            }
+            if (onAdsReady != null) {
+                onAdsReady.onAdsReady();
+            }
         }
     }
 }
