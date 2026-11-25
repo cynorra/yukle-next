@@ -75,4 +75,18 @@
     <string name="moving_serves_detail">Hizmet bölgeleri: %1$s</string>
     <string name="ask_for_price">Fiyat sor</string>
     <string name="marketplace_tagline">Yük ve nakliye ilanları, dünya genelinde.</string>
+    <string name="moving_nav_badge">Ev Taşıma</string>
+    <string name="moving_banner_title">Evden Eve &amp; Ofis Nakliyat</string>
+    <string name="moving_banner_subtitle">Taşınma taleplerini gör, nakliyeci bul veya ilan ver</string>
+    <string name="moving_banner_cta">İncele</string>
+    <string name="moving_form_header">Ücretsiz Ev / Ofis Taşınma İlanı Ver</string>
+    <string name="contact_options_btn">WhatsApp / Seçenekler</string>
+    <string name="contact_action_call">Telefonla Ara: %1$s</string>
+    <string name="contact_action_whatsapp">WhatsApp Mesajı Gönder: %1$s</string>
+    <string name="contact_action_sms">SMS Gönder: %1$s</string>
+    <string name="contact_action_email">E-posta Gönder: %1$s</string>
+    <string name="contact_action_copy">Numarayı / Bilgileri Kopyala: %1$s</string>
+    <string name="contact_action_web">İlanı Loadly Web\'de Aç</string>
+    <string name="contact_copied_toast">Panoya kopyalandı: %1$s</string>
+    <string name="contact_not_available">İletişim bilgisi bulunamadı</string>
 </resources>

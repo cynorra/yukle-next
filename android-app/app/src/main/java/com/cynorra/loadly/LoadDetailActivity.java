@@ -1,7 +1,6 @@
 package com.cynorra.loadly;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -17,9 +16,6 @@ import com.cynorra.loadly.model.Load;
 import com.cynorra.loadly.network.SupabaseClient;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.ads.AdView;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -84,10 +80,6 @@ public class LoadDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                // "not_found" is SupabaseClient's deliberate signal for a genuinely
-                // missing listing (valid request, zero rows) - any other message means
-                // the request itself failed (network/server), which is not the same
-                // thing and must not show "listing not found" as if it were.
                 showError(!"not_found".equals(message));
             }
         });
@@ -108,77 +100,70 @@ public class LoadDetailActivity extends AppCompatActivity {
         errorLayout.setVisibility(View.VISIBLE);
     }
 
-    // Shares the route plus a link to the Loadly site. The website no longer has per-load
-    // pages (/marketplace/<id> is a 404), so the link points at the site itself.
     private void shareCurrentLoad() {
         if (currentLoad == null) return;
         String text = getString(R.string.share_load_text,
                 currentLoad.originCity, currentLoad.destinationCity,
-                "https://loadlyapp.com/en");
+                "https://loadlyapp.com/en/marketplace/" + currentLoad.id);
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         sendIntent.setType("text/plain");
         sendIntent.putExtra(Intent.EXTRA_TEXT, text);
         startActivity(Intent.createChooser(sendIntent, getString(R.string.share_load)));
     }
 
-    // Scraped listings carry the contact in the description text ("Company: X Phone: N ...").
-    // Listing texts phrase the number many ways ("Phone: 541...", "Telefon: +90 224 ...",
-    // "Call 305...", "reach out at 217..."), so match any digit run that looks like a phone
-    // number and keep the first one with 7-15 digits (skips dates like 10/31/2026 and #ids).
-    private static final Pattern PHONE = Pattern.compile("(\\+?\\d[\\d ()-]{5,}\\d)");
-    private static final Pattern EMAIL = Pattern.compile("([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,})");
+    private void bindContactHub(Load load) {
+        Button primaryBtn = findViewById(R.id.contactShipperButton);
+        Button optionsBtn = findViewById(R.id.secondaryContactButton);
+        TextView summaryView = findViewById(R.id.contactSummaryText);
+        TextView shipperText = findViewById(R.id.shipperText);
 
-    private static String firstPhone(String text) {
-        if (text == null) return null;
-        Matcher m = PHONE.matcher(text);
-        while (m.find()) {
-            String candidate = m.group(1).trim();
-            int digits = candidate.replaceAll("\\D", "").length();
-            if (digits >= 7 && digits <= 15) return candidate;
+        ContactHelper.ContactInfo info = ContactHelper.extract(load);
+
+        String displayShipper = info.companyName != null && !info.companyName.isEmpty()
+                ? info.companyName
+                : (load.shipperName != null && !load.shipperName.isEmpty() ? load.shipperName : getString(R.string.app_name));
+        if (info.contactPerson != null && !info.contactPerson.isEmpty()) {
+            displayShipper = displayShipper + " (" + info.contactPerson + ")";
         }
-        return null;
-    }
+        String shipperLine = getString(R.string.shipper_detail, displayShipper)
+                + (load.shipperVerified ? getString(R.string.shipper_verified_mark) : "");
+        shipperText.setText(shipperLine);
+        shipperText.setVisibility(View.VISIBLE);
 
-    private static String firstMatch(Pattern p, String text) {
-        if (text == null) return null;
-        Matcher m = p.matcher(text);
-        return m.find() ? m.group(1).trim() : null;
-    }
-
-    // Native hand-off: dial or e-mail the contact found in the listing. If the listing has
-    // neither, the button is hidden rather than leading anywhere broken.
-    private void bindContactButton(Load load) {
-        Button contact = findViewById(R.id.contactShipperButton);
-        String phone = firstPhone(load.description);
-        String email = firstMatch(EMAIL, load.description);
-        if (phone != null) {
-            contact.setText(R.string.call_shipper);
-            contact.setVisibility(View.VISIBLE);
-            contact.setOnClickListener(v -> startActivitySafely(
-                    new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone.replaceAll("[^0-9+]", "")))));
-        } else if (email != null) {
-            contact.setText(R.string.email_shipper);
-            contact.setVisibility(View.VISIBLE);
-            contact.setOnClickListener(v -> startActivitySafely(
-                    new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + email))));
+        StringBuilder summary = new StringBuilder();
+        String phone = info.primaryPhone();
+        String email = info.primaryEmail();
+        if (phone != null) summary.append(phone);
+        if (email != null) {
+            if (summary.length() > 0) summary.append("  •  ");
+            summary.append(email);
+        }
+        if (summary.length() > 0) {
+            summaryView.setText(summary.toString());
+            summaryView.setVisibility(View.VISIBLE);
         } else {
-            contact.setVisibility(View.GONE);
+            summaryView.setVisibility(View.GONE);
         }
-    }
 
-    private void startActivitySafely(Intent intent) {
-        try {
-            startActivity(intent);
-        } catch (android.content.ActivityNotFoundException ignored) {
-            // No dialer / mail app installed: nothing sensible to open.
+        if (phone != null) {
+            primaryBtn.setText(R.string.call_shipper);
+            primaryBtn.setOnClickListener(v -> ContactHelper.dialPhone(this, phone, phone));
+        } else if (email != null) {
+            primaryBtn.setText(R.string.email_shipper);
+            primaryBtn.setOnClickListener(v -> ContactHelper.sendEmail(this, email, load.title));
+        } else {
+            primaryBtn.setText(R.string.contact_shipper);
+            primaryBtn.setOnClickListener(v -> ContactHelper.showContactSheet(this, load));
         }
+
+        optionsBtn.setOnClickListener(v -> ContactHelper.showContactSheet(this, load));
     }
 
     private void bind(Load load) {
         contentScroll.setVisibility(View.VISIBLE);
         currentLoad = load;
         shareButton.setVisibility(View.VISIBLE);
-        bindContactButton(load);
+        bindContactHub(load);
 
         ((TextView) findViewById(R.id.routeText)).setText(getString(R.string.route_format, load.originCity, load.destinationCity));
 
@@ -206,8 +191,6 @@ public class LoadDetailActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.weightText)).setText(getString(R.string.weight_detail, weight));
 
         TextView truckText = findViewById(R.id.truckText);
-        // Falls back to the raw value instead of hiding it - see LoadAdapter's identical
-        // comment for why (scraper vocabulary vs. this map's known keys).
         String truckLabel = load.requiredTruckType != null
                 ? TruckTypes.loadLabels(this).getOrDefault(load.requiredTruckType, load.requiredTruckType)
                 : null;
@@ -225,16 +208,6 @@ public class LoadDetailActivity extends AppCompatActivity {
             dateText.setVisibility(View.VISIBLE);
         } else {
             dateText.setVisibility(View.GONE);
-        }
-
-        TextView shipperText = findViewById(R.id.shipperText);
-        if (load.shipperName != null && !load.shipperName.isEmpty()) {
-            String shipperLine = getString(R.string.shipper_detail, load.shipperName)
-                    + (load.shipperVerified ? getString(R.string.shipper_verified_mark) : "");
-            shipperText.setText(shipperLine);
-            shipperText.setVisibility(View.VISIBLE);
-        } else {
-            shipperText.setVisibility(View.GONE);
         }
     }
 

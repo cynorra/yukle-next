@@ -103,10 +103,13 @@ public class MarketplaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace);
 
-        findViewById(R.id.movingButton).setOnClickListener(v -> {
+        View.OnClickListener openMoving = v -> {
             startActivity(new Intent(this, MovingActivity.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        });
+        };
+        findViewById(R.id.movingButton).setOnClickListener(openMoving);
+        View movingBanner = findViewById(R.id.movingHeroBanner);
+        if (movingBanner != null) movingBanner.setOnClickListener(openMoving);
 
         ImageButton notificationToggleButton = findViewById(R.id.notificationToggleButton);
         updateNotificationToggleIcon(notificationToggleButton);

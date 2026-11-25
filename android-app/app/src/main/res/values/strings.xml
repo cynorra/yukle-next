@@ -79,4 +79,18 @@
     <string name="moving_place_format" translatable="false">%1$s, %2$s</string>
     <string name="ask_for_price">Ask for price</string>
     <string name="marketplace_tagline">Find freight loads and movers, anywhere.</string>
+    <string name="moving_nav_badge">Home Moving</string>
+    <string name="moving_banner_title">Home &amp; Office Moving</string>
+    <string name="moving_banner_subtitle">Browse moving requests, find movers or post your move</string>
+    <string name="moving_banner_cta">Open</string>
+    <string name="moving_form_header">Post a Home / Office Moving Request</string>
+    <string name="contact_options_btn">WhatsApp / Options</string>
+    <string name="contact_action_call">Call: %1$s</string>
+    <string name="contact_action_whatsapp">WhatsApp: %1$s</string>
+    <string name="contact_action_sms">Send SMS: %1$s</string>
+    <string name="contact_action_email">Send Email: %1$s</string>
+    <string name="contact_action_copy">Copy contact: %1$s</string>
+    <string name="contact_action_web">Open listing on Loadly Web</string>
+    <string name="contact_copied_toast">Copied to clipboard: %1$s</string>
+    <string name="contact_not_available">Contact information not available</string>
 </resources>

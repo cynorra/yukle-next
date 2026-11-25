@@ -160,12 +160,32 @@
             android:id="@+id/priceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:textColor="@color/primary_accent"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/weightChip"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/weightChip"
             app:layout_constraintTop_toTopOf="@id/weightChip"
             tools:text="Ask for price" />
+
+        <TextView
+            android:id="@+id/quickContactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_segment_selected"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="@string/moving_contact"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_phone"
+            app:drawableTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/weightChip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/weightChip" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!-- No root background: Theme.Loadly's windowBackground already paints
-         background_dark, so this would just repaint the same color (overdraw). -->
 
     <LinearLayout
         android:id="@+id/toolbar"
@@ -40,8 +38,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <!-- Hidden until a load actually loads (see LoadDetailActivity.bind) - sharing
-             an empty/loading screen makes no sense. -->
         <ImageButton
             android:id="@+id/shareButton"
             android:layout_width="48dp"
@@ -102,7 +98,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 tools:text="İstanbul → Berlin" />
 
@@ -116,13 +112,74 @@
                 android:textStyle="bold"
                 tools:text="₺12.500" />
 
+            <!-- Dedicated Direct Contact & Action Hub Card -->
+            <LinearLayout
+                android:id="@+id/contactHubCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_moving_banner"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/shipperText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="Yük sahibi: Acme Lojistik ✓" />
+
+                <TextView
+                    android:id="@+id/contactSummaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/primary_accent"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="+90 224 443 00 24 • info@firma.com" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/contactShipperButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/primary_accent"
+                        android:text="@string/call_shipper"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/secondaryContactButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#24FFFFFF"
+                        android:text="@string/contact_options_btn"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/titleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="18dp"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 tools:text="Genel kargo yükü" />
 
             <TextView
@@ -130,7 +187,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:autoLink="phone|email|web"
+                android:linksClickable="true"
+                android:lineSpacingExtra="3dp"
                 android:textColor="@color/text_muted"
+                android:textColorLink="@color/primary_accent"
                 android:textSize="14sp"
                 tools:text="Açıklama metni burada gösterilir." />
 
@@ -166,25 +227,6 @@
                 android:textColor="@color/text_muted"
                 android:textSize="14sp"
                 tools:text="İlan tarihi: 12 Ağustos 2026" />
-
-            <TextView
-                android:id="@+id/shipperText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="Yük sahibi: Acme Lojistik ✓" />
-
-            <Button
-                android:id="@+id/contactShipperButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/primary_accent"
-                android:text="@string/contact_shipper"
-                android:textColor="@color/black" />
 
         </LinearLayout>
     </ScrollView>

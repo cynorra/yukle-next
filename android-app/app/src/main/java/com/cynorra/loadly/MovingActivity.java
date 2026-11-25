@@ -1,12 +1,10 @@
 package com.cynorra.loadly;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.LayoutInflater;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +47,8 @@ public class MovingActivity extends AppCompatActivity {
     private boolean nearbyScope = true;
 
     private TextView tabRequests, tabMovers, tabPost, tabNearby, tabGlobal, countryChip, emptyText;
-    private View scopeBar, formScroll;
+    private View scopeBar, formScroll, emptyContainer;
+    private Button emptyActionButton;
     private RecyclerView recyclerView;
     private EditText cityFilterInput;
 
@@ -71,7 +70,9 @@ public class MovingActivity extends AppCompatActivity {
         countryChip = findViewById(R.id.countryChip);
         scopeBar = findViewById(R.id.scopeBar);
         formScroll = findViewById(R.id.formScroll);
+        emptyContainer = findViewById(R.id.emptyContainer);
         emptyText = findViewById(R.id.emptyText);
+        emptyActionButton = findViewById(R.id.emptyActionButton);
         cityFilterInput = findViewById(R.id.cityFilterInput);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -96,9 +97,19 @@ public class MovingActivity extends AppCompatActivity {
             return false;
         });
 
+        if (emptyActionButton != null) {
+            emptyActionButton.setOnClickListener(v -> selectTab(TAB_POST));
+        }
+
         setupForm();
         refreshScopeUi();
         selectTab(TAB_REQUESTS);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     // ---- tabs / scope ----
@@ -113,7 +124,7 @@ public class MovingActivity extends AppCompatActivity {
         scopeBar.setVisibility(form ? View.GONE : View.VISIBLE);
         cityFilterInput.setVisibility(t == TAB_MOVERS ? View.VISIBLE : View.GONE);
         recyclerView.setVisibility(form ? View.GONE : View.VISIBLE);
-        emptyText.setVisibility(View.GONE);
+        if (emptyContainer != null) emptyContainer.setVisibility(View.GONE);
         if (!form) load();
     }
 
@@ -124,8 +135,10 @@ public class MovingActivity extends AppCompatActivity {
         load();
     }
 
+    /** Selected pill = solid orange brand pill with black bold text; idle = translucent pill. */
     private void highlight(TextView v, boolean on) {
-        v.setTextColor(getResources().getColor(on ? R.color.white : R.color.text_muted, getTheme()));
+        v.setBackgroundResource(on ? R.drawable.bg_segment_selected : R.drawable.bg_segment_idle);
+        v.setTextColor(getResources().getColor(on ? R.color.black : R.color.text_muted, getTheme()));
     }
 
     private void refreshScopeUi() {
@@ -142,9 +155,28 @@ public class MovingActivity extends AppCompatActivity {
     // ---- lists ----
 
     private void load() {
+        final String country = scopeCountry();
         if (tab == TAB_REQUESTS) {
-            client.fetchMovingRequests(scopeCountry(), LIMIT, new SupabaseClient.MovingCallback() {
+            client.fetchMovingRequests(country, LIMIT, new SupabaseClient.MovingCallback() {
                 @Override public void onSuccess(List<MovingRequest> items) {
+                    if (items.isEmpty() && country != null) {
+                        // Auto-fallback to global requests so user never stares at a dead empty screen when global requests exist
+                        client.fetchMovingRequests(null, LIMIT, new SupabaseClient.MovingCallback() {
+                            @Override public void onSuccess(List<MovingRequest> globalItems) {
+                                if (!globalItems.isEmpty()) {
+                                    nearbyScope = false;
+                                    refreshScopeUi();
+                                }
+                                List<Row> rows = new ArrayList<>();
+                                for (MovingRequest r : globalItems) rows.add(toRow(r));
+                                show(rows, R.string.moving_empty_requests);
+                            }
+                            @Override public void onError(String message) {
+                                show(new ArrayList<>(), R.string.moving_empty_requests);
+                            }
+                        });
+                        return;
+                    }
                     List<Row> rows = new ArrayList<>();
                     for (MovingRequest r : items) rows.add(toRow(r));
                     show(rows, R.string.moving_empty_requests);
@@ -152,8 +184,26 @@ public class MovingActivity extends AppCompatActivity {
                 @Override public void onError(String message) { showError(); }
             });
         } else if (tab == TAB_MOVERS) {
-            client.fetchMovers(scopeCountry(), cityFilterInput.getText().toString(), LIMIT, new SupabaseClient.MoversCallback() {
+            final String cityQuery = cityFilterInput.getText().toString();
+            client.fetchMovers(country, cityQuery, LIMIT, new SupabaseClient.MoversCallback() {
                 @Override public void onSuccess(List<Mover> items) {
+                    if (items.isEmpty() && country != null) {
+                        client.fetchMovers(null, cityQuery, LIMIT, new SupabaseClient.MoversCallback() {
+                            @Override public void onSuccess(List<Mover> globalItems) {
+                                if (!globalItems.isEmpty()) {
+                                    nearbyScope = false;
+                                    refreshScopeUi();
+                                }
+                                List<Row> rows = new ArrayList<>();
+                                for (Mover m : globalItems) rows.add(toRow(m));
+                                show(rows, R.string.moving_empty_movers);
+                            }
+                            @Override public void onError(String message) {
+                                show(new ArrayList<>(), R.string.moving_empty_movers);
+                            }
+                        });
+                        return;
+                    }
                     List<Row> rows = new ArrayList<>();
                     for (Mover m : items) rows.add(toRow(m));
                     show(rows, R.string.moving_empty_movers);
@@ -179,6 +229,7 @@ public class MovingActivity extends AppCompatActivity {
         }
         row.detail = detail.toString();
         row.contact = r.contact;
+        row.countryCode = r.originCountry;
         return row;
     }
 
@@ -189,6 +240,7 @@ public class MovingActivity extends AppCompatActivity {
         row.detail = (m.serviceRegions != null && !m.serviceRegions.isEmpty())
                 ? getString(R.string.moving_serves_detail, m.serviceRegions) : "";
         row.contact = m.contact;
+        row.countryCode = m.country;
         return row;
     }
 
@@ -199,24 +251,22 @@ public class MovingActivity extends AppCompatActivity {
     private void show(List<Row> rows, int emptyRes) {
         adapter.submit(rows);
         emptyText.setText(emptyRes);
-        emptyText.setVisibility(rows.isEmpty() ? View.VISIBLE : View.GONE);
+        if (emptyContainer != null) {
+            emptyContainer.setVisibility(rows.isEmpty() ? View.VISIBLE : View.GONE);
+        }
+        if (emptyActionButton != null) {
+            emptyActionButton.setVisibility(rows.isEmpty() ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void showError() {
         adapter.submit(new ArrayList<>());
         emptyText.setText(R.string.moving_load_error);
-        emptyText.setVisibility(View.VISIBLE);
-    }
-
-    private void contact(String value) {
-        if (value == null || value.trim().isEmpty()) return;
-        String v = value.trim();
-        Intent intent = v.contains("@")
-                ? new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + v))
-                : new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(v)));
-        try {
-            startActivity(intent);
-        } catch (Exception ignored) {
+        if (emptyContainer != null) {
+            emptyContainer.setVisibility(View.VISIBLE);
+        }
+        if (emptyActionButton != null) {
+            emptyActionButton.setVisibility(View.GONE);
         }
     }
 
@@ -323,6 +373,7 @@ public class MovingActivity extends AppCompatActivity {
         String subtitle;
         String detail;
         String contact;
+        String countryCode;
     }
 
     private final class RowAdapter extends RecyclerView.Adapter<RowAdapter.VH> {
@@ -346,10 +397,15 @@ public class MovingActivity extends AppCompatActivity {
             h.title.setText(row.title);
             setOrHide(h.subtitle, row.subtitle);
             setOrHide(h.detail, row.detail);
-            h.contactButton.setOnClickListener(v -> contact(row.contact));
+            setOrHide(h.contactValue, row.contact);
+            View.OnClickListener openContact = v -> ContactHelper.showContactSheetForRaw(
+                    MovingActivity.this, row.title, row.contact, row.countryCode);
+            h.contactButton.setOnClickListener(openContact);
+            h.itemView.setOnClickListener(openContact);
         }
 
         private void setOrHide(TextView v, String text) {
+            if (v == null) return;
             boolean has = text != null && !text.isEmpty();
             v.setVisibility(has ? View.VISIBLE : View.GONE);
             if (has) v.setText(text);
@@ -361,7 +417,7 @@ public class MovingActivity extends AppCompatActivity {
         }
 
         final class VH extends RecyclerView.ViewHolder {
-            final TextView title, subtitle, detail;
+            final TextView title, subtitle, detail, contactValue;
             final Button contactButton;
 
             VH(@NonNull View itemView) {
@@ -369,6 +425,7 @@ public class MovingActivity extends AppCompatActivity {
                 title = itemView.findViewById(R.id.titleText);
                 subtitle = itemView.findViewById(R.id.subtitleText);
                 detail = itemView.findViewById(R.id.detailText);
+                contactValue = itemView.findViewById(R.id.contactValueText);
                 contactButton = itemView.findViewById(R.id.contactButton);
             }
         }

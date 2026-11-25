@@ -121,6 +121,7 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
         private final TextView destSub;
         private final TextView weightChip;
         private final TextView priceText;
+        private final TextView quickContactButton;
 
         LoadViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -132,6 +133,7 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
             destSub = itemView.findViewById(R.id.destSub);
             weightChip = itemView.findViewById(R.id.weightChip);
             priceText = itemView.findViewById(R.id.priceText);
+            quickContactButton = itemView.findViewById(R.id.quickContactButton);
         }
 
         void bind(Load load, OnLoadClickListener listener, Map<String, String> truckLabels) {
@@ -172,6 +174,10 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
             itemView.setContentDescription(ctx.getString(R.string.route_format, load.originCity, load.destinationCity));
             installSpringPress(itemView);
             itemView.setOnClickListener(v -> listener.onLoadClick(load));
+
+            if (quickContactButton != null) {
+                quickContactButton.setOnClickListener(v -> ContactHelper.showContactSheet(ctx, load));
+            }
         }
 
         /** Cards sink slightly on touch and spring back: feels physical, costs nothing. */

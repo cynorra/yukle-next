@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="6dp"
-    app:cardBackgroundColor="@color/surface_dark"
-    app:cardCornerRadius="16dp"
+    android:layout_marginVertical="7dp"
+    app:cardBackgroundColor="#111317"
+    app:cardCornerRadius="20dp"
     app:cardElevation="0dp"
     app:strokeColor="#22FFFFFF"
     app:strokeWidth="1dp">
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView
@@ -32,23 +32,52 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="@color/primary_accent"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/detailText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="2dp"
             android:textColor="@color/text_muted"
             android:textSize="13sp" />
 
-        <Button
-            android:id="@+id/contactButton"
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="#14FFFFFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/primary_accent"
-            android:text="@string/moving_contact"
-            android:textColor="@color/black" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/contactValueText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/primary_accent"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/contactButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/primary_accent"
+                android:text="@string/moving_contact"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

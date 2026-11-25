@@ -81,7 +81,7 @@ public class SupabaseClient {
     public void fetchActiveLoads(int limit, Filter filter, ListCallback callback) {
         executor.execute(() -> {
             try {
-                String select = URLEncoder.encode("id,title,origin_city,origin_country,destination_city,destination_country,weight_ton,price,required_truck_type,load_type,created_at," + SHIPPER_SELECT, "UTF-8");
+                String select = URLEncoder.encode("id,title,description,origin_city,origin_country,destination_city,destination_country,weight_ton,price,required_truck_type,load_type,created_at," + SHIPPER_SELECT, "UTF-8");
                 StringBuilder url = new StringBuilder(SupabaseConfig.URL + "/rest/v1/loads?select=" + select
                         + "&status=eq.active&order=created_at.desc&limit=" + limit);
                 if (filter != null) {
@@ -160,10 +160,18 @@ public class SupabaseClient {
     }
 
     public void postMovingRequest(JSONObject body, PostCallback callback) {
+        postJson("/rest/v1/moving_requests", body, callback);
+    }
+
+    public void postMover(JSONObject body, PostCallback callback) {
+        postJson("/rest/v1/movers", body, callback);
+    }
+
+    private void postJson(String endpointPath, JSONObject body, PostCallback callback) {
         executor.execute(() -> {
             HttpURLConnection conn = null;
             try {
-                conn = (HttpURLConnection) new URL(SupabaseConfig.URL + "/rest/v1/moving_requests").openConnection();
+                conn = (HttpURLConnection) new URL(SupabaseConfig.URL + endpointPath).openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("apikey", SupabaseConfig.ANON_KEY);
                 conn.setRequestProperty("Authorization", "Bearer " + SupabaseConfig.ANON_KEY);

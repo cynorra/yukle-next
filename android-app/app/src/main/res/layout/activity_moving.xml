@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- Header with Back & Quick Post CTA -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="4dp"
+        android:paddingHorizontal="8dp"
         android:paddingVertical="12dp">
 
         <ImageButton
@@ -23,40 +24,61 @@
             android:src="@drawable/ic_back"
             app:tint="@color/white" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingHorizontal="4dp"
-            android:text="@string/moving_title"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:paddingHorizontal="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/moving_title"
+                android:textColor="@color/white"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/moving_banner_subtitle"
+                android:textColor="@color/text_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- Tabs: requests (movers browse), movers (users browse), post a request -->
-    <LinearLayout
+    <!-- Primary Segmented Tabs: Requests | Movers | Post Request -->
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:scrollbars="none"
         android:paddingHorizontal="12dp"
         android:paddingBottom="8dp">
 
-        <TextView
-            android:id="@+id/tabRequests"
-            style="@style/MovingTab"
-            android:text="@string/moving_tab_requests" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tabMovers"
-            style="@style/MovingTab"
-            android:text="@string/moving_tab_movers" />
+            <TextView
+                android:id="@+id/tabRequests"
+                style="@style/MovingTab"
+                android:text="@string/moving_tab_requests" />
 
-        <TextView
-            android:id="@+id/tabPost"
-            style="@style/MovingTab"
-            android:text="@string/moving_tab_post" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tabMovers"
+                style="@style/MovingTab"
+                android:text="@string/moving_tab_movers" />
+
+            <TextView
+                android:id="@+id/tabPost"
+                style="@style/MovingTab"
+                android:text="@string/moving_tab_post" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <!-- Scope row (lists only) -->
     <LinearLayout
@@ -88,7 +110,8 @@
             android:maxLines="1"
             android:padding="8dp"
             android:textColor="@color/primary_accent"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <EditText
@@ -104,7 +127,7 @@
         android:inputType="text"
         android:maxLines="1"
         android:paddingHorizontal="12dp"
-        android:paddingVertical="8dp"
+        android:paddingVertical="10dp"
         android:textColor="@color/white"
         android:textColorHint="@color/text_muted"
         android:textSize="14sp" />
@@ -121,15 +144,35 @@
             android:clipToPadding="false"
             android:paddingBottom="16dp" />
 
-        <TextView
-            android:id="@+id/emptyText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/emptyContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
             android:padding="32dp"
-            android:textColor="@color/text_muted"
-            android:textSize="14sp"
-            android:visibility="gone" />
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/text_muted"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/emptyActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:backgroundTint="@color/primary_accent"
+                android:text="@string/moving_tab_post"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <ScrollView
             android:id="@+id/formScroll"
@@ -141,8 +184,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingBottom="24dp">
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/moving_form_header"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/formOriginCountry"
@@ -192,7 +245,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/moving_public_notice"
                     android:textColor="@color/text_muted"
                     android:textSize="12sp" />
@@ -200,11 +253,13 @@
                 <Button
                     android:id="@+id/formSubmit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="14dp"
                     android:backgroundTint="@color/primary_accent"
                     android:text="@string/moving_submit"
-                    android:textColor="@color/black" />
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
