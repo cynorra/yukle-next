@@ -99,4 +99,6 @@
     <string name="moving_kvkk_consent_checkbox">I explicitly consent to my contact details being displayed to carriers/movers for this moving request and accept the Privacy &amp; KVKK Notice.</string>
     <string name="moving_kvkk_link_label">Read KVKK &amp; Privacy Notice</string>
     <string name="moving_kvkk_consent_required">Please accept the KVKK &amp; Privacy consent box to publish your listing.</string>
+    <string name="kvkk_email_subject">KVKK / GDPR Data Removal Request: %1$s</string>
+    <string name="kvkk_email_body">Hello Loadly Data Controller,\n\nUnder KVKK Article 11 / GDPR, I request the removal of my contact information / listing from the platform:\n\nListing: %1$s\nContact Reference: %2$s\n\nThank you.</string>
 </resources>

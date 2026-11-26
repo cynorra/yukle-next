@@ -95,4 +95,6 @@
     <string name="moving_kvkk_consent_checkbox">İletişim bilgilerimin taşınma talebim kapsamında nakliyecilere gösterilmesine açık rıza veriyor ve KVKK Aydınlatma Metni\'ni kabul ediyorum.</string>
     <string name="moving_kvkk_link_label">KVKK Aydınlatma Metni ve Gizlilik Politikası\'nı Oku</string>
     <string name="moving_kvkk_consent_required">İlanı yayınlamak için lütfen KVKK açık rıza kutusunu onaylayın.</string>
+    <string name="kvkk_email_subject">KVKK m.11 Veri ve İlan Kaldırma Talebi: %1$s</string>
+    <string name="kvkk_email_body">Merhaba Loadly Veri Sorumlusu,\n\n6698 sayılı KVKK m. 11 kapsamında aşağıdaki ilanda yer alan iletişim bilgilerimin / ilanımın platformdan kaldırılmasını talep ediyorum:\n\nİlan: %1$s\nİletişim Verisi: %2$s\n\nTeşekkürler.</string>
 </resources>

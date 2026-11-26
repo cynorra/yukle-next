@@ -268,13 +268,10 @@ public final class ContactHelper {
      */
     public static void requestKvkkTakedown(Context context, String title, String loadId, String contactRef) {
         String idPart = (loadId != null && !loadId.isEmpty()) ? (" (ID: " + loadId + ")") : "";
-        String contactPart = (contactRef != null && !contactRef.isEmpty()) ? ("\nİletişim Verisi / Contact: " + contactRef) : "";
-        String subject = "KVKK / GDPR Veri Kaldırma Talebi: " + (title != null ? title : "") + idPart;
-        String body = "Merhaba Loadly Veri Sorumlusu,\n\n"
-                + "6698 sayılı KVKK m. 11 kapsamında aşağıdaki ilanda yer alan iletişim bilgilerimin / ilanımın platformdan kaldırılmasını talep ediyorum:\n\n"
-                + "İlan: " + (title != null ? title : "-") + idPart
-                + contactPart
-                + "\n\nTeşekkürler.";
+        String fullTitle = (title != null ? title : "-") + idPart;
+        String cleanContact = (contactRef != null && !contactRef.isEmpty()) ? contactRef : "-";
+        String subject = context.getString(R.string.kvkk_email_subject, fullTitle);
+        String body = context.getString(R.string.kvkk_email_body, fullTitle, cleanContact);
         try {
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:info@loadlyapp.com"));
             intent.putExtra(Intent.EXTRA_SUBJECT, subject);
