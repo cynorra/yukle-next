@@ -242,13 +242,35 @@
                     android:hint="@string/moving_contact_hint"
                     android:inputType="text" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/moving_public_notice"
-                    android:textColor="@color/text_muted"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_filter_input"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <CheckBox
+                        android:id="@+id/formKvkkConsent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/primary_accent"
+                        android:paddingStart="6dp"
+                        android:text="@string/moving_kvkk_consent_checkbox"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/formPrivacyLink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:paddingVertical="4dp"
+                        android:text="@string/moving_kvkk_link_label"
+                        android:textColor="@color/primary_accent"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/formSubmit"

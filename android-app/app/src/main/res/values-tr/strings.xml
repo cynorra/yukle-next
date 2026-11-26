@@ -89,4 +89,10 @@
     <string name="contact_action_web">İlanı Loadly Web\'de Aç</string>
     <string name="contact_copied_toast">Panoya kopyalandı: %1$s</string>
     <string name="contact_not_available">İletişim bilgisi bulunamadı</string>
+    <string name="kvkk_external_notice">Dış kaynaklı ilanlardaki iletişim bilgileri, yük taşımacılığı amacıyla ilgili mecralarda alenileştirilmiş ticari verilerdir. KVKK veri minimizasyonu gereği numaralar kısmen maskelenmiştir.</string>
+    <string name="kvkk_report_remove_action">İlanı Bildir / Kaldırma Talebi (KVKK m.11)</string>
+    <string name="kvkk_takedown_toast">Kaldırma talebinizi info@loadlyapp.com adresine iletebilirsiniz.</string>
+    <string name="moving_kvkk_consent_checkbox">İletişim bilgilerimin taşınma talebim kapsamında nakliyecilere gösterilmesine açık rıza veriyor ve KVKK Aydınlatma Metni\'ni kabul ediyorum.</string>
+    <string name="moving_kvkk_link_label">KVKK Aydınlatma Metni ve Gizlilik Politikası\'nı Oku</string>
+    <string name="moving_kvkk_consent_required">İlanı yayınlamak için lütfen KVKK açık rıza kutusunu onaylayın.</string>
 </resources>

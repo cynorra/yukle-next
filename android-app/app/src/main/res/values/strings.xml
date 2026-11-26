@@ -93,4 +93,10 @@
     <string name="contact_action_web">Open listing on Loadly Web</string>
     <string name="contact_copied_toast">Copied to clipboard: %1$s</string>
     <string name="contact_not_available">Contact information not available</string>
+    <string name="kvkk_external_notice">Contact details on external freight listings are publicly disclosed commercial contact data for load transport. Contact numbers are masked until requested.</string>
+    <string name="kvkk_report_remove_action">Report / Request Data Removal (KVKK / GDPR)</string>
+    <string name="kvkk_takedown_toast">Send your removal request to info@loadlyapp.com</string>
+    <string name="moving_kvkk_consent_checkbox">I explicitly consent to my contact details being displayed to carriers/movers for this moving request and accept the Privacy &amp; KVKK Notice.</string>
+    <string name="moving_kvkk_link_label">Read KVKK &amp; Privacy Notice</string>
+    <string name="moving_kvkk_consent_required">Please accept the KVKK &amp; Privacy consent box to publish your listing.</string>
 </resources>

@@ -122,8 +122,9 @@ public class LoadDetailActivity extends AppCompatActivity {
         String displayShipper = info.companyName != null && !info.companyName.isEmpty()
                 ? info.companyName
                 : (load.shipperName != null && !load.shipperName.isEmpty() ? load.shipperName : getString(R.string.app_name));
-        if (info.contactPerson != null && !info.contactPerson.isEmpty()) {
-            displayShipper = displayShipper + " (" + info.contactPerson + ")";
+        String maskedPerson = info.maskedContactPerson();
+        if (maskedPerson != null && !maskedPerson.isEmpty()) {
+            displayShipper = displayShipper + " (" + maskedPerson + ")";
         }
         String shipperLine = getString(R.string.shipper_detail, displayShipper)
                 + (load.shipperVerified ? getString(R.string.shipper_verified_mark) : "");
@@ -133,10 +134,10 @@ public class LoadDetailActivity extends AppCompatActivity {
         StringBuilder summary = new StringBuilder();
         String phone = info.primaryPhone();
         String email = info.primaryEmail();
-        if (phone != null) summary.append(phone);
+        if (phone != null) summary.append(ContactHelper.maskContactPreview(phone));
         if (email != null) {
             if (summary.length() > 0) summary.append("  •  ");
-            summary.append(email);
+            summary.append(ContactHelper.maskContactPreview(email));
         }
         if (summary.length() > 0) {
             summaryView.setText(summary.toString());
@@ -157,6 +158,12 @@ public class LoadDetailActivity extends AppCompatActivity {
         }
 
         optionsBtn.setOnClickListener(v -> ContactHelper.showContactSheet(this, load));
+
+        View kvkkBtn = findViewById(R.id.kvkkRemoveButton);
+        if (kvkkBtn != null) {
+            kvkkBtn.setOnClickListener(v -> ContactHelper.requestKvkkTakedown(
+                    this, load.title, load.id, phone != null ? phone : email));
+        }
     }
 
     private void bind(Load load) {
@@ -179,7 +186,7 @@ public class LoadDetailActivity extends AppCompatActivity {
 
         TextView descriptionText = findViewById(R.id.descriptionText);
         if (load.description != null && !load.description.isEmpty()) {
-            descriptionText.setText(load.description);
+            descriptionText.setText(ContactHelper.sanitizeDescriptionForDisplay(load.description));
             descriptionText.setVisibility(View.VISIBLE);
         } else {
             descriptionText.setVisibility(View.GONE);

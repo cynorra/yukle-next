@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class MovingActivity extends AppCompatActivity {
 
     private TextView formOriginCountry, formDestCountry, formDate;
     private EditText formOriginCity, formDestCity, formHomeSize, formItems, formContact;
+    private CheckBox formKvkkConsent;
     private String originCountry, destCountry, moveDate;
 
     @Override
@@ -284,6 +286,11 @@ public class MovingActivity extends AppCompatActivity {
         formHomeSize = findViewById(R.id.formHomeSize);
         formItems = findViewById(R.id.formItems);
         formContact = findViewById(R.id.formContact);
+        formKvkkConsent = findViewById(R.id.formKvkkConsent);
+        View privacyLink = findViewById(R.id.formPrivacyLink);
+        if (privacyLink != null) {
+            privacyLink.setOnClickListener(v -> ContactHelper.openPrivacyPolicy(this));
+        }
 
         originCountry = LoadlyApplication.getBrowseCountry(this);
         destCountry = originCountry;
@@ -320,6 +327,10 @@ public class MovingActivity extends AppCompatActivity {
         String contact = formContact.getText().toString().trim();
         if (originCity.isEmpty() || destCity.isEmpty() || contact.length() < 3) {
             Toast.makeText(this, R.string.moving_required, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (formKvkkConsent != null && !formKvkkConsent.isChecked()) {
+            Toast.makeText(this, R.string.moving_kvkk_consent_required, Toast.LENGTH_SHORT).show();
             return;
         }
         try {
@@ -400,7 +411,7 @@ public class MovingActivity extends AppCompatActivity {
             h.title.setText(row.title);
             setOrHide(h.subtitle, row.subtitle);
             setOrHide(h.detail, row.detail);
-            setOrHide(h.contactValue, row.contact);
+            setOrHide(h.contactValue, ContactHelper.maskContactPreview(row.contact));
             View.OnClickListener openContact = v -> ContactHelper.showContactSheetForRaw(
                     MovingActivity.this, row.title, row.contact, row.countryCode);
             h.contactButton.setOnClickListener(openContact);
