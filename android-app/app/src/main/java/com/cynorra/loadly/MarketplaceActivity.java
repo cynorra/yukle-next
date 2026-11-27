@@ -148,6 +148,7 @@ public class MarketplaceActivity extends AppCompatActivity {
         setupScopeBar();
         requestAppPermissions();
         if (!handleIncomingIntent(getIntent())) fetchLoads();
+        ReviewPromptHelper.maybePrompt(this);
     }
 
     @Override

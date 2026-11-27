@@ -24,8 +24,8 @@ android {
         applicationId = "app.yukbul.android"
         minSdk = 24
         targetSdk = 36
-        versionCode = 15
-        versionName = "1.12"
+        versionCode = 16
+        versionName = "1.13"
     }
 
     signingConfigs {
@@ -86,6 +86,7 @@ dependencies {
     // GDPR/UK consent (Google's User Messaging Platform) - required before
     // requesting ads for EEA/UK users, see MainActivity.requestConsentThenLoadAds
     implementation(libs.user.messaging.platform)
+    implementation("com.google.android.play:review:2.0.2")
 
     // Firebase Cloud Messaging (push notifications, incl. while the app is closed)
     implementation(platform(libs.firebase.bom))
