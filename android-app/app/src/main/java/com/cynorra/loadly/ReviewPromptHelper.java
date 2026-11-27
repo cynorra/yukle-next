@@ -28,7 +28,7 @@ public final class ReviewPromptHelper {
     private static final String KEY_PROMPT_COUNT = "prompt_count";
     private static final String KEY_LAST_PROMPT_AT = "last_prompt_at";
 
-    private static final int MIN_LAUNCHES = 3;
+    private static final int MIN_LAUNCHES = 2;
     private static final int MAX_PROMPTS = 2;
     private static final long COOLDOWN_MS = 21L * 24L * 60L * 60L * 1000L;
 
