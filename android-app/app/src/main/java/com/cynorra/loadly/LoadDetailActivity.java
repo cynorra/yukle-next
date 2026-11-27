@@ -252,20 +252,22 @@ public class LoadDetailActivity extends AppCompatActivity {
             });
         }
 
+        boolean imperial = FreightMetrics.isImperial(load.originCountry);
+
+        RouteMapView detailMap = findViewById(R.id.detailRouteMap);
+        if (detailMap != null) {
+            detailMap.setCompactMode(false);
+            detailMap.setTapHintLabel(getString(R.string.route_map_open_maps));
+            detailMap.setRoute(load.originCity, load.originCountry,
+                    load.destinationCity, load.destinationCountry, imperial);
+            UiMotion.attachSpringPress(detailMap);
+            detailMap.setOnClickListener(v -> openGoogleMapsRoute(load));
+        }
+
         View routeBtn = findViewById(R.id.routeMapButton);
         if (routeBtn != null) {
             UiMotion.attachSpringPress(routeBtn);
-            routeBtn.setOnClickListener(v -> {
-                String orig = load.originCity != null ? load.originCity : "";
-                String dest = load.destinationCity != null ? load.destinationCity : "";
-                String url = "https://www.google.com/maps/dir/?api=1&origin="
-                        + android.net.Uri.encode(orig)
-                        + "&destination=" + android.net.Uri.encode(dest)
-                        + "&travelmode=driving";
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url)));
-                } catch (Exception ignored) {}
-            });
+            routeBtn.setOnClickListener(v -> openGoogleMapsRoute(load));
         }
 
         View fmcsaBtn = findViewById(R.id.fmcsaCheckButton);
@@ -300,7 +302,6 @@ public class LoadDetailActivity extends AppCompatActivity {
         }
 
         // Profit & Rate/Mile Calculator (100% localized via strings.xml)
-        boolean imperial = FreightMetrics.isImperial(load.originCountry);
         String sym = FreightMetrics.currencySymbol(load.originCountry);
         String unit = imperial ? "mi" : "km";
         TextView calcHeader = findViewById(R.id.calcHeaderTitle);
@@ -318,7 +319,18 @@ public class LoadDetailActivity extends AppCompatActivity {
         if (payIn != null && load.price != null && load.price > 0) {
             payIn.setText(String.format(Locale.US, "%.0f", load.price));
         }
-        if (milesIn != null) milesIn.setHint(imperial ? R.string.pro_calc_miles_hint : R.string.pro_calc_km_hint);
+        if (milesIn != null) {
+            milesIn.setHint(imperial ? R.string.pro_calc_miles_hint : R.string.pro_calc_km_hint);
+            GeoCoordResolver.resolveAsync(this, load.originCity, load.originCountry,
+                    load.destinationCity, load.destinationCountry, (o, d) -> {
+                        if (milesIn.getText().toString().trim().isEmpty()) {
+                            int estDist = GeoCoordResolver.estimateRoadDistance(o, d, imperial);
+                            if (estDist > 0) {
+                                milesIn.setText(String.valueOf(estDist));
+                            }
+                        }
+                    });
+        }
         if (mpgIn != null && !imperial) {
             mpgIn.setHint(R.string.pro_calc_kml_hint);
             mpgIn.setText("3.5");
@@ -350,6 +362,19 @@ public class LoadDetailActivity extends AppCompatActivity {
                     android.widget.Toast.makeText(this, R.string.pro_calc_missing_input, android.widget.Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private void openGoogleMapsRoute(Load load) {
+        String orig = load.originCity != null ? load.originCity : "";
+        String dest = load.destinationCity != null ? load.destinationCity : "";
+        String url = "https://www.google.com/maps/dir/?api=1&origin="
+                + android.net.Uri.encode(orig)
+                + "&destination=" + android.net.Uri.encode(dest)
+                + "&travelmode=driving";
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url)));
+        } catch (Exception ignored) {
         }
     }
 

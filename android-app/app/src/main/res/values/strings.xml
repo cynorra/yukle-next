@@ -153,4 +153,6 @@
     <string name="pro_calc_run">Calculate</string>
     <string name="pro_calc_missing_input">Enter Pay and Distance to calculate</string>
     <string name="pro_calc_result">Gross: %1$s%2$s/%3$s • Fuel: %1$s%4$s\nNet Profit: %1$s%5$s (%1$s%6$s/%3$s net)</string>
+    <string name="route_map_open_maps">Open Maps ↗</string>
+    <string name="route_map_cd">Route map preview</string>
 </resources>

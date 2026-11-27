@@ -122,6 +122,16 @@
                 android:textStyle="bold"
                 tools:text="₺12.500" />
 
+            <!-- Minimalist Dark Route Map Preview (Origin → Destination) -->
+            <com.cynorra.loadly.RouteMapView
+                android:id="@+id/detailRouteMap"
+                android:layout_width="match_parent"
+                android:layout_height="168dp"
+                android:layout_marginTop="14dp"
+                android:clickable="true"
+                android:contentDescription="@string/route_map_cd"
+                android:focusable="true" />
+
             <!-- Dedicated Direct Contact & Action Hub Card -->
             <LinearLayout
                 android:id="@+id/contactHubCard"

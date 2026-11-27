@@ -149,4 +149,6 @@
     <string name="pro_calc_run">Hesapla</string>
     <string name="pro_calc_missing_input">Hesaplamak için Ücret ve Mesafe girin</string>
     <string name="pro_calc_result">Brüt: %1$s%2$s/%3$s • Yakıt: %1$s%4$s\nNet Kâr: %1$s%5$s (%1$s%6$s/%3$s net)</string>
+    <string name="route_map_open_maps">Haritada Aç ↗</string>
+    <string name="route_map_cd">Rota haritası önizlemesi</string>
 </resources>

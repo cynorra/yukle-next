@@ -135,17 +135,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/destCity" />
 
+        <com.cynorra.loadly.RouteMapView
+            android:id="@+id/miniRouteMap"
+            android:layout_width="96dp"
+            android:layout_height="78dp"
+            android:contentDescription="@string/route_map_cd"
+            app:layout_constraintBottom_toBottomOf="@id/destSub"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/dotOrigin" />
+
         <TextView
             android:id="@+id/originCity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/miniRouteMap"
             app:layout_constraintStart_toEndOf="@id/dotOrigin"
             app:layout_constraintTop_toTopOf="@id/dotOrigin"
             tools:text="Charlotte" />
@@ -155,11 +165,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/text_muted"
             android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/miniRouteMap"
             app:layout_constraintStart_toEndOf="@id/dotOrigin"
             app:layout_constraintTop_toBottomOf="@id/originCity"
             tools:text="United States" />
@@ -170,12 +181,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="18dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/miniRouteMap"
             app:layout_constraintStart_toEndOf="@id/dotOrigin"
             app:layout_constraintTop_toBottomOf="@id/originSub"
             tools:text="Houston" />
@@ -185,11 +197,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/text_muted"
             android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/miniRouteMap"
             app:layout_constraintStart_toEndOf="@id/dotOrigin"
             app:layout_constraintTop_toBottomOf="@id/destCity"
             tools:text="United States" />

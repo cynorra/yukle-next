@@ -234,6 +234,7 @@ public class LoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final TextView weightChip;
         private final TextView priceText;
         private final TextView quickContactButton;
+        private final RouteMapView miniRouteMap;
 
         LoadViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -249,6 +250,10 @@ public class LoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             weightChip = itemView.findViewById(R.id.weightChip);
             priceText = itemView.findViewById(R.id.priceText);
             quickContactButton = itemView.findViewById(R.id.quickContactButton);
+            miniRouteMap = itemView.findViewById(R.id.miniRouteMap);
+            if (miniRouteMap != null) {
+                miniRouteMap.setCompactMode(true);
+            }
         }
 
         void bind(Load load, OnLoadClickListener listener, Map<String, String> truckLabels) {
@@ -258,6 +263,13 @@ public class LoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             originSub.setText(orDash(load.originCountry));
             destCity.setText(orDash(load.destinationCity));
             destSub.setText(orDash(load.destinationCountry));
+
+            if (miniRouteMap != null) {
+                miniRouteMap.setRoute(
+                        load.originCity, load.originCountry,
+                        load.destinationCity, load.destinationCountry,
+                        FreightMetrics.isImperial(load.originCountry));
+            }
 
             if (load.price != null && load.price > 0) {
                 priceText.setText(FreightMetrics.formatPrice(ctx, load));
