@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sv_background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Minimal Mode Switcher -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/sv_surface_container_box"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/modeFreightBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Kurumsal Yük"
+                android:textColor="@color/sv_on_surface_variant"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/modeMovingBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/sv_segment_active_white"
+                android:gravity="center"
+                android:text="Ev &amp; Ofis Nakliyesi"
+                android:textColor="@color/sv_primary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Hero Title -->
+        <TextView
+            android:id="@+id/heroTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Nakliye İlanı Oluştur"
+            android:textColor="@color/sv_primary"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/heroSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Doğrulanmış nakliyecilerden şeffaf ve bağlayıcı teklifler alın."
+            android:textColor="@color/sv_outline"
+            android:textSize="13sp" />
+
+        <!-- 1. Taşınma Türü -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/step1Label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Taşınma Türü"
+                android:textColor="@color/sv_primary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adım 1/3"
+                android:textColor="@color/sv_outline"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 2x2 Type Grid -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/typeCard1"
+                android:layout_width="0dp"
+                android:layout_height="98dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/sv_card_selected"
+                android:orientation="vertical"
+                android:padding="14dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="🏠"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/typeCheck1"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/sv_circle_primary"
+                        android:gravity="center"
+                        android:text="✓"
+                        android:textColor="@color/sv_on_primary"
+                        android:textSize="11sp" />
+                </LinearLayout>
+                <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/typeTitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Evden Eve"
+                    android:textColor="@color/sv_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/typeSub1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daire, rezidans, villa"
+                    android:textColor="@color/sv_outline"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/typeCard2"
+                android:layout_width="0dp"
+                android:layout_height="98dp"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/sv_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="🏢"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/typeCheck2"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/sv_circle_primary"
+                        android:gravity="center"
+                        android:text="✓"
+                        android:textColor="@color/sv_on_primary"
+                        android:textSize="11sp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/typeTitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ofis &amp; İşyeri"
+                    android:textColor="@color/sv_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/typeSub2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Masa, arşiv &amp; donanım"
+                    android:textColor="@color/sv_outline"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/typeCard3"
+                android:layout_width="0dp"
+                android:layout_height="98dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/sv_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📦"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/typeCheck3"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/sv_circle_primary"
+                        android:gravity="center"
+                        android:text="✓"
+                        android:textColor="@color/sv_on_primary"
+                        android:textSize="11sp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/typeTitle3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Parça Eşya"
+                    android:textColor="@color/sv_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/typeSub3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1-5 parça tekil nakliye"
+                    android:textColor="@color/sv_outline"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/typeCard4"
+                android:layout_width="0dp"
+                android:layout_height="98dp"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/sv_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="⚡"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/typeCheck4"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/sv_circle_primary"
+                        android:gravity="center"
+                        android:text="✓"
+                        android:textColor="@color/sv_on_primary"
+                        android:textSize="11sp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/typeTitle4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hızlı Nakliye"
+                    android:textColor="@color/sv_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/typeSub4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aynı gün hafif kamyonet"
+                    android:textColor="@color/sv_outline"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 2. Güzergah & Tarih -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Güzergah &amp; Tarih"
+                android:textColor="@color/sv_primary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/routeDistanceSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:text="452 km · 5s 15dk"
+                android:textColor="@color/sv_outline"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sv_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Origin Row -->
+            <LinearLayout
+                android:id="@+id/originRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/sv_circle_primary" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/originCityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kadıköy, İstanbul"
+                        android:textColor="@color/sv_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/originAddressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Moda Cad. No: 42 (Düzenlemek için dokun)"
+                        android:textColor="@color/sv_outline"
+                        android:textSize="11sp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/originFloorBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sv_surface_low_box"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="3. Kat · Asansörlü"
+                    android:textColor="@color/sv_on_surface_variant"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginVertical="2dp"
+                android:background="@color/sv_outline_variant" />
+
+            <!-- Destination Row -->
+            <LinearLayout
+                android:id="@+id/destRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/sv_circle_blue" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/destCityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Çankaya, Ankara"
+                        android:textColor="@color/sv_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/destAddressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kuleli Sok. No: 18 (Düzenlemek için dokun)"
+                        android:textColor="@color/sv_outline"
+                        android:textSize="11sp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/destFloorBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sv_surface_low_box"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="2. Kat · Merdiven"
+                    android:textColor="@color/sv_on_surface_variant"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="12dp"
+                android:background="@color/sv_outline_variant" />
+
+            <!-- Date Row -->
+            <LinearLayout
+                android:id="@+id/datePickerRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/selectedDateText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📅  28 Ekim 2026, Çarşamba"
+                    android:textColor="@color/sv_primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="±1 Gün Esnek"
+                    android:textColor="@color/sv_outline"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 3. Hacim & Hizmetler -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Hacim &amp; Hizmetler"
+            android:textColor="@color/sv_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sv_card"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/volumeTitleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3+1 Standart Daire"
+                        android:textColor="@color/sv_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/volumeSubText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:text="Tahmini hacim: ~50 m³"
+                        android:textColor="@color/sv_outline"
+                        android:textSize="11sp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/changeVolumeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:text="Değiştir"
+                    android:textColor="@color/sv_secondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="12dp"
+                android:background="@color/sv_outline_variant" />
+
+            <!-- Service Toggles -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/srvPack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sv_pill_primary"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp"
+                    android:text="✓ Paketleme"
+                    android:textColor="@color/sv_on_primary"
+                    android:textSize="11sp" />
+                <TextView
+                    android:id="@+id/srvAssembly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/sv_pill_primary"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp"
+                    android:text="✓ Montaj / Demontaj"
+                    android:textColor="@color/sv_on_primary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/srvInsurance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sv_pill_primary"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp"
+                    android:text="✓ All-Risk Sigorta"
+                    android:textColor="@color/sv_on_primary"
+                    android:textSize="11sp" />
+                <TextView
+                    android:id="@+id/srvElevator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/sv_pill_surface_low"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp"
+                    android:text="+ Dış Asansör"
+                    android:textColor="@color/sv_on_surface_variant"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 4. Tahmini Piyasa Aralığı & Güvence -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/sv_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="monospace"
+                    android:letterSpacing="0.04"
+                    android:text="TAHMİNİ PİYASA ARALIĞI"
+                    android:textColor="@color/sv_outline"
+                    android:textSize="10sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:text="Canlı Endeks"
+                    android:textColor="@color/sv_on_surface_variant"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/estimatedRangeText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="monospace"
+                    android:text="₺24.000 – ₺29.500"
+                    android:textColor="@color/sv_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Her şey dahil"
+                    android:textColor="@color/sv_outline"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="@color/sv_outline_variant" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🔒  Ödemeniz güvenli havuz hesapta tutulur, teslimat onayınızla aktarılır."
+                android:textColor="@color/sv_on_surface_variant"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Primary Action -->
+        <TextView
+            android:id="@+id/publishListingBtn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/sv_btn_primary"
+            android:gravity="center"
+            android:text="İlanı Yayınla &amp; Teklif Al  →"
+            android:textColor="@color/sv_on_primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="K1 &amp; K2 lisanslı nakliyeciler · Ücretsiz &amp; bağlayıcısız"
+            android:textColor="@color/sv_outline"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+</ScrollView>

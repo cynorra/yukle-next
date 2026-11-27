@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Sampled directly from the real brand mark (public/logo.png / brand_mark.png,
-         same asset used for the launcher icon and splash screen) - was previously a
-         golden-yellow that didn't actually match the app's own logo color at all. -->
-    <color name="primary_accent">#FB720A</color>
-    <color name="primary_accent_dark">#D45F08</color>
-    <color name="background_dark">#080808</color>
-    <color name="surface_dark">#0F0F0F</color>
-    <color name="splash_background">#0f0f13</color>
-    <color name="black">#000000</color>
+    <!-- Silent Vector Design System (2027 Quiet Luxury Light Mode) -->
+    <color name="sv_background">#F8F9FF</color>
+    <color name="sv_surface">#F8F9FF</color>
+    <color name="sv_surface_lowest">#FFFFFF</color>
+    <color name="sv_surface_low">#EFF4FF</color>
+    <color name="sv_surface_container">#E5EEFF</color>
+    <color name="sv_surface_high">#DCE9FF</color>
+    <color name="sv_surface_highest">#D3E4FE</color>
+
+    <color name="sv_primary">#091426</color>
+    <color name="sv_on_primary">#FFFFFF</color>
+    <color name="sv_primary_container">#1E293B</color>
+    <color name="sv_on_primary_container">#8590A6</color>
+
+    <color name="sv_secondary">#0051D5</color>
+    <color name="sv_on_secondary">#FFFFFF</color>
+    <color name="sv_secondary_fixed">#DBE1FF</color>
+    <color name="sv_on_secondary_fixed">#00174B</color>
+
+    <color name="sv_on_surface">#0B1C30</color>
+    <color name="sv_on_surface_variant">#45474C</color>
+    <color name="sv_outline">#75777D</color>
+    <color name="sv_outline_variant">#E2E6EE</color>
+
+    <color name="sv_tertiary_fixed">#85F8C4</color>
+    <color name="sv_tertiary_fixed_dim">#68DBA9</color>
+    <color name="sv_on_tertiary_fixed">#002114</color>
+    <color name="sv_emerald">#059669</color>
+    <color name="sv_emerald_bg">#ECFDF5</color>
+    <color name="sv_emerald_border">#A7F3D0</color>
+
+    <color name="sv_amber">#D97706</color>
+    <color name="sv_amber_bg">#FEF3C7</color>
+
+    <color name="sv_error">#BA1A1A</color>
+    <color name="sv_error_container">#FFDAD6</color>
+    <color name="sv_danger">#DC2626</color>
+    <color name="sv_danger_bg">#FEF2F2</color>
+    <color name="sv_danger_border">#FECACA</color>
+
+    <!-- Legacy aliases kept for compatibility with existing activities/widgets -->
+    <color name="primary_accent">#091426</color>
+    <color name="primary_accent_dark">#1E293B</color>
+    <color name="background_dark">#F8F9FF</color>
+    <color name="surface_dark">#FFFFFF</color>
+    <color name="splash_background">#091426</color>
+    <color name="black">#0B1C30</color>
     <color name="white">#FFFFFF</color>
-    <color name="text_muted">#94A3B8</color>
-    <color name="shimmer_placeholder">#242424</color>
+    <color name="text_muted">#75777D</color>
+    <color name="shimmer_placeholder">#E5EEFF</color>
 </resources>

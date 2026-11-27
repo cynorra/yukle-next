@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme. -->
-    <style name="Theme.Loadly" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary_accent</item>
-        <item name="colorPrimaryVariant">@color/primary_accent_dark</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/primary_accent</item>
-        <item name="colorSecondaryVariant">@color/primary_accent_dark</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/background_dark</item>
-        <!-- Window background -->
-        <item name="android:windowBackground">@color/background_dark</item>
+    <!-- Base application theme: Silent Vector Quiet Luxury Light -->
+    <style name="Theme.Loadly" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/sv_primary</item>
+        <item name="colorPrimaryVariant">@color/sv_primary_container</item>
+        <item name="colorOnPrimary">@color/sv_on_primary</item>
+        <item name="colorSecondary">@color/sv_secondary</item>
+        <item name="colorSecondaryVariant">@color/sv_secondary</item>
+        <item name="colorOnSecondary">@color/sv_on_secondary</item>
+        <item name="android:statusBarColor">@color/sv_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/sv_background</item>
+        <item name="android:windowBackground">@color/sv_background</item>
+        <item name="android:textColorPrimary">@color/sv_on_surface</item>
+        <item name="android:textColorSecondary">@color/sv_on_surface_variant</item>
     </style>
-    
-    <!-- Android 12+ (API 31+) shows its own system splash screen before any Activity
-         code runs, using this theme's windowSplashScreen* attrs - without this, the
-         OS falls back to a heuristic (usually the launcher icon on a plain background)
-         that doesn't match our branded dark splash, causing a jarring flash/color-jump
-         right before SplashActivity's own content (same background + logo) takes over.
-         On API <31, core-splashscreen makes installSplashScreen() a no-op and this
-         theme behaves like a plain windowBackground, so behavior there is unchanged. -->
+
     <style name="Theme.Loadly.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/brand_mark</item>
@@ -31,6 +24,8 @@
 
     <style name="Theme.Loadly.Splash.Post" parent="Theme.Loadly">
         <item name="android:windowBackground">@color/splash_background</item>
+        <item name="android:statusBarColor">@color/splash_background</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 
@@ -38,11 +33,11 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">6dp</item>
-        <item name="android:background">@drawable/bg_filter_input</item>
+        <item name="android:background">@drawable/sv_pill_white</item>
         <item name="android:paddingHorizontal">14dp</item>
         <item name="android:paddingVertical">8dp</item>
-        <item name="android:textColor">@color/text_muted</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/sv_on_surface_variant</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -50,11 +45,11 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">8dp</item>
-        <item name="android:background">@drawable/bg_filter_input</item>
+        <item name="android:background">@drawable/sv_input</item>
         <item name="android:paddingHorizontal">12dp</item>
         <item name="android:paddingVertical">12dp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorHint">@color/text_muted</item>
+        <item name="android:textColor">@color/sv_on_surface</item>
+        <item name="android:textColorHint">@color/sv_outline</item>
         <item name="android:textSize">14sp</item>
     </style>
 </resources>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/sv_background">
+
+    <!-- Top App Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp">
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_back"
+            app:tint="@color/sv_primary" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="Taşıyıcı Değerlendirmeleri"
+            android:textColor="@color/sv_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/openVerifyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sv_pill_surface_low"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="✓ Belgeler"
+            android:textColor="@color/sv_secondary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/sv_outline_variant" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Carrier Header -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/sv_surface_container_box"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_sv_truck"
+                    app:tint="@color/sv_primary" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/revCarrierName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ege Güven Lojistik"
+                        android:textColor="@color/sv_primary"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:text="K1 YETKİLİ BELGESİ • TIER-1 TAŞIYICI"
+                        android:textColor="@color/sv_outline"
+                        android:textSize="10sp" />
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:orientation="horizontal">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/sv_pill_emerald_soft" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="Doğrulanmış Filo" android:textColor="@color/sv_emerald" android:textSize="10sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:background="@drawable/sv_pill_blue_soft" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="Loadly Escrow Korumalı" android:textColor="@color/sv_secondary" android:textSize="10sp" android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rating Overview Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/sv_card"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/revScoreText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="monospace"
+                            android:text="4.9 / 5.0"
+                            android:textColor="@color/sv_primary"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★★★★★" android:textColor="@color/sv_secondary" android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/revCountText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="184 Doğrulanmış Değerlendirme"
+                            android:textColor="@color/sv_outline"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="5 ★  ██████████  92%" android:textColor="@color/sv_primary" android:textSize="11sp" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="4 ★  ██░░░░░░░░   7%" android:textColor="@color/sv_on_surface_variant" android:textSize="11sp" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="3 ★  █░░░░░░░░░   1%" android:textColor="@color/sv_outline" android:textSize="11sp" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="2 ★  ░░░░░░░░░░   0%" android:textColor="@color/sv_outline" android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="@color/sv_outline_variant" />
+
+                <!-- 4 Sub-Score Pills -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="@drawable/sv_surface_low_box" android:padding="10dp" android:text="Eşya Güvenliği  5.0" android:textColor="@color/sv_primary" android:textSize="11sp" android:textStyle="bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:background="@drawable/sv_surface_low_box" android:padding="10dp" android:text="Zamanlama  4.9" android:textColor="@color/sv_primary" android:textSize="11sp" android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="@drawable/sv_surface_low_box" android:padding="10dp" android:text="İletişim &amp; Nezaket  4.9" android:textColor="@color/sv_primary" android:textSize="11sp" android:textStyle="bold" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:background="@drawable/sv_surface_low_box" android:padding="10dp" android:text="Fiyat &amp; Şeffaflık  5.0" android:textColor="@color/sv_primary" android:textSize="11sp" android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Verified Gallery Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Doğrulanmış Taşınma Galerisi (42 Fotoğraf)"
+                android:textColor="@color/sv_primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Taşınma esnasında saha uzmanlarınca çekilen ve operasyon denetiminden geçen kareler."
+                android:textColor="@color/sv_outline"
+                android:textSize="11sp" />
+
+            <!-- 2x2 Gallery Cards -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:orientation="horizontal">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="5dp" android:background="@drawable/sv_card" android:orientation="vertical" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/sv_pill_emerald_soft" android:paddingHorizontal="8dp" android:paddingVertical="3dp" android:text="Hasarsız Teslim" android:textColor="@color/sv_emerald" android:textSize="10sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Kraft &amp; Balonlu Ambalajlı Koltuk Takımı" android:textColor="@color/sv_primary" android:textSize="12sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:fontFamily="monospace" android:text="Kadıköy → Çankaya • 28 Eki" android:textColor="@color/sv_outline" android:textSize="10sp" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="5dp" android:background="@drawable/sv_card" android:orientation="vertical" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/sv_pill_blue_soft" android:paddingHorizontal="8dp" android:paddingVertical="3dp" android:text="Asansör Kurulumu" android:textColor="@color/sv_secondary" android:textSize="10sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Dış Cephe Asansörü ile 8. Kattan İndirme" android:textColor="@color/sv_primary" android:textSize="12sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:fontFamily="monospace" android:text="Fenerbahçe • 22 Eki" android:textColor="@color/sv_outline" android:textSize="10sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Customer Reviews -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Müşteri Yorumları" android:textColor="@color/sv_primary" android:textSize="14sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="En Yeniler İlk Sırada" android:textColor="@color/sv_outline" android:textSize="11sp" />
+            </LinearLayout>
+
+            <!-- Review 1 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:background="@drawable/sv_card" android:orientation="vertical" android:padding="14dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Dr. Selin Y. ✓  •  ★★★★★ 5.0" android:textColor="@color/sv_primary" android:textSize="13sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="14 Eki 2026" android:textColor="@color/sv_outline" android:textSize="10sp" />
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Doğrulanmış Taşıma • 3+1 Daire (Kadıköy → Ankara)" android:textColor="@color/sv_outline" android:textSize="11sp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="“Ahmet Usta ve ekibi tam vaktinde 08:00'de kapıdaydı. Mermer masamız ve televizyon özel koruma battaniyeleri ve sandıkla sarıldı. Loadly havuz sistemi sayesinde çok huzurluyduk.”" android:textColor="@color/sv_on_surface" android:textSize="12sp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:background="@drawable/sv_surface_low_box" android:orientation="vertical" android:padding="10dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="↳ Ege Güven Lojistik Yanıtı" android:textColor="@color/sv_primary" android:textSize="11sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="“Selin Hanım, bizi tercih ettiğiniz için teşekkür ederiz. Yeni evinizde sağlık ve huzurla oturmanız dileğiyle.”" android:textColor="@color/sv_on_surface_variant" android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Review 2 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:layout_marginBottom="16dp" android:background="@drawable/sv_card" android:orientation="vertical" android:padding="14dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Murat K. ✓  •  ★★★★★ 5.0" android:textColor="@color/sv_primary" android:textSize="13sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="28 Eyl 2026" android:textColor="@color/sv_outline" android:textSize="10sp" />
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Kurumsal Ofis Nakliyesi, 35 Personel • Levent → Bursa" android:textColor="@color/sv_outline" android:textSize="11sp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="“Server kabinimiz ve 35 çalışma masası numaralandırılarak demonte edildi, ertesi gün öğlen Bursa ofisimizde çalışır haldeydi. Şirket faturası ve K1 belgesi e-devletten tam onaylıydı.”" android:textColor="@color/sv_on_surface" android:textSize="12sp" />
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:orientation="horizontal">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/sv_pill_blue_soft" android:paddingHorizontal="8dp" android:paddingVertical="3dp" android:text="Kurumsal Fatura Alındı" android:textColor="@color/sv_secondary" android:textSize="10sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:background="@drawable/sv_pill_surface_low" android:paddingHorizontal="8dp" android:paddingVertical="3dp" android:text="Zamanında Teslim" android:textColor="@color/sv_primary" android:textSize="10sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Sticky Bottom CTA -->
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/sv_outline_variant" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sv_surface_lowest"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="14dp">
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="TAŞIYICI TEKLİFİ" android:textColor="@color/sv_outline" android:textSize="10sp" />
+            <TextView android:id="@+id/revStickyPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="monospace" android:text="₺24.500 Her Şey Dahil" android:textColor="@color/sv_primary" android:textSize="15sp" android:textStyle="bold" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/revAcceptBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:background="@drawable/sv_btn_primary"
+            android:gravity="center"
+            android:paddingHorizontal="18dp"
+            android:text="Teklifi Kabul Et  →"
+            android:textColor="@color/sv_on_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

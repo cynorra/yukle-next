@@ -24,8 +24,8 @@ android {
         applicationId = "app.yukbul.android"
         minSdk = 24
         targetSdk = 36
-        versionCode = 20
-        versionName = "2.3"
+        versionCode = 22
+        versionName = "3.1"
     }
 
     signingConfigs {

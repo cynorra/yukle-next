@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/sv_card"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Top Badges + Time -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/badgeCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sv_pill_surface_low"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:text="Evden Eve (3+1 Daire)"
+            android:textColor="@color/sv_on_surface"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/badgeSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/sv_pill_blue_soft"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="K1/K2 Yetkili"
+            android:textColor="@color/sv_secondary"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/timeAgoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="24 dk önce"
+            android:textColor="@color/sv_outline"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Route Title -->
+    <TextView
+        android:id="@+id/routeTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Kadıköy, İstanbul → Çankaya, Ankara"
+        android:textColor="@color/sv_primary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Distance + Date + Map Toggle -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/metaLineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="452 km • 28 Ekim 2026"
+            android:textColor="@color/sv_on_surface_variant"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/toggleMapBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Haritada Göster"
+            android:textColor="@color/sv_secondary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Details Box -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/sv_surface_low_box"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/detailLine1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3. Kat (Asansörlü) → 2. Kat (Geniş Merdiven)"
+            android:textColor="@color/sv_on_surface"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/detailLine2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Paketleme &amp; Demontaj/Marangozluk Dahil"
+            android:textColor="@color/sv_on_surface_variant"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Expandable Route & Telematics Box (Silent Vector) -->
+    <LinearLayout
+        android:id="@+id/telematicsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/sv_surface_low_box"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Güzergah &amp; Telematik"
+                android:textColor="@color/sv_primary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/highwayBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sv_pill_blue_soft"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
+                android:text="O-4 Anadolu Otoyolu"
+                android:textColor="@color/sv_secondary"
+                android:textSize="10sp"
+                android:fontFamily="monospace" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tollEstimateText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/sv_pill_white"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="6dp"
+                android:text="₺465 Tahmini HGS"
+                android:textColor="@color/sv_on_surface"
+                android:textSize="11sp"
+                android:fontFamily="monospace" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/sv_pill_white"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="6dp"
+                android:text="✓ Gabari Uygun"
+                android:textColor="@color/sv_emerald"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <com.cynorra.loadly.RouteMapView
+            android:id="@+id/routeMapView"
+            android:layout_width="match_parent"
+            android:layout_height="136dp"
+            android:layout_marginTop="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/telematicsSummary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:text="5s 15dk • Trafik Akıcı"
+                android:textColor="@color/sv_on_surface_variant"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/openGoogleMapsBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sv_pill_white"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="Google Haritalar ↗"
+                android:textColor="@color/sv_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bottom Price + Bid CTA -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.04"
+                android:text="HEDEF BÜTÇE ARALIĞI"
+                android:textColor="@color/sv_outline"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/budgetRangeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="monospace"
+                android:text="₺24.000 - ₺28.500"
+                android:textColor="@color/sv_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/offerCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="monospace"
+                android:text="6 Teklif Alındı"
+                android:textColor="@color/sv_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bidActionBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/sv_btn_primary"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:text="Teklif Ver  ›"
+            android:textColor="@color/sv_on_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>
