@@ -50,7 +50,7 @@
 - [x] **Native "Post a Load" (Yük Ekle) + "Taken" (Ölü İlan Gizle) + Rota Haritası (Google Maps Directions).**
 - [x] **R8 Minification & Resource Shrinking (`isMinifyEnabled = true`, `isShrinkResources = true`) + ProGuard kuralları.**
 
-### Faz 4 — Sonraki Adımlar (`v2.1+`)
-- [ ] **Liste İçi Native Ads:** Her 8 yük kartında 1 adet tasarıma tam uyumlu native reklam.
-- [ ] **Sunucu Taraflı FCM Güzergâh Alarmı:** 5 dk'lık scraper'ın Supabase `lane_alerts` tablosuyla arka planda push göndermesi.
-- [ ] **ABD Niş ASO:** *"Free Load Board: Box Truck, Sprinter Van & Hotshot"* odaklı Google Play mağaza girişi.
+### Faz 4 — Ölçek & Gelir (`v2.1`, `versionCode=18` — Tamamlandı)
+- [x] **Liste İçi Native Ads (`ca-app-pub-4674211063760769/7217177166`):** Her 8 yük kartında 1 adet tasarıma tam uyumlu native reklam (`item_native_ad.xml`, `AdsHelper.loadNativeFeedAd`, `LoadAdapter`).
+- [x] **Arka Plan FCM Güzergâh Push Alarmı:** Kaydedilen her güzergâh için otomatik FCM topic aboneliği (`lane_<origin>_<dest>`) + `FcmService` eşleşen push bildirimlerini `🔥 Lane Alert:` olarak öne çıkarır.
+- [x] **ABD Niş ASO Paketi:** `store_listing/us-niche-aso-v2.1.md` (*"Free Load Board: Box Truck, Sprinter Van & Hotshot"* + TR).

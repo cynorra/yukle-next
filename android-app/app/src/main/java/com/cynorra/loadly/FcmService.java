@@ -34,6 +34,7 @@ public class FcmService extends FirebaseMessagingService {
         // Topic subscriptions are per-token - a rotated token starts with none of them,
         // so the previously-subscribed country topic must be re-subscribed under it.
         LoadlyApplication.resubscribeCurrentTopicIfNeeded(this);
+        LoadPreferences.resubscribeAllLaneTopics(this);
     }
 
     @Override
@@ -51,6 +52,17 @@ public class FcmService extends FirebaseMessagingService {
         if (body == null) body = message.getData().get("body");
         if (title == null) title = getString(R.string.app_name);
         if (body == null) body = "";
+
+        // Highlight pushes that match one of the driver's saved Lane Alerts
+        String combined = (title + " " + body).toLowerCase(java.util.Locale.US);
+        for (LoadPreferences.LaneAlert alert : LoadPreferences.getLaneAlerts(this)) {
+            boolean oOk = alert.origin.isEmpty() || combined.contains(alert.origin.toLowerCase(java.util.Locale.US));
+            boolean dOk = alert.destination.isEmpty() || combined.contains(alert.destination.toLowerCase(java.util.Locale.US));
+            if (oOk && dOk && (!alert.origin.isEmpty() || !alert.destination.isEmpty())) {
+                title = "🔥 Lane Alert: " + title;
+                break;
+            }
+        }
 
         String targetUrl = message.getData().get("target_url");
         showNotification(title, body, targetUrl);

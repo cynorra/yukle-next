@@ -151,7 +151,8 @@ public class MarketplaceActivity extends AppCompatActivity {
         retryButton.setOnClickListener(v -> fetchLoads());
 
         adView = findViewById(R.id.adView);
-        AdsHelper.requestConsentThenLoadBanner(this, adView, null);
+        AdsHelper.requestConsentThenLoadBanner(this, adView, () ->
+                AdsHelper.loadNativeFeedAd(this, nativeAd -> adapter.setNativeAd(nativeAd)));
 
         setupFilterBar();
         setupScopeBar();
@@ -561,6 +562,7 @@ public class MarketplaceActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (adView != null) adView.destroy();
+        if (adapter != null) adapter.destroyNativeAd();
         stopLocationUpdates();
         super.onDestroy();
     }

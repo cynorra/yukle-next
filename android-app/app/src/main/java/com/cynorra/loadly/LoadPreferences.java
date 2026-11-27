@@ -159,14 +159,54 @@ public final class LoadPreferences {
         List<LaneAlert> list = getLaneAlerts(ctx);
         list.add(alert);
         saveLaneAlerts(ctx, list);
+        subscribeLaneTopic(alert);
     }
 
     public static void removeLaneAlert(Context ctx, int index) {
         List<LaneAlert> list = getLaneAlerts(ctx);
         if (index >= 0 && index < list.size()) {
-            list.remove(index);
+            LaneAlert removed = list.remove(index);
             saveLaneAlerts(ctx, list);
+            unsubscribeLaneTopic(removed);
         }
+    }
+
+    public static void resubscribeAllLaneTopics(Context ctx) {
+        for (LaneAlert a : getLaneAlerts(ctx)) {
+            subscribeLaneTopic(a);
+        }
+    }
+
+    private static String laneTopicName(LaneAlert alert) {
+        String o = sanitizeTopic(alert.origin);
+        String d = sanitizeTopic(alert.destination);
+        if (!o.isEmpty() && !d.isEmpty()) return "lane_" + o + "_" + d;
+        if (!o.isEmpty()) return "lane_from_" + o;
+        if (!d.isEmpty()) return "lane_to_" + d;
+        return null;
+    }
+
+    private static String sanitizeTopic(String s) {
+        if (s == null) return "";
+        String clean = s.trim().toLowerCase(Locale.US).replaceAll("[^a-z0-9]+", "_");
+        clean = clean.replaceAll("^_+|_+$", "");
+        return clean.length() > 32 ? clean.substring(0, 32) : clean;
+    }
+
+    private static void subscribeLaneTopic(LaneAlert alert) {
+        String topic = laneTopicName(alert);
+        if (topic == null) return;
+        try {
+            com.google.firebase.messaging.FirebaseMessaging.getInstance().subscribeToTopic(topic);
+        } catch (Exception ignored) {}
+    }
+
+    private static void unsubscribeLaneTopic(LaneAlert alert) {
+        String topic = laneTopicName(alert);
+        if (topic == null) return;
+        try {
+            com.google.firebase.messaging.FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+        } catch (Exception ignored) {}
     }
 
     private static void saveLaneAlerts(Context ctx, List<LaneAlert> list) {

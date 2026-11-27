@@ -4,6 +4,8 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynorra.loadly.model.Load;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +24,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder> {
+public class LoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int VIEW_TYPE_LOAD = 0;
+    private static final int VIEW_TYPE_NATIVE_AD = 1;
+    private static final int AD_EVERY_N_LOADS = 8;
 
     public interface OnLoadClickListener {
         void onLoadClick(Load load);
@@ -29,6 +37,7 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
     private final List<Load> loads = new ArrayList<>();
     private final OnLoadClickListener listener;
     private Map<String, String> truckLabels;
+    private NativeAd nativeAd;
 
     public LoadAdapter(OnLoadClickListener listener) {
         this.listener = listener;
@@ -38,15 +47,26 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
         return loads.isEmpty();
     }
 
-    /** Replaces the list and dispatches only the actual insert/remove/change events,
-     * instead of a blanket notifyDataSetChanged() that forces every visible row to rebind. */
+    public void setNativeAd(NativeAd ad) {
+        if (this.nativeAd != null && this.nativeAd != ad) {
+            this.nativeAd.destroy();
+        }
+        this.nativeAd = ad;
+        notifyDataSetChanged();
+    }
+
+    public void destroyNativeAd() {
+        if (this.nativeAd != null) {
+            this.nativeAd.destroy();
+            this.nativeAd = null;
+        }
+    }
+
     public void submitList(List<Load> incoming) {
         List<Load> newLoads = dedupe(incoming);
-        List<Load> oldLoads = new ArrayList<>(loads);
-        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new DiffCallback(oldLoads, newLoads));
         loads.clear();
         loads.addAll(newLoads);
-        diff.dispatchUpdatesTo(this);
+        notifyDataSetChanged();
     }
 
     public void appendList(List<Load> more) {
@@ -68,9 +88,28 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
         return new ArrayList<>(unique.values());
     }
 
+    private boolean isAdPosition(int position) {
+        return nativeAd != null && position > 0 && ((position + 1) % (AD_EVERY_N_LOADS + 1) == 0);
+    }
+
+    private int loadIndexForPosition(int position) {
+        if (nativeAd == null) return position;
+        int adsBefore = position / (AD_EVERY_N_LOADS + 1);
+        return position - adsBefore;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return isAdPosition(position) ? VIEW_TYPE_NATIVE_AD : VIEW_TYPE_LOAD;
+    }
+
     @NonNull
     @Override
-    public LoadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_NATIVE_AD) {
+            View adRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_native_ad, parent, false);
+            return new NativeAdViewHolder(adRow);
+        }
         if (truckLabels == null) {
             truckLabels = TruckTypes.loadLabels(parent.getContext());
         }
@@ -79,14 +118,77 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LoadViewHolder holder, int position) {
-        Load load = loads.get(position);
-        holder.bind(load, listener, truckLabels);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof NativeAdViewHolder) {
+            ((NativeAdViewHolder) holder).bind(nativeAd);
+            return;
+        }
+        int loadIdx = loadIndexForPosition(position);
+        if (loadIdx >= 0 && loadIdx < loads.size()) {
+            ((LoadViewHolder) holder).bind(loads.get(loadIdx), listener, truckLabels);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return loads.size();
+        if (nativeAd == null || loads.size() < AD_EVERY_N_LOADS) {
+            return loads.size();
+        }
+        return loads.size() + (loads.size() / AD_EVERY_N_LOADS);
+    }
+
+    static class NativeAdViewHolder extends RecyclerView.ViewHolder {
+        private final NativeAdView adView;
+        private final TextView headline;
+        private final TextView body;
+        private final TextView advertiser;
+        private final ImageView icon;
+        private final Button cta;
+
+        NativeAdViewHolder(@NonNull View itemView) {
+            super(itemView);
+            adView = itemView.findViewById(R.id.nativeAdView);
+            headline = itemView.findViewById(R.id.adHeadline);
+            body = itemView.findViewById(R.id.adBody);
+            advertiser = itemView.findViewById(R.id.adAdvertiser);
+            icon = itemView.findViewById(R.id.adAppIcon);
+            cta = itemView.findViewById(R.id.adCallToAction);
+            adView.setHeadlineView(headline);
+            adView.setBodyView(body);
+            adView.setAdvertiserView(advertiser);
+            adView.setIconView(icon);
+            adView.setCallToActionView(cta);
+        }
+
+        void bind(NativeAd ad) {
+            if (ad == null) return;
+            headline.setText(ad.getHeadline() != null ? ad.getHeadline() : "");
+            if (ad.getBody() != null) {
+                body.setText(ad.getBody());
+                body.setVisibility(View.VISIBLE);
+            } else {
+                body.setVisibility(View.GONE);
+            }
+            if (ad.getAdvertiser() != null) {
+                advertiser.setText(ad.getAdvertiser());
+                advertiser.setVisibility(View.VISIBLE);
+            } else {
+                advertiser.setVisibility(View.GONE);
+            }
+            if (ad.getIcon() != null && ad.getIcon().getDrawable() != null) {
+                icon.setImageDrawable(ad.getIcon().getDrawable());
+                icon.setVisibility(View.VISIBLE);
+            } else {
+                icon.setVisibility(View.GONE);
+            }
+            if (ad.getCallToAction() != null) {
+                cta.setText(ad.getCallToAction());
+                cta.setVisibility(View.VISIBLE);
+            } else {
+                cta.setVisibility(View.GONE);
+            }
+            adView.setNativeAd(ad);
+        }
     }
 
     private static class DiffCallback extends DiffUtil.Callback {

@@ -12,11 +12,14 @@ import android.view.WindowMetrics;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdOptions;
 import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.UserMessagingPlatform;
@@ -34,8 +37,37 @@ final class AdsHelper {
 
     private AdsHelper() {}
 
+    static final String NATIVE_AD_UNIT_ID = "ca-app-pub-4674211063760769/7217177166";
+
     interface OnAdsReady {
         void onAdsReady();
+    }
+
+    interface OnNativeAdLoaded {
+        void onLoaded(NativeAd nativeAd);
+    }
+
+    static void loadNativeFeedAd(Activity activity, OnNativeAdLoaded callback) {
+        if (activity == null || callback == null || activity.isFinishing() || activity.isDestroyed()) return;
+        AdLoader loader = new AdLoader.Builder(activity, NATIVE_AD_UNIT_ID)
+                .forNativeAd(nativeAd -> {
+                    if (activity.isFinishing() || activity.isDestroyed()) {
+                        nativeAd.destroy();
+                        return;
+                    }
+                    MAIN_HANDLER.post(() -> callback.onLoaded(nativeAd));
+                })
+                .withAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError error) {
+                        // Silent fail: feed simply shows pure load cards with zero empty space
+                    }
+                })
+                .withNativeAdOptions(new NativeAdOptions.Builder()
+                        .setRequestCustomMuteThisAd(true)
+                        .build())
+                .build();
+        loader.loadAd(new AdRequest.Builder().build());
     }
 
     static void requestConsentThenLoadBanner(Activity activity, AdView placeholder, OnAdsReady onAdsReady) {
