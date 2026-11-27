@@ -10,9 +10,14 @@
          deliberately share that label text rather than inventing a new distinction. -->
     <string-array name="truck_type_keys" translatable="false">
         <item>tir</item>
+        <item>dry_van</item>
         <item>kamyon</item>
+        <item>box_truck</item>
+        <item>sprinter</item>
+        <item>hotshot</item>
         <item>kamyonet</item>
         <item>dorser</item>
+        <item>step_deck</item>
         <item>tanker</item>
         <item>frigorifik</item>
         <item>flatbed</item>
@@ -20,14 +25,19 @@
         <item>container</item>
     </string-array>
     <string-array name="truck_type_labels">
-        <item>Semi-Trailer</item>
-        <item>Box Truck</item>
+        <item>Semi-Trailer (53ft)</item>
+        <item>Dry Van (53ft)</item>
+        <item>Box Truck (26ft)</item>
+        <item>Box Truck (26ft)</item>
+        <item>Sprinter / Cargo Van</item>
+        <item>Hotshot</item>
         <item>Pickup</item>
         <item>Flatbed</item>
+        <item>Step Deck</item>
         <item>Tanker</item>
-        <item>Refrigerated</item>
+        <item>Reefer</item>
         <item>Flatbed</item>
-        <item>Refrigerated</item>
+        <item>Reefer</item>
         <item>Container</item>
     </string-array>
 </resources>

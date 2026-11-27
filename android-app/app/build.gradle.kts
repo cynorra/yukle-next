@@ -24,8 +24,8 @@ android {
         applicationId = "app.yukbul.android"
         minSdk = 24
         targetSdk = 36
-        versionCode = 16
-        versionName = "1.13"
+        versionCode = 17
+        versionName = "2.0"
     }
 
     signingConfigs {
@@ -41,7 +41,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             ndk {
                 // Bundles a native-debug-symbols.zip in the AAB so Play Console can

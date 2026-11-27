@@ -49,6 +49,13 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
         diff.dispatchUpdatesTo(this);
     }
 
+    public void appendList(List<Load> more) {
+        if (more == null || more.isEmpty()) return;
+        List<Load> combined = new ArrayList<>(loads);
+        combined.addAll(more);
+        submitList(combined);
+    }
+
     /** The same shipment is sometimes published twice (scraper retries); show it once. */
     private static List<Load> dedupe(List<Load> source) {
         java.util.LinkedHashMap<String, Load> unique = new java.util.LinkedHashMap<>();
@@ -114,6 +121,9 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
 
     static class LoadViewHolder extends RecyclerView.ViewHolder {
         private final TextView truckChip;
+        private final TextView freshBadge;
+        private final TextView calledBadge;
+        private final TextView bookmarkButton;
         private final TextView timeText;
         private final TextView originCity;
         private final TextView originSub;
@@ -126,6 +136,9 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
         LoadViewHolder(@NonNull View itemView) {
             super(itemView);
             truckChip = itemView.findViewById(R.id.truckChip);
+            freshBadge = itemView.findViewById(R.id.freshBadge);
+            calledBadge = itemView.findViewById(R.id.calledBadge);
+            bookmarkButton = itemView.findViewById(R.id.bookmarkButton);
             timeText = itemView.findViewById(R.id.timeText);
             originCity = itemView.findViewById(R.id.originCity);
             originSub = itemView.findViewById(R.id.originSub);
@@ -144,18 +157,14 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
             destCity.setText(orDash(load.destinationCity));
             destSub.setText(orDash(load.destinationCountry));
 
-            if (load.price != null) {
-                priceText.setText(formatPrice(load.price, load.originCountry));
+            if (load.price != null && load.price > 0) {
+                priceText.setText(FreightMetrics.formatPrice(ctx, load));
                 priceText.setTextColor(ctx.getColor(R.color.primary_accent));
             } else {
                 priceText.setText(ctx.getString(R.string.ask_for_price));
                 priceText.setTextColor(ctx.getColor(R.color.text_muted));
             }
 
-            // Falls back to the raw value instead of hiding it - the loads scraper writes
-            // a different required_truck_type vocabulary than this map's known keys cover
-            // (see arrays.xml), so an unmapped-but-real value should still be visible
-            // rather than silently disappearing, matching the website's own fallback.
             String truckLabel = load.requiredTruckType != null
                     ? truckLabels.getOrDefault(load.requiredTruckType, load.requiredTruckType)
                     : null;
@@ -166,7 +175,25 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
                 truckChip.setVisibility(View.INVISIBLE);
             }
 
-            weightChip.setText(ctx.getString(R.string.weight_value, formatWeight(load.weightTon)));
+            if (freshBadge != null) {
+                freshBadge.setVisibility(FreightMetrics.isFresh(load.createdAt) ? View.VISIBLE : View.GONE);
+            }
+            if (calledBadge != null) {
+                calledBadge.setVisibility(LoadPreferences.isCalled(ctx, load.id) ? View.VISIBLE : View.GONE);
+            }
+            if (bookmarkButton != null) {
+                boolean saved = LoadPreferences.isBookmarked(ctx, load.id);
+                bookmarkButton.setText(saved ? "★" : "☆");
+                bookmarkButton.setTextColor(ctx.getColor(saved ? R.color.primary_accent : R.color.text_muted));
+                bookmarkButton.setOnClickListener(v -> {
+                    boolean nowSaved = LoadPreferences.toggleBookmark(ctx, load);
+                    bookmarkButton.setText(nowSaved ? "★" : "☆");
+                    bookmarkButton.setTextColor(ctx.getColor(nowSaved ? R.color.primary_accent : R.color.text_muted));
+                });
+            }
+
+            String formattedWeight = FreightMetrics.formatWeight(ctx, load);
+            weightChip.setText(formattedWeight.isEmpty() ? ctx.getString(R.string.weight_value, formatWeight(load.weightTon)) : formattedWeight);
 
             String relTime = relativeTime(load.createdAt);
             timeText.setText(relTime != null ? relTime : "");
@@ -176,7 +203,11 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.LoadViewHolder
             itemView.setOnClickListener(v -> listener.onLoadClick(load));
 
             if (quickContactButton != null) {
-                quickContactButton.setOnClickListener(v -> ContactHelper.showContactSheet(ctx, load));
+                quickContactButton.setOnClickListener(v -> {
+                    LoadPreferences.markCalled(ctx, load.id);
+                    if (calledBadge != null) calledBadge.setVisibility(View.VISIBLE);
+                    ContactHelper.showContactSheet(ctx, load);
+                });
             }
         }
 

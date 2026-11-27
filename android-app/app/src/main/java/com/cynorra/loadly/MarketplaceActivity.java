@@ -75,12 +75,21 @@ public class MarketplaceActivity extends AppCompatActivity {
     // labels; index 0 is always the synthetic "all types" entry (null key = no filter).
     private final List<String> truckTypeKeys = new ArrayList<>();
 
-    // Scope: true = only loads from the browse country (device country or the user's pick),
-    // false = worldwide.
+    // Scope: 0 = Nearby, 1 = Global, 2 = Saved (offline bookmarks)
+    private int scopeMode = 0;
     private boolean nearbyScope = true;
     private TextView tabNearby;
     private TextView tabGlobal;
+    private TextView tabSaved;
     private TextView countryChip;
+    private TextView sortButton;
+    private TextView laneAlertsButton;
+    private TextView postLoadButton;
+
+    private String currentSort = "newest";
+    private int currentOffset = 0;
+    private boolean isLoadingMore = false;
+    private boolean hasMorePages = true;
 
     // Deep-link / notification target: https://loadlyapp.com/<locale>/marketplace[/<id>]
     private static final String APP_HOST = "loadlyapp.com";
@@ -146,6 +155,8 @@ public class MarketplaceActivity extends AppCompatActivity {
 
         setupFilterBar();
         setupScopeBar();
+        setupProToolsBar();
+        setupInfiniteScroll();
         requestAppPermissions();
         if (!handleIncomingIntent(getIntent())) fetchLoads();
         ReviewPromptHelper.maybePrompt(this);
@@ -181,24 +192,255 @@ public class MarketplaceActivity extends AppCompatActivity {
     private void setupScopeBar() {
         tabNearby = findViewById(R.id.tabNearby);
         tabGlobal = findViewById(R.id.tabGlobal);
+        tabSaved = findViewById(R.id.tabSaved);
         countryChip = findViewById(R.id.countryChip);
-        tabNearby.setOnClickListener(v -> setScope(true));
-        tabGlobal.setOnClickListener(v -> setScope(false));
+        tabNearby.setOnClickListener(v -> setScopeMode(0));
+        tabGlobal.setOnClickListener(v -> setScopeMode(1));
+        if (tabSaved != null) tabSaved.setOnClickListener(v -> setScopeMode(2));
         countryChip.setOnClickListener(v -> showCountryPicker());
         refreshScopeUi();
     }
 
-    private void setScope(boolean nearby) {
-        if (nearbyScope == nearby) return;
-        nearbyScope = nearby;
+    private void setScopeMode(int mode) {
+        if (scopeMode == mode) return;
+        scopeMode = mode;
+        nearbyScope = (mode == 0);
         refreshScopeUi();
         fetchLoads();
     }
 
     private void refreshScopeUi() {
-        styleSegment(tabNearby, nearbyScope);
-        styleSegment(tabGlobal, !nearbyScope);
+        styleSegment(tabNearby, scopeMode == 0);
+        styleSegment(tabGlobal, scopeMode == 1);
+        if (tabSaved != null) {
+            int savedCount = LoadPreferences.getBookmarkedLoads(this).size();
+            tabSaved.setText(savedCount > 0 ? "★ " + savedCount : "★");
+            styleSegment(tabSaved, scopeMode == 2);
+        }
         countryChip.setText(getString(R.string.scope_country_format, Countries.displayName(LoadlyApplication.getBrowseCountry(this))));
+    }
+
+    private void setupProToolsBar() {
+        sortButton = findViewById(R.id.sortButton);
+        laneAlertsButton = findViewById(R.id.laneAlertsButton);
+        postLoadButton = findViewById(R.id.postLoadButton);
+        if (sortButton != null) sortButton.setOnClickListener(v -> showSortDialog());
+        if (laneAlertsButton != null) {
+            refreshLaneAlertsBadge();
+            laneAlertsButton.setOnClickListener(v -> showLaneAlertsDialog());
+        }
+        if (postLoadButton != null) postLoadButton.setOnClickListener(v -> showPostLoadDialog());
+    }
+
+    private void refreshLaneAlertsBadge() {
+        if (laneAlertsButton == null) return;
+        int n = LoadPreferences.getLaneAlerts(this).size();
+        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
+        String base = isTr ? "🔔 Alarmlar" : "🔔 Lane Alerts";
+        laneAlertsButton.setText(n > 0 ? base + " (" + n + ")" : base);
+    }
+
+    private void showSortDialog() {
+        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
+        String[] labels = isTr
+                ? new String[]{"En Yeni", "En Yüksek Ücret", "En Hafif Ağırlık"}
+                : new String[]{"Newest First", "Highest Pay", "Lightest Weight"};
+        String[] keys = {"newest", "price_desc", "weight_asc"};
+        new AlertDialog.Builder(this)
+                .setTitle(isTr ? "Sıralama" : "Sort Loads")
+                .setItems(labels, (d, which) -> {
+                    currentSort = keys[which];
+                    if (sortButton != null) sortButton.setText("⇅ " + labels[which]);
+                    fetchLoads();
+                })
+                .show();
+    }
+
+    private void showLaneAlertsDialog() {
+        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
+        List<LoadPreferences.LaneAlert> alerts = LoadPreferences.getLaneAlerts(this);
+        String[] items = new String[alerts.size() + 1];
+        for (int i = 0; i < alerts.size(); i++) {
+            items[i] = "✕  " + alerts.get(i).label();
+        }
+        items[alerts.size()] = isTr ? "+ Yeni Güzergâh Alarmı Ekle" : "+ Add New Lane Alert";
+        new AlertDialog.Builder(this)
+                .setTitle(isTr ? "Güzergâh Alarmları" : "Saved Lane Alerts")
+                .setItems(items, (d, which) -> {
+                    if (which == alerts.size()) {
+                        showCreateLaneAlertDialog();
+                    } else {
+                        LoadPreferences.removeLaneAlert(this, which);
+                        refreshLaneAlertsBadge();
+                        Toast.makeText(this, isTr ? "Alarm silindi" : "Alert removed", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void showCreateLaneAlertDialog() {
+        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
+        LinearLayout box = new LinearLayout(this);
+        box.setOrientation(LinearLayout.VERTICAL);
+        int pad = (int) (20 * getResources().getDisplayMetrics().density);
+        box.setPadding(pad, pad / 2, pad, 0);
+
+        EditText originIn = new EditText(this);
+        originIn.setHint(isTr ? "Çıkış şehri (örn. İstanbul / Dallas)" : "Origin city (e.g. Dallas)");
+        originIn.setText(originFilterInput.getText().toString().trim());
+        box.addView(originIn);
+
+        EditText destIn = new EditText(this);
+        destIn.setHint(isTr ? "Varış şehri (örn. Ankara / Atlanta)" : "Destination city (e.g. Atlanta)");
+        destIn.setText(destinationFilterInput.getText().toString().trim());
+        box.addView(destIn);
+
+        EditText minPayIn = new EditText(this);
+        minPayIn.setHint(isTr ? "Min. ücret (opsiyonel)" : "Min pay $ (optional)");
+        minPayIn.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+        box.addView(minPayIn);
+
+        new AlertDialog.Builder(this)
+                .setTitle(isTr ? "Yeni Güzergâh Alarmı" : "New Lane Alert")
+                .setView(box)
+                .setPositiveButton(isTr ? "Kaydet" : "Save Alert", (d, w) -> {
+                    String o = originIn.getText().toString().trim();
+                    String dst = destIn.getText().toString().trim();
+                    if (o.isEmpty() && dst.isEmpty()) {
+                        Toast.makeText(this, isTr ? "En az bir şehir girin" : "Enter origin or destination", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    double minP = 0;
+                    try {
+                        String ms = minPayIn.getText().toString().trim();
+                        if (!ms.isEmpty()) minP = Double.parseDouble(ms);
+                    } catch (Exception ignored) {}
+                    LoadPreferences.addLaneAlert(this, new LoadPreferences.LaneAlert(o, dst, minP));
+                    refreshLaneAlertsBadge();
+                    Toast.makeText(this, isTr ? "Güzergâh alarmı kaydedildi" : "Lane alert saved", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void showPostLoadDialog() {
+        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
+        LinearLayout box = new LinearLayout(this);
+        box.setOrientation(LinearLayout.VERTICAL);
+        int pad = (int) (20 * getResources().getDisplayMetrics().density);
+        box.setPadding(pad, pad / 2, pad, 0);
+
+        EditText origIn = new EditText(this);
+        origIn.setHint(isTr ? "Çıkış şehri *" : "Origin city *");
+        box.addView(origIn);
+
+        EditText destIn = new EditText(this);
+        destIn.setHint(isTr ? "Varış şehri *" : "Destination city *");
+        box.addView(destIn);
+
+        EditText weightIn = new EditText(this);
+        weightIn.setHint(isTr ? "Ağırlık (Ton)" : "Weight (tons, e.g. 15)");
+        weightIn.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        box.addView(weightIn);
+
+        EditText priceIn = new EditText(this);
+        priceIn.setHint(isTr ? "Ücret (opsiyonel)" : "Rate $ (optional)");
+        priceIn.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+        box.addView(priceIn);
+
+        EditText contactIn = new EditText(this);
+        contactIn.setHint(isTr ? "Telefon / E-posta / Notlar *" : "Phone / Email / MC# / Notes *");
+        box.addView(contactIn);
+
+        new AlertDialog.Builder(this)
+                .setTitle(isTr ? "Yeni Yük İlanı Ekle" : "Post a Load")
+                .setView(box)
+                .setPositiveButton(isTr ? "Yayınla" : "Publish", (d, w) -> {
+                    String o = origIn.getText().toString().trim();
+                    String dst = destIn.getText().toString().trim();
+                    String desc = contactIn.getText().toString().trim();
+                    if (o.isEmpty() || dst.isEmpty() || desc.isEmpty()) {
+                        Toast.makeText(this, isTr ? "Zorunlu alanları doldurun" : "Fill required fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    double wt = 10.0;
+                    try {
+                        String ws = weightIn.getText().toString().trim();
+                        if (!ws.isEmpty()) wt = Double.parseDouble(ws);
+                    } catch (Exception ignored) {}
+                    Double pr = null;
+                    try {
+                        String ps = priceIn.getText().toString().trim();
+                        if (!ps.isEmpty()) pr = Double.parseDouble(ps);
+                    } catch (Exception ignored) {}
+                    String countryCode = LoadlyApplication.getBrowseCountry(this);
+                    String countryName = Countries.englishName(countryCode);
+                    String truck = truckTypeKeys.get(truckTypeFilterSpinner.getSelectedItemPosition());
+                    if (truck == null) truck = "dry_van";
+                    String title = o + " → " + dst + " Freight";
+                    client.postLoad(title, o, countryName, dst, countryName, truck, wt, pr, desc, new SupabaseClient.PostCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(MarketplaceActivity.this, isTr ? "Yük ilanınız yayınlandı!" : "Load published!", Toast.LENGTH_SHORT).show();
+                            fetchLoads();
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(MarketplaceActivity.this, isTr ? "İlan eklenemedi, lütfen web üzerinden deneyin" : "Could not post load right now", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void setupInfiniteScroll() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView rv, int dx, int dy) {
+                if (dy <= 0 || scopeMode == 2 || isLoadingMore || !hasMorePages) return;
+                RecyclerView.LayoutManager lm = rv.getLayoutManager();
+                if (lm instanceof LinearLayoutManager) {
+                    int visible = lm.getChildCount();
+                    int total = lm.getItemCount();
+                    int first = ((LinearLayoutManager) lm).findFirstVisibleItemPosition();
+                    if ((visible + first) >= total - 6 && total >= PAGE_SIZE) {
+                        loadMoreLoads();
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadMoreLoads() {
+        isLoadingMore = true;
+        currentOffset += PAGE_SIZE;
+        client.fetchActiveLoads(PAGE_SIZE, currentOffset, currentSort, currentFilter(), new SupabaseClient.ListCallback() {
+            @Override
+            public void onSuccess(List<Load> result) {
+                isLoadingMore = false;
+                List<Load> visible = filterOutTaken(result);
+                if (result.size() < PAGE_SIZE) hasMorePages = false;
+                if (!visible.isEmpty()) adapter.appendList(visible);
+            }
+
+            @Override
+            public void onError(String message) {
+                isLoadingMore = false;
+                currentOffset = Math.max(0, currentOffset - PAGE_SIZE);
+            }
+        });
+    }
+
+    private List<Load> filterOutTaken(List<Load> source) {
+        List<Load> out = new ArrayList<>();
+        if (source == null) return out;
+        for (Load l : source) {
+            if (!LoadPreferences.isTaken(this, l.id)) out.add(l);
+        }
+        return out;
     }
 
     /** Selected segment = solid brand pill with dark text; idle = quiet translucent pill. */
@@ -215,6 +457,7 @@ public class MarketplaceActivity extends AppCompatActivity {
                 .setTitle(R.string.scope_pick_country)
                 .setItems(names, (d, which) -> {
                     LoadlyApplication.setBrowseCountry(this, codes.get(which));
+                    scopeMode = 0;
                     nearbyScope = true;
                     refreshScopeUi();
                     fetchLoads();
@@ -335,24 +578,43 @@ public class MarketplaceActivity extends AppCompatActivity {
     }
 
     private void fetchLoads() {
+        if (scopeMode == 2) {
+            hideShimmer();
+            swipeRefreshLayout.setRefreshing(false);
+            List<Load> saved = filterOutTaken(LoadPreferences.getBookmarkedLoads(this));
+            adapter.submitList(saved);
+            emptyText.setText(R.string.marketplace_empty);
+            emptyLayout.setVisibility(adapter.isEmpty() ? View.VISIBLE : View.GONE);
+            recyclerView.setVisibility(adapter.isEmpty() ? View.GONE : View.VISIBLE);
+            return;
+        }
+        currentOffset = 0;
+        hasMorePages = true;
+        isLoadingMore = false;
         emptyLayout.setVisibility(View.GONE);
         if (adapter.isEmpty()) {
             shimmerLayout.setVisibility(View.VISIBLE);
             shimmerLayout.startShimmer();
         }
         boolean filtered = hasActiveFilter();
-        client.fetchActiveLoads(PAGE_SIZE, currentFilter(), new SupabaseClient.ListCallback() {
+        client.fetchActiveLoads(PAGE_SIZE, 0, currentSort, currentFilter(), new SupabaseClient.ListCallback() {
             @Override
             public void onSuccess(List<Load> result) {
                 hideShimmer();
                 swipeRefreshLayout.setRefreshing(false);
-                // Only reorder the unfiltered "browse everything" view - once the user has
-                // typed their own origin/destination, that explicit intent must win as-is.
-                adapter.submitList(filtered ? result : prioritizeByDetectedCity(result));
-                // A successful (non-error) fetch with zero rows is a genuine "no listings"
-                // state, distinct from a failed fetch below - never conflate the two texts.
-                // Also distinct from a plain empty marketplace: zero rows because of the
-                // user's own filters needs its own wording, not "no listings right now".
+                if (result.size() < PAGE_SIZE) hasMorePages = false;
+                List<Load> clean = filterOutTaken(result);
+                if (!filtered && !clean.isEmpty()) {
+                    LoadPreferences.cacheLoads(MarketplaceActivity.this, clean);
+                }
+                List<Load> alertMatches = LoadPreferences.findNewAlertMatches(MarketplaceActivity.this, clean);
+                if (!alertMatches.isEmpty()) {
+                    Load first = alertMatches.get(0);
+                    Toast.makeText(MarketplaceActivity.this,
+                            "🔔 Alert Match: " + first.originCity + " → " + first.destinationCity,
+                            Toast.LENGTH_LONG).show();
+                }
+                adapter.submitList(filtered || !"newest".equals(currentSort) ? clean : prioritizeByDetectedCity(clean));
                 emptyText.setText(filtered ? R.string.filter_empty_results : R.string.marketplace_empty);
                 emptyLayout.setVisibility(adapter.isEmpty() ? View.VISIBLE : View.GONE);
                 recyclerView.setVisibility(adapter.isEmpty() ? View.GONE : View.VISIBLE);
@@ -363,8 +625,14 @@ public class MarketplaceActivity extends AppCompatActivity {
                 hideShimmer();
                 swipeRefreshLayout.setRefreshing(false);
                 if (adapter.isEmpty()) {
-                    // onError only ever fires for a failed request (network/server issue) -
-                    // it never means "no listings", so it must not reuse that wording.
+                    List<Load> cached = filterOutTaken(LoadPreferences.getCachedLoads(MarketplaceActivity.this));
+                    if (!cached.isEmpty()) {
+                        adapter.submitList(cached);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyLayout.setVisibility(View.GONE);
+                        Toast.makeText(MarketplaceActivity.this, "Offline cache", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     emptyText.setText(R.string.marketplace_load_error);
                     emptyLayout.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);

@@ -148,16 +148,28 @@ public class LoadDetailActivity extends AppCompatActivity {
 
         if (phone != null) {
             primaryBtn.setText(R.string.call_shipper);
-            primaryBtn.setOnClickListener(v -> ContactHelper.dialPhone(this, phone, phone));
+            primaryBtn.setOnClickListener(v -> {
+                LoadPreferences.markCalled(this, load.id);
+                ContactHelper.dialPhone(this, phone, phone);
+            });
         } else if (email != null) {
             primaryBtn.setText(R.string.email_shipper);
-            primaryBtn.setOnClickListener(v -> ContactHelper.sendEmail(this, email, load.title));
+            primaryBtn.setOnClickListener(v -> {
+                LoadPreferences.markCalled(this, load.id);
+                ContactHelper.sendEmail(this, email, load.title);
+            });
         } else {
             primaryBtn.setText(R.string.contact_shipper);
-            primaryBtn.setOnClickListener(v -> ContactHelper.showContactSheet(this, load));
+            primaryBtn.setOnClickListener(v -> {
+                LoadPreferences.markCalled(this, load.id);
+                ContactHelper.showContactSheet(this, load);
+            });
         }
 
-        optionsBtn.setOnClickListener(v -> ContactHelper.showContactSheet(this, load));
+        optionsBtn.setOnClickListener(v -> {
+            LoadPreferences.markCalled(this, load.id);
+            ContactHelper.showContactSheet(this, load);
+        });
 
         View kvkkBtn = findViewById(R.id.kvkkRemoveButton);
         if (kvkkBtn != null) {
@@ -192,10 +204,17 @@ public class LoadDetailActivity extends AppCompatActivity {
             descriptionText.setVisibility(View.GONE);
         }
 
-        String weight = load.weightTon == Math.floor(load.weightTon)
-                ? String.valueOf((long) load.weightTon)
-                : String.valueOf(load.weightTon);
-        ((TextView) findViewById(R.id.weightText)).setText(getString(R.string.weight_detail, weight));
+        String formattedWeight = FreightMetrics.formatWeight(this, load);
+        if (!formattedWeight.isEmpty()) {
+            ((TextView) findViewById(R.id.weightText)).setText(formattedWeight);
+        } else {
+            String weight = load.weightTon == Math.floor(load.weightTon)
+                    ? String.valueOf((long) load.weightTon)
+                    : String.valueOf(load.weightTon);
+            ((TextView) findViewById(R.id.weightText)).setText(getString(R.string.weight_detail, weight));
+        }
+
+        bindTruckerTools(load);
 
         TextView truckText = findViewById(R.id.truckText);
         String truckLabel = load.requiredTruckType != null
@@ -215,6 +234,110 @@ public class LoadDetailActivity extends AppCompatActivity {
             dateText.setVisibility(View.VISIBLE);
         } else {
             dateText.setVisibility(View.GONE);
+        }
+    }
+
+    private void bindTruckerTools(Load load) {
+        TextView bmBtn = findViewById(R.id.detailBookmarkButton);
+        if (bmBtn != null) {
+            bmBtn.setVisibility(View.VISIBLE);
+            boolean saved = LoadPreferences.isBookmarked(this, load.id);
+            bmBtn.setText(saved ? "★" : "☆");
+            bmBtn.setTextColor(getColor(saved ? R.color.primary_accent : R.color.white));
+            bmBtn.setOnClickListener(v -> {
+                boolean now = LoadPreferences.toggleBookmark(this, load);
+                bmBtn.setText(now ? "★" : "☆");
+                bmBtn.setTextColor(getColor(now ? R.color.primary_accent : R.color.white));
+            });
+        }
+
+        View routeBtn = findViewById(R.id.routeMapButton);
+        if (routeBtn != null) {
+            routeBtn.setOnClickListener(v -> {
+                String orig = load.originCity != null ? load.originCity : "";
+                String dest = load.destinationCity != null ? load.destinationCity : "";
+                String url = "https://www.google.com/maps/dir/?api=1&origin="
+                        + android.net.Uri.encode(orig)
+                        + "&destination=" + android.net.Uri.encode(dest)
+                        + "&travelmode=driving";
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url)));
+                } catch (Exception ignored) {}
+            });
+        }
+
+        View fmcsaBtn = findViewById(R.id.fmcsaCheckButton);
+        if (fmcsaBtn != null) {
+            FreightMetrics.BrokerId bid = FreightMetrics.extractBrokerId(load);
+            fmcsaBtn.setOnClickListener(v -> {
+                String queryUrl;
+                if (bid != null) {
+                    String param = "MC".equals(bid.type) ? "MC_MX" : "USDOT";
+                    queryUrl = "https://safer.fmcsa.dot.gov/query.asp?searchtype=ANY&query_type=queryCarrierSnapshot&query_param="
+                            + param + "&query_string=" + android.net.Uri.encode(bid.number);
+                } else {
+                    String name = load.shipperName != null && !load.shipperName.isEmpty() ? load.shipperName : load.title;
+                    queryUrl = "https://safer.fmcsa.dot.gov/query.asp?searchtype=ANY&query_type=queryCarrierSnapshot&query_param=NAME&query_string="
+                            + android.net.Uri.encode(name != null ? name : "");
+                }
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(queryUrl)));
+                } catch (Exception ignored) {}
+            });
+        }
+
+        View takenBtn = findViewById(R.id.markTakenButton);
+        if (takenBtn != null) {
+            takenBtn.setOnClickListener(v -> {
+                LoadPreferences.markTaken(this, load.id);
+                android.widget.Toast.makeText(this, "Hidden from feed", android.widget.Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        }
+
+        // Profit & Rate/Mile Calculator
+        boolean imperial = FreightMetrics.isImperial(load.originCountry);
+        String sym = FreightMetrics.currencySymbol(load.originCountry);
+        String unit = imperial ? "mi" : "km";
+        android.widget.EditText payIn = findViewById(R.id.calcPayInput);
+        android.widget.EditText milesIn = findViewById(R.id.calcMilesInput);
+        android.widget.EditText dhIn = findViewById(R.id.calcDeadheadInput);
+        android.widget.EditText mpgIn = findViewById(R.id.calcMpgInput);
+        android.widget.EditText fuelIn = findViewById(R.id.calcFuelInput);
+        TextView runBtn = findViewById(R.id.calcRunButton);
+        TextView resText = findViewById(R.id.calcResultText);
+
+        if (payIn != null && load.price != null && load.price > 0) {
+            payIn.setText(String.format(Locale.US, "%.0f", load.price));
+        }
+        if (milesIn != null) milesIn.setHint(imperial ? "Miles" : "Km");
+        if (mpgIn != null && !imperial) {
+            mpgIn.setHint("km/L (3.5)");
+            mpgIn.setText("3.5");
+        }
+        if (fuelIn != null && !imperial) {
+            fuelIn.setHint("Fuel (" + sym + "/L)");
+            fuelIn.setText("45");
+        }
+        if (runBtn != null && resText != null) {
+            runBtn.setOnClickListener(v -> {
+                try {
+                    double pay = Double.parseDouble(payIn.getText().toString().trim());
+                    double dist = Double.parseDouble(milesIn.getText().toString().trim());
+                    double dh = dhIn.getText().toString().trim().isEmpty() ? 0 : Double.parseDouble(dhIn.getText().toString().trim());
+                    double eff = mpgIn.getText().toString().trim().isEmpty() ? (imperial ? 6.5 : 3.5) : Double.parseDouble(mpgIn.getText().toString().trim());
+                    double fp = fuelIn.getText().toString().trim().isEmpty() ? (imperial ? 3.85 : 45.0) : Double.parseDouble(fuelIn.getText().toString().trim());
+                    FreightMetrics.ProfitResult r = FreightMetrics.calculateProfit(pay, dist, dh, eff, fp);
+                    String out = String.format(Locale.US,
+                            "Gross: %s%.2f/%s  •  Fuel: %s%,.0f\nNet Profit: %s%,.0f  (%s%.2f/%s net)",
+                            sym, r.grossPerUnit, unit, sym, r.fuelCost, sym, r.netProfit, sym, r.netPerUnit, unit);
+                    resText.setText(out);
+                    resText.setTextColor(r.netProfit >= 0 ? 0xFF34D399 : 0xFFF87171);
+                    resText.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    android.widget.Toast.makeText(this, "Enter Pay & " + (imperial ? "Miles" : "Km"), android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

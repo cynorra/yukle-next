@@ -79,11 +79,21 @@ public class SupabaseClient {
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public void fetchActiveLoads(int limit, Filter filter, ListCallback callback) {
+        fetchActiveLoads(limit, 0, "newest", filter, callback);
+    }
+
+    public void fetchActiveLoads(int limit, int offset, String sortBy, Filter filter, ListCallback callback) {
         executor.execute(() -> {
             try {
+                String orderParam = "created_at.desc";
+                if ("price_desc".equals(sortBy)) {
+                    orderParam = "price.desc.nullslast,created_at.desc";
+                } else if ("weight_asc".equals(sortBy)) {
+                    orderParam = "weight_ton.asc.nullslast,created_at.desc";
+                }
                 String select = URLEncoder.encode("id,title,description,origin_city,origin_country,destination_city,destination_country,weight_ton,price,required_truck_type,load_type,created_at," + SHIPPER_SELECT, "UTF-8");
                 StringBuilder url = new StringBuilder(SupabaseConfig.URL + "/rest/v1/loads?select=" + select
-                        + "&status=eq.active&order=created_at.desc&limit=" + limit);
+                        + "&status=eq.active&order=" + orderParam + "&limit=" + limit + "&offset=" + Math.max(0, offset));
                 if (filter != null) {
                     if (filter.originCity != null && !filter.originCity.trim().isEmpty()) {
                         url.append("&origin_city=ilike.").append(URLEncoder.encode("*" + filter.originCity.trim() + "*", "UTF-8"));
@@ -172,6 +182,48 @@ public class SupabaseClient {
             HttpURLConnection conn = null;
             try {
                 conn = (HttpURLConnection) new URL(SupabaseConfig.URL + endpointPath).openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("apikey", SupabaseConfig.ANON_KEY);
+                conn.setRequestProperty("Authorization", "Bearer " + SupabaseConfig.ANON_KEY);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Prefer", "return=minimal");
+                conn.setConnectTimeout(15000);
+                conn.setReadTimeout(15000);
+                conn.setDoOutput(true);
+                conn.getOutputStream().write(body.toString().getBytes(StandardCharsets.UTF_8));
+                int code = conn.getResponseCode();
+                if (code < 200 || code >= 300) {
+                    throw new IOException("HTTP " + code + ": " + readStream(conn.getErrorStream()));
+                }
+                mainHandler.post(callback::onSuccess);
+            } catch (Exception e) {
+                mainHandler.post(() -> callback.onError(e.getMessage()));
+            } finally {
+                if (conn != null) conn.disconnect();
+            }
+        });
+    }
+
+    public void postLoad(String title, String originCity, String originCountry,
+                         String destinationCity, String destinationCountry,
+                         String truckType, double weightTon, Double price,
+                         String description, PostCallback callback) {
+        executor.execute(() -> {
+            HttpURLConnection conn = null;
+            try {
+                JSONObject body = new JSONObject();
+                body.put("title", title);
+                body.put("origin_city", originCity);
+                body.put("origin_country", originCountry);
+                body.put("destination_city", destinationCity);
+                body.put("destination_country", destinationCountry);
+                body.put("required_truck_type", truckType);
+                body.put("weight_ton", weightTon);
+                if (price != null && price > 0) body.put("price", price);
+                body.put("description", description);
+                body.put("status", "active");
+
+                conn = (HttpURLConnection) new URL(SupabaseConfig.URL + "/rest/v1/loads").openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("apikey", SupabaseConfig.ANON_KEY);
                 conn.setRequestProperty("Authorization", "Bearer " + SupabaseConfig.ANON_KEY);

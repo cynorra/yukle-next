@@ -36,13 +36,60 @@
             tools:text="Flatbed" />
 
         <TextView
+            android:id="@+id/freshBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="#2610B981"
+            android:paddingHorizontal="7dp"
+            android:paddingVertical="4dp"
+            android:text="FRESH"
+            android:textColor="#34D399"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/truckChip"
+            app:layout_constraintStart_toEndOf="@id/truckChip"
+            app:layout_constraintTop_toTopOf="@id/truckChip" />
+
+        <TextView
+            android:id="@+id/calledBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="#2638BDF8"
+            android:paddingHorizontal="7dp"
+            android:paddingVertical="4dp"
+            android:text="CALLED ✓"
+            android:textColor="#38BDF8"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/truckChip"
+            app:layout_constraintStart_toEndOf="@id/freshBadge"
+            app:layout_constraintTop_toTopOf="@id/truckChip" />
+
+        <TextView
+            android:id="@+id/bookmarkButton"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:gravity="center"
+            android:text="☆"
+            android:textColor="@color/text_muted"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/truckChip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/truckChip" />
+
+        <TextView
             android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
             android:textColor="@color/text_muted"
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@id/truckChip"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bookmarkButton"
             tools:text="6 hours ago" />
 
         <ImageView

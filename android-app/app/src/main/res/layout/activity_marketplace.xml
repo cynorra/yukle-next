@@ -176,6 +176,19 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tabSaved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_filter_input"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:text="★"
+            android:textColor="@color/text_muted"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/countryChip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -189,6 +202,56 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- 2027+ Pro Trucker Quick Bar: Sort, Saved Lane Alerts, Native Post a Load -->
+    <LinearLayout
+        android:id="@+id/proToolsBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/scopeBar">
+
+        <TextView
+            android:id="@+id/sortButton"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_filter_input"
+            android:gravity="center"
+            android:text="⇅ Newest"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/laneAlertsButton"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_filter_input"
+            android:gravity="center"
+            android:text="🔔 Lane Alerts"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/postLoadButton"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_chip_truck"
+            android:gravity="center"
+            android:text="+ Post Load"
+            android:textColor="@color/primary_accent"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <!-- Route/vehicle-type/weight filters -->
     <LinearLayout
         android:id="@+id/filterBar"
@@ -197,7 +260,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="12dp"
         android:paddingBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@id/scopeBar">
+        app:layout_constraintTop_toBottomOf="@id/proToolsBar">
 
         <LinearLayout
             android:layout_width="match_parent"

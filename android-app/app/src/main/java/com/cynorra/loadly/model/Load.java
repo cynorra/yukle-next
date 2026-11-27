@@ -75,6 +75,32 @@ public class Load {
         );
     }
 
+    public JSONObject toJson() {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("id", id);
+            o.put("title", title);
+            o.put("description", description);
+            o.put("origin_city", originCity);
+            o.put("origin_country", originCountry);
+            o.put("destination_city", destinationCity);
+            o.put("destination_country", destinationCountry);
+            o.put("weight_ton", weightTon);
+            if (price != null) o.put("price", price);
+            else o.put("price", JSONObject.NULL);
+            o.put("required_truck_type", requiredTruckType);
+            o.put("load_type", loadType);
+            o.put("created_at", createdAt);
+            JSONObject shipper = new JSONObject();
+            shipper.put("company_name", shipperName);
+            shipper.put("is_verified", shipperVerified);
+            shipper.put("rating", shipperRating);
+            o.put("shipper", shipper);
+        } catch (Exception ignored) {
+        }
+        return o;
+    }
+
     // Used by LoadAdapter's DiffUtil callback to detect real content changes
     // (e.g. a re-fetch where only the price changed) vs. an identical re-fetch.
     @Override

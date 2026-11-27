@@ -38,6 +38,16 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/detailBookmarkButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="☆"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:visibility="gone" />
+
         <ImageButton
             android:id="@+id/shareButton"
             android:layout_width="48dp"
@@ -170,6 +180,180 @@
                         android:textColor="@color/white"
                         android:textStyle="bold" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <!-- 2027+ Trucker Action Strip: Route Map, FMCSA Broker Check, Mark Taken -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/routeMapButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_filter_input"
+                    android:gravity="center"
+                    android:text="🗺 Route"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/fmcsaCheckButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_filter_input"
+                    android:gravity="center"
+                    android:text="🛡 Verify MC"
+                    android:textColor="#38BDF8"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/markTakenButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_filter_input"
+                    android:gravity="center"
+                    android:text="✕ Taken"
+                    android:textColor="#F87171"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Interactive Profit & RPM Calculator Card -->
+            <LinearLayout
+                android:id="@+id/profitCalcCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_filter_input"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/calcHeaderTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="💰 Profit &amp; Rate/Mile Calculator"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/calcPayInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        android:background="#1AFFFFFF"
+                        android:hint="Pay ($)"
+                        android:inputType="numberDecimal"
+                        android:padding="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/text_muted"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/calcMilesInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        android:background="#1AFFFFFF"
+                        android:hint="Miles"
+                        android:inputType="numberDecimal"
+                        android:padding="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/text_muted"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/calcDeadheadInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#1AFFFFFF"
+                        android:hint="Deadhead"
+                        android:inputType="numberDecimal"
+                        android:padding="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/text_muted"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/calcMpgInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        android:background="#1AFFFFFF"
+                        android:hint="MPG (6.5)"
+                        android:inputType="numberDecimal"
+                        android:padding="8dp"
+                        android:text="6.5"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/text_muted"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/calcFuelInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        android:background="#1AFFFFFF"
+                        android:hint="Fuel ($3.85)"
+                        android:inputType="numberDecimal"
+                        android:padding="8dp"
+                        android:text="3.85"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/text_muted"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/calcRunButton"
+                        android:layout_width="0dp"
+                        android:layout_height="36dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_segment_selected"
+                        android:gravity="center"
+                        android:text="Calculate"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/calcResultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#34D399"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView
