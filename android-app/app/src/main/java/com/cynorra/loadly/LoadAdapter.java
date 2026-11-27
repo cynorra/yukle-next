@@ -291,6 +291,7 @@ public class LoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     boolean nowSaved = LoadPreferences.toggleBookmark(ctx, load);
                     bookmarkButton.setText(nowSaved ? "★" : "☆");
                     bookmarkButton.setTextColor(ctx.getColor(nowSaved ? R.color.primary_accent : R.color.text_muted));
+                    UiMotion.popStar(bookmarkButton);
                 });
             }
 

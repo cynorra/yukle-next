@@ -225,30 +225,38 @@ public class MarketplaceActivity extends AppCompatActivity {
         sortButton = findViewById(R.id.sortButton);
         laneAlertsButton = findViewById(R.id.laneAlertsButton);
         postLoadButton = findViewById(R.id.postLoadButton);
-        if (sortButton != null) sortButton.setOnClickListener(v -> showSortDialog());
+        if (sortButton != null) {
+            UiMotion.attachSpringPress(sortButton);
+            sortButton.setOnClickListener(v -> showSortDialog());
+        }
         if (laneAlertsButton != null) {
+            UiMotion.attachSpringPress(laneAlertsButton);
             refreshLaneAlertsBadge();
             laneAlertsButton.setOnClickListener(v -> showLaneAlertsDialog());
         }
-        if (postLoadButton != null) postLoadButton.setOnClickListener(v -> showPostLoadDialog());
+        if (postLoadButton != null) {
+            UiMotion.attachSpringPress(postLoadButton);
+            postLoadButton.setOnClickListener(v -> showPostLoadDialog());
+        }
     }
 
     private void refreshLaneAlertsBadge() {
         if (laneAlertsButton == null) return;
         int n = LoadPreferences.getLaneAlerts(this).size();
-        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
-        String base = isTr ? "🔔 Alarmlar" : "🔔 Lane Alerts";
-        laneAlertsButton.setText(n > 0 ? base + " (" + n + ")" : base);
+        laneAlertsButton.setText(n > 0
+                ? getString(R.string.pro_lane_alerts_count, n)
+                : getString(R.string.pro_lane_alerts));
     }
 
     private void showSortDialog() {
-        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
-        String[] labels = isTr
-                ? new String[]{"En Yeni", "En Yüksek Ücret", "En Hafif Ağırlık"}
-                : new String[]{"Newest First", "Highest Pay", "Lightest Weight"};
+        String[] labels = new String[]{
+                getString(R.string.pro_sort_opt_newest),
+                getString(R.string.pro_sort_opt_pay),
+                getString(R.string.pro_sort_opt_weight)
+        };
         String[] keys = {"newest", "price_desc", "weight_asc"};
         new AlertDialog.Builder(this)
-                .setTitle(isTr ? "Sıralama" : "Sort Loads")
+                .setTitle(R.string.pro_sort_title)
                 .setItems(labels, (d, which) -> {
                     currentSort = keys[which];
                     if (sortButton != null) sortButton.setText("⇅ " + labels[which]);
@@ -258,22 +266,21 @@ public class MarketplaceActivity extends AppCompatActivity {
     }
 
     private void showLaneAlertsDialog() {
-        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
         List<LoadPreferences.LaneAlert> alerts = LoadPreferences.getLaneAlerts(this);
         String[] items = new String[alerts.size() + 1];
         for (int i = 0; i < alerts.size(); i++) {
             items[i] = "✕  " + alerts.get(i).label();
         }
-        items[alerts.size()] = isTr ? "+ Yeni Güzergâh Alarmı Ekle" : "+ Add New Lane Alert";
+        items[alerts.size()] = getString(R.string.pro_lane_alert_add);
         new AlertDialog.Builder(this)
-                .setTitle(isTr ? "Güzergâh Alarmları" : "Saved Lane Alerts")
+                .setTitle(R.string.pro_lane_alerts_title)
                 .setItems(items, (d, which) -> {
                     if (which == alerts.size()) {
                         showCreateLaneAlertDialog();
                     } else {
                         LoadPreferences.removeLaneAlert(this, which);
                         refreshLaneAlertsBadge();
-                        Toast.makeText(this, isTr ? "Alarm silindi" : "Alert removed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.pro_lane_alert_removed, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -281,35 +288,34 @@ public class MarketplaceActivity extends AppCompatActivity {
     }
 
     private void showCreateLaneAlertDialog() {
-        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
         LinearLayout box = new LinearLayout(this);
         box.setOrientation(LinearLayout.VERTICAL);
         int pad = (int) (20 * getResources().getDisplayMetrics().density);
         box.setPadding(pad, pad / 2, pad, 0);
 
         EditText originIn = new EditText(this);
-        originIn.setHint(isTr ? "Çıkış şehri (örn. İstanbul / Dallas)" : "Origin city (e.g. Dallas)");
+        originIn.setHint(R.string.pro_lane_alert_origin_hint);
         originIn.setText(originFilterInput.getText().toString().trim());
         box.addView(originIn);
 
         EditText destIn = new EditText(this);
-        destIn.setHint(isTr ? "Varış şehri (örn. Ankara / Atlanta)" : "Destination city (e.g. Atlanta)");
+        destIn.setHint(R.string.pro_lane_alert_dest_hint);
         destIn.setText(destinationFilterInput.getText().toString().trim());
         box.addView(destIn);
 
         EditText minPayIn = new EditText(this);
-        minPayIn.setHint(isTr ? "Min. ücret (opsiyonel)" : "Min pay $ (optional)");
+        minPayIn.setHint(R.string.pro_lane_alert_min_pay_hint);
         minPayIn.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
         box.addView(minPayIn);
 
         new AlertDialog.Builder(this)
-                .setTitle(isTr ? "Yeni Güzergâh Alarmı" : "New Lane Alert")
+                .setTitle(R.string.pro_lane_alert_new_title)
                 .setView(box)
-                .setPositiveButton(isTr ? "Kaydet" : "Save Alert", (d, w) -> {
+                .setPositiveButton(R.string.pro_lane_alert_save, (d, w) -> {
                     String o = originIn.getText().toString().trim();
                     String dst = destIn.getText().toString().trim();
                     if (o.isEmpty() && dst.isEmpty()) {
-                        Toast.makeText(this, isTr ? "En az bir şehir girin" : "Enter origin or destination", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.pro_lane_alert_empty_err, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     double minP = 0;
@@ -319,50 +325,49 @@ public class MarketplaceActivity extends AppCompatActivity {
                     } catch (Exception ignored) {}
                     LoadPreferences.addLaneAlert(this, new LoadPreferences.LaneAlert(o, dst, minP));
                     refreshLaneAlertsBadge();
-                    Toast.makeText(this, isTr ? "Güzergâh alarmı kaydedildi" : "Lane alert saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.pro_lane_alert_saved, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
     private void showPostLoadDialog() {
-        boolean isTr = "tr".equalsIgnoreCase(Locale.getDefault().getLanguage());
         LinearLayout box = new LinearLayout(this);
         box.setOrientation(LinearLayout.VERTICAL);
         int pad = (int) (20 * getResources().getDisplayMetrics().density);
         box.setPadding(pad, pad / 2, pad, 0);
 
         EditText origIn = new EditText(this);
-        origIn.setHint(isTr ? "Çıkış şehri *" : "Origin city *");
+        origIn.setHint(R.string.pro_post_origin_hint);
         box.addView(origIn);
 
         EditText destIn = new EditText(this);
-        destIn.setHint(isTr ? "Varış şehri *" : "Destination city *");
+        destIn.setHint(R.string.pro_post_dest_hint);
         box.addView(destIn);
 
         EditText weightIn = new EditText(this);
-        weightIn.setHint(isTr ? "Ağırlık (Ton)" : "Weight (tons, e.g. 15)");
+        weightIn.setHint(R.string.pro_post_weight_hint);
         weightIn.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
         box.addView(weightIn);
 
         EditText priceIn = new EditText(this);
-        priceIn.setHint(isTr ? "Ücret (opsiyonel)" : "Rate $ (optional)");
+        priceIn.setHint(R.string.pro_post_rate_hint);
         priceIn.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
         box.addView(priceIn);
 
         EditText contactIn = new EditText(this);
-        contactIn.setHint(isTr ? "Telefon / E-posta / Notlar *" : "Phone / Email / MC# / Notes *");
+        contactIn.setHint(R.string.pro_post_contact_hint);
         box.addView(contactIn);
 
         new AlertDialog.Builder(this)
-                .setTitle(isTr ? "Yeni Yük İlanı Ekle" : "Post a Load")
+                .setTitle(R.string.pro_post_load_title)
                 .setView(box)
-                .setPositiveButton(isTr ? "Yayınla" : "Publish", (d, w) -> {
+                .setPositiveButton(R.string.pro_post_publish, (d, w) -> {
                     String o = origIn.getText().toString().trim();
                     String dst = destIn.getText().toString().trim();
                     String desc = contactIn.getText().toString().trim();
                     if (o.isEmpty() || dst.isEmpty() || desc.isEmpty()) {
-                        Toast.makeText(this, isTr ? "Zorunlu alanları doldurun" : "Fill required fields", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.pro_post_fill_required, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     double wt = 10.0;
@@ -379,17 +384,17 @@ public class MarketplaceActivity extends AppCompatActivity {
                     String countryName = Countries.englishName(countryCode);
                     String truck = truckTypeKeys.get(truckTypeFilterSpinner.getSelectedItemPosition());
                     if (truck == null) truck = "dry_van";
-                    String title = o + " → " + dst + " Freight";
+                    String title = o + " → " + dst;
                     client.postLoad(title, o, countryName, dst, countryName, truck, wt, pr, desc, new SupabaseClient.PostCallback() {
                         @Override
                         public void onSuccess() {
-                            Toast.makeText(MarketplaceActivity.this, isTr ? "Yük ilanınız yayınlandı!" : "Load published!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MarketplaceActivity.this, R.string.pro_post_success, Toast.LENGTH_SHORT).show();
                             fetchLoads();
                         }
 
                         @Override
                         public void onError(String message) {
-                            Toast.makeText(MarketplaceActivity.this, isTr ? "İlan eklenemedi, lütfen web üzerinden deneyin" : "Could not post load right now", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MarketplaceActivity.this, R.string.pro_post_error, Toast.LENGTH_LONG).show();
                         }
                     });
                 })
@@ -585,7 +590,7 @@ public class MarketplaceActivity extends AppCompatActivity {
             swipeRefreshLayout.setRefreshing(false);
             List<Load> saved = filterOutTaken(LoadPreferences.getBookmarkedLoads(this));
             adapter.submitList(saved);
-            emptyText.setText(R.string.marketplace_empty);
+            emptyText.setText(R.string.pro_saved_empty);
             emptyLayout.setVisibility(adapter.isEmpty() ? View.VISIBLE : View.GONE);
             recyclerView.setVisibility(adapter.isEmpty() ? View.GONE : View.VISIBLE);
             return;
@@ -613,7 +618,7 @@ public class MarketplaceActivity extends AppCompatActivity {
                 if (!alertMatches.isEmpty()) {
                     Load first = alertMatches.get(0);
                     Toast.makeText(MarketplaceActivity.this,
-                            "🔔 Alert Match: " + first.originCity + " → " + first.destinationCity,
+                            getString(R.string.pro_lane_alert_match_toast, first.originCity, first.destinationCity),
                             Toast.LENGTH_LONG).show();
                 }
                 adapter.submitList(filtered || !"newest".equals(currentSort) ? clean : prioritizeByDetectedCity(clean));
@@ -632,7 +637,7 @@ public class MarketplaceActivity extends AppCompatActivity {
                         adapter.submitList(cached);
                         recyclerView.setVisibility(View.VISIBLE);
                         emptyLayout.setVisibility(View.GONE);
-                        Toast.makeText(MarketplaceActivity.this, "Offline cache", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MarketplaceActivity.this, R.string.pro_offline_cache_toast, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     emptyText.setText(R.string.marketplace_load_error);

@@ -21,86 +21,100 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/truckChip"
-            android:layout_width="wrap_content"
+        <!-- Zero-overlap top header row: left badges flex/ellipsize cleanly before time + bookmark -->
+        <LinearLayout
+            android:id="@+id/topBadgesRow"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_chip_truck"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
-            android:textColor="@color/primary_accent"
-            android:textSize="12sp"
-            android:textStyle="bold"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@id/timeText"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Flatbed" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/freshBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:background="#2610B981"
-            android:paddingHorizontal="7dp"
-            android:paddingVertical="4dp"
-            android:text="FRESH"
-            android:textColor="#34D399"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/truckChip"
-            app:layout_constraintStart_toEndOf="@id/truckChip"
-            app:layout_constraintTop_toTopOf="@id/truckChip" />
+            <TextView
+                android:id="@+id/truckChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@drawable/bg_chip_truck"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:maxWidth="138dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:textColor="@color/primary_accent"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="Flatbed" />
 
-        <TextView
-            android:id="@+id/calledBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:background="#2638BDF8"
-            android:paddingHorizontal="7dp"
-            android:paddingVertical="4dp"
-            android:text="CALLED ✓"
-            android:textColor="#38BDF8"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/truckChip"
-            app:layout_constraintStart_toEndOf="@id/freshBadge"
-            app:layout_constraintTop_toTopOf="@id/truckChip" />
+            <TextView
+                android:id="@+id/freshBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_badge_fresh"
+                android:maxLines="1"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="4dp"
+                android:text="@string/badge_fresh"
+                android:textColor="#34D399"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/calledBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_badge_called"
+                android:maxLines="1"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="4dp"
+                android:text="@string/badge_called"
+                android:textColor="#38BDF8"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/bookmarkButton"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center"
             android:text="☆"
             android:textColor="@color/text_muted"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/truckChip"
+            app:layout_constraintBottom_toBottomOf="@id/topBadgesRow"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/truckChip" />
+            app:layout_constraintTop_toTopOf="@id/topBadgesRow" />
 
         <TextView
             android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="4dp"
+            android:maxLines="1"
             android:textColor="@color/text_muted"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/truckChip"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/topBadgesRow"
             app:layout_constraintEnd_toStartOf="@id/bookmarkButton"
-            tools:text="6 hours ago" />
+            app:layout_constraintTop_toTopOf="@id/topBadgesRow"
+            tools:text="6h ago" />
 
         <ImageView
             android:id="@+id/dotOrigin"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             android:importantForAccessibility="no"
             android:src="@drawable/dot_origin"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/truckChip" />
+            app:layout_constraintTop_toBottomOf="@id/topBadgesRow" />
 
         <View
             android:id="@+id/routeLine"

@@ -179,7 +179,7 @@ public class LoadDetailActivity extends AppCompatActivity {
     }
 
     private void bind(Load load) {
-        contentScroll.setVisibility(View.VISIBLE);
+        UiMotion.revealSmooth(contentScroll);
         currentLoad = load;
         shareButton.setVisibility(View.VISIBLE);
         bindContactHub(load);
@@ -248,11 +248,13 @@ public class LoadDetailActivity extends AppCompatActivity {
                 boolean now = LoadPreferences.toggleBookmark(this, load);
                 bmBtn.setText(now ? "★" : "☆");
                 bmBtn.setTextColor(getColor(now ? R.color.primary_accent : R.color.white));
+                UiMotion.popStar(bmBtn);
             });
         }
 
         View routeBtn = findViewById(R.id.routeMapButton);
         if (routeBtn != null) {
+            UiMotion.attachSpringPress(routeBtn);
             routeBtn.setOnClickListener(v -> {
                 String orig = load.originCity != null ? load.originCity : "";
                 String dest = load.destinationCity != null ? load.destinationCity : "";
@@ -268,6 +270,7 @@ public class LoadDetailActivity extends AppCompatActivity {
 
         View fmcsaBtn = findViewById(R.id.fmcsaCheckButton);
         if (fmcsaBtn != null) {
+            UiMotion.attachSpringPress(fmcsaBtn);
             FreightMetrics.BrokerId bid = FreightMetrics.extractBrokerId(load);
             fmcsaBtn.setOnClickListener(v -> {
                 String queryUrl;
@@ -288,17 +291,22 @@ public class LoadDetailActivity extends AppCompatActivity {
 
         View takenBtn = findViewById(R.id.markTakenButton);
         if (takenBtn != null) {
+            UiMotion.attachSpringPress(takenBtn);
             takenBtn.setOnClickListener(v -> {
                 LoadPreferences.markTaken(this, load.id);
-                android.widget.Toast.makeText(this, "Hidden from feed", android.widget.Toast.LENGTH_SHORT).show();
+                android.widget.Toast.makeText(this, R.string.pro_hidden_from_feed, android.widget.Toast.LENGTH_SHORT).show();
                 finish();
             });
         }
 
-        // Profit & Rate/Mile Calculator
+        // Profit & Rate/Mile Calculator (100% localized via strings.xml)
         boolean imperial = FreightMetrics.isImperial(load.originCountry);
         String sym = FreightMetrics.currencySymbol(load.originCountry);
         String unit = imperial ? "mi" : "km";
+        TextView calcHeader = findViewById(R.id.calcHeaderTitle);
+        if (calcHeader != null) {
+            calcHeader.setText(imperial ? R.string.pro_calc_title : R.string.pro_calc_title_metric);
+        }
         android.widget.EditText payIn = findViewById(R.id.calcPayInput);
         android.widget.EditText milesIn = findViewById(R.id.calcMilesInput);
         android.widget.EditText dhIn = findViewById(R.id.calcDeadheadInput);
@@ -310,16 +318,16 @@ public class LoadDetailActivity extends AppCompatActivity {
         if (payIn != null && load.price != null && load.price > 0) {
             payIn.setText(String.format(Locale.US, "%.0f", load.price));
         }
-        if (milesIn != null) milesIn.setHint(imperial ? "Miles" : "Km");
+        if (milesIn != null) milesIn.setHint(imperial ? R.string.pro_calc_miles_hint : R.string.pro_calc_km_hint);
         if (mpgIn != null && !imperial) {
-            mpgIn.setHint("km/L (3.5)");
+            mpgIn.setHint(R.string.pro_calc_kml_hint);
             mpgIn.setText("3.5");
         }
         if (fuelIn != null && !imperial) {
-            fuelIn.setHint("Fuel (" + sym + "/L)");
             fuelIn.setText("45");
         }
         if (runBtn != null && resText != null) {
+            UiMotion.attachSpringPress(runBtn);
             runBtn.setOnClickListener(v -> {
                 try {
                     double pay = Double.parseDouble(payIn.getText().toString().trim());
@@ -328,14 +336,18 @@ public class LoadDetailActivity extends AppCompatActivity {
                     double eff = mpgIn.getText().toString().trim().isEmpty() ? (imperial ? 6.5 : 3.5) : Double.parseDouble(mpgIn.getText().toString().trim());
                     double fp = fuelIn.getText().toString().trim().isEmpty() ? (imperial ? 3.85 : 45.0) : Double.parseDouble(fuelIn.getText().toString().trim());
                     FreightMetrics.ProfitResult r = FreightMetrics.calculateProfit(pay, dist, dh, eff, fp);
-                    String out = String.format(Locale.US,
-                            "Gross: %s%.2f/%s  •  Fuel: %s%,.0f\nNet Profit: %s%,.0f  (%s%.2f/%s net)",
-                            sym, r.grossPerUnit, unit, sym, r.fuelCost, sym, r.netProfit, sym, r.netPerUnit, unit);
+                    String out = getString(R.string.pro_calc_result,
+                            sym,
+                            String.format(Locale.getDefault(), "%.2f", r.grossPerUnit),
+                            unit,
+                            String.format(Locale.getDefault(), "%,.0f", r.fuelCost),
+                            String.format(Locale.getDefault(), "%,.0f", r.netProfit),
+                            String.format(Locale.getDefault(), "%.2f", r.netPerUnit));
                     resText.setText(out);
                     resText.setTextColor(r.netProfit >= 0 ? 0xFF34D399 : 0xFFF87171);
-                    resText.setVisibility(View.VISIBLE);
+                    UiMotion.revealSmooth(resText);
                 } catch (Exception e) {
-                    android.widget.Toast.makeText(this, "Enter Pay & " + (imperial ? "Miles" : "Km"), android.widget.Toast.LENGTH_SHORT).show();
+                    android.widget.Toast.makeText(this, R.string.pro_calc_missing_input, android.widget.Toast.LENGTH_SHORT).show();
                 }
             });
         }
